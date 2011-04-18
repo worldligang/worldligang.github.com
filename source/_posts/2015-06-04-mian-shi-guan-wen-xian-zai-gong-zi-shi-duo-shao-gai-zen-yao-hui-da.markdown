@@ -161,7 +161,3 @@ description: "iOS开发中的cocoapods"
 
 * 关注公众号iOS开发：**iOSDevTip** 获取更多面试技巧。
 
->微信扫一扫，代码写的好！
-
-![icon](http://www.superqq.com/images/getqrcode.jpg)
-
