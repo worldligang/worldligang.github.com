@@ -4,7 +4,7 @@
   <title><![CDATA[IOS开发技术博客]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2014-10-30T11:32:08+08:00</updated>
+  <updated>2014-10-30T11:42:46+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,21 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[写博客的方法]]></title>
+    <link href="http://worldligang.github.io/blog/2014/10/30/xie-bo-ke-de-fang-fa/"/>
+    <updated>2014-10-30T11:34:57+08:00</updated>
+    <id>http://worldligang.github.io/blog/2014/10/30/xie-bo-ke-de-fang-fa</id>
+    <content type="html"><![CDATA[<pre><code>rake new_post[‘article name’] 生成博文框架，填写文章标题
+open -a Mou source/_posts/2014-10-30-xie-bo-ke-de-fang-fa.markdown  打开markdown编辑工具（比较好用，下载地址：http://25.io/mou/）
+rake generate 生成静态文件
+rake watch 检测文件变化，实时生成新内容
+rake preview 本地预览“http://localhost:4000”
+rake deploy 发布文章
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ios]]></title>
