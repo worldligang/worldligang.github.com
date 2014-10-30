@@ -2,12 +2,17 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://yoursite.com
-title: My Octopress Blog
-subtitle: A blogging framework for hackers.
-author: Your Name
+url: http://worldligang.github.io
+title: IOS开发技术博客
+subtitle: 微信公众账号 ios开发：iOSDevTip
+author: 李刚
 simple_search: https://www.google.com/search
-description:
+description
+
+修改
+
+(一个月内功能介绍只能申请修改一次)
+最新iOS、iPhone资讯，万名iOS开发者、swift开发、果粉聚集，参与技术讨论，整理开发技巧，分享创业经验！享受生活、热爱编程！ :
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
