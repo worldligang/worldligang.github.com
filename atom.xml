@@ -4,7 +4,7 @@
   <title><![CDATA[IOS开发技术博客]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2014-10-30T10:51:32+08:00</updated>
+  <updated>2014-10-30T11:13:03+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,5 +12,14 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ios]]></title>
+    <link href="http://worldligang.github.io/blog/2014/10/30/ios/"/>
+    <updated>2014-10-30T11:10:05+08:00</updated>
+    <id>http://worldligang.github.io/blog/2014/10/30/ios</id>
+    <content type="html"><![CDATA[<p>我是李刚</p>
+]]></content>
+  </entry>
   
 </feed>
