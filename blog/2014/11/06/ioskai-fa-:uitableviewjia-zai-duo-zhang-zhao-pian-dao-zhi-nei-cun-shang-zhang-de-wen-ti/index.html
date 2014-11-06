@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS开发：UITableView加载多张照片导致内存上涨的问题 - 刚刚在线</title>
+  <meta name="author" content="刚刚">
+
+  
+  <meta name="description" content="最近在写一个文件管理的页面，里面功能挺多的，有缩略图下载（socket），有文件下载（http）。 说说缩略图下载这一块，我的UITableView的一个cell要加载四张缩略图，iPhone5s的屏幕能加载8行。大概UI上是这样布局的。（另外缩略图需要一张张下载） 刚开始进到文件管理界面， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://worldligang.github.io/blog/2014/11/06/ioskai-fa-:uitableviewjia-zai-duo-zhang-zhao-pian-dao-zhi-nei-cun-shang-zhang-de-wen-ti">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">刚刚在线</a></h1>
+  
+    <h2>游走在互联网岸边的屌丝青年</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:worldligang.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS开发：UITableView加载多张照片导致内存上涨的问题</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-11-06T10:14:54+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:14 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>最近在写一个文件管理的页面，里面功能挺多的，有缩略图下载（socket），有文件下载（http）。</p>
+
+<p>说说缩略图下载这一块，我的UITableView的一个cell要加载四张缩略图，iPhone5s的屏幕能加载8行。大概UI上是这样布局的。（另外缩略图需要一张张下载）</p>
+
+<p>刚开始进到文件管理界面，内存占用20几M，随着缩略图不断下载下来内存在上涨，我不断的往上拉，内存一值在涨。达到一定值app出现闪退。大概是300多M的时候闪退。什么原因造成的呢？</p>
+
+<p>先看下图：</p>
+
+<p>我是这样写的：建立一个对象，这个对象有一个属性是UIImage。对象保存在数组里面。大概有800多张照片。</p>
+
+<p>当缩略图没有下载下来的时候，我加载的是一张默认图片。当缩略图下载下来的时候，我就把下载下来的缩略图赋给相应对象的UIImage属性。</p>
+
+<p>cell是重用的，这样看应该是没有什么问题的。但是内存就是不断上涨，而且是不动的时候，内存不涨，上下滑动UITableView，内存不断上涨。</p>
+
+<p>我一直在思考cell是重用的，内存怎么会不断上涨呢？问题不是cell引起的，而是上面我说的那个对象的UIImage属性引起的。</p>
+
+<p>思考一下，缩略图不断下载下来， 下载下来的缩略图都赋给对象的UIImage属性，而对象又在数组里面，可想而知，800多张缩略图不断下载内存肯定上涨。</p>
+
+<p>于是，我去掉对象的UIImage属性，把下载下来的照片通过EGOCache缓存起来，加载cell上的UIImage的时候，直接从缓存里面取出来就可以了。</p>
+
+<p>代码如下：</p>
+
+<pre><code>[[EGOCache globalCache] setImage:image forKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[[fmObject.path description] hash]] withTimeoutInterval:CacheingTime];
+</code></pre>
+
+<p>再次运行起来，看一下内存这一块：</p>
+
+<p>果然，问题解决了。看来以后给对象加UIImage属性需谨慎啊！</p>
+
+<p>大家有问题可以加入swift学习交流群：</p>
+
+<p>QQ群：303868520</p>
+
+<p>或者关注我的微信公众号：iOS开发：iOSDevTip</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">刚刚</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2014-11-06T10:14:54+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:14 am</span></time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/10/30/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/" title="Previous Post: CocoaPods安装和使用教程 ">&laquo; CocoaPods安装和使用教程 </a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/11/06/ioskai-fa-:uitableviewjia-zai-duo-zhang-zhao-pian-dao-zhi-nei-cun-shang-zhang-de-wen-ti/">iOS开发：UITableView加载多张照片导致内存上涨的问题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/30/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/">CocoaPods安装和使用教程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/30/xie-bo-ke-de-fang-fa/">写博客的方法</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/30/ios/">刚刚在线正式上线</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - 刚刚 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
