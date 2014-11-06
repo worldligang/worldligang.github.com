@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2014-11-06T13:47:56+08:00</updated>
+  <updated>2014-11-06T13:55:43+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -64,9 +64,7 @@
     <link href="http://worldligang.github.io/blog/2014/10/30/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/"/>
     <updated>2014-10-30T13:43:44+08:00</updated>
     <id>http://worldligang.github.io/blog/2014/10/30/cocoapodsan-zhuang-he-shi-yong-jiao-cheng</id>
-    <content type="html"><![CDATA[<p>Code4App 原创文章。转载请注明出处：<a href="http://code4app.com/article/cocoapods-install-usage">http://code4app.com/article/cocoapods-install-usage</a></p>
-
-<p>CocoaPods是什么？</p>
+    <content type="html"><![CDATA[<p>CocoaPods是什么？</p>
 
 <p>当你开发iOS应用时，会经常使用到很多第三方开源类库，比如JSONKit，AFNetWorking等等。可能某个类库又用到其他类库，所以要使用它，必须得另外下载其他类库，而其他类库又用到其他类库，“子子孙孙无穷尽也”，这也许是比较特殊的情况。总之小编的意思就是，手动一个个去下载所需类库十分麻烦。另外一种常见情况是，你项目中用到的类库有更新，你必须得重新下载新版本，重新加入到项目中，十分麻烦。如果能有什么工具能解决这些恼人的问题，那将“善莫大焉”。所以，你需要 CocoaPods。</p>
 
@@ -103,7 +101,7 @@ http://ruby.taobao.org/
 
 <p>上面所有的命令完成之时，在小编的终端上是这个的样子：</p>
 
-<p>Figure 1</p>
+<p><img src="http://code4app.com/photo/5273c20b6803fac658000000_1.png" ></p>
 
 <p>这时候，你再次在终端中运行：</p>
 
@@ -114,7 +112,7 @@ http://ruby.taobao.org/
 
 <p>敲入以上命令时，小编终端上是这个样子的（由于太长，仅截取前面一部分）：</p>
 
-<p>Figure 2</p>
+<p><img src="http://code4app.com/photo/5273c20b6803fac658000000_11.png" ></p>
 
 <p>看到这里，你心里会不会说，我靠！太爽了，这么容易就可以下载并且安装好了！是的，小编也是这么想的。CocoPods就是这么简单，使用也十分简单。继续往下看吧。
 如何使用CocoaPods？</p>
@@ -131,15 +129,13 @@ http://ruby.taobao.org/
 <pre><code>$ pod search AFNetworking
 </code></pre>
 
-<p>过几秒钟之后，你会在终端中看到关于AFNetworking类库的一些信息。比如：</p>
-
-<p>Figure 3</p>
+<p><img src="http://code4app.com/photo/5273c20b6803fac658000000_12.png" ></p>
 
 <p>这说明，AFNetworking是支持CocoaPods，所以我们可以利用CocoaPods将AFNetworking导入你的项目中。</p>
 
-<p>首先，我们需要在我们的项目中加入CocoaPods的支持。你可以跟随小编的步骤，先利用Xcode创建一个名字CocoaPodsDemo的项目，用于以下的教程。创建好之后，在继续下一步之前，小编先截图，看看项目没有支持CocoaPods时的项目Xcode目录结构：</p>
+<p>首先，我们需要在我们的项目中加入CocoaPods的支持。你可以跟随小编的步骤，先利用Xcode创建一个名字CocoaPodsDemo的项目，用于以下的教程。创建好之</p>
 
-<p>Figure 4</p>
+<p><img src="http://code4app.com/photo/5273c20b6803fac658000000_13.png" ></p>
 
 <p>上图等一下要跟项目支持CocoaPods之后的项目Xcode目录结构做对比。</p>
 
@@ -186,7 +182,7 @@ Integrating client project</p>
 
 <p>你也许会郁闷，为什么会出现.xcodeproj文件呢。这正是你刚刚运行$ pod install命令产生的新文件。除了这个文件，你会发现还多了另外一个文件“Podfile.lock”和一个文件夹“Pods”。 点击 CocoaPodsDemo.xcworkspace 打开之后工程之后，项目Xcode目录结构如下图：</p>
 
-<p>Figure 5</p>
+<p><img src="http://code4app.com/photo/5273c20b6803fac658000000_14.png" ></p>
 
 <p>你会惊喜地发现，AFNetwoking已经成功导入项目了（红框部分）！</p>
 
@@ -213,7 +209,7 @@ Integrating client project</p>
 
 <p>UAAppReviewManager是一个能够让你方便地将提醒用户评分的功能加入你的应用中。当你去UAAppReviewManager的GitHub地址下载这份代码之后，打开Example工程（UAAppReviewManagerExample），编译，你会发现Xcode报告一大堆错误，基本都是说你编译的这份代码找不到某某头文件，这就意味着你要成功编译UAAppReviewManager的Example代码，必须先导入一些第三方类库。同时你会发现在UAAppReviewManagerExample文件夹下面有三个跟CocosPods相关的文件（文件夹）：Podfile，Podfile.lock和Pods，如下图：</p>
 
-<p>Figure 6</p>
+<p><img src="http://code4app.com/photo/5273c20b6803fac658000000_15.png" ></p>
 
 <p>用</p>
 
@@ -236,13 +232,13 @@ Integrating client project
 
 <p>这时候，再回到UAAppReviewManagerExample文件夹看一看，会看到多了一个文件UAAppReviewManagerExample.xcworkspace：</p>
 
-<p>Figure 7</p>
+<p><img src="http://code4app.com/photo/5273c20b6803fac658000000_16.png" ></p>
 
 <p>根据终端的信息提示，你以后就需用新产生的UAAppReviewManagerExample.xcworkspace来运行这个Example代码了。</p>
 
 <p>打开UAAppReviewManagerExample.xcworkspace，编译运行，成功！如下图：</p>
 
-<p>Figure 8</p>
+<p><img src="http://code4app.com/photo/5273c20b6803fac658000000_17.png" ></p>
 
 <p>注意，这里有个小问题，如果刚刚你不是输入$ pod update，而是输入$ pod install，会发现类库导入不成功，并且终端出现下面提示：</p>
 
@@ -256,6 +252,8 @@ Integrating client project
 <p>那你也许会问，什么时候用 $ pod install，什么时候用 $ pod update 呢，我又不知道类库有没有新版本。好吧，那你每次直接用 $ pod update 算了。或者先用 $ pod install，如果不行，再用 $ pod update。</p>
 
 <p>好了，小编就啰嗦到这里吧。上述都只是CocoaPods的最基本用法。要继续研究CocoaPods其他高级用法.</p>
+
+<p>Code4App 原创文章。转载请注明出处：<a href="http://code4app.com/article/cocoapods-install-usage">http://code4app.com/article/cocoapods-install-usage</a></p>
 ]]></content>
   </entry>
   
