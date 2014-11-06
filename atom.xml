@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2014-11-06T13:42:25+08:00</updated>
+  <updated>2014-11-06T13:47:56+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -47,7 +47,7 @@
 
 <p>再次运行起来，看一下内存这一块：</p>
 
-<p><img src="http://www.superqq.com/images/neicun2.jpg" ></p>
+<p><img src="http://www.superqq.com/images/neicun2.png" ></p>
 
 <p>果然，问题解决了。看来以后给对象加UIImage属性需谨慎啊！</p>
 
