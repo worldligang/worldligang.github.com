@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2014-11-07T11:25:09+08:00</updated>
+  <updated>2014-11-07T11:27:27+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -18,7 +18,9 @@
     <link href="http://worldligang.github.io/blog/2014/11/07/ioswang-luo-bian-cheng-zhi-afnetworkingshi-yong/"/>
     <updated>2014-11-07T11:07:32+08:00</updated>
     <id>http://worldligang.github.io/blog/2014/11/07/ioswang-luo-bian-cheng-zhi-afnetworkingshi-yong</id>
-    <content type="html"><![CDATA[<p>现在大家都喜欢用AFNetworking，因为有人维护。看来一下官方文档，把使用的代码简单罗列一下：</p>
+    <content type="html"><![CDATA[<p>转载请注明出处：<a href="http://www.superqq.com/blog/2014/11/07/ioswang-luo-bian-cheng-zhi-afnetworkingshi-yong/"><a href="http://www.superqq.com/blog/2014/11/07/ioswang-luo-bian-cheng-zhi-afnetworkingshi-yong/">http://www.superqq.com/blog/2014/11/07/ioswang-luo-bian-cheng-zhi-afnetworkingshi-yong/</a></a></p>
+
+<p>现在大家都喜欢用AFNetworking，因为有人维护。看来一下官方文档，把使用的代码简单罗列一下：</p>
 
 <p>首先通过<a href="http://www.superqq.com/blog/2014/10/30/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/">CocoaPods</a>(没用过的看这篇文章)把AFNetworking拉下来</p>
 
