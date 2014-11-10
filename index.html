@@ -9,7 +9,7 @@
   <meta name="author" content="刚刚">
 
   
-  <meta name="description" content="一直在用xcode6开发，但项目都是在xcode5上创建的，所以一直没注意到，xcode6竟然干掉pch文件了。 为什么xcode6没有自动创建pch文件呢？ 简单地看：我们在写项目的时候，大部分宏定义，头文件导入都在这里，Xcode6去掉Precompile Prefix &hellip;">
+  <meta name="description" content="什么是MVC？ MVC 全名是Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，一种软件设计典范，用一种业务逻辑、数据、界面 显示分离的方法组织代码，将业务逻辑聚集到一个部件里面，在改进和个性化定制界面及用户交互的同时， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +65,74 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/10/qian-xi-mvche-shuo-mei-de-guo-cheng/">浅析MVC和说媒的过程</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-11-10T09:09:18+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:09 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>什么是MVC？</p>
+
+<p>MVC 全名是Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，一种软件设计典范，用一种业务逻辑、数据、界面 显示分离的方法组织代码，将业务逻辑聚集到一个部件里面，在改进和个性化定制界面及用户交互的同时，不需要重新编写业务逻辑。</p>
+
+<p>图解MVC（斯坦福公开课的课件）</p>
+
+<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlyntSNHaU7eaCHkcL3pjib2pNyjgWU7BF1D1YgmicwMFpFuefvttAe7fEwCu8TTmkmfkRtAO0Hvt1HfA/640"></p>
+
+<p>看了上面的MVC定义和图解，对MVC有了初步的了解，特别是斯坦福这个课件，讲的非常到位。但是在实际开发过程中，却感觉离MVC的标准越来越远。</p>
+
+<p>我也看过一些朋友写的iOS项目，看之前问MVC，都讲的头头是道，但是在项目中却体现的不是那么好。我自己写项目也是，理论上是理解了MVC的模式，但是真去写代码，还是觉得，有些地方不到位。</p>
+
+<p>特别是C（我们就把UIViewController当做C来看，网上有对C的其他解释）显得别急臃肿。有时候C里面代码几千行（并不是说代码过千就是不符合MVC），C干了很多M干的事，同时也干了很多V要干的事。</p>
+
+<p>这几天我看了一个项目（AFNetworking的作者写的DEMO，大家可以到github上下载），觉得MVC用的非常到位。每一步都是很周到，M和C的对接，V和C的对接，做到非常到位。</p>
+
+<p>对于MVC，我说说我的理解，俗一点讲：媒婆说没得过程。M -> 男人 ， V -> 女人 ， C -> 媒婆。</p>
+
+<p>C（媒婆） 要给 M（男人） 介绍个女朋友 V （女人），C 是一个桥梁起着对接的作用， M 和 V 本是不认识的两个人，不能直接沟通。</p>
+
+<p>说媒过程是这样的：C 给 M 说，第一次见女孩子，你要给女孩子准备什么礼物吧？</p>
+
+<p>这个时候，M 肯定不会说，这点小事，你还来麻烦我，自己去买吧，那估计媒婆气都气死了，这事肯定成不了。（写代码的时候，不要让C干M得事）</p>
+
+<p>这事必须 M 自己去做，M 买东西就是处理数据得过程。买东西怎么去买？多少钱？怎么讲价？这都是 M 自己要去干的事。最终结果是 M 买来礼物，礼物就是我们编程过程中 Model所产生的对象。</p>
+
+<p>礼物买来了，M 也不认识 V ，肯定也不知道怎么送给 V，所以这个时候 C 的作用就体现出来了，M 要把 买来的礼物（Object）交给C，让C帮忙送给 V。</p>
+
+<p>就这样，V 拿到礼物，觉得不错，就自己用了。</p>
+
+<p>回想一下这个过程：C 发起一个请求，买礼物。M 知道之后，就去执行这件事，最终买来礼物。M 脱 C 把礼物送给V。一个完整的请求数据，展示数据的过程。</p>
+
+<p>虽然有点俗，但是还是有一定道理的。</p>
+
+<p>后面时间允许的话，我会详解一下AFNetworking的作者写的DEMO。看看MVC在项目的体现到底是什么样的。</p>
+
+<p>我的微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -833,6 +901,10 @@ rake deploy 发布文章
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/11/10/qian-xi-mvche-shuo-mei-de-guo-cheng/">浅析MVC和说媒的过程</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/11/08/xcode6wei-shi-yao-gan-diao-pch(precompile-prefix-header)-and-ru-he-tian-jia-pchwen-jian/">Xcode6为什么干掉pch（Precompile Prefix Header）&amp;如何添加pch文件</a>
       </li>
     
@@ -846,10 +918,6 @@ rake deploy 发布文章
     
       <li class="post">
         <a href="/blog/2014/11/06/ioskai-fa-:uitableviewjia-zai-duo-zhang-zhao-pian-dao-zhi-nei-cun-shang-zhang-de-wen-ti/">iOS开发：UITableView加载多张照片导致内存上涨的问题</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/10/30/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/">CocoaPods安装和使用教程</a>
       </li>
     
   </ul>
