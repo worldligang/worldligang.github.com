@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2014-11-11T11:12:07+08:00</updated>
+  <updated>2014-11-11T11:18:26+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -18,7 +18,7 @@
     <link href="http://worldligang.github.io/blog/2014/11/11/jie-du-afnetworkingzhong-demode-mvc/"/>
     <updated>2014-11-11T11:00:21+08:00</updated>
     <id>http://worldligang.github.io/blog/2014/11/11/jie-du-afnetworkingzhong-demode-mvc</id>
-    <content type="html"><![CDATA[<p>Demo的下载地址：<a href="https://github.com/AFNetworking/AFNetworking.git">AFNetworking下载</a></p>
+    <content type="html"><![CDATA[<p>Demo的下载地址：<a href=""></a><a href="https://github.com/AFNetworking/AFNetworking.git"target="_blank"title="AFNetworking下载">AFNetworking下载</a></p>
 
 <p>打开Demo：</p>
 
@@ -176,7 +176,7 @@
 
 <p>StackOverFlow上讨论的已经比较清晰了</p>
 
-<p><a href="http://stackoverflow.com/questions/24158648/why-isnt-projectname-prefix-pch-created-automatically-in-xcode-6">StackOverFlow:为什么xcode6没有自动创建pch文件呢？</a></p>
+<p><a href="http://stackoverflow.com/questions/24158648/why-isnt-projectname-prefix-pch-created-automatically-in-xcode-6"target="_blank"title="StackOverFlow:为什么xcode6没有自动创建pch文件呢？">StackOverFlow:为什么xcode6没有自动创建pch文件呢？</a></p>
 
 <p><div class="entry-content"><h3>如何在Xcode6中添加pch（Precompile Prefix Header）？</h3></p>
 
