@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2014-11-11T15:17:05+08:00</updated>
+  <updated>2014-11-13T10:15:18+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -12,6 +12,24 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[中文 iOS/Mac 开发博客列表]]></title>
+    <link href="http://worldligang.github.io/blog/2014/11/13/zhong-wen-ios-slash-mac-kai-fa-bo-ke-lie-biao/"/>
+    <updated>2014-11-13T09:16:45+08:00</updated>
+    <id>http://worldligang.github.io/blog/2014/11/13/zhong-wen-ios-slash-mac-kai-fa-bo-ke-lie-biao</id>
+    <content type="html"><![CDATA[<p></br>
+<a href="http://onevcat.com"target="_blank"title="OneV's Den">OneV&rsquo;s Den</a><br/>
+</br>
+<a href="http://www.superqq.com/"target="_blank"title="刚刚在线">刚刚在线</a><br/>
+</br>
+<a href="http://beyondvincent.com"target="_blank"title="破船之家">破船之家</a><br/>
+</br>
+<a href="http://nshipster.cn"target="_blank"title="NSHipster">NSHipster</a><br/>
+</br>
+<a href="http://blog.devtang.com/"target="_blank"title="唐巧的技术博客">唐巧的技术博客</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[解读AFNetworking中Demo的MVC]]></title>
