@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2014-11-14T12:20:55+08:00</updated>
+  <updated>2014-11-14T14:05:08+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -12,6 +12,48 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Mac终端关机命令]]></title>
+    <link href="http://worldligang.github.io/blog/2014/11/14/maczhong-duan-guan-ji-ming-ling/"/>
+    <updated>2014-11-14T14:00:26+08:00</updated>
+    <id>http://worldligang.github.io/blog/2014/11/14/maczhong-duan-guan-ji-ming-ling</id>
+    <content type="html"><![CDATA[<p>立即关机</p>
+
+<pre><code>sudo halt
+</code></pre>
+
+<p>或者</p>
+
+<pre><code>sudo shutdown -h now
+</code></pre>
+
+<p>10分钟后关机</p>
+
+<pre><code>sudo shutdown -h +10
+</code></pre>
+
+<p>晚上8点关机</p>
+
+<pre><code>sudo shutdown -h 20:00
+</code></pre>
+
+<p>立即重启</p>
+
+<pre><code>sudo reboot
+</code></pre>
+
+<p>或者</p>
+
+<pre><code>sudo shutdown -r now
+</code></pre>
+
+<p>我的微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[中文 iOS/Mac 开发博客列表]]></title>
@@ -97,6 +139,11 @@
 <a href="http://www.superqq.com/blog/2014/11/13/zhong-wen-ios-slash-mac-kai-fa-bo-ke-lie-biao/"target="_blank"title="刚刚在线">转载请注明来自：刚刚在线</a></p>
 
 <h2></br></h2>
+
+<p>我的微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
 ]]></content>
   </entry>
   
