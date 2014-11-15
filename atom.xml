@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2014-11-15T13:51:25+08:00</updated>
+  <updated>2014-11-15T13:53:08+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -18,13 +18,7 @@
     <link href="http://worldligang.github.io/blog/2014/11/15/cocoapodsxiang-jie-zhi-shi-yong-pian/"/>
     <updated>2014-11-15T13:40:53+08:00</updated>
     <id>http://worldligang.github.io/blog/2014/11/15/cocoapodsxiang-jie-zhi-shi-yong-pian</id>
-    <content type="html"><![CDATA[<p></br>
-我的微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-
-<p></br></p>
+    <content type="html"><![CDATA[<p></br></p>
 
 <p><div class="entry-content"><h3>一、什么是CocoaPods</h3></p>
 
