@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2014-11-18T13:09:24+08:00</updated>
+  <updated>2014-11-18T13:15:58+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -1030,11 +1030,11 @@ Integrating client project
     <link href="http://worldligang.github.io/blog/2014/11/07/ioswang-luo-bian-cheng-zhi-afnetworkingshi-yong/"/>
     <updated>2014-11-07T11:07:32+08:00</updated>
     <id>http://worldligang.github.io/blog/2014/11/07/ioswang-luo-bian-cheng-zhi-afnetworkingshi-yong</id>
-    <content type="html"><![CDATA[<p>转载请注明出处：<a href="http://www.superqq.com/blog/2014/11/07/ioswang-luo-bian-cheng-zhi-afnetworkingshi-yong/">iOS网络编程之AFNetworking使用</a></p>
+    <content type="html"><![CDATA[<p><a href="http://www.superqq.com/blog/2014/11/07/ioswang-luo-bian-cheng-zhi-afnetworkingshi-yong/">iOS网络编程之AFNetworking使用</a></p>
 
 <p>现在大家都喜欢用AFNetworking，因为有人维护。看来一下官方文档，把使用的代码简单罗列一下：</p>
 
-<p>首先通过<a href="http://www.superqq.com/blog/2014/10/30/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/">CocoaPods</a>(没用过的看这篇文章)把AFNetworking拉下来</p>
+<p>首先通过<a href="http://www.superqq.com/blog/2014/10/16/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/">CocoaPods</a>(没用过的看这篇文章)把AFNetworking拉下来</p>
 
 <p>Podfile</p>
 
@@ -1263,7 +1263,9 @@ Content-Type: application/json
     <link href="http://worldligang.github.io/blog/2014/11/07/xcode6-dot-1diao-shi-de-shi-hou-you-shi-can-shu-du-wei-nilzen-yao-jie-jue/"/>
     <updated>2014-11-07T09:18:04+08:00</updated>
     <id>http://worldligang.github.io/blog/2014/11/07/xcode6-dot-1diao-shi-de-shi-hou-you-shi-can-shu-du-wei-nilzen-yao-jie-jue</id>
-    <content type="html"><![CDATA[<p>昨天我在写代码的时候，发现xcode6.1调试的时候有时参数都为nil？曾经有朋友遇到过这个问题，我一直没当回事，昨天我也碰到了：</p>
+    <content type="html"><![CDATA[<p><a href="http://www.superqq.com/blog/2014/11/07/xcode6-dot-1diao-shi-de-shi-hou-you-shi-can-shu-du-wei-nilzen-yao-jie-jue/">xcode6.1调试的时候有时参数都为nil怎么解决?</a></p>
+
+<p>昨天我在写代码的时候，发现xcode6.1调试的时候有时参数都为nil？曾经有朋友遇到过这个问题，我一直没当回事，昨天我也碰到了：</p>
 
 <p>看下图：</p>
 
@@ -1304,7 +1306,9 @@ Content-Type: application/json
     <link href="http://worldligang.github.io/blog/2014/11/06/ioskai-fa-:uitableviewjia-zai-duo-zhang-zhao-pian-dao-zhi-nei-cun-shang-zhang-de-wen-ti/"/>
     <updated>2014-11-06T10:14:54+08:00</updated>
     <id>http://worldligang.github.io/blog/2014/11/06/ioskai-fa-:uitableviewjia-zai-duo-zhang-zhao-pian-dao-zhi-nei-cun-shang-zhang-de-wen-ti</id>
-    <content type="html"><![CDATA[<p>最近在写一个文件管理的页面，里面功能挺多的，有缩略图下载（socket），有文件下载（http）。</p>
+    <content type="html"><![CDATA[<p><a href="http://www.superqq.com/blog/2014/11/06/ioskai-fa-:uitableviewjia-zai-duo-zhang-zhao-pian-dao-zhi-nei-cun-shang-zhang-de-wen-ti/">iOS开发：UITableView加载多张照片导致内存上涨的问题</a></p>
+
+<p>最近在写一个文件管理的页面，里面功能挺多的，有缩略图下载（socket），有文件下载（http）。</p>
 
 <p>说说缩略图下载这一块，我的UITableView的一个cell要加载四张缩略图，iPhone5s的屏幕能加载8行。大概UI上是这样布局的。（另外缩略图需要一张张下载）</p>
 
@@ -1560,7 +1564,9 @@ Integrating client project
     <link href="http://worldligang.github.io/blog/2014/09/30/xie-bo-ke-de-fang-fa/"/>
     <updated>2014-09-30T11:34:57+08:00</updated>
     <id>http://worldligang.github.io/blog/2014/09/30/xie-bo-ke-de-fang-fa</id>
-    <content type="html"><![CDATA[<p>写博客的方法:</p>
+    <content type="html"><![CDATA[<p><a href="http://www.superqq.com/blog/2014/09/30/xie-bo-ke-de-fang-fa/">写博客的方法</a></p>
+
+<p>写博客的方法:</p>
 
 <pre><code>rake new_post[‘article name’] 生成博文框架，填写文章标题
 open -a Mou source/_posts/2014-10-30-xie-bo-ke-de-fang-fa.markdown  打开markdown编辑工具（比较好用，下载地址：http://25.io/mou/）
@@ -1584,9 +1590,12 @@ rake deploy 发布文章
     <link href="http://worldligang.github.io/blog/2014/09/26/ios/"/>
     <updated>2014-09-26T11:10:05+08:00</updated>
     <id>http://worldligang.github.io/blog/2014/09/26/ios</id>
-    <content type="html"><![CDATA[<p>大家好！</p>
+    <content type="html"><![CDATA[<p><a href="http://www.superqq.com/blog/2014/09/26/ios/">刚刚在线正式上线</a></p>
 
-<p>我是刚刚在线的作者刚刚</p>
+<p>大家好！</p>
+
+<p>我是<a href="http://www.superqq.com/blog/2014/09/26/ios/">刚刚在线</a>
+的作者刚刚</p>
 
 <p>以后就在这里跟大家分享一些东西</p>
 
