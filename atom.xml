@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2014-11-18T09:40:43+08:00</updated>
+  <updated>2014-11-18T13:07:06+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -1354,7 +1354,9 @@ Content-Type: application/json
     <link href="http://worldligang.github.io/blog/2014/10/16/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/"/>
     <updated>2014-10-16T13:43:44+08:00</updated>
     <id>http://worldligang.github.io/blog/2014/10/16/cocoapodsan-zhuang-he-shi-yong-jiao-cheng</id>
-    <content type="html"><![CDATA[<p>CocoaPods是什么？</p>
+    <content type="html"><![CDATA[<p><a href="http://www.superqq.com/blog/2014/10/16/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/">CocoaPods安装和使用教程</a></p>
+
+<p>CocoaPods是什么？</p>
 
 <p>当你开发iOS应用时，会经常使用到很多第三方开源类库，比如JSONKit，AFNetWorking等等。可能某个类库又用到其他类库，所以要使用它，必须得另外下载其他类库，而其他类库又用到其他类库，“子子孙孙无穷尽也”，这也许是比较特殊的情况。总之小编的意思就是，手动一个个去下载所需类库十分麻烦。另外一种常见情况是，你项目中用到的类库有更新，你必须得重新下载新版本，重新加入到项目中，十分麻烦。如果能有什么工具能解决这些恼人的问题，那将“善莫大焉”。所以，你需要 CocoaPods。</p>
 
