@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2014-11-18T13:07:06+08:00</updated>
+  <updated>2014-11-18T13:09:24+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -1356,7 +1356,7 @@ Content-Type: application/json
     <id>http://worldligang.github.io/blog/2014/10/16/cocoapodsan-zhuang-he-shi-yong-jiao-cheng</id>
     <content type="html"><![CDATA[<p><a href="http://www.superqq.com/blog/2014/10/16/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/">CocoaPods安装和使用教程</a></p>
 
-<p>CocoaPods是什么？</p>
+<p><a href="http://www.superqq.com/blog/2014/10/16/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/">CocoaPods</a> 是什么？</p>
 
 <p>当你开发iOS应用时，会经常使用到很多第三方开源类库，比如JSONKit，AFNetWorking等等。可能某个类库又用到其他类库，所以要使用它，必须得另外下载其他类库，而其他类库又用到其他类库，“子子孙孙无穷尽也”，这也许是比较特殊的情况。总之小编的意思就是，手动一个个去下载所需类库十分麻烦。另外一种常见情况是，你项目中用到的类库有更新，你必须得重新下载新版本，重新加入到项目中，十分麻烦。如果能有什么工具能解决这些恼人的问题，那将“善莫大焉”。所以，你需要 CocoaPods。</p>
 
@@ -1543,7 +1543,8 @@ Integrating client project
 
 <p>那你也许会问，什么时候用 $ pod install，什么时候用 $ pod update 呢，我又不知道类库有没有新版本。好吧，那你每次直接用 $ pod update 算了。或者先用 $ pod install，如果不行，再用 $ pod update。</p>
 
-<p>好了，小编就啰嗦到这里吧。上述都只是CocoaPods的最基本用法。要继续研究CocoaPods其他高级用法.</p>
+<p>好了，小编就啰嗦到这里吧。上述都只是<a href="http://www.superqq.com/blog/2014/10/16/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/">CocoaPods</a> 是什么？
+的最基本用法。要继续研究CocoaPods其他高级用法.</p>
 
 <p>Code4App 原创文章。转载请注明出处：<a href="http://code4app.com/article/cocoapods-install-usage">http://code4app.com/article/cocoapods-install-usage</a></p>
 
