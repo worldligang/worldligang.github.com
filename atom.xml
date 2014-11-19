@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2014-11-18T13:31:41+08:00</updated>
+  <updated>2014-11-19T10:20:51+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -12,6 +12,62 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发中git分支创建和管理]]></title>
+    <link href="http://worldligang.github.io/blog/2014/11/19/ioskai-fa-zhong-gitfen-zhi-chuang-jian-he-guan-li/"/>
+    <updated>2014-11-19T10:19:00+08:00</updated>
+    <id>http://worldligang.github.io/blog/2014/11/19/ioskai-fa-zhong-gitfen-zhi-chuang-jian-he-guan-li</id>
+    <content type="html"><![CDATA[<p>创建分支</p>
+
+<pre><code>$ git branch testing
+</code></pre>
+
+<p>切换到testing分支</p>
+
+<pre><code>$ git checkout testing
+</code></pre>
+
+<p>查看本地分支</p>
+
+<pre><code>$ git branch
+</code></pre>
+
+<p>查看远程分支</p>
+
+<pre><code>$ git branch -a
+</code></pre>
+
+<p>删除本地分支</p>
+
+<pre><code>$ git branch -D testing
+</code></pre>
+
+<p>提交本地分支到远程</p>
+
+<p>1，切换到要提交的分支</p>
+
+<pre><code>$ git checkout testing
+</code></pre>
+
+<p>2，提交到远程</p>
+
+<pre><code>$ git push origin testing
+</code></pre>
+
+<p>删除远程分支</p>
+
+<pre><code>$git push origin :branch-name
+</code></pre>
+
+<p>冒号前面的空格不能少，原理是把一个空分支push到server上，相当于删除该分支。</p>
+
+<p>iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[CocoaPods详解之----制作篇]]></title>
@@ -260,6 +316,11 @@ $ git push origin master
 
 <p>1、<a href="http://guides.cocoapods.org">http://guides.cocoapods.org</a></p>
 
+<p>iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
 <p>文章来自： <a href="http://blog.csdn.net/wzzvictory/article/details/20067595"target="_blank"title="CocoaPods详解之----制作篇 ">CocoaPods详解之&mdash;-制作篇 </a></p>
 ]]></content>
   </entry>
@@ -466,7 +527,7 @@ Fast-forward
 
 <p></br></p>
 
-<p>我的微信公众号 iOS开发 ：</p>
+<p>iOS开发微信公众号 iOS开发 ：</p>
 
 <pre><code>iOSDevTip
 </code></pre>
