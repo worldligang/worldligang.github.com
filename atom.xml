@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2014-11-19T10:20:51+08:00</updated>
+  <updated>2014-11-19T10:22:26+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -18,7 +18,9 @@
     <link href="http://worldligang.github.io/blog/2014/11/19/ioskai-fa-zhong-gitfen-zhi-chuang-jian-he-guan-li/"/>
     <updated>2014-11-19T10:19:00+08:00</updated>
     <id>http://worldligang.github.io/blog/2014/11/19/ioskai-fa-zhong-gitfen-zhi-chuang-jian-he-guan-li</id>
-    <content type="html"><![CDATA[<p>创建分支</p>
+    <content type="html"><![CDATA[<p><a href="http://www.superqq.com/">iOS开发中git分支创建和管理</a></p>
+
+<p>创建分支</p>
 
 <pre><code>$ git branch testing
 </code></pre>
