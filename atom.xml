@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2014-11-19T10:22:26+08:00</updated>
+  <updated>2014-11-24T09:18:27+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -12,6 +12,40 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发：git创建仓库]]></title>
+    <link href="http://worldligang.github.io/blog/2014/11/24/ioskai-fa-:gitchuang-jian-cang-ku/"/>
+    <updated>2014-11-24T09:17:38+08:00</updated>
+    <id>http://worldligang.github.io/blog/2014/11/24/ioskai-fa-:gitchuang-jian-cang-ku</id>
+    <content type="html"><![CDATA[<p>从 Git 中移除某个文件</p>
+
+<pre><code>rm test.txt
+
+git rm test.txt
+</code></pre>
+
+<p>添加远程仓库</p>
+
+<pre><code>$ git remote origin $ git remote add pb git://github.com/paulboone/ticgit.git $ git remote -v origin  git://github.com/schacon/ticgit.git pb  git://github.com/paulboone/ticgit.git
+</code></pre>
+
+<p>远程仓库的删除和重命名</p>
+
+<pre><code>$ git remote rename pb paul $ git remote origin paul
+</code></pre>
+
+<p>碰到远端仓库服务器迁移，或者原来的克隆镜像不再使用，又或者某个参与者不再贡献代码，那么需要移除对应的远端仓库，可以运行 git remote rm 命令：</p>
+
+<pre><code>$ git remote rm paul $ git remote origin 
+</code></pre>
+
+<p>我的微信公众号：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS开发中git分支创建和管理]]></title>
