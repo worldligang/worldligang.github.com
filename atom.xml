@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2014-11-24T09:18:27+08:00</updated>
+  <updated>2014-12-04T18:29:35+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -12,6 +12,44 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发：git命令返回任意一个版本的方法]]></title>
+    <link href="http://worldligang.github.io/blog/2014/12/04/ioskai-fa-:gitming-ling-fan-hui-ren-yi-%5B%3F%5D-ge-ban-ben-de-fang-fa/"/>
+    <updated>2014-12-04T18:28:04+08:00</updated>
+    <id>http://worldligang.github.io/blog/2014/12/04/ioskai-fa-:gitming-ling-fan-hui-ren-yi-[?]-ge-ban-ben-de-fang-fa</id>
+    <content type="html"><![CDATA[<p>git回退某一个版本的方法：</p>
+
+<p><div class="entry-content"><h3>一：记录回退的hash值</h3></p>
+
+<p>首先要查看你要回退到哪一个版本</p>
+
+<p>方法1：git log</p>
+
+<p>会展示最新的提交记录，然后你按着键盘的“向下”键，看更多的提交记录，记住你要回退的哪一个版本的hash值</p>
+
+<p>方法2：git reflog</p>
+
+<p>会展示最近操作的记录，然后你记住要回退的hash值</p>
+
+<p><div class="entry-content"><h3>二：执行回退命令</h3></p>
+
+<p>知道hash值之后，接下来就是指向回退命令了：</p>
+
+<p>git reset &ndash;hard +版本号回到该版本状态下</p>
+
+<p>这样你就可以回退的任意一个版本了，挺方便的。</p>
+
+<p></br></p>
+
+<p>更多iOS开发技术请关注：</p>
+
+<p>微信公众号：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS开发：git创建仓库]]></title>
