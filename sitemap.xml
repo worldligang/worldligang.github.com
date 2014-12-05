@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://worldligang.github.io/blog/2014/12/05/cheng-xu-yuan-fu-li-ge-da-ping-tai-mian-fei-jie-kou-,fei-chang-gua-yong/</loc>
+    <lastmod>2014-12-05T10:39:56+08:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>http://worldligang.github.io/blog/2014/12/04/ioskai-fa-:gitming-ling-fan-hui-ren-yi-%5B%3F%5D-ge-ban-ben-de-fang-fa/</loc>
     <lastmod>2014-12-04T18:28:04+08:00</lastmod>
     <priority>0.8</priority>
@@ -87,19 +92,19 @@
   </url>
   <url>
     <loc>http://worldligang.github.io/blog/archives/</loc>
-    <lastmod>2014-12-04T18:29:35+08:00</lastmod>
+    <lastmod>2014-12-05T10:41:17+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://worldligang.github.io/</loc>
-    <lastmod>2014-12-04T18:29:35+08:00</lastmod>
+    <lastmod>2014-12-05T10:41:17+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://worldligang.github.io/about/</loc>
-    <lastmod>2014-12-04T18:29:35+08:00</lastmod>
+    <lastmod>2014-12-05T10:41:17+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
