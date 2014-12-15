@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2014-12-13T13:58:09+08:00</updated>
+  <updated>2014-12-15T12:20:32+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -102,6 +102,8 @@ URL签名生成规则</p>
 </code></pre>
 
 <p>这个url就可以用来请求大众点评数据了</p>
+
+<p>我也会将大家分享的方法发到iOS开发微信公众账号：iOSDevTip 里面，分享给更多iOS开发者。</p>
 ]]></content>
   </entry>
   
