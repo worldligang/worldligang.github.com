@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2014-12-27T16:53:50+08:00</updated>
+  <updated>2014-12-27T17:07:21+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -20,6 +20,8 @@
     <id>http://worldligang.github.io/blog/2014/12/27/ioskai-fa-zhong-de-gcdduo-xian-cheng-tips</id>
     <content type="html"><![CDATA[<p>本篇文章会持续更新：</p>
 
+<p><div class="entry-content"><h4>我们经常用到的：</h3></p>
+
 <pre><code>dispatch_async(dispatch_get_global_queue(0, 0), ^{  
     // 处理耗时操作的代码块 
 
@@ -31,12 +33,46 @@
 });  
 </code></pre>
 
+<p>其中main_queue是系统默认的串行队列，global_queue是系统默认的并行队列。</p>
+
+<p><div class="entry-content"><h5>什么是串行队列（Serial）？</h3></p>
+
+<p>创建任意个数的串行队列，每个队列依次执行添加的任务，一个队列同一时刻只能执行一个任务（串行），但是各个队列之间不影响，可以并发执行。每个队列中的任务运行在一个由各自串行队列维护的独立线程上，一个队列中只有一个线程。</p>
+
+<p><div class="entry-content"><h5>什么是并行队列（Concurrent）？</h3></p>
+
+<p>并行队列是不允许自己创建的，系统中存在三个不同优先级的并行队列。并行队列依旧按照任务添加的顺序启动任务，但是，后一个任务无须等待前一个任务执行完毕，而是启动第一个任务后，立即启动下一个任务。至于同一时刻允许同时运行多少个任务有系统决定。任务各自运行在并行队列为他们提供的独立线程上，并行队列中同时运行多少个任务，就必须维护多少个线程。</p>
+
+<p>gcd中还有一个概念叫做主调度队列</p>
+
+<p><div class="entry-content"><h5>主调度队列（main dispatch queue）</h3>
+主调度队列中的任务运行在应用程序主线程上，所以，如果你要修改应用程序的界面，他是唯一的选择。</p>
+
+<p>如下：</p>
+
+<pre><code> dispatch_async(dispatch_get_main_queue(), ^{
+
+        //跟新界面的操作
+
+    });
+</code></pre>
+
+<p><div class="entry-content"><h4>只执行一次：</h3></p>
+
+<pre><code>static dispatch_once_t onceToken;  
+dispatch_once(&amp;onceToken, ^{  
+    // 这里写的代码只会被执行一次
+}); 
+</code></pre>
+
 <p>如果你收集有实用的关于gcd的用法，欢迎分享给我，直接在文章下面评论即可</p>
 
 <p>我的微信公众号：</p>
 
 <pre><code>iOSDevTip
 </code></pre>
+
+<p>转载请注明：<a href="http://www.superqq.com/blog/2014/12/27/ioskai-fa-zhong-de-gcdduo-xian-cheng-tips/">iOS开发中的gcd多线程tips</a></p>
 ]]></content>
   </entry>
   
