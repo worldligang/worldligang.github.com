@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2014-12-31T15:19:15+08:00</updated>
+  <updated>2014-12-31T15:23:26+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -29,7 +29,16 @@
     <link href="http://worldligang.github.io/blog/2014/12/27/ioskai-fa-zhong-de-gcdduo-xian-cheng-tips/"/>
     <updated>2014-12-27T00:00:00+08:00</updated>
     <id>http://worldligang.github.io/blog/2014/12/27/ioskai-fa-zhong-de-gcdduo-xian-cheng-tips</id>
-    <content type="html"><![CDATA[<p>本篇文章会持续更新：</p>
+    <content type="html"><![CDATA[<hr />
+
+<p>layout: post
+title: &ldquo;iOS开发中的gcd多线程tips&rdquo;
+date: 2014-12-27 16:48:27 +0800
+comments: true
+keywords:gcd, iOS开发, 多线程, iOS, objective-c,swift
+categories:</p>
+
+<h4>本篇文章会持续更新：</h4>
 
 <p><div class="entry-content"><h4>我们经常用到的：</h3></p>
 
