@@ -5,13 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>刚刚在线正式上线 - 刚刚在线</title>
+  <title>iOS开发中的gcd多线程tips - 刚刚在线</title>
   <meta name="author" content="刚刚">
       <meta name="uyan_auth" content="d1112891bb" />
 
   
-  <meta name="description" content="刚刚在线正式上线 大家好！ 我是刚刚在线
-的作者刚刚 以后就在这里跟大家分享一些东西 下面两种方式参与学习讨论： 1，我的微信公众账号：iOS开发 iOSDevTip （扫描二维码直接关注） 2，我建立的QQ群：iOS学习交流群 303868520 ">
+  <meta name="description" content="本篇文章会持续更新： 我们经常用到的： dispatch_async(dispatch_get_global_queue(0, 0), ^{ // 处理耗时操作的代码块 //通知主线程刷新 dispatch_async(dispatch_get_main_queue(), ^{ // &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://worldligang.github.io/blog/2014/09/26/ios">
+  <link rel="canonical" href="http://worldligang.github.io/blog/2014/12/27/ioskai-fa-zhong-de-gcdduo-xian-cheng-tips">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -69,7 +68,7 @@
   
   <header>
     
-      <h1 class="entry-title">刚刚在线正式上线</h1>
+      <h1 class="entry-title">iOS开发中的gcd多线程tips</h1>
     
     
       <p class="meta">
@@ -78,37 +77,68 @@
 
 
 
-<time class='entry-date' datetime='2014-09-26T11:10:05+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:10 am</span></time>
+<time class='entry-date' datetime='2014-12-27T16:48:27+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>4:48 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><a href="http://www.superqq.com/blog/2014/09/26/ios/">刚刚在线正式上线</a></p>
+<div class="entry-content"><p>本篇文章会持续更新：</p>
 
-<p>大家好！</p>
+<p><div class="entry-content"><h4>我们经常用到的：</h3></p>
 
-<p>我是<a href="http://www.superqq.com/blog/2014/09/26/ios/">刚刚在线</a>
-的作者刚刚</p>
+<pre><code>dispatch_async(dispatch_get_global_queue(0, 0), ^{  
+    // 处理耗时操作的代码块 
 
-<p>以后就在这里跟大家分享一些东西</p>
+    //通知主线程刷新  
+    dispatch_async(dispatch_get_main_queue(), ^{  
+        //回调或者说是通知主线程刷新  
+    });  
 
-<p>下面两种方式参与学习讨论：</p>
+});  
+</code></pre>
 
-<p>1，我的微信公众账号：iOS开发</p>
+<p>其中main_queue是系统默认的串行队列，global_queue是系统默认的并行队列。</p>
+
+<p><div class="entry-content"><h5>什么是串行队列（Serial）？</h3></p>
+
+<p>创建任意个数的串行队列，每个队列依次执行添加的任务，一个队列同一时刻只能执行一个任务（串行），但是各个队列之间不影响，可以并发执行。每个队列中的任务运行在一个由各自串行队列维护的独立线程上，一个队列中只有一个线程。</p>
+
+<p><div class="entry-content"><h5>什么是并行队列（Concurrent）？</h3></p>
+
+<p>并行队列是不允许自己创建的，系统中存在三个不同优先级的并行队列。并行队列依旧按照任务添加的顺序启动任务，但是，后一个任务无须等待前一个任务执行完毕，而是启动第一个任务后，立即启动下一个任务。至于同一时刻允许同时运行多少个任务有系统决定。任务各自运行在并行队列为他们提供的独立线程上，并行队列中同时运行多少个任务，就必须维护多少个线程。</p>
+
+<p>gcd中还有一个概念叫做主调度队列</p>
+
+<p><div class="entry-content"><h5>主调度队列（main dispatch queue）</h3>
+主调度队列中的任务运行在应用程序主线程上，所以，如果你要修改应用程序的界面，他是唯一的选择。</p>
+
+<p>如下：</p>
+
+<pre><code> dispatch_async(dispatch_get_main_queue(), ^{
+
+        //跟新界面的操作
+
+    });
+</code></pre>
+
+<p><div class="entry-content"><h4>只执行一次：</h3></p>
+
+<pre><code>static dispatch_once_t onceToken;  
+dispatch_once(&amp;onceToken, ^{  
+    // 这里写的代码只会被执行一次
+}); 
+</code></pre>
+
+<p>如果你收集有实用的关于gcd的用法，欢迎分享给我，直接在文章下面评论即可</p>
+
+<p>我的微信公众号：</p>
 
 <pre><code>iOSDevTip
 </code></pre>
 
-<p>（扫描二维码直接关注）</p>
-
-<p><img src="http://www.superqq.com/images/getqrcode.jpg" ></p>
-
-<p>2，我建立的QQ群：iOS学习交流群</p>
-
-<pre><code>303868520
-</code></pre>
+<p>转载请注明：<a href="http://www.superqq.com/blog/2014/12/27/ioskai-fa-zhong-de-gcdduo-xian-cheng-tips/">iOS开发中的gcd多线程tips</a></p>
 </div>
 
 
@@ -124,11 +154,11 @@
 
 
 
-<time class='entry-date' datetime='2014-09-26T11:10:05+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:10 am</span></time>
+<time class='entry-date' datetime='2014-12-27T16:48:27+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>4:48 pm</span></time>
       
 
 
-      echo &#8217;<br>原文链接：<a href="http://www.superqq.com/blog/2014/09/26/ios/">http://www.superqq.com/blog/2014/09/26/ios/</a> <!-- 添加这一行代码 -->
+      echo &#8217;<br>原文链接：<a href="http://www.superqq.com/blog/2014/12/27/ioskai-fa-zhong-de-gcdduo-xian-cheng-tips/">http://www.superqq.com/blog/2014/12/27/ioskai-fa-zhong-de-gcdduo-xian-cheng-tips/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -153,8 +183,8 @@
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2014/12/23/ios-7zhong-shi-xian-mo-hu-xiao-guo-jiao-cheng/" title="Previous Post: iOS 7中实现模糊效果教程">&laquo; iOS 7中实现模糊效果教程</a>
       
-        <a class="basic-alignment right" href="/blog/2014/09/30/xie-bo-ke-de-fang-fa/" title="Next Post: 写博客的方法">写博客的方法 &ra/categories.htmlquo;</a>
       
     </p>
   </footer>
