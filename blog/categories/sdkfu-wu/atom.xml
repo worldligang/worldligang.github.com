@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Sdk服务 | 刚刚在线]]></title>
   <link href="http://worldligang.github.io/blog/categories/sdkfu-wu/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-01-04T17:52:39+08:00</updated>
+  <updated>2015-01-04T18:03:48+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -12,6 +12,59 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS/Android开发人脸识别SDK列表]]></title>
+    <link href="http://worldligang.github.io/blog/2015/01/04/ios-slash-androidkai-fa-ren-lian-shi-bie-sdklie-biao/"/>
+    <updated>2015-01-04T17:57:18+08:00</updated>
+    <id>http://worldligang.github.io/blog/2015/01/04/ios-slash-androidkai-fa-ren-lian-shi-bie-sdklie-biao</id>
+    <content type="html"><![CDATA[<h3>Face++人脸识别</h3>
+
+<p><a href="http://www.faceplusplus.com.cn"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>Face++ 致力于研发世界最好的人脸技术，提供免费的API和SDK供企业和开发者调用，更有灵活的定制化服务满足不同需求。已有多家公司使用Face++技术服务，完成包括人脸搜索、定位、识别、智能美化等功能。我们旨在为合作者提供完善的技术与维护服务。</p>
+
+<h2></br></h2>
+
+<h3>百度媒体云人脸识别</h3>
+
+<p><a href="http://developer.baidu.com/wiki/index.php?title=docs/cplat/media/face"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>百度媒体云人脸识别服务，依托百度业界领先的人脸识别算法，提供了人脸检测、五官定位、人脸属性检测等功能。媒体云人脸识别服务通过提供一系列HTTP Restful API及跨终端平台SDK，实现人脸检测、人脸识别等的诸项功能。</p>
+
+<h2></br></h2>
+
+<h3>ReKognition API</h3>
+
+<p><a href="https://rekognition.com"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>利用ReKognition（<a href="http://rekognition.com%EF%BC%89%E6%8F%90%E4%BE%9B%E7%9A%84%E4%BA%91%E7%AB%AF%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%ABAPI%E5%AE%9E%E7%8E%B0%E7%9A%84%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%ABDemo%EF%BC%8C%E8%83%BD%E5%A4%9F%E8%AF%86%E5%88%AB%E4%BA%BA%E8%84%B8%E7%9A%84%E4%BA%94%E5%AE%98%E3%80%81%E4%BA%BA%E8%84%B8%E7%9A%84%E5%A4%A7%E6%A6%82%E5%B9%B4%E9%BE%84%E3%80%81%E6%98%AF%E5%90%A6%E6%88%B4%E7%9C%BC%E9%95%9C%E3%80%81%E6%98%AF%E5%90%A6%E9%97%AD%E7%9C%BC%E3%80%81%E6%80%A7%E5%88%AB%E7%AD%89%E7%AD%89%E5%8A%9F%E8%83%BD%E3%80%82">http://rekognition.com%EF%BC%89%E6%8F%90%E4%BE%9B%E7%9A%84%E4%BA%91%E7%AB%AF%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%ABAPI%E5%AE%9E%E7%8E%B0%E7%9A%84%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%ABDemo%EF%BC%8C%E8%83%BD%E5%A4%9F%E8%AF%86%E5%88%AB%E4%BA%BA%E8%84%B8%E7%9A%84%E4%BA%94%E5%AE%98%E3%80%81%E4%BA%BA%E8%84%B8%E7%9A%84%E5%A4%A7%E6%A6%82%E5%B9%B4%E9%BE%84%E3%80%81%E6%98%AF%E5%90%A6%E6%88%B4%E7%9C%BC%E9%95%9C%E3%80%81%E6%98%AF%E5%90%A6%E9%97%AD%E7%9C%BC%E3%80%81%E6%80%A7%E5%88%AB%E7%AD%89%E7%AD%89%E5%8A%9F%E8%83%BD%E3%80%82</a></p>
+
+<h2></br></h2>
+
+<h3>RecoFace人脸识别SDK</h3>
+
+<p><a href="http://www.reconova.com/product/List1.shtml?type=product"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>RecoFace人脸识别SDK是瑞为自主研发的人脸识别核心算法，包括人脸检测、人脸跟踪、人脸确认与人脸识别四大核心功能，无论是识别准确度还是识别速度均处于全球领先水平。</p>
+
+<h2></br></h2>
+
+<h3>汉王云人脸识别</h3>
+
+<p><a href="http://developer.hanvon.com"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>汉王科技凭借十几年扎根模式识别领域的底蕴，早在2003年，就瞄准人脸识别技术的国际前沿，积极开展人脸识别技术的潜心研究。目前已经拥有完全自主知识产权的“双目立体”人脸识别算法（Dual Sensor）。汉王云提供免费的人脸识别API和SDK供企业和开发者调用，汉王人脸识别技术广泛应用于智能安全、身份验证等领域，还可识别表情年龄性别，应用开发最具潜力。</p>
+
+<h2></br></h2>
+
+<h3>科大讯飞人脸识别</h3>
+
+<p><a href="http://open.voicecloud.cn/index.php/services/face?type=face"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>科大讯飞联合香港中文大学汤晓鸥教授团队，共同推出世界领先的人脸识别技术，提供人脸验证、人脸检测、人脸关键点检测等功能，识别率高达99%。核心技术源自于学术界最新的深度学习方法及其相关研究，结合大量公开和独有的训练数据集，在超级计算机上学习并提取照片特征，实现高效准确的标定和识别，致力于提供便捷准确的人脸识别技术，为移动设备交互、摄像头应用等不同场景提供强有力的技术支持。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS/Android开发地图SDK列表]]></title>
