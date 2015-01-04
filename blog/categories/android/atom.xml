@@ -1,93 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>iOS 7中实现模糊效果教程 - 刚刚在线</title>
-  <meta name="author" content="刚刚">
-      <meta name="uyan_auth" content="d1112891bb" />
-
-  
-  <meta name="description" content="iOS 7在视觉方面有许多改变，其中非常吸引人的功能之一就是在整个系统中巧妙的使用了模糊效果。许多第三方应用程序已经采用了这样的设计细节，并以各种奇妙的和具有创造性的方式使用它。 本文将通过几种不同的技术来实现iOS 7中的模糊效果，当然，这一切都利用了一个名为GPUImage的框架。 &hellip;">
-  <meta name="keywords" content="Cocoapods, iOS开发, 多线程,  iOS, objective-c, swift, 个人博客, 博客">
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://worldligang.github.io/blog/2014/12/23/ios-7zhong-shi-xian-mo-hu-xiao-guo-jiao-cheng">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="http://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-
-
-  
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">刚刚在线</a></h1>
-  
-    <h2>游走在互联网岸边的屌丝青年</h2>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://www.baidu.com/" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:worldligang.github.io" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">首页</a></li>
-  <li><a href="/blog/archives">归档</a></li>
-  <li><a href="/blog/categories/iOS">IOS</a></li>
-  <li><a href="/blog/categories/Android">Android</a></li>
-  <li><a href="/about">关于</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article class="hentry" role="article">
-  
-  <header>
+  <title><![CDATA[Category: Android | 刚刚在线]]></title>
+  <link href="http://worldligang.github.io/blog/categories/android/atom.xml" rel="self"/>
+  <link href="http://worldligang.github.io/"/>
+  <updated>2014-12-31T20:35:48+08:00</updated>
+  <id>http://worldligang.github.io/</id>
+  <author>
+    <name><![CDATA[刚刚]]></name>
     
-      <h1 class="entry-title">iOS 7中实现模糊效果教程</h1>
-    
-    
-      <p class="meta">
-        
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
-
-
-
-<time class='entry-date' datetime='2014-12-23T16:21:21+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2014</span></span> <span class='time'>4:21 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-<div class="entry-content"><p></br></p>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS 7中实现模糊效果教程]]></title>
+    <link href="http://worldligang.github.io/blog/2014/12/23/ios-7zhong-shi-xian-mo-hu-xiao-guo-jiao-cheng/"/>
+    <updated>2014-12-23T16:21:21+08:00</updated>
+    <id>http://worldligang.github.io/blog/2014/12/23/ios-7zhong-shi-xian-mo-hu-xiao-guo-jiao-cheng</id>
+    <content type="html"><![CDATA[<p></br></p>
 
 <p>iOS 7在视觉方面有许多改变，其中非常吸引人的功能之一就是在整个系统中巧妙的使用了模糊效果。许多第三方应用程序已经采用了这样的设计细节，并以各种奇妙的和具有创造性的方式使用它。</p>
 
@@ -682,172 +613,7 @@ _videoBuffer = [[GPUImageBuffer alloc] init];
 
 <pre><code>iOSDevTip
 </code></pre>
-</div>
-
-
-  <footer>
-    <p class="meta">
-      
+]]></content>
+  </entry>
   
-
-<span class="byline author vcard">Posted by <span class="fn">刚刚</span></span>
-
-      
-
-
-
-
-<time class='entry-date' datetime='2014-12-23T16:21:21+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2014</span></span> <span class='time'>4:21 pm</span></time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/android/'>android</a>
-  
-</span>
-
-
-      echo &#8217;<br>原文链接：<a href="http://www.superqq.com/blog/2014/12/23/ios-7zhong-shi-xian-mo-hu-xiao-guo-jiao-cheng/">http://www.superqq.com/blog/2014/12/23/ios-7zhong-shi-xian-mo-hu-xiao-guo-jiao-cheng/</a> <!-- 添加这一行代码 -->
-    </p>
-    
-      <!-- JiaThis Button BEGIN -->
-<div class="jiathis_style">
-    <span class="jiathis_txt">分享到：</span>
-    <a class="jiathis_button_tools_1"></a>
-    <a class="jiathis_button_tools_2"></a>
-    <a class="jiathis_button_tools_3"></a>
-    <a class="jiathis_button_tools_4"></a>
-    <a href="http://www.jiathis.com/share?uid=1983651" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
-    <a class="jiathis_counter_style"></a>
-</div>
-<script type="text/javascript">
-    var jiathis_config = {data_track_clickback:'true'};
-    </script>
-<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1401863435807252" charset="utf-8"></script>
-<!-- JiaThis Button END -->
-<!-- UY BEGIN -->
-<div id="uyan_frame"></div>
-<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1984773"></script>
-<!-- UY END -->
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2014/12/13/ioskai-fa-da-zhong-dian-ping-urlqian-ming-sheng-cheng-gui-ze-he-sha-1bian-ma/" title="Previous Post: iOS开发大众点评URL签名生成规则和SHA-1编码">&laquo; iOS开发大众点评URL签名生成规则和SHA-1编码</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2014/12/27/ioskai-fa-zhong-de-gcdduo-xian-cheng-tips/" title="Next Post: iOS开发中的gcd多线程tips">iOS开发中的gcd多线程tips &ra/categories.htmlquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
-</div>
-
-<aside class="sidebar">
-  
-    <section>
-  <h1>最新文章</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2014/12/27/ioskai-fa-zhong-de-gcdduo-xian-cheng-tips/">iOS开发中的gcd多线程tips</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/23/ios-7zhong-shi-xian-mo-hu-xiao-guo-jiao-cheng/">iOS 7中实现模糊效果教程</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/13/ioskai-fa-da-zhong-dian-ping-urlqian-ming-sheng-cheng-gui-ze-he-sha-1bian-ma/">iOS开发大众点评URL签名生成规则和SHA-1编码</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/11/nsmutableurlrequesthe-nsurlconnectionyong-postfang-shi-shang-chuan-zhao-pian/">NSMutableURLRequest和NSURLConnection用Post方式上传照片</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/05/cheng-xu-yuan-fu-li-ge-da-ping-tai-mian-fei-jie-kou-,fei-chang-gua-yong/">程序员福利各大平台免费接口，非常适用</a>
-      </li>
-    
-  </ul>
-</section>
-</section>
-<section>
-    <h1>About Me</h1>
-    <br/>
-    <p> Blogger, iOS开发, 创业者, 屌丝青年。<br/>
-    <br/>iOS开发工程师，曾开发今日·天下通，二维码商城等项目。
-    <br/>
-    <br/>
-    <br/>新浪微博: <a href='http://weibo.com/ligangnc' target='_blank'>李刚移动</a>
-        <span id="wb_follow_btn"></span>
-        <br/>
-        <br />我的<strong>&#8220;iOSDevTip&#8221;</strong>微信公众账号:
-        <br/>
-        <br/><img width="220px" src="http://www.superqq.com/images/getqrcode.jpg" />
-        </p>
-        </section>
-        
-    <br/>iOS群：
-    
-    <br/>iOS学习交流群：303868520
-    
-    <br/>北京iOS开发：339386098
-    
-    <br/>上海iOS开发：53758831
-    
-    <br/>广州iOS开发：156633209
-    
-    <br/>深圳iOS开发：317492908
-    
-    <br/>杭州iOS开发：218822587
-    
-    <br/>郑州iOS开发：66964077<section>
-    <h1>友情链接</h1>
-    <ul>
-        <li>
-            <a href="http://www.iswifting.com/forum.php" target="_blank" title="swift社区">swift社区</a>
-        </li>
-        <li>
-            <a href="http://blog.csdn.net/iosdevtip" target="_blank" title="刚刚在线">CSDN</a>
-        </li>
-        <li>
-        <a href="http://user.qzone.qq.com/1606535851" target="_blank" title="刚刚在线">QQ空间</a>
-        </li>
-        
-    </ul>
-</section>
-
-
-
-
-  
-</aside>
-
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-Copyright &copy; 2014 - 刚刚 
-<span class="credit">Powered by <a href="http://octopress.org" target="_blank">Octopress</a></span>
- <span class="credit">, 感谢 <a href="http://gitcafe.com/signup?invited_by=tangqiaoboy" target="_blank">GitCafe</a> 为本站提供存储空间</span>
-
-</p>
-
-<script language="javascript" type="text/javascript" src="http://js.users.51.la/17443209.js"></script>
-<noscript><a href="http://www.51.la/?17443209" target="_blank"><img alt="&#x6211;&#x8981;&#x5566;&#x514D;&#x8D39;&#x7EDF;&#x8BA1;" src="http://img.users.51.la/17443209.asp" style="border:none" /></a></noscript>
-</footer>
-  
-
-
-
-
-
-
-
-
-
-
-
-</body>
-</html>
+</feed>
