@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-01-04T11:31:34+08:00</updated>
+  <updated>2015-01-04T11:34:59+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -81,9 +81,7 @@ dispatch_once(&amp;onceToken, ^{
     <link href="http://worldligang.github.io/blog/2014/12/23/ios-7zhong-shi-xian-mo-hu-xiao-guo-jiao-cheng/"/>
     <updated>2014-12-23T16:21:21+08:00</updated>
     <id>http://worldligang.github.io/blog/2014/12/23/ios-7zhong-shi-xian-mo-hu-xiao-guo-jiao-cheng</id>
-    <content type="html"><![CDATA[<p></br></p>
-
-<p>iOS 7在视觉方面有许多改变，其中非常吸引人的功能之一就是在整个系统中巧妙的使用了模糊效果。许多第三方应用程序已经采用了这样的设计细节，并以各种奇妙的和具有创造性的方式使用它。</p>
+    <content type="html"><![CDATA[<p>iOS 7在视觉方面有许多改变，其中非常吸引人的功能之一就是在整个系统中巧妙的使用了模糊效果。许多第三方应用程序已经采用了这样的设计细节，并以各种奇妙的和具有创造性的方式使用它。</p>
 
 <p>本文将通过几种不同的技术来实现iOS 7中的模糊效果，当然，这一切都利用了一个名为<a href="https://github.com/BradLarson/GPUImage">GPUImage</a>的框架。</p>
 
