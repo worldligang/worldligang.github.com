@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://worldligang.github.io/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-01-04T11:35:26+08:00</updated>
+  <updated>2015-01-04T11:39:39+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -673,6 +673,402 @@ _videoBuffer = [[GPUImageBuffer alloc] init];
 <p>我的微信公众号：</p>
 
 <pre><code>iOSDevTip
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发大众点评URL签名生成规则和SHA-1编码]]></title>
+    <link href="http://worldligang.github.io/blog/2014/12/13/ioskai-fa-da-zhong-dian-ping-urlqian-ming-sheng-cheng-gui-ze-he-sha-1bian-ma/"/>
+    <updated>2014-12-13T13:52:29+08:00</updated>
+    <id>http://worldligang.github.io/blog/2014/12/13/ioskai-fa-da-zhong-dian-ping-urlqian-ming-sheng-cheng-gui-ze-he-sha-1bian-ma</id>
+    <content type="html"><![CDATA[<p></br>
+URL签名生成规则</p>
+
+<p>所有<a href="http://www.superqq.com/blog/2014/12/13/ioskai-fa-da-zhong-dian-ping-urlqian-ming-sheng-cheng-gui-ze-he-sha-1bian-ma/">大众点评API</a>的有效访问URL包括以下三个部分：
+1. 资源访问路径，如/v1/deal/find_deals;
+2. 请求参数：即API对应所需的参数名和参数值param=value，多个请求参数间用&amp;连接
+   如deal_id=1-85462&amp;appkey=00000；
+3. 签名串，由签名算法生成</p>
+
+<p>签名算法如下：
+1. 对除appkey以外的所有请求参数进行字典升序排列；
+2. 将以上排序后的参数表进行字符串连接，如key1value1key2value2key3value3&hellip;keyNvalueN；
+3. 将app key作为前缀，将app secret作为后缀，对该字符串进行SHA-1计算，并转换成16进制编码；
+4. 转换为全大写形式后即获得签名串</p>
+
+<p>签名串获得后，将其作为sign参数附加到对应的URL中，即可正常访问API。</p>
+
+<pre><code>注意：请保证HTTP请求数据编码务必为UTF-8格式，URL也务必为UTF-8编码格式。
+</code></pre>
+
+<p>具体调用示例请参见<a href="https://github.com/dianping/dianping-open-sdk"target="_blank"title="刚刚在线"><a href="https://github.com/dianping/dianping-open-sdk">https://github.com/dianping/dianping-open-sdk</a></a></p>
+
+<pre><code>+ (NSDictionary *)parseQueryString:(NSString *)query {
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:6];
+    NSArray *pairs = [query componentsSeparatedByString:@"&amp;"];
+
+    for (NSString *pair in pairs) {
+        NSArray *elements = [pair componentsSeparatedByString:@"="];
+
+        if ([elements count] &lt;= 1) {
+            return nil;
+        }
+
+        NSString *key = [[elements objectAtIndex:0] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *val = [[elements objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
+        [dict setObject:val forKey:key];
+    }
+    return dict;
+}
+
+
+
++ (NSString *)serializeURL:(NSString *)baseURL params:(NSDictionary *)params
+{
+    NSURL* parsedURL = [NSURL URLWithString:[baseURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSMutableDictionary *paramsDic = [NSMutableDictionary dictionaryWithDictionary:[self parseQueryString:[parsedURL query]]];
+    if (params) {
+        [paramsDic setValuesForKeysWithDictionary:params];
+    }
+
+    NSMutableString *signString = [NSMutableString stringWithString:DIANPING_APP_KEY];
+    NSMutableString *paramsString = [NSMutableString stringWithFormat:@"appkey=%@", DIANPING_APP_KEY];
+    NSArray *sortedKeys = [[paramsDic allKeys] sortedArrayUsingSelector: @selector(compare:)];
+    for (NSString *key in sortedKeys) {
+        [signString appendFormat:@"%@%@", key, [paramsDic objectForKey:key]];
+        [paramsString appendFormat:@"&amp;%@=%@", key, [paramsDic objectForKey:key]];
+    }
+    [signString appendString:DIANPING_APP_Secret];
+    unsigned char digest[CC_SHA1_DIGEST_LENGTH];
+    NSData *stringBytes = [signString dataUsingEncoding: NSUTF8StringEncoding];
+    if (CC_SHA1([stringBytes bytes], (long)[stringBytes length], digest)) {
+        /* SHA-1 hash has been calculated and stored in 'digest'. */
+        NSMutableString *digestString = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH];
+        for (int i=0; i&lt;CC_SHA1_DIGEST_LENGTH; i++) {
+            unsigned char aChar = digest[i];
+            [digestString appendFormat:@"%02X", aChar];
+        }
+        [paramsString appendFormat:@"&amp;sign=%@", [digestString uppercaseString]];
+        return [NSString stringWithFormat:@"%@://%@%@?%@", [parsedURL scheme], [parsedURL host], [parsedURL path], [paramsString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    } else {
+        return nil;
+    }
+}
+</code></pre>
+
+<p>直接调用这个方法即可签名成功，+ (NSString <em>)serializeURL:(NSString </em>)baseURL params:(NSDictionary *)params</p>
+
+<pre><code>NSString *url = [LGClient serializeURL:string params:nil];
+
+//string是大众点评的需要请求的接口
+</code></pre>
+
+<p>这个url就可以用来请求大众点评数据了</p>
+
+<p>我的微信公众号：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p>我也会将大家分享的方法发到iOS开发微信公众账号：iOSDevTip 里面，分享给更多iOS开发者。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[NSMutableURLRequest和NSURLConnection用Post方式上传照片]]></title>
+    <link href="http://worldligang.github.io/blog/2014/12/11/nsmutableurlrequesthe-nsurlconnectionyong-postfang-shi-shang-chuan-zhao-pian/"/>
+    <updated>2014-12-11T10:00:07+08:00</updated>
+    <id>http://worldligang.github.io/blog/2014/12/11/nsmutableurlrequesthe-nsurlconnectionyong-postfang-shi-shang-chuan-zhao-pian</id>
+    <content type="html"><![CDATA[<p>需求：上传一张照片和内容，内容包括：用户编辑的内容、经纬度、地点等等，就是类似发一个说说。这就是一个很平常的功能，实现的方式想必各位能想到很多。</p>
+
+<p>接下来我想用系统的NSURLConnection来实现这个功能：</p>
+
+<p>首先我们要定义一个全局变量:</p>
+
+<pre><code>/**
+ *  请求返回数据
+ */
+@property (nonatomic, strong) NSMutableData *mResponseData;
+</code></pre>
+
+<p>实现代码：</p>
+
+<pre><code>//字典里面装的是你要上传的内容
+NSDictionary *parameters = @{@"content": @"这是刚刚在线的官方网站www.superqq.com"};
+
+//上传的接口
+NSString* urlstring = @"http://superqq.com/";
+//分界线的标识符
+NSString *TWITTERFON_FORM_BOUNDARY = @"AaB03x";
+//根据url初始化request
+NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlstring]
+                                                        cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
+                                                    timeoutInterval:10];
+//分界线 --AaB03x
+NSString *MPboundary=[[NSString alloc]initWithFormat:@"--%@",TWITTERFON_FORM_BOUNDARY];
+//结束符 AaB03x--
+NSString *endMPboundary=[[NSString alloc]initWithFormat:@"%@--",MPboundary];
+//    //要上传的图片
+//    UIImage *image=[params objectForKey:@"pic"];
+//得到图片的data
+NSData *data = UIImagePNGRepresentation(self.image);
+//http body的字符串
+NSMutableString *body=[[NSMutableString alloc]init];
+//参数的集合的所有key的集合
+NSArray *keys= [parameters allKeys];
+
+//遍历keys
+for(int i=0;i&lt;[keys count];i++)
+{
+    //得到当前key
+    NSString *key=[keys objectAtIndex:i];
+    //如果key不是pic，说明value是字符类型，比如name：Boris
+    if(![key isEqualToString:@"pic"])
+    {
+        //添加分界线，换行
+        [body appendFormat:@"%@\r\n",MPboundary];
+        //添加字段名称，换2行
+        [body appendFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n",key];
+        //添加字段的值
+        [body appendFormat:@"%@\r\n",[parameters objectForKey:key]];
+    }
+}
+
+////添加分界线，换行
+[body appendFormat:@"%@\r\n",MPboundary];
+//声明pic字段，文件名为boris.png
+[body appendFormat:@"Content-Disposition: form-data; name=\"pic\"; filename=\"boris.png\"\r\n"];
+//声明上传文件的格式
+[body appendFormat:@"Content-Type: image/png\r\n\r\n"];
+
+//声明结束符：--AaB03x--
+NSString *end=[[NSString alloc]initWithFormat:@"\r\n%@",endMPboundary];
+//声明myRequestData，用来放入http body
+NSMutableData *myRequestData=[NSMutableData data];
+//将body字符串转化为UTF8格式的二进制
+[myRequestData appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
+//将image的data加入
+[myRequestData appendData:data];
+//加入结束符--AaB03x--
+[myRequestData appendData:[end dataUsingEncoding:NSUTF8StringEncoding]];
+
+//设置HTTPHeader中Content-Type的值
+NSString *content=[[NSString alloc]initWithFormat:@"multipart/form-data; boundary=%@",TWITTERFON_FORM_BOUNDARY];
+//设置HTTPHeader
+[request setValue:content forHTTPHeaderField:@"Content-Type"];
+//设置Content-Length
+[request setValue:[NSString stringWithFormat:@"%d", (int)[myRequestData length]] forHTTPHeaderField:@"Content-Length"];
+//设置http body
+[request setHTTPBody:myRequestData];
+//http method
+[request setHTTPMethod:@"POST"];
+
+//建立连接，设置代理
+NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+
+//设置接受response的data
+if (conn) {
+    _mResponseData = [[NSMutableData alloc] init];
+}
+</code></pre>
+
+<p>NSURLConnectionDelegate的代理方法：</p>
+
+<pre><code>#pragma mark - NSURLConnectionDelegate
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+   [_mResponseData setLength:0];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+   [_mResponseData appendData:data];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+
+   NSDictionary *dic =  [NSJSONSerialization JSONObjectWithData:_mResponseData options:kNilOptions error:nil];
+   NSLog(@"%@", dic);
+
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+   NSLog(@"Error: %@", error);
+}
+</code></pre>
+
+<p>这是我的实现方式，再次抛砖引玉，如果你要好的方法，欢迎分享！</p>
+
+<p>iOS开发微信公众号：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p>我也会将大家分享的方法发到iOS开发微信公众账号：iOSDevTip 里面，分享给更多iOS开发者。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[程序员福利各大平台免费接口，非常适用]]></title>
+    <link href="http://worldligang.github.io/blog/2014/12/05/cheng-xu-yuan-fu-li-ge-da-ping-tai-mian-fei-jie-kou-,fei-chang-gua-yong/"/>
+    <updated>2014-12-05T10:39:56+08:00</updated>
+    <id>http://worldligang.github.io/blog/2014/12/05/cheng-xu-yuan-fu-li-ge-da-ping-tai-mian-fei-jie-kou-,fei-chang-gua-yong</id>
+    <content type="html"><![CDATA[<p>电商接口</p>
+
+<p>京东获取单个商品价格接口:</p>
+
+<pre><code>http://p.3.cn/prices/mgets?skuIds=J_商品ID&amp;type=1
+</code></pre>
+
+<p>ps:商品ID这么获取:<a href="http://item.jd.com/954086.html">http://item.jd.com/954086.html</a>
+物流接口</p>
+
+<p>快递接口:</p>
+
+<pre><code>http://www.kuaidi100.com/query?type=快递公司代号&amp;postid=快递单号
+</code></pre>
+
+<p>ps:快递公司编码:申通=”shentong” EMS=”ems” 顺丰=”shunfeng” 圆通=”yuantong” 中通=”zhongtong” 韵达=”yunda” 天天=”tiantian” 汇通=”huitongkuaidi” 全峰=”quanfengkuaidi” 德邦=”debangwuliu” 宅急送=”zhaijisong”
+谷歌接口</p>
+
+<p>FeedXml转json接口:</p>
+
+<pre><code>http://ajax.googleapis.com/ajax/services/feed/load?q=Feed地址&amp;v=1.0
+</code></pre>
+
+<p>备选参数:callback：&amp;callback=foo就会在json外面嵌套foo({})方便做jsonp使用。</p>
+
+<p>备选参数:n：返回多少条记录。
+天气接口</p>
+
+<p>百度接口:</p>
+
+<pre><code>http://api.map.baidu.com/telematics/v3/weather?location=嘉兴&amp;output=json&amp;ak=5slgyqGDENN7Sy7pw29IUvrZ
+</code></pre>
+
+<p>location:城市名或经纬度 ak:开发者密钥 output:默认xml</p>
+
+<p>气象局接口:</p>
+
+<pre><code>http://m.weather.com.cn/data/101010100.html
+</code></pre>
+
+<p>音乐接口</p>
+
+<p>虾米接口</p>
+
+<pre><code>http://kuang.xiami.com/app/nineteen/search/key/歌曲名称/diandian/1/page/歌曲当前页?_=当前毫秒&amp;callback=getXiamiData
+</code></pre>
+
+<p>QQ空间音乐接口</p>
+
+<pre><code>http://qzone-music.qq.com/fcg-bin/cgi_playlist_xml.fcg?uin=QQ号码&amp;json=1&amp;g_tk=1916754934
+</code></pre>
+
+<p>QQ空间收藏音乐接口</p>
+
+<pre><code>http://qzone-music.qq.com/fcg-bin/fcg_music_fav_getinfo.fcg?dirinfo=0&amp;dirid=1&amp;uin=QQ号&amp;p=0.519638272547262&amp;g_tk=1284234856
+</code></pre>
+
+<p>多米音乐接口</p>
+
+<pre><code>http://v5.pc.duomi.com/search-ajaxsearch-searchall?kw=关键字&amp;pi=页码&amp;pz=每页音乐数
+</code></pre>
+
+<p>soso接口</p>
+
+<pre><code>http://cgi.music.soso.com/fcgi-bin/fcg_search_xmldata.q?source=10&amp;w=关键字&amp;perpage=1&amp;ie=utf-8
+</code></pre>
+
+<p>视频接口</p>
+
+<p>土豆接口</p>
+
+<pre><code>http://api.tudou.com/v3/gw?method=album.item.get&amp;amp;appKey=Appkey&amp;format=json&amp;albumId=视频剧集ID&amp;pageNo=当前页&amp;pageSize=每页显示
+</code></pre>
+
+<p>地图接口</p>
+
+<p>阿里云根据地区名获取经纬度接口</p>
+
+<pre><code>http://gc.ditu.aliyun.com/geocoding?a=苏州市
+</code></pre>
+
+<p>参数解释: 纬度,经度type 001 (100代表道路，010代表POI，001代表门址，111可以同时显示前三项)</p>
+
+<p>阿里云根据经纬度获取地区名接口</p>
+
+<pre><code>http://gc.ditu.aliyun.com/regeocoding?l=39.938133,116.395739&amp;type=001
+</code></pre>
+
+<p>IP接口</p>
+
+<p>新浪接口(ip值为空的时候 获取本地的)</p>
+
+<pre><code>http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json&amp;ip=218.4.255.255
+</code></pre>
+
+<p>淘宝接口</p>
+
+<pre><code>http://ip.taobao.com/service/getIpInfo.php?ip=63.223.108.42
+</code></pre>
+
+<p>手机信息查询接口</p>
+
+<p>淘宝网接口</p>
+
+<pre><code>http://tcc.taobao.com/cc/json/mobile_tel_segment.htm?tel=手机号
+</code></pre>
+
+<p>拍拍接口</p>
+
+<pre><code>http://virtual.paipai.com/extinfo/GetMobileProductInfo?mobile=手机号&amp;amount=10000&amp;callname=getPhoneNumInfoExtCallback 用例
+</code></pre>
+
+<p>百付宝接口</p>
+
+<pre><code>https://www.baifubao.com/callback?cmd=1059&amp;callback=phone&amp;phone=手机号
+</code></pre>
+
+<p>115接口</p>
+
+<pre><code>http://cz.115.com/?ct=index&amp;ac=get_mobile_local&amp;callback=jsonp1333962541001&amp;mobile=手机号
+</code></pre>
+
+<p>有道接口</p>
+
+<pre><code>http://www.youdao.com/smartresult-xml/search.s?jsFlag=true&amp;type=mobile&amp;q=手机号
+</code></pre>
+
+<p>手机在线接口</p>
+
+<pre><code>http://api.showji.com/Locating/www.showji.com.aspx?m=手机号&amp;output=json&amp;callback=querycallback
+</code></pre>
+
+<p>视频信息接口</p>
+
+<p>优酷</p>
+
+<pre><code>http://v.youku.com/player/getPlayList/VideoIDS/视频ID (比如 http://v.youku.com/v_show/id_XNTQxNzc4ODg0.html的ID就是XNTQxNzc4ODg0)
+</code></pre>
+
+<p>翻译、词典接口</p>
+
+<p>腾讯</p>
+
+<pre><code>http://dict.qq.com/dict?q=词语
+</code></pre>
+
+<p>腾讯的部分接口</p>
+
+<p>获取QQ昵称和用户头像</p>
+
+<pre><code>http://r.qzone.qq.com/cgi-bin/user/cgi_personal_card?uin=QQ
 </code></pre>
 ]]></content>
   </entry>
