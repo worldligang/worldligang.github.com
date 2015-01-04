@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Sdk服务 | 刚刚在线]]></title>
   <link href="http://worldligang.github.io/blog/categories/sdkfu-wu/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-01-04T12:45:27+08:00</updated>
+  <updated>2015-01-04T12:48:13+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -20,13 +20,13 @@
     <id>http://worldligang.github.io/blog/2015/01/04/ioskai-fa-tui-song-sdkji-he</id>
     <content type="html"><![CDATA[<h3>极光推送</h3>
 
-<p>【进入官网】（<a href="https://www.jpush.cn%EF%BC%89">https://www.jpush.cn%EF%BC%89</a></p>
+<p><a href="https://www.jpush.cn">进入官网</a></p>
 
 <p>极光推送，英文简称 JPush，是一个面向普通开发者开放的，部分免费的第三方消息推送服务。极光推送使得开发者可以即时地向其应用程序的用户推送通知或消息，与用户保持互动，从而有效地提高留存率，提升用户体验。平台提供整合了Android推送、iOS推送的统一推送服务。</p>
 
 <h3>智游推送</h3>
 
-<p>【进入官网】（<a href="http://www.zypush.com%EF%BC%89">http://www.zypush.com%EF%BC%89</a></p>
+<p><a href="http://www.zypush.com">进入官网</a></p>
 
 <p>智游推送是北京智游网安科技有限公司为开发者设计的一款推送服务。推送包括移动端SDK和网页后端控制，帮助开发者解决消息推送难题。并且保证推送服务的稳定、高效和即时性。开发者通过添加SDK后，服务消息可以推送到其客户端，通过IP通道实现用户间免费实时通讯服务，支持文字，图片等。</p>
 ]]></content>
