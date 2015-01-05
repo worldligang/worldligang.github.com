@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-01-05T13:12:54+08:00</updated>
+  <updated>2015-01-05T13:14:34+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -18,7 +18,9 @@
     <link href="http://worldligang.github.io/blog/2015/01/05/coding-ios/"/>
     <updated>2015-01-05T13:09:26+08:00</updated>
     <id>http://worldligang.github.io/blog/2015/01/05/coding-ios</id>
-    <content type="html"><![CDATA[<h3>Coding_iOS客户端项目介绍</h3>
+    <content type="html"><![CDATA[<p> <a href="https://coding.net/u/coding"target="_blank"title="源代码">源代码</a></p>
+
+<h3>Coding_iOS客户端项目介绍</h3>
 
 <p><em>编译环境：Xcode-Version 6.1 (6A1052d)</em></p>
 
