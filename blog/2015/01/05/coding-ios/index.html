@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Coding-iOS - 刚刚在线</title>
+  <meta name="author" content="刚刚">
+      <meta name="uyan_auth" content="d1112891bb" />
+      <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
+      
+  
+  <meta name="description" content="Coding-iOS官方客户端源代码">
+  <meta name="keywords" content="Coding, 源代码, Coding-iOS, 官方客户端, 客户端, UIMessageInputView, iOS, iOS开发, cocoapods, 个人博客, 刚刚在线">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://worldligang.github.io/blog/2015/01/05/coding-ios">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="http://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">刚刚在线</a></h1>
+  
+    <h2>游走在互联网岸边的屌丝青年</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://www.baidu.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:worldligang.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">首页</a></li>
+  <li><a href="/blog/archives">全部文章</a></li>
+  <li><a href="/blog/categories/ioskai-fa/">iOS开发</a></li>
+  <li><a href="/blog/categories/yuan-dai-ma/">源代码</a></li>
+  <li><a href="/blog/categories/sdkfu-wu/">sdk服务</a></li>
+  <li><a href="/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Coding-iOS</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-05T13:09:26+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:09 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>Coding_iOS客户端项目介绍</h3>
+
+<p><em>编译环境：Xcode-Version 6.1 (6A1052d)</em></p>
+
+<h4>下面介绍一下文件的大概目录先：</h4>
+
+<pre><code>.
+├── Coding_iOS
+│   ├── Models：数据类
+│   ├── Views：视图类
+│   │   ├── CCell：所有的CollectionViewCell都在这里
+│   │   ├── Cell：所有的TableViewCell都在这里
+│   │   └── XXX：ListView（项目、动态、任务、讨论、文档、代码）和InputView（用于聊天和评论的输入框）
+│   ├── Controllers：控制器，对应app中的各个页面
+│   │   ├── Login：登录页面
+│   │   ├── RootControllers：登录后的根页面
+│   │   ├── MeSetting：设置信息页面
+│   │   └── XXX：其它页面
+│   ├── Images：app中用到的所有的图片都在这里
+│   ├── Resources：资源文件
+│   ├── Util：一些常用控件和Category、Manager之类
+│   │   ├── Common
+│   │   ├── Manager
+│   │   ├── OC_Category
+│   │   └── ObjcRuntime
+│   └── Vendor：用到的一些第三方类库，一般都有改动
+│       ├── AFNetworking
+│       ├── AGEmojiKeyboard
+│       ├── ASProgressPopUpView
+│       ├── ActionSheetPicker
+│       ├── FontAwesome+iOS
+│       ├── MJPhotoBrowser
+│       ├── MLEmojiLabel
+│       ├── NSDate+Helper
+│       ├── NSStringEmojize
+│       ├── PPiAwesomeButton
+│       ├── QBImagePickerController
+│       ├── RDVTabBarController
+│       ├── SMPageControl
+│       ├── SVPullToRefresh
+│       ├── SWTableViewCell
+│       ├── UMENG
+│       ├── UMessage_Sdk_1.1.0
+│       ├── XGPush
+│       ├── XTSegmentControl
+│       └── iCarousel
+└── Pods：项目使用了[CocoaPods](http://code4app.com/article/cocoapods-install-usage)这个类库管理工具
+</code></pre>
+
+<h4>再说下项目的启动流程：</h4>
+
+<p>在AppDelegate的启动方法中，先设置了一下Appearance的样式，然后根据用户的登录状态选择是去加载登录页面LoginViewController，还是登录后的RootTabViewController页面。</p>
+
+<p>RootTabViewController继承自第三方库<a href="https://github.com/robbdimitrov/RDVTabBarController">RDVTabBarController</a>。在RootTabViewController里面依次加载了Project_RootViewController、MyTask_RootViewController、Tweet_RootViewController、Message_RootViewController、Me_RootViewController五个RootViewController，后续的页面跳转都是基于这几个RootViewController引过去的。</p>
+
+<h4>项目里面还有些需要注意的点</h4>
+
+<ul>
+<li><p>Coding_NetAPIManager：基本上app的所有请求接口都放在了这里。网络请求使用的是<a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a>库，与服务器之间的数据交互格式用的都是json（与<a href="https://coding.net">Coding</a>使用的api一致）。</p></li>
+<li><p>关于推送：刚开始是用的<a href="http://www.umeng.com/">友盟推送</a>，后来又改用了<a href="http://xg.qq.com/">腾讯信鸽</a>，因为要兼顾旧版本app的推送，所以服务器是同时保留了两套推送。但是为了确保新版本的app不同时收到双份相同的推送消息，所以当前代码里还存留了友盟的sdk，用于解除推送token与友盟Alias的绑定。</p></li>
+<li><p>关于ProjectViewController：这个就是进入到某个项目之后的页面，这里包含了项目的动态、任务、讨论、文档、代码、成员各类信息，而且每类信息里面还可能会有新的分类（如‘任务’里面还分有各个成员的任务）；这个页面相当的臃肿，我对它们做了拆分，都放在视图类Views目录下面。 首先是把数据列表独立成了对应的XXXListView（如ProjectTaskListView）；然后如果需要标签切换的话，会再新建一个XXXsView（如：ProjectTasksView），在这个视图中，上面会放一个切换栏<a href="https://github.com/xushao1990/XTNews">XTSegmentControl</a>显示各个标签，下面放一个<a href="https://github.com/nicklockwood/iCarousel">iCarousel</a>可以滑动显示各个标签的内容；最后这些视图都会存储在ProjectViewController的projectContentDict变量里面，根据顶部导航栏选择的类别，去显示或隐藏对应的视图。</p></li>
+<li><p>关于UIMessageInputView：这个是私信聊天的输入框。因为这个输入框好多地方都有用到（冒泡、任务、讨论的评论还有私信），所以这个输入框就写成了一个相对独立的控件，并且直接显示在了keyWindow里面而不是某个视图里。这里的表情键盘用的是<a href="https://github.com/ayushgoel/AGEmojiKeyboard">AGEmojiKeyboard</a>改写了一下。</p></li>
+<li><p>关于Emoji：这个，<a href="https://coding.net">Coding</a>站点的emoji都是用的图片，而且服务器是不接受大部分emoji字符的，所以刚开始的时候app一直不能处理emoji表情；又因为没有emoji图片名和emoji code码的对应关系表，所以拖了很久都没能做好转换。直到在github上面找到了<a href="https://github.com/diy/NSStringEmojize">NSStringEmojize</a>这个项目；试了一下，虽然也不能全部解析，但是大部分表情都能正确显示了，不能更感谢。</p></li>
+<li><p>关于如何正确显示冒泡的内容：api返回的数据里面，冒泡内容都是html格式，需要做一下预处理；其实私信、讨论里面的内容也是html。解析html的类名是HtmlMediaItem，它是先用<a href="https://github.com/topfunky/hpple">hpple</a>对html进行了解析，然后把对应的media元素和对应的位置做一个存储，显示的时候便可以根据需要来显示了。</p></li>
+</ul>
+
+
+<h4>最后说下<a href="http://code4app.com/article/cocoapods-install-usage">CocoaPods</a>里面用到的第三方类库</h4>
+
+<ul>
+<li><a href="https://github.com/rs/SDWebImage">SDWebImage</a>：图片加载</li>
+<li><a href="https://github.com/TTTAttributedLabel/TTTAttributedLabel">TTTAttributedLabel</a>：富文本的label，可点击链接</li>
+<li><a href="https://github.com/wezm/RegexKitLite">RegexKitLite</a>：正则表达式</li>
+<li><a href="https://github.com/topfunky/hpple">hpple</a>：html解析</li>
+<li><a href="https://github.com/jdg/MBProgressHUD">MBProgressHUD</a>：hud提示框</li>
+<li><a href="https://github.com/Sephiroth87/ODRefreshControl">ODRefreshControl</a>：下拉刷新</li>
+<li><a href="https://github.com/michaeltyson/TPKeyboardAvoiding">TPKeyboardAvoiding</a>：有文字输入时，能根据键盘是否弹出来调整自身显示内容的位置</li>
+<li><a href="https://github.com/jaydee3/JDStatusBarNotification">JDStatusBarNotification</a>：状态栏提示框</li>
+<li><a href="https://github.com/zwaldowski/BlocksKit">BlocksKit</a>：block工具包。将很多需要用delegate实现的方法整合成了block的形式</li>
+<li><a href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa</a>：基于响应式编程思想的oc实践（是个好东西呢）</li>
+</ul>
+
+
+<h4>License</h4>
+
+<p>Coding is available under the MIT license. See the LICENSE file for more info.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">刚刚</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-01-05T13:09:26+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:09 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/yuan-dai-ma/'>源代码</a>
+  
+</span>
+
+
+      <br>原文链接：<a href="http://www.superqq.com/blog/2015/01/05/coding-ios/">http://www.superqq.com/blog/2015/01/05/coding-ios/</a> <!-- 添加这一行代码 -->
+    </p>
+    
+      <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+    <span class="jiathis_txt">分享到：</span>
+    <a class="jiathis_button_tools_1"></a>
+    <a class="jiathis_button_tools_2"></a>
+    <a class="jiathis_button_tools_3"></a>
+    <a class="jiathis_button_tools_4"></a>
+    <a href="http://www.jiathis.com/share?uid=1983651" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+    <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+    var jiathis_config = {data_track_clickback:'true'};
+    </script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1401863435807252" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1984773"></script>
+<!-- UY END -->
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/01/05/iosda-shen-matttjie-zuo-afnetworking/" title="Previous Post: AFNetworking">&laquo; AFNetworking</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>最新文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/01/05/coding-ios/">Coding-iOS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/01/05/iosda-shen-matttjie-zuo-afnetworking/">AFNetworking</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/01/05/ios-slash-androidkai-fa-yi-dong-duan-xin-sdklie-biao/">iOS/Android开发移动短信SDK列表</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/01/05/ios-slash-androidkai-fa-ji-shi-tong-xun-sdklie-biao/">iOS/Android开发即时通讯SDK列表</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/01/04/ios-slash-androidkai-fa-ren-lian-shi-bie-sdklie-biao/">iOS/Android开发人脸识别SDK列表</a>
+      </li>
+    
+  </ul>
+</section>
+</section>
+<section>
+    <h1>About Me</h1>
+    <br/>
+    <p> Blogger, iOS开发, 创业者, 屌丝青年。<br/>
+    <br/>iOS开发工程师，曾开发今日·天下通，二维码商城等项目。
+    <br/>
+    <br/>
+    <br/>新浪微博: <a href='http://weibo.com/ligangnc' target='_blank'>李刚移动</a>
+        <span id="wb_follow_btn"></span>
+        <br/>
+        <br />我的<strong>&#8220;iOSDevTip&#8221;</strong>微信公众账号:
+        <br/>
+        <br/><img width="220px" src="http://www.superqq.com/images/getqrcode.jpg" />
+        </p>
+        </section>
+        
+    <br/>iOS群：
+    
+    <br/>iOS学习交流群：303868520
+    
+    <br/>北京iOS开发：339386098
+    
+    <br/>上海iOS开发：53758831
+    
+    <br/>广州iOS开发：156633209
+    
+    <br/>深圳iOS开发：317492908
+    
+    <br/>杭州iOS开发：218822587
+    
+    <br/>郑州iOS开发：66964077<section>
+    <h1>友情链接</h1>
+    <ul>
+        <li>
+            <a href="http://www.iswifting.com/forum.php" target="_blank" title="swift社区">swift社区</a>
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/iosdevtip" target="_blank" title="刚刚在线">CSDN</a>
+        </li>
+        <li>
+        <a href="http://user.qzone.qq.com/1606535851" target="_blank" title="刚刚在线">QQ空间</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+Copyright &copy; 2015 - 刚刚 
+<span class="credit">Powered by <a href="http://octopress.org" target="_blank">Octopress</a></span>
+ <span class="credit">, 感谢 <a href="http://gitcafe.com/signup?invited_by=tangqiaoboy" target="_blank">GitCafe</a> 为本站提供存储空间</span>
+
+</p>
+
+<script language="javascript" type="text/javascript" src="http://js.users.51.la/17443209.js"></script>
+<noscript><a href="http://www.51.la/?17443209" target="_blank"><img alt="&#x6211;&#x8981;&#x5566;&#x514D;&#x8D39;&#x7EDF;&#x8BA1;" src="http://img.users.51.la/17443209.asp" style="border:none" /></a></noscript>
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
