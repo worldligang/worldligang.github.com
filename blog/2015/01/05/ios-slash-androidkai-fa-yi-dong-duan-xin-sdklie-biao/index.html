@@ -5,14 +5,14 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS开发大众点评URL签名生成规则和SHA-1编码 - 刚刚在线</title>
+  <title>iOS/Android开发移动短信SDK列表 - 刚刚在线</title>
   <meta name="author" content="刚刚">
       <meta name="uyan_auth" content="d1112891bb" />
       <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="iOS开发大众点评URL签名生成规则和SHA-1编码">
-  <meta name="keywords" content="iOS, URL签名, 大众点评API, iOS开发, gcd, cocoapods, 队列, 个人博客, 刚刚在线">
+  <meta name="description" content="iOS/Android开发移动短信SDK列表">
+  <meta name="keywords" content="移动短信, 移动短信SDK, Mob免费短信验证码, Mob, 免费短信验证码, 威达手机号码验证, 威达, 机号码验证, 新浪SAE短信服务, 短信服务, 新浪SAE短信, 电信天翼WEB短信API能力接口, 电信天翼WEB短信, API能力接口, 联通Wo短信能力开放接口, 联通Wo短信,能力开放接口, 飞拓·掌中传媒, 飞拓, 掌中传媒, 天翼开放平台短消息, 天翼, 开放平台短消息, 三基时代, 3Gimes, iOS, iOS开发, Android, cocoapods, 队列, 个人博客, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -20,7 +20,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://worldligang.github.io/blog/2014/12/13/ioskai-fa-da-zhong-dian-ping-urlqian-ming-sheng-cheng-gui-ze-he-sha-1bian-ma">
+  <link rel="canonical" href="http://worldligang.github.io/blog/2015/01/05/ios-slash-androidkai-fa-yi-dong-duan-xin-sdklie-biao">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -72,7 +72,7 @@
   
   <header>
     
-      <h1 class="entry-title">iOS开发大众点评URL签名生成规则和SHA-1编码</h1>
+      <h1 class="entry-title">iOS/Android开发移动短信SDK列表</h1>
     
     
       <p class="meta">
@@ -81,104 +81,74 @@
 
 
 
-<time class='entry-date' datetime='2014-12-13T13:52:29+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>1:52 pm</span></time>
+<time class='entry-date' datetime='2015-01-05T12:25:55+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:25 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p></br>
-URL签名生成规则</p>
+<div class="entry-content"><h3>Mob免费短信验证码</h3>
 
-<p>所有<a href="http://www.superqq.com/blog/2014/12/13/ioskai-fa-da-zhong-dian-ping-urlqian-ming-sheng-cheng-gui-ze-he-sha-1bian-ma/">大众点评API</a>的有效访问URL包括以下三个部分：
-1. 资源访问路径，如/v1/deal/find_deals;
-2. 请求参数：即API对应所需的参数名和参数值param=value，多个请求参数间用&amp;连接
-   如deal_id=1-85462&amp;appkey=00000；
-3. 签名串，由签名算法生成</p>
+<p><a href="http://mob.com/sms"target="_blank"title="进入官网">进入官网</a></p>
 
-<p>签名算法如下：
-1. 对除appkey以外的所有请求参数进行字典升序排列；
-2. 将以上排序后的参数表进行字符串连接，如key1value1key2value2key3value3&hellip;keyNvalueN；
-3. 将app key作为前缀，将app secret作为后缀，对该字符串进行SHA-1计算，并转换成16进制编码；
-4. 转换为全大写形式后即获得签名串</p>
+<p>开发者只需申请账号，APP内植入短信验证码SDK，简单设置后便可完美实现短信验证，同时也可实现通信录好友匹配功能，轻而易举实现短信验证服务。</p>
 
-<p>签名串获得后，将其作为sign参数附加到对应的URL中，即可正常访问API。</p>
+<h2></br></h2>
 
-<pre><code>注意：请保证HTTP请求数据编码务必为UTF-8格式，URL也务必为UTF-8编码格式。
-</code></pre>
+<h3>威达手机号码验证</h3>
 
-<p>具体调用示例请参见<a href="https://github.com/dianping/dianping-open-sdk"target="_blank"title="刚刚在线"><a href="https://github.com/dianping/dianping-open-sdk">https://github.com/dianping/dianping-open-sdk</a></a></p>
+<p><a href="http://www.yuxin168.com/PNVWebSite/index.html"target="_blank"title="进入官网">进入官网</a></p>
 
-<pre><code>+ (NSDictionary *)parseQueryString:(NSString *)query {
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:6];
-    NSArray *pairs = [query componentsSeparatedByString:@"&amp;"];
+<p>由于短信验证码会遇到发送不成功、到达太迟、易被软件拦截等种种弊端，威尔信达手机号码验证服务是一款不用向用户发送短信验证码，不用用户输入验证码，只要知道用户的手机号码和sim卡号码，通过电信网络自动完成号码验证的服务。</p>
 
-    for (NSString *pair in pairs) {
-        NSArray *elements = [pair componentsSeparatedByString:@"="];
+<h2></br></h2>
 
-        if ([elements count] &lt;= 1) {
-            return nil;
-        }
+<h3>新浪SAE短信服务</h3>
 
-        NSString *key = [[elements objectAtIndex:0] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSString *val = [[elements objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+<p><a href="http://sae.sina.com.cn"target="_blank"title="进入官网">进入官网</a></p>
 
-        [dict setObject:val forKey:key];
-    }
-    return dict;
-}
+<p>新浪无线短信服务是由新浪无线提供的综合性短信服务。通过该服务您可以给指定的手机发短信( 支持中国移动、中国联通、中国电信网络，短信到达率90%以上)；您发送的短信内容字数将不能超过72字(不含签名)。 短信服务属于收费服务，您可以使用付费云豆购买开通使用。</p>
 
+<h2></br></h2>
 
+<h3>电信天翼WEB短信API能力接口</h3>
 
-+ (NSString *)serializeURL:(NSString *)baseURL params:(NSDictionary *)params
-{
-    NSURL* parsedURL = [NSURL URLWithString:[baseURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    NSMutableDictionary *paramsDic = [NSMutableDictionary dictionaryWithDictionary:[self parseQueryString:[parsedURL query]]];
-    if (params) {
-        [paramsDic setValuesForKeysWithDictionary:params];
-    }
+<p><a href="http://open.189.cn/show-6-88-1.html"target="_blank"title="进入官网">进入官网</a></p>
 
-    NSMutableString *signString = [NSMutableString stringWithString:DIANPING_APP_KEY];
-    NSMutableString *paramsString = [NSMutableString stringWithFormat:@"appkey=%@", DIANPING_APP_KEY];
-    NSArray *sortedKeys = [[paramsDic allKeys] sortedArrayUsingSelector: @selector(compare:)];
-    for (NSString *key in sortedKeys) {
-        [signString appendFormat:@"%@%@", key, [paramsDic objectForKey:key]];
-        [paramsString appendFormat:@"&amp;%@=%@", key, [paramsDic objectForKey:key]];
-    }
-    [signString appendString:DIANPING_APP_Secret];
-    unsigned char digest[CC_SHA1_DIGEST_LENGTH];
-    NSData *stringBytes = [signString dataUsingEncoding: NSUTF8StringEncoding];
-    if (CC_SHA1([stringBytes bytes], (long)[stringBytes length], digest)) {
-        /* SHA-1 hash has been calculated and stored in 'digest'. */
-        NSMutableString *digestString = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH];
-        for (int i=0; i&lt;CC_SHA1_DIGEST_LENGTH; i++) {
-            unsigned char aChar = digest[i];
-            [digestString appendFormat:@"%02X", aChar];
-        }
-        [paramsString appendFormat:@"&amp;sign=%@", [digestString uppercaseString]];
-        return [NSString stringWithFormat:@"%@://%@%@?%@", [parsedURL scheme], [parsedURL host], [parsedURL path], [paramsString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    } else {
-        return nil;
-    }
-}
-</code></pre>
+<p>中国电信天翼开放平台宣布最新推出免费WEB短信API能力接口，向第三方开发者提供免费WEB短信推送的能力。</p>
 
-<p>直接调用这个方法即可签名成功，+ (NSString <em>)serializeURL:(NSString </em>)baseURL params:(NSDictionary *)params</p>
+<h2></br></h2>
 
-<pre><code>NSString *url = [LGClient serializeURL:string params:nil];
+<h3>联通Wo短信能力开放接口</h3>
 
-//string是大众点评的需要请求的接口
-</code></pre>
+<p><a href="http://open.wo.com.cn/aep/index.html"target="_blank"title="进入官网">进入官网</a></p>
 
-<p>这个url就可以用来请求大众点评数据了</p>
+<p>系统提供短信能力开放接口，通过联通能力共享平台，互联网应用能够向终端用户发送短信。</p>
 
-<p>我的微信公众号：</p>
+<h2></br></h2>
 
-<pre><code>iOSDevTip
-</code></pre>
+<h3>飞拓·掌中传媒</h3>
 
-<p>我也会将大家分享的方法发到iOS开发微信公众账号：iOSDevTip 里面，分享给更多iOS开发者。</p>
+<p><a href="http://www.groupsms.cn/"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>南京飞拓短信验证码接口/订单通知短信专用接口，具有全国全网发送、3-5秒内响应、100%到达、通道稳定免维护等优势。专为网站短信验证码、网站订单通知等互动应用开设。</p>
+
+<h2></br></h2>
+
+<h3>天翼开放平台短消息</h3>
+
+<p><a href="http://open.189.cn/index.php?m=ability&c=index&a=show&id=359"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>天翼短消息包括：模板短信、短信验证码、发送免费web短息。</p>
+
+<h2></br></h2>
+
+<h3>三基时代</h3>
+
+<p><a href="http://www.3gimes.com"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>三基时代（3Gimes）成立于2007年5月，早期专注于移动增值信息服务（SI），是中国移动、联通、电信的高级战略合伙伙伴；目前专注于验证码短信、移动互联网的统一通讯融合平台。</p>
 </div>
 
 
@@ -194,17 +164,17 @@ URL签名生成规则</p>
 
 
 
-<time class='entry-date' datetime='2014-12-13T13:52:29+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>1:52 pm</span></time>
+<time class='entry-date' datetime='2015-01-05T12:25:55+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:25 pm</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/ioskai-fa/'>ios开发</a>
+    <a class='category' href='/blog/categories/sdkfu-wu/'>sdk服务</a>
   
 </span>
 
 
-      <br>原文链接：<a href="http://www.superqq.com/blog/2014/12/13/ioskai-fa-da-zhong-dian-ping-urlqian-ming-sheng-cheng-gui-ze-he-sha-1bian-ma/">http://www.superqq.com/blog/2014/12/13/ioskai-fa-da-zhong-dian-ping-urlqian-ming-sheng-cheng-gui-ze-he-sha-1bian-ma/</a> <!-- 添加这一行代码 -->
+      <br>原文链接：<a href="http://www.superqq.com/blog/2015/01/05/ios-slash-androidkai-fa-yi-dong-duan-xin-sdklie-biao/">http://www.superqq.com/blog/2015/01/05/ios-slash-androidkai-fa-yi-dong-duan-xin-sdklie-biao/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -229,10 +199,8 @@ URL签名生成规则</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/12/11/nsmutableurlrequesthe-nsurlconnectionyong-postfang-shi-shang-chuan-zhao-pian/" title="Previous Post: NSMutableURLRequest和NSURLConnection用Post方式上传照片">&laquo; NSMutableURLRequest和NSURLConnection用Post方式上传照片</a>
+        <a class="basic-alignment left" href="/blog/2015/01/05/ios-slash-androidkai-fa-ji-shi-tong-xun-sdklie-biao/" title="Previous Post: iOS/Android开发即时通讯SDK列表">&laquo; iOS/Android开发即时通讯SDK列表</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/12/23/ios-7zhong-shi-xian-mo-hu-xiao-guo-jiao-cheng/" title="Next Post: iOS 7中实现模糊效果教程">iOS 7中实现模糊效果教程 &ra/categories.htmlquo;</a>
       
     </p>
   </footer>
