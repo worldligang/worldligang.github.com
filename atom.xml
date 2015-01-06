@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-01-06T13:46:50+08:00</updated>
+  <updated>2015-01-06T13:53:46+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -12,6 +12,232 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Pop]]></title>
+    <link href="http://worldligang.github.io/blog/2015/01/06/pop/"/>
+    <updated>2015-01-06T13:52:18+08:00</updated>
+    <id>http://worldligang.github.io/blog/2015/01/06/pop</id>
+    <content type="html"><![CDATA[<p> <a href="https://github.com/facebook/pop.git"target="_blank"title="源代码">源代码</a></p>
+
+<p><img src="https://github.com/facebook/pop/blob/master/Images/pop.gif?raw=true" alt="pop" /></p>
+
+<p>Pop is an extensible animation engine for iOS and OS X. In addition to basic static animations, it supports spring and decay dynamic animations, making it useful for building realistic, physics-based interactions. The API allows quick integration with existing Objective-C codebases and enables the animation of any property on any object. It&rsquo;s a mature and well-tested framework that drives all the animations and transitions in <a href="http://www.facebook.com/paper">Paper</a>.</p>
+
+<p><a href="https://travis-ci.org/facebook/pop"><img src="https://travis-ci.org/facebook/pop.svg" alt="Build Status" /></a></p>
+
+<h2>Installation</h2>
+
+<p>Pop is available on <a href="http://cocoapods.org">CocoaPods</a>. Just add the following to your project Podfile:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">pod</span> <span class="s1">&#39;pop&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 1.0&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Alternatively, you can add the project to your workspace and adopt the provided configuration files or manually copy the files under the pop subdirectory into your project. If installing manually, ensure the C++ standard library is also linked by including <code>-lc++</code> to your project linker flags.</p>
+
+<h2>Usage</h2>
+
+<p>Pop adopts the Core Animation explicit animation programming model. Use by including the following import:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &lt;POP/POP.h&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Start, Stop &amp; Update</h3>
+
+<p>To start an animation, add it to the object you wish to animate:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">POPSpringAnimation</span> <span class="o">*</span><span class="n">anim</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPSpringAnimation</span> <span class="n">animation</span><span class="p">];</span>
+</span><span class='line'><span class="p">...</span>
+</span><span class='line'><span class="p">[</span><span class="n">layer</span> <span class="nl">pop_addAnimation</span><span class="p">:</span><span class="n">anim</span> <span class="nl">forKey</span><span class="p">:</span><span class="s">@&quot;myKey&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To stop an animation, remove it from the object referencing the key specified on start:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">layer</span> <span class="nl">pop_removeAnimationForKey</span><span class="p">:</span><span class="s">@&quot;myKey&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The key can also be used to query for the existence of an animation. Updating the toValue of a running animation can provide the most seamless way to change course:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">anim</span> <span class="o">=</span> <span class="p">[</span><span class="n">layer</span> <span class="nl">pop_animationForKey</span><span class="p">:</span><span class="s">@&quot;myKey&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">anim</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="cm">/* update to value to new destination */</span>
+</span><span class='line'>  <span class="n">anim</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="l">@(</span><span class="mf">42.0</span><span class="l">)</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>  <span class="cm">/* create and start a new animation */</span>
+</span><span class='line'>  <span class="p">....</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>While a layer was used in the above examples, the Pop interface is implemented as a category addition on NSObject. Any NSObject or subclass can be animated.</p>
+
+<h3>Types</h3>
+
+<p>There are four concrete animation types: spring, decay, basic and custom.</p>
+
+<p>Spring animations can be used to give objects a delightful bounce. In this example, we use a spring animation to animate a layer&rsquo;s bounds from its current value to (0, 0, 400, 400):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">POPSpringAnimation</span> <span class="o">*</span><span class="n">anim</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPSpringAnimation</span> <span class="nl">animationWithPropertyNamed</span><span class="p">:</span><span class="n">kPOPLayerBounds</span><span class="p">];</span>
+</span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGRect</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">400</span><span class="p">)];</span>
+</span><span class='line'><span class="p">[</span><span class="n">layer</span> <span class="nl">pop_addAnimation</span><span class="p">:</span><span class="n">anim</span> <span class="nl">forKey</span><span class="p">:</span><span class="s">@&quot;size&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Decay animations can be used to gradually slow an object to a halt. In this example, we decay a layer&rsquo;s positionX from it&rsquo;s current value and velocity 1000pts per second:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">POPDecayAnimation</span> <span class="o">*</span><span class="n">anim</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPDecayAnimation</span> <span class="nl">animationWithPropertyNamed</span><span class="p">:</span><span class="n">kPOPLayerPositionX</span><span class="p">];</span>
+</span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">velocity</span> <span class="o">=</span> <span class="l">@(</span><span class="mf">1000.</span><span class="l">)</span><span class="p">;</span>
+</span><span class='line'><span class="p">[</span><span class="n">layer</span> <span class="nl">pop_addAnimation</span><span class="p">:</span><span class="n">anim</span> <span class="nl">forKey</span><span class="p">:</span><span class="s">@&quot;slide&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Basic animations can be used to interpolate values over a specified time period. To use an ease-in ease-out animation to animate a view&rsquo;s alpha from 0.0 to 1.0 over the default duration:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">POPBasicAnimation</span> <span class="o">*</span><span class="n">anim</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPBasicAnimation</span> <span class="nl">animationWithPropertyNamed</span><span class="p">:</span><span class="n">kPOPViewAlpha</span><span class="p">];</span>
+</span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">timingFunction</span> <span class="o">=</span> <span class="p">[</span><span class="bp">CAMediaTimingFunction</span> <span class="nl">functionWithName</span><span class="p">:</span><span class="n">kCAMediaTimingFunctionEaseInEaseOut</span><span class="p">];</span>
+</span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">fromValue</span> <span class="o">=</span> <span class="l">@(</span><span class="mf">0.0</span><span class="l">)</span><span class="p">;</span>
+</span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="l">@(</span><span class="mf">1.0</span><span class="l">)</span><span class="p">;</span>
+</span><span class='line'><span class="p">[</span><span class="n">view</span> <span class="nl">pop_addAnimation</span><span class="p">:</span><span class="n">anim</span> <span class="nl">forKey</span><span class="p">:</span><span class="s">@&quot;fade&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>POPCustomAnimation</code> makes creating custom animations and transitions easier by handling CADisplayLink and associated time-step management. See header for more details.</p>
+
+<h3>Properties</h3>
+
+<p>The property animated is specified by the <code>POPAnimatableProperty</code> class. In this example we create a spring animation and explicitly set the animatable property corresponding to <code>-[CALayer bounds]</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">POPSpringAnimation</span> <span class="o">*</span><span class="n">anim</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPSpringAnimation</span> <span class="n">animation</span><span class="p">];</span>
+</span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">property</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPAnimatableProperty</span> <span class="nl">propertyWithName</span><span class="p">:</span><span class="n">kPOPLayerBounds</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The framework provides many common layer and view animatable properties out of box. You can animate a custom property by creating a new instance of the class. In this example, we declare a custom volume property:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">prop</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPAnimatableProperty</span> <span class="nl">propertyWithName</span><span class="p">:</span><span class="s">@&quot;com.foo.radio.volume&quot;</span> <span class="nl">initializer</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">POPMutableAnimatableProperty</span> <span class="o">*</span><span class="n">prop</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// read value</span>
+</span><span class='line'>  <span class="n">prop</span><span class="p">.</span><span class="n">readBlock</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">obj</span><span class="p">,</span> <span class="n">CGFloat</span> <span class="n">values</span><span class="p">[])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">obj</span> <span class="n">volume</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>  <span class="c1">// write value</span>
+</span><span class='line'>  <span class="n">prop</span><span class="p">.</span><span class="n">writeBlock</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">obj</span><span class="p">,</span> <span class="k">const</span> <span class="n">CGFloat</span> <span class="n">values</span><span class="p">[])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">obj</span> <span class="nl">setVolume</span><span class="p">:</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]];</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>  <span class="c1">// dynamics threshold</span>
+</span><span class='line'>  <span class="n">prop</span><span class="p">.</span><span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">;</span>
+</span><span class='line'><span class="p">}];</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">property</span> <span class="o">=</span> <span class="n">prop</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For a complete listing of provided animatable properties, as well more information on declaring custom properties see <code>POPAnimatableProperty.h</code>.</p>
+
+<h3>Debugging</h3>
+
+<p>Here are a few tips when debugging. Pop obeys the Simulator&rsquo;s Toggle Slow Animations setting. Try enabling it to slow down animations and more easily observe interactions.</p>
+
+<p>Consider naming your animations. This will allow you to more easily identify them when referencing them, either via logging or in the debugger:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">@&quot;springOpen&quot;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Each animation comes with an associated tracer. The tracer allows you to record all animation-related events, in a fast and efficient manner, allowing you to query and analyze them after animation completion. The below example starts the tracer and configures it to log all events on animation completion:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">POPAnimationTracer</span> <span class="o">*</span><span class="n">tracer</span> <span class="o">=</span> <span class="n">anim</span><span class="p">.</span><span class="n">tracer</span><span class="p">;</span>
+</span><span class='line'><span class="n">tracer</span><span class="p">.</span><span class="n">shouldLogAndResetOnCompletion</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'><span class="p">[</span><span class="n">tracer</span> <span class="n">start</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>See <code>POPAnimationTracer.h</code> for more details.</p>
+
+<h2>Testing</h2>
+
+<p>Pop has extensive unit test coverage. To install test dependencies, navigate to the root pop directory and type:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>pod install
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Assuming CocoaPods is installed, this will include the necessary OCMock dependency to the unit test targets.</p>
+
+<h2>Resources</h2>
+
+<p>A collection of links to external resources that may prove valuable:</p>
+
+<ul>
+<li><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/CoreAnimation_guide/Introduction/Introduction.html">Apple – Core Animation Programming Guide</a></li>
+<li><a href="http://tapity.com/tutorial-getting-started-with-pop/">Tapity Tutorial – Getting Started with Pop</a></li>
+<li><a href="http://codeplease.io/playing-with-pop-ii/">Codeplease – Bridging the gesture to animation gap</a></li>
+<li><a href="http://codeplease.io/playing-with-pop-iii/">Codeplease – Playing with Pop (iii)</a></li>
+<li><a href="http://codeplease.io/playing-with-pop-v/">Codeplease – Adding a custom animatable property</a></li>
+<li><a href="https://github.com/matthewcheok/POP-MCAnimate">POP-MCAnimate – Concise syntax for the Pop animation framework</a></li>
+<li><a href="https://github.com/facebook/tweaks">Tweaks – Easily adjust parameters for iOS apps in development</a></li>
+<li><a href="http://facebook.github.io/rebound/">Rebound – Spring Animations for Android</a></li>
+</ul>
+
+
+<h2>Contributing</h2>
+
+<p>See the CONTRIBUTING file for how to help out.</p>
+
+<h2>License</h2>
+
+<p>Pop is released under a BSD License. See LICENSE file for details.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[VVDocumenter-Xcode]]></title>
@@ -194,7 +420,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 <p>本人是因为兴趣业余时间来开发推聊，考虑到 IM 占用的时间太多，所以请谅解，不提供任何 IM 的沟通方式。希望大家以如下的方式交流：</p>
 
 <ul>
-<li>Email:  <a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#x70;&#x75;&#115;&#x68;&#116;&#x61;&#x6c;&#107;&#x2e;&#x6f;&#x72;&#x67;&#64;&#103;&#x6d;&#97;&#x69;&#x6c;&#x2e;&#x63;&#111;&#109;">&#112;&#117;&#115;&#x68;&#116;&#x61;&#108;&#107;&#x2e;&#111;&#x72;&#x67;&#x40;&#x67;&#109;&#97;&#105;&#x6c;&#x2e;&#x63;&#111;&#109;</a></li>
+<li>Email:  <a href="&#109;&#97;&#105;&#108;&#x74;&#111;&#58;&#x70;&#117;&#x73;&#x68;&#x74;&#x61;&#108;&#107;&#x2e;&#x6f;&#x72;&#103;&#x40;&#103;&#x6d;&#97;&#105;&#108;&#x2e;&#x63;&#111;&#109;">&#x70;&#117;&#115;&#x68;&#116;&#x61;&#108;&#x6b;&#x2e;&#111;&#x72;&#103;&#x40;&#x67;&#x6d;&#x61;&#x69;&#108;&#x2e;&#99;&#x6f;&#109;</a></li>
 <li>项目Wiki: <a href="https://github.com/good-life/PushTalk/wiki">https://github.com/good-life/PushTalk/wiki</a></li>
 <li>项目Bug: <a href="https://github.com/good-life/PushTalk/issues">https://github.com/good-life/PushTalk/issues</a></li>
 <li>PushTalk频道：<code>pushtalk</code>, <code>报告bug</code>, <code>新功能讨论</code> 等</li>
@@ -2876,262 +3102,6 @@ git rm test.txt
 
 <pre><code>iOSDevTip
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[CocoaPods详解之----制作篇]]></title>
-    <link href="http://worldligang.github.io/blog/2014/11/18/cocoapodsxiang-jie-zhi-zhi-zuo-pian/"/>
-    <updated>2014-11-18T09:33:20+08:00</updated>
-    <id>http://worldligang.github.io/blog/2014/11/18/cocoapodsxiang-jie-zhi-zhi-zuo-pian</id>
-    <content type="html"><![CDATA[<p>学会使用别人的Pods依赖库以后，你一定对创建自己的依赖库跃跃欲试，今天就来揭开Pods依赖库创建过程的神秘面纱。整个创建过程都以我实现的一个名称为WZMarqueeView跑马灯效果的view为例，步骤如下：</p>
-
-<p><div class="entry-content"><h3>一、创建自己的github仓库</h3></p>
-
-<p><a href="http://www.superqq.com/">CocoaPods</a>都托管在github上(官方链接为：<a href="https://github.com/CocoaPods">https://github.com/CocoaPods</a>)，所有的Pods依赖库也都依赖github，因此第一步我们需要创建一个属于自己的github仓库。仓库创建界面如下图：
-<img src="http://img.blog.csdn.net/20140304101538437?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd3p6dmljdG9yeQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"></p>
-
-<p>上图中标了序号的共6处，对应的说明如下：
-1、Repository name
-仓库名称，这里写成WZMarqueeView，必填的；
-2、Description
-仓库的描述信息，可选的；
-3、仓库的公开性
-这里只能选Public，一个是因为Private是要money的，再一个Private别人看不到还共享个毛；
-4、是否创建一个默认的README文件
-一个完整地仓库，都需要README说明文档，建议选上。当然不嫌麻烦的话你也可以后面再手动创建一个；
-5、是否添加.gitignore文件
-.gitignore文件里面记录了若干中文件类型，凡是该文件包含的文件类型，git都不会将其纳入到版本管理中。是否选择看个人需要；
-6、license类型
-正规的仓库都应该有一个license文件，Pods依赖库对这个文件的要求更严，是必须要有的。因此最好在这里让github创建一个，也可以自己后续再创建。我使用的license类型是MIT。</p>
-
-<p>上面的各项都填写完毕后，点击Create repository按钮即可，创建成功地界面如图：
-<img src="http://img.blog.csdn.net/20140304103428187?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd3p6dmljdG9yeQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"></p>
-
-<p>到这，仓库创建过程就结束了。</p>
-
-<p><div class="entry-content"><h3>二、clone仓库到本地</h3></p>
-
-<p>为了便于向仓库中删减内容，需要先将仓库clone到本地，操作方式有多种，推荐使用命令行：
-[objc] view plaincopy在CODE上查看代码片派生到我的代码片</p>
-
-<pre><code>$ git clone https://github.com/wangzz/WZMarqueeView.git  
-</code></pre>
-
-<p>操作完成后，github上对应的文件都会拷贝到本地，目录结构为：
-<img src="http://img.blog.csdn.net/20140304110718828?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd3p6dmljdG9yeQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"></p>
-
-<p>github上仓库中的.gitignore文件是以.开头的隐藏文件，因此这里只能看到两个。
-后续我们的所有文件增、删、改都在这个目录下进行。</p>
-
-<p><div class="entry-content"><h3>三、向本地git仓库中添加创建Pods依赖库所需文件</h3></p>
-
-<p>注意：以下描述的文件都要放在步骤二clone到本地的git仓库的根目录下面。
-1、后缀为.podspec文件
-该文件为Pods依赖库的描述文件，每个Pods依赖库必须有且仅有那么一个描述文件。文件名称要和我们想创建的依赖库名称保持一致，我的WZMarqueeView依赖库对应的文件名为WZMarqueeView.podspec。</p>
-
-<p>1.1 podspec文件内容
-WZMarqueeView.podspec的保存内容为：
-[ruby] view plaincopy在CODE上查看代码片派生到我的代码片</p>
-
-<pre><code>Pod::Spec.new do |s|  
-  s.name             = "WZMarqueeView"  
-  s.version          = "1.0.0"  
-  s.summary          = "A marquee view used on iOS."  
-  s.description      = &lt;&lt;-DESC  
-                       It is a marquee view used on iOS, which implement by Objective-C.  
-                       DESC  
-  s.homepage         = "https://github.com/wangzz/WZMarqueeView"  
-  # s.screenshots      = "www.example.com/screenshots_1", "www.example.com/screenshots_2"  
-  s.license          = 'MIT'  
-  s.author           = { "王中周" =&gt; "wzzvictory_tjsd@163.com" }  
-  s.source           = { :git =&gt; "https://github.com/wangzz/WZMarqueeView.git", :tag =&gt; s.version.to_s }  
-  # s.social_media_url = 'https://twitter.com/NAME'  
-
-  s.platform     = :ios, '4.3'  
-  # s.ios.deployment_target = '5.0'  
-  # s.osx.deployment_target = '10.7'  
-  s.requires_arc = true  
-
-  s.source_files = 'WZMarqueeView/*'  
-  # s.resources = 'Assets'  
-
-  # s.ios.exclude_files = 'Classes/osx'  
-  # s.osx.exclude_files = 'Classes/ios'  
-  # s.public_header_files = 'Classes/**/*.h'  
-  s.frameworks = 'Foundation', 'CoreGraphics', 'UIKit'  
-
-end  
-</code></pre>
-
-<p>该文件是ruby文件，里面的条目都很容易知道含义。
-其中需要说明的又几个参数：
-①s.license
-Pods依赖库使用的license类型，大家填上自己对应的选择即可。
-②s.source_files
-表示源文件的路径，注意这个路径是相对podspec文件而言的。
-③s.frameworks
-需要用到的frameworks，不需要加.frameworks后缀。</p>
-
-<p>1.2 如何创建podspec文件
-大家创建自己的podspec文件可以有两个途径：
-①copy我的podspec文件然后修改对应的参数，推荐使用这种方式。
-②执行以下创建命令：
-[ruby] view plaincopy在CODE上查看代码片派生到我的代码片</p>
-
-<pre><code>$ pod spec create WZMarqueeView  
-</code></pre>
-
-<p>也会创建名为WZMarqueeView.podspec的文件。但是打开创建完的文件你就会发现里面的东西太多了，很多都是我们不需要的。</p>
-
-<p>2、LICENSE文件
-CocoaPods强制要求所有的Pods依赖库都必须有license文件，否则验证不会通过。license的类型有很多种，详情可以参考网站tl;dr Legal。在创建github仓库的时候，我已经选择了MIT类型的license。</p>
-
-<p>3、主类文件
-创建Pods依赖库就是为了方便别人使用我们的成果，比如我想共享给大家的WZMarqueeView类，是我想提供给广大用户使用的，这个类自然是必不可少的。我把这个类包含的两个文件放到一个名称为WZMarqueeView的文件夹中，对应的目录结构如图：
-<img src="http://img.blog.csdn.net/20140304094406921?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd3p6dmljdG9yeQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"></p>
-
-<p>里面包含两个文件：WZMarqueeView.h和WZMarqueeView.m</p>
-
-<p>4、demo工程
-为了快速地教会别人使用我们的Pods依赖库，通常需要提供一个demo工程。我创建的demo工程放到了一个名为WZMarqueeViewDemo的文件夹中，该目录包含的文件如下图所示：
-<img src="http://img.blog.csdn.net/20140304095547765?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd3p6dmljdG9yeQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"></p>
-
-<p>5、README.md
-使用github的人应该都熟悉这个文件，它是一个成功github仓库必不可少的一部分，使用的是markdown标记语言，用于对仓库的详细说明。</p>
-
-<p>以上所说的5个是创建Pods依赖库所需最基础的文件，其中1、2、3是必需的，4、5是可选但强烈推荐创建的。
-添加完这些文件以后，我的github本地仓库目录就变成了下图所示的样子：
-<img src="http://img.blog.csdn.net/20140304120124578?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd3p6dmljdG9yeQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"></p>
-
-<p><div class="entry-content"><h3>四、提交修改文件到github</h3></p>
-
-<p>经过步骤三，向本地的git仓库中添加了不少文件，现在需要将它们提交到github仓库中去。提交过程分以下几步：
-1、pod验证
-执行以下命令：
-[ruby] view plaincopy在CODE上查看代码片派生到我的代码片</p>
-
-<pre><code>$ set the new version to 1.0.0  
-$ set the new tag to 1.0.0  
-</code></pre>
-
-<p>这两条命令是为pod添加版本号并打上tag。然后执行pod验证命令：
-[ruby] view plaincopy在CODE上查看代码片派生到我的代码片</p>
-
-<pre><code>$ pod lib lint  
-</code></pre>
-
-<p>如果一切正常，这条命令执行完后会出现下面的输出：
-[ruby] view plaincopy在CODE上查看代码片派生到我的代码片</p>
-
-<pre><code>-&gt; WZMarqueeView (1.0.0)  
-
-ZMarqueeView passed validation.  
-</code></pre>
-
-<p>到此，pod验证就结束了。
-需要说明的是，在执行pod验证命令的时候，打印出了任何warning或者error信息，验证都会失败！如果验证出现异常，打印的信息会很详细，大家可以根据对应提示做出修改。</p>
-
-<p>2、本地git仓库修改内容上传到github仓库
-依次执行以下命令：
-[ruby] view plaincopy在CODE上查看代码片派生到我的代码片</p>
-
-<pre><code>$ git add -A &amp;&amp; git commit -m "Release 1.0.0."  
-$ git tag '1.0.0'  
-$ git push --tags  
-$ git push origin master  
-</code></pre>
-
-<p>上述命令均属git的范畴，这里不多述。如果一切正常，github上就应该能看到自己刚添加的内容了。如下图所示：
-<img src="http://img.blog.csdn.net/20140304144407281?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd3p6dmljdG9yeQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"></p>
-
-<p><div class="entry-content"><h3>五、上传podspec文件到CocoaPods官方仓库中</h3></p>
-
-<p>经过前边的四步操作，你可能以为已经结束了，不幸的是还早着呢。
-要想一个Pods依赖库真正可用，还需要做最后一步操作，将我们刚才生成的podspec文件上传到CocoaPods官方的Specs仓库中，链接为：<a href="https://github.com/CocoaPods/Specs">https://github.com/CocoaPods/Specs</a>
-打开这个链接你就会发现，原来我们能使用的，以及我们使用pod search命令能搜索到的所有Pods依赖库都会把它们的podspec文件上传到这个仓库中，也就是说，只有将我们的podspec文件上传到这个仓库中以后，才能成为一个真正的Pods依赖库，别人才能正常使用！
-按照git的规则，要想向别人的仓库中添加文件，必须先fork一份别人的仓库，做完相应地修改后，在push给仓库的原作者，等到作者审核通过，然后合并到原来的仓库中。
-流程明白了以后，自然知道该怎么干了：
-1、fork一份CocoaPods官方的Specs仓库
-进入到刚才的官方仓库链接中，点击屏幕右上角的fork按钮，如下图：
-<img src="http://img.blog.csdn.net/20140304150419906?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd3p6dmljdG9yeQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"></p>
-
-<p>然后大家会发现自己名下会多一份仓库的分支。比如我的分支为：</p>
-
-<p>2、将fork的仓库clone到本地
-执行以下命令：
-[ruby] view plaincopy在CODE上查看代码片派生到我的代码片</p>
-
-<pre><code>$ git clone https://github.com/wangzz/Specs.git  
-</code></pre>
-
-<p>注意，大家需要将对应的仓库地址换成自己的。
-这个仓库有点大，需要有耐心啊。</p>
-
-<p>3、将自己的podspec文件添加到本地Specs仓库中
-Specs仓库clone到本地后，会放到一个名为Specs的文件夹中。podspec文件在Specs仓库中的保存原则是：
-Pods依赖库同名文件夹&mdash;>版本号同名文件夹&mdash;>podspec文件
-照此原则，我需要在Specs文件夹下建立一个名为WZMarqueeView的文件夹，然后进入到WZMarqueeView文件夹下，建立一个名称为1.0.0的文件夹，最后进入到1.0.0这个文件夹下，并且将之前创建好的WZMarqueeView.podspec文件拷贝进来。
-不难理解，如果以后有对WZMarqueeView类的升级，就在WZMarqueeView文件夹下建立对应版本名称的文件夹，用于保存对应版本的podspec文件即可。
-这些操作完成后，目录层次结构如下所示：
-<img src="http://img.blog.csdn.net/20140304151710187?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd3p6dmljdG9yeQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"></p>
-
-<p>4、上传本地Specs仓库中的修改到github仓库
-执行以下命令：
-[ruby] view plaincopy在CODE上查看代码片派生到我的代码片</p>
-
-<pre><code>$ git add -A &amp;&amp; git commit -m "Add WZMarqueeView podspec file"  
-$ git push origin master  
-</code></pre>
-
-<p>成功以后就能在github上自己fork的Specs仓库中看到刚上传的文件了。</p>
-
-<p>5、将在自己fork的Specs上做的修改pull给CocoaPods官方的Specs仓库
-进入到自己fork的Specs仓库中，会看到屏幕左上角有一个绿色按钮：
-<img src="http://img.blog.csdn.net/20140304152827781?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd3p6dmljdG9yeQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"></p>
-
-<p>该按钮点进去以后会有如下图所示的界面：
-<img src="http://img.blog.csdn.net/20140304152926843?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd3p6dmljdG9yeQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"></p>
-
-<p>点击图中的绿色Create Pull Request按钮，即可将我们fork的Specs上做的修改pull给CocoaPods官方的Specs仓库。</p>
-
-<p>到这一步后，剩下的工作就只有等了，等待CocoaPods的维护人员审核并将我们pull上去的修改合并到官方的Specs仓库中，这个过程通常会有一天左右的等待时间。如果有任何消息，比如审核不通过，或者审核通过了，CocoaPods官方都会发邮件通知的。
-等到审核通过的时候，我们就能在官方的Specs仓库中看到自己上传的文件夹了。</p>
-
-<p>6、查看审核进度
-当然我们也能查看审核进度，打开这个链接：<a href="https://github.com/CocoaPods/Specs/pulls%EF%BC%8C%E8%BF%99%E9%87%8C%E8%83%BD%E7%9C%8B%E5%88%B0%E6%89%80%E6%9C%89%E7%9A%84Specs%E4%BB%93%E5%BA%93pull%E8%AF%B7%E6%B1%82%EF%BC%8C%E5%A6%82%E4%B8%8B%E5%9B%BE%EF%BC%9A">https://github.com/CocoaPods/Specs/pulls%EF%BC%8C%E8%BF%99%E9%87%8C%E8%83%BD%E7%9C%8B%E5%88%B0%E6%89%80%E6%9C%89%E7%9A%84Specs%E4%BB%93%E5%BA%93pull%E8%AF%B7%E6%B1%82%EF%BC%8C%E5%A6%82%E4%B8%8B%E5%9B%BE%EF%BC%9A</a>
-<img src="http://img.blog.csdn.net/20140304153818828?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd3p6dmljdG9yeQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"></p>
-
-<p>红圈标识的就是我刚才pull上来的请求，点进去以后就能看到对应的审核进度。</p>
-
-<p><div class="entry-content"><h3>六、查看我们自己创建的Pods依赖库</h3></p>
-
-<p>如果收到了CocoaPods官方发过来的审核通过邮件以后，你可能很着急的想在自己的电脑上执行pod search命令，看看能不能搜索到自己创建的Pods依赖库。不过你肯定会失望的，因为还需要执行一条命令才能在我们的本地电脑上使用search命令搜索到我们的依赖库：
-[ruby] view plaincopy在CODE上查看代码片派生到我的代码片</p>
-
-<pre><code>$ pod setup  
-</code></pre>
-
-<p>在我的<a href="http://www.superqq.com/">CocoaPods</a>系列教程中的第一篇：CocoaPods详解之&mdash;-进阶篇中的最后部分介绍过这条命令，它会将所有的Pods依赖库tree跟新到本地。执行完这条命令，再去执行:
-[ruby] view plaincopy在CODE上查看代码片派生到我的代码片</p>
-
-<pre><code>$ pod search WZMarqueeView  
-</code></pre>
-
-<p>就能显示出对应的介绍信息了！</p>
-
-<p>说了那么多，到这里整个Pods依赖库创建过程才算真正结束！小伙伴们，你成功了吗？？？遇到问题还请留言。</p>
-
-<p><div class="entry-content"><h3>七、参考文档</h3></p>
-
-<p>1、<a href="http://guides.cocoapods.org">http://guides.cocoapods.org</a></p>
-
-<p>iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-
-<p>文章来自： <a href="http://blog.csdn.net/wzzvictory/article/details/20067595"target="_blank"title="CocoaPods详解之----制作篇 ">CocoaPods详解之&mdash;-制作篇 </a></p>
 ]]></content>
   </entry>
   
