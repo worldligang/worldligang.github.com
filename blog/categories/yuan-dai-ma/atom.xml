@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 源代码 | 刚刚在线]]></title>
   <link href="http://worldligang.github.io/blog/categories/yuan-dai-ma/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-01-07T14:57:14+08:00</updated>
+  <updated>2015-01-07T15:11:52+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -12,6 +12,141 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[PaperFold-for-iOS]]></title>
+    <link href="http://worldligang.github.io/blog/2015/01/07/paperfold-for-ios/"/>
+    <updated>2015-01-07T14:55:39+08:00</updated>
+    <id>http://worldligang.github.io/blog/2015/01/07/paperfold-for-ios</id>
+    <content type="html"><![CDATA[<p> <a href="https://github.com/honcheng/PaperFold-for-iOS.git"target="_blank"title="源代码">源代码</a></p>
+
+<h1>PaperFold for iOS</h1>
+
+<p>PaperFold is a simple iOS control that allows hiding of views on the left and right side of the screen by dragging the middle view.
+The left view supports only 1 fold. The right view supports variable number of folds.</p>
+
+<p><img width=150 src="https://github.com/honcheng/PaperFold-for-iOS/raw/master/Screenshots/1.png"/> <img width=150 src="https://github.com/honcheng/PaperFold-for-iOS/raw/master/Screenshots/2.png"/> <img width=150 src="https://github.com/honcheng/PaperFold-for-iOS/raw/master/Screenshots/3.png"/> <img width=150 src="https://github.com/honcheng/PaperFold-for-iOS/raw/master/Screenshots/4.png"/></p>
+
+<p><em>Vertical fold is still in active testing, in an experimental branch (top-multifold) at the moment.</em></p>
+
+<p><img width=150 src="https://github.com/honcheng/PaperFold-for-iOS/raw/master/Screenshots/5-topfold.png"/> <img width=150 src="https://github.com/honcheng/PaperFold-for-iOS/raw/master/Screenshots/6-topfold.png"/> <img width=150 src="https://github.com/honcheng/PaperFold-for-iOS/raw/master/Screenshots/7-topfold.png"/> <img width=150 src="https://github.com/honcheng/PaperFold-for-iOS/raw/master/Screenshots/8-bottomfold.png"/> <img width=150 src="https://github.com/honcheng/PaperFold-for-iOS/raw/master/Screenshots/9-bottomfold.png"/><br/>
+<img width=300 src="https://github.com/honcheng/PaperFold-for-iOS/raw/master/Screenshots/verticalfold.gif"/></p>
+
+<h2>How it works</h2>
+
+<p>During folding, a screen capture of the left/right view is taken, and split up depending on the number of folds required. The virtual light source is on the right side of the screen, so surfaces that faces the left are darker. For the right multi-fold view, the fold closes to the &lsquo;force&rsquo; are opened up faster than the folds that is further away.</p>
+
+<p>A sample project is included.</p>
+
+<h2>Example</h2>
+
+<p>Refer to this <a href="http://www.honcheng.com/2012/02/Playing-with-folding-navigations">link</a> for a video showing the prototype of an app that I was working on. In the end, the proposed project was never completed because I could not obtained reliable data for the app, but I intend to use it for another app.</p>
+
+<p><img width=300 src="https://github.com/honcheng/PaperFold-for-iOS/raw/master/Screenshots/leftfold.gif"/> <img width=300 src="https://github.com/honcheng/PaperFold-for-iOS/raw/master/Screenshots/rightfold.gif"/></p>
+
+<p>The animation here looks a bit laggy, but that&rsquo;s because of the low frame rates in GIF.</p>
+
+<h2>Usage</h2>
+
+<p>1) Add PaperFoldView as a subview into your view controller.</p>
+
+<pre><code>_paperFoldView = [[PaperFoldView alloc] initWithFrame:CGRectMake(0,0,100,[self.view bounds].size.height)];
+[self.view addSubview:_paperFoldView];
+</code></pre>
+
+<p>2) To set left view, use setLeftFoldContentView:foldCount:pullFactor:. Example below uses a UITableView, but it can any UIView.</p>
+
+<pre><code>_leftTableView = [[UITableView alloc] initWithFrame:CGRectMake(0,0,100,[self.view bounds].size.height)];
+[_paperFoldView setLeftFoldContentView:_leftTableView foldCount:3 pullFactor:0.9];
+</code></pre>
+
+<p>3) To set the right view, use setRightFoldContentView:foldCount:pullFactor:. Example below uses a MKMapView, but it can any UIView. The fold count is the number of folds in the right view. The pull factor controls the ratio of folding/unfolding of the different folds away from the center.</p>
+
+<pre><code>_mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0,0,240,[self.view bounds].size.height)];
+[_paperFoldView setRightFoldContentView:_mapView foldCount:3 pullFactor:0.9];
+</code></pre>
+
+<p>4) To set the center view</p>
+
+<pre><code>_centerTableView = [[UITableView alloc] initWithFrame:CGRectMake(0,0,[self.view bounds].size.height,[self.view bounds].size.height)];
+[_paperFoldView setCenterContentView:_centerTableView];
+</code></pre>
+
+<p>4) Sometimes you may want to disable drag-to-unfold if you have a table view in the center view and wish to preserve the swipe gesture functions e.g. to delete cells.</p>
+
+<pre><code>// this disables dragging to unfold the left view
+[self.paperFoldView setEnableLeftFoldDragging:NO];
+
+// this disables dragging to unfold the right view
+[self.paperFoldView setEnableRightFoldDragging:NO];
+</code></pre>
+
+<p>5) To unfold left view without dragging</p>
+
+<pre><code>[self.paperFoldView setPaperFoldState:PaperFoldStateLeftUnfolded];
+</code></pre>
+
+<p>6) To unfold right view without dragging</p>
+
+<pre><code>[self.paperFoldView setPaperFoldState:PaperFoldStateRightUnfolded];
+</code></pre>
+
+<p>7) To restore view to center without dragging</p>
+
+<pre><code>[self.paperFoldView setPaperFoldState:PaperFoldStateDefault];
+</code></pre>
+
+<p>8) To receive callbacks when fold state changes, and if the fold was activated manually by finger gesture, or automatically by calling setPaperFoldState:</p>
+
+<pre><code>// register callback delegate
+[self.paperFoldView setDelegate:self];
+
+// callback comes from the following delegate method 
+- (void)paperFoldView:(id)paperFoldView didFoldAutomatically:(BOOL)automatic toState:(PaperFoldState)paperFoldState
+</code></pre>
+
+<h2>Requirements</h2>
+
+<p>This project uses ARC. If you are not using ARC in your project, add &lsquo;-fobjc-arc&rsquo; as a compiler flag for all the files in this project.
+XCode 4.4 is required for auto-synthesis.</p>
+
+<h2>Apps that uses PaperFold</h2>
+
+<p><a href="https://itunes.apple.com/sg/app/id547022322">Showy</a>
+, <a href="https://itunes.apple.com/sg/app/largetype-full-screen-text/id568459406">LargeType</a>
+, <a href="https://itunes.apple.com/us/app/nextride-singapore-public/id565103559">NextRide</a>
+, <a href="https://itunes.apple.com/sg/app/sg-nextbus/id361404839">SG NextBus</a>
+, <a href="https://itunes.apple.com/cn/app/hang-zhou-de-tie/id518531257?mt=8">Hangzhou Metro</a></p>
+
+<p><a href="http://twitter.com/honcheng">Contact me</a> if you want your app listed here. Thanks</p>
+
+<h2>Other Projects that uses PaperFold</h2>
+
+<p><a href="https://github.com/honcheng/PaperFoldMenuController">PaperFoldMenuController</a> by me.</p>
+
+<p><a href="https://github.com/yestoall/PaperFold-pod-DEMO">PaperFold CocoaPod Demo for RubyMotion</a> by <a href="yestoall">yestoall</a>.</p>
+
+<p><a href="https://github.com/atsusy/TiPaperFold">Titanium Mobile Mobule for PaperFold</a> by <a href="https://github.com/atsusy/">atsusy</a>.</p>
+
+<h2>Known Problem</h2>
+
+<p>Screen capture of MKMapView is iOS6 is not taken properly. I approached a few Apple engineers at WWDC, and was told that it is most likely a bug that need to fix. I have already filed a bug report (filed as rdar://11813051, closed by Apple because it is a duplicate of rdar://11650331). Hopefully it will be fixed soon.</p>
+
+<p><strong>Update:</strong> This bug is fixed in iOS6b4. No problem taking screenshot of MKMapView.</p>
+
+<h2>Credits</h2>
+
+<p>Special thanks to <a href="http://twitter.com/dilliontan">@dilliontan</a>, my colleague in <a href="http://buuuk.com">buUuk</a> for explaining CAAffineTransform. He&rsquo;s a master at that :p. I&rsquo;m still a noob.
+You can check out his <a href="https://github.com/Dillion/iOS-Flip-Transform">iOS-Flip-Transform project here</a>.</p>
+
+<h2>Contact</h2>
+
+<p><a href="http://twitter.com/honcheng">twitter.com/honcheng</a>
+<a href="http://honcheng.com">honcheng.com</a></p>
+
+<p><img src="http://www.cocoacontrols.com/analytics/honcheng/paperfold-for-ios.png" alt="" /></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[DKCircleButton]]></title>
@@ -154,7 +289,7 @@ UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds]
 
 <p><a href="http://twitter.com/bradlarson">@bradlarson</a></p>
 
-<p><a href="&#109;&#97;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#x63;&#111;&#110;&#116;&#97;&#x63;&#116;&#x40;&#x73;&#x75;&#110;&#x73;&#101;&#116;&#x6c;&#97;&#107;&#101;&#x73;&#x6f;&#102;&#116;&#119;&#x61;&#x72;&#101;&#x2e;&#99;&#111;&#109;">&#x63;&#x6f;&#110;&#x74;&#x61;&#99;&#116;&#x40;&#115;&#x75;&#110;&#115;&#101;&#x74;&#x6c;&#x61;&#x6b;&#x65;&#115;&#111;&#102;&#116;&#x77;&#x61;&#114;&#101;&#x2e;&#x63;&#111;&#x6d;</a></p>
+<p><a href="&#109;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#x63;&#x6f;&#110;&#x74;&#x61;&#99;&#x74;&#64;&#115;&#117;&#x6e;&#115;&#101;&#x74;&#108;&#97;&#107;&#101;&#x73;&#x6f;&#x66;&#x74;&#x77;&#x61;&#114;&#x65;&#46;&#x63;&#111;&#x6d;">&#x63;&#x6f;&#x6e;&#116;&#97;&#99;&#116;&#x40;&#115;&#117;&#x6e;&#115;&#101;&#116;&#x6c;&#x61;&#107;&#x65;&#x73;&#x6f;&#x66;&#116;&#119;&#97;&#x72;&#101;&#x2e;&#99;&#x6f;&#x6d;</a></p>
 
 <h2>Overview</h2>
 
@@ -1086,172 +1221,6 @@ movieFile.audioEncodingTarget = movieWriter;
 <p>A version of my ColorTracking example from <a href="http://www.sunsetlakesoftware.com/2010/10/22/gpu-accelerated-video-processing-mac-and-ios">http://www.sunsetlakesoftware.com/2010/10/22/gpu-accelerated-video-processing-mac-and-ios</a> ported across to use GPUImage, this application uses color in a scene to track objects from a live camera feed. The four views you can switch between include the raw camera feed, the camera feed with pixels matching the color threshold in white, the processed video where positions are encoded as colors within the pixels passing the threshold test, and finally the live video feed with a dot that tracks the selected color. Tapping the screen changes the color to track to match the color of the pixels under your finger. Tapping and dragging on the screen makes the color threshold more or less forgiving. This is most obvious on the second, color thresholding view.</p>
 
 <p>Currently, all processing for the color averaging in the last step is done on the CPU, so this is part is extremely slow.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Pop]]></title>
-    <link href="http://worldligang.github.io/blog/2015/01/06/pop/"/>
-    <updated>2015-01-06T13:52:18+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/01/06/pop</id>
-    <content type="html"><![CDATA[<p> <a href="https://github.com/facebook/pop.git"target="_blank"title="源代码">源代码</a></p>
-
-<p><img src="https://github.com/facebook/pop/blob/master/Images/pop.gif?raw=true" alt="pop" /></p>
-
-<p>Pop is an extensible animation engine for iOS and OS X. In addition to basic static animations, it supports spring and decay dynamic animations, making it useful for building realistic, physics-based interactions. The API allows quick integration with existing Objective-C codebases and enables the animation of any property on any object. It&rsquo;s a mature and well-tested framework that drives all the animations and transitions in <a href="http://www.facebook.com/paper">Paper</a>.</p>
-
-<p><a href="https://travis-ci.org/facebook/pop"><img src="https://travis-ci.org/facebook/pop.svg" alt="Build Status" /></a></p>
-
-<h2>Installation</h2>
-
-<p>Pop is available on <a href="http://cocoapods.org">CocoaPods</a>. Just add the following to your project Podfile:</p>
-
-<pre><code class="ruby">pod 'pop', '~&gt; 1.0'
-</code></pre>
-
-<p>Alternatively, you can add the project to your workspace and adopt the provided configuration files or manually copy the files under the pop subdirectory into your project. If installing manually, ensure the C++ standard library is also linked by including <code>-lc++</code> to your project linker flags.</p>
-
-<h2>Usage</h2>
-
-<p>Pop adopts the Core Animation explicit animation programming model. Use by including the following import:</p>
-
-<pre><code class="objective-c">#import &lt;POP/POP.h&gt;
-</code></pre>
-
-<h3>Start, Stop &amp; Update</h3>
-
-<p>To start an animation, add it to the object you wish to animate:</p>
-
-<pre><code class="objective-c">POPSpringAnimation *anim = [POPSpringAnimation animation];
-...
-[layer pop_addAnimation:anim forKey:@"myKey"];
-</code></pre>
-
-<p>To stop an animation, remove it from the object referencing the key specified on start:</p>
-
-<pre><code class="objective-c">[layer pop_removeAnimationForKey:@"myKey"];
-</code></pre>
-
-<p>The key can also be used to query for the existence of an animation. Updating the toValue of a running animation can provide the most seamless way to change course:</p>
-
-<pre><code class="objective-c">anim = [layer pop_animationForKey:@"myKey"];
-if (anim) {
-  /* update to value to new destination */
-  anim.toValue = @(42.0);
-} else {
-  /* create and start a new animation */
-  ....
-}
-</code></pre>
-
-<p>While a layer was used in the above examples, the Pop interface is implemented as a category addition on NSObject. Any NSObject or subclass can be animated.</p>
-
-<h3>Types</h3>
-
-<p>There are four concrete animation types: spring, decay, basic and custom.</p>
-
-<p>Spring animations can be used to give objects a delightful bounce. In this example, we use a spring animation to animate a layer&rsquo;s bounds from its current value to (0, 0, 400, 400):</p>
-
-<pre><code class="objective-c">POPSpringAnimation *anim = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerBounds];
-anim.toValue = [NSValue valueWithCGRect:CGRectMake(0, 0, 400, 400)];
-[layer pop_addAnimation:anim forKey:@"size"];
-</code></pre>
-
-<p>Decay animations can be used to gradually slow an object to a halt. In this example, we decay a layer&rsquo;s positionX from it&rsquo;s current value and velocity 1000pts per second:</p>
-
-<pre><code class="objective-c">POPDecayAnimation *anim = [POPDecayAnimation animationWithPropertyNamed:kPOPLayerPositionX];
-anim.velocity = @(1000.);
-[layer pop_addAnimation:anim forKey:@"slide"];
-</code></pre>
-
-<p>Basic animations can be used to interpolate values over a specified time period. To use an ease-in ease-out animation to animate a view&rsquo;s alpha from 0.0 to 1.0 over the default duration:
-<code>objective-c
-POPBasicAnimation *anim = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlpha];
-anim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-anim.fromValue = @(0.0);
-anim.toValue = @(1.0);
-[view pop_addAnimation:anim forKey:@"fade"];
-</code>
-<code>POPCustomAnimation</code> makes creating custom animations and transitions easier by handling CADisplayLink and associated time-step management. See header for more details.</p>
-
-<h3>Properties</h3>
-
-<p>The property animated is specified by the <code>POPAnimatableProperty</code> class. In this example we create a spring animation and explicitly set the animatable property corresponding to <code>-[CALayer bounds]</code>:</p>
-
-<pre><code class="objective-c">POPSpringAnimation *anim = [POPSpringAnimation animation];
-anim.property = [POPAnimatableProperty propertyWithName:kPOPLayerBounds];
-</code></pre>
-
-<p>The framework provides many common layer and view animatable properties out of box. You can animate a custom property by creating a new instance of the class. In this example, we declare a custom volume property:</p>
-
-<pre><code class="objective-c">prop = [POPAnimatableProperty propertyWithName:@"com.foo.radio.volume" initializer:^(POPMutableAnimatableProperty *prop) {
-  // read value
-  prop.readBlock = ^(id obj, CGFloat values[]) {
-    values[0] = [obj volume];
-  };
-  // write value
-  prop.writeBlock = ^(id obj, const CGFloat values[]) {
-    [obj setVolume:values[0]];
-  };
-  // dynamics threshold
-  prop.threshold = 0.01;
-}];
-
-anim.property = prop;
-</code></pre>
-
-<p>For a complete listing of provided animatable properties, as well more information on declaring custom properties see <code>POPAnimatableProperty.h</code>.</p>
-
-<h3>Debugging</h3>
-
-<p>Here are a few tips when debugging. Pop obeys the Simulator&rsquo;s Toggle Slow Animations setting. Try enabling it to slow down animations and more easily observe interactions.</p>
-
-<p>Consider naming your animations. This will allow you to more easily identify them when referencing them, either via logging or in the debugger:</p>
-
-<pre><code class="objective-c">anim.name = @"springOpen";
-</code></pre>
-
-<p>Each animation comes with an associated tracer. The tracer allows you to record all animation-related events, in a fast and efficient manner, allowing you to query and analyze them after animation completion. The below example starts the tracer and configures it to log all events on animation completion:</p>
-
-<pre><code class="objective-c">POPAnimationTracer *tracer = anim.tracer;
-tracer.shouldLogAndResetOnCompletion = YES;
-[tracer start];
-</code></pre>
-
-<p>See <code>POPAnimationTracer.h</code> for more details.</p>
-
-<h2>Testing</h2>
-
-<p>Pop has extensive unit test coverage. To install test dependencies, navigate to the root pop directory and type:</p>
-
-<pre><code class="sh">pod install
-</code></pre>
-
-<p>Assuming CocoaPods is installed, this will include the necessary OCMock dependency to the unit test targets.</p>
-
-<h2>Resources</h2>
-
-<p>A collection of links to external resources that may prove valuable:</p>
-
-<ul>
-<li><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/CoreAnimation_guide/Introduction/Introduction.html">Apple – Core Animation Programming Guide</a></li>
-<li><a href="http://tapity.com/tutorial-getting-started-with-pop/">Tapity Tutorial – Getting Started with Pop</a></li>
-<li><a href="http://codeplease.io/playing-with-pop-ii/">Codeplease – Bridging the gesture to animation gap</a></li>
-<li><a href="http://codeplease.io/playing-with-pop-iii/">Codeplease – Playing with Pop (iii)</a></li>
-<li><a href="http://codeplease.io/playing-with-pop-v/">Codeplease – Adding a custom animatable property</a></li>
-<li><a href="https://github.com/matthewcheok/POP-MCAnimate">POP-MCAnimate – Concise syntax for the Pop animation framework</a></li>
-<li><a href="https://github.com/facebook/tweaks">Tweaks – Easily adjust parameters for iOS apps in development</a></li>
-<li><a href="http://facebook.github.io/rebound/">Rebound – Spring Animations for Android</a></li>
-</ul>
-
-
-<h2>Contributing</h2>
-
-<p>See the CONTRIBUTING file for how to help out.</p>
-
-<h2>License</h2>
-
-<p>Pop is released under a BSD License. See LICENSE file for details.</p>
 ]]></content>
   </entry>
   
