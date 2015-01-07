@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-01-07T13:11:40+08:00</updated>
+  <updated>2015-01-07T13:21:55+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -12,6 +12,54 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[TwitterCover]]></title>
+    <link href="http://worldligang.github.io/blog/2015/01/07/twittercover/"/>
+    <updated>2015-01-07T13:20:17+08:00</updated>
+    <id>http://worldligang.github.io/blog/2015/01/07/twittercover</id>
+    <content type="html"><![CDATA[<p> <a href="https://github.com/cyndibaby905/TwitterCover.git"target="_blank"title="源代码">源代码</a></p>
+
+<p> ## TwitterCover ##</p>
+
+<p>TwitterCover is a parallax top view with real time blur effect to any UIScrollView, inspired by Twitter for iOS.</p>
+
+<p>Completely created using UIKit framework.</p>
+
+<p>Easy to drop into your project.</p>
+
+<p>You can add this feature to your own project, <code>TwitterCover</code> is easy-to-use.</p>
+
+<h2>Requirements</h2>
+
+<p>TwitterCover requires Xcode 5, targeting either iOS 5.0 and above, ARC-enabled.</p>
+
+<h2>How to use</h2>
+
+<p>Drag UIScrollView+TwitterCover.h amd UIScrollView+TwitterCover.m files to your project.</p>
+
+<p>No other frameworks required.</p>
+
+<pre><code>#import "UIScrollView+TwitterCover.h"
+
+UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+[scrollView addTwitterCoverWithImage:[UIImage imageNamed:@"cover.png"]];
+</code></pre>
+
+<p>And do not forget to remove it in your dealloc method, otherwise memory leaks:</p>
+
+<pre><code>[scrollView removeTwitterCoverView];    
+</code></pre>
+
+<h2>How it looks</h2>
+
+<p>![TwitterCover] (<a href="https://raw.github.com/cyndibaby905/TwitterCover/master/TwitterCover.gif">https://raw.github.com/cyndibaby905/TwitterCover/master/TwitterCover.gif</a>)</p>
+
+<h2>Lincense</h2>
+
+<p><code>TwitterCover</code> is available under the MIT license. See the LICENSE file for more info.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[HackerNews]]></title>
@@ -46,7 +94,7 @@
 
 <p><a href="http://twitter.com/bradlarson">@bradlarson</a></p>
 
-<p><a href="&#109;&#97;&#x69;&#x6c;&#116;&#x6f;&#58;&#x63;&#x6f;&#110;&#116;&#97;&#x63;&#x74;&#64;&#115;&#x75;&#x6e;&#x73;&#x65;&#116;&#x6c;&#97;&#x6b;&#101;&#x73;&#x6f;&#x66;&#116;&#119;&#x61;&#114;&#101;&#x2e;&#99;&#x6f;&#109;">&#99;&#111;&#x6e;&#116;&#x61;&#99;&#116;&#64;&#115;&#117;&#110;&#x73;&#x65;&#x74;&#x6c;&#x61;&#x6b;&#x65;&#x73;&#x6f;&#102;&#x74;&#x77;&#97;&#114;&#101;&#x2e;&#x63;&#111;&#109;</a></p>
+<p><a href="&#109;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#99;&#111;&#x6e;&#x74;&#x61;&#99;&#x74;&#x40;&#115;&#x75;&#x6e;&#x73;&#101;&#116;&#108;&#x61;&#107;&#x65;&#x73;&#x6f;&#x66;&#x74;&#119;&#97;&#x72;&#101;&#x2e;&#99;&#111;&#109;">&#x63;&#x6f;&#110;&#116;&#97;&#99;&#x74;&#x40;&#x73;&#x75;&#110;&#115;&#x65;&#x74;&#x6c;&#x61;&#107;&#x65;&#115;&#111;&#102;&#x74;&#x77;&#97;&#x72;&#101;&#46;&#99;&#111;&#x6d;</a></p>
 
 <h2>Overview</h2>
 
@@ -1388,7 +1436,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 <p>本人是因为兴趣业余时间来开发推聊，考虑到 IM 占用的时间太多，所以请谅解，不提供任何 IM 的沟通方式。希望大家以如下的方式交流：</p>
 
 <ul>
-<li>Email:  <a href="&#x6d;&#97;&#x69;&#108;&#116;&#x6f;&#x3a;&#x70;&#x75;&#x73;&#x68;&#116;&#97;&#108;&#x6b;&#x2e;&#x6f;&#x72;&#103;&#64;&#x67;&#x6d;&#97;&#105;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;">&#112;&#117;&#115;&#x68;&#x74;&#x61;&#x6c;&#107;&#46;&#111;&#114;&#x67;&#x40;&#103;&#x6d;&#x61;&#x69;&#108;&#46;&#99;&#111;&#109;</a></li>
+<li>Email:  <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#58;&#112;&#117;&#115;&#104;&#x74;&#x61;&#x6c;&#x6b;&#46;&#x6f;&#x72;&#103;&#x40;&#103;&#109;&#x61;&#x69;&#x6c;&#46;&#x63;&#111;&#x6d;">&#112;&#x75;&#115;&#104;&#116;&#x61;&#x6c;&#x6b;&#46;&#x6f;&#x72;&#103;&#x40;&#x67;&#109;&#97;&#105;&#108;&#x2e;&#99;&#x6f;&#x6d;</a></li>
 <li>项目Wiki: <a href="https://github.com/good-life/PushTalk/wiki">https://github.com/good-life/PushTalk/wiki</a></li>
 <li>项目Bug: <a href="https://github.com/good-life/PushTalk/issues">https://github.com/good-life/PushTalk/issues</a></li>
 <li>PushTalk频道：<code>pushtalk</code>, <code>报告bug</code>, <code>新功能讨论</code> 等</li>
@@ -3939,44 +3987,6 @@ if (conn) {
 <p>获取QQ昵称和用户头像</p>
 
 <pre><code>http://r.qzone.qq.com/cgi-bin/user/cgi_personal_card?uin=QQ
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS开发：git命令返回任意一个版本的方法]]></title>
-    <link href="http://worldligang.github.io/blog/2014/12/04/ioskai-fa-:gitming-ling-fan-hui-ren-yi-%5B%3F%5D-ge-ban-ben-de-fang-fa/"/>
-    <updated>2014-12-04T18:28:04+08:00</updated>
-    <id>http://worldligang.github.io/blog/2014/12/04/ioskai-fa-:gitming-ling-fan-hui-ren-yi-[?]-ge-ban-ben-de-fang-fa</id>
-    <content type="html"><![CDATA[<p>git回退某一个版本的方法：</p>
-
-<p><div class="entry-content"><h3>一：记录回退的hash值</h3></p>
-
-<p>首先要查看你要回退到哪一个版本</p>
-
-<p>方法1：git log</p>
-
-<p>会展示最新的提交记录，然后你按着键盘的“向下”键，看更多的提交记录，记住你要回退的哪一个版本的hash值</p>
-
-<p>方法2：git reflog</p>
-
-<p>会展示最近操作的记录，然后你记住要回退的hash值</p>
-
-<p><div class="entry-content"><h3>二：执行回退命令</h3></p>
-
-<p>知道hash值之后，接下来就是指向回退命令了：</p>
-
-<p>git reset &ndash;hard +版本号回到该版本状态下</p>
-
-<p>这样你就可以回退的任意一个版本了，挺方便的。</p>
-
-<p></br></p>
-
-<p>更多iOS开发技术请关注：</p>
-
-<p>微信公众号：</p>
-
-<pre><code>iOSDevTip
 </code></pre>
 ]]></content>
   </entry>
