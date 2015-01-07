@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>Category: Sdk服务 - 刚刚在线</title>
+  <title>TwitterCover - 刚刚在线</title>
   <meta name="author" content="刚刚">
       <meta name="uyan_auth" content="d1112891bb" />
       <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="Category: sdk服务">
-  
+  <meta name="description" content="TwitterCover">
+  <meta name="keywords" content="TwitterCover, 源代码, Cocoapods, UIScrollView, Xcode, parallax, 客户端, iOS, iOS开发, cocoapods, 个人博客, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://worldligang.github.io/blog/categories/sdkfu-wu">
+  <link rel="canonical" href="http://worldligang.github.io/blog/2015/01/07/twittercover">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -70,105 +70,121 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Sdk服务</h1>
+    
+      <h1 class="entry-title">TwitterCover</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-07T13:20:17+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:20 pm</span></time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p> <a href="https://github.com/cyndibaby905/TwitterCover.git"target="_blank"title="源代码">源代码</a></p>
 
-  
-  <h2>2015</h2>
+<p> ## TwitterCover ##</p>
 
-<article>
-  
-<h1><a href="/blog/2015/01/05/ios-slash-androidkai-fa-yi-dong-duan-xin-sdklie-biao/">iOS/Android开发移动短信SDK列表</a></h1>
-<time datetime="2015-01-05T12:25:55+08:00" pubdate><span class='month'>Jan</span> <span class='day'>05</span> <span class='year'>2015</span></time>
+<p>TwitterCover is a parallax top view with real time blur effect to any UIScrollView, inspired by Twitter for iOS.</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/sdkfu-wu/'>sdk服务</a></span>
-</footer>
+<p>Completely created using UIKit framework.</p>
 
+<p>Easy to drop into your project.</p>
 
-</article>
+<p>You can add this feature to your own project, <code>TwitterCover</code> is easy-to-use.</p>
 
+<h2>Requirements</h2>
 
+<p>TwitterCover requires Xcode 5, targeting either iOS 5.0 and above, ARC-enabled.</p>
 
-<article>
-  
-<h1><a href="/blog/2015/01/05/ios-slash-androidkai-fa-ji-shi-tong-xun-sdklie-biao/">iOS/Android开发即时通讯SDK列表</a></h1>
-<time datetime="2015-01-05T12:16:22+08:00" pubdate><span class='month'>Jan</span> <span class='day'>05</span> <span class='year'>2015</span></time>
+<h2>How to use</h2>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/sdkfu-wu/'>sdk服务</a></span>
-</footer>
+<p>Drag UIScrollView+TwitterCover.h amd UIScrollView+TwitterCover.m files to your project.</p>
 
+<p>No other frameworks required.</p>
 
-</article>
+<pre><code>#import "UIScrollView+TwitterCover.h"
 
+UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+[scrollView addTwitterCoverWithImage:[UIImage imageNamed:@"cover.png"]];
+</code></pre>
 
+<p>And do not forget to remove it in your dealloc method, otherwise memory leaks:</p>
 
-<article>
-  
-<h1><a href="/blog/2015/01/04/ios-slash-androidkai-fa-ren-lian-shi-bie-sdklie-biao/">iOS/Android开发人脸识别SDK列表</a></h1>
-<time datetime="2015-01-04T17:57:18+08:00" pubdate><span class='month'>Jan</span> <span class='day'>04</span> <span class='year'>2015</span></time>
+<pre><code>[scrollView removeTwitterCoverView];    
+</code></pre>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/sdkfu-wu/'>sdk服务</a></span>
-</footer>
+<h2>How it looks</h2>
 
+<p>![TwitterCover] (<a href="https://raw.github.com/cyndibaby905/TwitterCover/master/TwitterCover.gif">https://raw.github.com/cyndibaby905/TwitterCover/master/TwitterCover.gif</a>)</p>
 
-</article>
+<h2>Lincense</h2>
 
-
-
-<article>
-  
-<h1><a href="/blog/2015/01/04/ios-slash-androidkai-fa-di-tu-sdklie-biao/">iOS/Android开发地图SDK列表</a></h1>
-<time datetime="2015-01-04T14:48:48+08:00" pubdate><span class='month'>Jan</span> <span class='day'>04</span> <span class='year'>2015</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/sdkfu-wu/'>sdk服务</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2015/01/04/ios-slash-androidkai-fa-zhi-fu-sdklie-biao/">iOS/Android开发支付SDK列表</a></h1>
-<time datetime="2015-01-04T14:03:37+08:00" pubdate><span class='month'>Jan</span> <span class='day'>04</span> <span class='year'>2015</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/sdkfu-wu/'>sdk服务</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2015/01/04/ioskai-fa-tui-song-sdkji-he/">iOS/Android开发推送SDK列表</a></h1>
-<time datetime="2015-01-04T12:33:21+08:00" pubdate><span class='month'>Jan</span> <span class='day'>04</span> <span class='year'>2015</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/sdkfu-wu/'>sdk服务</a></span>
-</footer>
-
-
-</article>
-
+<p><code>TwitterCover</code> is available under the MIT license. See the LICENSE file for more info.</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">刚刚</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-01-07T13:20:17+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:20 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/yuan-dai-ma/'>源代码</a>
+  
+</span>
+
+
+      <br>原文链接：<a href="http://www.superqq.com/blog/2015/01/07/twittercover/">http://www.superqq.com/blog/2015/01/07/twittercover/</a> <!-- 添加这一行代码 -->
+    </p>
+    
+      <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+    <span class="jiathis_txt">分享到：</span>
+    <a class="jiathis_button_tools_1"></a>
+    <a class="jiathis_button_tools_2"></a>
+    <a class="jiathis_button_tools_3"></a>
+    <a class="jiathis_button_tools_4"></a>
+    <a href="http://www.jiathis.com/share?uid=1983651" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+    <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+    var jiathis_config = {data_track_clickback:'true'};
+    </script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1401863435807252" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1984773"></script>
+<!-- UY END -->
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/01/07/hackernews/" title="Previous Post: HackerNews">&laquo; HackerNews</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
 </div>
