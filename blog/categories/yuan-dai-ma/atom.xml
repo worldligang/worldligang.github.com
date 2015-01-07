@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 源代码 | 刚刚在线]]></title>
   <link href="http://worldligang.github.io/blog/categories/yuan-dai-ma/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-01-06T14:27:50+08:00</updated>
+  <updated>2015-01-07T13:08:16+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -12,6 +12,27 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[HackerNews]]></title>
+    <link href="http://worldligang.github.io/blog/2015/01/07/hackernews/"/>
+    <updated>2015-01-07T11:09:29+08:00</updated>
+    <id>http://worldligang.github.io/blog/2015/01/07/hackernews</id>
+    <content type="html"><![CDATA[<p> <a href="https://github.com/Xuzz/newsyc.git"target="_blank"title="源代码">源代码</a></p>
+
+<p> Hacker News的iPhone客户端做的挺不错的，截几张图看看：</p>
+
+<p><img src="http://worldligang.github.io/Users/ligang/github/octopress/source/images/1.png" alt="图1" title="图1" width="700"/></p>
+
+<p><img src="http://worldligang.github.io/Users/ligang/github/octopress/source/images/2.png" alt="图2" title="图2" width="700"/></p>
+
+<p><img src="http://worldligang.github.io/Users/ligang/github/octopress/source/images/3.png" alt="图3" title="图3" width="700"/></p>
+
+<p><img src="http://worldligang.github.io/Users/ligang/github/octopress/source/images/4.png" alt="图4" title="图4" width="700"/></p>
+
+<p><img src="http://worldligang.github.io/Users/ligang/github/octopress/source/images/5.png" alt="图5" title="图5" width="700"/></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[GPUImage]]></title>
@@ -33,7 +54,7 @@
 
 <p><a href="http://twitter.com/bradlarson">@bradlarson</a></p>
 
-<p><a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#x63;&#111;&#x6e;&#x74;&#97;&#x63;&#x74;&#64;&#115;&#117;&#x6e;&#x73;&#x65;&#x74;&#108;&#x61;&#x6b;&#x65;&#x73;&#x6f;&#102;&#x74;&#x77;&#x61;&#x72;&#101;&#x2e;&#99;&#111;&#109;">&#x63;&#x6f;&#110;&#116;&#97;&#99;&#x74;&#64;&#x73;&#x75;&#110;&#115;&#101;&#x74;&#x6c;&#x61;&#x6b;&#x65;&#115;&#111;&#102;&#116;&#x77;&#97;&#114;&#101;&#46;&#x63;&#x6f;&#109;</a></p>
+<p><a href="&#x6d;&#97;&#105;&#108;&#x74;&#x6f;&#x3a;&#99;&#111;&#x6e;&#x74;&#97;&#x63;&#x74;&#64;&#115;&#117;&#110;&#115;&#x65;&#116;&#108;&#97;&#107;&#101;&#x73;&#x6f;&#x66;&#116;&#119;&#97;&#114;&#101;&#46;&#99;&#x6f;&#x6d;">&#99;&#111;&#x6e;&#x74;&#x61;&#x63;&#116;&#64;&#115;&#117;&#110;&#115;&#101;&#116;&#108;&#x61;&#107;&#x65;&#x73;&#x6f;&#102;&#x74;&#119;&#97;&#x72;&#101;&#46;&#x63;&#111;&#x6d;</a></p>
 
 <h2>Overview</h2>
 
@@ -1315,7 +1336,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 <p>本人是因为兴趣业余时间来开发推聊，考虑到 IM 占用的时间太多，所以请谅解，不提供任何 IM 的沟通方式。希望大家以如下的方式交流：</p>
 
 <ul>
-<li>Email:  <a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#112;&#117;&#115;&#104;&#116;&#97;&#108;&#107;&#46;&#x6f;&#x72;&#x67;&#x40;&#x67;&#x6d;&#97;&#x69;&#x6c;&#46;&#x63;&#111;&#x6d;">&#112;&#117;&#x73;&#x68;&#116;&#97;&#108;&#107;&#x2e;&#111;&#114;&#x67;&#64;&#103;&#x6d;&#x61;&#105;&#x6c;&#46;&#x63;&#111;&#109;</a></li>
+<li>Email:  <a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#112;&#117;&#x73;&#104;&#x74;&#97;&#x6c;&#x6b;&#46;&#111;&#x72;&#x67;&#x40;&#103;&#x6d;&#97;&#105;&#x6c;&#x2e;&#99;&#x6f;&#109;">&#x70;&#x75;&#x73;&#x68;&#116;&#x61;&#x6c;&#x6b;&#46;&#x6f;&#x72;&#103;&#x40;&#103;&#109;&#97;&#x69;&#108;&#46;&#99;&#111;&#109;</a></li>
 <li>项目Wiki: <a href="https://github.com/good-life/PushTalk/wiki">https://github.com/good-life/PushTalk/wiki</a></li>
 <li>项目Bug: <a href="https://github.com/good-life/PushTalk/issues">https://github.com/good-life/PushTalk/issues</a></li>
 <li>PushTalk频道：<code>pushtalk</code>, <code>报告bug</code>, <code>新功能讨论</code> 等</li>
@@ -1327,233 +1348,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 <p>你也可以自由地 fork 本项目，自己去发布新的版本。</p>
 
 <p>推聊使用的开源协议：<a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[PNChart]]></title>
-    <link href="http://worldligang.github.io/blog/2015/01/05/pnchart/"/>
-    <updated>2015-01-05T17:16:07+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/01/05/pnchart</id>
-    <content type="html"><![CDATA[<p> <a href="https://github.com/kevinzhow/PNChart"target="_blank"title="源代码">源代码</a></p>
-
-<h1>PNChart</h1>
-
-<p><a href="https://travis-ci.org/kevinzhow/PNChart"><img src="https://travis-ci.org/kevinzhow/PNChart.png?branch=master" alt="Build Status" /></a></p>
-
-<p>You can also find swift version at here <a href="https://github.com/kevinzhow/PNChart-Swift">https://github.com/kevinzhow/PNChart-Swift</a></p>
-
-<p>A simple and beautiful chart lib with <strong>animation</strong> used in <a href="https://itunes.apple.com/us/app/piner/id637706410">Piner</a> and <a href="https://itunes.apple.com/us/app/coinsman/id772163893">CoinsMan</a> for iOS</p>
-
-<p><a href="https://dl.dropboxusercontent.com/u/1599662/pnchart.gif"><img src="https://dl.dropboxusercontent.com/u/1599662/pnchart.gif" alt="" /></a></p>
-
-<h2>Requirements</h2>
-
-<p>PNChart works on iOS 6.0 and later version and is compatible with ARC projects. It depends on the following Apple frameworks, which should already be included with most Xcode templates:</p>
-
-<ul>
-<li>Foundation.framework</li>
-<li>UIKit.framework</li>
-<li>CoreGraphics.framework</li>
-<li>QuartzCore.framework</li>
-</ul>
-
-
-<p>You will need LLVM 3.0 or later in order to build PNChart.</p>
-
-<h2>Usage</h2>
-
-<h3>Cocoapods</h3>
-
-<p><a href="http://cocoapods.org">CocoaPods</a> is the recommended way to add PNChart to your project.</p>
-
-<ol>
-<li>Add a pod entry for PNChart to your Podfile <code>pod 'PNChart', '~&gt; 0.6.0'</code></li>
-<li>Install the pod(s) by running <code>pod install</code>.</li>
-<li>Include PNChart wherever you need it with <code>#import "PNChart.h"</code>.</li>
-</ol>
-
-
-<h3>Copy the PNChart folder to your project</h3>
-
-<p><a href="https://dl.dropboxusercontent.com/u/1599662/line.png"><img src="https://dl.dropboxusercontent.com/u/1599662/line.png" alt="" /></a></p>
-
-<pre><code class="objective-c">#import "PNChart.h"
-
-//For Line Chart
-PNLineChart * lineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
-[lineChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5"]];
-
-// Line Chart No.1
-NSArray * data01Array = @[@60.1, @160.1, @126.4, @262.2, @186.2];
-PNLineChartData *data01 = [PNLineChartData new];
-data01.color = PNFreshGreen;
-data01.itemCount = lineChart.xLabels.count;
-data01.getData = ^(NSUInteger index) {
-    CGFloat yValue = [data01Array[index] floatValue];
-    return [PNLineChartDataItem dataItemWithY:yValue];
-};
-// Line Chart No.2
-NSArray * data02Array = @[@20.1, @180.1, @26.4, @202.2, @126.2];
-PNLineChartData *data02 = [PNLineChartData new];
-data02.color = PNTwitterColor;
-data02.itemCount = lineChart.xLabels.count;
-data02.getData = ^(NSUInteger index) {
-    CGFloat yValue = [data02Array[index] floatValue];
-    return [PNLineChartDataItem dataItemWithY:yValue];
-};
-
-lineChart.chartData = @[data01, data02];
-[lineChart strokeChart];
-</code></pre>
-
-<p><a href="https://dl.dropboxusercontent.com/u/1599662/bar.png"><img src="https://dl.dropboxusercontent.com/u/1599662/bar.png" alt="" /></a></p>
-
-<pre><code class="objective-c">#import "PNChart.h"
-
-//For BarC hart
-PNBarChart * barChart = [[PNBarChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
-[barChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5"]];
-[barChart setYValues:@[@1,  @10, @2, @6, @3]];
-[barChart strokeChart];
-</code></pre>
-
-<p><a href="https://dl.dropboxusercontent.com/u/1599662/circle.png"><img src="https://dl.dropboxusercontent.com/u/1599662/circle.png" alt="" /></a></p>
-
-<pre><code class="objective-c">#import "PNChart.h"
-
-//For Circle Chart
-
-PNCircleChart * circleChart = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 80.0, SCREEN_WIDTH, 100.0) andTotal:[NSNumber numberWithInt:100] andCurrent:[NSNumber numberWithInt:60] andClockwise:NO];
-circleChart.backgroundColor = [UIColor clearColor];
-[circleChart setStrokeColor:PNGreen];
-[circleChart strokeChart];
-</code></pre>
-
-<p><a href="https://dl.dropboxusercontent.com/u/1599662/pie.png"><img src="https://dl.dropboxusercontent.com/u/1599662/pie.png" alt="" /></a></p>
-
-<pre><code class="objective-c"># import "PNChart.h"
-//For Pie Chart
-NSArray *items = @[[PNPieChartDataItem dataItemWithValue:10 color:PNRed],
-                           [PNPieChartDataItem dataItemWithValue:20 color:PNBlue description:@"WWDC"],
-                           [PNPieChartDataItem dataItemWithValue:40 color:PNGreen description:@"GOOL I/O"],
-                           ];
-
-
-
-PNPieChart *pieChart = [[PNPieChart alloc] initWithFrame:CGRectMake(40.0, 155.0, 240.0, 240.0) items:items];
-pieChart.descriptionTextColor = [UIColor whiteColor];
-pieChart.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:14.0];
-[pieChart strokeChart];
-</code></pre>
-
-<p><a href="https://dl.dropboxusercontent.com/u/1599662/scatter.png"><img src="https://dl.dropboxusercontent.com/u/1599662/scatter.png" alt="" /></a></p>
-
-<pre><code class="objective-c"># import "PNChart.h"
-//For Scatter Chart
-
-PNScatterChart *scatterChart = [[PNScatterChart alloc] initWithFrame:CGRectMake(SCREEN_WIDTH /6.0 - 30, 135, 280, 200)];
-[scatterChart setAxisXWithMinimumValue:20 andMaxValue:100 toTicks:6];
-[scatterChart setAxisYWithMinimumValue:30 andMaxValue:50 toTicks:5];
-
-NSArray * data01Array = [self randomSetOfObjects];
-PNScatterChartData *data01 = [PNScatterChartData new];
-data01.strokeColor = PNGreen;
-data01.fillColor = PNFreshGreen;
-data01.size = 2;
-data01.itemCount = [[data01Array objectAtIndex:0] count];
-data01.inflexionPointStyle = PNScatterChartPointStyleCircle;
-__block NSMutableArray *XAr1 = [NSMutableArray arrayWithArray:[data01Array objectAtIndex:0]];
-__block NSMutableArray *YAr1 = [NSMutableArray arrayWithArray:[data01Array objectAtIndex:1]];
-data01.getData = ^(NSUInteger index) {
-    CGFloat xValue = [[XAr1 objectAtIndex:index] floatValue];
-    CGFloat yValue = [[YAr1 objectAtIndex:index] floatValue];
-    return [PNScatterChartDataItem dataItemWithX:xValue AndWithY:yValue];
-};
-
-[scatterChart setup];
-self.scatterChart.chartData = @[data01];
-/***
-this is for drawing line to compare
-CGPoint start = CGPointMake(20, 35);
-CGPoint end = CGPointMake(80, 45);
-[scatterChart drawLineFromPoint:start ToPoint:end WithLineWith:2 AndWithColor:PNBlack];
-***/
-scatterChart.delegate = self;
-</code></pre>
-
-<h4>Update Value</h4>
-
-<p>Now it&rsquo;s easy to update value in real time</p>
-
-<pre><code class="objective-c">if ([self.title isEqualToString:@"Line Chart"]) {
-
-    // Line Chart #1
-    NSArray * data01Array = @[@(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300)];
-    PNLineChartData *data01 = [PNLineChartData new];
-    data01.color = PNFreshGreen;
-    data01.itemCount = data01Array.count;
-    data01.inflexionPointStyle = PNLineChartPointStyleTriangle;
-    data01.getData = ^(NSUInteger index) {
-        CGFloat yValue = [data01Array[index] floatValue];
-        return [PNLineChartDataItem dataItemWithY:yValue];
-    };
-
-    // Line Chart #2
-    NSArray * data02Array = @[@(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300)];
-    PNLineChartData *data02 = [PNLineChartData new];
-    data02.color = PNTwitterColor;
-    data02.itemCount = data02Array.count;
-    data02.inflexionPointStyle = PNLineChartPointStyleSquare;
-    data02.getData = ^(NSUInteger index) {
-        CGFloat yValue = [data02Array[index] floatValue];
-        return [PNLineChartDataItem dataItemWithY:yValue];
-    };
-
-    [self.lineChart setXLabels:@[@"DEC 1",@"DEC 2",@"DEC 3",@"DEC 4",@"DEC 5",@"DEC 6",@"DEC 7"]];
-    [self.lineChart updateChartData:@[data01, data02]];
-
-}
-else if ([self.title isEqualToString:@"Bar Chart"])
-{
-    [self.barChart setXLabels:@[@"Jan 1",@"Jan 2",@"Jan 3",@"Jan 4",@"Jan 5",@"Jan 6",@"Jan 7"]];
-    [self.barChart updateChartData:@[@(arc4random() % 30),@(arc4random() % 30),@(arc4random() % 30),@(arc4random() % 30),@(arc4random() % 30),@(arc4random() % 30),@(arc4random() % 30)]];
-}
-else if ([self.title isEqualToString:@"Circle Chart"])
-{
-    [self.circleChart updateChartByCurrent:@(arc4random() % 100)];
-}
-</code></pre>
-
-<h4>Callback</h4>
-
-<pre><code class="objective-c">#import "PNChart.h"
-
-//For LineChart
-
-lineChart.delegate = self;
-</code></pre>
-
-<pre><code class="objective-c">
-//For DelegateMethod
-
-
--(void)userClickedOnLineKeyPoint:(CGPoint)point lineIndex:(NSInteger)lineIndex pointIndex:(NSInteger)pointIndex{
-    NSLog(@"Click Key on line %f, %f line index is %d and point index is %d",point.x, point.y,(int)lineIndex, (int)pointIndex);
-}
-
--(void)userClickedOnLinePoint:(CGPoint)point lineIndex:(NSInteger)lineIndex{
-    NSLog(@"Click on line %f, %f, line index is %d",point.x, point.y, (int)lineIndex);
-}
-</code></pre>
-
-<h2>License</h2>
-
-<p>This code is distributed under the terms and conditions of the <a href="LICENSE">MIT license</a>.</p>
-
-<h2>SpecialThanks</h2>
-
-<p><a href="http://twitter.com/lexrus">@lexrus</a>  CocoaPods Spec</p>
 ]]></content>
   </entry>
   
