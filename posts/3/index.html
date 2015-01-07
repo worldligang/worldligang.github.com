@@ -77,6 +77,163 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/12/11/nsmutableurlrequesthe-nsurlconnectionyong-postfang-shi-shang-chuan-zhao-pian/">NSMutableURLRequest和NSURLConnection用Post方式上传照片</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-12-11T10:00:07+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:00 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>需求：上传一张照片和内容，内容包括：用户编辑的内容、经纬度、地点等等，就是类似发一个说说。这就是一个很平常的功能，实现的方式想必各位能想到很多。</p>
+
+<p>接下来我想用系统的NSURLConnection来实现这个功能：</p>
+
+<p>首先我们要定义一个全局变量:</p>
+
+<pre><code>/**
+ *  请求返回数据
+ */
+@property (nonatomic, strong) NSMutableData *mResponseData;
+</code></pre>
+
+<p>实现代码：</p>
+
+<pre><code>//字典里面装的是你要上传的内容
+NSDictionary *parameters = @{@"content": @"这是刚刚在线的官方网站www.superqq.com"};
+
+//上传的接口
+NSString* urlstring = @"http://superqq.com/";
+//分界线的标识符
+NSString *TWITTERFON_FORM_BOUNDARY = @"AaB03x";
+//根据url初始化request
+NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlstring]
+                                                        cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
+                                                    timeoutInterval:10];
+//分界线 --AaB03x
+NSString *MPboundary=[[NSString alloc]initWithFormat:@"--%@",TWITTERFON_FORM_BOUNDARY];
+//结束符 AaB03x--
+NSString *endMPboundary=[[NSString alloc]initWithFormat:@"%@--",MPboundary];
+//    //要上传的图片
+//    UIImage *image=[params objectForKey:@"pic"];
+//得到图片的data
+NSData *data = UIImagePNGRepresentation(self.image);
+//http body的字符串
+NSMutableString *body=[[NSMutableString alloc]init];
+//参数的集合的所有key的集合
+NSArray *keys= [parameters allKeys];
+
+//遍历keys
+for(int i=0;i&lt;[keys count];i++)
+{
+    //得到当前key
+    NSString *key=[keys objectAtIndex:i];
+    //如果key不是pic，说明value是字符类型，比如name：Boris
+    if(![key isEqualToString:@"pic"])
+    {
+        //添加分界线，换行
+        [body appendFormat:@"%@\r\n",MPboundary];
+        //添加字段名称，换2行
+        [body appendFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n",key];
+        //添加字段的值
+        [body appendFormat:@"%@\r\n",[parameters objectForKey:key]];
+    }
+}
+
+////添加分界线，换行
+[body appendFormat:@"%@\r\n",MPboundary];
+//声明pic字段，文件名为boris.png
+[body appendFormat:@"Content-Disposition: form-data; name=\"pic\"; filename=\"boris.png\"\r\n"];
+//声明上传文件的格式
+[body appendFormat:@"Content-Type: image/png\r\n\r\n"];
+
+//声明结束符：--AaB03x--
+NSString *end=[[NSString alloc]initWithFormat:@"\r\n%@",endMPboundary];
+//声明myRequestData，用来放入http body
+NSMutableData *myRequestData=[NSMutableData data];
+//将body字符串转化为UTF8格式的二进制
+[myRequestData appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
+//将image的data加入
+[myRequestData appendData:data];
+//加入结束符--AaB03x--
+[myRequestData appendData:[end dataUsingEncoding:NSUTF8StringEncoding]];
+
+//设置HTTPHeader中Content-Type的值
+NSString *content=[[NSString alloc]initWithFormat:@"multipart/form-data; boundary=%@",TWITTERFON_FORM_BOUNDARY];
+//设置HTTPHeader
+[request setValue:content forHTTPHeaderField:@"Content-Type"];
+//设置Content-Length
+[request setValue:[NSString stringWithFormat:@"%d", (int)[myRequestData length]] forHTTPHeaderField:@"Content-Length"];
+//设置http body
+[request setHTTPBody:myRequestData];
+//http method
+[request setHTTPMethod:@"POST"];
+
+//建立连接，设置代理
+NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+
+//设置接受response的data
+if (conn) {
+    _mResponseData = [[NSMutableData alloc] init];
+}
+</code></pre>
+
+<p>NSURLConnectionDelegate的代理方法：</p>
+
+<pre><code>#pragma mark - NSURLConnectionDelegate
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+   [_mResponseData setLength:0];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+   [_mResponseData appendData:data];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+
+   NSDictionary *dic =  [NSJSONSerialization JSONObjectWithData:_mResponseData options:kNilOptions error:nil];
+   NSLog(@"%@", dic);
+
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+   NSLog(@"Error: %@", error);
+}
+</code></pre>
+
+<p>这是我的实现方式，再次抛砖引玉，如果你要好的方法，欢迎分享！</p>
+
+<p>iOS开发微信公众号：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p>我也会将大家分享的方法发到iOS开发微信公众账号：iOSDevTip 里面，分享给更多iOS开发者。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/12/05/cheng-xu-yuan-fu-li-ge-da-ping-tai-mian-fei-jie-kou-,fei-chang-gua-yong/">程序员福利各大平台免费接口，非常适用</a></h1>
     
     
@@ -1369,127 +1526,6 @@ Integrating client project
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/11/11/jie-du-afnetworkingzhong-demode-mvc/">解读AFNetworking中Demo的MVC</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-11-11T11:00:21+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:00 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Demo的下载地址：<a href=""></a><a href="https://github.com/AFNetworking/AFNetworking.git"target="_blank"title="AFNetworking下载">AFNetworking下载</a></p>
-
-<p>打开Demo：</p>
-
-<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlylDJt3FABXaQmFVO4Hqm1zNzeQGY2kKVSJ9CtQR7HWcsKelE6nuLauFQMdWtO2L90ccabibh5v1yeg/640"></p>
-
-<p>现实的功能，就是一个简易的微博timeline界面：</p>
-
-<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlylDJt3FABXaQmFVO4Hqm1zNW4svNoeQPlAsBHJ40YJeiaUib7ia5Hdgo9Yf5YBee5zZ1lDbXphGCHibCQ/640"></p>
-
-<p>项目预览：</p>
-
-<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlylDJt3FABXaQmFVO4Hqm1zNFUp9X2kpra3gqd98Qh4Yn1RhnHsIKcI46TP97BVKbvJicpvYoUd5tuA/640"></p>
-
-<p>用到的第三方：AFNetworking 和 UIKit+AFNetworking</p>
-
-<p>功能：用户图像（先显示默认图，在加载图片），用户发的内容，下拉刷新。</p>
-
-<p><div class="entry-content"><h3>C层：</h3></p>
-
-<p>发一个请求：（告诉M 要做什么）</p>
-
-<pre><code>- (void)reload:(__unusedid)sender {
-    self.navigationItem.rightBarButtonItem.enabled = NO;
-
-    NSURLSessionTask *task = [PostglobalTimelinePostsWithBlock:^(NSArray *posts, NSError *error) {
-        if (!error) {
-
-             self.posts = posts;
-            [self.tableViewreloadData];
-        }
-    }];
-
-    [UIAlertViewshowAlertViewForTaskWithErrorOnCompletion:task delegate:nil];
-    [self.refreshControlsetRefreshingWithStateOfTask:task];
-}
-</code></pre>
-
-<p>M 做完之手，产生多个post对象，放到self.post数组里面。C拿到M给的post对象，去更新V</p>
-
-<pre><code>cell.post = [self.postsobjectAtIndex:(NSUInteger)indexPath.row];
-</code></pre>
-
-<p><div class="entry-content"><h3>M层：</h3></p>
-
-<p>M 收到C的请求：去请求数据，解析，转换成post对象，然后通过block返回给C</p>
-
-<pre><code>+ (NSURLSessionDataTask *)globalTimelinePostsWithBlock:(void (^)(NSArray *posts, NSError *error))block {
-    return [[AFAppDotNetAPIClientsharedClient] GET:@"stream/0/posts/stream/global"parameters:nilsuccess:^(NSURLSessionDataTask * __unused task, id JSON) {
-        NSArray *postsFromResponse = [JSON valueForKeyPath:@"data"];
-        NSMutableArray *mutablePosts = [NSMutableArrayarrayWithCapacity:[postsFromResponse count]];
-        for (NSDictionary *attributes in postsFromResponse) {
-            Post *post = [[Postalloc] initWithAttributes:attributes];
-            [mutablePosts addObject:post];
-        }
-
-        if (block) {
-            block([NSArrayarrayWithArray:mutablePosts], nil);
-        }
-    } failure:^(NSURLSessionDataTask *__unused task, NSError *error) {
-        if (block) {
-            block([NSArrayarray], error);
-        }
-    }];
-}
-</code></pre>
-
-<p><div class="entry-content"><h3>V层：</h3></p>
-
-<p>V：拿到C给的数据，来展示出来，这一步就是更新UI</p>
-
-<pre><code>- (void)setPost:(Post *)post {
-    _post = post;
-
-    self.textLabel.text = _post.user.username;
-    self.detailTextLabel.text = _post.text;
-    [self.imageViewsetImageWithURL:_post.user.avatarImageURLplaceholderImage:[UIImageimageNamed:@"profile-image-placeholder"]];
-
-    [selfsetNeedsLayout];
-}
-</code></pre>
-
-<p>其中 ：</p>
-
-<pre><code>    [self.imageViewsetImageWithURL:_post.user.avatarImageURLplaceholderImage:[UIImageimageNamed:@"profile-image-placeholder"]];
-</code></pre>
-
-<p>这句代码是对UIImageView的扩展，在UIKit+AFNetworking可以直接使用，非常方便。</p>
-
-<p>我的微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/4">&larr; Older</a>
@@ -1507,6 +1543,10 @@ Integrating client project
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/01/07/paperfold-for-ios/">PaperFold-for-iOS</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/01/07/dkcirclebutton/">DKCircleButton</a>
       </li>
     
@@ -1520,10 +1560,6 @@ Integrating client project
     
       <li class="post">
         <a href="/blog/2015/01/06/gpuimage/">GPUImage</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/01/06/pop/">Pop</a>
       </li>
     
   </ul>
