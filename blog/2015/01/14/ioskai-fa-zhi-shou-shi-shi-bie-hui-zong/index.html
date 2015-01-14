@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>刚刚在线正式上线 - 刚刚在线</title>
+  <title>iOS开发之手势识别汇总 - 刚刚在线</title>
   <meta name="author" content="刚刚">
       <meta name="uyan_auth" content="d1112891bb" />
       <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="刚刚在线正式上线">
-  <meta name="keywords" content="iOS, 写博客, Octopress, rake new_post, iOSDevTip iOS开发, gcd, cocoapods, 队列, 个人博客, 刚刚在线">
+  <meta name="description" content="iOS开发之手势识别汇总">
+  <meta name="keywords" content="PinchGestureRecognizer,iOS开发, 手势识别, Cocoapods, 手势, RotationGestureRecognizer, TapGestureRecognizer, SwipeGestureRecognizer, LongPressGestureRecognizer, iOS, PanGestureRecognizer, cocoapods, 个人博客, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://worldligang.github.io/blog/2014/09/26/ios">
+  <link rel="canonical" href="http://worldligang.github.io/blog/2015/01/14/ioskai-fa-zhi-shou-shi-shi-bie-hui-zong">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -74,7 +74,7 @@
   
   <header>
     
-      <h1 class="entry-title">刚刚在线正式上线</h1>
+      <h1 class="entry-title">iOS开发之手势识别汇总</h1>
     
     
       <p class="meta">
@@ -83,36 +83,166 @@
 
 
 
-<time class='entry-date' datetime='2014-09-26T11:10:05+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:10 am</span></time>
+<time class='entry-date' datetime='2015-01-14T10:40:02+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:40 am</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><a href="http://www.superqq.com/blog/2014/09/26/ios/">刚刚在线正式上线</a></p>
+<div class="entry-content"><p>iOS开发中手势识别有六种：</p>
 
-<p>大家好！</p>
+<p>轻击手势（TapGestureRecognizer）,</p>
 
-<p>我是<a href="http://www.superqq.com/blog/2014/09/26/ios/">刚刚在线</a>
-的作者刚刚</p>
+<p>轻扫手势 （SwipeGestureRecognizer）,</p>
 
-<p>以后就在这里跟大家分享一些东西</p>
+<p>长按手势（LongPressGestureRecognizer）,</p>
 
-<p>下面两种方式参与学习讨论：</p>
+<p>拖动手势（PanGestureRecognizer）,</p>
 
-<p>1，我的微信公众账号：iOS开发</p>
+<p>捏合手势（PinchGestureRecognizer）,</p>
 
-<pre><code>iOSDevTip
+<p>旋转手势（RotationGestureRecognizer）,</p>
+
+<h3>1，轻击手势（TapGestureRecognizer）</h3>
+
+<pre><code>UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
+tapGesture.numberOfTapsRequired = 1; //点击次数
+tapGesture.numberOfTouchesRequired = 1; //点击手指数
+[self.view addGestureRecognizer:tapGesture];
+
+//轻击手势触发方法
+-(void)tapGesture:(UITapGestureRecognizer *)sender
+{
+    //your code
+}
 </code></pre>
 
-<p>（扫描二维码直接关注）</p>
+<h3>2，长按手势（LongPressGestureRecognizer）</h3>
 
-<p><img src="http://www.superqq.com/images/getqrcode.jpg" ></p>
+<pre><code>UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGesture:)];
+//设置长按时间
+longPressGesture.minimumPressDuration = 0.5;
+[self.view addGestureRecognizer:longPressGesture];
 
-<p>2，我建立的QQ群：iOS学习交流群</p>
+//长按手势触发方法
+-(void)longPressGesture:(id)sender
+{
+    UILongPressGestureRecognizer *longPress = sender;
+    if (longPress.state == UIGestureRecognizerStateBegan)
+    {
+       //your code
+    }
+}
 
-<pre><code>303868520
+说明：长按手势的常用状态如下
+
+开始：UIGestureRecognizerStateBegan
+
+改变：UIGestureRecognizerStateChanged
+
+结束：UIGestureRecognizerStateEnded
+
+取消：UIGestureRecognizerStateCancelled
+
+失败：UIGestureRecognizerStateFailed
+</code></pre>
+
+<h3>3，轻扫手势（SwipeGestureRecognizer）</h3>
+
+<pre><code>UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGesture:)];
+//设置轻扫的方向
+swipeGesture.direction = UISwipeGestureRecognizerDirectionRight; //向右
+[self.view addGestureRecognizer:swipeGesture];
+
+UISwipeGestureRecognizer *swipeGestureLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGesture:)];
+//设置轻扫的方向
+swipeGestureLeft.direction = UISwipeGestureRecognizerDirectionLeft; //向左
+[self.view addGestureRecognizer:swipeGestureLeft];
+
+//轻扫手势触发方法
+-(void)swipeGesture:(id)sender
+{
+
+    UISwipeGestureRecognizer *swipe = sender;
+
+    if (swipe.direction == UISwipeGestureRecognizerDirectionLeft)
+    {
+        //向左轻扫
+    }
+
+    if (swipe.direction == UISwipeGestureRecognizerDirectionRight)
+    {
+        //向右轻扫
+    }
+}
+</code></pre>
+
+<h3>4，捏合手势（PinchGestureRecognizer）</h3>
+
+<pre><code>UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchGesture:)];
+[self.view addGestureRecognizer:pinchGesture];
+
+    ////捏合手势触发方法
+-(void) pinchGesture:(id)sender
+{
+    UIPinchGestureRecognizer *gesture = sender;
+    //手势改变时
+    if (gesture.state == UIGestureRecognizerStateChanged)
+    {
+         //捏合手势中scale属性记录的缩放比例
+        _imageView.transform = CGAffineTransformMakeScale(gesture.scale, gesture.scale);
+    }
+
+    //结束后恢复
+    if(gesture.state==UIGestureRecognizerStateEnded)
+    {
+        [UIView animateWithDuration:0.5 animations:^{
+            _imageView.transform = CGAffineTransformIdentity;//取消一切形变
+        }];
+    }
+}
+</code></pre>
+
+<h3>5，拖动手势（PanGestureRecognizer）</h3>
+
+<pre><code>UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGesture:)];
+[self.view addGestureRecognizer:panGesture];
+
+//拖动手势触发方法
+-(void) panGesture:(id)sender
+{
+    UIPanGestureRecognizer *panGesture = sender;
+    CGPoint movePoint = [panGesture translationInView:self.view];
+    //your code
+}
+</code></pre>
+
+<h3>6，旋转手势（RotationGestureRecognizer）</h3>
+
+<pre><code>UIRotationGestureRecognizer *rotationGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotationGesture:)];
+[self.view addGestureRecognizer:rotationGesture];
+
+//旋转手势触发方法
+-(void)rotationGesture:(id)sender
+{
+    UIRotationGestureRecognizer *gesture = sender;
+    if (gesture.state==UIGestureRecognizerStateChanged)
+    {
+        _imageView.transform=CGAffineTransformMakeRotation(gesture.rotation);
+    }
+    if(gesture.state==UIGestureRecognizerStateEnded)
+    {
+        [UIView animateWithDuration:1 animations:^{
+            _imageView.transform=CGAffineTransformIdentity;//取消形变
+        }];
+    }
+}
+</code></pre>
+
+<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
 </code></pre>
 </div>
 
@@ -129,7 +259,7 @@
 
 
 
-<time class='entry-date' datetime='2014-09-26T11:10:05+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:10 am</span></time>
+<time class='entry-date' datetime='2015-01-14T10:40:02+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:40 am</span></time>
       
 
 <span class="categories">
@@ -139,7 +269,7 @@
 </span>
 
 
-      <br>原文链接：<a href="http://www.superqq.com/blog/2014/09/26/ios/">http://www.superqq.com/blog/2014/09/26/ios/</a> <!-- 添加这一行代码 -->
+      <br>原文链接：<a href="http://www.superqq.com/blog/2015/01/14/ioskai-fa-zhi-shou-shi-shi-bie-hui-zong/">http://www.superqq.com/blog/2015/01/14/ioskai-fa-zhi-shou-shi-shi-bie-hui-zong/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -164,8 +294,8 @@
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2015/01/07/paperfold-for-ios/" title="Previous Post: PaperFold-for-iOS">&laquo; PaperFold-for-iOS</a>
       
-        <a class="basic-alignment right" href="/blog/2014/09/30/xie-bo-ke-de-fang-fa/" title="Next Post: Octopress写博客的方法">Octopress写博客的方法 &ra/categories.htmlquo;</a>
       
     </p>
   </footer>
