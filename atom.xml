@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-01-08T12:59:10+08:00</updated>
+  <updated>2015-01-14T11:08:56+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -14,11 +14,178 @@
 
   
   <entry>
+    <title type="html"><![CDATA[iOS开发之手势识别汇总]]></title>
+    <link href="http://worldligang.github.io/blog/2015/01/14/ioskai-fa-zhi-shou-shi-shi-bie-hui-zong/"/>
+    <updated>2015-01-14T10:40:02+08:00</updated>
+    <id>http://worldligang.github.io/blog/2015/01/14/ioskai-fa-zhi-shou-shi-shi-bie-hui-zong</id>
+    <content type="html"><![CDATA[<p>iOS开发中手势识别有六种：</p>
+
+<p>轻击手势（TapGestureRecognizer）,</p>
+
+<p>轻扫手势 （SwipeGestureRecognizer）,</p>
+
+<p>长按手势（LongPressGestureRecognizer）,</p>
+
+<p>拖动手势（PanGestureRecognizer）,</p>
+
+<p>捏合手势（PinchGestureRecognizer）,</p>
+
+<p>旋转手势（RotationGestureRecognizer）,</p>
+
+<h3>1，轻击手势（TapGestureRecognizer）</h3>
+
+<pre><code>UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
+tapGesture.numberOfTapsRequired = 1; //点击次数
+tapGesture.numberOfTouchesRequired = 1; //点击手指数
+[self.view addGestureRecognizer:tapGesture];
+
+//轻击手势触发方法
+-(void)tapGesture:(UITapGestureRecognizer *)sender
+{
+    //your code
+}
+</code></pre>
+
+<h3>2，长按手势（LongPressGestureRecognizer）</h3>
+
+<pre><code>UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGesture:)];
+//设置长按时间
+longPressGesture.minimumPressDuration = 0.5;
+[self.view addGestureRecognizer:longPressGesture];
+
+//长按手势触发方法
+-(void)longPressGesture:(id)sender
+{
+    UILongPressGestureRecognizer *longPress = sender;
+    if (longPress.state == UIGestureRecognizerStateBegan)
+    {
+       //your code
+    }
+}
+
+说明：长按手势的常用状态如下
+
+开始：UIGestureRecognizerStateBegan
+
+改变：UIGestureRecognizerStateChanged
+
+结束：UIGestureRecognizerStateEnded
+
+取消：UIGestureRecognizerStateCancelled
+
+失败：UIGestureRecognizerStateFailed
+</code></pre>
+
+<h3>3，轻扫手势（SwipeGestureRecognizer）</h3>
+
+<pre><code>UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGesture:)];
+//设置轻扫的方向
+swipeGesture.direction = UISwipeGestureRecognizerDirectionRight; //向右
+[self.view addGestureRecognizer:swipeGesture];
+
+UISwipeGestureRecognizer *swipeGestureLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGesture:)];
+//设置轻扫的方向
+swipeGestureLeft.direction = UISwipeGestureRecognizerDirectionLeft; //向左
+[self.view addGestureRecognizer:swipeGestureLeft];
+
+//轻扫手势触发方法
+-(void)swipeGesture:(id)sender
+{
+
+    UISwipeGestureRecognizer *swipe = sender;
+
+    if (swipe.direction == UISwipeGestureRecognizerDirectionLeft)
+    {
+        //向左轻扫
+    }
+
+    if (swipe.direction == UISwipeGestureRecognizerDirectionRight)
+    {
+        //向右轻扫
+    }
+}
+</code></pre>
+
+<h3>4，捏合手势（PinchGestureRecognizer）</h3>
+
+<pre><code>UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchGesture:)];
+[self.view addGestureRecognizer:pinchGesture];
+
+    ////捏合手势触发方法
+-(void) pinchGesture:(id)sender
+{
+    UIPinchGestureRecognizer *gesture = sender;
+    //手势改变时
+    if (gesture.state == UIGestureRecognizerStateChanged)
+    {
+         //捏合手势中scale属性记录的缩放比例
+        _imageView.transform = CGAffineTransformMakeScale(gesture.scale, gesture.scale);
+    }
+
+    //结束后恢复
+    if(gesture.state==UIGestureRecognizerStateEnded)
+    {
+        [UIView animateWithDuration:0.5 animations:^{
+            _imageView.transform = CGAffineTransformIdentity;//取消一切形变
+        }];
+    }
+}
+</code></pre>
+
+<h3>5，拖动手势（PanGestureRecognizer）</h3>
+
+<pre><code>UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGesture:)];
+[self.view addGestureRecognizer:panGesture];
+
+//拖动手势触发方法
+-(void) panGesture:(id)sender
+{
+    UIPanGestureRecognizer *panGesture = sender;
+    CGPoint movePoint = [panGesture translationInView:self.view];
+    //your code
+}
+</code></pre>
+
+<h3>6，旋转手势（RotationGestureRecognizer）</h3>
+
+<pre><code>UIRotationGestureRecognizer *rotationGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotationGesture:)];
+[self.view addGestureRecognizer:rotationGesture];
+
+//旋转手势触发方法
+-(void)rotationGesture:(id)sender
+{
+    UIRotationGestureRecognizer *gesture = sender;
+    if (gesture.state==UIGestureRecognizerStateChanged)
+    {
+        _imageView.transform=CGAffineTransformMakeRotation(gesture.rotation);
+    }
+    if(gesture.state==UIGestureRecognizerStateEnded)
+    {
+        [UIView animateWithDuration:1 animations:^{
+            _imageView.transform=CGAffineTransformIdentity;//取消形变
+        }];
+    }
+}
+</code></pre>
+
+<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[PaperFold-for-iOS]]></title>
     <link href="http://worldligang.github.io/blog/2015/01/07/paperfold-for-ios/"/>
     <updated>2015-01-07T14:55:39+08:00</updated>
     <id>http://worldligang.github.io/blog/2015/01/07/paperfold-for-ios</id>
-    <content type="html"><![CDATA[<p> <a href="https://github.com/honcheng/PaperFold-for-iOS.git"target="_blank"title="源代码">源代码</a></p>
+    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p> <a href="https://github.com/honcheng/PaperFold-for-iOS.git"target="_blank"title="源代码">源代码</a></p>
 
 <h1>PaperFold for iOS</h1>
 
@@ -153,7 +320,12 @@ You can check out his <a href="https://github.com/Dillion/iOS-Flip-Transform">iO
     <link href="http://worldligang.github.io/blog/2015/01/07/dkcirclebutton/"/>
     <updated>2015-01-07T14:48:23+08:00</updated>
     <id>http://worldligang.github.io/blog/2015/01/07/dkcirclebutton</id>
-    <content type="html"><![CDATA[<p> <a href="https://github.com/kronik/DKCircleButton.git"target="_blank"title="源代码">源代码</a></p>
+    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p> <a href="https://github.com/kronik/DKCircleButton.git"target="_blank"title="源代码">源代码</a></p>
 
 <h1> DKCircleButton</h1>
 
@@ -217,7 +389,12 @@ Earliest supported deployment target - iOS 7.0</p>
     <link href="http://worldligang.github.io/blog/2015/01/07/twittercover/"/>
     <updated>2015-01-07T13:20:17+08:00</updated>
     <id>http://worldligang.github.io/blog/2015/01/07/twittercover</id>
-    <content type="html"><![CDATA[<p> <a href="https://github.com/cyndibaby905/TwitterCover.git"target="_blank"title="源代码">源代码</a></p>
+    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p> <a href="https://github.com/cyndibaby905/TwitterCover.git"target="_blank"title="源代码">源代码</a></p>
 
 <p> ## TwitterCover ##</p>
 
@@ -265,7 +442,12 @@ UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds]
     <link href="http://worldligang.github.io/blog/2015/01/07/hackernews/"/>
     <updated>2015-01-07T11:09:29+08:00</updated>
     <id>http://worldligang.github.io/blog/2015/01/07/hackernews</id>
-    <content type="html"><![CDATA[<p> <a href="https://github.com/Xuzz/newsyc.git"target="_blank"title="源代码">源代码</a></p>
+    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p> <a href="https://github.com/Xuzz/newsyc.git"target="_blank"title="源代码">源代码</a></p>
 
 <p> Hacker News的iPhone客户端</p>
 
@@ -278,7 +460,12 @@ UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds]
     <link href="http://worldligang.github.io/blog/2015/01/06/gpuimage/"/>
     <updated>2015-01-06T14:26:10+08:00</updated>
     <id>http://worldligang.github.io/blog/2015/01/06/gpuimage</id>
-    <content type="html"><![CDATA[<p> <a href="https://github.com/BradLarson/GPUImage.git"target="_blank"title="源代码">源代码</a></p>
+    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p> <a href="https://github.com/BradLarson/GPUImage.git"target="_blank"title="源代码">源代码</a></p>
 
 <h1>GPUImage</h1>
 
@@ -293,7 +480,7 @@ UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds]
 
 <p><a href="http://twitter.com/bradlarson">@bradlarson</a></p>
 
-<p><a href="&#x6d;&#x61;&#x69;&#108;&#116;&#111;&#58;&#x63;&#x6f;&#110;&#116;&#x61;&#99;&#x74;&#64;&#115;&#x75;&#110;&#115;&#101;&#116;&#x6c;&#97;&#107;&#x65;&#x73;&#111;&#102;&#x74;&#x77;&#97;&#x72;&#101;&#x2e;&#x63;&#111;&#x6d;">&#x63;&#x6f;&#110;&#x74;&#x61;&#x63;&#116;&#x40;&#x73;&#117;&#110;&#x73;&#x65;&#116;&#108;&#97;&#107;&#101;&#x73;&#111;&#102;&#x74;&#x77;&#x61;&#x72;&#101;&#x2e;&#99;&#x6f;&#109;</a></p>
+<p><a href="&#109;&#x61;&#x69;&#x6c;&#116;&#111;&#x3a;&#99;&#111;&#110;&#116;&#97;&#x63;&#x74;&#64;&#x73;&#117;&#x6e;&#115;&#101;&#x74;&#x6c;&#x61;&#x6b;&#x65;&#115;&#111;&#102;&#x74;&#x77;&#x61;&#x72;&#101;&#46;&#99;&#111;&#109;">&#99;&#111;&#110;&#116;&#x61;&#99;&#x74;&#64;&#115;&#x75;&#x6e;&#x73;&#x65;&#x74;&#108;&#97;&#107;&#101;&#x73;&#x6f;&#102;&#116;&#119;&#x61;&#x72;&#x65;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
 
 <h2>Overview</h2>
 
@@ -1233,7 +1420,12 @@ movieFile.audioEncodingTarget = movieWriter;
     <link href="http://worldligang.github.io/blog/2015/01/06/pop/"/>
     <updated>2015-01-06T13:52:18+08:00</updated>
     <id>http://worldligang.github.io/blog/2015/01/06/pop</id>
-    <content type="html"><![CDATA[<p> <a href="https://github.com/facebook/pop.git"target="_blank"title="源代码">源代码</a></p>
+    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p> <a href="https://github.com/facebook/pop.git"target="_blank"title="源代码">源代码</a></p>
 
 <p><img src="https://github.com/facebook/pop/blob/master/Images/pop.gif?raw=true" alt="pop" /></p>
 
@@ -1459,7 +1651,12 @@ movieFile.audioEncodingTarget = movieWriter;
     <link href="http://worldligang.github.io/blog/2015/01/06/vvdocumenter-xcode/"/>
     <updated>2015-01-06T13:44:56+08:00</updated>
     <id>http://worldligang.github.io/blog/2015/01/06/vvdocumenter-xcode</id>
-    <content type="html"><![CDATA[<p> <a href="https://github.com/worldligang/VVDocumenter-Xcode.git"target="_blank"title="源代码">源代码</a></p>
+    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p> <a href="https://github.com/worldligang/VVDocumenter-Xcode.git"target="_blank"title="源代码">源代码</a></p>
 
 <h1>VVDocumenter-Xcode <a href="https://travis-ci.org/onevcat/VVDocumenter-Xcode"><img src="https://api.travis-ci.org/onevcat/VVDocumenter-Xcode.svg" alt="Build Status" /></a> <a href="https://flattr.com/submit/auto?user_id=onevcat&url=https%3A%2F%2Fgithub.com%2Fonevcat%2FVVDocumenter-Xcode" target="_blank"><img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0"></a></h1>
 
@@ -1540,7 +1737,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     <link href="http://worldligang.github.io/blog/2015/01/05/pushtalk/"/>
     <updated>2015-01-05T17:20:23+08:00</updated>
     <id>http://worldligang.github.io/blog/2015/01/05/pushtalk</id>
-    <content type="html"><![CDATA[<p> <a href="https://github.com/good-life/PushTalk"target="_blank"title="源代码">源代码</a></p>
+    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p> <a href="https://github.com/good-life/PushTalk"target="_blank"title="源代码">源代码</a></p>
 
 <h1>推聊概述 PushTalk Overview</h1>
 
@@ -1635,7 +1837,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 <p>本人是因为兴趣业余时间来开发推聊，考虑到 IM 占用的时间太多，所以请谅解，不提供任何 IM 的沟通方式。希望大家以如下的方式交流：</p>
 
 <ul>
-<li>Email:  <a href="&#109;&#97;&#105;&#108;&#116;&#x6f;&#58;&#112;&#x75;&#x73;&#104;&#116;&#x61;&#108;&#x6b;&#x2e;&#x6f;&#114;&#103;&#x40;&#x67;&#x6d;&#x61;&#105;&#108;&#46;&#99;&#111;&#109;">&#x70;&#117;&#115;&#x68;&#116;&#x61;&#x6c;&#x6b;&#x2e;&#111;&#114;&#103;&#64;&#103;&#109;&#97;&#105;&#x6c;&#x2e;&#99;&#x6f;&#109;</a></li>
+<li>Email:  <a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#x70;&#x75;&#115;&#x68;&#x74;&#x61;&#108;&#107;&#x2e;&#111;&#x72;&#103;&#x40;&#103;&#x6d;&#x61;&#x69;&#x6c;&#46;&#x63;&#111;&#x6d;">&#x70;&#x75;&#115;&#104;&#116;&#97;&#108;&#x6b;&#46;&#x6f;&#114;&#103;&#x40;&#x67;&#109;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#109;</a></li>
 <li>项目Wiki: <a href="https://github.com/good-life/PushTalk/wiki">https://github.com/good-life/PushTalk/wiki</a></li>
 <li>项目Bug: <a href="https://github.com/good-life/PushTalk/issues">https://github.com/good-life/PushTalk/issues</a></li>
 <li>PushTalk频道：<code>pushtalk</code>, <code>报告bug</code>, <code>新功能讨论</code> 等</li>
@@ -1655,7 +1857,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     <link href="http://worldligang.github.io/blog/2015/01/05/pnchart/"/>
     <updated>2015-01-05T17:16:07+08:00</updated>
     <id>http://worldligang.github.io/blog/2015/01/05/pnchart</id>
-    <content type="html"><![CDATA[<p> <a href="https://github.com/kevinzhow/PNChart"target="_blank"title="源代码">源代码</a></p>
+    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p> <a href="https://github.com/kevinzhow/PNChart"target="_blank"title="源代码">源代码</a></p>
 
 <h1>PNChart</h1>
 
@@ -2029,7 +2236,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     <link href="http://worldligang.github.io/blog/2015/01/05/coding-ios/"/>
     <updated>2015-01-05T13:09:26+08:00</updated>
     <id>http://worldligang.github.io/blog/2015/01/05/coding-ios</id>
-    <content type="html"><![CDATA[<p> <a href="https://coding.net/u/coding"target="_blank"title="源代码">源代码</a></p>
+    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p> <a href="https://coding.net/u/coding"target="_blank"title="源代码">源代码</a></p>
 
 <h3>Coding_iOS客户端项目介绍</h3>
 
@@ -2125,7 +2337,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     <link href="http://worldligang.github.io/blog/2015/01/05/iosda-shen-matttjie-zuo-afnetworking/"/>
     <updated>2015-01-05T12:56:20+08:00</updated>
     <id>http://worldligang.github.io/blog/2015/01/05/iosda-shen-matttjie-zuo-afnetworking</id>
-    <content type="html"><![CDATA[<p>AFNetworking是一个轻量级的iOS网络通信类库，继ASI类库不在更新之后开发者们有一套不错选择；</p>
+    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p>AFNetworking是一个轻量级的iOS网络通信类库，继ASI类库不在更新之后开发者们有一套不错选择；</p>
 
 <p> <a href="https://github.com/AFNetworking/AFNetworking"target="_blank"title="源代码">源代码</a></p>
 
@@ -2721,7 +2938,12 @@ $ pod install
     <link href="http://worldligang.github.io/blog/2015/01/05/ios-slash-androidkai-fa-yi-dong-duan-xin-sdklie-biao/"/>
     <updated>2015-01-05T12:25:55+08:00</updated>
     <id>http://worldligang.github.io/blog/2015/01/05/ios-slash-androidkai-fa-yi-dong-duan-xin-sdklie-biao</id>
-    <content type="html"><![CDATA[<h3>Mob免费短信验证码</h3>
+    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<h3>Mob免费短信验证码</h3>
 
 <p><a href="http://mob.com/sms"target="_blank"title="进入官网">进入官网</a></p>
 
@@ -2790,7 +3012,12 @@ $ pod install
     <link href="http://worldligang.github.io/blog/2015/01/05/ios-slash-androidkai-fa-ji-shi-tong-xun-sdklie-biao/"/>
     <updated>2015-01-05T12:16:22+08:00</updated>
     <id>http://worldligang.github.io/blog/2015/01/05/ios-slash-androidkai-fa-ji-shi-tong-xun-sdklie-biao</id>
-    <content type="html"><![CDATA[<h3>环信即时通讯云</h3>
+    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<h3>环信即时通讯云</h3>
 
 <p><a href="http://www.easemob.com"target="_blank"title="进入官网">进入官网</a></p>
 
@@ -2843,7 +3070,12 @@ $ pod install
     <link href="http://worldligang.github.io/blog/2015/01/04/ios-slash-androidkai-fa-ren-lian-shi-bie-sdklie-biao/"/>
     <updated>2015-01-04T17:57:18+08:00</updated>
     <id>http://worldligang.github.io/blog/2015/01/04/ios-slash-androidkai-fa-ren-lian-shi-bie-sdklie-biao</id>
-    <content type="html"><![CDATA[<h3>Face++人脸识别</h3>
+    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<h3>Face++人脸识别</h3>
 
 <p><a href="http://www.faceplusplus.com.cn"target="_blank"title="进入官网">进入官网</a></p>
 
@@ -2896,7 +3128,12 @@ $ pod install
     <link href="http://worldligang.github.io/blog/2015/01/04/ios-slash-androidkai-fa-di-tu-sdklie-biao/"/>
     <updated>2015-01-04T14:48:48+08:00</updated>
     <id>http://worldligang.github.io/blog/2015/01/04/ios-slash-androidkai-fa-di-tu-sdklie-biao</id>
-    <content type="html"><![CDATA[<h3>高德地图</h3>
+    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<h3>高德地图</h3>
 
 <p><a href="http://lbs.amap.com/"target="_blank"title="进入官网">进入官网</a></p>
 
@@ -2975,7 +3212,12 @@ $ pod install
     <link href="http://worldligang.github.io/blog/2015/01/04/ios-slash-androidkai-fa-zhi-fu-sdklie-biao/"/>
     <updated>2015-01-04T14:03:37+08:00</updated>
     <id>http://worldligang.github.io/blog/2015/01/04/ios-slash-androidkai-fa-zhi-fu-sdklie-biao</id>
-    <content type="html"><![CDATA[<h3>支付宝</h3>
+    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<h3>支付宝</h3>
 
 <p><a href="https://openhome.alipay.com/doc/docIndex.htm"target="_blank"title="进入官网">进入官网</a></p>
 
@@ -3038,7 +3280,12 @@ $ pod install
     <link href="http://worldligang.github.io/blog/2015/01/04/ioskai-fa-tui-song-sdkji-he/"/>
     <updated>2015-01-04T12:33:21+08:00</updated>
     <id>http://worldligang.github.io/blog/2015/01/04/ioskai-fa-tui-song-sdkji-he</id>
-    <content type="html"><![CDATA[<h3>极光推送</h3>
+    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<h3>极光推送</h3>
 
 <p><a href="https://www.jpush.cn"target="_blank"title="进入官网">进入官网</a></p>
 
@@ -3791,105 +4038,6 @@ _videoBuffer = [[GPUImageBuffer alloc] init];
 
 <pre><code>iOSDevTip
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS开发大众点评URL签名生成规则和SHA-1编码]]></title>
-    <link href="http://worldligang.github.io/blog/2014/12/13/ioskai-fa-da-zhong-dian-ping-urlqian-ming-sheng-cheng-gui-ze-he-sha-1bian-ma/"/>
-    <updated>2014-12-13T13:52:29+08:00</updated>
-    <id>http://worldligang.github.io/blog/2014/12/13/ioskai-fa-da-zhong-dian-ping-urlqian-ming-sheng-cheng-gui-ze-he-sha-1bian-ma</id>
-    <content type="html"><![CDATA[<p></br>
-URL签名生成规则</p>
-
-<p>所有<a href="http://www.superqq.com/blog/2014/12/13/ioskai-fa-da-zhong-dian-ping-urlqian-ming-sheng-cheng-gui-ze-he-sha-1bian-ma/">大众点评API</a>的有效访问URL包括以下三个部分：
-1. 资源访问路径，如/v1/deal/find_deals;
-2. 请求参数：即API对应所需的参数名和参数值param=value，多个请求参数间用&amp;连接
-   如deal_id=1-85462&amp;appkey=00000；
-3. 签名串，由签名算法生成</p>
-
-<p>签名算法如下：
-1. 对除appkey以外的所有请求参数进行字典升序排列；
-2. 将以上排序后的参数表进行字符串连接，如key1value1key2value2key3value3&hellip;keyNvalueN；
-3. 将app key作为前缀，将app secret作为后缀，对该字符串进行SHA-1计算，并转换成16进制编码；
-4. 转换为全大写形式后即获得签名串</p>
-
-<p>签名串获得后，将其作为sign参数附加到对应的URL中，即可正常访问API。</p>
-
-<pre><code>注意：请保证HTTP请求数据编码务必为UTF-8格式，URL也务必为UTF-8编码格式。
-</code></pre>
-
-<p>具体调用示例请参见<a href="https://github.com/dianping/dianping-open-sdk"target="_blank"title="刚刚在线"><a href="https://github.com/dianping/dianping-open-sdk">https://github.com/dianping/dianping-open-sdk</a></a></p>
-
-<pre><code>+ (NSDictionary *)parseQueryString:(NSString *)query {
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:6];
-    NSArray *pairs = [query componentsSeparatedByString:@"&amp;"];
-
-    for (NSString *pair in pairs) {
-        NSArray *elements = [pair componentsSeparatedByString:@"="];
-
-        if ([elements count] &lt;= 1) {
-            return nil;
-        }
-
-        NSString *key = [[elements objectAtIndex:0] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSString *val = [[elements objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-
-        [dict setObject:val forKey:key];
-    }
-    return dict;
-}
-
-
-
-+ (NSString *)serializeURL:(NSString *)baseURL params:(NSDictionary *)params
-{
-    NSURL* parsedURL = [NSURL URLWithString:[baseURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    NSMutableDictionary *paramsDic = [NSMutableDictionary dictionaryWithDictionary:[self parseQueryString:[parsedURL query]]];
-    if (params) {
-        [paramsDic setValuesForKeysWithDictionary:params];
-    }
-
-    NSMutableString *signString = [NSMutableString stringWithString:DIANPING_APP_KEY];
-    NSMutableString *paramsString = [NSMutableString stringWithFormat:@"appkey=%@", DIANPING_APP_KEY];
-    NSArray *sortedKeys = [[paramsDic allKeys] sortedArrayUsingSelector: @selector(compare:)];
-    for (NSString *key in sortedKeys) {
-        [signString appendFormat:@"%@%@", key, [paramsDic objectForKey:key]];
-        [paramsString appendFormat:@"&amp;%@=%@", key, [paramsDic objectForKey:key]];
-    }
-    [signString appendString:DIANPING_APP_Secret];
-    unsigned char digest[CC_SHA1_DIGEST_LENGTH];
-    NSData *stringBytes = [signString dataUsingEncoding: NSUTF8StringEncoding];
-    if (CC_SHA1([stringBytes bytes], (long)[stringBytes length], digest)) {
-        /* SHA-1 hash has been calculated and stored in 'digest'. */
-        NSMutableString *digestString = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH];
-        for (int i=0; i&lt;CC_SHA1_DIGEST_LENGTH; i++) {
-            unsigned char aChar = digest[i];
-            [digestString appendFormat:@"%02X", aChar];
-        }
-        [paramsString appendFormat:@"&amp;sign=%@", [digestString uppercaseString]];
-        return [NSString stringWithFormat:@"%@://%@%@?%@", [parsedURL scheme], [parsedURL host], [parsedURL path], [paramsString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    } else {
-        return nil;
-    }
-}
-</code></pre>
-
-<p>直接调用这个方法即可签名成功，+ (NSString <em>)serializeURL:(NSString </em>)baseURL params:(NSDictionary *)params</p>
-
-<pre><code>NSString *url = [LGClient serializeURL:string params:nil];
-
-//string是大众点评的需要请求的接口
-</code></pre>
-
-<p>这个url就可以用来请求大众点评数据了</p>
-
-<p>我的微信公众号：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-
-<p>我也会将大家分享的方法发到iOS开发微信公众账号：iOSDevTip 里面，分享给更多iOS开发者。</p>
 ]]></content>
   </entry>
   

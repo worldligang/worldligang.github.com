@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 源代码 | 刚刚在线]]></title>
   <link href="http://worldligang.github.io/blog/categories/yuan-dai-ma/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-01-08T12:59:10+08:00</updated>
+  <updated>2015-01-14T11:08:56+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -18,7 +18,12 @@
     <link href="http://worldligang.github.io/blog/2015/01/07/paperfold-for-ios/"/>
     <updated>2015-01-07T14:55:39+08:00</updated>
     <id>http://worldligang.github.io/blog/2015/01/07/paperfold-for-ios</id>
-    <content type="html"><![CDATA[<p> <a href="https://github.com/honcheng/PaperFold-for-iOS.git"target="_blank"title="源代码">源代码</a></p>
+    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p> <a href="https://github.com/honcheng/PaperFold-for-iOS.git"target="_blank"title="源代码">源代码</a></p>
 
 <h1>PaperFold for iOS</h1>
 
@@ -153,7 +158,12 @@ You can check out his <a href="https://github.com/Dillion/iOS-Flip-Transform">iO
     <link href="http://worldligang.github.io/blog/2015/01/07/dkcirclebutton/"/>
     <updated>2015-01-07T14:48:23+08:00</updated>
     <id>http://worldligang.github.io/blog/2015/01/07/dkcirclebutton</id>
-    <content type="html"><![CDATA[<p> <a href="https://github.com/kronik/DKCircleButton.git"target="_blank"title="源代码">源代码</a></p>
+    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p> <a href="https://github.com/kronik/DKCircleButton.git"target="_blank"title="源代码">源代码</a></p>
 
 <h1> DKCircleButton</h1>
 
@@ -213,7 +223,12 @@ Earliest supported deployment target - iOS 7.0</p>
     <link href="http://worldligang.github.io/blog/2015/01/07/twittercover/"/>
     <updated>2015-01-07T13:20:17+08:00</updated>
     <id>http://worldligang.github.io/blog/2015/01/07/twittercover</id>
-    <content type="html"><![CDATA[<p> <a href="https://github.com/cyndibaby905/TwitterCover.git"target="_blank"title="源代码">源代码</a></p>
+    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p> <a href="https://github.com/cyndibaby905/TwitterCover.git"target="_blank"title="源代码">源代码</a></p>
 
 <p> ## TwitterCover ##</p>
 
@@ -261,7 +276,12 @@ UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds]
     <link href="http://worldligang.github.io/blog/2015/01/07/hackernews/"/>
     <updated>2015-01-07T11:09:29+08:00</updated>
     <id>http://worldligang.github.io/blog/2015/01/07/hackernews</id>
-    <content type="html"><![CDATA[<p> <a href="https://github.com/Xuzz/newsyc.git"target="_blank"title="源代码">源代码</a></p>
+    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p> <a href="https://github.com/Xuzz/newsyc.git"target="_blank"title="源代码">源代码</a></p>
 
 <p> Hacker News的iPhone客户端</p>
 
@@ -274,7 +294,12 @@ UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds]
     <link href="http://worldligang.github.io/blog/2015/01/06/gpuimage/"/>
     <updated>2015-01-06T14:26:10+08:00</updated>
     <id>http://worldligang.github.io/blog/2015/01/06/gpuimage</id>
-    <content type="html"><![CDATA[<p> <a href="https://github.com/BradLarson/GPUImage.git"target="_blank"title="源代码">源代码</a></p>
+    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p> <a href="https://github.com/BradLarson/GPUImage.git"target="_blank"title="源代码">源代码</a></p>
 
 <h1>GPUImage</h1>
 
@@ -289,7 +314,7 @@ UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds]
 
 <p><a href="http://twitter.com/bradlarson">@bradlarson</a></p>
 
-<p><a href="&#109;&#x61;&#x69;&#108;&#116;&#111;&#58;&#x63;&#x6f;&#110;&#x74;&#97;&#x63;&#x74;&#x40;&#x73;&#x75;&#110;&#x73;&#101;&#116;&#108;&#x61;&#107;&#x65;&#x73;&#x6f;&#102;&#116;&#119;&#x61;&#114;&#x65;&#46;&#99;&#111;&#109;">&#99;&#x6f;&#110;&#x74;&#97;&#99;&#116;&#64;&#x73;&#x75;&#x6e;&#x73;&#101;&#x74;&#x6c;&#x61;&#107;&#101;&#115;&#x6f;&#x66;&#x74;&#x77;&#x61;&#114;&#x65;&#x2e;&#x63;&#111;&#x6d;</a></p>
+<p><a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#111;&#58;&#99;&#111;&#x6e;&#x74;&#97;&#x63;&#116;&#64;&#x73;&#117;&#x6e;&#115;&#101;&#116;&#x6c;&#x61;&#x6b;&#x65;&#115;&#x6f;&#102;&#x74;&#119;&#97;&#114;&#x65;&#46;&#x63;&#111;&#109;">&#x63;&#111;&#x6e;&#116;&#x61;&#x63;&#x74;&#64;&#x73;&#117;&#110;&#115;&#x65;&#116;&#108;&#97;&#x6b;&#x65;&#x73;&#111;&#102;&#116;&#x77;&#97;&#114;&#x65;&#x2e;&#99;&#111;&#109;</a></p>
 
 <h2>Overview</h2>
 
