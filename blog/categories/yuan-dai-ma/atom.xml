@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 源代码 | 刚刚在线]]></title>
   <link href="http://worldligang.github.io/blog/categories/yuan-dai-ma/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-01-15T11:11:51+08:00</updated>
+  <updated>2015-01-15T11:13:58+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -54,8 +54,9 @@
 
 <p>SHPersian是一个针对使用波斯语和阿拉伯语的iOS开发者提供的工具，包含了一个在Persian iOS app中为文本添加自定义外观的必需的类。</p>
 
-<p><a href="https://gist.github.com/billyohgren/7944887"target="_blank"title="iOS开发">UILabel+ContentSize</a>
-在UILabel内计算内容的大小。</p>
+<p><a href="https://gist.github.com/billyohgren/7944887"target="_blank"title="iOS开发">UILabel+ContentSize</a></p>
+
+<p>在UILabel内计算内容的大小。</p>
 
 <p><a href="https://github.com/RuiAAPeres/UIViewController-Swizzled"target="_blank"title="iOS开发">UIViewController+Swizzled</a></p>
 
