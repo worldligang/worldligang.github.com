@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-01-15T11:13:58+08:00</updated>
+  <updated>2015-01-19T10:18:35+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -12,6 +12,82 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发之UISearchBar初探]]></title>
+    <link href="http://worldligang.github.io/blog/2015/01/19/ioskai-fa-zhi-uisearchbarchu-tan/"/>
+    <updated>2015-01-19T09:56:52+08:00</updated>
+    <id>http://worldligang.github.io/blog/2015/01/19/ioskai-fa-zhi-uisearchbarchu-tan</id>
+    <content type="html"><![CDATA[<p>UISearchBar也是iOS开发常用控件之一，点进去看看里面的属性barStyle、text、placeholder等等。但是这些属性显然不足矣满足我们的开发需求。比如：修改placeholder的颜色、修改UISearchBar上面的UITextfield的背景颜色、修改UITextfield上面的照片等等。</p>
+
+<p>为了实现上述的需求，最好写一个UISearchBar的子类就叫LSSearchBar吧</p>
+
+<p>LSSearchBar.h如下：</p>
+
+<pre><code>#import &lt;UIKit/UIKit.h&gt;
+
+@interface LSSearchBar : UISearchBar
+
+@end
+</code></pre>
+
+<p>LSSearchBar.m如下：</p>
+
+<pre><code>#import "LSSearchBar.h"
+
+@implementation LSSearchBar
+
+- (void)layoutSubviews {
+
+    [super layoutSubviews];
+
+    //通过遍历self.subviews找到searchField
+    UITextField *searchField;
+    NSUInteger numViews = [self.subviews count];
+    for(int i = 0; i &lt; numViews; i++) {
+        if([[self.subviews objectAtIndex:i] isKindOfClass:[UITextField class]]) {
+            searchField = [self.subviews objectAtIndex:i];
+        }
+    }
+
+    //如果上述方法找不到searchField，那就试试下面的方法吧
+
+    if (searchField ==  nil) {
+        NSArray *arraySub = [self subviews];
+        UIView *viewSelf = [arraySub objectAtIndex:0];
+        NSArray *arrayView = [viewSelf subviews];
+        for(int i = 0; i &lt; arrayView.count; i++) {
+            if([[arrayView objectAtIndex:i] isKindOfClass:[UITextField class]]) {
+                searchField = [arrayView objectAtIndex:i];
+            }
+        }
+    }
+
+
+    if(!(searchField == nil)) {
+        //设置颜色
+        searchField.textColor = [UIColor whiteColor];
+
+        //设置背景颜色
+        [searchField setBackground: [UIImage imageNamed:@"searchbar"] ];
+        [searchField setBorderStyle:UITextBorderStyleNone];
+
+        //设置placeholder的颜色
+        [searchField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+
+        //设置searchField上的照片
+        UIImage *image = [UIImage imageNamed:@"search"];
+        UIImageView *iView = [[UIImageView alloc] initWithImage:image];
+        iView.frame = CGRectMake(0, 0, 15, 15);
+        searchField.leftView = iView;
+    }
+
+}
+
+@end
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Objective-C相关Category的收集]]></title>
@@ -668,7 +744,7 @@ UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds]
 
 <p><a href="http://twitter.com/bradlarson">@bradlarson</a></p>
 
-<p><a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#x63;&#x6f;&#x6e;&#116;&#97;&#99;&#116;&#64;&#x73;&#117;&#x6e;&#x73;&#x65;&#x74;&#x6c;&#97;&#107;&#x65;&#115;&#111;&#102;&#116;&#x77;&#x61;&#114;&#101;&#46;&#99;&#111;&#x6d;">&#x63;&#x6f;&#110;&#x74;&#97;&#x63;&#x74;&#64;&#x73;&#x75;&#110;&#115;&#101;&#x74;&#108;&#97;&#107;&#101;&#x73;&#111;&#102;&#116;&#119;&#97;&#x72;&#101;&#46;&#x63;&#x6f;&#109;</a></p>
+<p><a href="&#109;&#x61;&#105;&#108;&#116;&#111;&#58;&#x63;&#111;&#x6e;&#x74;&#97;&#x63;&#116;&#x40;&#x73;&#x75;&#x6e;&#x73;&#101;&#x74;&#x6c;&#97;&#107;&#x65;&#x73;&#111;&#x66;&#116;&#119;&#x61;&#x72;&#x65;&#x2e;&#x63;&#111;&#x6d;">&#x63;&#x6f;&#110;&#x74;&#97;&#99;&#116;&#64;&#115;&#117;&#110;&#x73;&#x65;&#116;&#108;&#97;&#107;&#101;&#115;&#111;&#102;&#x74;&#119;&#x61;&#114;&#x65;&#46;&#x63;&#111;&#109;</a></p>
 
 <h2>Overview</h2>
 
@@ -2025,7 +2101,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 <p>本人是因为兴趣业余时间来开发推聊，考虑到 IM 占用的时间太多，所以请谅解，不提供任何 IM 的沟通方式。希望大家以如下的方式交流：</p>
 
 <ul>
-<li>Email:  <a href="&#x6d;&#97;&#x69;&#108;&#116;&#111;&#58;&#112;&#117;&#x73;&#104;&#x74;&#x61;&#x6c;&#x6b;&#46;&#x6f;&#x72;&#x67;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#46;&#x63;&#x6f;&#x6d;">&#x70;&#117;&#115;&#x68;&#116;&#97;&#x6c;&#107;&#46;&#x6f;&#114;&#x67;&#64;&#x67;&#x6d;&#x61;&#105;&#x6c;&#46;&#99;&#111;&#x6d;</a></li>
+<li>Email:  <a href="&#x6d;&#x61;&#105;&#108;&#116;&#x6f;&#x3a;&#112;&#117;&#115;&#104;&#116;&#97;&#108;&#x6b;&#46;&#111;&#114;&#x67;&#64;&#103;&#109;&#97;&#x69;&#x6c;&#46;&#x63;&#x6f;&#109;">&#x70;&#x75;&#x73;&#104;&#x74;&#x61;&#x6c;&#107;&#46;&#x6f;&#x72;&#x67;&#x40;&#x67;&#x6d;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#x6d;</a></li>
 <li>项目Wiki: <a href="https://github.com/good-life/PushTalk/wiki">https://github.com/good-life/PushTalk/wiki</a></li>
 <li>项目Bug: <a href="https://github.com/good-life/PushTalk/issues">https://github.com/good-life/PushTalk/issues</a></li>
 <li>PushTalk频道：<code>pushtalk</code>, <code>报告bug</code>, <code>新功能讨论</code> 等</li>
@@ -3562,69 +3638,6 @@ $ pod install
 <p>亚马逊推送Amazon Simple Notification Service (SNS) 是一项快速灵活、管理到位的消息推送服务。Amazon SNS 让推送到 iPhone、iPad、Android、Kindle Fire 和连接 Internet 的智能设备等移动设备以及推送到其他分布式服务变得简单且经济实惠。</p>
 
 <h2></br></h2>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS开发中的gcd多线程tips]]></title>
-    <link href="http://worldligang.github.io/blog/2014/12/27/ioskai-fa-zhong-de-gcdduo-xian-cheng-tips/"/>
-    <updated>2014-12-27T16:48:27+08:00</updated>
-    <id>http://worldligang.github.io/blog/2014/12/27/ioskai-fa-zhong-de-gcdduo-xian-cheng-tips</id>
-    <content type="html"><![CDATA[<p>本篇文章会持续更新：</p>
-
-<p><div class="entry-content"><h4>我们经常用到的：</h3></p>
-
-<pre><code>dispatch_async(dispatch_get_global_queue(0, 0), ^{  
-    // 处理耗时操作的代码块 
-
-    //通知主线程刷新  
-    dispatch_async(dispatch_get_main_queue(), ^{  
-        //回调或者说是通知主线程刷新  
-    });  
-
-});  
-</code></pre>
-
-<p>其中main_queue是系统默认的串行队列，global_queue是系统默认的并行队列。</p>
-
-<p><div class="entry-content"><h5>什么是串行队列（Serial）？</h3></p>
-
-<p>创建任意个数的串行队列，每个队列依次执行添加的任务，一个队列同一时刻只能执行一个任务（串行），但是各个队列之间不影响，可以并发执行。每个队列中的任务运行在一个由各自串行队列维护的独立线程上，一个队列中只有一个线程。</p>
-
-<p><div class="entry-content"><h5>什么是并行队列（Concurrent）？</h3></p>
-
-<p>并行队列是不允许自己创建的，系统中存在三个不同优先级的并行队列。并行队列依旧按照任务添加的顺序启动任务，但是，后一个任务无须等待前一个任务执行完毕，而是启动第一个任务后，立即启动下一个任务。至于同一时刻允许同时运行多少个任务有系统决定。任务各自运行在并行队列为他们提供的独立线程上，并行队列中同时运行多少个任务，就必须维护多少个线程。</p>
-
-<p>gcd中还有一个概念叫做主调度队列</p>
-
-<p><div class="entry-content"><h5>主调度队列（main dispatch queue）</h3>
-主调度队列中的任务运行在应用程序主线程上，所以，如果你要修改应用程序的界面，他是唯一的选择。</p>
-
-<p>如下：</p>
-
-<pre><code> dispatch_async(dispatch_get_main_queue(), ^{
-
-        //跟新界面的操作
-
-    });
-</code></pre>
-
-<p><div class="entry-content"><h4>只执行一次：</h3></p>
-
-<pre><code>static dispatch_once_t onceToken;  
-dispatch_once(&amp;onceToken, ^{  
-    // 这里写的代码只会被执行一次
-}); 
-</code></pre>
-
-<p>如果你收集有实用的关于gcd的用法，欢迎分享给我，直接在文章下面评论即可</p>
-
-<p>我的微信公众号：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-
-<p>转载请注明：<a href="http://www.superqq.com/blog/2014/12/27/ioskai-fa-zhong-de-gcdduo-xian-cheng-tips/">iOS开发中的gcd多线程tips</a></p>
 ]]></content>
   </entry>
   
