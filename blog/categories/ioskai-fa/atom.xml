@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://worldligang.github.io/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-01-19T11:19:18+08:00</updated>
+  <updated>2015-01-22T11:33:16+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -12,6 +12,183 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[解决MWPhotoBrowser中的SDWebImage加载大图导致的内存警告问题]]></title>
+    <link href="http://worldligang.github.io/blog/2015/01/22/jie-jue-mwphotobrowserzhong-de-sdwebimagejia-zai-da-tu-dao-zhi-de-nei-cun-jing-gao-wen-ti/"/>
+    <updated>2015-01-22T11:23:21+08:00</updated>
+    <id>http://worldligang.github.io/blog/2015/01/22/jie-jue-mwphotobrowserzhong-de-sdwebimagejia-zai-da-tu-dao-zhi-de-nei-cun-jing-gao-wen-ti</id>
+    <content type="html"><![CDATA[<p>MWPhotoBrowser是一个非常不错的照片浏览器，在github的star接近3000个，<a href="https://github.com/mwaterfall/MWPhotoBrowser.git"target="_blank"title="进入官网">MWPhotoBrowser下载</a></p>
+
+<p>MWPhotoBrowser来加载小图1M以下的都应该不会有内存警告的问题。如果遇到大图，3M、4M、5M的大图，很有可能导致内存警告。最近我就遇到这个问题，很是头疼。来回滑动查看照片内存飙到100M以上：</p>
+
+<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlykHge8gs1dCibkoTYXiatCCTMGicKA3aLRCFW6HzgMFvlzGiagwGrEN6hSw6Lt8y13WuFZORDic4hWbRsg/640" /></a></p>
+
+<p>网上查了很多资料，都没有解决问题。</p>
+
+<p>我们来看一下MWPhotoBrowser，其实MWPhotoBrowser用的是SDWebImage来下载图片的。<a href=" https://github.com/rs/SDWebImage.git"target="_blank"title="进入官网">SDWebImage下载</a></p>
+
+<p>在github看到SDWebImage的介绍，后面说到：</p>
+
+<pre><code>Future Enhancements
+
+    LRU memory cache cleanup instead of reset on memory warning
+</code></pre>
+
+<p>看到这个真是欲哭无泪啊。</p>
+
+<p>再去看看SDWebImage的，有个人提问了：</p>
+
+<pre><code>How to disable "memory cache"?  I don't want memory cache,  it used a lot of memory and got memory waring easily,  disk is enough for me...
+</code></pre>
+
+<p>有人回答：</p>
+
+<pre><code>There is no way to disable the memory cache. But the cache is designed to flush itself when you get a memory warning, so you shouldn't need to worry it.
+</code></pre>
+
+<p>说的是SDWebImage遇到内存警告会自动释放内存，但是这还是解决不了问题，加载大图的时候，内存会突然蹦到100多M，在4s及以下的手机上跑，再就挂了。</p>
+
+<p>还是没有解决内存警告的问题。怎么办呢？</p>
+
+<p>我是这么解决的：</p>
+
+<p>SDWebImage有一个SDWebImageDownloaderOperation类来执行下载操作的。里面有个下载完成的方法：</p>
+
+<pre><code>- (void)connectionDidFinishLoading:(NSURLConnection *)aConnection {
+   SDWebImageDownloaderCompletedBlock completionBlock = self.completedBlock;
+   @synchronized(self) {
+       CFRunLoopStop(CFRunLoopGetCurrent());
+       self.thread = nil;
+       self.connection = nil;
+       [[NSNotificationCenter defaultCenter] postNotificationName:SDWebImageDownloadStopNotification object:nil];
+   }
+
+   if (![[NSURLCache sharedURLCache] cachedResponseForRequest:_request]) {
+       responseFromCached = NO;
+   }
+
+   if (completionBlock)
+   {
+       if (self.options &amp; SDWebImageDownloaderIgnoreCachedResponse &amp;&amp; responseFromCached) {
+           completionBlock(nil, nil, nil, YES);
+       }
+       else {
+           UIImage *image = [UIImage sd_imageWithData:self.imageData];
+           NSString *key = [[SDWebImageManager sharedManager] cacheKeyForURL:self.request.URL];
+           image = [self scaledImageForKey:key image:image];
+
+           // Do not force decoding animated GIFs
+           if (!image.images) {
+               image = [UIImage decodedImageWithImage:image];
+           }
+           if (CGSizeEqualToSize(image.size, CGSizeZero)) {
+               completionBlock(nil, nil, [NSError errorWithDomain:@"SDWebImageErrorDomain" code:0 userInfo:@{NSLocalizedDescriptionKey : @"Downloaded image has 0 pixels"}], YES);
+           }
+           else {
+               completionBlock(image, self.imageData, nil, YES);
+           }
+       }
+   }
+   self.completionBlock = nil;
+   [self done];
+}
+</code></pre>
+
+<p>其中，UIImage *image = [UIImage sd_imageWithData:self.imageData];就是将data转换成image。</p>
+
+<p>再看看sd_imageWithData:这个方法：</p>
+
+<pre><code>+ (UIImage *)sd_imageWithData:(NSData *)data {
+   UIImage *image;
+   NSString *imageContentType = [NSData sd_contentTypeForImageData:data];
+   if ([imageContentType isEqualToString:@"image/gif"]) {
+       image = [UIImage sd_animatedGIFWithData:data];
+   }
+#ifdef SD_WEBP
+   else if ([imageContentType isEqualToString:@"image/webp"])
+   {
+       image = [UIImage sd_imageWithWebPData:data];
+   }
+#endif
+   else {
+       image = [[UIImage alloc] initWithData:data];
+       UIImageOrientation orientation = [self sd_imageOrientationFromImageData:data];
+       if (orientation != UIImageOrientationUp) {
+           image = [UIImage imageWithCGImage:image.CGImage
+                                       scale:image.scale
+                                 orientation:orientation];
+       }
+   }
+
+
+   return image;
+}
+</code></pre>
+
+<p>这个方法在UIImage+MultiFormat里面，是UIImage的一个类别处理。这句话很重要image = [[UIImage alloc] initWithData:data]; SDWebImage把下载下来的data直接转成image，然后没做等比缩放直接存起来使用。所以，我们只需要在这边做处理即可：</p>
+
+<p>UIImage+MultiFormat添加一个方法：</p>
+
+<pre><code>+(UIImage *)compressImageWith:(UIImage *)image
+{
+   float imageWidth = image.size.width;
+   float imageHeight = image.size.height;
+   float width = 640;
+   float height = image.size.height/(image.size.width/width);
+
+   float widthScale = imageWidth /width;
+   float heightScale = imageHeight /height;
+
+   // 创建一个bitmap的context
+   // 并把它设置成为当前正在使用的context
+   UIGraphicsBeginImageContext(CGSizeMake(width, height));
+
+   if (widthScale &gt; heightScale) {
+       [image drawInRect:CGRectMake(0, 0, imageWidth /heightScale , height)];
+   }
+   else {
+       [image drawInRect:CGRectMake(0, 0, width , imageHeight /widthScale)];
+   }
+
+   // 从当前context中创建一个改变大小后的图片
+   UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+   // 使当前的context出堆栈
+   UIGraphicsEndImageContext();
+
+   return newImage;
+
+}
+</code></pre>
+
+<p>然后在：image = [[UIImage alloc] initWithData:data];下面调用以下：</p>
+
+<pre><code>if (data.length/1024 &gt; 1024) {
+           image = [self compressImageWith:image];
+       }
+</code></pre>
+
+<p>当data大于1M的时候做压缩处理。革命尚未成功，还需要一步处理。在SDWebImageDownloaderOperation的connectionDidFinishLoading方法里面的：</p>
+
+<pre><code>  UIImage *image = [UIImage sd_imageWithData:self.imageData];
+
+  //将等比压缩过的image在赋在转成data赋给self.imageData
+  NSData *data = UIImageJPEGRepresentation(image, 1);
+  self.imageData =  [NSMutableData dataWithData:data];
+</code></pre>
+
+<p>大工告成，我们来看一下效果吧：</p>
+
+<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlykHge8gs1dCibkoTYXiatCCTMekY5MbfNibjW49ibygpHP440kOuxIVngeEXZLnYCUlSfIhW61x7T6OHQ/640" /></a>
+​
+果然问题得以解决。</p>
+
+<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS开发之UISearchBar初探]]></title>
@@ -917,105 +1094,6 @@ _videoBuffer = [[GPUImageBuffer alloc] init];
 
 <pre><code>iOSDevTip
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS开发大众点评URL签名生成规则和SHA-1编码]]></title>
-    <link href="http://worldligang.github.io/blog/2014/12/13/ioskai-fa-da-zhong-dian-ping-urlqian-ming-sheng-cheng-gui-ze-he-sha-1bian-ma/"/>
-    <updated>2014-12-13T13:52:29+08:00</updated>
-    <id>http://worldligang.github.io/blog/2014/12/13/ioskai-fa-da-zhong-dian-ping-urlqian-ming-sheng-cheng-gui-ze-he-sha-1bian-ma</id>
-    <content type="html"><![CDATA[<p></br>
-URL签名生成规则</p>
-
-<p>所有<a href="http://www.superqq.com/blog/2014/12/13/ioskai-fa-da-zhong-dian-ping-urlqian-ming-sheng-cheng-gui-ze-he-sha-1bian-ma/">大众点评API</a>的有效访问URL包括以下三个部分：
-1. 资源访问路径，如/v1/deal/find_deals;
-2. 请求参数：即API对应所需的参数名和参数值param=value，多个请求参数间用&amp;连接
-   如deal_id=1-85462&amp;appkey=00000；
-3. 签名串，由签名算法生成</p>
-
-<p>签名算法如下：
-1. 对除appkey以外的所有请求参数进行字典升序排列；
-2. 将以上排序后的参数表进行字符串连接，如key1value1key2value2key3value3&hellip;keyNvalueN；
-3. 将app key作为前缀，将app secret作为后缀，对该字符串进行SHA-1计算，并转换成16进制编码；
-4. 转换为全大写形式后即获得签名串</p>
-
-<p>签名串获得后，将其作为sign参数附加到对应的URL中，即可正常访问API。</p>
-
-<pre><code>注意：请保证HTTP请求数据编码务必为UTF-8格式，URL也务必为UTF-8编码格式。
-</code></pre>
-
-<p>具体调用示例请参见<a href="https://github.com/dianping/dianping-open-sdk"target="_blank"title="刚刚在线"><a href="https://github.com/dianping/dianping-open-sdk">https://github.com/dianping/dianping-open-sdk</a></a></p>
-
-<pre><code>+ (NSDictionary *)parseQueryString:(NSString *)query {
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:6];
-    NSArray *pairs = [query componentsSeparatedByString:@"&amp;"];
-
-    for (NSString *pair in pairs) {
-        NSArray *elements = [pair componentsSeparatedByString:@"="];
-
-        if ([elements count] &lt;= 1) {
-            return nil;
-        }
-
-        NSString *key = [[elements objectAtIndex:0] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSString *val = [[elements objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-
-        [dict setObject:val forKey:key];
-    }
-    return dict;
-}
-
-
-
-+ (NSString *)serializeURL:(NSString *)baseURL params:(NSDictionary *)params
-{
-    NSURL* parsedURL = [NSURL URLWithString:[baseURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    NSMutableDictionary *paramsDic = [NSMutableDictionary dictionaryWithDictionary:[self parseQueryString:[parsedURL query]]];
-    if (params) {
-        [paramsDic setValuesForKeysWithDictionary:params];
-    }
-
-    NSMutableString *signString = [NSMutableString stringWithString:DIANPING_APP_KEY];
-    NSMutableString *paramsString = [NSMutableString stringWithFormat:@"appkey=%@", DIANPING_APP_KEY];
-    NSArray *sortedKeys = [[paramsDic allKeys] sortedArrayUsingSelector: @selector(compare:)];
-    for (NSString *key in sortedKeys) {
-        [signString appendFormat:@"%@%@", key, [paramsDic objectForKey:key]];
-        [paramsString appendFormat:@"&amp;%@=%@", key, [paramsDic objectForKey:key]];
-    }
-    [signString appendString:DIANPING_APP_Secret];
-    unsigned char digest[CC_SHA1_DIGEST_LENGTH];
-    NSData *stringBytes = [signString dataUsingEncoding: NSUTF8StringEncoding];
-    if (CC_SHA1([stringBytes bytes], (long)[stringBytes length], digest)) {
-        /* SHA-1 hash has been calculated and stored in 'digest'. */
-        NSMutableString *digestString = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH];
-        for (int i=0; i&lt;CC_SHA1_DIGEST_LENGTH; i++) {
-            unsigned char aChar = digest[i];
-            [digestString appendFormat:@"%02X", aChar];
-        }
-        [paramsString appendFormat:@"&amp;sign=%@", [digestString uppercaseString]];
-        return [NSString stringWithFormat:@"%@://%@%@?%@", [parsedURL scheme], [parsedURL host], [parsedURL path], [paramsString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    } else {
-        return nil;
-    }
-}
-</code></pre>
-
-<p>直接调用这个方法即可签名成功，+ (NSString <em>)serializeURL:(NSString </em>)baseURL params:(NSDictionary *)params</p>
-
-<pre><code>NSString *url = [LGClient serializeURL:string params:nil];
-
-//string是大众点评的需要请求的接口
-</code></pre>
-
-<p>这个url就可以用来请求大众点评数据了</p>
-
-<p>我的微信公众号：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-
-<p>我也会将大家分享的方法发到iOS开发微信公众账号：iOSDevTip 里面，分享给更多iOS开发者。</p>
 ]]></content>
   </entry>
   
