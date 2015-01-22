@@ -1,0 +1,428 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+      <meta name="baidu-site-verification" content="X93tJz3pCq" />
+  <title>解决MWPhotoBrowser中的SDWebImage加载大图导致的内存警告问题 - 刚刚在线</title>
+  <meta name="author" content="刚刚">
+      <meta name="uyan_auth" content="d1112891bb" />
+      <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
+      
+  
+  <meta name="description" content="解决MWPhotoBrowser中的SDWebImage加载大图导致的内存警告问题">
+  <meta name="keywords" content="MWPhotoBrowser, SDWebImage, Cocoapods, 内存警告, SDWebImage内存警告, MWPhotoBrowser内存警告, 客户端, iOS, iOS开发, cocoapods, 个人博客, 刚刚在线">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://worldligang.github.io/blog/2015/01/22/jie-jue-mwphotobrowserzhong-de-sdwebimagejia-zai-da-tu-dao-zhi-de-nei-cun-jing-gao-wen-ti">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="http://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">刚刚在线</a></h1>
+  
+    <h2>游走在互联网岸边的屌丝青年</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://www.baidu.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:worldligang.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">首页</a></li>
+  <li><a href="/blog/archives">全部文章</a></li>
+  <li><a href="/blog/categories/ioskai-fa/">iOS开发</a></li>
+  <li><a href="/blog/categories/yuan-dai-ma/">源代码</a></li>
+  <li><a href="/blog/categories/sdkfu-wu/">sdk服务</a></li>
+  <li><a href="/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">解决MWPhotoBrowser中的SDWebImage加载大图导致的内存警告问题</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-22T11:23:21+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:23 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>MWPhotoBrowser是一个非常不错的照片浏览器，在github的star接近3000个，<a href="https://github.com/mwaterfall/MWPhotoBrowser.git"target="_blank"title="进入官网">MWPhotoBrowser下载</a></p>
+
+<p>MWPhotoBrowser来加载小图1M以下的都应该不会有内存警告的问题。如果遇到大图，3M、4M、5M的大图，很有可能导致内存警告。最近我就遇到这个问题，很是头疼。来回滑动查看照片内存飙到100M以上：</p>
+
+<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlykHge8gs1dCibkoTYXiatCCTMGicKA3aLRCFW6HzgMFvlzGiagwGrEN6hSw6Lt8y13WuFZORDic4hWbRsg/640" /></a></p>
+
+<p>网上查了很多资料，都没有解决问题。</p>
+
+<p>我们来看一下MWPhotoBrowser，其实MWPhotoBrowser用的是SDWebImage来下载图片的。<a href=" https://github.com/rs/SDWebImage.git"target="_blank"title="进入官网">SDWebImage下载</a></p>
+
+<p>在github看到SDWebImage的介绍，后面说到：</p>
+
+<pre><code>Future Enhancements
+
+    LRU memory cache cleanup instead of reset on memory warning
+</code></pre>
+
+<p>看到这个真是欲哭无泪啊。</p>
+
+<p>再去看看SDWebImage的，有个人提问了：</p>
+
+<pre><code>How to disable "memory cache"?  I don't want memory cache,  it used a lot of memory and got memory waring easily,  disk is enough for me...
+</code></pre>
+
+<p>有人回答：</p>
+
+<pre><code>There is no way to disable the memory cache. But the cache is designed to flush itself when you get a memory warning, so you shouldn't need to worry it.
+</code></pre>
+
+<p>说的是SDWebImage遇到内存警告会自动释放内存，但是这还是解决不了问题，加载大图的时候，内存会突然蹦到100多M，在4s及以下的手机上跑，再就挂了。</p>
+
+<p>还是没有解决内存警告的问题。怎么办呢？</p>
+
+<p>我是这么解决的：</p>
+
+<p>SDWebImage有一个SDWebImageDownloaderOperation类来执行下载操作的。里面有个下载完成的方法：</p>
+
+<pre><code>- (void)connectionDidFinishLoading:(NSURLConnection *)aConnection {
+   SDWebImageDownloaderCompletedBlock completionBlock = self.completedBlock;
+   @synchronized(self) {
+       CFRunLoopStop(CFRunLoopGetCurrent());
+       self.thread = nil;
+       self.connection = nil;
+       [[NSNotificationCenter defaultCenter] postNotificationName:SDWebImageDownloadStopNotification object:nil];
+   }
+
+   if (![[NSURLCache sharedURLCache] cachedResponseForRequest:_request]) {
+       responseFromCached = NO;
+   }
+
+   if (completionBlock)
+   {
+       if (self.options &amp; SDWebImageDownloaderIgnoreCachedResponse &amp;&amp; responseFromCached) {
+           completionBlock(nil, nil, nil, YES);
+       }
+       else {
+           UIImage *image = [UIImage sd_imageWithData:self.imageData];
+           NSString *key = [[SDWebImageManager sharedManager] cacheKeyForURL:self.request.URL];
+           image = [self scaledImageForKey:key image:image];
+
+           // Do not force decoding animated GIFs
+           if (!image.images) {
+               image = [UIImage decodedImageWithImage:image];
+           }
+           if (CGSizeEqualToSize(image.size, CGSizeZero)) {
+               completionBlock(nil, nil, [NSError errorWithDomain:@"SDWebImageErrorDomain" code:0 userInfo:@{NSLocalizedDescriptionKey : @"Downloaded image has 0 pixels"}], YES);
+           }
+           else {
+               completionBlock(image, self.imageData, nil, YES);
+           }
+       }
+   }
+   self.completionBlock = nil;
+   [self done];
+}
+</code></pre>
+
+<p>其中，UIImage *image = [UIImage sd_imageWithData:self.imageData];就是将data转换成image。</p>
+
+<p>再看看sd_imageWithData:这个方法：</p>
+
+<pre><code>+ (UIImage *)sd_imageWithData:(NSData *)data {
+   UIImage *image;
+   NSString *imageContentType = [NSData sd_contentTypeForImageData:data];
+   if ([imageContentType isEqualToString:@"image/gif"]) {
+       image = [UIImage sd_animatedGIFWithData:data];
+   }
+#ifdef SD_WEBP
+   else if ([imageContentType isEqualToString:@"image/webp"])
+   {
+       image = [UIImage sd_imageWithWebPData:data];
+   }
+#endif
+   else {
+       image = [[UIImage alloc] initWithData:data];
+       UIImageOrientation orientation = [self sd_imageOrientationFromImageData:data];
+       if (orientation != UIImageOrientationUp) {
+           image = [UIImage imageWithCGImage:image.CGImage
+                                       scale:image.scale
+                                 orientation:orientation];
+       }
+   }
+
+
+   return image;
+}
+</code></pre>
+
+<p>这个方法在UIImage+MultiFormat里面，是UIImage的一个类别处理。这句话很重要image = [[UIImage alloc] initWithData:data]; SDWebImage把下载下来的data直接转成image，然后没做等比缩放直接存起来使用。所以，我们只需要在这边做处理即可：</p>
+
+<p>UIImage+MultiFormat添加一个方法：</p>
+
+<pre><code>+(UIImage *)compressImageWith:(UIImage *)image
+{
+   float imageWidth = image.size.width;
+   float imageHeight = image.size.height;
+   float width = 640;
+   float height = image.size.height/(image.size.width/width);
+
+   float widthScale = imageWidth /width;
+   float heightScale = imageHeight /height;
+
+   // 创建一个bitmap的context
+   // 并把它设置成为当前正在使用的context
+   UIGraphicsBeginImageContext(CGSizeMake(width, height));
+
+   if (widthScale &gt; heightScale) {
+       [image drawInRect:CGRectMake(0, 0, imageWidth /heightScale , height)];
+   }
+   else {
+       [image drawInRect:CGRectMake(0, 0, width , imageHeight /widthScale)];
+   }
+
+   // 从当前context中创建一个改变大小后的图片
+   UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+   // 使当前的context出堆栈
+   UIGraphicsEndImageContext();
+
+   return newImage;
+
+}
+</code></pre>
+
+<p>然后在：image = [[UIImage alloc] initWithData:data];下面调用以下：</p>
+
+<pre><code>if (data.length/1024 &gt; 1024) {
+           image = [self compressImageWith:image];
+       }
+</code></pre>
+
+<p>当data大于1M的时候做压缩处理。革命尚未成功，还需要一步处理。在SDWebImageDownloaderOperation的connectionDidFinishLoading方法里面的：</p>
+
+<pre><code>  UIImage *image = [UIImage sd_imageWithData:self.imageData];
+
+  //将等比压缩过的image在赋在转成data赋给self.imageData
+  NSData *data = UIImageJPEGRepresentation(image, 1);
+  self.imageData =  [NSMutableData dataWithData:data];
+</code></pre>
+
+<p>大工告成，我们来看一下效果吧：</p>
+
+<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlykHge8gs1dCibkoTYXiatCCTMekY5MbfNibjW49ibygpHP440kOuxIVngeEXZLnYCUlSfIhW61x7T6OHQ/640" /></a>
+​
+果然问题得以解决。</p>
+
+<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">刚刚</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-01-22T11:23:21+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:23 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ioskai-fa/'>ios开发</a>
+  
+</span>
+
+
+      <br>原文链接：<a href="http://www.superqq.com/blog/2015/01/22/jie-jue-mwphotobrowserzhong-de-sdwebimagejia-zai-da-tu-dao-zhi-de-nei-cun-jing-gao-wen-ti/">http://www.superqq.com/blog/2015/01/22/jie-jue-mwphotobrowserzhong-de-sdwebimagejia-zai-da-tu-dao-zhi-de-nei-cun-jing-gao-wen-ti/</a> <!-- 添加这一行代码 -->
+    </p>
+    
+      <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+    <span class="jiathis_txt">分享到：</span>
+    <a class="jiathis_button_tools_1"></a>
+    <a class="jiathis_button_tools_2"></a>
+    <a class="jiathis_button_tools_3"></a>
+    <a class="jiathis_button_tools_4"></a>
+    <a href="http://www.jiathis.com/share?uid=1983651" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+    <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+    var jiathis_config = {data_track_clickback:'true'};
+    </script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1401863435807252" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1984773"></script>
+<!-- UY END -->
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/01/19/ioskai-fa-zhi-uisearchbarchu-tan/" title="Previous Post: iOS开发之UISearchBar初探">&laquo; iOS开发之UISearchBar初探</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>最新文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/01/22/jie-jue-mwphotobrowserzhong-de-sdwebimagejia-zai-da-tu-dao-zhi-de-nei-cun-jing-gao-wen-ti/">解决MWPhotoBrowser中的SDWebImage加载大图导致的内存警告问题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/01/19/ioskai-fa-zhi-uisearchbarchu-tan/">iOS开发之UISearchBar初探</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/01/15/objective-cxiang-guan-categoryde-shou-ji/">Objective-C相关Category的收集</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/01/14/ioskai-fa-zhi-shou-shi-shi-bie-hui-zong/">iOS开发之手势识别汇总</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/01/07/paperfold-for-ios/">PaperFold-for-iOS</a>
+      </li>
+    
+  </ul>
+</section>
+</section>
+<section>
+    <h1>About Me</h1>
+    <br/>
+    <p> Blogger, iOS开发, 创业者, 屌丝青年。<br/>
+    <br/>iOS开发工程师，曾开发今日·天下通，二维码商城等项目。
+    <br/>
+    <br/>
+    <br/>新浪微博: <a href='http://weibo.com/ligangnc' target='_blank'>李刚移动</a>
+        <span id="wb_follow_btn"></span>
+        <br/>
+        <br />我的<strong>&#8220;iOSDevTip&#8221;</strong>微信公众账号:
+        <br/>
+        <br/><img width="220px" src="http://www.superqq.com/images/getqrcode.jpg" />
+        </p>
+        </section>
+        
+    <br/>iOS群：
+    
+    <br/>iOS学习交流群：303868520
+    
+    <br/>北京iOS开发：339386098
+    
+    <br/>上海iOS开发：53758831
+    
+    <br/>广州iOS开发：156633209
+    
+    <br/>深圳iOS开发：317492908
+    
+    <br/>杭州iOS开发：218822587
+    
+    <br/>郑州iOS开发：66964077<section>
+    <h1>友情链接</h1>
+    <ul>
+        <li>
+            <a href="http://www.iswifting.com/forum.php" target="_blank" title="swift社区">swift社区</a>
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/iosdevtip" target="_blank" title="刚刚在线">CSDN</a>
+        </li>
+        <li>
+        <a href="http://user.qzone.qq.com/1606535851" target="_blank" title="刚刚在线">QQ空间</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+Copyright &copy; 2015 - 刚刚 
+<span class="credit">Powered by <a href="http://octopress.org" target="_blank">Octopress</a></span>
+ <span class="credit">, 感谢 <a href="http://gitcafe.com/signup?invited_by=tangqiaoboy" target="_blank">GitCafe</a> 为本站提供存储空间</span>
+
+</p>
+
+<script language="javascript" type="text/javascript" src="http://js.users.51.la/17443209.js"></script>
+<noscript><a href="http://www.51.la/?17443209" target="_blank"><img alt="&#x6211;&#x8981;&#x5566;&#x514D;&#x8D39;&#x7EDF;&#x8BA1;" src="http://img.users.51.la/17443209.asp" style="border:none" /></a></noscript>
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
