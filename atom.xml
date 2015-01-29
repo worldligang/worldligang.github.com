@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-01-26T16:47:38+08:00</updated>
+  <updated>2015-01-29T10:54:42+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -12,6 +12,71 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发下载文件速度计算]]></title>
+    <link href="http://worldligang.github.io/blog/2015/01/29/ioskai-fa-xia-zai-wen-jian-su-du-ji-suan/"/>
+    <updated>2015-01-29T10:40:38+08:00</updated>
+    <id>http://worldligang.github.io/blog/2015/01/29/ioskai-fa-xia-zai-wen-jian-su-du-ji-suan</id>
+    <content type="html"><![CDATA[<p>当我们写下载界面的时候，需要向用户展示每秒下载多少KB，这个时候就需要计算速度。如下：</p>
+
+<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlykfVEtYcoETGMzCaNgWWfvvjjxmJYIj9ibjNHHmn7f1oOTgEbcTstj44G2EjdqRjeMxSqdJfVaAibPA/640" /></a></p>
+
+<p>我用的是AFNetworking来做下载的，我们拿AFHTTPRequestOperation来举列，AFHTTPRequestOperation中有个方法：</p>
+
+<pre><code>- (void)setDownloadProgressBlock:(void (^)(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead))block
+</code></pre>
+
+<p>这个方法读取导数据之后通过block回调。计算速度就是在这个block里面完成的。</p>
+
+<p>需要定义一个下载对象：DownTask。DownTask需要有的属性：totalRead（一秒读取的数据）、speed（速度）、date（记录上一秒计算之后的时间）。注意：这里的一秒不是严格意义上的一秒，有可能大于一秒，我们计算的是平均速度，所以不会误差太大。</p>
+
+<pre><code>        //计算一秒中的速度
+        downTask.totalRead += bytesRead;
+
+        //获取当前时间
+        NSDate *currentDate = [NSDate date];
+
+        //当前时间和上一秒时间做对比，大于等于一秒就去计算
+        if ([currentDate timeIntervalSinceDate:downTask.date] &gt;= 1) {
+            //时间差
+            double time = [currentDate timeIntervalSinceDate:downTask.date];
+
+            //计算速度
+            long long speed = downTask.total/time;
+
+            //把速度转成KB或M
+            downTask.speed = [downTask formatByteCount:speed];
+
+            //维护变量，将计算过的清零
+            downTask.totalRead = 0.0;
+
+            //维护变量，记录这次计算的时间
+
+            downTask.date = currentDate;
+
+
+        }
+</code></pre>
+
+<p>其中， downTask.speed = [downTask formatByteCount:speed];是用来将字节转化成我们需要的KB或M。用到的是：NSByteCountFormatter，具体实现如下：</p>
+
+<pre><code>- (NSString*)formatByteCount:(long long)size
+{
+    return [NSByteCountFormatter stringFromByteCount:size countStyle:NSByteCountFormatterCountStyleFile];
+}
+</code></pre>
+
+<p>这个方法是放在下载对象DownTask里面的。</p>
+
+<p>以上就是我计算下载速度的方法。希望能给你带来帮助。</p>
+
+<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[解决MWPhotoBrowser中的SDWebImage加载大图导致的内存警告问题]]></title>
@@ -927,7 +992,7 @@ UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds]
 
 <p><a href="http://twitter.com/bradlarson">@bradlarson</a></p>
 
-<p><a href="&#109;&#97;&#105;&#108;&#x74;&#111;&#x3a;&#x63;&#111;&#x6e;&#x74;&#x61;&#99;&#x74;&#x40;&#x73;&#x75;&#x6e;&#115;&#101;&#116;&#x6c;&#97;&#x6b;&#x65;&#x73;&#x6f;&#102;&#116;&#119;&#x61;&#114;&#101;&#46;&#99;&#x6f;&#109;">&#x63;&#x6f;&#x6e;&#116;&#97;&#99;&#116;&#x40;&#x73;&#117;&#110;&#115;&#101;&#116;&#108;&#x61;&#x6b;&#x65;&#115;&#111;&#x66;&#116;&#x77;&#x61;&#114;&#x65;&#x2e;&#99;&#111;&#x6d;</a></p>
+<p><a href="&#x6d;&#x61;&#105;&#108;&#116;&#111;&#58;&#x63;&#x6f;&#110;&#x74;&#97;&#x63;&#116;&#64;&#x73;&#x75;&#110;&#115;&#x65;&#116;&#108;&#97;&#x6b;&#101;&#x73;&#111;&#x66;&#x74;&#x77;&#97;&#114;&#101;&#46;&#99;&#111;&#109;">&#99;&#111;&#x6e;&#116;&#x61;&#x63;&#x74;&#x40;&#x73;&#117;&#x6e;&#x73;&#x65;&#116;&#x6c;&#x61;&#107;&#101;&#115;&#x6f;&#102;&#x74;&#119;&#x61;&#x72;&#101;&#46;&#x63;&#111;&#109;</a></p>
 
 <h2>Overview</h2>
 
@@ -2284,7 +2349,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 <p>本人是因为兴趣业余时间来开发推聊，考虑到 IM 占用的时间太多，所以请谅解，不提供任何 IM 的沟通方式。希望大家以如下的方式交流：</p>
 
 <ul>
-<li>Email:  <a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#112;&#117;&#x73;&#104;&#x74;&#x61;&#108;&#x6b;&#x2e;&#x6f;&#114;&#x67;&#x40;&#x67;&#109;&#97;&#x69;&#x6c;&#46;&#99;&#x6f;&#109;">&#112;&#117;&#115;&#x68;&#x74;&#97;&#x6c;&#107;&#46;&#x6f;&#x72;&#x67;&#x40;&#103;&#109;&#x61;&#x69;&#108;&#x2e;&#x63;&#x6f;&#109;</a></li>
+<li>Email:  <a href="&#109;&#x61;&#105;&#108;&#116;&#111;&#58;&#x70;&#117;&#x73;&#x68;&#116;&#97;&#x6c;&#107;&#x2e;&#111;&#x72;&#103;&#x40;&#103;&#109;&#x61;&#x69;&#x6c;&#x2e;&#99;&#x6f;&#109;">&#x70;&#117;&#x73;&#x68;&#116;&#x61;&#x6c;&#x6b;&#x2e;&#111;&#x72;&#103;&#x40;&#x67;&#x6d;&#x61;&#x69;&#108;&#x2e;&#99;&#x6f;&#x6d;</a></li>
 <li>项目Wiki: <a href="https://github.com/good-life/PushTalk/wiki">https://github.com/good-life/PushTalk/wiki</a></li>
 <li>项目Bug: <a href="https://github.com/good-life/PushTalk/issues">https://github.com/good-life/PushTalk/issues</a></li>
 <li>PushTalk频道：<code>pushtalk</code>, <code>报告bug</code>, <code>新功能讨论</code> 等</li>
@@ -3651,74 +3716,6 @@ $ pod install
 <p><a href="http://api.51ditu.com/"target="_blank"title="进入官网">进入官网</a></p>
 
 <p>我要地图手机版是一款基于网络的免费手机地图软件。Android版目前提供地图浏览、兴趣点搜索、我的位置、公交路线规划、快速切换城市等功能，是您日常生活的好助手。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS/Android开发支付SDK列表]]></title>
-    <link href="http://worldligang.github.io/blog/2015/01/04/ios-slash-androidkai-fa-zhi-fu-sdklie-biao/"/>
-    <updated>2015-01-04T14:03:37+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/01/04/ios-slash-androidkai-fa-zhi-fu-sdklie-biao</id>
-    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-
-<h3>支付宝</h3>
-
-<p><a href="https://openhome.alipay.com/doc/docIndex.htm"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>支付宝是一个开放式的支付平台，为各类交易场景提供支付工具的支持，并致力于为广大用户提供安全快速的电子支付、网上支付、安全支付、手机支付体验，及转账收款、水电煤缴费、信用卡还款、AA收款等生活服务应用。</p>
-
-<h2></br></h2>
-
-<h3>银联</h3>
-
-<p><a href="http://mobile.unionpay.com/"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>银联支付涵盖便民服务、金融服务、商旅出行、休闲娱乐、电子商城等多种应用。可轻松为手机充值、购买保险、查询银行卡余额、预订酒店机票、代购火车票和购买时令商品。随时随地提供“一站式”移动支付生活服务。</p>
-
-<h2></br></h2>
-
-<h3>微信支付</h3>
-
-<p><a href="https://open.weixin.qq.com/cgi-bin/frame?t=home/pay_tmpl&lang=zh_CN"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>微信支付是由腾讯公司知名移动社交通讯软件微信及第三方支付平台财付通联合推出的移动支付创新产品，旨在为广大微信用户及商户提供更优质的支付服务，微信的支付和安全系统由腾讯财付通提供支持。财付通是持有互联网支付牌照并具备完备的安全体系的第三方支付平台。</p>
-
-<h2></br></h2>
-
-<h3>支付宝移动开放平台</h3>
-
-<p><a href="https://mp.alipay.com/portal/index.htm"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>支付宝移动开放平台包含四大模块：二维码平台、卡券平台、服务窗平台、WiFi平台。</p>
-
-<h2></br></h2>
-
-<h3>百度钱包</h3>
-
-<p><a href="https://www.baifubao.com"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>百付宝是由全球最大的中文搜索引擎公司百度所创办，是中国领先的在线支付应用和服务平台。百度钱包以建立“简单可依赖”的在线支付信用体系为己任，其创新的产品技术、丰富的应用功能、为用户量身定做的交易体验流程，为互联网用户和企业提供安全、可依赖的在线支付服务。百度钱包提供卓越的网上支付和清算服务，为用户提供了在线充值、在线支付、交易管理、生活服务、提现、账户提醒等丰富的功能，特有的双重密码设置和安全中心的实时监控功能更是给百度钱包账户安全提供了双重保障。</p>
-
-<h2></br></h2>
-
-<h3>腾讯移动支付</h3>
-
-<p><a href="http://cpay.qq.com/mpay"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>腾讯支付SDK拥有Q币、财付通、银行卡、充值卡、微支付等多种支付渠道，支持iOS与Android两大操作系统，体验上原生内置，与游戏充分融合。</p>
-
-<h2></br></h2>
-
-<h3>360游戏内支付</h3>
-
-<p><a href="http://dev.360.cn/html/sdk/pay_sdk.html"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>手机游戏支付SDK简介：此SDK包主要面向联网游戏开发者，包括有服务器和客户端两部分。</p>
-
-<p></br></p>
 ]]></content>
   </entry>
   
