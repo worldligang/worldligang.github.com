@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://worldligang.github.io/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-01-29T10:54:42+08:00</updated>
+  <updated>2015-01-29T11:38:37+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -54,9 +54,6 @@
             //维护变量，记录这次计算的时间
 
             downTask.date = currentDate;
-
-
-        }
 </code></pre>
 
 <p>其中， downTask.speed = [downTask formatByteCount:speed];是用来将字节转化成我们需要的KB或M。用到的是：NSByteCountFormatter，具体实现如下：</p>
