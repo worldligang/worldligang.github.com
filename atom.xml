@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-03-11T18:52:02+08:00</updated>
+  <updated>2015-03-13T18:02:23+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -12,6 +12,66 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[系统提供的dispatch方法]]></title>
+    <link href="http://worldligang.github.io/blog/2015/03/13/xi-tong-ti-gong-de-dispatchfang-fa/"/>
+    <updated>2015-03-13T17:41:11+08:00</updated>
+    <id>http://worldligang.github.io/blog/2015/03/13/xi-tong-ti-gong-de-dispatchfang-fa</id>
+    <content type="html"><![CDATA[<p>为了方便地使用GCD，苹果提供了一些方法方便我们将block放在主线程或后台线程执行，或者延后执行。使用的例子如下所示：</p>
+
+<pre><code> //  后台执行：
+ dispatch_async(dispatch_get_global_queue(0, 0), ^{
+      // something
+ });
+
+ // 主线程执行：
+ dispatch_async(dispatch_get_main_queue(), ^{
+      // something
+ });
+
+ // 一次性执行：
+ static dispatch_once_t onceToken;
+ dispatch_once(&amp;onceToken, ^{
+     // code to be executed once
+ });
+
+ // 延迟2秒执行：
+ double delayInSeconds = 2.0;
+ dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+ dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+     // code to be executed on the main queue after delay
+ });
+</code></pre>
+
+<p>dispatch_queue_t也可以自己定义，如要自定义queue，可以用dispatch_queue_create方法，示例如下：</p>
+
+<pre><code> // 自定义dispatch_queue_t
+ dispatch_queue_t urls_queue = dispatch_queue_create("blog.devtang.com", NULL);
+ dispatch_async(urls_queue, ^{  
+　 　// your code 
+ });
+ dispatch_release(urls_queue);
+</code></pre>
+
+<p>另外，GCD还有一些高级用法，例如让后台两个线程并行执行，然后等两个线程都结束后，再汇总执行结果。这个可以用dispatch_group_t、dispatch_group_async、dispatch_group_notify来实现，示例如下：</p>
+
+<pre><code> // 合并汇总结果
+ dispatch_group_t group = dispatch_group_create();
+ dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
+      // 并行执行的线程一
+ });
+ dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
+      // 并行执行的线程二
+ });
+ dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
+      // 汇总结果
+ });
+</code></pre>
+
+<p>文章来自唐巧《iOS开发进阶》</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS开发下载文件速度计算]]></title>
@@ -989,7 +1049,7 @@ UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds]
 
 <p><a href="http://twitter.com/bradlarson">@bradlarson</a></p>
 
-<p><a href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#58;&#x63;&#111;&#110;&#x74;&#97;&#99;&#x74;&#x40;&#x73;&#x75;&#x6e;&#x73;&#x65;&#116;&#x6c;&#97;&#107;&#101;&#115;&#111;&#102;&#116;&#x77;&#97;&#x72;&#x65;&#x2e;&#x63;&#111;&#x6d;">&#x63;&#x6f;&#110;&#x74;&#x61;&#99;&#116;&#64;&#115;&#x75;&#x6e;&#x73;&#101;&#116;&#x6c;&#97;&#107;&#x65;&#115;&#x6f;&#x66;&#116;&#x77;&#97;&#114;&#101;&#46;&#99;&#111;&#109;</a></p>
+<p><a href="&#109;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#x63;&#x6f;&#x6e;&#x74;&#97;&#x63;&#x74;&#x40;&#115;&#x75;&#x6e;&#115;&#x65;&#x74;&#108;&#x61;&#x6b;&#x65;&#x73;&#111;&#102;&#x74;&#x77;&#97;&#x72;&#x65;&#x2e;&#x63;&#x6f;&#109;">&#99;&#x6f;&#x6e;&#116;&#97;&#x63;&#x74;&#x40;&#115;&#x75;&#x6e;&#x73;&#101;&#116;&#x6c;&#97;&#x6b;&#101;&#x73;&#111;&#102;&#x74;&#x77;&#x61;&#x72;&#x65;&#46;&#99;&#111;&#109;</a></p>
 
 <h2>Overview</h2>
 
@@ -2346,7 +2406,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 <p>本人是因为兴趣业余时间来开发推聊，考虑到 IM 占用的时间太多，所以请谅解，不提供任何 IM 的沟通方式。希望大家以如下的方式交流：</p>
 
 <ul>
-<li>Email:  <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#58;&#x70;&#x75;&#x73;&#x68;&#116;&#97;&#108;&#x6b;&#x2e;&#111;&#x72;&#x67;&#x40;&#x67;&#109;&#97;&#105;&#108;&#x2e;&#x63;&#x6f;&#109;">&#112;&#117;&#x73;&#104;&#x74;&#97;&#x6c;&#107;&#46;&#111;&#x72;&#x67;&#x40;&#103;&#109;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;</a></li>
+<li>Email:  <a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#111;&#58;&#x70;&#x75;&#x73;&#x68;&#116;&#97;&#x6c;&#107;&#46;&#x6f;&#114;&#x67;&#64;&#103;&#109;&#x61;&#105;&#x6c;&#46;&#x63;&#x6f;&#x6d;">&#112;&#117;&#115;&#104;&#x74;&#x61;&#108;&#x6b;&#x2e;&#x6f;&#x72;&#103;&#64;&#x67;&#109;&#97;&#105;&#x6c;&#x2e;&#99;&#111;&#x6d;</a></li>
 <li>项目Wiki: <a href="https://github.com/good-life/PushTalk/wiki">https://github.com/good-life/PushTalk/wiki</a></li>
 <li>项目Bug: <a href="https://github.com/good-life/PushTalk/issues">https://github.com/good-life/PushTalk/issues</a></li>
 <li>PushTalk频道：<code>pushtalk</code>, <code>报告bug</code>, <code>新功能讨论</code> 等</li>
@@ -3629,90 +3689,6 @@ $ pod install
 <p><a href="http://open.voicecloud.cn/index.php/services/face?type=face"target="_blank"title="进入官网">进入官网</a></p>
 
 <p>科大讯飞联合香港中文大学汤晓鸥教授团队，共同推出世界领先的人脸识别技术，提供人脸验证、人脸检测、人脸关键点检测等功能，识别率高达99%。核心技术源自于学术界最新的深度学习方法及其相关研究，结合大量公开和独有的训练数据集，在超级计算机上学习并提取照片特征，实现高效准确的标定和识别，致力于提供便捷准确的人脸识别技术，为移动设备交互、摄像头应用等不同场景提供强有力的技术支持。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS/Android开发地图SDK列表]]></title>
-    <link href="http://worldligang.github.io/blog/2015/01/04/ios-slash-androidkai-fa-di-tu-sdklie-biao/"/>
-    <updated>2015-01-04T14:48:48+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/01/04/ios-slash-androidkai-fa-di-tu-sdklie-biao</id>
-    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-
-<h3>高德地图</h3>
-
-<p><a href="http://lbs.amap.com/"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>高德地图SDK是一套简单的地图应用开发调用接口，可支持地图显示与操作，兴趣点搜索，地理编码、离线地图等功能。开发者可以轻松地将其嵌入自己的应用程序，并使用相关的地图功能。地图显示与搜索服务分为两个独立的类库，开发者可以单独加载任一一个。</p>
-
-<h2></br></h2>
-
-<h3>百度地图</h3>
-
-<p><a href="http://developer.baidu.com/map/"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>百度地图API是一套为开发者免费提供的基于百度地图的应用程序接口，提供基本地图、位置搜索、周边搜索、公交驾车导航、定位服务、地理编码及逆地理编码等丰富功能。通过地图API，一方面解决移动开发者服务器端日益增长的海量位置数据的存储维护压力，另一方面彻底解决所有LBS开发者基于位置数据的高并发检索瓶颈。</p>
-
-<h2></br></h2>
-
-<h3>苹果地图</h3>
-
-<p><a href="https://developer.apple.com/cn/"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>在你的应用程序使用基于位置的信息是一个伟大的方式来保持连接到周围世界的用户。无论您使用这些信息的实际用途（如导航），或为娱乐，基于位置的信息，才能提高整体的用户体验。基于位置的信息由两部分组成：位置服务和地图。位置服务是由核心地段的框架，它定义的Objective-C接口，以获取关于用户的位置信息和标题（在其中一个设备指向的方向）提供。地图是由地图Kit框架，它支持的映射类似于地图应用程序发现两者的显示和注释提供。（要使用地图Kit框架的功能，您必须打开地图功能在你的Xcode项目。）位置服务和地图都可以在iOS和OS X。因为地图和定位服务可用在在iOS和OS X操作系统上，所以在这两个平台上的代码很相似。不同之处在于用户界面代码（例如，使用的UIView在iOS和NSView的在OS X上），并在那些在iOS中唯一（如标题服务）所支持的一些功能。</p>
-
-<h2></br></h2>
-
-<h3>腾讯地图</h3>
-
-<p><a href="http://lbs.qq.com/"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>腾讯 Android sdk是一套基于Android 1.5及以上版本设备的应用程序接口，通过该接口，您可以轻松访问腾讯地图服务和数据，构建功能丰富、交互性强的地图应用程序。</p>
-
-<p>腾讯地图API（IOS）是一套基于iOS4.0及以上设备的应用程序接口，通过该接口，您可以轻松访问腾讯地图服务和数据，构建功能丰富、交互性强的地图应用程序。腾讯地图API不仅包含构建地图的基本接口，还提供了诸如地图定位、地址编码，地址反编码，实时路况,POI搜索，周边搜索,公交路线搜索，驾车路线搜索，公交线搜索等数据服务，你可以根据自己的需要进行选择，目前支持Iphone4.0以上的版本。</p>
-
-<h2></br></h2>
-
-<h3>搜狗地图</h3>
-
-<p><a href="http://map.sogou.com/api/?IPLOC=CN4101"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>搜狗地图API是一套基于移动互联网设备的应用程序接口，支持iOS/Android平台。通过该接口，您可以构建操作简单、功能丰富的地图应用，里面包含构建地图基本功能的各种接口，提供了诸如位置搜索、周边查询、线站查询、（反）地理编码等功能服务。搜狗地图API免费提供，任何非盈利性程序均可使用。 提供了大量的实例，开发过程中可以直接拷贝，引用其中的代码。</p>
-
-<h2></br></h2>
-
-<h3>图吧地图</h3>
-
-<p><a href="http://open.mapbar.com/"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>图吧地图移动版API以jar包的方式提供对地图的各种操作，如展示、拖拽、标注、绘制、定位等。基于此您可以轻松地构建各类功能丰富、交互性强的地图应用程序。</p>
-
-<h2></br></h2>
-
-<h3>天地图</h3>
-
-<p><a href="http://api.tianditu.com/api-new/home.html"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>天地图移动API（Android）V2.1版（以下简称天地图移动API）是一套基于Android2.2及以上版本设备的应用程序接口，以jar包的形式提供各种地图服务和数据，如地图展示、标注、定位等等。使用天地图移动API开发包可以轻松地构建各类功能丰富、交互性强的地图应用程序。</p>
-
-<h2></br></h2>
-
-<h3>MapABC地图</h3>
-
-<p><a href="http://code.mapabc.com/"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>MapABC地图服务平台是集数据、服务、应用为一体的企业级GIS开发平台，提供全面的基于地图和位置的服务，可以满足您全方位的地图应用需求。地图服务平台包括数据、地图服务API、客户端API&amp;导航SDK三个部分, 提供制图、专题图、地图展现、搜索、定位、地理编码、逆地理编码、驾车导航、公交换乘、路网分析、实时交通等功能。地图服务API用于提供高性能的地图服 务，客户端API&amp;导航SDK用于在Web和Mobile应用层提供方便易用的客户端开发API。</p>
-
-<h2></br></h2>
-
-<h3>我要地图</h3>
-
-<p><a href="http://api.51ditu.com/"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>我要地图手机版是一款基于网络的免费手机地图软件。Android版目前提供地图浏览、兴趣点搜索、我的位置、公交路线规划、快速切换城市等功能，是您日常生活的好助手。</p>
 ]]></content>
   </entry>
   
