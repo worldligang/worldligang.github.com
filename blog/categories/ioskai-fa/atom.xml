@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://worldligang.github.io/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-03-13T18:10:04+08:00</updated>
+  <updated>2015-03-21T17:47:38+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -12,6 +12,54 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[单例模式的两种写法]]></title>
+    <link href="http://worldligang.github.io/blog/2015/03/21/dan-li-mo-shi-de-xie-fa/"/>
+    <updated>2015-03-21T17:39:16+08:00</updated>
+    <id>http://worldligang.github.io/blog/2015/03/21/dan-li-mo-shi-de-xie-fa</id>
+    <content type="html"><![CDATA[<p>单例模式是iOS开发中最常用的设计模式，iOS的单例模式有两种官方写法，如下：</p>
+
+<h3>1，常用写法</h3>
+
+<pre><code>#import "LGManagerCenter.h"
+
+static LGManagerCenter *managerCenter;
+
+@implementation LGManagerCenter
+
++(LGManagerCenter *)sharedManager{
+    if(!managerCenter)
+        managerCenter=[[self allocWithZone:NULL] init];
+    return  managerCenter;
+}
+
+@end
+</code></pre>
+
+<h3>2,用GCD创建单例类</h3>
+
+<pre><code>#import "LGManagerCenter.h"
+
+
+@implementation LGManagerCenter
+
+
++(LGManagerCenter *)sharedManager{
+    static dispatch_once_t predicate;
+    static LGManagerCenter * managerCenter;
+    dispatch_once(&amp;predicate, ^{
+        managerCenter=[[LGManagerCenter alloc] init];
+    });
+    return managerCenter;
+}
+
+@end
+</code></pre>
+
+<p>其中dispatch_once函数只执行一次。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[系统提供的dispatch方法]]></title>
@@ -385,168 +433,6 @@
 }
 
 @end
-</code></pre>
-
-<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS开发之手势识别汇总]]></title>
-    <link href="http://worldligang.github.io/blog/2015/01/14/ioskai-fa-zhi-shou-shi-shi-bie-hui-zong/"/>
-    <updated>2015-01-14T10:40:02+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/01/14/ioskai-fa-zhi-shou-shi-shi-bie-hui-zong</id>
-    <content type="html"><![CDATA[<p>iOS开发中手势识别有六种：</p>
-
-<p>轻击手势（TapGestureRecognizer）,</p>
-
-<p>轻扫手势 （SwipeGestureRecognizer）,</p>
-
-<p>长按手势（LongPressGestureRecognizer）,</p>
-
-<p>拖动手势（PanGestureRecognizer）,</p>
-
-<p>捏合手势（PinchGestureRecognizer）,</p>
-
-<p>旋转手势（RotationGestureRecognizer）,</p>
-
-<h3>1，轻击手势（TapGestureRecognizer）</h3>
-
-<pre><code>UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
-tapGesture.numberOfTapsRequired = 1; //点击次数
-tapGesture.numberOfTouchesRequired = 1; //点击手指数
-[self.view addGestureRecognizer:tapGesture];
-
-//轻击手势触发方法
--(void)tapGesture:(UITapGestureRecognizer *)sender
-{
-    //your code
-}
-</code></pre>
-
-<h3>2，长按手势（LongPressGestureRecognizer）</h3>
-
-<pre><code>UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGesture:)];
-//设置长按时间
-longPressGesture.minimumPressDuration = 0.5;
-[self.view addGestureRecognizer:longPressGesture];
-
-//长按手势触发方法
--(void)longPressGesture:(id)sender
-{
-    UILongPressGestureRecognizer *longPress = sender;
-    if (longPress.state == UIGestureRecognizerStateBegan)
-    {
-       //your code
-    }
-}
-
-说明：长按手势的常用状态如下
-
-开始：UIGestureRecognizerStateBegan
-
-改变：UIGestureRecognizerStateChanged
-
-结束：UIGestureRecognizerStateEnded
-
-取消：UIGestureRecognizerStateCancelled
-
-失败：UIGestureRecognizerStateFailed
-</code></pre>
-
-<h3>3，轻扫手势（SwipeGestureRecognizer）</h3>
-
-<pre><code>UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGesture:)];
-//设置轻扫的方向
-swipeGesture.direction = UISwipeGestureRecognizerDirectionRight; //向右
-[self.view addGestureRecognizer:swipeGesture];
-
-UISwipeGestureRecognizer *swipeGestureLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGesture:)];
-//设置轻扫的方向
-swipeGestureLeft.direction = UISwipeGestureRecognizerDirectionLeft; //向左
-[self.view addGestureRecognizer:swipeGestureLeft];
-
-//轻扫手势触发方法
--(void)swipeGesture:(id)sender
-{
-
-    UISwipeGestureRecognizer *swipe = sender;
-
-    if (swipe.direction == UISwipeGestureRecognizerDirectionLeft)
-    {
-        //向左轻扫
-    }
-
-    if (swipe.direction == UISwipeGestureRecognizerDirectionRight)
-    {
-        //向右轻扫
-    }
-}
-</code></pre>
-
-<h3>4，捏合手势（PinchGestureRecognizer）</h3>
-
-<pre><code>UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchGesture:)];
-[self.view addGestureRecognizer:pinchGesture];
-
-    ////捏合手势触发方法
--(void) pinchGesture:(id)sender
-{
-    UIPinchGestureRecognizer *gesture = sender;
-    //手势改变时
-    if (gesture.state == UIGestureRecognizerStateChanged)
-    {
-         //捏合手势中scale属性记录的缩放比例
-        _imageView.transform = CGAffineTransformMakeScale(gesture.scale, gesture.scale);
-    }
-
-    //结束后恢复
-    if(gesture.state==UIGestureRecognizerStateEnded)
-    {
-        [UIView animateWithDuration:0.5 animations:^{
-            _imageView.transform = CGAffineTransformIdentity;//取消一切形变
-        }];
-    }
-}
-</code></pre>
-
-<h3>5，拖动手势（PanGestureRecognizer）</h3>
-
-<pre><code>UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGesture:)];
-[self.view addGestureRecognizer:panGesture];
-
-//拖动手势触发方法
--(void) panGesture:(id)sender
-{
-    UIPanGestureRecognizer *panGesture = sender;
-    CGPoint movePoint = [panGesture translationInView:self.view];
-    //your code
-}
-</code></pre>
-
-<h3>6，旋转手势（RotationGestureRecognizer）</h3>
-
-<pre><code>UIRotationGestureRecognizer *rotationGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotationGesture:)];
-[self.view addGestureRecognizer:rotationGesture];
-
-//旋转手势触发方法
--(void)rotationGesture:(id)sender
-{
-    UIRotationGestureRecognizer *gesture = sender;
-    if (gesture.state==UIGestureRecognizerStateChanged)
-    {
-        _imageView.transform=CGAffineTransformMakeRotation(gesture.rotation);
-    }
-    if(gesture.state==UIGestureRecognizerStateEnded)
-    {
-        [UIView animateWithDuration:1 animations:^{
-            _imageView.transform=CGAffineTransformIdentity;//取消形变
-        }];
-    }
-}
 </code></pre>
 
 <p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
