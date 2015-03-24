@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>iOS开发：git命令返回任意一个版本的方法 - 刚刚在线</title>
+  <title>自己动手实现一个队列LGQueue - 刚刚在线</title>
   <meta name="author" content="刚刚">
       <meta name="uyan_auth" content="d1112891bb" />
       <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="iOS开发：git命令返回任意一个版本的方法">
-  <meta name="keywords" content="iOS, git, 版本, git log, git reflog, iOSDevTip iOS开发, gcd, cocoapods, 队列, 个人博客, 刚刚在线">
+  <meta name="description" content="自己动手实现一个队列LGQueue">
+  <meta name="keywords" content="LGQueue, 队列, queue,  dispatch_once, iOS开发, cocoapods, 个人博客, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://worldligang.github.io/blog/2014/12/04/ioskai-fa-:gitming-ling-fan-hui-ren-yi-%5B%3F%5D-ge-ban-ben-de-fang-fa">
+  <link rel="canonical" href="http://worldligang.github.io/blog/2015/03/24/zi-ji-dong-shou-chuang-jian-%5B%3F%5D-ge-dui-lie-lgqueue">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -74,7 +74,7 @@
   
   <header>
     
-      <h1 class="entry-title">iOS开发：git命令返回任意一个版本的方法</h1>
+      <h1 class="entry-title">自己动手实现一个队列LGQueue</h1>
     
     
       <p class="meta">
@@ -83,40 +83,97 @@
 
 
 
-<time class='entry-date' datetime='2014-12-04T18:28:04+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>6:28 pm</span></time>
+<time class='entry-date' datetime='2015-03-24T17:13:39+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:13 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>git回退某一个版本的方法：</p>
+<div class="entry-content"><p>iOS系统没有提供queue容器，如果想用，需要手动自己来写一个：</p>
 
-<p><div class="entry-content"><h3>一：记录回退的hash值</h3></p>
+<p>.h</p>
 
-<p>首先要查看你要回退到哪一个版本</p>
+<pre><code>//
+//  LGQueue.h
+//  AntsSportApp
+//
+//  Created by ligang on 15/3/24.
+//  Copyright (c) 2015年 ligang. All rights reserved.
+//
 
-<p>方法1：git log</p>
+#import &lt;Foundation/Foundation.h&gt;
 
-<p>会展示最新的提交记录，然后你按着键盘的“向下”键，看更多的提交记录，记住你要回退的哪一个版本的hash值</p>
+@interface LGQueue : NSObject
 
-<p>方法2：git reflog</p>
+@property (nonatomic, strong) NSMutableArray *queue;
 
-<p>会展示最近操作的记录，然后你记住要回退的hash值</p>
+@property (nonatomic, readonly) NSInteger count;
 
-<p><div class="entry-content"><h3>二：执行回退命令</h3></p>
+- (void)enterQueue:(id)object;
+- (id)exitQueue;
+- (void)clear;
 
-<p>知道hash值之后，接下来就是指向回退命令了：</p>
 
-<p>git reset &ndash;hard +版本号回到该版本状态下</p>
 
-<p>这样你就可以回退的任意一个版本了，挺方便的。</p>
+@end
+</code></pre>
 
-<p></br></p>
+<p>.m</p>
 
-<p>更多iOS开发技术请关注：</p>
+<pre><code>//
+//  LGQueue.m
+//  AntsSportApp
+//
+//  Created by ligang on 15/3/24.
+//  Copyright (c) 2015年 ligang. All rights reserved.
+//
 
-<p>微信公众号：</p>
+#import "LGQueue.h"
+
+@implementation LGQueue
+
+- (id)init
+{
+    if ( self = [super init] ) {
+
+        self.queue = [[NSMutableArray alloc] init];
+        _count = 0;
+
+    }
+    return self;
+}
+
+- (void)enterQueue:(id)object
+{
+    [self.queue addObject:object];
+    _count = self.queue.count;
+}
+
+
+- (id)exitQueue
+{
+    if ( self.queue.count == 0 )  return nil;
+
+    id object = [self.queue objectAtIndex:0];
+    [self.queue removeObjectAtIndex:0];
+    _count = self.queue.count;
+
+    return object;
+
+}
+
+
+- (void)clear
+{
+    [self.queue removeAllObjects];
+    _count = 0;
+}
+
+@end
+</code></pre>
+
+<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
 
 <pre><code>iOSDevTip
 </code></pre>
@@ -135,7 +192,7 @@
 
 
 
-<time class='entry-date' datetime='2014-12-04T18:28:04+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>6:28 pm</span></time>
+<time class='entry-date' datetime='2015-03-24T17:13:39+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:13 pm</span></time>
       
 
 <span class="categories">
@@ -145,7 +202,7 @@
 </span>
 
 
-      <br>原文链接：<a href="http://www.superqq.com/blog/2014/12/04/ioskai-fa-:gitming-ling-fan-hui-ren-yi-%5B%3F%5D-ge-ban-ben-de-fang-fa/">http://www.superqq.com/blog/2014/12/04/ioskai-fa-:gitming-ling-fan-hui-ren-yi-%5B%3F%5D-ge-ban-ben-de-fang-fa/</a> <!-- 添加这一行代码 -->
+      <br>原文链接：<a href="http://www.superqq.com/blog/2015/03/24/zi-ji-dong-shou-chuang-jian-%5B%3F%5D-ge-dui-lie-lgqueue/">http://www.superqq.com/blog/2015/03/24/zi-ji-dong-shou-chuang-jian-%5B%3F%5D-ge-dui-lie-lgqueue/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -170,10 +227,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/11/24/ioskai-fa-:gitchuang-jian-cang-ku/" title="Previous Post: iOS开发：git创建仓库">&laquo; iOS开发：git创建仓库</a>
+        <a class="basic-alignment left" href="/blog/2015/03/21/dan-li-mo-shi-de-xie-fa/" title="Previous Post: 单例模式的两种写法">&laquo; 单例模式的两种写法</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/12/05/cheng-xu-yuan-fu-li-ge-da-ping-tai-mian-fei-jie-kou-,fei-chang-gua-yong/" title="Next Post: 程序员福利各大平台免费接口，非常适用">程序员福利各大平台免费接口，非常适用 &ra/categories.htmlquo;</a>
       
     </p>
   </footer>
