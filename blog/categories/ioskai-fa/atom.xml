@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://worldligang.github.io/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-03-24T12:13:38+08:00</updated>
+  <updated>2015-03-24T17:22:01+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -12,6 +12,101 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[自己动手实现一个队列LGQueue]]></title>
+    <link href="http://worldligang.github.io/blog/2015/03/24/zi-ji-dong-shou-chuang-jian-%5B%3F%5D-ge-dui-lie-lgqueue/"/>
+    <updated>2015-03-24T17:13:39+08:00</updated>
+    <id>http://worldligang.github.io/blog/2015/03/24/zi-ji-dong-shou-chuang-jian-[?]-ge-dui-lie-lgqueue</id>
+    <content type="html"><![CDATA[<p>iOS系统没有提供queue容器，如果想用，需要手动自己来写一个：</p>
+
+<p>.h</p>
+
+<pre><code>//
+//  LGQueue.h
+//  AntsSportApp
+//
+//  Created by ligang on 15/3/24.
+//  Copyright (c) 2015年 ligang. All rights reserved.
+//
+
+#import &lt;Foundation/Foundation.h&gt;
+
+@interface LGQueue : NSObject
+
+@property (nonatomic, strong) NSMutableArray *queue;
+
+@property (nonatomic, readonly) NSInteger count;
+
+- (void)enterQueue:(id)object;
+- (id)exitQueue;
+- (void)clear;
+
+
+
+@end
+</code></pre>
+
+<p>.m</p>
+
+<pre><code>//
+//  LGQueue.m
+//  AntsSportApp
+//
+//  Created by ligang on 15/3/24.
+//  Copyright (c) 2015年 ligang. All rights reserved.
+//
+
+#import "LGQueue.h"
+
+@implementation LGQueue
+
+- (id)init
+{
+    if ( self = [super init] ) {
+
+        self.queue = [[NSMutableArray alloc] init];
+        _count = 0;
+
+    }
+    return self;
+}
+
+- (void)enterQueue:(id)object
+{
+    [self.queue addObject:object];
+    _count = self.queue.count;
+}
+
+
+- (id)exitQueue
+{
+    if ( self.queue.count == 0 )  return nil;
+
+    id object = [self.queue objectAtIndex:0];
+    [self.queue removeObjectAtIndex:0];
+    _count = self.queue.count;
+
+    return object;
+
+}
+
+
+- (void)clear
+{
+    [self.queue removeAllObjects];
+    _count = 0;
+}
+
+@end
+</code></pre>
+
+<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[单例模式的两种写法]]></title>
@@ -363,87 +458,6 @@ static LGManagerCenter *managerCenter;
 ​</p>
 
 <p>果然问题得以解决。</p>
-
-<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS开发之UISearchBar初探]]></title>
-    <link href="http://worldligang.github.io/blog/2015/01/19/ioskai-fa-zhi-uisearchbarchu-tan/"/>
-    <updated>2015-01-19T09:56:52+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/01/19/ioskai-fa-zhi-uisearchbarchu-tan</id>
-    <content type="html"><![CDATA[<p>UISearchBar也是iOS开发常用控件之一，点进去看看里面的属性barStyle、text、placeholder等等。但是这些属性显然不足矣满足我们的开发需求。比如：修改placeholder的颜色、修改UISearchBar上面的UITextfield的背景颜色、修改UITextfield上面的照片等等。</p>
-
-<p>为了实现上述的需求，最好写一个UISearchBar的子类就叫LSSearchBar吧</p>
-
-<p>LSSearchBar.h如下：</p>
-
-<pre><code>#import &lt;UIKit/UIKit.h&gt;
-
-@interface LSSearchBar : UISearchBar
-
-@end
-</code></pre>
-
-<p>LSSearchBar.m如下：</p>
-
-<pre><code>#import "LSSearchBar.h"
-
-@implementation LSSearchBar
-
-- (void)layoutSubviews {
-
-    [super layoutSubviews];
-
-    //通过遍历self.subviews找到searchField
-    UITextField *searchField;
-    NSUInteger numViews = [self.subviews count];
-    for(int i = 0; i &lt; numViews; i++) {
-        if([[self.subviews objectAtIndex:i] isKindOfClass:[UITextField class]]) {
-            searchField = [self.subviews objectAtIndex:i];
-        }
-    }
-
-    //如果上述方法找不到searchField，那就试试下面的方法吧
-
-    if (searchField ==  nil) {
-        NSArray *arraySub = [self subviews];
-        UIView *viewSelf = [arraySub objectAtIndex:0];
-        NSArray *arrayView = [viewSelf subviews];
-        for(int i = 0; i &lt; arrayView.count; i++) {
-            if([[arrayView objectAtIndex:i] isKindOfClass:[UITextField class]]) {
-                searchField = [arrayView objectAtIndex:i];
-            }
-        }
-    }
-
-
-    if(!(searchField == nil)) {
-        //设置颜色
-        searchField.textColor = [UIColor whiteColor];
-
-        //设置背景颜色
-        [searchField setBackground: [UIImage imageNamed:@"searchbar"] ];
-        [searchField setBorderStyle:UITextBorderStyleNone];
-
-        //设置placeholder的颜色
-        [searchField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
-
-        //设置searchField上的照片
-        UIImage *image = [UIImage imageNamed:@"search"];
-        UIImageView *iView = [[UIImageView alloc] initWithImage:image];
-        iView.frame = CGRectMake(0, 0, 15, 15);
-        searchField.leftView = iView;
-    }
-
-}
-
-@end
-</code></pre>
 
 <p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
 
