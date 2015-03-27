@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-03-24T17:22:01+08:00</updated>
+  <updated>2015-03-27T19:21:02+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -12,6 +12,47 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NSSortDescriptor排序]]></title>
+    <link href="http://worldligang.github.io/blog/2015/03/27/nssortdescriptorpai-xu/"/>
+    <updated>2015-03-27T19:01:45+08:00</updated>
+    <id>http://worldligang.github.io/blog/2015/03/27/nssortdescriptorpai-xu</id>
+    <content type="html"><![CDATA[<p>NSSortDescriptor可以实现按照对象的属性进行排序。比如我们有一个对象（LGPeople）。LGPeople有两个属性分别是名字（name）和年龄（age）。现在我们要按照LGPeople的年龄（age）来进行排序。</p>
+
+<p>代码如下：</p>
+
+<pre><code>    //按年龄排序
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"_age" ascending:NO];
+    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
+    [arrayPeople sortUsingDescriptors:sortDescriptors];
+</code></pre>
+
+<p>这样是按照年龄的降序进行排序。如果想升序的话将NO改为YES即可。如果是按照名字进行排序的话也很简单：</p>
+
+<pre><code>    //按姓名排序
+    NSSortDescriptor *sortDescriptorName = [[NSSortDescriptor alloc] initWithKey:@"_name" ascending:NO];
+    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptorName, nil];
+    [arrayPeople sortUsingDescriptors:sortDescriptors];
+</code></pre>
+
+<p>也许我们还有一种需求：先按照年龄排序，再按名字进行排序。代码如下：</p>
+
+<pre><code>    //按年龄和名字排序
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"_age" ascending:NO];
+    NSSortDescriptor *sortDescriptorName = [[NSSortDescriptor alloc] initWithKey:@"_name" ascending:NO];
+    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, sortDescriptorName, nil];
+    [_mutArrVideo sortUsingDescriptors:sortDescriptors];
+</code></pre>
+
+<p>这样相同年龄的情况下，就会按照名字进行排序。当然还可以设置两个以上的排序条件。</p>
+
+<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[自己动手实现一个队列LGQueue]]></title>
@@ -1202,7 +1243,7 @@ UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds]
 
 <p><a href="http://twitter.com/bradlarson">@bradlarson</a></p>
 
-<p><a href="&#x6d;&#x61;&#105;&#108;&#116;&#x6f;&#58;&#x63;&#111;&#x6e;&#x74;&#x61;&#x63;&#x74;&#x40;&#115;&#x75;&#x6e;&#x73;&#101;&#x74;&#108;&#x61;&#107;&#x65;&#115;&#111;&#x66;&#116;&#x77;&#x61;&#x72;&#101;&#x2e;&#x63;&#111;&#109;">&#x63;&#x6f;&#110;&#116;&#97;&#99;&#116;&#x40;&#x73;&#117;&#x6e;&#115;&#x65;&#x74;&#108;&#x61;&#107;&#101;&#x73;&#x6f;&#102;&#116;&#x77;&#97;&#x72;&#101;&#46;&#99;&#x6f;&#x6d;</a></p>
+<p><a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#x6f;&#110;&#x74;&#97;&#x63;&#x74;&#x40;&#x73;&#117;&#110;&#x73;&#x65;&#x74;&#x6c;&#97;&#107;&#x65;&#x73;&#111;&#102;&#x74;&#119;&#x61;&#114;&#101;&#x2e;&#99;&#111;&#x6d;">&#x63;&#x6f;&#x6e;&#x74;&#97;&#x63;&#116;&#x40;&#115;&#117;&#x6e;&#115;&#x65;&#116;&#108;&#97;&#107;&#101;&#115;&#x6f;&#102;&#116;&#119;&#97;&#x72;&#x65;&#46;&#99;&#x6f;&#109;</a></p>
 
 <h2>Overview</h2>
 
@@ -2559,7 +2600,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 <p>本人是因为兴趣业余时间来开发推聊，考虑到 IM 占用的时间太多，所以请谅解，不提供任何 IM 的沟通方式。希望大家以如下的方式交流：</p>
 
 <ul>
-<li>Email:  <a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#111;&#58;&#112;&#x75;&#115;&#x68;&#x74;&#97;&#x6c;&#107;&#x2e;&#x6f;&#x72;&#x67;&#x40;&#x67;&#109;&#97;&#105;&#x6c;&#46;&#x63;&#111;&#x6d;">&#x70;&#117;&#115;&#x68;&#116;&#x61;&#x6c;&#107;&#46;&#x6f;&#x72;&#103;&#64;&#x67;&#109;&#x61;&#x69;&#108;&#x2e;&#x63;&#x6f;&#109;</a></li>
+<li>Email:  <a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#111;&#x3a;&#x70;&#117;&#x73;&#x68;&#116;&#97;&#108;&#107;&#46;&#x6f;&#114;&#103;&#64;&#103;&#109;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#111;&#109;">&#112;&#117;&#x73;&#x68;&#x74;&#97;&#108;&#x6b;&#46;&#x6f;&#x72;&#x67;&#64;&#103;&#x6d;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a></li>
 <li>项目Wiki: <a href="https://github.com/good-life/PushTalk/wiki">https://github.com/good-life/PushTalk/wiki</a></li>
 <li>项目Bug: <a href="https://github.com/good-life/PushTalk/issues">https://github.com/good-life/PushTalk/issues</a></li>
 <li>PushTalk频道：<code>pushtalk</code>, <code>报告bug</code>, <code>新功能讨论</code> 等</li>
@@ -3652,80 +3693,6 @@ $ pod install
 <h2>License</h2>
 
 <p>AFNetworking is available under the MIT license. See the LICENSE file for more info.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS/Android开发移动短信SDK列表]]></title>
-    <link href="http://worldligang.github.io/blog/2015/01/05/ios-slash-androidkai-fa-yi-dong-duan-xin-sdklie-biao/"/>
-    <updated>2015-01-05T12:25:55+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/01/05/ios-slash-androidkai-fa-yi-dong-duan-xin-sdklie-biao</id>
-    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-
-<h3>Mob免费短信验证码</h3>
-
-<p><a href="http://mob.com/sms"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>开发者只需申请账号，APP内植入短信验证码SDK，简单设置后便可完美实现短信验证，同时也可实现通信录好友匹配功能，轻而易举实现短信验证服务。</p>
-
-<h2></br></h2>
-
-<h3>威达手机号码验证</h3>
-
-<p><a href="http://www.yuxin168.com/PNVWebSite/index.html"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>由于短信验证码会遇到发送不成功、到达太迟、易被软件拦截等种种弊端，威尔信达手机号码验证服务是一款不用向用户发送短信验证码，不用用户输入验证码，只要知道用户的手机号码和sim卡号码，通过电信网络自动完成号码验证的服务。</p>
-
-<h2></br></h2>
-
-<h3>新浪SAE短信服务</h3>
-
-<p><a href="http://sae.sina.com.cn"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>新浪无线短信服务是由新浪无线提供的综合性短信服务。通过该服务您可以给指定的手机发短信( 支持中国移动、中国联通、中国电信网络，短信到达率90%以上)；您发送的短信内容字数将不能超过72字(不含签名)。 短信服务属于收费服务，您可以使用付费云豆购买开通使用。</p>
-
-<h2></br></h2>
-
-<h3>电信天翼WEB短信API能力接口</h3>
-
-<p><a href="http://open.189.cn/show-6-88-1.html"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>中国电信天翼开放平台宣布最新推出免费WEB短信API能力接口，向第三方开发者提供免费WEB短信推送的能力。</p>
-
-<h2></br></h2>
-
-<h3>联通Wo短信能力开放接口</h3>
-
-<p><a href="http://open.wo.com.cn/aep/index.html"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>系统提供短信能力开放接口，通过联通能力共享平台，互联网应用能够向终端用户发送短信。</p>
-
-<h2></br></h2>
-
-<h3>飞拓·掌中传媒</h3>
-
-<p><a href="http://www.groupsms.cn/"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>南京飞拓短信验证码接口/订单通知短信专用接口，具有全国全网发送、3-5秒内响应、100%到达、通道稳定免维护等优势。专为网站短信验证码、网站订单通知等互动应用开设。</p>
-
-<h2></br></h2>
-
-<h3>天翼开放平台短消息</h3>
-
-<p><a href="http://open.189.cn/index.php?m=ability&c=index&a=show&id=359"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>天翼短消息包括：模板短信、短信验证码、发送免费web短息。</p>
-
-<h2></br></h2>
-
-<h3>三基时代</h3>
-
-<p><a href="http://www.3gimes.com"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>三基时代（3Gimes）成立于2007年5月，早期专注于移动增值信息服务（SI），是中国移动、联通、电信的高级战略合伙伙伴；目前专注于验证码短信、移动互联网的统一通讯融合平台。</p>
 ]]></content>
   </entry>
   
