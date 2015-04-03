@@ -77,6 +77,367 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/04/03/ioskai-fa-zhi-asyncsocketshi-yong-jiao-cheng/">iOS开发之AsyncSocket使用教程</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-04-03T16:57:19+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>4:57 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>用socket可以实现像QQ那样发送即时消息的功能。客户端和服务端需要建立长连接，在长连接的情况下，发送消息。客户端可以发送心跳包来检测长连接。</p>
+
+<p>在iOS开发中使用socket，一般都是用第三方库AsyncSocket，不得不承认这个库确实很强大。下载地址<a href="CocoaAsyncSocket">https://github.com/robbiehanson/CocoaAsyncSocket.git</a>。</p>
+
+<p>使用AsyncSocket的时候可以做一层封装，根据需求提供几个接口出来。比如：连接、断开连接、发送消息等等。还有接受消息，接受到的消息可以通过通知、代理、block等传出去。</p>
+
+<p>简单介绍一下对AsyncSocket使用.一般来说，一个用户只需要建立一个socket长连接，所以可以用单例类方便使用。</p>
+
+<h3>定义单列类：LGSocketServe</h3>
+
+<p>LGSocketServe.h</p>
+
+<pre><code>//
+//  LGSocketServe.h
+//  AsyncSocketDemo
+//
+//  Created by ligang on 15/4/3.
+//  Copyright (c) 2015年 ligang. All rights reserved.
+//
+
+#import &lt;Foundation/Foundation.h&gt;
+#import "AsyncSocket.h"
+
+@interface LGSocketServe : NSObject&lt;AsyncSocketDelegate&gt;
+
++ (LGSocketServe *)sharedSocketServe;
+
+
+@end
+</code></pre>
+
+<p>LGSocketServe.m</p>
+
+<pre><code>//
+//  LGSocketServe.m
+//  AsyncSocketDemo
+//
+//  Created by ligang on 15/4/3.
+//  Copyright (c) 2015年 ligang. All rights reserved.
+//
+
+#import "LGSocketServe.h"
+
+@implementation LGSocketServe
+
+
+static LGSocketServe *socketServe = nil;
+
+#pragma mark public static methods
+
+
++ (LGSocketServe *)sharedSocketServe {
+    @synchronized(self) {
+        if(socketServe == nil) {
+            socketServe = [[[self class] alloc] init];
+        }
+    }
+    return socketServe;
+}
+
+
++(id)allocWithZone:(NSZone *)zone
+{
+    @synchronized(self)
+    {
+        if (socketServe == nil)
+        {
+            socketServe = [super allocWithZone:zone];
+            return socketServe;
+        }
+    }
+    return nil;
+}   
+
+
+@end
+</code></pre>
+
+<h3>建立socket长连接</h3>
+
+<p>LGSocketServe.h</p>
+
+<pre><code>@property (nonatomic, strong) AsyncSocket         *socket;       // socket
+
+//  socket连接
+- (void)startConnectSocket;
+</code></pre>
+
+<p>LGSocketServe.m</p>
+
+<pre><code>//自己设定
+#define HOST @"192.168.0.1"
+#define PORT 8080
+
+//设置连接超时
+#define TIME_OUT 20
+
+- (void)startConnectSocket
+{
+    self.socket = [[AsyncSocket alloc] initWithDelegate:self];
+    [self.socket setRunLoopModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
+    if ( ![self SocketOpen:HOST port:PORT] )
+    {
+
+    }
+
+}
+
+- (NSInteger)SocketOpen:(NSString*)addr port:(NSInteger)port
+{
+
+    if (![self.socket isConnected])
+    {
+        NSError *error = nil;
+        [self.socket connectToHost:addr onPort:port withTimeout:TIME_OUT error:&amp;error];
+    }
+
+    return 0;
+}
+</code></pre>
+
+<p>宏定义一下HOST、PORT、TIME_OUT，实现startConnectSocket方法。这个时候要设置一下AsyncSocket的代理AsyncSocketDelegate。当长连接成功之后会调用：</p>
+
+<pre><code>- (void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
+{
+    //这是异步返回的连接成功，
+    NSLog(@"didConnectToHost");
+}
+</code></pre>
+
+<h3>心跳</h3>
+
+<p>LGSocketServe.h</p>
+
+<pre><code>@property (nonatomic, retain) NSTimer             *heartTimer;   // 心跳计时器
+</code></pre>
+
+<p>LGSocketServe.m</p>
+
+<pre><code>- (void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
+{
+    //这是异步返回的连接成功，
+    NSLog(@"didConnectToHost");
+
+    //通过定时器不断发送消息，来检测长连接
+    self.heartTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(checkLongConnectByServe) userInfo:nil repeats:YES];
+    [self.heartTimer fire];
+}
+
+// 心跳连接
+-(void)checkLongConnectByServe{
+
+    // 向服务器发送固定可是的消息，来检测长连接
+    NSString *longConnect = @"connect is here";
+    NSData   *data  = [longConnect dataUsingEncoding:NSUTF8StringEncoding];
+    [self.socket writeData:data withTimeout:1 tag:1];
+}
+</code></pre>
+
+<p>在连接成功的回调方法里，启动定时器，每隔2秒向服务器发送固定的消息来检测长连接。（这个根据服务器的需要就可以了）</p>
+
+<h3>断开连接</h3>
+
+<p>1，用户手动断开连接</p>
+
+<p>LGSocketServe.h</p>
+
+<pre><code>// 断开socket连接
+-(void)cutOffSocket;
+</code></pre>
+
+<p>LGSocketServe.m</p>
+
+<pre><code>-(void)cutOffSocket
+{
+    self.socket.userData = SocketOfflineByUser;
+    [self.socket disconnect];
+}
+</code></pre>
+
+<p>cutOffSocket是用户断开连接之后，不在尝试重新连接。</p>
+
+<p>2，wifi断开，socket断开连接</p>
+
+<p>LGSocketServe.m</p>
+
+<pre><code>- (void)onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)err
+{
+
+    NSLog(@" willDisconnectWithError %ld   err = %@",sock.userData,[err description]);
+    if (err.code == 57) {
+        self.socket.userData = SocketOfflineByWifiCut;
+    }
+
+}
+</code></pre>
+
+<p>wifi断开之后，会回调onSocket:willDisconnectWithError:方法，err.code == 57，这个时候设置self.socket.userData = SocketOfflineByWifiCut。</p>
+
+<h3>重新连接</h3>
+
+<p>socket断开之后会回调：</p>
+
+<p>LGSocketServe.m</p>
+
+<pre><code>- (void)onSocketDidDisconnect:(AsyncSocket *)sock
+{
+
+    NSLog(@"7878 sorry the connect is failure %ld",sock.userData);
+
+    if (sock.userData == SocketOfflineByServer) {
+        // 服务器掉线，重连
+        [self startConnectSocket];
+    }
+    else if (sock.userData == SocketOfflineByUser) {
+
+        // 如果由用户断开，不进行重连
+        return;
+    }else if (sock.userData == SocketOfflineByWifiCut) {
+
+        // wifi断开，不进行重连
+        return;
+    }
+
+}
+</code></pre>
+
+<p>在onSocketDidDisconnect回调方法里面，会根据self.socket.userData来判断是否需要重新连接。</p>
+
+<h3>发送消息</h3>
+
+<p>LGSocketServe.h</p>
+
+<pre><code>// 发送消息
+- (void)sendMessage:(id)message;
+</code></pre>
+
+<p>LGSocketServe.m</p>
+
+<pre><code>//设置写入超时 -1 表示不会使用超时
+#define WRITE_TIME_OUT -1
+
+- (void)sendMessage:(id)message
+{
+    //像服务器发送数据
+    NSData *cmdData = [message dataUsingEncoding:NSUTF8StringEncoding];
+    [self.socket writeData:cmdData withTimeout:WRITE_TIME_OUT tag:1];
+}
+
+//发送消息成功之后回调
+- (void)onSocket:(AsyncSocket *)sock didWriteDataWithTag:(long)tag
+{
+
+}
+</code></pre>
+
+<p>发送消息成功之后会调用onSocket:didWriteDataWithTag:,在这个方法里可以进行读取消息。</p>
+
+<h3>接受消息</h3>
+
+<p>LGSocketServe.m</p>
+
+<pre><code>//设置读取超时 -1 表示不会使用超时
+#define READ_TIME_OUT -1
+
+#define MAX_BUFFER 1024
+
+//发送消息成功之后回调
+- (void)onSocket:(AsyncSocket *)sock didWriteDataWithTag:(long)tag
+{
+    //读取消息
+    [self.socket readDataWithTimeout:-1 buffer:nil bufferOffset:0 maxLength:MAX_BUFFER tag:0];
+}
+
+//接受消息成功之后回调
+- (void)onSocket:(AsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
+{
+    //服务端返回消息数据量比较大时，可能分多次返回。所以在读取消息的时候，设置MAX_BUFFER表示每次最多读取多少，当data.length &lt; MAX_BUFFER我们认为有可能是接受完一个完整的消息，然后才解析
+    if( data.length &lt; MAX_BUFFER )
+    {
+        //收到结果解析...
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+        NSLog(@"%@",dic);
+        //解析出来的消息，可以通过通知、代理、block等传出去
+
+    }
+
+
+    [self.socket readDataWithTimeout:READ_TIME_OUT buffer:nil bufferOffset:0 maxLength:MAX_BUFFER tag:0];
+</code></pre>
+
+<p>接受消息后去解析，然后可以通过通知、代理、block等传出去。在onSocket:didReadData:withTag:回调方法里面需要不断读取消息，因为数据量比较大的话，服务器会分多次返回。所以我们需要定义一个MAX_BUFFER的宏，表示每次最多读取多少。当data.length &lt; MAX_BUFFER我们认为有可能是接受完一个完整的消息，然后才解析
+。</p>
+
+<h3>出错处理</h3>
+
+<p>LGSocketServe.m</p>
+
+<pre><code>- (void)onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)err
+{
+    NSData * unreadData = [sock unreadData]; // ** This gets the current buffer
+    if(unreadData.length &gt; 0) {
+        [self onSocket:sock didReadData:unreadData withTag:0]; // ** Return as much data that could be collected
+    } else {
+
+        NSLog(@" willDisconnectWithError %ld   err = %@",sock.userData,[err description]);
+        if (err.code == 57) {
+            self.socket.userData = SocketOfflineByWifiCut;
+        }
+    }
+
+}
+</code></pre>
+
+<p>socket出错会回调onSocket:willDisconnectWithError:方法，可以通过unreadData来读取未来得及读取的buffer。</p>
+
+<h3>使用</h3>
+
+<p>导入#import &ldquo;LGSocketServe.h&rdquo;</p>
+
+<pre><code> LGSocketServe *socketServe = [LGSocketServe sharedSocketServe];
+//socket连接前先断开连接以免之前socket连接没有断开导致闪退
+[socketServe cutOffSocket];
+socketServe.socket.userData = SocketOfflineByServer;
+[socketServe startConnectSocket];
+
+//发送消息 @"hello world"只是举个列子，具体根据服务端的消息格式
+[socketServe sendMessage:@"hello world"];
+</code></pre>
+
+<p>以上是AsyncSocket的简单使用，在实际开发过程中依然会碰到很多问题，欢迎加我的微信公众号iOS开发：iOSDevTip，一起讨论AsyncSocket中遇到的问题。</p>
+
+<p>AsyncSocketDemo下载地址： <a href="AsyncSocketDemo">https://github.com/worldligang/AsyncSocketDemo.git</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/03/27/nssortdescriptorpai-xu/">NSSortDescriptor排序</a></h1>
     
     
@@ -1177,166 +1538,6 @@ swipeGestureLeft.direction = UISwipeGestureRecognizerDirectionLeft; //向左
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/01/07/paperfold-for-ios/">PaperFold-for-iOS</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-01-07T14:55:39+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:55 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-
-<p> <a href="https://github.com/honcheng/PaperFold-for-iOS.git"target="_blank"title="源代码">源代码</a></p>
-
-<h1>PaperFold for iOS</h1>
-
-<p>PaperFold is a simple iOS control that allows hiding of views on the left and right side of the screen by dragging the middle view.
-The left view supports only 1 fold. The right view supports variable number of folds.</p>
-
-<p><img width=150 src="https://github.com/honcheng/PaperFold-for-iOS/raw/master/Screenshots/1.png"/> <img width=150 src="https://github.com/honcheng/PaperFold-for-iOS/raw/master/Screenshots/2.png"/> <img width=150 src="https://github.com/honcheng/PaperFold-for-iOS/raw/master/Screenshots/3.png"/> <img width=150 src="https://github.com/honcheng/PaperFold-for-iOS/raw/master/Screenshots/4.png"/></p>
-
-<p><em>Vertical fold is still in active testing, in an experimental branch (top-multifold) at the moment.</em></p>
-
-<p><img width=150 src="https://github.com/honcheng/PaperFold-for-iOS/raw/master/Screenshots/5-topfold.png"/> <img width=150 src="https://github.com/honcheng/PaperFold-for-iOS/raw/master/Screenshots/6-topfold.png"/> <img width=150 src="https://github.com/honcheng/PaperFold-for-iOS/raw/master/Screenshots/7-topfold.png"/> <img width=150 src="https://github.com/honcheng/PaperFold-for-iOS/raw/master/Screenshots/8-bottomfold.png"/> <img width=150 src="https://github.com/honcheng/PaperFold-for-iOS/raw/master/Screenshots/9-bottomfold.png"/><br/>
-<img width=300 src="https://github.com/honcheng/PaperFold-for-iOS/raw/master/Screenshots/verticalfold.gif"/></p>
-
-<h2>How it works</h2>
-
-<p>During folding, a screen capture of the left/right view is taken, and split up depending on the number of folds required. The virtual light source is on the right side of the screen, so surfaces that faces the left are darker. For the right multi-fold view, the fold closes to the &lsquo;force&rsquo; are opened up faster than the folds that is further away.</p>
-
-<p>A sample project is included.</p>
-
-<h2>Example</h2>
-
-<p>Refer to this <a href="http://www.honcheng.com/2012/02/Playing-with-folding-navigations">link</a> for a video showing the prototype of an app that I was working on. In the end, the proposed project was never completed because I could not obtained reliable data for the app, but I intend to use it for another app.</p>
-
-<p><img width=300 src="https://github.com/honcheng/PaperFold-for-iOS/raw/master/Screenshots/leftfold.gif"/> <img width=300 src="https://github.com/honcheng/PaperFold-for-iOS/raw/master/Screenshots/rightfold.gif"/></p>
-
-<p>The animation here looks a bit laggy, but that&rsquo;s because of the low frame rates in GIF.</p>
-
-<h2>Usage</h2>
-
-<p>1) Add PaperFoldView as a subview into your view controller.</p>
-
-<pre><code>_paperFoldView = [[PaperFoldView alloc] initWithFrame:CGRectMake(0,0,100,[self.view bounds].size.height)];
-[self.view addSubview:_paperFoldView];
-</code></pre>
-
-<p>2) To set left view, use setLeftFoldContentView:foldCount:pullFactor:. Example below uses a UITableView, but it can any UIView.</p>
-
-<pre><code>_leftTableView = [[UITableView alloc] initWithFrame:CGRectMake(0,0,100,[self.view bounds].size.height)];
-[_paperFoldView setLeftFoldContentView:_leftTableView foldCount:3 pullFactor:0.9];
-</code></pre>
-
-<p>3) To set the right view, use setRightFoldContentView:foldCount:pullFactor:. Example below uses a MKMapView, but it can any UIView. The fold count is the number of folds in the right view. The pull factor controls the ratio of folding/unfolding of the different folds away from the center.</p>
-
-<pre><code>_mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0,0,240,[self.view bounds].size.height)];
-[_paperFoldView setRightFoldContentView:_mapView foldCount:3 pullFactor:0.9];
-</code></pre>
-
-<p>4) To set the center view</p>
-
-<pre><code>_centerTableView = [[UITableView alloc] initWithFrame:CGRectMake(0,0,[self.view bounds].size.height,[self.view bounds].size.height)];
-[_paperFoldView setCenterContentView:_centerTableView];
-</code></pre>
-
-<p>4) Sometimes you may want to disable drag-to-unfold if you have a table view in the center view and wish to preserve the swipe gesture functions e.g. to delete cells.</p>
-
-<pre><code>// this disables dragging to unfold the left view
-[self.paperFoldView setEnableLeftFoldDragging:NO];
-
-// this disables dragging to unfold the right view
-[self.paperFoldView setEnableRightFoldDragging:NO];
-</code></pre>
-
-<p>5) To unfold left view without dragging</p>
-
-<pre><code>[self.paperFoldView setPaperFoldState:PaperFoldStateLeftUnfolded];
-</code></pre>
-
-<p>6) To unfold right view without dragging</p>
-
-<pre><code>[self.paperFoldView setPaperFoldState:PaperFoldStateRightUnfolded];
-</code></pre>
-
-<p>7) To restore view to center without dragging</p>
-
-<pre><code>[self.paperFoldView setPaperFoldState:PaperFoldStateDefault];
-</code></pre>
-
-<p>8) To receive callbacks when fold state changes, and if the fold was activated manually by finger gesture, or automatically by calling setPaperFoldState:</p>
-
-<pre><code>// register callback delegate
-[self.paperFoldView setDelegate:self];
-
-// callback comes from the following delegate method 
-- (void)paperFoldView:(id)paperFoldView didFoldAutomatically:(BOOL)automatic toState:(PaperFoldState)paperFoldState
-</code></pre>
-
-<h2>Requirements</h2>
-
-<p>This project uses ARC. If you are not using ARC in your project, add &lsquo;-fobjc-arc&rsquo; as a compiler flag for all the files in this project.
-XCode 4.4 is required for auto-synthesis.</p>
-
-<h2>Apps that uses PaperFold</h2>
-
-<p><a href="https://itunes.apple.com/sg/app/id547022322">Showy</a>
-, <a href="https://itunes.apple.com/sg/app/largetype-full-screen-text/id568459406">LargeType</a>
-, <a href="https://itunes.apple.com/us/app/nextride-singapore-public/id565103559">NextRide</a>
-, <a href="https://itunes.apple.com/sg/app/sg-nextbus/id361404839">SG NextBus</a>
-, <a href="https://itunes.apple.com/cn/app/hang-zhou-de-tie/id518531257?mt=8">Hangzhou Metro</a></p>
-
-<p><a href="http://twitter.com/honcheng">Contact me</a> if you want your app listed here. Thanks</p>
-
-<h2>Other Projects that uses PaperFold</h2>
-
-<p><a href="https://github.com/honcheng/PaperFoldMenuController">PaperFoldMenuController</a> by me.</p>
-
-<p><a href="https://github.com/yestoall/PaperFold-pod-DEMO">PaperFold CocoaPod Demo for RubyMotion</a> by <a href="yestoall">yestoall</a>.</p>
-
-<p><a href="https://github.com/atsusy/TiPaperFold">Titanium Mobile Mobule for PaperFold</a> by <a href="https://github.com/atsusy/">atsusy</a>.</p>
-
-<h2>Known Problem</h2>
-
-<p>Screen capture of MKMapView is iOS6 is not taken properly. I approached a few Apple engineers at WWDC, and was told that it is most likely a bug that need to fix. I have already filed a bug report (filed as rdar://11813051, closed by Apple because it is a duplicate of rdar://11650331). Hopefully it will be fixed soon.</p>
-
-<p><strong>Update:</strong> This bug is fixed in iOS6b4. No problem taking screenshot of MKMapView.</p>
-
-<h2>Credits</h2>
-
-<p>Special thanks to <a href="http://twitter.com/dilliontan">@dilliontan</a>, my colleague in <a href="http://buuuk.com">buUuk</a> for explaining CAAffineTransform. He&rsquo;s a master at that :p. I&rsquo;m still a noob.
-You can check out his <a href="https://github.com/Dillion/iOS-Flip-Transform">iOS-Flip-Transform project here</a>.</p>
-
-<h2>Contact</h2>
-
-<p><a href="http://twitter.com/honcheng">twitter.com/honcheng</a>
-<a href="http://honcheng.com">honcheng.com</a></p>
-
-<p><img src="http://www.cocoacontrols.com/analytics/honcheng/paperfold-for-ios.png" alt="" /></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -1352,6 +1553,10 @@ You can check out his <a href="https://github.com/Dillion/iOS-Flip-Transform">iO
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/04/03/ioskai-fa-zhi-asyncsocketshi-yong-jiao-cheng/">iOS开发之AsyncSocket使用教程</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/03/27/nssortdescriptorpai-xu/">NSSortDescriptor排序</a>
       </li>
     
@@ -1365,10 +1570,6 @@ You can check out his <a href="https://github.com/Dillion/iOS-Flip-Transform">iO
     
       <li class="post">
         <a href="/blog/2015/03/13/xi-tong-ti-gong-de-dispatchfang-fa/">系统提供的dispatch方法</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/01/29/ioskai-fa-xia-zai-wen-jian-su-du-ji-suan/">iOS开发下载文件速度计算</a>
       </li>
     
   </ul>
