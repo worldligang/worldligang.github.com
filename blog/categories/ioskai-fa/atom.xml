@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://worldligang.github.io/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-04-03T17:03:43+08:00</updated>
+  <updated>2015-04-03T21:08:07+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -20,7 +20,7 @@
     <id>http://worldligang.github.io/blog/2015/04/03/ioskai-fa-zhi-asyncsocketshi-yong-jiao-cheng</id>
     <content type="html"><![CDATA[<p>用socket可以实现像QQ那样发送即时消息的功能。客户端和服务端需要建立长连接，在长连接的情况下，发送消息。客户端可以发送心跳包来检测长连接。</p>
 
-<p>在iOS开发中使用socket，一般都是用第三方库AsyncSocket，不得不承认这个库确实很强大。下载地址<a href="CocoaAsyncSocket">https://github.com/robbiehanson/CocoaAsyncSocket.git</a>。</p>
+<p>在iOS开发中使用socket，一般都是用第三方库AsyncSocket，不得不承认这个库确实很强大。下载地址<a href="https://github.com/robbiehanson/CocoaAsyncSocket.git">CocoaAsyncSocket</a>。</p>
 
 <p>使用AsyncSocket的时候可以做一层封装，根据需求提供几个接口出来。比如：连接、断开连接、发送消息等等。还有接受消息，接受到的消息可以通过通知、代理、block等传出去。</p>
 
@@ -350,7 +350,7 @@ socketServe.socket.userData = SocketOfflineByServer;
 
 <p>以上是AsyncSocket的简单使用，在实际开发过程中依然会碰到很多问题，欢迎加我的微信公众号iOS开发：iOSDevTip，一起讨论AsyncSocket中遇到的问题。</p>
 
-<p>AsyncSocketDemo下载地址： <a href="AsyncSocketDemo">https://github.com/worldligang/AsyncSocketDemo.git</a></p>
+<p>AsyncSocketDemo下载地址： <a href="https://github.com/worldligang/AsyncSocketDemo.git">AsyncSocketDemo</a></p>
 ]]></content>
   </entry>
   
