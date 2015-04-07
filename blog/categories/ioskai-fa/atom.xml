@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://worldligang.github.io/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-04-03T21:08:07+08:00</updated>
+  <updated>2015-04-07T09:58:40+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -14,13 +14,176 @@
 
   
   <entry>
+    <title type="html"><![CDATA[MVC中Model的设计]]></title>
+    <link href="http://worldligang.github.io/blog/2015/04/07/mvczhong-modelde-she-ji/"/>
+    <updated>2015-04-07T09:56:12+08:00</updated>
+    <id>http://worldligang.github.io/blog/2015/04/07/mvczhong-modelde-she-ji</id>
+    <content type="html"><![CDATA[<p>一般在定义ViewController的时候，都习惯定义一个BaseViewController作为基类（即父类）。这样做的好处是：把公共的属性提出来放在BaseViewController中，试代码结构更清晰。同样，设计Model的时候，也可以定义一个基类。</p>
+
+<p>比如：有一个房子，房子里面有一个电视和许多个桌子。电视和桌子分别有价格和型号。</p>
+
+<h3>定义基类LGObject</h3>
+
+<p>LGObject.h：</p>
+
+<pre><code> //
+//  LGObject.h
+//  LGAlertViewDemo
+//
+//  Created by apple on 15/4/6.
+//  Copyright (c) 2015年 LiGang. All rights reserved.
+//
+
+#import &lt;Foundation/Foundation.h&gt;
+
+@interface LGObject : NSObject
+
+@property (readonly, nonatomic) id data;
+
+- (id)initWithData:(id)data;
+- (BOOL)isEmpty;
+
+@end
+</code></pre>
+
+<p>LGObject.m：</p>
+
+<pre><code>//
+//  LGObject.m
+//  LGAlertViewDemo
+//
+//  Created by apple on 15/4/6.
+//  Copyright (c) 2015年 LiGang. All rights reserved.
+//
+
+#import "LGObject.h"
+
+@implementation LGObject
+
+- (id)initWithData:(id)data {
+    self = [super init];
+    if(self) {
+        _data = nil;
+        if(data != nil) _data = data;
+    }
+    return self;
+}
+
+- (BOOL)isEmpty
+{
+    return _data == nil ? YES : NO;
+}
+
+@end
+</code></pre>
+
+<h3>定义房子LGHouse、电视LGVideo、桌子LGDesk</h3>
+
+<p>电视LGVideo、桌子LGDesk可以放在LGHouse里面。多个桌子需要定义一个数组：arrayDesk。</p>
+
+<p>LGHouse.h：</p>
+
+<pre><code>//
+//  LGHouse.h
+//  LGAlertViewDemo
+//
+//  Created by apple on 15/4/6.
+//  Copyright (c) 2015年 LiGang. All rights reserved.
+//
+
+#import "LGObject.h"
+
+@class LGVideo;
+@class LGDesk;
+
+@interface LGHouse : LGObject
+
+@property (nonatomic, readonly) LGVideo  *video;     //电视
+@property (nonatomic, readonly) NSArray  *arrayDesk; //桌子
+
+@end
+
+@interface LGVideo : LGObject
+
+@property (nonatomic, assign)   float      money;//价格
+@property (nonatomic, readonly) NSString  *type;//型号
+
+@end
+
+@interface LGDesk : LGObject
+
+@property (nonatomic, assign)   float      money;//价格
+@property (nonatomic, readonly) NSString  *type;//型号
+
+@end
+</code></pre>
+
+<p>LGHouse.m：</p>
+
+<pre><code>//
+//  LGHouse.m
+//  LGAlertViewDemo
+//
+//  Created by apple on 15/4/6.
+//  Copyright (c) 2015年 LiGang. All rights reserved.
+//
+
+#import "LGHouse.h"
+
+@implementation LGHouse
+
+- (LGVideo *)video {
+    return [[LGVideo alloc] initWithData:[self.data objectForKey:@"video"]];
+}
+
+- (NSArray *)arrayDesk {
+    NSMutableArray *arrayDesk = [NSMutableArray array];
+    for (NSDictionary *dickDesk in [self.data objectForKey:@"desks"]) {
+        [arrayDesk addObject:[[LGDesk alloc] initWithData:dickDesk]];
+    }
+    return arrayDesk;
+}
+
+@end
+
+@implementation LGVideo
+
+- (float)money {
+    return [[self.data objectForKey:@"money"] floatValue];
+}
+
+- (NSString *)type {
+    return [self.data objectForKey:@"type"];
+}
+
+@end
+
+@implementation LGDesk
+
+- (float)money {
+    return [[self.data objectForKey:@"money"] floatValue];
+}
+
+- (NSString *)type {
+    return [self.data objectForKey:@"type"];
+}
+
+@end
+</code></pre>
+
+<p>以上是我对Model设计的简单理解，如果你有更好的想法，欢迎告诉我。</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[iOS开发之AsyncSocket使用教程]]></title>
     <link href="http://worldligang.github.io/blog/2015/04/03/ioskai-fa-zhi-asyncsocketshi-yong-jiao-cheng/"/>
     <updated>2015-04-03T16:57:19+08:00</updated>
     <id>http://worldligang.github.io/blog/2015/04/03/ioskai-fa-zhi-asyncsocketshi-yong-jiao-cheng</id>
     <content type="html"><![CDATA[<p>用socket可以实现像QQ那样发送即时消息的功能。客户端和服务端需要建立长连接，在长连接的情况下，发送消息。客户端可以发送心跳包来检测长连接。</p>
 
-<p>在iOS开发中使用socket，一般都是用第三方库AsyncSocket，不得不承认这个库确实很强大。下载地址<a href="https://github.com/robbiehanson/CocoaAsyncSocket.git">CocoaAsyncSocket</a>。</p>
+<p>在iOS开发中使用socket，一般都是用第三方库AsyncSocket，不得不承认这个库确实很强大。下载地址<a href="https://github.com/robbiehanson/CocoaAsyncSocket.git"target="_blank"title="CocoaAsyncSocket">CocoaAsyncSocket</a><br/>
+。</p>
 
 <p>使用AsyncSocket的时候可以做一层封装，根据需求提供几个接口出来。比如：连接、断开连接、发送消息等等。还有接受消息，接受到的消息可以通过通知、代理、block等传出去。</p>
 
@@ -350,7 +513,7 @@ socketServe.socket.userData = SocketOfflineByServer;
 
 <p>以上是AsyncSocket的简单使用，在实际开发过程中依然会碰到很多问题，欢迎加我的微信公众号iOS开发：iOSDevTip，一起讨论AsyncSocket中遇到的问题。</p>
 
-<p>AsyncSocketDemo下载地址： <a href="https://github.com/worldligang/AsyncSocketDemo.git">AsyncSocketDemo</a></p>
+<p>AsyncSocketDemo下载地址： <a href="https://github.com/worldligang/AsyncSocketDemo.git"target="_blank"title="CocoaAsyncSocket">AsyncSocketDemo</a></p>
 ]]></content>
   </entry>
   
@@ -535,71 +698,6 @@ static LGManagerCenter *managerCenter;
 </code></pre>
 
 <p>其中dispatch_once函数只执行一次。</p>
-
-<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[系统提供的dispatch方法]]></title>
-    <link href="http://worldligang.github.io/blog/2015/03/13/xi-tong-ti-gong-de-dispatchfang-fa/"/>
-    <updated>2015-03-13T17:41:11+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/03/13/xi-tong-ti-gong-de-dispatchfang-fa</id>
-    <content type="html"><![CDATA[<p>为了方便地使用GCD，苹果提供了一些方法方便我们将block放在主线程或后台线程执行，或者延后执行。使用的例子如下所示：</p>
-
-<pre><code> //  后台执行：
- dispatch_async(dispatch_get_global_queue(0, 0), ^{
-      // something
- });
-
- // 主线程执行：
- dispatch_async(dispatch_get_main_queue(), ^{
-      // something
- });
-
- // 一次性执行：
- static dispatch_once_t onceToken;
- dispatch_once(&amp;onceToken, ^{
-     // code to be executed once
- });
-
- // 延迟2秒执行：
- double delayInSeconds = 2.0;
- dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
- dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-     // code to be executed on the main queue after delay
- });
-</code></pre>
-
-<p>dispatch_queue_t也可以自己定义，如要自定义queue，可以用dispatch_queue_create方法，示例如下：</p>
-
-<pre><code> // 自定义dispatch_queue_t
- dispatch_queue_t urls_queue = dispatch_queue_create("blog.devtang.com", NULL);
- dispatch_async(urls_queue, ^{  
-　 　// your code 
- });
- dispatch_release(urls_queue);
-</code></pre>
-
-<p>另外，GCD还有一些高级用法，例如让后台两个线程并行执行，然后等两个线程都结束后，再汇总执行结果。这个可以用dispatch_group_t、dispatch_group_async、dispatch_group_notify来实现，示例如下：</p>
-
-<pre><code> // 合并汇总结果
- dispatch_group_t group = dispatch_group_create();
- dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
-      // 并行执行的线程一
- });
- dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
-      // 并行执行的线程二
- });
- dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
-      // 汇总结果
- });
-</code></pre>
-
-<p>文章来自唐巧《iOS开发进阶》</p>
 
 <p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
 

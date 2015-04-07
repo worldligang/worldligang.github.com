@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-04-03T21:08:07+08:00</updated>
+  <updated>2015-04-07T09:58:40+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -14,13 +14,176 @@
 
   
   <entry>
+    <title type="html"><![CDATA[MVC中Model的设计]]></title>
+    <link href="http://worldligang.github.io/blog/2015/04/07/mvczhong-modelde-she-ji/"/>
+    <updated>2015-04-07T09:56:12+08:00</updated>
+    <id>http://worldligang.github.io/blog/2015/04/07/mvczhong-modelde-she-ji</id>
+    <content type="html"><![CDATA[<p>一般在定义ViewController的时候，都习惯定义一个BaseViewController作为基类（即父类）。这样做的好处是：把公共的属性提出来放在BaseViewController中，试代码结构更清晰。同样，设计Model的时候，也可以定义一个基类。</p>
+
+<p>比如：有一个房子，房子里面有一个电视和许多个桌子。电视和桌子分别有价格和型号。</p>
+
+<h3>定义基类LGObject</h3>
+
+<p>LGObject.h：</p>
+
+<pre><code> //
+//  LGObject.h
+//  LGAlertViewDemo
+//
+//  Created by apple on 15/4/6.
+//  Copyright (c) 2015年 LiGang. All rights reserved.
+//
+
+#import &lt;Foundation/Foundation.h&gt;
+
+@interface LGObject : NSObject
+
+@property (readonly, nonatomic) id data;
+
+- (id)initWithData:(id)data;
+- (BOOL)isEmpty;
+
+@end
+</code></pre>
+
+<p>LGObject.m：</p>
+
+<pre><code>//
+//  LGObject.m
+//  LGAlertViewDemo
+//
+//  Created by apple on 15/4/6.
+//  Copyright (c) 2015年 LiGang. All rights reserved.
+//
+
+#import "LGObject.h"
+
+@implementation LGObject
+
+- (id)initWithData:(id)data {
+    self = [super init];
+    if(self) {
+        _data = nil;
+        if(data != nil) _data = data;
+    }
+    return self;
+}
+
+- (BOOL)isEmpty
+{
+    return _data == nil ? YES : NO;
+}
+
+@end
+</code></pre>
+
+<h3>定义房子LGHouse、电视LGVideo、桌子LGDesk</h3>
+
+<p>电视LGVideo、桌子LGDesk可以放在LGHouse里面。多个桌子需要定义一个数组：arrayDesk。</p>
+
+<p>LGHouse.h：</p>
+
+<pre><code>//
+//  LGHouse.h
+//  LGAlertViewDemo
+//
+//  Created by apple on 15/4/6.
+//  Copyright (c) 2015年 LiGang. All rights reserved.
+//
+
+#import "LGObject.h"
+
+@class LGVideo;
+@class LGDesk;
+
+@interface LGHouse : LGObject
+
+@property (nonatomic, readonly) LGVideo  *video;     //电视
+@property (nonatomic, readonly) NSArray  *arrayDesk; //桌子
+
+@end
+
+@interface LGVideo : LGObject
+
+@property (nonatomic, assign)   float      money;//价格
+@property (nonatomic, readonly) NSString  *type;//型号
+
+@end
+
+@interface LGDesk : LGObject
+
+@property (nonatomic, assign)   float      money;//价格
+@property (nonatomic, readonly) NSString  *type;//型号
+
+@end
+</code></pre>
+
+<p>LGHouse.m：</p>
+
+<pre><code>//
+//  LGHouse.m
+//  LGAlertViewDemo
+//
+//  Created by apple on 15/4/6.
+//  Copyright (c) 2015年 LiGang. All rights reserved.
+//
+
+#import "LGHouse.h"
+
+@implementation LGHouse
+
+- (LGVideo *)video {
+    return [[LGVideo alloc] initWithData:[self.data objectForKey:@"video"]];
+}
+
+- (NSArray *)arrayDesk {
+    NSMutableArray *arrayDesk = [NSMutableArray array];
+    for (NSDictionary *dickDesk in [self.data objectForKey:@"desks"]) {
+        [arrayDesk addObject:[[LGDesk alloc] initWithData:dickDesk]];
+    }
+    return arrayDesk;
+}
+
+@end
+
+@implementation LGVideo
+
+- (float)money {
+    return [[self.data objectForKey:@"money"] floatValue];
+}
+
+- (NSString *)type {
+    return [self.data objectForKey:@"type"];
+}
+
+@end
+
+@implementation LGDesk
+
+- (float)money {
+    return [[self.data objectForKey:@"money"] floatValue];
+}
+
+- (NSString *)type {
+    return [self.data objectForKey:@"type"];
+}
+
+@end
+</code></pre>
+
+<p>以上是我对Model设计的简单理解，如果你有更好的想法，欢迎告诉我。</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[iOS开发之AsyncSocket使用教程]]></title>
     <link href="http://worldligang.github.io/blog/2015/04/03/ioskai-fa-zhi-asyncsocketshi-yong-jiao-cheng/"/>
     <updated>2015-04-03T16:57:19+08:00</updated>
     <id>http://worldligang.github.io/blog/2015/04/03/ioskai-fa-zhi-asyncsocketshi-yong-jiao-cheng</id>
     <content type="html"><![CDATA[<p>用socket可以实现像QQ那样发送即时消息的功能。客户端和服务端需要建立长连接，在长连接的情况下，发送消息。客户端可以发送心跳包来检测长连接。</p>
 
-<p>在iOS开发中使用socket，一般都是用第三方库AsyncSocket，不得不承认这个库确实很强大。下载地址<a href="https://github.com/robbiehanson/CocoaAsyncSocket.git">CocoaAsyncSocket</a>。</p>
+<p>在iOS开发中使用socket，一般都是用第三方库AsyncSocket，不得不承认这个库确实很强大。下载地址<a href="https://github.com/robbiehanson/CocoaAsyncSocket.git"target="_blank"title="CocoaAsyncSocket">CocoaAsyncSocket</a><br/>
+。</p>
 
 <p>使用AsyncSocket的时候可以做一层封装，根据需求提供几个接口出来。比如：连接、断开连接、发送消息等等。还有接受消息，接受到的消息可以通过通知、代理、block等传出去。</p>
 
@@ -350,7 +513,7 @@ socketServe.socket.userData = SocketOfflineByServer;
 
 <p>以上是AsyncSocket的简单使用，在实际开发过程中依然会碰到很多问题，欢迎加我的微信公众号iOS开发：iOSDevTip，一起讨论AsyncSocket中遇到的问题。</p>
 
-<p>AsyncSocketDemo下载地址： <a href="https://github.com/worldligang/AsyncSocketDemo.git">AsyncSocketDemo</a></p>
+<p>AsyncSocketDemo下载地址： <a href="https://github.com/worldligang/AsyncSocketDemo.git"target="_blank"title="CocoaAsyncSocket">AsyncSocketDemo</a></p>
 ]]></content>
   </entry>
   
@@ -1584,7 +1747,7 @@ UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds]
 
 <p><a href="http://twitter.com/bradlarson">@bradlarson</a></p>
 
-<p><a href="&#109;&#97;&#x69;&#108;&#116;&#111;&#x3a;&#99;&#x6f;&#x6e;&#x74;&#x61;&#99;&#x74;&#64;&#x73;&#x75;&#x6e;&#115;&#101;&#x74;&#108;&#97;&#x6b;&#x65;&#x73;&#111;&#x66;&#x74;&#x77;&#x61;&#x72;&#x65;&#46;&#99;&#x6f;&#109;">&#x63;&#111;&#x6e;&#x74;&#x61;&#99;&#x74;&#x40;&#x73;&#117;&#110;&#115;&#x65;&#116;&#x6c;&#x61;&#107;&#x65;&#115;&#x6f;&#x66;&#x74;&#119;&#97;&#114;&#101;&#x2e;&#99;&#111;&#x6d;</a></p>
+<p><a href="&#x6d;&#97;&#105;&#108;&#x74;&#x6f;&#58;&#99;&#x6f;&#x6e;&#116;&#x61;&#x63;&#x74;&#64;&#115;&#117;&#110;&#x73;&#101;&#x74;&#108;&#x61;&#107;&#101;&#115;&#x6f;&#x66;&#116;&#x77;&#97;&#x72;&#x65;&#46;&#99;&#111;&#x6d;">&#99;&#x6f;&#110;&#x74;&#x61;&#99;&#116;&#64;&#115;&#117;&#110;&#x73;&#101;&#116;&#108;&#97;&#x6b;&#101;&#115;&#111;&#x66;&#x74;&#119;&#x61;&#x72;&#x65;&#46;&#x63;&#x6f;&#x6d;</a></p>
 
 <h2>Overview</h2>
 
@@ -2941,7 +3104,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 <p>本人是因为兴趣业余时间来开发推聊，考虑到 IM 占用的时间太多，所以请谅解，不提供任何 IM 的沟通方式。希望大家以如下的方式交流：</p>
 
 <ul>
-<li>Email:  <a href="&#x6d;&#97;&#x69;&#108;&#116;&#x6f;&#58;&#x70;&#117;&#115;&#104;&#x74;&#x61;&#x6c;&#107;&#x2e;&#111;&#114;&#x67;&#64;&#x67;&#109;&#97;&#x69;&#108;&#x2e;&#x63;&#111;&#109;">&#x70;&#x75;&#x73;&#x68;&#116;&#97;&#x6c;&#x6b;&#46;&#111;&#114;&#103;&#x40;&#x67;&#x6d;&#97;&#x69;&#x6c;&#x2e;&#x63;&#111;&#x6d;</a></li>
+<li>Email:  <a href="&#109;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#112;&#117;&#115;&#104;&#x74;&#97;&#108;&#x6b;&#x2e;&#x6f;&#114;&#103;&#x40;&#103;&#109;&#97;&#105;&#x6c;&#46;&#x63;&#111;&#x6d;">&#x70;&#x75;&#x73;&#x68;&#x74;&#x61;&#108;&#x6b;&#46;&#111;&#x72;&#103;&#64;&#103;&#x6d;&#97;&#x69;&#108;&#46;&#99;&#x6f;&#x6d;</a></li>
 <li>项目Wiki: <a href="https://github.com/good-life/PushTalk/wiki">https://github.com/good-life/PushTalk/wiki</a></li>
 <li>项目Bug: <a href="https://github.com/good-life/PushTalk/issues">https://github.com/good-life/PushTalk/issues</a></li>
 <li>PushTalk频道：<code>pushtalk</code>, <code>报告bug</code>, <code>新功能讨论</code> 等</li>
@@ -3332,107 +3495,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 <h2>SpecialThanks</h2>
 
 <p><a href="http://twitter.com/lexrus">@lexrus</a>  CocoaPods Spec</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Coding-iOS]]></title>
-    <link href="http://worldligang.github.io/blog/2015/01/05/coding-ios/"/>
-    <updated>2015-01-05T13:09:26+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/01/05/coding-ios</id>
-    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-
-<p> <a href="https://coding.net/u/coding"target="_blank"title="源代码">源代码</a></p>
-
-<h3>Coding_iOS客户端项目介绍</h3>
-
-<p><em>编译环境：Xcode-Version 6.1 (6A1052d)</em></p>
-
-<h4>下面介绍一下文件的大概目录先：</h4>
-
-<pre><code>.
-├── Coding_iOS
-│   ├── Models：数据类
-│   ├── Views：视图类
-│   │   ├── CCell：所有的CollectionViewCell都在这里
-│   │   ├── Cell：所有的TableViewCell都在这里
-│   │   └── XXX：ListView（项目、动态、任务、讨论、文档、代码）和InputView（用于聊天和评论的输入框）
-│   ├── Controllers：控制器，对应app中的各个页面
-│   │   ├── Login：登录页面
-│   │   ├── RootControllers：登录后的根页面
-│   │   ├── MeSetting：设置信息页面
-│   │   └── XXX：其它页面
-│   ├── Images：app中用到的所有的图片都在这里
-│   ├── Resources：资源文件
-│   ├── Util：一些常用控件和Category、Manager之类
-│   │   ├── Common
-│   │   ├── Manager
-│   │   ├── OC_Category
-│   │   └── ObjcRuntime
-│   └── Vendor：用到的一些第三方类库，一般都有改动
-│       ├── AFNetworking
-│       ├── AGEmojiKeyboard
-│       ├── ASProgressPopUpView
-│       ├── ActionSheetPicker
-│       ├── FontAwesome+iOS
-│       ├── MJPhotoBrowser
-│       ├── MLEmojiLabel
-│       ├── NSDate+Helper
-│       ├── NSStringEmojize
-│       ├── PPiAwesomeButton
-│       ├── QBImagePickerController
-│       ├── RDVTabBarController
-│       ├── SMPageControl
-│       ├── SVPullToRefresh
-│       ├── SWTableViewCell
-│       ├── UMENG
-│       ├── UMessage_Sdk_1.1.0
-│       ├── XGPush
-│       ├── XTSegmentControl
-│       └── iCarousel
-└── Pods：项目使用了[CocoaPods](http://code4app.com/article/cocoapods-install-usage)这个类库管理工具
-</code></pre>
-
-<h4>再说下项目的启动流程：</h4>
-
-<p>在AppDelegate的启动方法中，先设置了一下Appearance的样式，然后根据用户的登录状态选择是去加载登录页面LoginViewController，还是登录后的RootTabViewController页面。</p>
-
-<p>RootTabViewController继承自第三方库<a href="https://github.com/robbdimitrov/RDVTabBarController">RDVTabBarController</a>。在RootTabViewController里面依次加载了Project_RootViewController、MyTask_RootViewController、Tweet_RootViewController、Message_RootViewController、Me_RootViewController五个RootViewController，后续的页面跳转都是基于这几个RootViewController引过去的。</p>
-
-<h4>项目里面还有些需要注意的点</h4>
-
-<ul>
-<li><p>Coding_NetAPIManager：基本上app的所有请求接口都放在了这里。网络请求使用的是<a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a>库，与服务器之间的数据交互格式用的都是json（与<a href="https://coding.net">Coding</a>使用的api一致）。</p></li>
-<li><p>关于推送：刚开始是用的<a href="http://www.umeng.com/">友盟推送</a>，后来又改用了<a href="http://xg.qq.com/">腾讯信鸽</a>，因为要兼顾旧版本app的推送，所以服务器是同时保留了两套推送。但是为了确保新版本的app不同时收到双份相同的推送消息，所以当前代码里还存留了友盟的sdk，用于解除推送token与友盟Alias的绑定。</p></li>
-<li><p>关于ProjectViewController：这个就是进入到某个项目之后的页面，这里包含了项目的动态、任务、讨论、文档、代码、成员各类信息，而且每类信息里面还可能会有新的分类（如‘任务’里面还分有各个成员的任务）；这个页面相当的臃肿，我对它们做了拆分，都放在视图类Views目录下面。 首先是把数据列表独立成了对应的XXXListView（如ProjectTaskListView）；然后如果需要标签切换的话，会再新建一个XXXsView（如：ProjectTasksView），在这个视图中，上面会放一个切换栏<a href="https://github.com/xushao1990/XTNews">XTSegmentControl</a>显示各个标签，下面放一个<a href="https://github.com/nicklockwood/iCarousel">iCarousel</a>可以滑动显示各个标签的内容；最后这些视图都会存储在ProjectViewController的projectContentDict变量里面，根据顶部导航栏选择的类别，去显示或隐藏对应的视图。</p></li>
-<li><p>关于UIMessageInputView：这个是私信聊天的输入框。因为这个输入框好多地方都有用到（冒泡、任务、讨论的评论还有私信），所以这个输入框就写成了一个相对独立的控件，并且直接显示在了keyWindow里面而不是某个视图里。这里的表情键盘用的是<a href="https://github.com/ayushgoel/AGEmojiKeyboard">AGEmojiKeyboard</a>改写了一下。</p></li>
-<li><p>关于Emoji：这个，<a href="https://coding.net">Coding</a>站点的emoji都是用的图片，而且服务器是不接受大部分emoji字符的，所以刚开始的时候app一直不能处理emoji表情；又因为没有emoji图片名和emoji code码的对应关系表，所以拖了很久都没能做好转换。直到在github上面找到了<a href="https://github.com/diy/NSStringEmojize">NSStringEmojize</a>这个项目；试了一下，虽然也不能全部解析，但是大部分表情都能正确显示了，不能更感谢。</p></li>
-<li><p>关于如何正确显示冒泡的内容：api返回的数据里面，冒泡内容都是html格式，需要做一下预处理；其实私信、讨论里面的内容也是html。解析html的类名是HtmlMediaItem，它是先用<a href="https://github.com/topfunky/hpple">hpple</a>对html进行了解析，然后把对应的media元素和对应的位置做一个存储，显示的时候便可以根据需要来显示了。</p></li>
-</ul>
-
-
-<h4>最后说下<a href="http://code4app.com/article/cocoapods-install-usage">CocoaPods</a>里面用到的第三方类库</h4>
-
-<ul>
-<li><a href="https://github.com/rs/SDWebImage">SDWebImage</a>：图片加载</li>
-<li><a href="https://github.com/TTTAttributedLabel/TTTAttributedLabel">TTTAttributedLabel</a>：富文本的label，可点击链接</li>
-<li><a href="https://github.com/wezm/RegexKitLite">RegexKitLite</a>：正则表达式</li>
-<li><a href="https://github.com/topfunky/hpple">hpple</a>：html解析</li>
-<li><a href="https://github.com/jdg/MBProgressHUD">MBProgressHUD</a>：hud提示框</li>
-<li><a href="https://github.com/Sephiroth87/ODRefreshControl">ODRefreshControl</a>：下拉刷新</li>
-<li><a href="https://github.com/michaeltyson/TPKeyboardAvoiding">TPKeyboardAvoiding</a>：有文字输入时，能根据键盘是否弹出来调整自身显示内容的位置</li>
-<li><a href="https://github.com/jaydee3/JDStatusBarNotification">JDStatusBarNotification</a>：状态栏提示框</li>
-<li><a href="https://github.com/zwaldowski/BlocksKit">BlocksKit</a>：block工具包。将很多需要用delegate实现的方法整合成了block的形式</li>
-<li><a href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa</a>：基于响应式编程思想的oc实践（是个好东西呢）</li>
-</ul>
-
-
-<h4>License</h4>
-
-<p>Coding is available under the MIT license. See the LICENSE file for more info.</p>
 ]]></content>
   </entry>
   
