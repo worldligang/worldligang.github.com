@@ -3,16 +3,11 @@
 # ----------------------- #
 
 url: http://worldligang.github.io
-title: IOS开发技术博客
-subtitle: 微信公众账号 ios开发：iOSDevTip
-author: 李刚
-simple_search: https://www.google.com/search
-description
-
-修改
-
-(一个月内功能介绍只能申请修改一次)
-最新iOS、iPhone资讯，万名iOS开发者、swift开发、果粉聚集，参与技术讨论，整理开发技巧，分享创业经验！享受生活、热爱编程！ :
+title: 刚刚在线
+subtitle: 游走在互联网岸边的屌丝青年
+author: 刚刚
+simple_search: http://www.baidu.com/
+description: 微信公众账号：iOSDevTip  最新iOS、iPhone资讯，万名iOS开发者、swift开发、果粉聚集，参与技术讨论，整理开发技巧，分享创业经验！享受生活、热爱编程！
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
@@ -25,6 +20,7 @@ subscribe_rss: /atom.xml
 subscribe_email:
 # RSS feeds can list your email address if you like
 email:
+
 
 # ----------------------- #
 #    Jekyll & Plugins     #
@@ -45,7 +41,6 @@ rdiscount:
     - footnotes
     - smart
 highlighter: pygments # default python pygments have been replaced by pygments.rb
-
 paginate: 10          # Posts per page on the blog index
 paginate_path: "posts/:num"  # Directory base for pagination URLs eg. /posts/2/
 recent_posts: 5       # Posts in the sidebar Recent Posts section
@@ -56,13 +51,15 @@ titlecase: true       # Converts page and post titles to titlecase
 
 # list each of the sidebar modules you want to include, in the order you want them to appear.
 # To add custom asides, create files in /source/_includes/custom/asides/ and add them to the list like 'custom/asides/custom_aside_name.html'
-default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html]
+default_asides: [asides/recent_posts.html,custom/asides/about.html,custom/asides/blogroll.html,asides/github.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html]
 
 # Each layout uses the default asides, but they can have their own asides instead. Simply uncomment the lines below
 # and add an array with the asides you want to use.
 # blog_index_asides:
 # post_asides:
 # page_asides:
+
+
 
 # ----------------------- #
 #   3rd Party Settings    #
@@ -73,34 +70,11 @@ github_user:
 github_repo_count: 0
 github_show_profile_link: true
 github_skip_forks: true
-
-# Twitter
-twitter_user:
-twitter_tweet_button: true
-
-# Google +1
-google_plus_one: false
-google_plus_one_size: medium
-
-# Google Plus Profile
-# Hidden: No visible button, just add author information to search results
-googleplus_user:
-googleplus_hidden: false
-
-# Pinboard
-pinboard_user:
-pinboard_count: 3
-
-# Delicious
-delicious_user:
-delicious_count: 3
-
-# Disqus Comments
-disqus_short_name:
-disqus_show_comment_count: false
-
-# Google Analytics
-google_analytics_tracking_id:
-
-# Facebook Like
-facebook_like: false
+duoshuo_comments: true
+duoshuo_short_name: yanjiuyanjiu
+duoshuo_asides_num: 5      # 侧边栏评论显示条目数
+duoshuo_asides_avatars: 1   # 侧边栏评论是否显示头像
+duoshuo_asides_time: 1      # 侧边栏评论是否显示时间
+duoshuo_asides_title: 1     # 侧边栏评论是否显示标题
+duoshuo_asides_admin: 0     # 侧边栏评论是否显示作者评论
+duoshuo_asides_length: 32   # 侧边栏评论截取的长度

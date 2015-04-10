@@ -1,0 +1,33 @@
+---
+layout: post
+title: "刚刚在线正式上线"
+date: 2014-09-26 11:10:05 +0800
+comments: true
+categories: iOS开发
+keywords: iOS, 写博客, Octopress, rake new_post, iOSDevTip iOS开发, gcd, cocoapods, 队列, 个人博客, 刚刚在线
+description: "刚刚在线正式上线" 
+
+---
+<a href="http://www.superqq.com/blog/2014/09/26/ios/">刚刚在线正式上线</a>
+
+大家好！
+
+我是<a href="http://www.superqq.com/blog/2014/09/26/ios/">刚刚在线</a>
+的作者刚刚
+
+以后就在这里跟大家分享一些东西
+
+下面两种方式参与学习讨论：
+
+1，我的微信公众账号：iOS开发
+	
+	iOSDevTip
+
+（扫描二维码直接关注）
+
+
+<img src="http://www.superqq.com/images/getqrcode.jpg" >
+
+2，我建立的QQ群：iOS学习交流群
+
+	303868520
