@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-04-23T17:57:39+08:00</updated>
+  <updated>2015-04-23T18:11:52+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -14,22 +14,11 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Iosyong Hu Dian Ji Shi Jian Chu Li]]></title>
+    <title type="html"><![CDATA[iOS用户点击事件处理]]></title>
     <link href="http://worldligang.github.io/blog/2015/04/23/iosyong-hu-dian-ji-shi-jian-chu-li/"/>
-    <updated>2015-04-23T00:00:00+08:00</updated>
+    <updated>2015-04-23T16:05:20+08:00</updated>
     <id>http://worldligang.github.io/blog/2015/04/23/iosyong-hu-dian-ji-shi-jian-chu-li</id>
-    <content type="html"><![CDATA[<p>git &mdash;
-layout: post
-title: &ldquo;iOS用户点击事件处理&rdquo;
-date: 2015-04-23 16:05:20 +0800
-comments: true
-categories: iOS开发
-keywords: hittest, pointInside, LGSecondView,  UIApplication, 点击, LGFirstView, iOS开发, cocoapods, 个人博客, 刚刚在线
-description: &ldquo;iOS用户点击事件处理&rdquo;</p>
-
-<hr />
-
-<h3>处理机制</h3>
+    <content type="html"><![CDATA[<h3>处理机制</h3>
 
 <p>iOS事件处理，首先应该是找到能处理点击事件的视图，然后在找到的这个视图里处理这个点击事件。</p>
 
@@ -1911,7 +1900,7 @@ UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds]
 
 <p><a href="http://twitter.com/bradlarson">@bradlarson</a></p>
 
-<p><a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#99;&#111;&#x6e;&#x74;&#x61;&#99;&#116;&#x40;&#115;&#x75;&#x6e;&#x73;&#101;&#116;&#108;&#x61;&#107;&#x65;&#115;&#x6f;&#x66;&#x74;&#x77;&#97;&#114;&#101;&#x2e;&#x63;&#x6f;&#109;">&#x63;&#x6f;&#x6e;&#116;&#x61;&#99;&#116;&#x40;&#x73;&#117;&#110;&#115;&#x65;&#x74;&#108;&#x61;&#107;&#101;&#115;&#x6f;&#x66;&#116;&#119;&#x61;&#114;&#x65;&#x2e;&#x63;&#111;&#109;</a></p>
+<p><a href="&#109;&#x61;&#105;&#x6c;&#116;&#111;&#x3a;&#99;&#111;&#x6e;&#116;&#97;&#x63;&#116;&#x40;&#x73;&#x75;&#110;&#x73;&#101;&#x74;&#x6c;&#97;&#x6b;&#101;&#x73;&#111;&#102;&#x74;&#x77;&#97;&#x72;&#101;&#x2e;&#99;&#111;&#x6d;">&#99;&#111;&#x6e;&#x74;&#x61;&#x63;&#116;&#x40;&#115;&#x75;&#x6e;&#x73;&#x65;&#x74;&#108;&#97;&#107;&#x65;&#115;&#x6f;&#x66;&#116;&#119;&#97;&#x72;&#x65;&#46;&#99;&#x6f;&#109;</a></p>
 
 <h2>Overview</h2>
 
@@ -3268,7 +3257,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 <p>本人是因为兴趣业余时间来开发推聊，考虑到 IM 占用的时间太多，所以请谅解，不提供任何 IM 的沟通方式。希望大家以如下的方式交流：</p>
 
 <ul>
-<li>Email:  <a href="&#109;&#97;&#105;&#108;&#116;&#x6f;&#58;&#x70;&#x75;&#x73;&#x68;&#116;&#97;&#x6c;&#107;&#46;&#111;&#114;&#x67;&#x40;&#103;&#109;&#97;&#x69;&#x6c;&#46;&#99;&#111;&#109;">&#112;&#x75;&#115;&#104;&#x74;&#97;&#108;&#x6b;&#46;&#111;&#114;&#103;&#x40;&#x67;&#109;&#97;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></li>
+<li>Email:  <a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#112;&#x75;&#x73;&#104;&#x74;&#x61;&#108;&#x6b;&#x2e;&#111;&#114;&#103;&#64;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#111;&#x6d;">&#x70;&#x75;&#x73;&#104;&#x74;&#x61;&#108;&#x6b;&#x2e;&#111;&#114;&#103;&#x40;&#x67;&#x6d;&#x61;&#105;&#108;&#x2e;&#99;&#111;&#x6d;</a></li>
 <li>项目Wiki: <a href="https://github.com/good-life/PushTalk/wiki">https://github.com/good-life/PushTalk/wiki</a></li>
 <li>项目Bug: <a href="https://github.com/good-life/PushTalk/issues">https://github.com/good-life/PushTalk/issues</a></li>
 <li>PushTalk频道：<code>pushtalk</code>, <code>报告bug</code>, <code>新功能讨论</code> 等</li>
