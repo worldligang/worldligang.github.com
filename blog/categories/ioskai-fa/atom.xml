@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://worldligang.github.io/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-04-25T11:16:16+08:00</updated>
+  <updated>2015-04-25T11:51:59+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -12,6 +12,90 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS调用系统发短信功能详解]]></title>
+    <link href="http://worldligang.github.io/blog/2015/04/25/iosdiao-yong-xi-tong-fa-duan-xin-gong-neng-xiang-jie/"/>
+    <updated>2015-04-25T11:36:33+08:00</updated>
+    <id>http://worldligang.github.io/blog/2015/04/25/iosdiao-yong-xi-tong-fa-duan-xin-gong-neng-xiang-jie</id>
+    <content type="html"><![CDATA[<p>iOS调用系统的发短信功能可以分为两种：1，程序外调用系统发短信。2，程序内调用系统发短信。第二种的好处是用户发短信之后还可以回到app。这对app来说非常重要。</p>
+
+<h3>程序外调用系统发短信</h3>
+
+<p>这个方法其实很简单，直接调用openURL即可：</p>
+
+<pre><code>[[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"sms://13888888888"]];
+</code></pre>
+
+<h3>程序内调用系统发短信</h3>
+
+<h5>1）导入MessageUI.framework，并引入头文件：</h5>
+
+<pre><code>#import &lt;MessageUI/MessageUI.h&gt;
+</code></pre>
+
+<h5>2）实现代理方法MFMessageComposeViewControllerDelegate</h5>
+
+<pre><code>    -(void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    switch (result) {
+        case MessageComposeResultSent:
+            //信息传送成功
+
+            break;
+        case MessageComposeResultFailed:
+            //信息传送失败
+
+            break;
+        case MessageComposeResultCancelled:
+            //信息被用户取消传送
+
+            break;
+        default:
+            break;
+    }
+}
+</code></pre>
+
+<h5>3）发送短信</h5>
+
+<pre><code>    -(void)showMessageView:(NSArray *)phones title:(NSString *)title body:(NSString *)body
+{
+    if( [MFMessageComposeViewController canSendText] )
+    {
+        MFMessageComposeViewController * controller = [[MFMessageComposeViewController alloc] init];
+        controller.recipients = phones;
+        controller.navigationBar.tintColor = [UIColor redColor];
+        controller.body = body;
+        controller.messageComposeDelegate = self;
+        [self presentViewController:controller animated:YES completion:nil];
+        [[[[controller viewControllers] lastObject] navigationItem] setTitle:title];//修改短信界面标题
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                        message:@"该设备不支持短信功能"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil, nil];
+        [alert show];
+    }
+}
+</code></pre>
+
+<p>参数phones：发短信的手机号码的数组，数组中是一个即单发,多个即群发。</p>
+
+<h5>4）调用发短信的方法</h5>
+
+<pre><code>    [self showMessageView:[NSArray arrayWithObjects:@"13888888888",@"13999999999", nil] title:@"test" body:@"你是土豪么，么么哒"];
+</code></pre>
+
+<p>我的微信iOS开发：iOSDevTip</p>
+
+<p>代码下载地址:<a href="https://github.com/worldligang/SendMsgMaster.git"target="_blank"title="SendMsgMaster">SendMsgMaster</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[hitTest和pointInside如何响应用户点击事件]]></title>
@@ -703,101 +787,6 @@ socketServe.socket.userData = SocketOfflineByServer;
 </code></pre>
 
 <p>这样相同年龄的情况下，就会按照名字进行排序。当然还可以设置两个以上的排序条件。</p>
-
-<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[自己动手实现一个队列LGQueue]]></title>
-    <link href="http://worldligang.github.io/blog/2015/03/24/zi-ji-dong-shou-chuang-jian-%5B%3F%5D-ge-dui-lie-lgqueue/"/>
-    <updated>2015-03-24T17:13:39+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/03/24/zi-ji-dong-shou-chuang-jian-[?]-ge-dui-lie-lgqueue</id>
-    <content type="html"><![CDATA[<p>iOS系统没有提供queue容器，如果想用，需要手动自己来写一个：</p>
-
-<p>.h</p>
-
-<pre><code>//
-//  LGQueue.h
-//  AntsSportApp
-//
-//  Created by ligang on 15/3/24.
-//  Copyright (c) 2015年 ligang. All rights reserved.
-//
-
-#import &lt;Foundation/Foundation.h&gt;
-
-@interface LGQueue : NSObject
-
-@property (nonatomic, strong) NSMutableArray *queue;
-
-@property (nonatomic, readonly) NSInteger count;
-
-- (void)enterQueue:(id)object;
-- (id)exitQueue;
-- (void)clear;
-
-
-
-@end
-</code></pre>
-
-<p>.m</p>
-
-<pre><code>//
-//  LGQueue.m
-//  AntsSportApp
-//
-//  Created by ligang on 15/3/24.
-//  Copyright (c) 2015年 ligang. All rights reserved.
-//
-
-#import "LGQueue.h"
-
-@implementation LGQueue
-
-- (id)init
-{
-    if ( self = [super init] ) {
-
-        self.queue = [[NSMutableArray alloc] init];
-        _count = 0;
-
-    }
-    return self;
-}
-
-- (void)enterQueue:(id)object
-{
-    [self.queue addObject:object];
-    _count = self.queue.count;
-}
-
-
-- (id)exitQueue
-{
-    if ( self.queue.count == 0 )  return nil;
-
-    id object = [self.queue objectAtIndex:0];
-    [self.queue removeObjectAtIndex:0];
-    _count = self.queue.count;
-
-    return object;
-
-}
-
-
-- (void)clear
-{
-    [self.queue removeAllObjects];
-    _count = 0;
-}
-
-@end
-</code></pre>
 
 <p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
 
