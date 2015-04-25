@@ -1,6 +1,6 @@
-git ---
+---
 layout: post
-title: "iOS用户点击事件处理"
+title: "hitTest和pointInside如何响应用户点击事件"
 date: 2015-04-23 16:05:20 +0800
 comments: true
 categories: iOS开发
