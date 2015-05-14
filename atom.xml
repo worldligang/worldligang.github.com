@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-04-25T11:51:59+08:00</updated>
+  <updated>2015-05-14T10:47:42+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -12,6 +12,141 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS地图定位使用几个小功能]]></title>
+    <link href="http://worldligang.github.io/blog/2015/05/14/iosdi-tu-ding-wei-shi-yong-xiao-ji-qiao/"/>
+    <updated>2015-05-14T10:16:30+08:00</updated>
+    <id>http://worldligang.github.io/blog/2015/05/14/iosdi-tu-ding-wei-shi-yong-xiao-ji-qiao</id>
+    <content type="html"><![CDATA[<p>iOS系统自带的定位服务可以实现很多需求。比如：获取当前经纬度，获取当前位置信息等等。</p>
+
+<h4>获取当前经纬度</h4>
+
+<p>首先导入#import &lt;CoreLocation/CoreLocation.h>，定义CLLocationManager的实例，实现CLLocationManagerDelegate。</p>
+
+<pre><code>@interface ViewController ()&lt;CLLocationManagerDelegate&gt;
+{
+    CLLocationManager *_locationManager;
+}
+
+@end
+</code></pre>
+
+<p>开始定位的方法：</p>
+
+<pre><code>- (void)startLocating
+{
+    if([CLLocationManager locationServicesEnabled])
+    {
+        _locationManager = [[CLLocationManager alloc] init];
+        //设置定位的精度
+        [_locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
+        _locationManager.distanceFilter = 100.0f;
+        _locationManager.delegate = self;
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt; 8.0)
+        {
+            [_locationManager requestAlwaysAuthorization];
+            [_locationManager requestWhenInUseAuthorization];
+        }
+        //开始实时定位
+        [_locationManager startUpdatingLocation];
+    }
+}
+</code></pre>
+
+<p>实现代理方法：</p>
+
+<pre><code>-(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
+{
+    NSLog(@"Longitude = %f", manager.location.coordinate.longitude);
+    NSLog(@"Latitude = %f", manager.location.coordinate.latitude);
+    [_locationManager stopUpdatingLocation];
+}
+</code></pre>
+
+<h4>获取当前位置信息</h4>
+
+<p>在上面的代理方法中</p>
+
+<pre><code>-(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
+{
+    NSLog(@"Longitude = %f", manager.location.coordinate.longitude);
+    NSLog(@"Latitude = %f", manager.location.coordinate.latitude);
+    [_locationManager stopUpdatingLocation];
+
+    CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
+    [geoCoder reverseGeocodeLocation:manager.location completionHandler:^(NSArray *placemarks, NSError *error) {
+        for (CLPlacemark * placemark in placemarks) {
+            NSDictionary *test = [placemark addressDictionary];
+            //  Country(国家)  State(城市)  SubLocality(区)
+            NSLog(@"%@", [test objectForKey:@"Country"]);
+            NSLog(@"%@", [test objectForKey:@"State"]);
+            NSLog(@"%@", [test objectForKey:@"SubLocality"]);
+            NSLog(@"%@", [test objectForKey:@"Street"]);
+        }
+    }];
+
+}
+</code></pre>
+
+<p>这样就很简单获取了当前位置的详细信息。</p>
+
+<h4>获取某一个地点的经纬度</h4>
+
+<pre><code>- (void)getLongitudeAndLatitudeWithCity:(NSString *)city
+{
+    //city可以为中文
+    NSString *oreillyAddress = city;
+    CLGeocoder *myGeocoder = [[CLGeocoder alloc] init];
+    [myGeocoder geocodeAddressString:oreillyAddress completionHandler:^(NSArray *placemarks, NSError *error) {
+        if ([placemarks count] &gt; 0 &amp;&amp; error == nil)
+        {
+            NSLog(@"Found %lu placemark(s).", (unsigned long)[placemarks count]);
+            CLPlacemark *firstPlacemark = [placemarks objectAtIndex:0];
+            NSLog(@"Longitude = %f", firstPlacemark.location.coordinate.longitude);
+            NSLog(@"Latitude = %f", firstPlacemark.location.coordinate.latitude);
+        }
+        else if ([placemarks count] == 0 &amp;&amp; error == nil)
+        {
+            NSLog(@"Found no placemarks.");
+        }
+        else if (error != nil)
+        {
+            NSLog(@"An error occurred = %@", error);
+        }
+    }];
+}
+</code></pre>
+
+<h4>计算两个地点之间的距离</h4>
+
+<pre><code>- (double)distanceByLongitude:(double)longitude1 latitude:(double)latitude1 longitude:(double)longitude2 latitude:(double)latitude2{
+    CLLocation* curLocation = [[CLLocation alloc] initWithLatitude:latitude1 longitude:longitude1];
+    CLLocation* otherLocation = [[CLLocation alloc] initWithLatitude:latitude2 longitude:longitude2];
+    double distance  = [curLocation distanceFromLocation:otherLocation];//单位是m
+    return distance;
+}
+</code></pre>
+
+<p>首先我们可以用上面的getLongitudeAndLatitudeWithCity方法获取某一个地点的经纬度。比如我们获取北京和上海的经纬度分别为：北京Longitude = 116.405285，Latitude = 39.904989 上海Longitude = 121.472644， Latitude = 31.231706, 那么北京和上海之间的距离就是：</p>
+
+<pre><code>double distance = [self distanceByLongitude:116.405285 latitude:39.904989 longitude:121.472644 latitude:31.231706];
+NSLog(@"Latitude = %f", distance);
+</code></pre>
+
+<p>计算的是大概的距离，可能没有那么精准。输入结果为：</p>
+
+<pre><code>distance = 1066449.749194
+</code></pre>
+
+<p>代码下载地址:<a href="https://github.com/worldligang/MapDistanceMaster.git"target="_blank"title="MapDistanceMaster">MapDistanceMaster</a></p>
+
+<p>更多iOS技术请关注微信iOS开发</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS调用系统发短信功能详解]]></title>
@@ -1984,7 +2119,7 @@ UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds]
 
 <p><a href="http://twitter.com/bradlarson">@bradlarson</a></p>
 
-<p><a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#99;&#x6f;&#110;&#x74;&#97;&#x63;&#x74;&#64;&#115;&#117;&#110;&#115;&#x65;&#x74;&#108;&#x61;&#107;&#101;&#x73;&#x6f;&#x66;&#116;&#x77;&#97;&#114;&#x65;&#x2e;&#x63;&#111;&#x6d;">&#99;&#111;&#110;&#116;&#x61;&#x63;&#x74;&#64;&#x73;&#x75;&#x6e;&#x73;&#x65;&#116;&#x6c;&#x61;&#x6b;&#x65;&#x73;&#111;&#102;&#116;&#119;&#x61;&#114;&#101;&#46;&#99;&#111;&#109;</a></p>
+<p><a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#99;&#x6f;&#110;&#116;&#97;&#x63;&#x74;&#64;&#115;&#117;&#110;&#115;&#x65;&#116;&#x6c;&#97;&#107;&#101;&#x73;&#111;&#x66;&#x74;&#119;&#97;&#x72;&#x65;&#x2e;&#x63;&#111;&#109;">&#x63;&#111;&#x6e;&#x74;&#97;&#x63;&#x74;&#x40;&#x73;&#x75;&#110;&#115;&#101;&#x74;&#108;&#x61;&#107;&#x65;&#x73;&#x6f;&#x66;&#116;&#x77;&#x61;&#114;&#101;&#46;&#99;&#x6f;&#x6d;</a></p>
 
 <h2>Overview</h2>
 
@@ -3147,92 +3282,6 @@ movieFile.audioEncodingTarget = movieWriter;
 <h2>License</h2>
 
 <p>Pop is released under a BSD License. See LICENSE file for details.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[VVDocumenter-Xcode]]></title>
-    <link href="http://worldligang.github.io/blog/2015/01/06/vvdocumenter-xcode/"/>
-    <updated>2015-01-06T13:44:56+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/01/06/vvdocumenter-xcode</id>
-    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-
-<p> <a href="https://github.com/worldligang/VVDocumenter-Xcode.git"target="_blank"title="源代码">源代码</a></p>
-
-<h1>VVDocumenter-Xcode <a href="https://travis-ci.org/onevcat/VVDocumenter-Xcode"><img src="https://api.travis-ci.org/onevcat/VVDocumenter-Xcode.svg" alt="Build Status" /></a> <a href="https://flattr.com/submit/auto?user_id=onevcat&url=https%3A%2F%2Fgithub.com%2Fonevcat%2FVVDocumenter-Xcode" target="_blank"><img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0"></a></h1>
-
-<hr />
-
-<h2>What is this?</h2>
-
-<p>Writing document is so important for developing, but it is really painful with Xcode. Think about how much time you are wasting in pressing &lsquo;*&rsquo; or &lsquo;/&rsquo;, and typing the parameters again and again. Now, you can find the method (or any code) you want to document to, and type in <code>///</code>, the document will be generated for you and all params and return will be extracted into a Javadoc style, which is compatible with <a href="https://github.com/tomaz/appledoc">appledoc</a>, <a href="http://www.stack.nl/~dimitri/doxygen/">Doxygen</a> and <a href="https://developer.apple.com/library/mac/documentation/DeveloperTools/Conceptual/HeaderDoc/intro/intro.html">HeaderDoc</a>. You can just fill the inline placeholder tokens to finish your document.</p>
-
-<p>Here is an image which can show what it exactly does.</p>
-
-<p><img src="https://raw.github.com/onevcat/VVDocumenter-Xcode/master/ScreenShot.gif" alt="Screenshot" /></p>
-
-<blockquote><p>By the way, it also supports <a href="https://developer.apple.com/swift/">Swift</a> now. Cheers!</p></blockquote>
-
-<p><img src="https://raw.github.com/onevcat/VVDocumenter-Xcode/master/vvdocumenter-swift.gif" alt="Screenshot" /></p>
-
-<h2>How to install and use?</h2>
-
-<p><del>The best way of installing is by <a href="http://alcatraz.io">Alcatraz</a>. Install Alcatraz followed by the instruction, restart your Xcode and press <code>⇧⌘9</code>. You can find <code>VVDocumenter-Xcode</code> in the list and click the icon on left to install.</del> Some users reported the setting panel <a href="https://github.com/supermarin/Alcatraz/issues/196">can not be opened</a> if installing from Alcatraz, so I suggest to build the plugin yourself until this issue get fixed.</p>
-
-<p>If you do not like the Alcatraz way, you can also clone the repo. Then build the <code>VVDocumenter-Xcode</code> target in the Xcode project and the plug-in will automatically be installed in <code>~/Library/Application Support/Developer/Shared/Xcode/Plug-ins</code>. Relaunch Xcode and type in <code>///</code> above any code you want to write a document to.</p>
-
-<p>If you want to use other text beside of <code>///</code> to trigger the document insertion, you can find a setting panel by clicking <code>VVDocument</code> in the Window menu of Xcode. You can also find some other useful options there, including setting using spaces instead of tab in the panel or changing the format of generated documentation.</p>
-
-<h2>Xcode version?</h2>
-
-<p>This plug-in is supported in Xcode 5 and 6 (current beta). From Xcode 5, Apple added a UUID-verification to all plugins to ensure the stability when Xcode gets updated. The value of <code>DVTPlugInCompatibilityUUIDs</code> in project plist should contains current UUID of Xcode version, or the plugin does not work. Once you update your Xcode, the plugin might be disabled and you should check the newest version and built it again.</p>
-
-<p>The default deployment target is 10.8. If you want to use it in a earlier OS version, you should change OS X Deployment Target (in project info setting) to your system version.</p>
-
-<h2>Swift Support</h2>
-
-<p>Yes, this plugin supports documentation for Swift now. Check <a href="http://nshipster.com/swift-documentation/">this post</a> from @mattt to see how to write the documentation for swift. By using <code>VVDocumenter-Xcode</code>, you can just type <code>///</code> to make the magic happen.</p>
-
-<h2>Limitations and Future</h2>
-
-<p>The plugin is using simulation of keyboard event to insert the doc comments for you. So it is depending the keyboard shortcut of Xcode. These two kinds of operation are being used:</p>
-
-<ul>
-<li>Delete to Beginning of the Line (⌘⌫)</li>
-<li>Paste (⌘V)</li>
-</ul>
-
-
-<p>If you have modified these two shortcuts in your Xcode, the newset version of the plugin would not work correctly. Instead, you can use a earlier version such as <a href="https://github.com/onevcat/VVDocumenter-Xcode/tree/03c4169ff79b618b9fd3db93dd96652a522ad3e0">this one(commit 03c4169ff7)</a>. Be causion you may suffer an <a href="https://github.com/onevcat/VVDocumenter-Xcode/issues/3">undo and redo issue </a>.</p>
-
-<p><code>VVDocumenter-Xcode</code> is now using regular expression to extract things needed, which is not the best way to do such thing. A better approach could be using the AST, and I also have a plan to do it later if I have some more time :)</p>
-
-<h2>License</h2>
-
-<p>VVDocumenter is published under MIT License</p>
-
-<pre><code>Copyright (c) 2014 Wei Wang (@onevcat)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to use,
-copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
-Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-</code></pre>
 ]]></content>
   </entry>
   

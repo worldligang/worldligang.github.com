@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://worldligang.github.io/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-04-25T11:51:59+08:00</updated>
+  <updated>2015-05-14T10:47:42+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -12,6 +12,141 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS地图定位使用几个小功能]]></title>
+    <link href="http://worldligang.github.io/blog/2015/05/14/iosdi-tu-ding-wei-shi-yong-xiao-ji-qiao/"/>
+    <updated>2015-05-14T10:16:30+08:00</updated>
+    <id>http://worldligang.github.io/blog/2015/05/14/iosdi-tu-ding-wei-shi-yong-xiao-ji-qiao</id>
+    <content type="html"><![CDATA[<p>iOS系统自带的定位服务可以实现很多需求。比如：获取当前经纬度，获取当前位置信息等等。</p>
+
+<h4>获取当前经纬度</h4>
+
+<p>首先导入#import &lt;CoreLocation/CoreLocation.h>，定义CLLocationManager的实例，实现CLLocationManagerDelegate。</p>
+
+<pre><code>@interface ViewController ()&lt;CLLocationManagerDelegate&gt;
+{
+    CLLocationManager *_locationManager;
+}
+
+@end
+</code></pre>
+
+<p>开始定位的方法：</p>
+
+<pre><code>- (void)startLocating
+{
+    if([CLLocationManager locationServicesEnabled])
+    {
+        _locationManager = [[CLLocationManager alloc] init];
+        //设置定位的精度
+        [_locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
+        _locationManager.distanceFilter = 100.0f;
+        _locationManager.delegate = self;
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt; 8.0)
+        {
+            [_locationManager requestAlwaysAuthorization];
+            [_locationManager requestWhenInUseAuthorization];
+        }
+        //开始实时定位
+        [_locationManager startUpdatingLocation];
+    }
+}
+</code></pre>
+
+<p>实现代理方法：</p>
+
+<pre><code>-(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
+{
+    NSLog(@"Longitude = %f", manager.location.coordinate.longitude);
+    NSLog(@"Latitude = %f", manager.location.coordinate.latitude);
+    [_locationManager stopUpdatingLocation];
+}
+</code></pre>
+
+<h4>获取当前位置信息</h4>
+
+<p>在上面的代理方法中</p>
+
+<pre><code>-(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
+{
+    NSLog(@"Longitude = %f", manager.location.coordinate.longitude);
+    NSLog(@"Latitude = %f", manager.location.coordinate.latitude);
+    [_locationManager stopUpdatingLocation];
+
+    CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
+    [geoCoder reverseGeocodeLocation:manager.location completionHandler:^(NSArray *placemarks, NSError *error) {
+        for (CLPlacemark * placemark in placemarks) {
+            NSDictionary *test = [placemark addressDictionary];
+            //  Country(国家)  State(城市)  SubLocality(区)
+            NSLog(@"%@", [test objectForKey:@"Country"]);
+            NSLog(@"%@", [test objectForKey:@"State"]);
+            NSLog(@"%@", [test objectForKey:@"SubLocality"]);
+            NSLog(@"%@", [test objectForKey:@"Street"]);
+        }
+    }];
+
+}
+</code></pre>
+
+<p>这样就很简单获取了当前位置的详细信息。</p>
+
+<h4>获取某一个地点的经纬度</h4>
+
+<pre><code>- (void)getLongitudeAndLatitudeWithCity:(NSString *)city
+{
+    //city可以为中文
+    NSString *oreillyAddress = city;
+    CLGeocoder *myGeocoder = [[CLGeocoder alloc] init];
+    [myGeocoder geocodeAddressString:oreillyAddress completionHandler:^(NSArray *placemarks, NSError *error) {
+        if ([placemarks count] &gt; 0 &amp;&amp; error == nil)
+        {
+            NSLog(@"Found %lu placemark(s).", (unsigned long)[placemarks count]);
+            CLPlacemark *firstPlacemark = [placemarks objectAtIndex:0];
+            NSLog(@"Longitude = %f", firstPlacemark.location.coordinate.longitude);
+            NSLog(@"Latitude = %f", firstPlacemark.location.coordinate.latitude);
+        }
+        else if ([placemarks count] == 0 &amp;&amp; error == nil)
+        {
+            NSLog(@"Found no placemarks.");
+        }
+        else if (error != nil)
+        {
+            NSLog(@"An error occurred = %@", error);
+        }
+    }];
+}
+</code></pre>
+
+<h4>计算两个地点之间的距离</h4>
+
+<pre><code>- (double)distanceByLongitude:(double)longitude1 latitude:(double)latitude1 longitude:(double)longitude2 latitude:(double)latitude2{
+    CLLocation* curLocation = [[CLLocation alloc] initWithLatitude:latitude1 longitude:longitude1];
+    CLLocation* otherLocation = [[CLLocation alloc] initWithLatitude:latitude2 longitude:longitude2];
+    double distance  = [curLocation distanceFromLocation:otherLocation];//单位是m
+    return distance;
+}
+</code></pre>
+
+<p>首先我们可以用上面的getLongitudeAndLatitudeWithCity方法获取某一个地点的经纬度。比如我们获取北京和上海的经纬度分别为：北京Longitude = 116.405285，Latitude = 39.904989 上海Longitude = 121.472644， Latitude = 31.231706, 那么北京和上海之间的距离就是：</p>
+
+<pre><code>double distance = [self distanceByLongitude:116.405285 latitude:39.904989 longitude:121.472644 latitude:31.231706];
+NSLog(@"Latitude = %f", distance);
+</code></pre>
+
+<p>计算的是大概的距离，可能没有那么精准。输入结果为：</p>
+
+<pre><code>distance = 1066449.749194
+</code></pre>
+
+<p>代码下载地址:<a href="https://github.com/worldligang/MapDistanceMaster.git"target="_blank"title="MapDistanceMaster">MapDistanceMaster</a></p>
+
+<p>更多iOS技术请关注微信iOS开发</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS调用系统发短信功能详解]]></title>
@@ -751,47 +886,6 @@ socketServe.socket.userData = SocketOfflineByServer;
 <p>以上是AsyncSocket的简单使用，在实际开发过程中依然会碰到很多问题，欢迎加我的微信公众号iOS开发：iOSDevTip，一起讨论AsyncSocket中遇到的问题。</p>
 
 <p>AsyncSocketDemo下载地址： <a href="https://github.com/worldligang/AsyncSocketDemo.git"target="_blank"title="CocoaAsyncSocket">AsyncSocketDemo</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NSSortDescriptor排序]]></title>
-    <link href="http://worldligang.github.io/blog/2015/03/27/nssortdescriptorpai-xu/"/>
-    <updated>2015-03-27T19:01:45+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/03/27/nssortdescriptorpai-xu</id>
-    <content type="html"><![CDATA[<p>NSSortDescriptor可以实现按照对象的属性进行排序。比如我们有一个对象（LGPeople）。LGPeople有两个属性分别是名字（name）和年龄（age）。现在我们要按照LGPeople的年龄（age）来进行排序。</p>
-
-<p>代码如下：</p>
-
-<pre><code>    //按年龄排序
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"_age" ascending:NO];
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
-    [arrayPeople sortUsingDescriptors:sortDescriptors];
-</code></pre>
-
-<p>这样是按照年龄的降序进行排序。如果想升序的话将NO改为YES即可。如果是按照名字进行排序的话也很简单：</p>
-
-<pre><code>    //按姓名排序
-    NSSortDescriptor *sortDescriptorName = [[NSSortDescriptor alloc] initWithKey:@"_name" ascending:NO];
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptorName, nil];
-    [arrayPeople sortUsingDescriptors:sortDescriptors];
-</code></pre>
-
-<p>也许我们还有一种需求：先按照年龄排序，再按名字进行排序。代码如下：</p>
-
-<pre><code>    //按年龄和名字排序
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"_age" ascending:NO];
-    NSSortDescriptor *sortDescriptorName = [[NSSortDescriptor alloc] initWithKey:@"_name" ascending:NO];
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, sortDescriptorName, nil];
-    [_mutArrVideo sortUsingDescriptors:sortDescriptors];
-</code></pre>
-
-<p>这样相同年龄的情况下，就会按照名字进行排序。当然还可以设置两个以上的排序条件。</p>
-
-<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
 ]]></content>
   </entry>
   
