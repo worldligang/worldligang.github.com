@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>解读AFNetworking中Demo的MVC - 刚刚在线</title>
+  <title>iOS协议里面可以定义成员变量和属性吗？ - 刚刚在线</title>
   <meta name="author" content="刚刚">
       <meta name="uyan_auth" content="d1112891bb" />
       <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="中文 iOS/Mac 开发博客列表">
-  <meta name="keywords" content="iOS,AFNetworking, Demo, MVC, iOSDevTip iOS开发, gcd, cocoapods, 队列, 个人博客, 刚刚在线">
+  <meta name="description" content="iOS协议里面可以定义成员变量和属性吗？">
+  <meta name="keywords" content="iOS, 协议, protocol,  成员变量, 属性, 获取当前位置信息, iOS协议, iOS开发, cocoapods, 个人博客, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://worldligang.github.io/blog/2014/11/11/jie-du-afnetworkingzhong-demode-mvc">
+  <link rel="canonical" href="http://worldligang.github.io/blog/2015/05/22/iosxie-yi-li-mian-ke-yi-ding-yi-cheng-yuan-bian-liang-he-shu-xing-ma-%3F">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -74,7 +74,7 @@
   
   <header>
     
-      <h1 class="entry-title">解读AFNetworking中Demo的MVC</h1>
+      <h1 class="entry-title">iOS协议里面可以定义成员变量和属性吗？</h1>
     
     
       <p class="meta">
@@ -83,106 +83,90 @@
 
 
 
-<time class='entry-date' datetime='2014-11-11T11:00:21+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:00 am</span></time>
+<time class='entry-date' datetime='2015-05-22T11:08:18+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:08 am</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Demo的下载地址：<a href=""></a><a href="https://github.com/AFNetworking/AFNetworking.git"target="_blank"title="AFNetworking下载">AFNetworking下载</a></p>
+<div class="entry-content"><blockquote><p>关注iOS开发：iOSDevTip</p></blockquote>
 
-<p>打开Demo：</p>
+<p>在CSDN上看到有人提的问题，觉得很有价值，先看代码：</p>
 
-<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlylDJt3FABXaQmFVO4Hqm1zNzeQGY2kKVSJ9CtQR7HWcsKelE6nuLauFQMdWtO2L90ccabibh5v1yeg/640"></p>
+<pre><code>@protocol CAMediaTiming
 
-<p>现实的功能，就是一个简易的微博timeline界面：</p>
+/* The begin time of the object, in relation to its parent object, if
+ * applicable. Defaults to 0. */
 
-<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlylDJt3FABXaQmFVO4Hqm1zNW4svNoeQPlAsBHJ40YJeiaUib7ia5Hdgo9Yf5YBee5zZ1lDbXphGCHibCQ/640"></p>
+@property CFTimeInterval beginTime;
 
-<p>项目预览：</p>
+/* The basic duration of the object. Defaults to 0. */
 
-<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlylDJt3FABXaQmFVO4Hqm1zNFUp9X2kpra3gqd98Qh4Yn1RhnHsIKcI46TP97BVKbvJicpvYoUd5tuA/640"></p>
+@property CFTimeInterval duration;
 
-<p>用到的第三方：AFNetworking 和 UIKit+AFNetworking</p>
+/* The rate of the layer. Used to scale parent time to local time, e.g.
+ * if rate is 2, local time progresses twice as fast as parent time.
+ * Defaults to 1. */
 
-<p>功能：用户图像（先显示默认图，在加载图片），用户发的内容，下拉刷新。</p>
+@property float speed;
 
-<p><div class="entry-content"><h3>C层：</h3></p>
+/* Additional offset in active local time. i.e. to convert from parent
+ * time tp to active local time t: t = (tp - begin) * speed + offset.
+ * One use of this is to "pause" a layer by setting `speed' to zero and
+ * `offset' to a suitable value. Defaults to 0. */
 
-<p>发一个请求：（告诉M 要做什么）</p>
+@property CFTimeInterval timeOffset;
 
-<pre><code>- (void)reload:(__unusedid)sender {
-    self.navigationItem.rightBarButtonItem.enabled = NO;
+/* The repeat count of the object. May be fractional. Defaults to 0. */
 
-    NSURLSessionTask *task = [PostglobalTimelinePostsWithBlock:^(NSArray *posts, NSError *error) {
-        if (!error) {
+@property float repeatCount;
 
-             self.posts = posts;
-            [self.tableViewreloadData];
-        }
-    }];
+/* The repeat duration of the object. Defaults to 0. */
 
-    [UIAlertViewshowAlertViewForTaskWithErrorOnCompletion:task delegate:nil];
-    [self.refreshControlsetRefreshingWithStateOfTask:task];
-}
+@property CFTimeInterval repeatDuration;
+
+/* When true, the object plays backwards after playing forwards. Defaults
+ * to NO. */
+
+@property BOOL autoreverses;
+
+/* Defines how the timed object behaves outside its active duration.
+ * Local time may be clamped to either end of the active duration, or
+ * the element may be removed from the presentation. The legal values
+ * are `backwards', `forwards', `both' and `removed'. Defaults to
+ * `removed'. */
+
+@property(copy) NSString *fillMode;
+
+@end
 </code></pre>
 
-<p>M 做完之手，产生多个post对象，放到self.post数组里面。C拿到M给的post对象，去更新V</p>
+<h3>问题：</h3>
 
-<pre><code>cell.post = [self.postsobjectAtIndex:(NSUInteger)indexPath.row];
+<p>上面那个协议时苹果自带的，为什么里面定义了成员变量呢？</p>
+
+<h3>网友回答：</h3>
+
+<p>这只是在头文件中声明，编译器是不会自动生成实例变量的，也就是说你可以用一个对象去实现这个协议，但是你不自己存储的话实例变量的话，访问同样会崩溃：
+self.fillModel = @&ldquo;test&rdquo;; // unrecognized selector</p>
+
+<h3>追问</h3>
+
+<p>你好，也就是说我需要这样：</p>
+
+<pre><code>@interface MyClass : NSObject &lt; CAMediaTiming &gt;
+@property CFTimeInterval beginTime;
+@end
 </code></pre>
 
-<p><div class="entry-content"><h3>M层：</h3></p>
+<p>这样才可以么？
+也就是@protocol能声明，不能定义变量么？</p>
 
-<p>M 收到C的请求：去请求数据，解析，转换成post对象，然后通过block返回给C</p>
+<h3>网友回答</h3>
 
-<pre><code>+ (NSURLSessionDataTask *)globalTimelinePostsWithBlock:(void (^)(NSArray *posts, NSError *error))block {
-    return [[AFAppDotNetAPIClientsharedClient] GET:@"stream/0/posts/stream/global"parameters:nilsuccess:^(NSURLSessionDataTask * __unused task, id JSON) {
-        NSArray *postsFromResponse = [JSON valueForKeyPath:@"data"];
-        NSMutableArray *mutablePosts = [NSMutableArrayarrayWithCapacity:[postsFromResponse count]];
-        for (NSDictionary *attributes in postsFromResponse) {
-            Post *post = [[Postalloc] initWithAttributes:attributes];
-            [mutablePosts addObject:post];
-        }
-
-        if (block) {
-            block([NSArrayarrayWithArray:mutablePosts], nil);
-        }
-    } failure:^(NSURLSessionDataTask *__unused task, NSError *error) {
-        if (block) {
-            block([NSArrayarray], error);
-        }
-    }];
-}
-</code></pre>
-
-<p><div class="entry-content"><h3>V层：</h3></p>
-
-<p>V：拿到C给的数据，来展示出来，这一步就是更新UI</p>
-
-<pre><code>- (void)setPost:(Post *)post {
-    _post = post;
-
-    self.textLabel.text = _post.user.username;
-    self.detailTextLabel.text = _post.text;
-    [self.imageViewsetImageWithURL:_post.user.avatarImageURLplaceholderImage:[UIImageimageNamed:@"profile-image-placeholder"]];
-
-    [selfsetNeedsLayout];
-}
-</code></pre>
-
-<p>其中 ：</p>
-
-<pre><code>    [self.imageViewsetImageWithURL:_post.user.avatarImageURLplaceholderImage:[UIImageimageNamed:@"profile-image-placeholder"]];
-</code></pre>
-
-<p>这句代码是对UIImageView的扩展，在UIKit+AFNetworking可以直接使用，非常方便。</p>
-
-<p>我的微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
+<p>协议声明出来的是方法，虽然看起来是属性，其实只有 getter、setter 这两个方法，内部是没有实例变量的，并且你不能去重定义它，只能在 getter、setter 里处理
+​</p>
 </div>
 
 
@@ -198,7 +182,7 @@
 
 
 
-<time class='entry-date' datetime='2014-11-11T11:00:21+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:00 am</span></time>
+<time class='entry-date' datetime='2015-05-22T11:08:18+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:08 am</span></time>
       
 
 <span class="categories">
@@ -209,7 +193,7 @@
 
 
       <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
-<br>原文链接：<a href="http://www.superqq.com/blog/2014/11/11/jie-du-afnetworkingzhong-demode-mvc/">http://www.superqq.com/blog/2014/11/11/jie-du-afnetworkingzhong-demode-mvc/</a> <!-- 添加这一行代码 -->
+<br>原文链接：<a href="http://www.superqq.com/blog/2015/05/22/iosxie-yi-li-mian-ke-yi-ding-yi-cheng-yuan-bian-liang-he-shu-xing-ma-%3F/">http://www.superqq.com/blog/2015/05/22/iosxie-yi-li-mian-ke-yi-ding-yi-cheng-yuan-bian-liang-he-shu-xing-ma-%3F/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -234,10 +218,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/11/10/qian-xi-mvche-shuo-mei-de-guo-cheng/" title="Previous Post: 浅析MVC和说媒的过程">&laquo; 浅析MVC和说媒的过程</a>
+        <a class="basic-alignment left" href="/blog/2015/05/14/iosdi-tu-ding-wei-shi-yong-xiao-ji-qiao/" title="Previous Post: iOS地图定位使用几个小功能">&laquo; iOS地图定位使用几个小功能</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/11/13/zhong-wen-ios-slash-mac-kai-fa-bo-ke-lie-biao/" title="Next Post: 中文 iOS/Mac 开发博客列表">中文 iOS/Mac 开发博客列表 &ra/categories.htmlquo;</a>
       
     </p>
   </footer>
