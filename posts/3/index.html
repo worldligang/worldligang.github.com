@@ -77,6 +77,257 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/01/06/pop/">Pop</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-06T13:52:18+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:52 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p> <a href="https://github.com/facebook/pop.git"target="_blank"title="源代码">源代码</a></p>
+
+<p><img src="https://github.com/facebook/pop/blob/master/Images/pop.gif?raw=true" alt="pop" /></p>
+
+<p>Pop is an extensible animation engine for iOS and OS X. In addition to basic static animations, it supports spring and decay dynamic animations, making it useful for building realistic, physics-based interactions. The API allows quick integration with existing Objective-C codebases and enables the animation of any property on any object. It&rsquo;s a mature and well-tested framework that drives all the animations and transitions in <a href="http://www.facebook.com/paper">Paper</a>.</p>
+
+<p><a href="https://travis-ci.org/facebook/pop"><img src="https://travis-ci.org/facebook/pop.svg" alt="Build Status" /></a></p>
+
+<h2>Installation</h2>
+
+<p>Pop is available on <a href="http://cocoapods.org">CocoaPods</a>. Just add the following to your project Podfile:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">pod</span> <span class="s1">&#39;pop&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 1.0&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Alternatively, you can add the project to your workspace and adopt the provided configuration files or manually copy the files under the pop subdirectory into your project. If installing manually, ensure the C++ standard library is also linked by including <code>-lc++</code> to your project linker flags.</p>
+
+<h2>Usage</h2>
+
+<p>Pop adopts the Core Animation explicit animation programming model. Use by including the following import:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &lt;POP/POP.h&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Start, Stop &amp; Update</h3>
+
+<p>To start an animation, add it to the object you wish to animate:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">POPSpringAnimation</span> <span class="o">*</span><span class="n">anim</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPSpringAnimation</span> <span class="n">animation</span><span class="p">];</span>
+</span><span class='line'><span class="p">...</span>
+</span><span class='line'><span class="p">[</span><span class="n">layer</span> <span class="nl">pop_addAnimation</span><span class="p">:</span><span class="n">anim</span> <span class="nl">forKey</span><span class="p">:</span><span class="s">@&quot;myKey&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To stop an animation, remove it from the object referencing the key specified on start:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">layer</span> <span class="nl">pop_removeAnimationForKey</span><span class="p">:</span><span class="s">@&quot;myKey&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The key can also be used to query for the existence of an animation. Updating the toValue of a running animation can provide the most seamless way to change course:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">anim</span> <span class="o">=</span> <span class="p">[</span><span class="n">layer</span> <span class="nl">pop_animationForKey</span><span class="p">:</span><span class="s">@&quot;myKey&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">anim</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="cm">/* update to value to new destination */</span>
+</span><span class='line'>  <span class="n">anim</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="l">@(</span><span class="mf">42.0</span><span class="l">)</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>  <span class="cm">/* create and start a new animation */</span>
+</span><span class='line'>  <span class="p">....</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>While a layer was used in the above examples, the Pop interface is implemented as a category addition on NSObject. Any NSObject or subclass can be animated.</p>
+
+<h3>Types</h3>
+
+<p>There are four concrete animation types: spring, decay, basic and custom.</p>
+
+<p>Spring animations can be used to give objects a delightful bounce. In this example, we use a spring animation to animate a layer&rsquo;s bounds from its current value to (0, 0, 400, 400):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">POPSpringAnimation</span> <span class="o">*</span><span class="n">anim</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPSpringAnimation</span> <span class="nl">animationWithPropertyNamed</span><span class="p">:</span><span class="n">kPOPLayerBounds</span><span class="p">];</span>
+</span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGRect</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">400</span><span class="p">)];</span>
+</span><span class='line'><span class="p">[</span><span class="n">layer</span> <span class="nl">pop_addAnimation</span><span class="p">:</span><span class="n">anim</span> <span class="nl">forKey</span><span class="p">:</span><span class="s">@&quot;size&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Decay animations can be used to gradually slow an object to a halt. In this example, we decay a layer&rsquo;s positionX from it&rsquo;s current value and velocity 1000pts per second:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">POPDecayAnimation</span> <span class="o">*</span><span class="n">anim</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPDecayAnimation</span> <span class="nl">animationWithPropertyNamed</span><span class="p">:</span><span class="n">kPOPLayerPositionX</span><span class="p">];</span>
+</span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">velocity</span> <span class="o">=</span> <span class="l">@(</span><span class="mf">1000.</span><span class="l">)</span><span class="p">;</span>
+</span><span class='line'><span class="p">[</span><span class="n">layer</span> <span class="nl">pop_addAnimation</span><span class="p">:</span><span class="n">anim</span> <span class="nl">forKey</span><span class="p">:</span><span class="s">@&quot;slide&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Basic animations can be used to interpolate values over a specified time period. To use an ease-in ease-out animation to animate a view&rsquo;s alpha from 0.0 to 1.0 over the default duration:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">POPBasicAnimation</span> <span class="o">*</span><span class="n">anim</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPBasicAnimation</span> <span class="nl">animationWithPropertyNamed</span><span class="p">:</span><span class="n">kPOPViewAlpha</span><span class="p">];</span>
+</span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">timingFunction</span> <span class="o">=</span> <span class="p">[</span><span class="bp">CAMediaTimingFunction</span> <span class="nl">functionWithName</span><span class="p">:</span><span class="n">kCAMediaTimingFunctionEaseInEaseOut</span><span class="p">];</span>
+</span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">fromValue</span> <span class="o">=</span> <span class="l">@(</span><span class="mf">0.0</span><span class="l">)</span><span class="p">;</span>
+</span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="l">@(</span><span class="mf">1.0</span><span class="l">)</span><span class="p">;</span>
+</span><span class='line'><span class="p">[</span><span class="n">view</span> <span class="nl">pop_addAnimation</span><span class="p">:</span><span class="n">anim</span> <span class="nl">forKey</span><span class="p">:</span><span class="s">@&quot;fade&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>POPCustomAnimation</code> makes creating custom animations and transitions easier by handling CADisplayLink and associated time-step management. See header for more details.</p>
+
+<h3>Properties</h3>
+
+<p>The property animated is specified by the <code>POPAnimatableProperty</code> class. In this example we create a spring animation and explicitly set the animatable property corresponding to <code>-[CALayer bounds]</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">POPSpringAnimation</span> <span class="o">*</span><span class="n">anim</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPSpringAnimation</span> <span class="n">animation</span><span class="p">];</span>
+</span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">property</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPAnimatableProperty</span> <span class="nl">propertyWithName</span><span class="p">:</span><span class="n">kPOPLayerBounds</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The framework provides many common layer and view animatable properties out of box. You can animate a custom property by creating a new instance of the class. In this example, we declare a custom volume property:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">prop</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPAnimatableProperty</span> <span class="nl">propertyWithName</span><span class="p">:</span><span class="s">@&quot;com.foo.radio.volume&quot;</span> <span class="nl">initializer</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">POPMutableAnimatableProperty</span> <span class="o">*</span><span class="n">prop</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// read value</span>
+</span><span class='line'>  <span class="n">prop</span><span class="p">.</span><span class="n">readBlock</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">obj</span><span class="p">,</span> <span class="n">CGFloat</span> <span class="n">values</span><span class="p">[])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">obj</span> <span class="n">volume</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>  <span class="c1">// write value</span>
+</span><span class='line'>  <span class="n">prop</span><span class="p">.</span><span class="n">writeBlock</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">obj</span><span class="p">,</span> <span class="k">const</span> <span class="n">CGFloat</span> <span class="n">values</span><span class="p">[])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">obj</span> <span class="nl">setVolume</span><span class="p">:</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]];</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>  <span class="c1">// dynamics threshold</span>
+</span><span class='line'>  <span class="n">prop</span><span class="p">.</span><span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">;</span>
+</span><span class='line'><span class="p">}];</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">property</span> <span class="o">=</span> <span class="n">prop</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For a complete listing of provided animatable properties, as well more information on declaring custom properties see <code>POPAnimatableProperty.h</code>.</p>
+
+<h3>Debugging</h3>
+
+<p>Here are a few tips when debugging. Pop obeys the Simulator&rsquo;s Toggle Slow Animations setting. Try enabling it to slow down animations and more easily observe interactions.</p>
+
+<p>Consider naming your animations. This will allow you to more easily identify them when referencing them, either via logging or in the debugger:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">@&quot;springOpen&quot;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Each animation comes with an associated tracer. The tracer allows you to record all animation-related events, in a fast and efficient manner, allowing you to query and analyze them after animation completion. The below example starts the tracer and configures it to log all events on animation completion:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">POPAnimationTracer</span> <span class="o">*</span><span class="n">tracer</span> <span class="o">=</span> <span class="n">anim</span><span class="p">.</span><span class="n">tracer</span><span class="p">;</span>
+</span><span class='line'><span class="n">tracer</span><span class="p">.</span><span class="n">shouldLogAndResetOnCompletion</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'><span class="p">[</span><span class="n">tracer</span> <span class="n">start</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>See <code>POPAnimationTracer.h</code> for more details.</p>
+
+<h2>Testing</h2>
+
+<p>Pop has extensive unit test coverage. To install test dependencies, navigate to the root pop directory and type:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>pod install
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Assuming CocoaPods is installed, this will include the necessary OCMock dependency to the unit test targets.</p>
+
+<h2>Resources</h2>
+
+<p>A collection of links to external resources that may prove valuable:</p>
+
+<ul>
+<li><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/CoreAnimation_guide/Introduction/Introduction.html">Apple – Core Animation Programming Guide</a></li>
+<li><a href="http://tapity.com/tutorial-getting-started-with-pop/">Tapity Tutorial – Getting Started with Pop</a></li>
+<li><a href="http://codeplease.io/playing-with-pop-ii/">Codeplease – Bridging the gesture to animation gap</a></li>
+<li><a href="http://codeplease.io/playing-with-pop-iii/">Codeplease – Playing with Pop (iii)</a></li>
+<li><a href="http://codeplease.io/playing-with-pop-v/">Codeplease – Adding a custom animatable property</a></li>
+<li><a href="https://github.com/matthewcheok/POP-MCAnimate">POP-MCAnimate – Concise syntax for the Pop animation framework</a></li>
+<li><a href="https://github.com/facebook/tweaks">Tweaks – Easily adjust parameters for iOS apps in development</a></li>
+<li><a href="http://facebook.github.io/rebound/">Rebound – Spring Animations for Android</a></li>
+</ul>
+
+
+<h2>Contributing</h2>
+
+<p>See the CONTRIBUTING file for how to help out.</p>
+
+<h2>License</h2>
+
+<p>Pop is released under a BSD License. See LICENSE file for details.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/01/06/vvdocumenter-xcode/">VVDocumenter-Xcode</a></h1>
     
     
@@ -299,7 +550,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 <p>本人是因为兴趣业余时间来开发推聊，考虑到 IM 占用的时间太多，所以请谅解，不提供任何 IM 的沟通方式。希望大家以如下的方式交流：</p>
 
 <ul>
-<li>Email:  <a href="&#x6d;&#97;&#105;&#108;&#x74;&#111;&#58;&#x70;&#x75;&#x73;&#104;&#x74;&#97;&#108;&#x6b;&#x2e;&#x6f;&#114;&#x67;&#x40;&#103;&#x6d;&#97;&#105;&#x6c;&#46;&#x63;&#x6f;&#109;">&#112;&#x75;&#x73;&#104;&#x74;&#97;&#x6c;&#x6b;&#46;&#111;&#114;&#x67;&#64;&#x67;&#x6d;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#x6d;</a></li>
+<li>Email:  <a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#58;&#112;&#117;&#x73;&#104;&#116;&#x61;&#108;&#x6b;&#x2e;&#x6f;&#114;&#x67;&#x40;&#x67;&#109;&#97;&#105;&#108;&#x2e;&#x63;&#111;&#x6d;">&#x70;&#117;&#x73;&#104;&#116;&#97;&#108;&#x6b;&#x2e;&#111;&#x72;&#103;&#64;&#x67;&#x6d;&#x61;&#105;&#108;&#46;&#x63;&#x6f;&#x6d;</a></li>
 <li>项目Wiki: <a href="https://github.com/good-life/PushTalk/wiki">https://github.com/good-life/PushTalk/wiki</a></li>
 <li>项目Bug: <a href="https://github.com/good-life/PushTalk/issues">https://github.com/good-life/PushTalk/issues</a></li>
 <li>PushTalk频道：<code>pushtalk</code>, <code>报告bug</code>, <code>新功能讨论</code> 等</li>
@@ -1813,94 +2064,6 @@ $ pod install
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/01/04/ios-slash-androidkai-fa-zhi-fu-sdklie-biao/">iOS/Android开发支付SDK列表</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-01-04T14:03:37+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:03 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-
-<h3>支付宝</h3>
-
-<p><a href="https://openhome.alipay.com/doc/docIndex.htm"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>支付宝是一个开放式的支付平台，为各类交易场景提供支付工具的支持，并致力于为广大用户提供安全快速的电子支付、网上支付、安全支付、手机支付体验，及转账收款、水电煤缴费、信用卡还款、AA收款等生活服务应用。</p>
-
-<h2></br></h2>
-
-<h3>银联</h3>
-
-<p><a href="http://mobile.unionpay.com/"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>银联支付涵盖便民服务、金融服务、商旅出行、休闲娱乐、电子商城等多种应用。可轻松为手机充值、购买保险、查询银行卡余额、预订酒店机票、代购火车票和购买时令商品。随时随地提供“一站式”移动支付生活服务。</p>
-
-<h2></br></h2>
-
-<h3>微信支付</h3>
-
-<p><a href="https://open.weixin.qq.com/cgi-bin/frame?t=home/pay_tmpl&lang=zh_CN"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>微信支付是由腾讯公司知名移动社交通讯软件微信及第三方支付平台财付通联合推出的移动支付创新产品，旨在为广大微信用户及商户提供更优质的支付服务，微信的支付和安全系统由腾讯财付通提供支持。财付通是持有互联网支付牌照并具备完备的安全体系的第三方支付平台。</p>
-
-<h2></br></h2>
-
-<h3>支付宝移动开放平台</h3>
-
-<p><a href="https://mp.alipay.com/portal/index.htm"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>支付宝移动开放平台包含四大模块：二维码平台、卡券平台、服务窗平台、WiFi平台。</p>
-
-<h2></br></h2>
-
-<h3>百度钱包</h3>
-
-<p><a href="https://www.baifubao.com"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>百付宝是由全球最大的中文搜索引擎公司百度所创办，是中国领先的在线支付应用和服务平台。百度钱包以建立“简单可依赖”的在线支付信用体系为己任，其创新的产品技术、丰富的应用功能、为用户量身定做的交易体验流程，为互联网用户和企业提供安全、可依赖的在线支付服务。百度钱包提供卓越的网上支付和清算服务，为用户提供了在线充值、在线支付、交易管理、生活服务、提现、账户提醒等丰富的功能，特有的双重密码设置和安全中心的实时监控功能更是给百度钱包账户安全提供了双重保障。</p>
-
-<h2></br></h2>
-
-<h3>腾讯移动支付</h3>
-
-<p><a href="http://cpay.qq.com/mpay"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>腾讯支付SDK拥有Q币、财付通、银行卡、充值卡、微支付等多种支付渠道，支持iOS与Android两大操作系统，体验上原生内置，与游戏充分融合。</p>
-
-<h2></br></h2>
-
-<h3>360游戏内支付</h3>
-
-<p><a href="http://dev.360.cn/html/sdk/pay_sdk.html"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>手机游戏支付SDK简介：此SDK包主要面向联网游戏开发者，包括有服务器和客户端两部分。</p>
-
-<p></br></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/4">&larr; Older</a>
@@ -1918,6 +2081,10 @@ $ pod install
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/05/22/iosxie-yi-li-mian-ke-yi-ding-yi-cheng-yuan-bian-liang-he-shu-xing-ma-%3F/">iOS协议里面可以定义成员变量和属性吗？</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/05/14/iosdi-tu-ding-wei-shi-yong-xiao-ji-qiao/">iOS地图定位使用几个小功能</a>
       </li>
     
@@ -1931,10 +2098,6 @@ $ pod install
     
       <li class="post">
         <a href="/blog/2015/04/07/mvczhong-modelde-she-ji/">MVC中Model的设计</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/03/ioskai-fa-zhi-asyncsocketshi-yong-jiao-cheng/">iOS开发之AsyncSocket使用教程</a>
       </li>
     
   </ul>
