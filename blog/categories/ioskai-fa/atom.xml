@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://worldligang.github.io/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-05-22T11:11:48+08:00</updated>
+  <updated>2015-05-29T13:10:43+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[刚刚]]></name>
@@ -12,6 +12,53 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[mac下.gitconfig配置别名alias]]></title>
+    <link href="http://worldligang.github.io/blog/2015/05/29/macxia-dot-gitconfigpei-zhi-bie-ming-alias/"/>
+    <updated>2015-05-29T13:01:00+08:00</updated>
+    <id>http://worldligang.github.io/blog/2015/05/29/macxia-dot-gitconfigpei-zhi-bie-ming-alias</id>
+    <content type="html"><![CDATA[<p>在多人协作开发时，一般用git来进行代码管理。git有一些命令如：git pull 、 git push等等，这些命令可以设置alias，也就是缩写。如：git pull 是 git pl， git push 是 git ps。可以根据个人习惯进行修改。</p>
+
+<p>修改别名alias步骤如下：</p>
+
+<h4>1,进入根目录</h4>
+
+<pre><code>$ cd
+</code></pre>
+
+<h4>2,查看根目录下面的文件</h4>
+
+<pre><code>$ ls -la
+</code></pre>
+
+<p>查看一下有没有.gitconfig文件。</p>
+
+<h4>3，编辑.gitconfig</h4>
+
+<pre><code>$ vi .gitconfig
+</code></pre>
+
+<p>添加如下：</p>
+
+<pre><code>[alias]
+co = checkout
+ci = commit
+st = status
+pl = pull
+ps = push
+dt = difftool
+l = log --stat
+cp = cherry-pick
+ca = commit -a
+b = branch
+</code></pre>
+
+<p>具体可以根据个人习惯进行添加修改。</p>
+
+<blockquote><p>关注公众号iOS开发：iOSDevTip</p></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS协议里面可以定义成员变量和属性吗？]]></title>
@@ -467,168 +514,6 @@ NSLog(@"Latitude = %f", distance);
 <p>还有很多方法也欢迎你把思路写下来发给我。我的微信号iOS开发：iOSDevTip</p>
 
 <p>代码下载地址:<a href="https://github.com/worldligang/HitTestMaster.git"target="_blank"title="HitTestMaster">HitTestMaster</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[MVC中Model的设计]]></title>
-    <link href="http://worldligang.github.io/blog/2015/04/07/mvczhong-modelde-she-ji/"/>
-    <updated>2015-04-07T09:56:12+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/04/07/mvczhong-modelde-she-ji</id>
-    <content type="html"><![CDATA[<p>一般在定义ViewController的时候，都习惯定义一个BaseViewController作为基类（即父类）。这样做的好处是：把公共的属性提出来放在BaseViewController中，试代码结构更清晰。同样，设计Model的时候，也可以定义一个基类。</p>
-
-<p>比如：有一个房子，房子里面有一个电视和许多个桌子。电视和桌子分别有价格和型号。</p>
-
-<h3>定义基类LGObject</h3>
-
-<p>LGObject.h：</p>
-
-<pre><code> //
-//  LGObject.h
-//  LGAlertViewDemo
-//
-//  Created by apple on 15/4/6.
-//  Copyright (c) 2015年 LiGang. All rights reserved.
-//
-
-#import &lt;Foundation/Foundation.h&gt;
-
-@interface LGObject : NSObject
-
-@property (readonly, nonatomic) id data;
-
-- (id)initWithData:(id)data;
-- (BOOL)isEmpty;
-
-@end
-</code></pre>
-
-<p>LGObject.m：</p>
-
-<pre><code>//
-//  LGObject.m
-//  LGAlertViewDemo
-//
-//  Created by apple on 15/4/6.
-//  Copyright (c) 2015年 LiGang. All rights reserved.
-//
-
-#import "LGObject.h"
-
-@implementation LGObject
-
-- (id)initWithData:(id)data {
-    self = [super init];
-    if(self) {
-        _data = nil;
-        if(data != nil) _data = data;
-    }
-    return self;
-}
-
-- (BOOL)isEmpty
-{
-    return _data == nil ? YES : NO;
-}
-
-@end
-</code></pre>
-
-<h3>定义房子LGHouse、电视LGVideo、桌子LGDesk</h3>
-
-<p>电视LGVideo、桌子LGDesk可以放在LGHouse里面。多个桌子需要定义一个数组：arrayDesk。</p>
-
-<p>LGHouse.h：</p>
-
-<pre><code>//
-//  LGHouse.h
-//  LGAlertViewDemo
-//
-//  Created by apple on 15/4/6.
-//  Copyright (c) 2015年 LiGang. All rights reserved.
-//
-
-#import "LGObject.h"
-
-@class LGVideo;
-@class LGDesk;
-
-@interface LGHouse : LGObject
-
-@property (nonatomic, readonly) LGVideo  *video;     //电视
-@property (nonatomic, readonly) NSArray  *arrayDesk; //桌子
-
-@end
-
-@interface LGVideo : LGObject
-
-@property (nonatomic, assign)   float      money;//价格
-@property (nonatomic, readonly) NSString  *type;//型号
-
-@end
-
-@interface LGDesk : LGObject
-
-@property (nonatomic, assign)   float      money;//价格
-@property (nonatomic, readonly) NSString  *type;//型号
-
-@end
-</code></pre>
-
-<p>LGHouse.m：</p>
-
-<pre><code>//
-//  LGHouse.m
-//  LGAlertViewDemo
-//
-//  Created by apple on 15/4/6.
-//  Copyright (c) 2015年 LiGang. All rights reserved.
-//
-
-#import "LGHouse.h"
-
-@implementation LGHouse
-
-- (LGVideo *)video {
-    return [[LGVideo alloc] initWithData:[self.data objectForKey:@"video"]];
-}
-
-- (NSArray *)arrayDesk {
-    NSMutableArray *arrayDesk = [NSMutableArray array];
-    for (NSDictionary *dickDesk in [self.data objectForKey:@"desks"]) {
-        [arrayDesk addObject:[[LGDesk alloc] initWithData:dickDesk]];
-    }
-    return arrayDesk;
-}
-
-@end
-
-@implementation LGVideo
-
-- (float)money {
-    return [[self.data objectForKey:@"money"] floatValue];
-}
-
-- (NSString *)type {
-    return [self.data objectForKey:@"type"];
-}
-
-@end
-
-@implementation LGDesk
-
-- (float)money {
-    return [[self.data objectForKey:@"money"] floatValue];
-}
-
-- (NSString *)type {
-    return [self.data objectForKey:@"type"];
-}
-
-@end
-</code></pre>
-
-<p>以上是我对Model设计的简单理解，如果你有更好的想法，欢迎告诉我。</p>
 ]]></content>
   </entry>
   
