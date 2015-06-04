@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
-  <link href="http://worldligang.github.io/blog/categories/ioskai-fa/atom.xml" rel="self"/>
-  <link href="http://worldligang.github.io/"/>
-  <updated>2015-06-04T13:50:23+08:00</updated>
-  <id>http://worldligang.github.io/</id>
+  <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
+  <link href="http://www.superqq.com/"/>
+  <updated>2015-06-04T14:03:12+08:00</updated>
+  <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[mac下.gitconfig配置别名alias]]></title>
-    <link href="http://worldligang.github.io/blog/2015/05/29/macxia-dot-gitconfigpei-zhi-bie-ming-alias/"/>
+    <link href="http://www.superqq.com/blog/2015/05/29/macxia-dot-gitconfigpei-zhi-bie-ming-alias/"/>
     <updated>2015-05-29T13:01:00+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/05/29/macxia-dot-gitconfigpei-zhi-bie-ming-alias</id>
+    <id>http://www.superqq.com/blog/2015/05/29/macxia-dot-gitconfigpei-zhi-bie-ming-alias</id>
     <content type="html"><![CDATA[<p>在多人协作开发时，一般用git来进行代码管理。git有一些命令如：git pull 、 git push等等，这些命令可以设置alias，也就是缩写。如：git pull 是 git pl， git push 是 git ps。可以根据个人习惯进行修改。</p>
 
 <p>修改别名alias步骤如下：</p>
@@ -62,9 +62,9 @@ b = branch
   
   <entry>
     <title type="html"><![CDATA[iOS协议里面可以定义成员变量和属性吗？]]></title>
-    <link href="http://worldligang.github.io/blog/2015/05/22/iosxie-yi-li-mian-ke-yi-ding-yi-cheng-yuan-bian-liang-he-shu-xing-ma-%3F/"/>
+    <link href="http://www.superqq.com/blog/2015/05/22/iosxie-yi-li-mian-ke-yi-ding-yi-cheng-yuan-bian-liang-he-shu-xing-ma-%3F/"/>
     <updated>2015-05-22T11:08:18+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/05/22/iosxie-yi-li-mian-ke-yi-ding-yi-cheng-yuan-bian-liang-he-shu-xing-ma-?</id>
+    <id>http://www.superqq.com/blog/2015/05/22/iosxie-yi-li-mian-ke-yi-ding-yi-cheng-yuan-bian-liang-he-shu-xing-ma-?</id>
     <content type="html"><![CDATA[<blockquote><p>关注iOS开发：iOSDevTip</p></blockquote>
 
 <p>在CSDN上看到有人提的问题，觉得很有价值，先看代码：</p>
@@ -147,9 +147,9 @@ self.fillModel = @&ldquo;test&rdquo;; // unrecognized selector</p>
   
   <entry>
     <title type="html"><![CDATA[iOS地图定位使用几个小功能]]></title>
-    <link href="http://worldligang.github.io/blog/2015/05/14/iosdi-tu-ding-wei-shi-yong-xiao-ji-qiao/"/>
+    <link href="http://www.superqq.com/blog/2015/05/14/iosdi-tu-ding-wei-shi-yong-xiao-ji-qiao/"/>
     <updated>2015-05-14T10:16:30+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/05/14/iosdi-tu-ding-wei-shi-yong-xiao-ji-qiao</id>
+    <id>http://www.superqq.com/blog/2015/05/14/iosdi-tu-ding-wei-shi-yong-xiao-ji-qiao</id>
     <content type="html"><![CDATA[<p>iOS系统自带的定位服务可以实现很多需求。比如：获取当前经纬度，获取当前位置信息等等。</p>
 
 <h4>获取当前经纬度</h4>
@@ -282,9 +282,9 @@ NSLog(@"Latitude = %f", distance);
   
   <entry>
     <title type="html"><![CDATA[iOS调用系统发短信功能详解]]></title>
-    <link href="http://worldligang.github.io/blog/2015/04/25/iosdiao-yong-xi-tong-fa-duan-xin-gong-neng-xiang-jie/"/>
+    <link href="http://www.superqq.com/blog/2015/04/25/iosdiao-yong-xi-tong-fa-duan-xin-gong-neng-xiang-jie/"/>
     <updated>2015-04-25T11:36:33+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/04/25/iosdiao-yong-xi-tong-fa-duan-xin-gong-neng-xiang-jie</id>
+    <id>http://www.superqq.com/blog/2015/04/25/iosdiao-yong-xi-tong-fa-duan-xin-gong-neng-xiang-jie</id>
     <content type="html"><![CDATA[<p>iOS调用系统的发短信功能可以分为两种：1，程序外调用系统发短信。2，程序内调用系统发短信。第二种的好处是用户发短信之后还可以回到app。这对app来说非常重要。</p>
 
 <h3>程序外调用系统发短信</h3>
@@ -366,9 +366,9 @@ NSLog(@"Latitude = %f", distance);
   
   <entry>
     <title type="html"><![CDATA[hitTest和pointInside如何响应用户点击事件]]></title>
-    <link href="http://worldligang.github.io/blog/2015/04/23/iosyong-hu-dian-ji-shi-jian-chu-li/"/>
+    <link href="http://www.superqq.com/blog/2015/04/23/iosyong-hu-dian-ji-shi-jian-chu-li/"/>
     <updated>2015-04-23T16:05:20+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/04/23/iosyong-hu-dian-ji-shi-jian-chu-li</id>
+    <id>http://www.superqq.com/blog/2015/04/23/iosyong-hu-dian-ji-shi-jian-chu-li</id>
     <content type="html"><![CDATA[<h3>处理机制</h3>
 
 <p>iOS事件处理，首先应该是找到能处理点击事件的视图，然后在找到的这个视图里处理这个点击事件。</p>
