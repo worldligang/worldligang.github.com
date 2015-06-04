@@ -2,12 +2,12 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://worldligang.github.io
+url: http://www.superqq.com
 title: 刚刚在线
-subtitle: 游走在互联网岸边的屌丝青年
-author: 刚刚
+subtitle: 关注iOS开发和移动互联网的自媒体博客
+author: 李刚
 simple_search: http://www.baidu.com/
-description: 微信公众账号：iOSDevTip  最新iOS、iPhone资讯，万名iOS开发者、swift开发、果粉聚集，参与技术讨论，整理开发技巧，分享创业经验！享受生活、热爱编程！
+description: 2年iOS开发站长，优秀iOS开发博客之一。关注iOS开发、swift开发、iOSDevTip、移动互联网、自媒体、Cocoapods、Xcode、iOS，刚刚在线博客是一个值得收藏的网站！
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
