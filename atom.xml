@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[刚刚在线]]></title>
-  <link href="http://worldligang.github.io/atom.xml" rel="self"/>
-  <link href="http://worldligang.github.io/"/>
-  <updated>2015-06-04T13:50:23+08:00</updated>
-  <id>http://worldligang.github.io/</id>
+  <link href="http://www.superqq.com/atom.xml" rel="self"/>
+  <link href="http://www.superqq.com/"/>
+  <updated>2015-06-04T14:03:12+08:00</updated>
+  <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[面试官问现在工资是多少该怎么回答?]]></title>
-    <link href="http://worldligang.github.io/blog/2015/06/04/mian-shi-guan-wen-xian-zai-gong-zi-shi-duo-shao-gai-zen-yao-hui-da/"/>
+    <link href="http://www.superqq.com/blog/2015/06/04/mian-shi-guan-wen-xian-zai-gong-zi-shi-duo-shao-gai-zen-yao-hui-da/"/>
     <updated>2015-06-04T10:36:30+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/06/04/mian-shi-guan-wen-xian-zai-gong-zi-shi-duo-shao-gai-zen-yao-hui-da</id>
+    <id>http://www.superqq.com/blog/2015/06/04/mian-shi-guan-wen-xian-zai-gong-zi-shi-duo-shao-gai-zen-yao-hui-da</id>
     <content type="html"><![CDATA[<p>经常面试别人，也被别人面试的人来答。</p>
 
 <p>面试官有此问，一是打听市场价，二是盘算以怎样的代价可以挖动你;猎头有此问，也许会帮你，也许会坑你。你回答的目的，是帮自己争取到最有利的薪资和福利。</p>
@@ -179,9 +179,9 @@
   
   <entry>
     <title type="html"><![CDATA[mac下.gitconfig配置别名alias]]></title>
-    <link href="http://worldligang.github.io/blog/2015/05/29/macxia-dot-gitconfigpei-zhi-bie-ming-alias/"/>
+    <link href="http://www.superqq.com/blog/2015/05/29/macxia-dot-gitconfigpei-zhi-bie-ming-alias/"/>
     <updated>2015-05-29T13:01:00+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/05/29/macxia-dot-gitconfigpei-zhi-bie-ming-alias</id>
+    <id>http://www.superqq.com/blog/2015/05/29/macxia-dot-gitconfigpei-zhi-bie-ming-alias</id>
     <content type="html"><![CDATA[<p>在多人协作开发时，一般用git来进行代码管理。git有一些命令如：git pull 、 git push等等，这些命令可以设置alias，也就是缩写。如：git pull 是 git pl， git push 是 git ps。可以根据个人习惯进行修改。</p>
 
 <p>修改别名alias步骤如下：</p>
@@ -226,9 +226,9 @@ b = branch
   
   <entry>
     <title type="html"><![CDATA[iOS协议里面可以定义成员变量和属性吗？]]></title>
-    <link href="http://worldligang.github.io/blog/2015/05/22/iosxie-yi-li-mian-ke-yi-ding-yi-cheng-yuan-bian-liang-he-shu-xing-ma-%3F/"/>
+    <link href="http://www.superqq.com/blog/2015/05/22/iosxie-yi-li-mian-ke-yi-ding-yi-cheng-yuan-bian-liang-he-shu-xing-ma-%3F/"/>
     <updated>2015-05-22T11:08:18+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/05/22/iosxie-yi-li-mian-ke-yi-ding-yi-cheng-yuan-bian-liang-he-shu-xing-ma-?</id>
+    <id>http://www.superqq.com/blog/2015/05/22/iosxie-yi-li-mian-ke-yi-ding-yi-cheng-yuan-bian-liang-he-shu-xing-ma-?</id>
     <content type="html"><![CDATA[<blockquote><p>关注iOS开发：iOSDevTip</p></blockquote>
 
 <p>在CSDN上看到有人提的问题，觉得很有价值，先看代码：</p>
@@ -311,9 +311,9 @@ self.fillModel = @&ldquo;test&rdquo;; // unrecognized selector</p>
   
   <entry>
     <title type="html"><![CDATA[iOS地图定位使用几个小功能]]></title>
-    <link href="http://worldligang.github.io/blog/2015/05/14/iosdi-tu-ding-wei-shi-yong-xiao-ji-qiao/"/>
+    <link href="http://www.superqq.com/blog/2015/05/14/iosdi-tu-ding-wei-shi-yong-xiao-ji-qiao/"/>
     <updated>2015-05-14T10:16:30+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/05/14/iosdi-tu-ding-wei-shi-yong-xiao-ji-qiao</id>
+    <id>http://www.superqq.com/blog/2015/05/14/iosdi-tu-ding-wei-shi-yong-xiao-ji-qiao</id>
     <content type="html"><![CDATA[<p>iOS系统自带的定位服务可以实现很多需求。比如：获取当前经纬度，获取当前位置信息等等。</p>
 
 <h4>获取当前经纬度</h4>
@@ -446,9 +446,9 @@ NSLog(@"Latitude = %f", distance);
   
   <entry>
     <title type="html"><![CDATA[iOS调用系统发短信功能详解]]></title>
-    <link href="http://worldligang.github.io/blog/2015/04/25/iosdiao-yong-xi-tong-fa-duan-xin-gong-neng-xiang-jie/"/>
+    <link href="http://www.superqq.com/blog/2015/04/25/iosdiao-yong-xi-tong-fa-duan-xin-gong-neng-xiang-jie/"/>
     <updated>2015-04-25T11:36:33+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/04/25/iosdiao-yong-xi-tong-fa-duan-xin-gong-neng-xiang-jie</id>
+    <id>http://www.superqq.com/blog/2015/04/25/iosdiao-yong-xi-tong-fa-duan-xin-gong-neng-xiang-jie</id>
     <content type="html"><![CDATA[<p>iOS调用系统的发短信功能可以分为两种：1，程序外调用系统发短信。2，程序内调用系统发短信。第二种的好处是用户发短信之后还可以回到app。这对app来说非常重要。</p>
 
 <h3>程序外调用系统发短信</h3>
@@ -530,9 +530,9 @@ NSLog(@"Latitude = %f", distance);
   
   <entry>
     <title type="html"><![CDATA[hitTest和pointInside如何响应用户点击事件]]></title>
-    <link href="http://worldligang.github.io/blog/2015/04/23/iosyong-hu-dian-ji-shi-jian-chu-li/"/>
+    <link href="http://www.superqq.com/blog/2015/04/23/iosyong-hu-dian-ji-shi-jian-chu-li/"/>
     <updated>2015-04-23T16:05:20+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/04/23/iosyong-hu-dian-ji-shi-jian-chu-li</id>
+    <id>http://www.superqq.com/blog/2015/04/23/iosyong-hu-dian-ji-shi-jian-chu-li</id>
     <content type="html"><![CDATA[<h3>处理机制</h3>
 
 <p>iOS事件处理，首先应该是找到能处理点击事件的视图，然后在找到的这个视图里处理这个点击事件。</p>
@@ -683,9 +683,9 @@ NSLog(@"Latitude = %f", distance);
   
   <entry>
     <title type="html"><![CDATA[MVC中Model的设计]]></title>
-    <link href="http://worldligang.github.io/blog/2015/04/07/mvczhong-modelde-she-ji/"/>
+    <link href="http://www.superqq.com/blog/2015/04/07/mvczhong-modelde-she-ji/"/>
     <updated>2015-04-07T09:56:12+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/04/07/mvczhong-modelde-she-ji</id>
+    <id>http://www.superqq.com/blog/2015/04/07/mvczhong-modelde-she-ji</id>
     <content type="html"><![CDATA[<p>一般在定义ViewController的时候，都习惯定义一个BaseViewController作为基类（即父类）。这样做的好处是：把公共的属性提出来放在BaseViewController中，试代码结构更清晰。同样，设计Model的时候，也可以定义一个基类。</p>
 
 <p>比如：有一个房子，房子里面有一个电视和许多个桌子。电视和桌子分别有价格和型号。</p>
@@ -845,9 +845,9 @@ NSLog(@"Latitude = %f", distance);
   
   <entry>
     <title type="html"><![CDATA[iOS开发之AsyncSocket使用教程]]></title>
-    <link href="http://worldligang.github.io/blog/2015/04/03/ioskai-fa-zhi-asyncsocketshi-yong-jiao-cheng/"/>
+    <link href="http://www.superqq.com/blog/2015/04/03/ioskai-fa-zhi-asyncsocketshi-yong-jiao-cheng/"/>
     <updated>2015-04-03T16:57:19+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/04/03/ioskai-fa-zhi-asyncsocketshi-yong-jiao-cheng</id>
+    <id>http://www.superqq.com/blog/2015/04/03/ioskai-fa-zhi-asyncsocketshi-yong-jiao-cheng</id>
     <content type="html"><![CDATA[<p>用socket可以实现像QQ那样发送即时消息的功能。客户端和服务端需要建立长连接，在长连接的情况下，发送消息。客户端可以发送心跳包来检测长连接。</p>
 
 <p>在iOS开发中使用socket，一般都是用第三方库AsyncSocket，不得不承认这个库确实很强大。下载地址<a href="https://github.com/robbiehanson/CocoaAsyncSocket.git"target="_blank"title="CocoaAsyncSocket">CocoaAsyncSocket</a><br/>
@@ -1187,9 +1187,9 @@ socketServe.socket.userData = SocketOfflineByServer;
   
   <entry>
     <title type="html"><![CDATA[NSSortDescriptor排序]]></title>
-    <link href="http://worldligang.github.io/blog/2015/03/27/nssortdescriptorpai-xu/"/>
+    <link href="http://www.superqq.com/blog/2015/03/27/nssortdescriptorpai-xu/"/>
     <updated>2015-03-27T19:01:45+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/03/27/nssortdescriptorpai-xu</id>
+    <id>http://www.superqq.com/blog/2015/03/27/nssortdescriptorpai-xu</id>
     <content type="html"><![CDATA[<p>NSSortDescriptor可以实现按照对象的属性进行排序。比如我们有一个对象（LGPeople）。LGPeople有两个属性分别是名字（name）和年龄（age）。现在我们要按照LGPeople的年龄（age）来进行排序。</p>
 
 <p>代码如下：</p>
@@ -1228,9 +1228,9 @@ socketServe.socket.userData = SocketOfflineByServer;
   
   <entry>
     <title type="html"><![CDATA[自己动手实现一个队列LGQueue]]></title>
-    <link href="http://worldligang.github.io/blog/2015/03/24/zi-ji-dong-shou-chuang-jian-%5B%3F%5D-ge-dui-lie-lgqueue/"/>
+    <link href="http://www.superqq.com/blog/2015/03/24/zi-ji-dong-shou-chuang-jian-%5B%3F%5D-ge-dui-lie-lgqueue/"/>
     <updated>2015-03-24T17:13:39+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/03/24/zi-ji-dong-shou-chuang-jian-[?]-ge-dui-lie-lgqueue</id>
+    <id>http://www.superqq.com/blog/2015/03/24/zi-ji-dong-shou-chuang-jian-[?]-ge-dui-lie-lgqueue</id>
     <content type="html"><![CDATA[<p>iOS系统没有提供queue容器，如果想用，需要手动自己来写一个：</p>
 
 <p>.h</p>
@@ -1323,9 +1323,9 @@ socketServe.socket.userData = SocketOfflineByServer;
   
   <entry>
     <title type="html"><![CDATA[单例模式的两种写法]]></title>
-    <link href="http://worldligang.github.io/blog/2015/03/21/dan-li-mo-shi-de-xie-fa/"/>
+    <link href="http://www.superqq.com/blog/2015/03/21/dan-li-mo-shi-de-xie-fa/"/>
     <updated>2015-03-21T17:39:16+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/03/21/dan-li-mo-shi-de-xie-fa</id>
+    <id>http://www.superqq.com/blog/2015/03/21/dan-li-mo-shi-de-xie-fa</id>
     <content type="html"><![CDATA[<p>单例模式是iOS开发中最常用的设计模式，iOS的单例模式有两种官方写法，如下：</p>
 
 <h3>1，常用写法</h3>
@@ -1376,9 +1376,9 @@ static LGManagerCenter *managerCenter;
   
   <entry>
     <title type="html"><![CDATA[系统提供的dispatch方法]]></title>
-    <link href="http://worldligang.github.io/blog/2015/03/13/xi-tong-ti-gong-de-dispatchfang-fa/"/>
+    <link href="http://www.superqq.com/blog/2015/03/13/xi-tong-ti-gong-de-dispatchfang-fa/"/>
     <updated>2015-03-13T17:41:11+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/03/13/xi-tong-ti-gong-de-dispatchfang-fa</id>
+    <id>http://www.superqq.com/blog/2015/03/13/xi-tong-ti-gong-de-dispatchfang-fa</id>
     <content type="html"><![CDATA[<p>为了方便地使用GCD，苹果提供了一些方法方便我们将block放在主线程或后台线程执行，或者延后执行。使用的例子如下所示：</p>
 
 <pre><code> //  后台执行：
@@ -1441,9 +1441,9 @@ static LGManagerCenter *managerCenter;
   
   <entry>
     <title type="html"><![CDATA[iOS开发下载文件速度计算]]></title>
-    <link href="http://worldligang.github.io/blog/2015/01/29/ioskai-fa-xia-zai-wen-jian-su-du-ji-suan/"/>
+    <link href="http://www.superqq.com/blog/2015/01/29/ioskai-fa-xia-zai-wen-jian-su-du-ji-suan/"/>
     <updated>2015-01-29T10:40:38+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/01/29/ioskai-fa-xia-zai-wen-jian-su-du-ji-suan</id>
+    <id>http://www.superqq.com/blog/2015/01/29/ioskai-fa-xia-zai-wen-jian-su-du-ji-suan</id>
     <content type="html"><![CDATA[<p>当我们写下载界面的时候，需要向用户展示每秒下载多少KB，这个时候就需要计算速度。如下：</p>
 
 <p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlykfVEtYcoETGMzCaNgWWfvvjjxmJYIj9ibjNHHmn7f1oOTgEbcTstj44G2EjdqRjeMxSqdJfVaAibPA/640" /></a></p>
@@ -1503,9 +1503,9 @@ static LGManagerCenter *managerCenter;
   
   <entry>
     <title type="html"><![CDATA[解决MWPhotoBrowser中的SDWebImage加载大图导致的内存警告问题]]></title>
-    <link href="http://worldligang.github.io/blog/2015/01/22/jie-jue-mwphotobrowserzhong-de-sdwebimagejia-zai-da-tu-dao-zhi-de-nei-cun-jing-gao-wen-ti/"/>
+    <link href="http://www.superqq.com/blog/2015/01/22/jie-jue-mwphotobrowserzhong-de-sdwebimagejia-zai-da-tu-dao-zhi-de-nei-cun-jing-gao-wen-ti/"/>
     <updated>2015-01-22T11:23:21+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/01/22/jie-jue-mwphotobrowserzhong-de-sdwebimagejia-zai-da-tu-dao-zhi-de-nei-cun-jing-gao-wen-ti</id>
+    <id>http://www.superqq.com/blog/2015/01/22/jie-jue-mwphotobrowserzhong-de-sdwebimagejia-zai-da-tu-dao-zhi-de-nei-cun-jing-gao-wen-ti</id>
     <content type="html"><![CDATA[<p>MWPhotoBrowser是一个非常不错的照片浏览器，在github的star接近3000个，<a href="https://github.com/mwaterfall/MWPhotoBrowser.git"target="_blank"title="进入官网">MWPhotoBrowser下载</a></p>
 
 <p>MWPhotoBrowser来加载小图1M以下的都应该不会有内存警告的问题。如果遇到大图，3M、4M、5M的大图，很有可能导致内存警告。最近我就遇到这个问题，很是头疼。来回滑动查看照片内存飙到100M以上：</p>
@@ -1681,9 +1681,9 @@ static LGManagerCenter *managerCenter;
   
   <entry>
     <title type="html"><![CDATA[iOS开发之UISearchBar初探]]></title>
-    <link href="http://worldligang.github.io/blog/2015/01/19/ioskai-fa-zhi-uisearchbarchu-tan/"/>
+    <link href="http://www.superqq.com/blog/2015/01/19/ioskai-fa-zhi-uisearchbarchu-tan/"/>
     <updated>2015-01-19T09:56:52+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/01/19/ioskai-fa-zhi-uisearchbarchu-tan</id>
+    <id>http://www.superqq.com/blog/2015/01/19/ioskai-fa-zhi-uisearchbarchu-tan</id>
     <content type="html"><![CDATA[<p>UISearchBar也是iOS开发常用控件之一，点进去看看里面的属性barStyle、text、placeholder等等。但是这些属性显然不足矣满足我们的开发需求。比如：修改placeholder的颜色、修改UISearchBar上面的UITextfield的背景颜色、修改UITextfield上面的照片等等。</p>
 
 <p>为了实现上述的需求，最好写一个UISearchBar的子类就叫LSSearchBar吧</p>
@@ -1762,9 +1762,9 @@ static LGManagerCenter *managerCenter;
   
   <entry>
     <title type="html"><![CDATA[Objective-C相关Category的收集]]></title>
-    <link href="http://worldligang.github.io/blog/2015/01/15/objective-cxiang-guan-categoryde-shou-ji/"/>
+    <link href="http://www.superqq.com/blog/2015/01/15/objective-cxiang-guan-categoryde-shou-ji/"/>
     <updated>2015-01-15T10:38:25+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/01/15/objective-cxiang-guan-categoryde-shou-ji</id>
+    <id>http://www.superqq.com/blog/2015/01/15/objective-cxiang-guan-categoryde-shou-ji</id>
     <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
 
 <pre><code>iOSDevTip
@@ -1950,9 +1950,9 @@ static LGManagerCenter *managerCenter;
   
   <entry>
     <title type="html"><![CDATA[iOS开发之手势识别汇总]]></title>
-    <link href="http://worldligang.github.io/blog/2015/01/14/ioskai-fa-zhi-shou-shi-shi-bie-hui-zong/"/>
+    <link href="http://www.superqq.com/blog/2015/01/14/ioskai-fa-zhi-shou-shi-shi-bie-hui-zong/"/>
     <updated>2015-01-14T10:40:02+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/01/14/ioskai-fa-zhi-shou-shi-shi-bie-hui-zong</id>
+    <id>http://www.superqq.com/blog/2015/01/14/ioskai-fa-zhi-shou-shi-shi-bie-hui-zong</id>
     <content type="html"><![CDATA[<p>iOS开发中手势识别有六种：</p>
 
 <p>轻击手势（TapGestureRecognizer）,</p>
@@ -2112,9 +2112,9 @@ swipeGestureLeft.direction = UISwipeGestureRecognizerDirectionLeft; //向左
   
   <entry>
     <title type="html"><![CDATA[PaperFold-for-iOS]]></title>
-    <link href="http://worldligang.github.io/blog/2015/01/07/paperfold-for-ios/"/>
+    <link href="http://www.superqq.com/blog/2015/01/07/paperfold-for-ios/"/>
     <updated>2015-01-07T14:55:39+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/01/07/paperfold-for-ios</id>
+    <id>http://www.superqq.com/blog/2015/01/07/paperfold-for-ios</id>
     <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
 
 <pre><code>iOSDevTip
@@ -2252,9 +2252,9 @@ You can check out his <a href="https://github.com/Dillion/iOS-Flip-Transform">iO
   
   <entry>
     <title type="html"><![CDATA[DKCircleButton]]></title>
-    <link href="http://worldligang.github.io/blog/2015/01/07/dkcirclebutton/"/>
+    <link href="http://www.superqq.com/blog/2015/01/07/dkcirclebutton/"/>
     <updated>2015-01-07T14:48:23+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/01/07/dkcirclebutton</id>
+    <id>http://www.superqq.com/blog/2015/01/07/dkcirclebutton</id>
     <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
 
 <pre><code>iOSDevTip
@@ -2321,9 +2321,9 @@ Earliest supported deployment target - iOS 7.0</p>
   
   <entry>
     <title type="html"><![CDATA[TwitterCover]]></title>
-    <link href="http://worldligang.github.io/blog/2015/01/07/twittercover/"/>
+    <link href="http://www.superqq.com/blog/2015/01/07/twittercover/"/>
     <updated>2015-01-07T13:20:17+08:00</updated>
-    <id>http://worldligang.github.io/blog/2015/01/07/twittercover</id>
+    <id>http://www.superqq.com/blog/2015/01/07/twittercover</id>
     <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
 
 <pre><code>iOSDevTip
