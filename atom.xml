@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://worldligang.github.io/atom.xml" rel="self"/>
   <link href="http://worldligang.github.io/"/>
-  <updated>2015-06-04T10:57:02+08:00</updated>
+  <updated>2015-06-04T11:21:05+08:00</updated>
   <id>http://worldligang.github.io/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -18,9 +18,7 @@
     <link href="http://worldligang.github.io/blog/2015/06/04/mian-shi-guan-wen-xian-zai-gong-zi-shi-duo-shao-gai-zen-yao-hui-da/"/>
     <updated>2015-06-04T10:36:30+08:00</updated>
     <id>http://worldligang.github.io/blog/2015/06/04/mian-shi-guan-wen-xian-zai-gong-zi-shi-duo-shao-gai-zen-yao-hui-da</id>
-    <content type="html"><![CDATA[<blockquote><p>关注公众号iOS开发：<strong>iOSDevTip</strong> 获取更多面试技巧。</p></blockquote>
-
-<p>经常面试别人，也被别人面试的人来答。</p>
+    <content type="html"><![CDATA[<p>经常面试别人，也被别人面试的人来答。</p>
 
 <p>面试官有此问，一是打听市场价，二是盘算以怎样的代价可以挖动你;猎头有此问，也许会帮你，也许会坑你。你回答的目的，是帮自己争取到最有利的薪资和福利。</p>
 
@@ -167,6 +165,11 @@
 <p>判断失误可能打击你在公司的专业形象;不谙市场价格可能是种失职;HR 加薪挖人有如 Sales 降价促销般容易——那公司要你来做什么?</p>
 
 <p>来源：知乎 作者：显微无间</p>
+
+<ul>
+<li>关注公众号iOS开发：<strong>iOSDevTip</strong> 获取更多面试技巧。</li>
+</ul>
+
 
 <blockquote><p>微信扫一扫，代码写的好！</p></blockquote>
 
