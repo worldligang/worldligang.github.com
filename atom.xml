@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-06-04T16:03:30+08:00</updated>
+  <updated>2015-06-05T11:36:16+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,53 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS KVO概述]]></title>
+    <link href="http://www.superqq.com/blog/2015/06/05/ios-kvogai-shu-yu-shi-jian/"/>
+    <updated>2015-06-05T11:06:59+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/06/05/ios-kvogai-shu-yu-shi-jian</id>
+    <content type="html"><![CDATA[<blockquote><p>面试中经常会被问到：什么是KVO？这个问题既然出现概率这么大，那么我们就来详细讲一讲到底什么是KVO。下次再有面试官问你的时候，你就可以娓娓道来，以彰显高逼格。</p></blockquote>
+
+<h2>概述</h2>
+
+<p>问：什么是KVO？</p>
+
+<p>答：KVO是Key-Value Observing的缩写。它提供一种机制，当指定的对象的属性被修改后，则对象就会接受到通知。简单的说就是每次指定的被观察的对象的属性被修改后，KVO就会自动通知相应的观察者了。</p>
+
+<p>如果你能这样回答，面试官一定不会说你错的，这就是KVO的原理。但是如果你能说出KVO的好处，那一定能赢得面试官的刮目相看。比如：</p>
+
+<ul>
+<li>使用KVO最直接的好处就是可以减少代码量。</li>
+<li>KVO是<strong>观察者</strong>设计模式中的一种，有利于业务逻辑于视图控制之间的解耦。</li>
+</ul>
+
+
+<p>更深刻的了解KVO，你可以动手写一个小demo思路如下：</p>
+
+<ul>
+<li>定义一个对象People，分别有name和age属性</li>
+<li>监听People的age属性</li>
+<li>定义一个UIButton，在button的点击方法里面，去改变People的age。</li>
+<li>你就可以收到age改变时发出来的通知</li>
+<li>在对象销毁的时候，移除通知。</li>
+</ul>
+
+
+<p>iOS面试汇总：</p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/04/mian-shi-guan-wen-xian-zai-gong-zi-shi-duo-shao-gai-zen-yao-hui-da/">面试官问现在工资是多少该怎么回答?</a></p>
+
+<ul>
+<li>关注公众号iOS开发：<strong>iOSDevTip</strong> 获取更多面试技巧。</li>
+</ul>
+
+
+<blockquote><p>微信扫一扫，代码写的好！</p></blockquote>
+
+<p><img src="http://www.superqq.com/images/getqrcode.jpg" alt="icon" /></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[面试官问现在工资是多少该怎么回答?]]></title>
@@ -2316,59 +2363,6 @@ Earliest supported deployment target - iOS 7.0</p>
 <h2>License</h2>
 
 <p>DKCircleButton is available under the MIT license. See the LICENSE file for more info.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[TwitterCover]]></title>
-    <link href="http://www.superqq.com/blog/2015/01/07/twittercover/"/>
-    <updated>2015-01-07T13:20:17+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/01/07/twittercover</id>
-    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-
-<p> <a href="https://github.com/cyndibaby905/TwitterCover.git"target="_blank"title="源代码">源代码</a></p>
-
-<p> ## TwitterCover ##</p>
-
-<p>TwitterCover is a parallax top view with real time blur effect to any UIScrollView, inspired by Twitter for iOS.</p>
-
-<p>Completely created using UIKit framework.</p>
-
-<p>Easy to drop into your project.</p>
-
-<p>You can add this feature to your own project, <code>TwitterCover</code> is easy-to-use.</p>
-
-<h2>Requirements</h2>
-
-<p>TwitterCover requires Xcode 5, targeting either iOS 5.0 and above, ARC-enabled.</p>
-
-<h2>How to use</h2>
-
-<p>Drag UIScrollView+TwitterCover.h amd UIScrollView+TwitterCover.m files to your project.</p>
-
-<p>No other frameworks required.</p>
-
-<pre><code>#import "UIScrollView+TwitterCover.h"
-
-UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-[scrollView addTwitterCoverWithImage:[UIImage imageNamed:@"cover.png"]];
-</code></pre>
-
-<p>And do not forget to remove it in your dealloc method, otherwise memory leaks:</p>
-
-<pre><code>[scrollView removeTwitterCoverView];    
-</code></pre>
-
-<h2>How it looks</h2>
-
-<p><img src="https://raw.github.com/cyndibaby905/TwitterCover/master/TwitterCover.gif" /></a></p>
-
-<h2>Lincense</h2>
-
-<p><code>TwitterCover</code> is available under the MIT license. See the LICENSE file for more info.</p>
 ]]></content>
   </entry>
   
