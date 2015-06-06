@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>Ios - 刚刚在线</title>
+  <title>iOS KVO概述 - 刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="Ios Dec 31st, 2014 8:00 pm Dec 31st, 2014 8:00 pm 分享到： 更多 最新文章 iOS KVO概述 iOS KVC详细讲解 面试官问现在工资是多少该怎么回答? mac下.gitconfig配置别名alias iOS协议里面可以定义成员变量和属性吗？ &hellip;">
-  
+  <meta name="description" content="iOS KVO概述与实践，KVO是什么？">
+  <meta name="keywords" content="iOS KVO, KVO, iOS开发, iOS, 面试,  iOS面试, cocoapods, 个人博客, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/ios">
+  <link rel="canonical" href="http://www.superqq.com/blog/2015/06/06/ios-kvogai-shu-yu-shi-jian">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -70,34 +70,91 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Ios</h1>
-    <p class="meta">
-
-
-
-
-<time class='entry-date' datetime='2014-12-31T20:00:00+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2014</span></span> <span class='time'>8:00 pm</span></time></p>
-  </header>
-  
-  
-
-  
-    <footer>
+    
+      <h1 class="entry-title">iOS KVO概述</h1>
+    
+    
       <p class="meta">
         
-        
 
 
 
 
-<time class='entry-date' datetime='2014-12-31T20:00:00+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2014</span></span> <span class='time'>8:00 pm</span></time>
+<time class='entry-date' datetime='2015-06-06T11:06:59+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:06 am</span></time>
         
       </p>
+    
+  </header>
+
+
+<div class="entry-content"><blockquote><p>面试中经常会被问到：什么是KVO？这个问题既然出现概率这么大，那么我们就来详细讲一讲到底什么是KVO。下次再有面试官问你的时候，你就可以娓娓道来，以彰显高逼格。</p></blockquote>
+
+<h2>概述</h2>
+
+<p>问：什么是KVO？</p>
+
+<p>答：KVO是Key-Value Observing的缩写。它提供一种机制，当指定的对象的属性被修改后，则对象就会接受到通知。简单的说就是每次指定的被观察的对象的属性被修改后，KVO就会自动通知相应的观察者了。</p>
+
+<p>如果你能这样回答，面试官一定不会说你错的，这就是KVO的原理。但是如果你能说出KVO的好处，那一定能赢得面试官的刮目相看。比如：</p>
+
+<ul>
+<li>使用KVO最直接的好处就是可以减少代码量。</li>
+<li>KVO是<strong>观察者</strong>设计模式中的一种，有利于业务逻辑于视图控制之间的解耦。</li>
+</ul>
+
+
+<p>更深刻的了解KVO，你可以动手写一个小demo思路如下：</p>
+
+<ul>
+<li>定义一个对象People，分别有name和age属性</li>
+<li>监听People的age属性</li>
+<li>定义一个UIButton，在button的点击方法里面，去改变People的age。</li>
+<li>你就可以收到age改变时发出来的通知</li>
+<li>在对象销毁的时候，移除通知。</li>
+</ul>
+
+
+<p>iOS面试汇总：</p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/04/mian-shi-guan-wen-xian-zai-gong-zi-shi-duo-shao-gai-zen-yao-hui-da/">面试官问现在工资是多少该怎么回答?</a></p>
+
+<ul>
+<li>关注公众号iOS开发：<strong>iOSDevTip</strong> 获取更多面试技巧。</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
       
-        <!-- JiaThis Button BEGIN -->
+  
+
+<span class="byline author vcard">Posted by <span class="fn">李刚</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-06T11:06:59+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:06 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/iosmian-shi/'>ios面试</a>
+  
+</span>
+
+
+      <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
+<br>原文链接：<a href="http://www.superqq.com/blog/2015/06/06/ios-kvogai-shu-yu-shi-jian/">http://www.superqq.com/blog/2015/06/06/ios-kvogai-shu-yu-shi-jian/</a> <!-- 添加这一行代码 -->
+    </p>
+    
+      <!-- JiaThis Button BEGIN -->
 <div class="jiathis_style">
     <span class="jiathis_txt">分享到：</span>
     <a class="jiathis_button_tools_1"></a>
@@ -116,9 +173,14 @@
 <div id="uyan_frame"></div>
 <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1984773"></script>
 <!-- UY END -->
+    
+    <p class="meta">
       
-    </footer>
-  
+        <a class="basic-alignment left" href="/blog/2015/06/05/ios-kvcxiang-xi-jiang-jie/" title="Previous Post: iOS KVC详细讲解">&laquo; iOS KVC详细讲解</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
 </div>
@@ -130,7 +192,7 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/06/05/ios-kvogai-shu-yu-shi-jian/">iOS KVO概述</a>
+        <a href="/blog/2015/06/06/ios-kvogai-shu-yu-shi-jian/">iOS KVO概述</a>
       </li>
     
       <li class="post">
