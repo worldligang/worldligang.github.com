@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios面试 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/iosmian-shi/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-06-06T09:01:27+08:00</updated>
+  <updated>2015-06-06T10:00:41+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,51 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS KVC详细讲解]]></title>
+    <link href="http://www.superqq.com/blog/2015/06/06/ios-kvcxiang-xi-jiang-jie/"/>
+    <updated>2015-06-06T09:20:27+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/06/06/ios-kvcxiang-xi-jiang-jie</id>
+    <content type="html"><![CDATA[<blockquote><p>欢迎大家提供面试题目，我们一起来讲解，以备不时之需。</p></blockquote>
+
+<h2>什么是KVC？</h2>
+
+<p>KVC即<strong>NSKeyValueCoding</strong>，就是键-值编码的意思。一个非正式的 Protocol，是一种间接访问对象的属性使用字符串来标识属性，而不是通过调用存取方法，直接或通过实例变量访问的机制。</p>
+
+<p>以上就是KVC的理论，面试时，如实回答就可以啦！</p>
+
+<h2>使用KVC说明</h2>
+
+<ul>
+<li>KVC间接修改对象属性时，会自动判断对象属性的类型，完成相应的转换。</li>
+<li>KVC按键值路径取值时，如果对象不包含指定的键值，那么就会自动进入对象内部，查找对象属性。</li>
+<li>KVC可以嵌套按照键值路径取值。</li>
+</ul>
+
+
+<h2>KVC和KVO有什么区别？</h2>
+
+<p>上一篇文章我们讲了<a href="http://www.superqq.com/blog/2015/06/05/ios-kvogai-shu-yu-shi-jian/">iOS KVO概述</a>，有兴趣的可以看看。面试过程中，面试官问：KVC和KVO有什么区别？</p>
+
+<p>听到这个问题真的很（dan）疼，真特么想回一句，我怎么知道什么区别？当然，如果你像这么回答，面试估计到此结束啦。</p>
+
+<p>那KVC和KVO到底有什么区别呢？</p>
+
+<p>KVO是建立在KVC之上的，KVO能够观察一个对象的KVC key-path值的变化。</p>
+
+<p>iOS面试汇总：</p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/04/mian-shi-guan-wen-xian-zai-gong-zi-shi-duo-shao-gai-zen-yao-hui-da/">面试官问现在工资是多少该怎么回答?</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/05/ios-kvogai-shu-yu-shi-jian/">iOS KVO概述</a></p>
+
+<ul>
+<li>关注公众号iOS开发：<strong>iOSDevTip</strong> 获取更多面试技巧。</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS KVO概述]]></title>
