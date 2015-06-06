@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>iOS地图定位使用几个小功能 - 刚刚在线</title>
+  <title>iOS KVC详细讲解 - 刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="iOS地图定位使用几个小功能">
-  <meta name="keywords" content="iOS, 地图定位, iOS地图,  CoreLocation, 获取当前经纬度, 获取当前位置信息, 计算两个地点之间的距离, 获取某一个地点的经纬度, iOS开发, cocoapods, 个人博客, 刚刚在线">
+  <meta name="description" content="iOS KVC详细讲解,关于KVC的知识">
+  <meta name="keywords" content="iOS KVC, KVC, iOS开发, iOS, 面试,  iOS面试, cocoapods, 个人博客, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/blog/2015/05/14/iosdi-tu-ding-wei-shi-yong-xiao-ji-qiao">
+  <link rel="canonical" href="http://www.superqq.com/blog/2015/06/06/ios-kvcxiang-xi-jiang-jie">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -83,7 +83,7 @@
   
   <header>
     
-      <h1 class="entry-title">iOS地图定位使用几个小功能</h1>
+      <h1 class="entry-title">iOS KVC详细讲解</h1>
     
     
       <p class="meta">
@@ -92,140 +92,50 @@
 
 
 
-<time class='entry-date' datetime='2015-05-14T10:16:30+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:16 am</span></time>
+<time class='entry-date' datetime='2015-06-06T09:20:27+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:20 am</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>iOS系统自带的定位服务可以实现很多需求。比如：获取当前经纬度，获取当前位置信息等等。</p>
+<div class="entry-content"><blockquote><p>欢迎大家提供面试题目，我们一起来讲解，以备不时之需。</p></blockquote>
 
-<h4>获取当前经纬度</h4>
+<h2>什么是KVC？</h2>
 
-<p>首先导入#import &lt;CoreLocation/CoreLocation.h>，定义CLLocationManager的实例，实现CLLocationManagerDelegate。</p>
+<p>KVC即<strong>NSKeyValueCoding</strong>，就是键-值编码的意思。一个非正式的 Protocol，是一种间接访问对象的属性使用字符串来标识属性，而不是通过调用存取方法，直接或通过实例变量访问的机制。</p>
 
-<pre><code>@interface ViewController ()&lt;CLLocationManagerDelegate&gt;
-{
-    CLLocationManager *_locationManager;
-}
+<p>以上就是KVC的理论，面试时，如实回答就可以啦！</p>
 
-@end
-</code></pre>
+<h2>使用KVC说明</h2>
 
-<p>开始定位的方法：</p>
+<ul>
+<li>KVC间接修改对象属性时，会自动判断对象属性的类型，完成相应的转换。</li>
+<li>KVC按键值路径取值时，如果对象不包含指定的键值，那么就会自动进入对象内部，查找对象属性。</li>
+<li>KVC可以嵌套按照键值路径取值。</li>
+</ul>
 
-<pre><code>- (void)startLocating
-{
-    if([CLLocationManager locationServicesEnabled])
-    {
-        _locationManager = [[CLLocationManager alloc] init];
-        //设置定位的精度
-        [_locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
-        _locationManager.distanceFilter = 100.0f;
-        _locationManager.delegate = self;
-        if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt; 8.0)
-        {
-            [_locationManager requestAlwaysAuthorization];
-            [_locationManager requestWhenInUseAuthorization];
-        }
-        //开始实时定位
-        [_locationManager startUpdatingLocation];
-    }
-}
-</code></pre>
 
-<p>实现代理方法：</p>
+<h2>KVC和KVO有什么区别？</h2>
 
-<pre><code>-(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
-{
-    NSLog(@"Longitude = %f", manager.location.coordinate.longitude);
-    NSLog(@"Latitude = %f", manager.location.coordinate.latitude);
-    [_locationManager stopUpdatingLocation];
-}
-</code></pre>
+<p>上一篇文章我们讲了<a href="http://www.superqq.com/blog/2015/06/05/ios-kvogai-shu-yu-shi-jian/">iOS KVO概述</a>，有兴趣的可以看看。面试过程中，面试官问：KVC和KVO有什么区别？</p>
 
-<h4>获取当前位置信息</h4>
+<p>听到这个问题真的很（dan）疼，真特么想回一句，我怎么知道什么区别？当然，如果你像这么回答，面试估计到此结束啦。</p>
 
-<p>在上面的代理方法中</p>
+<p>那KVC和KVO到底有什么区别呢？</p>
 
-<pre><code>-(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
-{
-    NSLog(@"Longitude = %f", manager.location.coordinate.longitude);
-    NSLog(@"Latitude = %f", manager.location.coordinate.latitude);
-    [_locationManager stopUpdatingLocation];
+<p>KVO是建立在KVC之上的，KVO能够观察一个对象的KVC key-path值的变化。</p>
 
-    CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
-    [geoCoder reverseGeocodeLocation:manager.location completionHandler:^(NSArray *placemarks, NSError *error) {
-        for (CLPlacemark * placemark in placemarks) {
-            NSDictionary *test = [placemark addressDictionary];
-            //  Country(国家)  State(城市)  SubLocality(区)
-            NSLog(@"%@", [test objectForKey:@"Country"]);
-            NSLog(@"%@", [test objectForKey:@"State"]);
-            NSLog(@"%@", [test objectForKey:@"SubLocality"]);
-            NSLog(@"%@", [test objectForKey:@"Street"]);
-        }
-    }];
+<p>iOS面试汇总：</p>
 
-}
-</code></pre>
+<p><a href="http://www.superqq.com/blog/2015/06/04/mian-shi-guan-wen-xian-zai-gong-zi-shi-duo-shao-gai-zen-yao-hui-da/">面试官问现在工资是多少该怎么回答?</a></p>
 
-<p>这样就很简单获取了当前位置的详细信息。</p>
+<p><a href="http://www.superqq.com/blog/2015/06/05/ios-kvogai-shu-yu-shi-jian/">iOS KVO概述</a></p>
 
-<h4>获取某一个地点的经纬度</h4>
+<ul>
+<li>关注公众号iOS开发：<strong>iOSDevTip</strong> 获取更多面试技巧。</li>
+</ul>
 
-<pre><code>- (void)getLongitudeAndLatitudeWithCity:(NSString *)city
-{
-    //city可以为中文
-    NSString *oreillyAddress = city;
-    CLGeocoder *myGeocoder = [[CLGeocoder alloc] init];
-    [myGeocoder geocodeAddressString:oreillyAddress completionHandler:^(NSArray *placemarks, NSError *error) {
-        if ([placemarks count] &gt; 0 &amp;&amp; error == nil)
-        {
-            NSLog(@"Found %lu placemark(s).", (unsigned long)[placemarks count]);
-            CLPlacemark *firstPlacemark = [placemarks objectAtIndex:0];
-            NSLog(@"Longitude = %f", firstPlacemark.location.coordinate.longitude);
-            NSLog(@"Latitude = %f", firstPlacemark.location.coordinate.latitude);
-        }
-        else if ([placemarks count] == 0 &amp;&amp; error == nil)
-        {
-            NSLog(@"Found no placemarks.");
-        }
-        else if (error != nil)
-        {
-            NSLog(@"An error occurred = %@", error);
-        }
-    }];
-}
-</code></pre>
-
-<h4>计算两个地点之间的距离</h4>
-
-<pre><code>- (double)distanceByLongitude:(double)longitude1 latitude:(double)latitude1 longitude:(double)longitude2 latitude:(double)latitude2{
-    CLLocation* curLocation = [[CLLocation alloc] initWithLatitude:latitude1 longitude:longitude1];
-    CLLocation* otherLocation = [[CLLocation alloc] initWithLatitude:latitude2 longitude:longitude2];
-    double distance  = [curLocation distanceFromLocation:otherLocation];//单位是m
-    return distance;
-}
-</code></pre>
-
-<p>首先我们可以用上面的getLongitudeAndLatitudeWithCity方法获取某一个地点的经纬度。比如我们获取北京和上海的经纬度分别为：北京Longitude = 116.405285，Latitude = 39.904989 上海Longitude = 121.472644， Latitude = 31.231706, 那么北京和上海之间的距离就是：</p>
-
-<pre><code>double distance = [self distanceByLongitude:116.405285 latitude:39.904989 longitude:121.472644 latitude:31.231706];
-NSLog(@"Latitude = %f", distance);
-</code></pre>
-
-<p>计算的是大概的距离，可能没有那么精准。输入结果为：</p>
-
-<pre><code>distance = 1066449.749194
-</code></pre>
-
-<p>代码下载地址:<a href="https://github.com/worldligang/MapDistanceMaster.git"target="_blank"title="MapDistanceMaster">MapDistanceMaster</a></p>
-
-<p>更多iOS技术请关注微信iOS开发</p>
-
-<pre><code>iOSDevTip
-</code></pre>
 </div>
 
 
@@ -241,18 +151,18 @@ NSLog(@"Latitude = %f", distance);
 
 
 
-<time class='entry-date' datetime='2015-05-14T10:16:30+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:16 am</span></time>
+<time class='entry-date' datetime='2015-06-06T09:20:27+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:20 am</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/ioskai-fa/'>ios开发</a>
+    <a class='category' href='/blog/categories/iosmian-shi/'>ios面试</a>
   
 </span>
 
 
       <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
-<br>原文链接：<a href="http://www.superqq.com/blog/2015/05/14/iosdi-tu-ding-wei-shi-yong-xiao-ji-qiao/">http://www.superqq.com/blog/2015/05/14/iosdi-tu-ding-wei-shi-yong-xiao-ji-qiao/</a> <!-- 添加这一行代码 -->
+<br>原文链接：<a href="http://www.superqq.com/blog/2015/06/06/ios-kvcxiang-xi-jiang-jie/">http://www.superqq.com/blog/2015/06/06/ios-kvcxiang-xi-jiang-jie/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -277,10 +187,8 @@ NSLog(@"Latitude = %f", distance);
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/04/25/iosdiao-yong-xi-tong-fa-duan-xin-gong-neng-xiang-jie/" title="Previous Post: iOS调用系统发短信功能详解">&laquo; iOS调用系统发短信功能详解</a>
+        <a class="basic-alignment left" href="/blog/2015/06/05/ios-kvogai-shu-yu-shi-jian/" title="Previous Post: iOS KVO概述">&laquo; iOS KVO概述</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/05/22/iosxie-yi-li-mian-ke-yi-ding-yi-cheng-yuan-bian-liang-he-shu-xing-ma-%3F/" title="Next Post:  iOS协议里面可以定义成员变量和属性吗？"> iOS协议里面可以定义成员变量和属性吗？ &ra/categories.htmlquo;</a>
       
     </p>
   </footer>
