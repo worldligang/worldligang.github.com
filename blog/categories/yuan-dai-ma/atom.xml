@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 源代码 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/yuan-dai-ma/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-06-08T10:12:36+08:00</updated>
+  <updated>2015-06-09T17:57:31+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -198,6 +198,18 @@
 <p><a href="https://gist.github.com/dsibilly/1038500"target="_blank"title="iOS开发">NSString+UsefulShit</a></p>
 
 <p>Objective-C category 示范</p>
+
+<p><strong>更多源代码：</strong></p>
+
+<p><a href="http://www.superqq.com/blog/2015/01/07/paperfold-for-ios/">PaperFold-for-iOS</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/01/07/dkcirclebutton/">DKCircleButton</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/01/07/twittercover/">TwitterCover</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/01/07/hackernews/">HackerNews</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/01/06/gpuimage/">GPUImage</a></p>
 ]]></content>
   </entry>
   
@@ -338,6 +350,18 @@ You can check out his <a href="https://github.com/Dillion/iOS-Flip-Transform">iO
 <a href="http://honcheng.com">honcheng.com</a></p>
 
 <p><img src="http://www.cocoacontrols.com/analytics/honcheng/paperfold-for-ios.png" alt="" /></p>
+
+<p><strong>更多源代码：</strong></p>
+
+<p><a href="http://www.superqq.com/blog/2015/01/07/dkcirclebutton/">DKCircleButton</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/01/07/twittercover/">TwitterCover</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/01/07/hackernews/">HackerNews</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/01/06/gpuimage/">GPUImage</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/01/06/pop/">Pop</a></p>
 ]]></content>
   </entry>
   
@@ -456,6 +480,16 @@ UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds]
 <h2>Lincense</h2>
 
 <p><code>TwitterCover</code> is available under the MIT license. See the LICENSE file for more info.</p>
+
+<p><strong>更多源代码：</strong></p>
+
+<p><a href="http://www.superqq.com/blog/2015/01/07/dkcirclebutton/">DKCircleButton</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/01/06/vvdocumenter-xcode/">VVDocumenter-Xcode</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/01/07/hackernews/">HackerNews</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/01/06/gpuimage/">GPUImage</a></p>
 ]]></content>
   </entry>
   
