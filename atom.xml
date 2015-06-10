@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-06-09T18:57:28+08:00</updated>
+  <updated>2015-06-10T15:17:59+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,136 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS 设计模式系列：开篇]]></title>
+    <link href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/"/>
+    <updated>2015-06-10T15:10:13+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian</id>
+    <content type="html"><![CDATA[<p>原文地址：<a href="http://www.raywenderlich.com/46988/ios-design-patterns">iOS Design Patterns</a></p>
+
+<p>原文作者：Eli Ganem</p>
+
+<blockquote><p>有些专业词汇很难翻译准确，就不翻译了。如果英文阅读没有障碍，还是鼓励大家都读原作。</p></blockquote>
+
+<p>iOS 设计模式 – 你大概经常听过这样的术语，但是你知道它的真正意思吗？虽然大部分开发者都同意设计模式很重要，但是关于这方面的文章却很少，开发者在写代码的时候，有时候并不会去花很多时间去考虑设计模式。</p>
+
+<p>设计模式的功能是在软件设计当中是解决一些重复的公共问题。他们是一些模板来帮助你更容易的书写代码和复用你的代码。他们还可能帮助你创建低耦合的代码，你可以很轻松的修改和替换其中的组件。</p>
+
+<p>如果你已经很熟习设计模式了，我这里有一些好的建议。首先，你已经使用了大量由 Cocoa 创建 iOS 设计模式，同时最好的练习就是去使用她们。第二，这个教程将带给你全面了解所有最新的 iOS 设计模式，她们一般都是由 Cocoa 编写的。</p>
+
+<p>这个教程被分成几个小节。在每一个小节里， 你都能在下面读到说明：</p>
+
+<ul>
+<li>什么是设计模式</li>
+<li>为什么你应该用她</li>
+<li>怎么用，在哪里用，在使用当中如何注意一些常见的陷阱</li>
+</ul>
+
+
+<p>在这个教程中，你将要创建一个音乐库的 APP，它能够显示你的音乐专辑和一些相关信息。</p>
+
+<p>在开发这个 APP 的过程当中，你将会了解到很多常见的 Cocoa 设计模式。</p>
+
+<ul>
+<li>创建 (Creational)：单例 (Singleton)和抽象工厂 (Abstract Factory)</li>
+<li>结构 (Structural)：MVC，装饰器 (Decorator)，适配器 （Adapter)，外观 (Facade)和复合器 (Composite)</li>
+<li>行为 (Behavioral)：观察者 (Observer)，备忘录 (Memento)，责任链 (Chain of Responsibility)和命令 (Command)</li>
+</ul>
+
+
+<p>不要被带偏了，这只是一篇理论文章；你将会在你的音乐 APP 中使用很多的设计模式。在这个教程的最后，你的 APP 看来应该是像这个样子的：</p>
+
+<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2013/07/finalapp-180x320.png" alt="icon" /></p>
+
+<h3>入门指南</h3>
+
+<p>下载 <a href="cdn2.raywenderlich.com/wp-content/uploads/2013/07/BlueLibrary-Starter.zip">启动项目</a>，从 ZIP 文件中提取文件，用 Xcode 打开 BlueLibrary.xcodeproj。</p>
+
+<p>这没有多少文件，仅仅只有一个默认的 ViewController 文件和一个空的可执行的简单 HTTP 客户端。</p>
+
+<pre><code>提示：你知道吗，当你创建一个新的 Xcode 项目的时候，你的代码已经使用被设计模式？MVC，代理，协议，单例模式 ─ 这些你都能免费得到！:]
+</code></pre>
+
+<p>在你开始研究第一个设计模式时，你必须创建两个类用于存储和显示专集数据。</p>
+
+<p>从”File\New\File…”（或者使用快捷键 Command + N）。选择 iOS > Cocoa Touch，然后选择 Objective-C class 后点击 Next。设置类的名称为 Album，子类为 NSObject。点击 Next 创建。</p>
+
+<p>打开 Album.h 文件，在 @interface 和 @end 这间添加下面的属性和方法原型：</p>
+
+<pre><code>@propery (nonatomic, copy, readonly) NSString *title, *artist, * genre, *coverUrl, *year;
+- (id)initWithTitle:(NSString *)title artist:(NSString *)artist coverUrl:(NSString *)coverUrl year:(NSString *)year;
+</code></pre>
+
+<p>注意这里的所有属性都是 readonly，Album 对象被创建后是不能够被修改的。</p>
+
+<p>这个方法是用来初始化对象的。当你创建一个新专辑时，需要提供专辑名称，作者，封面 URL 和年份。</p>
+
+<p>现在打开 Album.m 文件然后在 @implementation 和 @end 之间加入如下代码：</p>
+
+<pre><code>- (id)initWithTitle:(NSString*)title artist:(NSString*)artist coverUrl:(NSString*)coverUrl
+{
+    self = [super init];
+    _title = title;
+    _artist = artist;
+    _coverUrl = coverUrl;
+    _year = year;
+    _genre = @"Pop";
+    return self;
+}
+</code></pre>
+
+<p>这里没有什么复杂的，只是一个简单的创建 Album 实例的初始化方法。</p>
+
+<p>现次从菜单 File\New\File 选择中 Cocoa Touch，然后选择 Object-C class，点击 Next。设置类的名称为 AlbumView，子类为 UIView。点击 Next 创建文件。</p>
+
+<pre><code>提示：如果你会使用快捷键，创建这些会更容易，Command+N 创建新文件，Command+Option+N 创建新的文件夹，Command+B 创建新项目，Command+R 运行项目。
+</code></pre>
+
+<p>打开 AlbumView.h，在 @interface 和 @end 中 添加一个方法原型</p>
+
+<pre><code>- (id)initWithFrame:(CGRect)fram albumCover:(NSString*)albumCover;
+</code></pre>
+
+<p>现在打开 AlbumView.m 文件，用下面代码替换 @implementaton 后面的所有代码：</p>
+
+<pre><code>@implementation AlbumView
+{
+    UIImageView *coverImage;
+    UIActivityIndicatorView *indicator;
+}
+
+- (id)initWithFrame:(CGRect)frame albumCover:(NSString*)albumCover
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.backgroundColor = [UIColor blackColor];
+        // the coverImage has a 5 pixels margin from its frame
+        coverImage = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, frame.size.width-10, frame.size.height-10)];
+        [self addSubview:coverImage];
+
+        indicator = [[UIActivityIndicatorView alloc] init];
+        indicator.center = self.center;
+        indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+        [indicator startAnimating];
+        [self addSubview:indicator];
+        }
+    return self;
+}
+
+@end
+</code></pre>
+
+<p>第一个需要注意的地方是 coverImage 是一个实例变量。这个变量代表专集的封面图片。第二个变量是一个提示器，在封面图片开始下载的时候提示用户正在下载。</p>
+
+<p>在初始化的过程中你需要设置背景为黑色，创建一个比封面图片大 5px 的图片视图，再创建和添加一个活动指示器。</p>
+
+<pre><code>提示：为什么私有变量定义在执行文件而不是定义在接口文件？这是因为其它外部类不需要知道 AlbumView 类里的这些变量，这些变量只会在这个类的内部方法中使用到。如果你要开发一些库或者框架给别的开发者使用，遵守这个习俗是非常重要的。
+</code></pre>
+
+<p>Build 你的项目确保所有代码都能构运行。没有问题？你的第一个设计模式已经准备好了。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[SDWebImage加载图片缓存图片]]></title>
@@ -2472,168 +2602,6 @@ static LGManagerCenter *managerCenter;
 <p><a href="http://www.superqq.com/blog/2015/01/07/hackernews/">HackerNews</a></p>
 
 <p><a href="http://www.superqq.com/blog/2015/01/06/gpuimage/">GPUImage</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS开发之手势识别汇总]]></title>
-    <link href="http://www.superqq.com/blog/2015/01/14/ioskai-fa-zhi-shou-shi-shi-bie-hui-zong/"/>
-    <updated>2015-01-14T10:40:02+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/01/14/ioskai-fa-zhi-shou-shi-shi-bie-hui-zong</id>
-    <content type="html"><![CDATA[<p>iOS开发中手势识别有六种：</p>
-
-<p>轻击手势（TapGestureRecognizer）,</p>
-
-<p>轻扫手势 （SwipeGestureRecognizer）,</p>
-
-<p>长按手势（LongPressGestureRecognizer）,</p>
-
-<p>拖动手势（PanGestureRecognizer）,</p>
-
-<p>捏合手势（PinchGestureRecognizer）,</p>
-
-<p>旋转手势（RotationGestureRecognizer）,</p>
-
-<h3>1，轻击手势（TapGestureRecognizer）</h3>
-
-<pre><code>UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
-tapGesture.numberOfTapsRequired = 1; //点击次数
-tapGesture.numberOfTouchesRequired = 1; //点击手指数
-[self.view addGestureRecognizer:tapGesture];
-
-//轻击手势触发方法
--(void)tapGesture:(UITapGestureRecognizer *)sender
-{
-    //your code
-}
-</code></pre>
-
-<h3>2，长按手势（LongPressGestureRecognizer）</h3>
-
-<pre><code>UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGesture:)];
-//设置长按时间
-longPressGesture.minimumPressDuration = 0.5;
-[self.view addGestureRecognizer:longPressGesture];
-
-//长按手势触发方法
--(void)longPressGesture:(id)sender
-{
-    UILongPressGestureRecognizer *longPress = sender;
-    if (longPress.state == UIGestureRecognizerStateBegan)
-    {
-       //your code
-    }
-}
-
-说明：长按手势的常用状态如下
-
-开始：UIGestureRecognizerStateBegan
-
-改变：UIGestureRecognizerStateChanged
-
-结束：UIGestureRecognizerStateEnded
-
-取消：UIGestureRecognizerStateCancelled
-
-失败：UIGestureRecognizerStateFailed
-</code></pre>
-
-<h3>3，轻扫手势（SwipeGestureRecognizer）</h3>
-
-<pre><code>UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGesture:)];
-//设置轻扫的方向
-swipeGesture.direction = UISwipeGestureRecognizerDirectionRight; //向右
-[self.view addGestureRecognizer:swipeGesture];
-
-UISwipeGestureRecognizer *swipeGestureLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGesture:)];
-//设置轻扫的方向
-swipeGestureLeft.direction = UISwipeGestureRecognizerDirectionLeft; //向左
-[self.view addGestureRecognizer:swipeGestureLeft];
-
-//轻扫手势触发方法
--(void)swipeGesture:(id)sender
-{
-
-    UISwipeGestureRecognizer *swipe = sender;
-
-    if (swipe.direction == UISwipeGestureRecognizerDirectionLeft)
-    {
-        //向左轻扫
-    }
-
-    if (swipe.direction == UISwipeGestureRecognizerDirectionRight)
-    {
-        //向右轻扫
-    }
-}
-</code></pre>
-
-<h3>4，捏合手势（PinchGestureRecognizer）</h3>
-
-<pre><code>UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchGesture:)];
-[self.view addGestureRecognizer:pinchGesture];
-
-    ////捏合手势触发方法
--(void) pinchGesture:(id)sender
-{
-    UIPinchGestureRecognizer *gesture = sender;
-    //手势改变时
-    if (gesture.state == UIGestureRecognizerStateChanged)
-    {
-         //捏合手势中scale属性记录的缩放比例
-        _imageView.transform = CGAffineTransformMakeScale(gesture.scale, gesture.scale);
-    }
-
-    //结束后恢复
-    if(gesture.state==UIGestureRecognizerStateEnded)
-    {
-        [UIView animateWithDuration:0.5 animations:^{
-            _imageView.transform = CGAffineTransformIdentity;//取消一切形变
-        }];
-    }
-}
-</code></pre>
-
-<h3>5，拖动手势（PanGestureRecognizer）</h3>
-
-<pre><code>UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGesture:)];
-[self.view addGestureRecognizer:panGesture];
-
-//拖动手势触发方法
--(void) panGesture:(id)sender
-{
-    UIPanGestureRecognizer *panGesture = sender;
-    CGPoint movePoint = [panGesture translationInView:self.view];
-    //your code
-}
-</code></pre>
-
-<h3>6，旋转手势（RotationGestureRecognizer）</h3>
-
-<pre><code>UIRotationGestureRecognizer *rotationGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotationGesture:)];
-[self.view addGestureRecognizer:rotationGesture];
-
-//旋转手势触发方法
--(void)rotationGesture:(id)sender
-{
-    UIRotationGestureRecognizer *gesture = sender;
-    if (gesture.state==UIGestureRecognizerStateChanged)
-    {
-        _imageView.transform=CGAffineTransformMakeRotation(gesture.rotation);
-    }
-    if(gesture.state==UIGestureRecognizerStateEnded)
-    {
-        [UIView animateWithDuration:1 animations:^{
-            _imageView.transform=CGAffineTransformIdentity;//取消形变
-        }];
-    }
-}
-</code></pre>
-
-<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
 ]]></content>
   </entry>
   
