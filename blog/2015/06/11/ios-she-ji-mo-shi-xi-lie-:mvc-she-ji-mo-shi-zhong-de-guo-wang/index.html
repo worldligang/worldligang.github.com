@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>VVDocumenter-Xcode - 刚刚在线</title>
+  <title>iOS 设计模式系列：MVC – 设计模式中的国王 - 刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="VVDocumenter-Xcode">
-  <meta name="keywords" content="VVDocumenter-Xcode, 源代码, Cocoapods, VVDocumenter, Xcode, 插件, Xcode插件, iOS, iOS开发, cocoapods, 个人博客, 刚刚在线">
+  <meta name="description" content="iOS 设计模式系列：MVC、Singleton – 单例模式、Facade – 外观模式、Decorator – 装饰器模式、Adapter – 适配器模式、Observer – 观察者模式、Memento – 备忘录模式、Archiving – 归档模式、Command – 命令模式">
+  <meta name="keywords" content="设计模式, MVC, 单例模式, 外观模式, 装饰器模式, 适配器模式, 观察者模式,备忘录模式,归档模式,命令模式, cocoapods, 个人博客, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/blog/2015/01/06/vvdocumenter-xcode">
+  <link rel="canonical" href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -74,7 +74,7 @@
   
   <header>
     
-      <h1 class="entry-title">VVDocumenter-Xcode</h1>
+      <h1 class="entry-title">iOS 设计模式系列：MVC – 设计模式中的国王</h1>
     
     
       <p class="meta">
@@ -83,91 +83,57 @@
 
 
 
-<time class='entry-date' datetime='2015-01-06T13:44:56+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:44 pm</span></time>
+<time class='entry-date' datetime='2015-06-11T13:41:20+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:41 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+<div class="entry-content"><p><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2013/07/mvcking.png" alt="icon" /></p>
 
-<pre><code>iOSDevTip
-</code></pre>
+<p>模型(Model) 视图(View) 控制器(Controller) (MVC) 是 Cocoa 中的一种行为模块，并且也是所有 Cocoa 设计模式中使用最多的。在程序中按照它们的角色来分类这些对象并且鼓励你的基础代码也按照这个来划分。</p>
 
-<p> <a href="https://github.com/worldligang/VVDocumenter-Xcode.git"target="_blank"title="源代码">源代码</a></p>
-
-<h1>VVDocumenter-Xcode <a href="https://travis-ci.org/onevcat/VVDocumenter-Xcode"><img src="https://api.travis-ci.org/onevcat/VVDocumenter-Xcode.svg" alt="Build Status" /></a> <a href="https://flattr.com/submit/auto?user_id=onevcat&url=https%3A%2F%2Fgithub.com%2Fonevcat%2FVVDocumenter-Xcode" target="_blank"><img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0"></a></h1>
-
-<hr />
-
-<h2>What is this?</h2>
-
-<p>Writing document is so important for developing, but it is really painful with Xcode. Think about how much time you are wasting in pressing &lsquo;*&rsquo; or &lsquo;/&rsquo;, and typing the parameters again and again. Now, you can find the method (or any code) you want to document to, and type in <code>///</code>, the document will be generated for you and all params and return will be extracted into a Javadoc style, which is compatible with <a href="https://github.com/tomaz/appledoc">appledoc</a>, <a href="http://www.stack.nl/~dimitri/doxygen/">Doxygen</a> and <a href="https://developer.apple.com/library/mac/documentation/DeveloperTools/Conceptual/HeaderDoc/intro/intro.html">HeaderDoc</a>. You can just fill the inline placeholder tokens to finish your document.</p>
-
-<p>Here is an image which can show what it exactly does.</p>
-
-<p><img src="https://raw.github.com/onevcat/VVDocumenter-Xcode/master/ScreenShot.gif" alt="Screenshot" /></p>
-
-<blockquote><p>By the way, it also supports <a href="https://developer.apple.com/swift/">Swift</a> now. Cheers!</p></blockquote>
-
-<p><img src="https://raw.github.com/onevcat/VVDocumenter-Xcode/master/vvdocumenter-swift.gif" alt="Screenshot" /></p>
-
-<h2>How to install and use?</h2>
-
-<p><del>The best way of installing is by <a href="http://alcatraz.io">Alcatraz</a>. Install Alcatraz followed by the instruction, restart your Xcode and press <code>⇧⌘9</code>. You can find <code>VVDocumenter-Xcode</code> in the list and click the icon on left to install.</del> Some users reported the setting panel <a href="https://github.com/supermarin/Alcatraz/issues/196">can not be opened</a> if installing from Alcatraz, so I suggest to build the plugin yourself until this issue get fixed.</p>
-
-<p>If you do not like the Alcatraz way, you can also clone the repo. Then build the <code>VVDocumenter-Xcode</code> target in the Xcode project and the plug-in will automatically be installed in <code>~/Library/Application Support/Developer/Shared/Xcode/Plug-ins</code>. Relaunch Xcode and type in <code>///</code> above any code you want to write a document to.</p>
-
-<p>If you want to use other text beside of <code>///</code> to trigger the document insertion, you can find a setting panel by clicking <code>VVDocument</code> in the Window menu of Xcode. You can also find some other useful options there, including setting using spaces instead of tab in the panel or changing the format of generated documentation.</p>
-
-<h2>Xcode version?</h2>
-
-<p>This plug-in is supported in Xcode 5 and 6 (current beta). From Xcode 5, Apple added a UUID-verification to all plugins to ensure the stability when Xcode gets updated. The value of <code>DVTPlugInCompatibilityUUIDs</code> in project plist should contains current UUID of Xcode version, or the plugin does not work. Once you update your Xcode, the plugin might be disabled and you should check the newest version and built it again.</p>
-
-<p>The default deployment target is 10.8. If you want to use it in a earlier OS version, you should change OS X Deployment Target (in project info setting) to your system version.</p>
-
-<h2>Swift Support</h2>
-
-<p>Yes, this plugin supports documentation for Swift now. Check <a href="http://nshipster.com/swift-documentation/">this post</a> from @mattt to see how to write the documentation for swift. By using <code>VVDocumenter-Xcode</code>, you can just type <code>///</code> to make the magic happen.</p>
-
-<h2>Limitations and Future</h2>
-
-<p>The plugin is using simulation of keyboard event to insert the doc comments for you. So it is depending the keyboard shortcut of Xcode. These two kinds of operation are being used:</p>
+<p>这三种角色是：</p>
 
 <ul>
-<li>Delete to Beginning of the Line (⌘⌫)</li>
-<li>Paste (⌘V)</li>
+<li>模型：这是一种暂时保存你程序数据和定义如何操作它的对象。一个例子，在你的程序中 Album 类就是一个模型。</li>
+<li>视图：这种对象是控制模型里的数据如何显示出来的，用户也可操作这些对象；事实上，包含所有的 UIView 和他们的子类。在你的程序中视图是 AlbumView 类。</li>
+<li>控制器：控制器是一个中介者协调所有的工作。他使数据从模型传出来然后显示在视图上，监听事件，在必要的时候操作数据。你能猜到哪个类你的控制器吗？对了，它就是 ViewController。</li>
 </ul>
 
 
-<p>If you have modified these two shortcuts in your Xcode, the newset version of the plugin would not work correctly. Instead, you can use a earlier version such as <a href="https://github.com/onevcat/VVDocumenter-Xcode/tree/03c4169ff79b618b9fd3db93dd96652a522ad3e0">this one(commit 03c4169ff7)</a>. Be causion you may suffer an <a href="https://github.com/onevcat/VVDocumenter-Xcode/issues/3">undo and redo issue </a>.</p>
+<p>在你的程序中一个好的设计模式的实现意味者所有的对象都在这些群组中。</p>
 
-<p><code>VVDocumenter-Xcode</code> is now using regular expression to extract things needed, which is not the best way to do such thing. A better approach could be using the AST, and I also have a plan to do it later if I have some more time :)</p>
+<p>下图很好的描述了视图和模型之间的通信过程：</p>
 
-<h2>License</h2>
+<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2013/07/mvc0.png" alt="icon" /></p>
 
-<p>VVDocumenter is published under MIT License</p>
+<p>当有数据发生改变的时候模型通知控制器，然后控制器更新视图数据。 反过来，当用户在视图执行一些操作后，视图会通知控制器，如果有需要或是要取回请求数据，控制器也会更新模型或者。</p>
 
-<pre><code>Copyright (c) 2014 Wei Wang (@onevcat)
+<p>你可能想我为什么不能丢掉控制器，在同一个类里实现视图和模型，这样看起来更简单。</p>
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to use,
-copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
-Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
+<p>归根结底，这是为是分离代码和提高代码的可重用性。理想状态下视图应该完全从模型中分离出来。如果视图不依赖一个特殊的模型来实现，那么另外一个模型就可以重复利用这个视图显示一些其它不同的数据。</p>
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+<p>举一个例子，在将来某一天你想在你的音乐库中加入一些电影或者一些书，你可以继续使用原来的 AlbumView 视图来显示这个电影或者图书对象。此外，如果你想创建一个新项目，这个项目中的一些东西跟音乐专辑有关，你可以很简单的拿来重用 Album 类，因为它不依赖于其它任何视图。这就是 MVC 的精髓所在。</p>
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-</code></pre>
+<h3>如何使用 MVC 模式</h3>
+
+<p>首先，你要保证在你的项目中任何一个类都有一个控制器，一个模型，一个视图，一个类中的函数不能有两种作用。到目前为至，你已经完成了一项很棒的工作，创建了一个 Album 类和一个 AlbumView 类。</p>
+
+<p>第二步，根据这些方法的作用你应该创建三个文件夹，来存放不同类别的代码，每种类型一个文件夹。</p>
+
+<p>在菜单上选择 File\New\Group (或者按 Command+Option+N) ，创建名称为 Model，重复上面的动作，创建 View 和 Controller 文件夹。</p>
+
+<p>现在拖动 Album.h 和 Album.m 文件到 Model 文件夹。拖动 AlbumView.h 和 AlbumView.m 文件到 View 文件夹，最后拖动 ViewController.h 和 ViewController.m 文件到 Controller 文件夹中。</p>
+
+<p>现在，项目文件的结构目录应该是这个样子的：</p>
+
+<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2013/07/mvc2-255x320.png" alt="icon" /></p>
+
+<p>如果没有其它的文件漂在外面，你的项目看起来已经非常棒了。显然你还可能有其它的文件夹和类，但是你程序的核心内容应该包含在这三个分类中。</p>
+
+<p>现在你的文件已经组织好了，你需要从其它地方获取专辑数据了。你需要创建一个 API 类用来管理你的代码的数据来源 — 现在是机会开始讨论下一个设计模式了 — 单例模式(The Singleton Pattern)。</p>
 </div>
 
 
@@ -183,18 +149,18 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 
-<time class='entry-date' datetime='2015-01-06T13:44:56+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:44 pm</span></time>
+<time class='entry-date' datetime='2015-06-11T13:41:20+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:41 pm</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/yuan-dai-ma/'>源代码</a>
+    <a class='category' href='/blog/categories/ioskai-fa/'>ios开发</a>
   
 </span>
 
 
       <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
-<br>原文链接：<a href="http://www.superqq.com/blog/2015/01/06/vvdocumenter-xcode/">http://www.superqq.com/blog/2015/01/06/vvdocumenter-xcode/</a> <!-- 添加这一行代码 -->
+<br>原文链接：<a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -219,10 +185,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/01/05/pushtalk/" title="Previous Post: PushTalk">&laquo; PushTalk</a>
+        <a class="basic-alignment left" href="/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/" title="Previous Post: iOS 设计模式系列：开篇">&laquo; iOS 设计模式系列：开篇</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/01/06/pop/" title="Next Post: pop">pop &ra/categories.htmlquo;</a>
       
     </p>
   </footer>

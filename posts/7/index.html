@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>DKCircleButton - 刚刚在线</title>
+  <title>刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="DKCircleButton">
-  <meta name="keywords" content="DKCircleButton, 源代码, Cocoapods, iPhone, Xcode, Demo, kronik, iOS, iOS开发, cocoapods, 个人博客, 刚刚在线">
+  <meta name="description" content="2年iOS开发站长，优秀iOS开发博客之一。关注iOS开发、swift开发、iOSDevTip、移动互联网、自媒体、Cocoapods、Xcode、iOS，刚刚在线博客是一个值得收藏的网站！">
+  <meta name="keywords" content="iOS,iOS开发,cocoapods,code,iOS代码, 源代码, 刚刚在线,iOS李刚, pointInside, 刚刚, hitTest, Objective-c,李刚博客">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/blog/2015/01/07/dkcirclebutton">
+  <link rel="canonical" href="http://www.superqq.com/posts/7">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -69,12 +69,15 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div>
-<article class="hentry" role="article">
+      <div class="blog-index">
   
+  
+  
+    <article>
+      
   <header>
     
-      <h1 class="entry-title">DKCircleButton</h1>
+      <h1 class="entry-title"><a href="/blog/2014/09/26/ios/">刚刚在线正式上线</a></h1>
     
     
       <p class="meta">
@@ -83,136 +86,52 @@
 
 
 
-<time class='entry-date' datetime='2015-01-07T14:48:23+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:48 pm</span></time>
+<time class='entry-date' datetime='2014-09-26T11:10:05+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:10 am</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+  <div class="entry-content"><p><a href="http://www.superqq.com/blog/2014/09/26/ios/">刚刚在线正式上线</a></p>
+
+<p>大家好！</p>
+
+<p>我是<a href="http://www.superqq.com/blog/2014/09/26/ios/">刚刚在线</a>
+的作者刚刚</p>
+
+<p>以后就在这里跟大家分享一些东西</p>
+
+<p>下面两种方式参与学习讨论：</p>
+
+<p>1，我的微信公众账号：iOS开发</p>
 
 <pre><code>iOSDevTip
 </code></pre>
 
-<p> <a href="https://github.com/kronik/DKCircleButton.git"target="_blank"title="源代码">源代码</a></p>
+<p>（扫描二维码直接关注）</p>
 
-<h1> DKCircleButton</h1>
+<p><img src="http://www.superqq.com/images/getqrcode.jpg" ></p>
 
-<p>Sources of DKCircleButton and Demo app to show circle button tap effect.</p>
+<p>2，我建立的QQ群：iOS学习交流群</p>
 
-<h2>Download</h2>
-
-<pre><code>$ git clone https://github.com/kronik/DKCircleButton.git
-$ cd DKCircleButton/
+<pre><code>303868520
 </code></pre>
-
-<h2>Usage</h2>
-
-<p>Please check out the demo project included.</p>
-
-<h1><img src="https://raw.github.com/kronik/DKCircleButton/master/example.gif" alt="Screenshot" /></h1>
-
-<h3>Initialization</h3>
-
-<p>Like a regular custom UIButton</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span> <span class="p">{</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">DKCircleButton</span> <span class="o">*</span><span class="n">button1</span> <span class="o">=</span> <span class="p">[[</span><span class="n">DKCircleButton</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">)];</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">button1</span><span class="p">.</span><span class="n">center</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="mi">160</span><span class="p">,</span> <span class="mi">200</span><span class="p">);</span>
-</span><span class='line'>  <span class="n">button1</span><span class="p">.</span><span class="n">titleLabel</span><span class="p">.</span><span class="n">font</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIFont</span> <span class="nl">systemFontOfSize</span><span class="p">:</span><span class="mi">22</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Toggle animation mode</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="n">button1</span><span class="p">.</span><span class="n">animateTap</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Requirements</h2>
-
-<p>Supported build target - iOS 7.x
-Earliest supported deployment target - iOS 7.0</p>
-
-<h2>License</h2>
-
-<p>DKCircleButton is available under the MIT license. See the LICENSE file for more info.</p>
 </div>
-
-
-  <footer>
-    <p class="meta">
-      
+  
   
 
-<span class="byline author vcard">Posted by <span class="fn">李刚</span></span>
 
-      
-
-
-
-
-<time class='entry-date' datetime='2015-01-07T14:48:23+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:48 pm</span></time>
-      
-
-<span class="categories">
+    </article>
   
-    <a class='category' href='/blog/categories/yuan-dai-ma/'>源代码</a>
-  
-</span>
-
-
-      <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
-<br>原文链接：<a href="http://www.superqq.com/blog/2015/01/07/dkcirclebutton/">http://www.superqq.com/blog/2015/01/07/dkcirclebutton/</a> <!-- 添加这一行代码 -->
-    </p>
+  <div class="pagination">
     
-      <!-- JiaThis Button BEGIN -->
-<div class="jiathis_style">
-    <span class="jiathis_txt">分享到：</span>
-    <a class="jiathis_button_tools_1"></a>
-    <a class="jiathis_button_tools_2"></a>
-    <a class="jiathis_button_tools_3"></a>
-    <a class="jiathis_button_tools_4"></a>
-    <a href="http://www.jiathis.com/share?uid=1983651" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
-    <a class="jiathis_counter_style"></a>
-</div>
-<script type="text/javascript">
-    var jiathis_config = {data_track_clickback:'true'};
-    </script>
-<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1401863435807252" charset="utf-8"></script>
-<!-- JiaThis Button END -->
-<!-- UY BEGIN -->
-<div id="uyan_frame"></div>
-<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1984773"></script>
-<!-- UY END -->
+    <a href="/blog/archives">Blog Archives</a>
     
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2015/01/07/twittercover/" title="Previous Post: TwitterCover">&laquo; TwitterCover</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2015/01/07/paperfold-for-ios/" title="Next Post: PaperFold-for-iOS">PaperFold-for-iOS &ra/categories.htmlquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
+    <a class="next" href="/posts/6">Newer &rarr;</a>
+    
+  </div>
 </div>
-
 <aside class="sidebar">
   
     <section>
@@ -304,7 +223,6 @@ Earliest supported deployment target - iOS 7.0</p>
 
   
 </aside>
-
 
     </div>
   </div>
