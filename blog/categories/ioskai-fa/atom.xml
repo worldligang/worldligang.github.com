@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-06-12T19:54:50+08:00</updated>
+  <updated>2015-06-12T20:01:54+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,196 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[iOS 设计模式系列：MVC – 设计模式中的国王]]></title>
-    <link href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/"/>
-    <updated>2015-06-11T13:41:20+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang</id>
-    <content type="html"><![CDATA[<p><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2013/07/mvcking.png" alt="icon" /></p>
-
-<p>模型(Model) 视图(View) 控制器(Controller) (<a href="http://www.superqq.com/blog/2014/11/10/qian-xi-mvche-shuo-mei-de-guo-cheng/">MVC</a>) 是 Cocoa 中的一种行为模块，并且也是所有 Cocoa 设计模式中使用最多的。在程序中按照它们的角色来分类这些对象并且鼓励你的基础代码也按照这个来划分。</p>
-
-<p>这三种角色是：</p>
-
-<ul>
-<li>模型：这是一种暂时保存你程序数据和定义如何操作它的对象。一个例子，在你的程序中 Album 类就是一个模型。</li>
-<li>视图：这种对象是控制模型里的数据如何显示出来的，用户也可操作这些对象；事实上，包含所有的 UIView 和他们的子类。在你的程序中视图是 AlbumView 类。</li>
-<li>控制器：控制器是一个中介者协调所有的工作。他使数据从模型传出来然后显示在视图上，监听事件，在必要的时候操作数据。你能猜到哪个类你的控制器吗？对了，它就是 ViewController。</li>
-</ul>
-
-
-<p>在你的程序中一个好的设计模式的实现意味者所有的对象都在这些群组中。</p>
-
-<p>下图很好的描述了视图和模型之间的通信过程：</p>
-
-<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2013/07/mvc0.png" alt="icon" /></p>
-
-<p>当有数据发生改变的时候模型通知控制器，然后控制器更新视图数据。 反过来，当用户在视图执行一些操作后，视图会通知控制器，如果有需要或是要取回请求数据，控制器也会更新模型或者。</p>
-
-<p>你可能想我为什么不能丢掉控制器，在同一个类里实现视图和模型，这样看起来更简单。</p>
-
-<p>归根结底，这是为是分离代码和提高代码的可重用性。理想状态下视图应该完全从模型中分离出来。如果视图不依赖一个特殊的模型来实现，那么另外一个模型就可以重复利用这个视图显示一些其它不同的数据。</p>
-
-<p>举一个例子，在将来某一天你想在你的音乐库中加入一些电影或者一些书，你可以继续使用原来的 AlbumView 视图来显示这个电影或者图书对象。此外，如果你想创建一个新项目，这个项目中的一些东西跟音乐专辑有关，你可以很简单的拿来重用 Album 类，因为它不依赖于其它任何视图。这就是 MVC 的精髓所在。</p>
-
-<h3>如何使用 MVC 模式</h3>
-
-<p>首先，你要保证在你的项目中任何一个类都有一个控制器，一个模型，一个视图，一个类中的函数不能有两种作用。到目前为至，你已经完成了一项很棒的工作，创建了一个 Album 类和一个 AlbumView 类。</p>
-
-<p>第二步，根据这些方法的作用你应该创建三个文件夹，来存放不同类别的代码，每种类型一个文件夹。</p>
-
-<p>在菜单上选择 File\New\Group (或者按 Command+Option+N) ，创建名称为 Model，重复上面的动作，创建 View 和 Controller 文件夹。</p>
-
-<p>现在拖动 Album.h 和 Album.m 文件到 Model 文件夹。拖动 AlbumView.h 和 AlbumView.m 文件到 View 文件夹，最后拖动 ViewController.h 和 ViewController.m 文件到 Controller 文件夹中。</p>
-
-<p>现在，项目文件的结构目录应该是这个样子的：</p>
-
-<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2013/07/mvc2-255x320.png" alt="icon" /></p>
-
-<p>如果没有其它的文件漂在外面，你的项目看起来已经非常棒了。显然你还可能有其它的文件夹和类，但是你程序的核心内容应该包含在这三个分类中。</p>
-
-<p>现在你的文件已经组织好了，你需要从其它地方获取专辑数据了。你需要创建一个 API 类用来管理你的代码的数据来源 — 现在是机会开始讨论下一个设计模式了 — 单例模式(The Singleton Pattern)。</p>
-
-<p><strong>设计模式系列文章</strong>：</p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS 设计模式系列：开篇]]></title>
-    <link href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/"/>
-    <updated>2015-06-10T15:10:13+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian</id>
-    <content type="html"><![CDATA[<p>原文地址：<a href="http://www.raywenderlich.com/46988/ios-design-patterns">iOS Design Patterns</a></p>
-
-<p>原文作者：Eli Ganem</p>
-
-<blockquote><p>有些专业词汇很难翻译准确，就不翻译了。如果英文阅读没有障碍，还是鼓励大家都读原作。</p></blockquote>
-
-<p>iOS 设计模式 – 你大概经常听过这样的术语，但是你知道它的真正意思吗？虽然大部分开发者都同意设计模式很重要，但是关于这方面的文章却很少，开发者在写代码的时候，有时候并不会去花很多时间去考虑设计模式。</p>
-
-<p>设计模式的功能是在软件设计当中是解决一些重复的公共问题。他们是一些模板来帮助你更容易的书写代码和复用你的代码。他们还可能帮助你创建低耦合的代码，你可以很轻松的修改和替换其中的组件。</p>
-
-<p>如果你已经很熟习设计模式了，我这里有一些好的建议。首先，你已经使用了大量由 Cocoa 创建 iOS 设计模式，同时最好的练习就是去使用她们。第二，这个教程将带给你全面了解所有最新的 iOS 设计模式，她们一般都是由 Cocoa 编写的。</p>
-
-<p>这个教程被分成几个小节。在每一个小节里， 你都能在下面读到说明：</p>
-
-<ul>
-<li>什么是设计模式</li>
-<li>为什么你应该用她</li>
-<li>怎么用，在哪里用，在使用当中如何注意一些常见的陷阱</li>
-</ul>
-
-
-<p>在这个教程中，你将要创建一个音乐库的 APP，它能够显示你的音乐专辑和一些相关信息。</p>
-
-<p>在开发这个 APP 的过程当中，你将会了解到很多常见的 Cocoa 设计模式。</p>
-
-<ul>
-<li>创建 (Creational)：单例 (Singleton)和抽象工厂 (Abstract Factory)</li>
-<li>结构 (Structural)：MVC，装饰器 (Decorator)，适配器 （Adapter)，外观 (Facade)和复合器 (Composite)</li>
-<li>行为 (Behavioral)：观察者 (Observer)，备忘录 (Memento)，责任链 (Chain of Responsibility)和命令 (Command)</li>
-</ul>
-
-
-<p>不要被带偏了，这只是一篇理论文章；你将会在你的音乐 APP 中使用很多的设计模式。在这个教程的最后，你的 APP 看来应该是像这个样子的：</p>
-
-<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2013/07/finalapp-180x320.png" alt="icon" /></p>
-
-<h3>入门指南</h3>
-
-<p>下载 <a href="cdn2.raywenderlich.com/wp-content/uploads/2013/07/BlueLibrary-Starter.zip">启动项目</a>，从 ZIP 文件中提取文件，用 Xcode 打开 BlueLibrary.xcodeproj。</p>
-
-<p>这没有多少文件，仅仅只有一个默认的 ViewController 文件和一个空的可执行的简单 HTTP 客户端。</p>
-
-<pre><code>提示：你知道吗，当你创建一个新的 Xcode 项目的时候，你的代码已经使用被设计模式？MVC，代理，协议，单例模式 ─ 这些你都能免费得到！:]
-</code></pre>
-
-<p>在你开始研究第一个设计模式时，你必须创建两个类用于存储和显示专集数据。</p>
-
-<p>从”File\New\File…”（或者使用快捷键 Command + N）。选择 iOS > Cocoa Touch，然后选择 Objective-C class 后点击 Next。设置类的名称为 Album，子类为 NSObject。点击 Next 创建。</p>
-
-<p>打开 Album.h 文件，在 @interface 和 @end 这间添加下面的属性和方法原型：</p>
-
-<pre><code>@propery (nonatomic, copy, readonly) NSString *title, *artist, * genre, *coverUrl, *year;
-- (id)initWithTitle:(NSString *)title artist:(NSString *)artist coverUrl:(NSString *)coverUrl year:(NSString *)year;
-</code></pre>
-
-<p>注意这里的所有属性都是 readonly，Album 对象被创建后是不能够被修改的。</p>
-
-<p>这个方法是用来初始化对象的。当你创建一个新专辑时，需要提供专辑名称，作者，封面 URL 和年份。</p>
-
-<p>现在打开 Album.m 文件然后在 @implementation 和 @end 之间加入如下代码：</p>
-
-<pre><code>- (id)initWithTitle:(NSString*)title artist:(NSString*)artist coverUrl:(NSString*)coverUrl
-{
-    self = [super init];
-    _title = title;
-    _artist = artist;
-    _coverUrl = coverUrl;
-    _year = year;
-    _genre = @"Pop";
-    return self;
-}
-</code></pre>
-
-<p>这里没有什么复杂的，只是一个简单的创建 Album 实例的初始化方法。</p>
-
-<p>现次从菜单 File\New\File 选择中 Cocoa Touch，然后选择 Object-C class，点击 Next。设置类的名称为 AlbumView，子类为 UIView。点击 Next 创建文件。</p>
-
-<pre><code>提示：如果你会使用快捷键，创建这些会更容易，Command+N 创建新文件，Command+Option+N 创建新的文件夹，Command+B 创建新项目，Command+R 运行项目。
-</code></pre>
-
-<p>打开 AlbumView.h，在 @interface 和 @end 中 添加一个方法原型</p>
-
-<pre><code>- (id)initWithFrame:(CGRect)fram albumCover:(NSString*)albumCover;
-</code></pre>
-
-<p>现在打开 AlbumView.m 文件，用下面代码替换 @implementaton 后面的所有代码：</p>
-
-<pre><code>@implementation AlbumView
-{
-    UIImageView *coverImage;
-    UIActivityIndicatorView *indicator;
-}
-
-- (id)initWithFrame:(CGRect)frame albumCover:(NSString*)albumCover
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        self.backgroundColor = [UIColor blackColor];
-        // the coverImage has a 5 pixels margin from its frame
-        coverImage = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, frame.size.width-10, frame.size.height-10)];
-        [self addSubview:coverImage];
-
-        indicator = [[UIActivityIndicatorView alloc] init];
-        indicator.center = self.center;
-        indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
-        [indicator startAnimating];
-        [self addSubview:indicator];
-        }
-    return self;
-}
-
-@end
-</code></pre>
-
-<p>第一个需要注意的地方是 coverImage 是一个实例变量。这个变量代表专集的封面图片。第二个变量是一个提示器，在封面图片开始下载的时候提示用户正在下载。</p>
-
-<p>在初始化的过程中你需要设置背景为黑色，创建一个比封面图片大 5px 的图片视图，再创建和添加一个活动指示器。</p>
-
-<pre><code>提示：为什么私有变量定义在执行文件而不是定义在接口文件？这是因为其它外部类不需要知道 AlbumView 类里的这些变量，这些变量只会在这个类的内部方法中使用到。如果你要开发一些库或者框架给别的开发者使用，遵守这个习俗是非常重要的。
-</code></pre>
-
-<p>Build 你的项目确保所有代码都能构运行。没有问题？你的第一个设计模式已经准备好了。</p>
-
-<p><strong>设计模式系列文章</strong>：</p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[mac下.gitconfig配置别名alias]]></title>
@@ -467,6 +277,243 @@ NSLog(@"Latitude = %f", distance);
 
 <pre><code>iOSDevTip
 </code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS调用系统发短信功能详解]]></title>
+    <link href="http://www.superqq.com/blog/2015/04/25/iosdiao-yong-xi-tong-fa-duan-xin-gong-neng-xiang-jie/"/>
+    <updated>2015-04-25T11:36:33+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/04/25/iosdiao-yong-xi-tong-fa-duan-xin-gong-neng-xiang-jie</id>
+    <content type="html"><![CDATA[<p>iOS调用系统的发短信功能可以分为两种：1，程序外调用系统发短信。2，程序内调用系统发短信。第二种的好处是用户发短信之后还可以回到app。这对app来说非常重要。</p>
+
+<h3>程序外调用系统发短信</h3>
+
+<p>这个方法其实很简单，直接调用openURL即可：</p>
+
+<pre><code>[[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"sms://13888888888"]];
+</code></pre>
+
+<h3>程序内调用系统发短信</h3>
+
+<h5>1）导入MessageUI.framework，并引入头文件：</h5>
+
+<pre><code>#import &lt;MessageUI/MessageUI.h&gt;
+</code></pre>
+
+<h5>2）实现代理方法MFMessageComposeViewControllerDelegate</h5>
+
+<pre><code>    -(void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    switch (result) {
+        case MessageComposeResultSent:
+            //信息传送成功
+
+            break;
+        case MessageComposeResultFailed:
+            //信息传送失败
+
+            break;
+        case MessageComposeResultCancelled:
+            //信息被用户取消传送
+
+            break;
+        default:
+            break;
+    }
+}
+</code></pre>
+
+<h5>3）发送短信</h5>
+
+<pre><code>    -(void)showMessageView:(NSArray *)phones title:(NSString *)title body:(NSString *)body
+{
+    if( [MFMessageComposeViewController canSendText] )
+    {
+        MFMessageComposeViewController * controller = [[MFMessageComposeViewController alloc] init];
+        controller.recipients = phones;
+        controller.navigationBar.tintColor = [UIColor redColor];
+        controller.body = body;
+        controller.messageComposeDelegate = self;
+        [self presentViewController:controller animated:YES completion:nil];
+        [[[[controller viewControllers] lastObject] navigationItem] setTitle:title];//修改短信界面标题
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                        message:@"该设备不支持短信功能"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil, nil];
+        [alert show];
+    }
+}
+</code></pre>
+
+<p>参数phones：发短信的手机号码的数组，数组中是一个即单发,多个即群发。</p>
+
+<h5>4）调用发短信的方法</h5>
+
+<pre><code>    [self showMessageView:[NSArray arrayWithObjects:@"13888888888",@"13999999999", nil] title:@"test" body:@"你是土豪么，么么哒"];
+</code></pre>
+
+<p>我的微信iOS开发：iOSDevTip</p>
+
+<p>代码下载地址:<a href="https://github.com/worldligang/SendMsgMaster.git"target="_blank"title="SendMsgMaster">SendMsgMaster</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[hitTest和pointInside如何响应用户点击事件]]></title>
+    <link href="http://www.superqq.com/blog/2015/04/23/iosyong-hu-dian-ji-shi-jian-chu-li/"/>
+    <updated>2015-04-23T16:05:20+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/04/23/iosyong-hu-dian-ji-shi-jian-chu-li</id>
+    <content type="html"><![CDATA[<h3>处理机制</h3>
+
+<p>iOS事件处理，首先应该是找到能处理点击事件的视图，然后在找到的这个视图里处理这个点击事件。</p>
+
+<p>处理原理如下：</p>
+
+<p>• 当用户点击屏幕时，会产生一个触摸事件，系统会将该事件加入到一个由UIApplication管理的事件队列中</p>
+
+<p>• UIApplication会从事件队列中取出最前面的事件进行分发以便处理，通常，先发送事件给应用程序的主窗口(UIWindow)</p>
+
+<p>• 主窗口会调用hitTest:withEvent:方法在视图(UIView)层次结构中找到一个最合适的UIView来处理触摸事件</p>
+
+<p>(hitTest:withEvent:其实是UIView的一个方法，UIWindow继承自UIView，因此主窗口UIWindow也是属于视图的一种)</p>
+
+<p>• hitTest:withEvent:方法大致处理流程是这样的：</p>
+
+<p>首先调用当前视图的pointInside:withEvent:方法判断触摸点是否在当前视图内：</p>
+
+<p>▶ 若pointInside:withEvent:方法返回NO，说明触摸点不在当前视图内，则当前视图的hitTest:withEvent:返回nil</p>
+
+<p>▶ 若pointInside:withEvent:方法返回YES，说明触摸点在当前视图内，则遍历当前视图的所有子视图(subviews)，调用子视图的hitTest:withEvent:方法重复前面的步骤，子视图的遍历顺序是从top到bottom，即从subviews数组的末尾向前遍历，直到有子视图的hitTest:withEvent:方法返回非空对象或者全部子视图遍历完毕：</p>
+
+<p>▷ 若第一次有子视图的hitTest:withEvent:方法返回非空对象,则当前视图的hitTest:withEvent:方法就返回此对象，处理结束</p>
+
+<p>▷ 若所有子视图的hitTest:withEvent:方法都返回nil，则当前视图的hitTest:withEvent:方法返回当前视图自身(self)</p>
+
+<p>• 最终，这个触摸事件交给主窗口的hitTest:withEvent:方法返回的视图对象去处理。我的微信号iOS开发：iOSDevTip</p>
+
+<h3>案列分析</h3>
+
+<p>在UIViewController的self.view上加载一个LGFirstView</p>
+
+<p>LGFirstView上面有一个UIButton我们叫它buttonFirst</p>
+
+<p>然后，self.view上加载一个LGSecondView，刚好盖在LGFirstView上面</p>
+
+<p>LGSecondView上面也有一个UIButton我们叫它buttonSecond</p>
+
+<h5>正常情况下：</h5>
+
+<p>用户点击LGSecondView（点击的点不在buttonSecond上，但是在buttonFirst撒很难过吗），事件处理流程如下：</p>
+
+<p>1）调用UIWindow的hitTest:withEvent:方法，hitTest:withEvent:方法会调用pointInside:withEvent:方法。此时pointInside:withEvent:返回YES，说明触摸事件在UIWindow上面。</p>
+
+<p>2）去遍历UIWindow上面的子视图，也就是self.view。同样也是调用self.view的hitTest:withEvent:方法，hitTest:withEvent:方法会调用pointInside:withEvent:方法。此时pointInside:withEvent:返回YES，说明触摸事件在self.view上面。</p>
+
+<p>3）去遍历self.view上的子视图，也就是LGFirstView和LGSecondView。（注意：子视图的遍历顺序是从top到bottom，即从subviews数组的末尾向前遍历）。</p>
+
+<p>4）所以先调用LGSecondView的hitTest:withEvent:方法，hitTest:withEvent:方法会调用pointInside:withEvent:方法。此时pointInside:withEvent:返回YES，说明触摸事件在LGSecondView上面。（此时不会再去遍历LGFirstView，所以正如你所愿buttonFirst的点击事件也不会被调用）</p>
+
+<p>5）还没有结束，接着回去遍历LGSecondView上的所有子视图，结果所有子视图的hitTest:withEvent:方法都返回nil，因为LGSecondView上面只有secondButton，而点击的点不在secondButton。</p>
+
+<p>6）最终hitTest:withEvent:方法返回当前视图自身(self)，而LGSecondView没有事件要处理。整个过程结束。</p>
+
+<h5>如果我们想让buttonFirst也响应点击事件怎么办？</h5>
+
+<h5>方法一：</h5>
+
+<p>我们在LGSecondView加入如下代码：</p>
+
+<pre><code>#pragma mark - 方法一
+-(id)hitTest:(CGPoint)point withEvent:(UIEvent *)event
+{
+    UIView *hitView = [super hitTest:point withEvent:event];
+    if (hitView == self)
+    {
+        return nil;
+    }
+    else
+    {
+        return hitView;
+    }
+}
+</code></pre>
+
+<p>我们再来分析一下：</p>
+
+<p>还是这个场景，用户点击LGSecondView（点击的点不在buttonSecond上，但是在buttonFirst撒很难过吗），事件处理流程如下：</p>
+
+<p>1）调用UIWindow的hitTest:withEvent:方法，hitTest:withEvent:方法会调用pointInside:withEvent:方法。此时pointInside:withEvent:返回YES，说明触摸事件在UIWindow上面。</p>
+
+<p>2）去遍历UIWindow上面的子视图，也就是self.view。同样也是调用self.view的hitTest:withEvent:方法，hitTest:withEvent:方法会调用pointInside:withEvent:方法。此时pointInside:withEvent:返回YES，说明触摸事件在self.view上面。</p>
+
+<p>3）去遍历self.view上的子视图，也就是LGFirstView和LGSecondView。（注意：子视图的遍历顺序是从top到bottom，即从subviews数组的末尾向前遍历）。</p>
+
+<p>4）所以先调用LGSecondView的hitTest:withEvent:方法，hitTest:withEvent:方法会调用pointInside:withEvent:方法。此时pointInside:withEvent:返回YES，说明触摸事件在LGSecondView上面。</p>
+
+<p>5)但是，注意了，这里有个但是， UIView *hitView = [super hitTest:point withEvent:event];就是这句代码发挥了作用。如果hitView是LGSecondView的话，就不处理点击事件。（这跟userInteractionEnabled=NO是不一样的，userInteractionEnabled=NO，LGSecondView上的buttonSecond也不会响应点击事件了。）</p>
+
+<p>6)这个时候会去调用LGFirstView的hitTest:withEvent:方法，hitTest:withEvent:方法会调用pointInside:withEvent:方法。此时pointInside:withEvent:返回YES，说明触摸事件在LGFirstView上面。</p>
+
+<p>7）再去遍历LGFirstView上面的子视图，也就是buttonFirst，调用buttonFirst的hitTest:withEvent:方法，hitTest:withEvent:方法会调用pointInside:withEvent:方法。此时pointInside:withEvent:返回YES，说明触摸事件在buttonFirst上面。</p>
+
+<p>8）再去遍历buttonFirst上的所有子视图，结果所有子视图的hitTest:withEvent:方法都返回nil，说明点击就在buttonFirst，buttonFirst就用响应的点击方法。</p>
+
+<h5>方法二</h5>
+
+<p>在LGSecondView.m</p>
+
+<pre><code>@interface LGSecondView ()
+
+@property (nonatomic, strong) NSMutableArray *subControlsArray;
+
+@end
+
+@implementation LGSecondView
+
+
+- (id)initWithFrame:(CGRect)frame
+{
+    if (self = [super initWithFrame:frame]) {
+        self.subControlsArray = [NSMutableArray array];
+    }
+    return self;
+}
+
+
+#pragma mark - 方法二
+
+- (void)addSubview:(UIView *)view{
+    [super addSubview:view];
+    if ([view isKindOfClass:[UIControl class]]) {
+        [self.subControlsArray addObject:view];
+    }
+}
+
+//set self not response action and self subviews response action
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event;
+{
+    BOOL toNext = YES;
+    for (UIView *view in _subControlsArray) {
+        if (CGRectContainsPoint(view.frame, point)) {
+            toNext = NO;
+            break;
+        }
+    }
+    return !toNext;
+}
+</code></pre>
+
+<p>具体原理就不在累述了，大家自己推一下，也可以把你的思路写下来发给我。</p>
+
+<p>还有很多方法也欢迎你把思路写下来发给我。我的微信号iOS开发：iOSDevTip</p>
+
+<p>代码下载地址:<a href="https://github.com/worldligang/HitTestMaster.git"target="_blank"title="HitTestMaster">HitTestMaster</a></p>
 ]]></content>
   </entry>
   

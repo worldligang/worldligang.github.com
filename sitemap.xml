@@ -1,28 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/</loc>
-    <lastmod>2015-06-11T13:41:20+08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/</loc>
-    <lastmod>2015-06-10T15:10:13+08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://www.superqq.com/blog/2015/06/09/sdwebimagejia-zai-tu-pian-huan-cun-tu-pian/</loc>
-    <lastmod>2015-06-09T17:47:31+08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://www.superqq.com/blog/2015/06/06/ios-kvcxiang-xi-jiang-jie/</loc>
-    <lastmod>2015-06-06T09:20:27+08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://www.superqq.com/blog/2015/06/05/ios-kvogai-shu-yu-shi-jian/</loc>
-    <lastmod>2015-06-05T11:06:59+08:00</lastmod>
+    <loc>http://www.superqq.com/blog/2015/06/12/test/</loc>
+    <lastmod>2015-06-12T20:01:39+08:00</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -307,25 +287,25 @@
   </url>
   <url>
     <loc>http://www.superqq.com/blog/archives/</loc>
-    <lastmod>2015-06-12T19:54:50+08:00</lastmod>
+    <lastmod>2015-06-12T20:01:54+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://www.superqq.com/</loc>
-    <lastmod>2015-06-12T19:54:50+08:00</lastmod>
+    <lastmod>2015-06-12T20:01:54+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://www.superqq.com/about/</loc>
-    <lastmod>2015-06-12T19:54:50+08:00</lastmod>
+    <lastmod>2015-06-12T20:01:54+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://www.superqq.com/ios/</loc>
-    <lastmod>2015-06-12T19:54:50+08:00</lastmod>
+    <lastmod>2015-06-12T20:01:54+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
