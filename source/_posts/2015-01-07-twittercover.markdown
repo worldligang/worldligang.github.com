@@ -55,3 +55,14 @@ And do not forget to remove it in your dealloc method, otherwise memory leaks:
 
 `TwitterCover` is available under the MIT license. See the LICENSE file for more info.
 
+
+**更多源代码：**
+
+
+[DKCircleButton](http://www.superqq.com/blog/2015/01/07/dkcirclebutton/)
+
+[VVDocumenter-Xcode](http://www.superqq.com/blog/2015/01/06/vvdocumenter-xcode/)
+
+[HackerNews](http://www.superqq.com/blog/2015/01/07/hackernews/)
+
+[GPUImage](http://www.superqq.com/blog/2015/01/06/gpuimage/)

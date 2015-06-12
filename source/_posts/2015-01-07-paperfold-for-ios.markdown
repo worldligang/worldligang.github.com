@@ -146,3 +146,18 @@ Contact
 [honcheng.com](http://honcheng.com)
 
 ![](http://www.cocoacontrols.com/analytics/honcheng/paperfold-for-ios.png)
+
+
+**更多源代码：**
+
+
+[DKCircleButton](http://www.superqq.com/blog/2015/01/07/dkcirclebutton/)
+
+[TwitterCover](http://www.superqq.com/blog/2015/01/07/twittercover/)
+
+[HackerNews](http://www.superqq.com/blog/2015/01/07/hackernews/)
+
+[GPUImage](http://www.superqq.com/blog/2015/01/06/gpuimage/)
+
+[Pop](http://www.superqq.com/blog/2015/01/06/pop/)
+

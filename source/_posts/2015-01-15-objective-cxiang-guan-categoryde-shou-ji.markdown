@@ -191,3 +191,17 @@ FontAwesome+iOS是一个开源形象字体库，通过扩展 NSString 让你在a
 <a href="https://gist.github.com/dsibilly/1038500"target="_blank"title="iOS开发">NSString+UsefulShit</a>
 
 Objective-C category 示范
+
+
+**更多源代码：**
+
+[PaperFold-for-iOS](http://www.superqq.com/blog/2015/01/07/paperfold-for-ios/)
+
+[DKCircleButton](http://www.superqq.com/blog/2015/01/07/dkcirclebutton/)
+
+[TwitterCover](http://www.superqq.com/blog/2015/01/07/twittercover/)
+
+[HackerNews](http://www.superqq.com/blog/2015/01/07/hackernews/)
+
+[GPUImage](http://www.superqq.com/blog/2015/01/06/gpuimage/)
+
