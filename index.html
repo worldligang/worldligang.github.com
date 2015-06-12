@@ -107,6 +107,815 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-11T13:41:20+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:41 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2013/07/mvcking.png" alt="icon" /></p>
+
+<p>模型(Model) 视图(View) 控制器(Controller) (<a href="http://www.superqq.com/blog/2014/11/10/qian-xi-mvche-shuo-mei-de-guo-cheng/">MVC</a>) 是 Cocoa 中的一种行为模块，并且也是所有 Cocoa 设计模式中使用最多的。在程序中按照它们的角色来分类这些对象并且鼓励你的基础代码也按照这个来划分。</p>
+
+<p>这三种角色是：</p>
+
+<ul>
+<li>模型：这是一种暂时保存你程序数据和定义如何操作它的对象。一个例子，在你的程序中 Album 类就是一个模型。</li>
+<li>视图：这种对象是控制模型里的数据如何显示出来的，用户也可操作这些对象；事实上，包含所有的 UIView 和他们的子类。在你的程序中视图是 AlbumView 类。</li>
+<li>控制器：控制器是一个中介者协调所有的工作。他使数据从模型传出来然后显示在视图上，监听事件，在必要的时候操作数据。你能猜到哪个类你的控制器吗？对了，它就是 ViewController。</li>
+</ul>
+
+
+<p>在你的程序中一个好的设计模式的实现意味者所有的对象都在这些群组中。</p>
+
+<p>下图很好的描述了视图和模型之间的通信过程：</p>
+
+<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2013/07/mvc0.png" alt="icon" /></p>
+
+<p>当有数据发生改变的时候模型通知控制器，然后控制器更新视图数据。 反过来，当用户在视图执行一些操作后，视图会通知控制器，如果有需要或是要取回请求数据，控制器也会更新模型或者。</p>
+
+<p>你可能想我为什么不能丢掉控制器，在同一个类里实现视图和模型，这样看起来更简单。</p>
+
+<p>归根结底，这是为是分离代码和提高代码的可重用性。理想状态下视图应该完全从模型中分离出来。如果视图不依赖一个特殊的模型来实现，那么另外一个模型就可以重复利用这个视图显示一些其它不同的数据。</p>
+
+<p>举一个例子，在将来某一天你想在你的音乐库中加入一些电影或者一些书，你可以继续使用原来的 AlbumView 视图来显示这个电影或者图书对象。此外，如果你想创建一个新项目，这个项目中的一些东西跟音乐专辑有关，你可以很简单的拿来重用 Album 类，因为它不依赖于其它任何视图。这就是 MVC 的精髓所在。</p>
+
+<h3>如何使用 MVC 模式</h3>
+
+<p>首先，你要保证在你的项目中任何一个类都有一个控制器，一个模型，一个视图，一个类中的函数不能有两种作用。到目前为至，你已经完成了一项很棒的工作，创建了一个 Album 类和一个 AlbumView 类。</p>
+
+<p>第二步，根据这些方法的作用你应该创建三个文件夹，来存放不同类别的代码，每种类型一个文件夹。</p>
+
+<p>在菜单上选择 File\New\Group (或者按 Command+Option+N) ，创建名称为 Model，重复上面的动作，创建 View 和 Controller 文件夹。</p>
+
+<p>现在拖动 Album.h 和 Album.m 文件到 Model 文件夹。拖动 AlbumView.h 和 AlbumView.m 文件到 View 文件夹，最后拖动 ViewController.h 和 ViewController.m 文件到 Controller 文件夹中。</p>
+
+<p>现在，项目文件的结构目录应该是这个样子的：</p>
+
+<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2013/07/mvc2-255x320.png" alt="icon" /></p>
+
+<p>如果没有其它的文件漂在外面，你的项目看起来已经非常棒了。显然你还可能有其它的文件夹和类，但是你程序的核心内容应该包含在这三个分类中。</p>
+
+<p>现在你的文件已经组织好了，你需要从其它地方获取专辑数据了。你需要创建一个 API 类用来管理你的代码的数据来源 — 现在是机会开始讨论下一个设计模式了 — 单例模式(The Singleton Pattern)。</p>
+
+<p><strong>设计模式系列文章</strong>：</p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-10T15:10:13+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:10 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>原文地址：<a href="http://www.raywenderlich.com/46988/ios-design-patterns">iOS Design Patterns</a></p>
+
+<p>原文作者：Eli Ganem</p>
+
+<blockquote><p>有些专业词汇很难翻译准确，就不翻译了。如果英文阅读没有障碍，还是鼓励大家都读原作。</p></blockquote>
+
+<p>iOS 设计模式 – 你大概经常听过这样的术语，但是你知道它的真正意思吗？虽然大部分开发者都同意设计模式很重要，但是关于这方面的文章却很少，开发者在写代码的时候，有时候并不会去花很多时间去考虑设计模式。</p>
+
+<p>设计模式的功能是在软件设计当中是解决一些重复的公共问题。他们是一些模板来帮助你更容易的书写代码和复用你的代码。他们还可能帮助你创建低耦合的代码，你可以很轻松的修改和替换其中的组件。</p>
+
+<p>如果你已经很熟习设计模式了，我这里有一些好的建议。首先，你已经使用了大量由 Cocoa 创建 iOS 设计模式，同时最好的练习就是去使用她们。第二，这个教程将带给你全面了解所有最新的 iOS 设计模式，她们一般都是由 Cocoa 编写的。</p>
+
+<p>这个教程被分成几个小节。在每一个小节里， 你都能在下面读到说明：</p>
+
+<ul>
+<li>什么是设计模式</li>
+<li>为什么你应该用她</li>
+<li>怎么用，在哪里用，在使用当中如何注意一些常见的陷阱</li>
+</ul>
+
+
+<p>在这个教程中，你将要创建一个音乐库的 APP，它能够显示你的音乐专辑和一些相关信息。</p>
+
+<p>在开发这个 APP 的过程当中，你将会了解到很多常见的 Cocoa 设计模式。</p>
+
+<ul>
+<li>创建 (Creational)：单例 (Singleton)和抽象工厂 (Abstract Factory)</li>
+<li>结构 (Structural)：MVC，装饰器 (Decorator)，适配器 （Adapter)，外观 (Facade)和复合器 (Composite)</li>
+<li>行为 (Behavioral)：观察者 (Observer)，备忘录 (Memento)，责任链 (Chain of Responsibility)和命令 (Command)</li>
+</ul>
+
+
+<p>不要被带偏了，这只是一篇理论文章；你将会在你的音乐 APP 中使用很多的设计模式。在这个教程的最后，你的 APP 看来应该是像这个样子的：</p>
+
+<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2013/07/finalapp-180x320.png" alt="icon" /></p>
+
+<h3>入门指南</h3>
+
+<p>下载 <a href="cdn2.raywenderlich.com/wp-content/uploads/2013/07/BlueLibrary-Starter.zip">启动项目</a>，从 ZIP 文件中提取文件，用 Xcode 打开 BlueLibrary.xcodeproj。</p>
+
+<p>这没有多少文件，仅仅只有一个默认的 ViewController 文件和一个空的可执行的简单 HTTP 客户端。</p>
+
+<pre><code>提示：你知道吗，当你创建一个新的 Xcode 项目的时候，你的代码已经使用被设计模式？MVC，代理，协议，单例模式 ─ 这些你都能免费得到！:]
+</code></pre>
+
+<p>在你开始研究第一个设计模式时，你必须创建两个类用于存储和显示专集数据。</p>
+
+<p>从”File\New\File…”（或者使用快捷键 Command + N）。选择 iOS > Cocoa Touch，然后选择 Objective-C class 后点击 Next。设置类的名称为 Album，子类为 NSObject。点击 Next 创建。</p>
+
+<p>打开 Album.h 文件，在 @interface 和 @end 这间添加下面的属性和方法原型：</p>
+
+<pre><code>@propery (nonatomic, copy, readonly) NSString *title, *artist, * genre, *coverUrl, *year;
+- (id)initWithTitle:(NSString *)title artist:(NSString *)artist coverUrl:(NSString *)coverUrl year:(NSString *)year;
+</code></pre>
+
+<p>注意这里的所有属性都是 readonly，Album 对象被创建后是不能够被修改的。</p>
+
+<p>这个方法是用来初始化对象的。当你创建一个新专辑时，需要提供专辑名称，作者，封面 URL 和年份。</p>
+
+<p>现在打开 Album.m 文件然后在 @implementation 和 @end 之间加入如下代码：</p>
+
+<pre><code>- (id)initWithTitle:(NSString*)title artist:(NSString*)artist coverUrl:(NSString*)coverUrl
+{
+    self = [super init];
+    _title = title;
+    _artist = artist;
+    _coverUrl = coverUrl;
+    _year = year;
+    _genre = @"Pop";
+    return self;
+}
+</code></pre>
+
+<p>这里没有什么复杂的，只是一个简单的创建 Album 实例的初始化方法。</p>
+
+<p>现次从菜单 File\New\File 选择中 Cocoa Touch，然后选择 Object-C class，点击 Next。设置类的名称为 AlbumView，子类为 UIView。点击 Next 创建文件。</p>
+
+<pre><code>提示：如果你会使用快捷键，创建这些会更容易，Command+N 创建新文件，Command+Option+N 创建新的文件夹，Command+B 创建新项目，Command+R 运行项目。
+</code></pre>
+
+<p>打开 AlbumView.h，在 @interface 和 @end 中 添加一个方法原型</p>
+
+<pre><code>- (id)initWithFrame:(CGRect)fram albumCover:(NSString*)albumCover;
+</code></pre>
+
+<p>现在打开 AlbumView.m 文件，用下面代码替换 @implementaton 后面的所有代码：</p>
+
+<pre><code>@implementation AlbumView
+{
+    UIImageView *coverImage;
+    UIActivityIndicatorView *indicator;
+}
+
+- (id)initWithFrame:(CGRect)frame albumCover:(NSString*)albumCover
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.backgroundColor = [UIColor blackColor];
+        // the coverImage has a 5 pixels margin from its frame
+        coverImage = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, frame.size.width-10, frame.size.height-10)];
+        [self addSubview:coverImage];
+
+        indicator = [[UIActivityIndicatorView alloc] init];
+        indicator.center = self.center;
+        indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+        [indicator startAnimating];
+        [self addSubview:indicator];
+        }
+    return self;
+}
+
+@end
+</code></pre>
+
+<p>第一个需要注意的地方是 coverImage 是一个实例变量。这个变量代表专集的封面图片。第二个变量是一个提示器，在封面图片开始下载的时候提示用户正在下载。</p>
+
+<p>在初始化的过程中你需要设置背景为黑色，创建一个比封面图片大 5px 的图片视图，再创建和添加一个活动指示器。</p>
+
+<pre><code>提示：为什么私有变量定义在执行文件而不是定义在接口文件？这是因为其它外部类不需要知道 AlbumView 类里的这些变量，这些变量只会在这个类的内部方法中使用到。如果你要开发一些库或者框架给别的开发者使用，遵守这个习俗是非常重要的。
+</code></pre>
+
+<p>Build 你的项目确保所有代码都能构运行。没有问题？你的第一个设计模式已经准备好了。</p>
+
+<p><strong>设计模式系列文章</strong>：</p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/09/sdwebimagejia-zai-tu-pian-huan-cun-tu-pian/">SDWebImage加载图片缓存图片</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-09T17:47:31+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:47 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+<li>关注公众号iOS开发：<strong>iOSDevTip</strong> 获取更多源代码。</li>
+</ul>
+
+
+<p> <a href="https://github.com/rs/SDWebImage.git"target="_blank"title="源代码">源代码</a></p>
+
+<h1> Web Image</h1>
+
+<p><a href="https://travis-ci.org/rs/SDWebImage"><img src="http://img.shields.io/travis/rs/SDWebImage/master.svg?style=flat" alt="Build Status" /></a>
+<a href="http://cocoadocs.org/docsets/SDWebImage/"><img src="http://img.shields.io/cocoapods/v/SDWebImage.svg?style=flat" alt="Pod Version" /></a>
+<a href="http://cocoadocs.org/docsets/SDWebImage/"><img src="http://img.shields.io/cocoapods/p/SDWebImage.svg?style=flat" alt="Pod Platform" /></a>
+<a href="https://www.apache.org/licenses/LICENSE-2.0.html"><img src="http://img.shields.io/cocoapods/l/SDWebImage.svg?style=flat" alt="Pod License" /></a>
+<a href="https://www.versioneye.com/objective-c/sdwebimage/3.3"><img src="https://www.versioneye.com/objective-c/sdwebimage/3.3/badge.svg?style=flat" alt="Dependency Status" /></a>
+<a href="https://www.versioneye.com/objective-c/sdwebimage/references"><img src="https://www.versioneye.com/objective-c/sdwebimage/reference_badge.svg?style=flat" alt="Reference Status" /></a>
+<a href="https://github.com/rs/SDWebImage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible" /></a></p>
+
+<p>This library provides a category for UIImageView with support for remote images coming from the web.</p>
+
+<p>It provides:</p>
+
+<ul>
+<li>An UIImageView category adding web image and cache management to the Cocoa Touch framework</li>
+<li>An asynchronous image downloader</li>
+<li>An asynchronous memory + disk image caching with automatic cache expiration handling</li>
+<li>Animated GIF support</li>
+<li>WebP format support</li>
+<li>A background image decompression</li>
+<li>A guarantee that the same URL won&rsquo;t be downloaded several times</li>
+<li>A guarantee that bogus URLs won&rsquo;t be retried again and again</li>
+<li>A guarantee that main thread will never be blocked</li>
+<li>Performances!</li>
+<li>Use GCD and ARC</li>
+<li>Arm64 support</li>
+</ul>
+
+
+<p>NOTE: The version 3.0 of SDWebImage isn&rsquo;t fully backward compatible with 2.0 and requires iOS 5.1.1
+minimum deployement version. If you need iOS &lt; 5.0 support, please use the last <a href="https://github.com/rs/SDWebImage/tree/2.0-compat">2.0 version</a>.</p>
+
+<p><a href="https://github.com/rs/SDWebImage/wiki/How-is-SDWebImage-better-than-X%3F">How is SDWebImage better than X?</a></p>
+
+<h2>Who Use It</h2>
+
+<p>Find out <a href="https://github.com/rs/SDWebImage/wiki/Who-Uses-SDWebImage">who uses SDWebImage</a> and add your app to the list.</p>
+
+<h2>How To Use</h2>
+
+<p>API documentation is available at <a href="http://cocoadocs.org/docsets/SDWebImage/">CocoaDocs - SDWebImage</a></p>
+
+<h3>Using UIImageView+WebCache category with UITableView</h3>
+
+<p>Just #import the UIImageView+WebCache.h header, and call the sd_setImageWithURL:placeholderImage:
+method from the tableView:cellForRowAtIndexPath: UITableViewDataSource method. Everything will be
+handled for you, from async downloads to caching management.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &lt;SDWebImage/UIImageView+WebCache.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">...</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="bp">UITableViewCell</span> <span class="o">*</span><span class="p">)</span><span class="nl">tableView</span><span class="p">:(</span><span class="bp">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="n">tableView</span> <span class="nl">cellForRowAtIndexPath</span><span class="p">:(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="n">indexPath</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">static</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">MyIdentifier</span> <span class="o">=</span> <span class="s">@&quot;MyIdentifier&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="bp">UITableViewCell</span> <span class="o">*</span><span class="n">cell</span> <span class="o">=</span> <span class="p">[</span><span class="n">tableView</span> <span class="nl">dequeueReusableCellWithIdentifier</span><span class="p">:</span><span class="n">MyIdentifier</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">cell</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">cell</span> <span class="o">=</span> <span class="p">[[[</span><span class="bp">UITableViewCell</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithStyle</span><span class="p">:</span><span class="n">UITableViewCellStyleDefault</span>
+</span><span class='line'>                                       <span class="nl">reuseIdentifier</span><span class="p">:</span><span class="n">MyIdentifier</span><span class="p">]</span> <span class="n">autorelease</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// Here we use the new provided sd_setImageWithURL: method to load the web image</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">cell</span><span class="p">.</span><span class="n">imageView</span> <span class="nl">sd_setImageWithURL</span><span class="p">:[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="s">@&quot;http://www.domain.com/path/to/image.jpg&quot;</span><span class="p">]</span>
+</span><span class='line'>                      <span class="nl">placeholderImage</span><span class="p">:[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="s">@&quot;placeholder.png&quot;</span><span class="p">]];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">cell</span><span class="p">.</span><span class="n">textLabel</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">@&quot;My Text&quot;</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">cell</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Using blocks</h3>
+
+<p>With blocks, you can be notified about the image download progress and whenever the image retrival
+has completed with success or not:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// Here we use the new provided sd_setImageWithURL: method to load the web image</span>
+</span><span class='line'><span class="p">[</span><span class="n">cell</span><span class="p">.</span><span class="n">imageView</span> <span class="nl">sd_setImageWithURL</span><span class="p">:[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="s">@&quot;http://www.domain.com/path/to/image.jpg&quot;</span><span class="p">]</span>
+</span><span class='line'>                      <span class="nl">placeholderImage</span><span class="p">:[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="s">@&quot;placeholder.png&quot;</span><span class="p">]</span>
+</span><span class='line'>                             <span class="nl">completed</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="n">image</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">,</span> <span class="n">SDImageCacheType</span> <span class="n">cacheType</span><span class="p">,</span> <span class="bp">NSURL</span> <span class="o">*</span><span class="n">imageURL</span><span class="p">)</span> <span class="p">{...</span> <span class="n">completion</span> <span class="n">code</span> <span class="n">here</span> <span class="p">...}];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note: neither your success nor failure block will be call if your image request is canceled before completion.</p>
+
+<h3>Using SDWebImageManager</h3>
+
+<p>The SDWebImageManager is the class behind the UIImageView+WebCache category. It ties the
+asynchronous downloader with the image cache store. You can use this class directly to benefit
+from web image downloading with caching in another context than a UIView (ie: with Cocoa).</p>
+
+<p>Here is a simple example of how to use SDWebImageManager:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">SDWebImageManager</span> <span class="o">*</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[</span><span class="n">SDWebImageManager</span> <span class="n">sharedManager</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">manager</span> <span class="nl">downloadImageWithURL</span><span class="p">:</span><span class="n">imageURL</span>
+</span><span class='line'>                      <span class="nl">options</span><span class="p">:</span><span class="mi">0</span>
+</span><span class='line'>                     <span class="nl">progress</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSInteger</span> <span class="n">receivedSize</span><span class="p">,</span> <span class="bp">NSInteger</span> <span class="n">expectedSize</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                         <span class="c1">// progression tracking code</span>
+</span><span class='line'>                     <span class="p">}</span>
+</span><span class='line'>                     <span class="nl">completed</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="n">image</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">,</span> <span class="n">SDImageCacheType</span> <span class="n">cacheType</span><span class="p">,</span> <span class="kt">BOOL</span> <span class="n">finished</span><span class="p">,</span> <span class="bp">NSURL</span> <span class="o">*</span><span class="n">imageURL</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                         <span class="k">if</span> <span class="p">(</span><span class="n">image</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                             <span class="c1">// do something with image</span>
+</span><span class='line'>                         <span class="p">}</span>
+</span><span class='line'>                     <span class="p">}];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Using Asynchronous Image Downloader Independently</h3>
+
+<p>It&rsquo;s also possible to use the async image downloader independently:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">SDWebImageDownloader</span><span class="p">.</span><span class="n">sharedDownloader</span> <span class="nl">downloadImageWithURL</span><span class="p">:</span><span class="n">imageURL</span>
+</span><span class='line'>                                                    <span class="nl">options</span><span class="p">:</span><span class="mi">0</span>
+</span><span class='line'>                                                   <span class="nl">progress</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSInteger</span> <span class="n">receivedSize</span><span class="p">,</span> <span class="bp">NSInteger</span> <span class="n">expectedSize</span><span class="p">)</span>
+</span><span class='line'>                                                   <span class="p">{</span>
+</span><span class='line'>                                                       <span class="c1">// progression tracking code</span>
+</span><span class='line'>                                                   <span class="p">}</span>
+</span><span class='line'>                                                   <span class="nl">completed</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="n">image</span><span class="p">,</span> <span class="bp">NSData</span> <span class="o">*</span><span class="n">data</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">,</span> <span class="kt">BOOL</span> <span class="n">finished</span><span class="p">)</span>
+</span><span class='line'>                                                   <span class="p">{</span>
+</span><span class='line'>                                                       <span class="k">if</span> <span class="p">(</span><span class="n">image</span> <span class="o">&amp;&amp;</span> <span class="n">finished</span><span class="p">)</span>
+</span><span class='line'>                                                       <span class="p">{</span>
+</span><span class='line'>                                                           <span class="c1">// do something with image</span>
+</span><span class='line'>                                                       <span class="p">}</span>
+</span><span class='line'>                                                   <span class="p">}];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Using Asynchronous Image Caching Independently</h3>
+
+<p>It is also possible to use the async based image cache store independently. SDImageCache
+maintains a memory cache and an optional disk cache. Disk cache write operations are performed
+asynchronous so it doesn&rsquo;t add unnecessary latency to the UI.</p>
+
+<p>The SDImageCache class provides a singleton instance for convenience but you can create your own
+instance if you want to create separated cache namespace.</p>
+
+<p>To lookup the cache, you use the <code>queryDiskCacheForKey:done:</code> method. If the method returns nil, it means the cache
+doesn&rsquo;t currently own the image. You are thus responsible for generating and caching it. The cache
+key is an application unique identifier for the image to cache. It is generally the absolute URL of
+the image.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">SDImageCache</span> <span class="o">*</span><span class="n">imageCache</span> <span class="o">=</span> <span class="p">[[</span><span class="n">SDImageCache</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithNamespace</span><span class="p">:</span><span class="s">@&quot;myNamespace&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">imageCache</span> <span class="nl">queryDiskCacheForKey</span><span class="p">:</span><span class="n">myCacheKey</span> <span class="nl">done</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="n">image</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="c1">// image is not nil if image was found</span>
+</span><span class='line'><span class="p">}];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>By default SDImageCache will lookup the disk cache if an image can&rsquo;t be found in the memory cache.
+You can prevent this from happening by calling the alternative method <code>imageFromMemoryCacheForKey:</code>.</p>
+
+<p>To store an image into the cache, you use the storeImage:forKey: method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[[</span><span class="n">SDImageCache</span> <span class="n">sharedImageCache</span><span class="p">]</span> <span class="nl">storeImage</span><span class="p">:</span><span class="n">myImage</span> <span class="nl">forKey</span><span class="p">:</span><span class="n">myCacheKey</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>By default, the image will be stored in memory cache as well as on disk cache (asynchronously). If
+you want only the memory cache, use the alternative method storeImage:forKey:toDisk: with a negative
+third argument.</p>
+
+<h3>Using cache key filter</h3>
+
+<p>Sometime, you may not want to use the image URL as cache key because part of the URL is dynamic
+(i.e.: for access control purpose). SDWebImageManager provides a way to set a cache key filter that
+takes the NSURL as input, and output a cache key NSString.</p>
+
+<p>The following example sets a filter in the application delegate that will remove any query-string from
+the URL before to use it as a cache key:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">application:</span><span class="p">(</span><span class="bp">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span> <span class="nf">didFinishLaunchingWithOptions:</span><span class="p">(</span><span class="bp">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">launchOptions</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">SDWebImageManager</span><span class="p">.</span><span class="n">sharedManager</span><span class="p">.</span><span class="n">cacheKeyFilter</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="bp">NSURL</span> <span class="o">*</span><span class="n">url</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">url</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSURL</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithScheme</span><span class="p">:</span><span class="n">url</span><span class="p">.</span><span class="n">scheme</span> <span class="nl">host</span><span class="p">:</span><span class="n">url</span><span class="p">.</span><span class="n">host</span> <span class="nl">path</span><span class="p">:</span><span class="n">url</span><span class="p">.</span><span class="n">path</span><span class="p">];</span>
+</span><span class='line'>        <span class="k">return</span> <span class="p">[</span><span class="n">url</span> <span class="n">absoluteString</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// Your app init code...</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Common Problems</h2>
+
+<h3>Using dynamic image size with UITableViewCell</h3>
+
+<p>UITableView determines the size of the image by the first image set for a cell. If your remote images
+don&rsquo;t have the same size as your placeholder image, you may experience strange anamorphic scaling issue.
+The following article gives a way to workaround this issue:</p>
+
+<p><a href="http://www.wrichards.com/blog/2011/11/sdwebimage-fixed-width-cell-images/">http://www.wrichards.com/blog/2011/11/sdwebimage-fixed-width-cell-images/</a></p>
+
+<h3>Handle image refresh</h3>
+
+<p>SDWebImage does very aggressive caching by default. It ignores all kind of caching control header returned by the HTTP server and cache the returned images with no time restriction. It implies your images URLs are static URLs pointing to images that never change. If the pointed image happen to change, some parts of the URL should change accordingly.</p>
+
+<p>If you don&rsquo;t control the image server you&rsquo;re using, you may not be able to change the URL when its content is updated. This is the case for Facebook avatar URLs for instance. In such case, you may use the <code>SDWebImageRefreshCached</code> flag. This will slightly degrade the performance but will respect the HTTP caching control headers:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">imageView</span> <span class="nl">sd_setImageWithURL</span><span class="p">:[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="s">@&quot;https://graph.facebook.com/olivier.poitrey/picture&quot;</span><span class="p">]</span>
+</span><span class='line'>                 <span class="nl">placeholderImage</span><span class="p">:[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="s">@&quot;avatar-placeholder.png&quot;</span><span class="p">]</span>
+</span><span class='line'>                          <span class="nl">options</span><span class="p">:</span><span class="n">SDWebImageRefreshCached</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Add a progress indicator</h3>
+
+<p>See this category: <a href="https://github.com/JJSaccolo/UIActivityIndicator-for-SDWebImage">https://github.com/JJSaccolo/UIActivityIndicator-for-SDWebImage</a></p>
+
+<h2>Installation</h2>
+
+<p>There are three ways to use SDWebImage in your project:
+- using Cocoapods
+- copying all the files into your project
+- importing the project as a static library</p>
+
+<h3>Installation with CocoaPods</h3>
+
+<p><a href="http://cocoapods.org/">CocoaPods</a> is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries in your projects. See the <a href="http://cocoapods.org/#get_started">Get Started</a> section for more details.</p>
+
+<h4>Podfile</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="nl">platform</span> <span class="p">:</span><span class="n">ios</span><span class="p">,</span> <span class="err">&#39;</span><span class="mf">6.1</span><span class="err">&#39;</span>
+</span><span class='line'><span class="n">pod</span> <span class="err">&#39;</span><span class="n">SDWebImage</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="o">~&gt;</span><span class="mf">3.7</span><span class="err">&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Installation with Carthage (iOS 8+)</h3>
+
+<p><a href="https://github.com/Carthage/Carthage">Carthage</a> is a lightweight dependency manager for Swift and Objective-C. It leverages CocoaTouch modules and ins less invasive than CocoaPods.</p>
+
+<p>To install with carthage, follow the instruction on <a href="https://github.com/Carthage/Carthage">Carthage</a></p>
+
+<h4>Cartfile</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">github</span> <span class="s">&quot;rs/SDWebImage&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Usage</h4>
+
+<p>Swift</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">WebImage</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Objective-C</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">@</span><span class="n">import</span> <span class="n">WebImage</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Installation by cloning the repository</h3>
+
+<p>In order to gain access to all the files from the repository, you should clone it.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">git</span> <span class="n">clone</span> <span class="o">--</span><span class="n">recursive</span> <span class="nl">https</span><span class="p">:</span><span class="c1">//github.com/rs/SDWebImage.git</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Add the SDWebImage project to your project</h3>
+
+<ul>
+<li>Download and unzip the last version of the framework from the <a href="https://github.com/rs/SDWebImage/releases">download page</a></li>
+<li>Right-click on the project navigator and select &ldquo;Add Files to &#8220;Your Project&rdquo;:</li>
+<li>In the dialog, select SDWebImage.framework:</li>
+<li>Check the &ldquo;Copy items into destination group&rsquo;s folder (if needed)&rdquo; checkbox</li>
+</ul>
+
+
+<h3>Add dependencies</h3>
+
+<ul>
+<li>In you application project app’s target settings, find the &ldquo;Build Phases&rdquo; section and open the &ldquo;Link Binary With Libraries&rdquo; block:</li>
+<li>Click the &ldquo;+&rdquo; button again and select the &ldquo;ImageIO.framework&rdquo;, this is needed by the progressive download feature:</li>
+</ul>
+
+
+<h3>Add Linker Flag</h3>
+
+<p>Open the &ldquo;Build Settings&rdquo; tab, in the &ldquo;Linking&rdquo; section, locate the &ldquo;Other Linker Flags&rdquo; setting and add the &ldquo;-ObjC&rdquo; flag:</p>
+
+<p><img src="http://dl.dropbox.com/u/123346/SDWebImage/10_other_linker_flags.jpg" alt="Other Linker Flags" /></p>
+
+<p>Alternatively, if this causes compilation problems with frameworks that extend optional libraries, such as Parse,  RestKit or opencv2, instead of the -ObjC flag use:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span><span class="nf">force_load</span> <span class="n">SDWebImage</span><span class="p">.</span><span class="n">framework</span><span class="o">/</span><span class="n">Versions</span><span class="o">/</span><span class="n">Current</span><span class="o">/</span><span class="n">SDWebImage</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you&rsquo;re using Cocoa Pods and have any frameworks that extend optional libraries, such as Parsen RestKit or opencv2, instead of the -ObjC flag use:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span><span class="nf">force_load</span> <span class="err">$</span><span class="p">(</span><span class="n">TARGET_BUILD_DIR</span><span class="p">)</span><span class="o">/</span><span class="n">libPods</span><span class="p">.</span><span class="n">a</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Import headers in your source files</h3>
+
+<p>In the source files where you need to use the library, import the header file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &lt;SDWebImage/UIImageView+WebCache.h&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Build Project</h3>
+
+<p>At this point your workspace should build without error. If you are having problem, post to the Issue and the
+community can help you solve it.</p>
+
+<h2>Future Enhancements</h2>
+
+<ul>
+<li>LRU memory cache cleanup instead of reset on memory warning</li>
+</ul>
+
+
+<h2>Licenses</h2>
+
+<p>All source code is licensed under the <a href="https://raw.github.com/rs/SDWebImage/master/LICENSE">MIT License</a>.</p>
+
+<p><strong>更多源代码：</strong></p>
+
+<p><a href="http://www.superqq.com/blog/2015/01/15/objective-cxiang-guan-categoryde-shou-ji/">Objective-C相关Category的收集</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/01/07/paperfold-for-ios/">PaperFold-for-iOS</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/01/07/dkcirclebutton/">DKCircleButton</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/01/07/twittercover/">TwitterCover</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/01/07/hackernews/">HackerNews</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/06/ios-kvcxiang-xi-jiang-jie/">iOS KVC详细讲解</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-06T09:20:27+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:20 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>欢迎大家提供面试题目，我们一起来讲解，以备不时之需。</p></blockquote>
+
+<h2>什么是KVC？</h2>
+
+<p>KVC即<strong>NSKeyValueCoding</strong>，就是键-值编码的意思。一个非正式的 Protocol，是一种间接访问对象的属性使用字符串来标识属性，而不是通过调用存取方法，直接或通过实例变量访问的机制。</p>
+
+<p>以上就是KVC的理论，面试时，如实回答就可以啦！</p>
+
+<h2>使用KVC说明</h2>
+
+<ul>
+<li>KVC间接修改对象属性时，会自动判断对象属性的类型，完成相应的转换。</li>
+<li>KVC按键值路径取值时，如果对象不包含指定的键值，那么就会自动进入对象内部，查找对象属性。</li>
+<li>KVC可以嵌套按照键值路径取值。</li>
+</ul>
+
+
+<h2>KVC和KVO有什么区别？</h2>
+
+<p>上一篇文章我们讲了<a href="http://www.superqq.com/blog/2015/06/05/ios-kvogai-shu-yu-shi-jian/">iOS KVO概述</a>，有兴趣的可以看看。面试过程中，面试官问：KVC和KVO有什么区别？</p>
+
+<p>听到这个问题真的很（dan）疼，真特么想回一句，我怎么知道什么区别？当然，如果你像这么回答，面试估计到此结束啦。</p>
+
+<p>那KVC和KVO到底有什么区别呢？</p>
+
+<p>KVO是建立在KVC之上的，KVO能够观察一个对象的KVC key-path值的变化。</p>
+
+<p>iOS面试汇总：</p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/04/mian-shi-guan-wen-xian-zai-gong-zi-shi-duo-shao-gai-zen-yao-hui-da/">面试官问现在工资是多少该怎么回答?</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/05/ios-kvogai-shu-yu-shi-jian/">iOS KVO概述</a></p>
+
+<ul>
+<li>关注公众号iOS开发：<strong>iOSDevTip</strong> 获取更多面试技巧。</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/05/ios-kvogai-shu-yu-shi-jian/">iOS KVO概述</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-05T11:06:59+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:06 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>面试中经常会被问到：什么是KVO？这个问题既然出现概率这么大，那么我们就来详细讲一讲到底什么是KVO。下次再有面试官问你的时候，你就可以娓娓道来，以彰显高逼格</p></blockquote>
+
+<h2>概述</h2>
+
+<p>问：什么是KVO？</p>
+
+<p>答：KVO是Key-Value Observing的缩写。它提供一种机制，当指定的对象的属性被修改后，则对象就会接受到通知。简单的说就是每次指定的被观察的对象的属性被修改后，KVO就会自动通知相应的观察者了。</p>
+
+<p>如果你能这样回答，面试官一定不会说你错的，这就是KVO的原理。但是如果你能说出KVO的好处，那一定能赢得面试官的刮目相看。比如：</p>
+
+<ul>
+<li>使用KVO最直接的好处就是可以减少代码量。</li>
+<li>KVO是<strong>观察者</strong>设计模式中的一种，有利于业务逻辑于视图控制之间的解耦。</li>
+</ul>
+
+
+<p>更深刻的了解KVO，你可以动手写一个小demo思路如下：</p>
+
+<ul>
+<li>定义一个对象People，分别有name和age属性</li>
+<li>监听People的age属性</li>
+<li>定义一个UIButton，在button的点击方法里面，去改变People的age。</li>
+<li>你就可以收到age改变时发出来的通知</li>
+<li>在对象销毁的时候，移除通知。</li>
+</ul>
+
+
+<p>iOS面试汇总：</p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/04/mian-shi-guan-wen-xian-zai-gong-zi-shi-duo-shao-gai-zen-yao-hui-da/">面试官问现在工资是多少该怎么回答?</a></p>
+
+<ul>
+<li>关注公众号iOS开发：<strong>iOSDevTip</strong> 获取更多面试技巧。</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/06/04/mian-shi-guan-wen-xian-zai-gong-zi-shi-duo-shao-gai-zen-yao-hui-da/">面试官问现在工资是多少该怎么回答?</a></h1>
     
     
@@ -613,888 +1422,6 @@ NSLog(@"Latitude = %f", distance);
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/04/25/iosdiao-yong-xi-tong-fa-duan-xin-gong-neng-xiang-jie/">iOS调用系统发短信功能详解</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-04-25T11:36:33+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:36 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>iOS调用系统的发短信功能可以分为两种：1，程序外调用系统发短信。2，程序内调用系统发短信。第二种的好处是用户发短信之后还可以回到app。这对app来说非常重要。</p>
-
-<h3>程序外调用系统发短信</h3>
-
-<p>这个方法其实很简单，直接调用openURL即可：</p>
-
-<pre><code>[[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"sms://13888888888"]];
-</code></pre>
-
-<h3>程序内调用系统发短信</h3>
-
-<h5>1）导入MessageUI.framework，并引入头文件：</h5>
-
-<pre><code>#import &lt;MessageUI/MessageUI.h&gt;
-</code></pre>
-
-<h5>2）实现代理方法MFMessageComposeViewControllerDelegate</h5>
-
-<pre><code>    -(void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
-{
-    [self dismissViewControllerAnimated:YES completion:nil];
-    switch (result) {
-        case MessageComposeResultSent:
-            //信息传送成功
-
-            break;
-        case MessageComposeResultFailed:
-            //信息传送失败
-
-            break;
-        case MessageComposeResultCancelled:
-            //信息被用户取消传送
-
-            break;
-        default:
-            break;
-    }
-}
-</code></pre>
-
-<h5>3）发送短信</h5>
-
-<pre><code>    -(void)showMessageView:(NSArray *)phones title:(NSString *)title body:(NSString *)body
-{
-    if( [MFMessageComposeViewController canSendText] )
-    {
-        MFMessageComposeViewController * controller = [[MFMessageComposeViewController alloc] init];
-        controller.recipients = phones;
-        controller.navigationBar.tintColor = [UIColor redColor];
-        controller.body = body;
-        controller.messageComposeDelegate = self;
-        [self presentViewController:controller animated:YES completion:nil];
-        [[[[controller viewControllers] lastObject] navigationItem] setTitle:title];//修改短信界面标题
-    }
-    else
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
-                                                        message:@"该设备不支持短信功能"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"确定"
-                                              otherButtonTitles:nil, nil];
-        [alert show];
-    }
-}
-</code></pre>
-
-<p>参数phones：发短信的手机号码的数组，数组中是一个即单发,多个即群发。</p>
-
-<h5>4）调用发短信的方法</h5>
-
-<pre><code>    [self showMessageView:[NSArray arrayWithObjects:@"13888888888",@"13999999999", nil] title:@"test" body:@"你是土豪么，么么哒"];
-</code></pre>
-
-<p>我的微信iOS开发：iOSDevTip</p>
-
-<p>代码下载地址:<a href="https://github.com/worldligang/SendMsgMaster.git"target="_blank"title="SendMsgMaster">SendMsgMaster</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/04/23/iosyong-hu-dian-ji-shi-jian-chu-li/">hitTest和pointInside如何响应用户点击事件</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-04-23T16:05:20+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>4:05 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>处理机制</h3>
-
-<p>iOS事件处理，首先应该是找到能处理点击事件的视图，然后在找到的这个视图里处理这个点击事件。</p>
-
-<p>处理原理如下：</p>
-
-<p>• 当用户点击屏幕时，会产生一个触摸事件，系统会将该事件加入到一个由UIApplication管理的事件队列中</p>
-
-<p>• UIApplication会从事件队列中取出最前面的事件进行分发以便处理，通常，先发送事件给应用程序的主窗口(UIWindow)</p>
-
-<p>• 主窗口会调用hitTest:withEvent:方法在视图(UIView)层次结构中找到一个最合适的UIView来处理触摸事件</p>
-
-<p>(hitTest:withEvent:其实是UIView的一个方法，UIWindow继承自UIView，因此主窗口UIWindow也是属于视图的一种)</p>
-
-<p>• hitTest:withEvent:方法大致处理流程是这样的：</p>
-
-<p>首先调用当前视图的pointInside:withEvent:方法判断触摸点是否在当前视图内：</p>
-
-<p>▶ 若pointInside:withEvent:方法返回NO，说明触摸点不在当前视图内，则当前视图的hitTest:withEvent:返回nil</p>
-
-<p>▶ 若pointInside:withEvent:方法返回YES，说明触摸点在当前视图内，则遍历当前视图的所有子视图(subviews)，调用子视图的hitTest:withEvent:方法重复前面的步骤，子视图的遍历顺序是从top到bottom，即从subviews数组的末尾向前遍历，直到有子视图的hitTest:withEvent:方法返回非空对象或者全部子视图遍历完毕：</p>
-
-<p>▷ 若第一次有子视图的hitTest:withEvent:方法返回非空对象,则当前视图的hitTest:withEvent:方法就返回此对象，处理结束</p>
-
-<p>▷ 若所有子视图的hitTest:withEvent:方法都返回nil，则当前视图的hitTest:withEvent:方法返回当前视图自身(self)</p>
-
-<p>• 最终，这个触摸事件交给主窗口的hitTest:withEvent:方法返回的视图对象去处理。我的微信号iOS开发：iOSDevTip</p>
-
-<h3>案列分析</h3>
-
-<p>在UIViewController的self.view上加载一个LGFirstView</p>
-
-<p>LGFirstView上面有一个UIButton我们叫它buttonFirst</p>
-
-<p>然后，self.view上加载一个LGSecondView，刚好盖在LGFirstView上面</p>
-
-<p>LGSecondView上面也有一个UIButton我们叫它buttonSecond</p>
-
-<h5>正常情况下：</h5>
-
-<p>用户点击LGSecondView（点击的点不在buttonSecond上，但是在buttonFirst撒很难过吗），事件处理流程如下：</p>
-
-<p>1）调用UIWindow的hitTest:withEvent:方法，hitTest:withEvent:方法会调用pointInside:withEvent:方法。此时pointInside:withEvent:返回YES，说明触摸事件在UIWindow上面。</p>
-
-<p>2）去遍历UIWindow上面的子视图，也就是self.view。同样也是调用self.view的hitTest:withEvent:方法，hitTest:withEvent:方法会调用pointInside:withEvent:方法。此时pointInside:withEvent:返回YES，说明触摸事件在self.view上面。</p>
-
-<p>3）去遍历self.view上的子视图，也就是LGFirstView和LGSecondView。（注意：子视图的遍历顺序是从top到bottom，即从subviews数组的末尾向前遍历）。</p>
-
-<p>4）所以先调用LGSecondView的hitTest:withEvent:方法，hitTest:withEvent:方法会调用pointInside:withEvent:方法。此时pointInside:withEvent:返回YES，说明触摸事件在LGSecondView上面。（此时不会再去遍历LGFirstView，所以正如你所愿buttonFirst的点击事件也不会被调用）</p>
-
-<p>5）还没有结束，接着回去遍历LGSecondView上的所有子视图，结果所有子视图的hitTest:withEvent:方法都返回nil，因为LGSecondView上面只有secondButton，而点击的点不在secondButton。</p>
-
-<p>6）最终hitTest:withEvent:方法返回当前视图自身(self)，而LGSecondView没有事件要处理。整个过程结束。</p>
-
-<h5>如果我们想让buttonFirst也响应点击事件怎么办？</h5>
-
-<h5>方法一：</h5>
-
-<p>我们在LGSecondView加入如下代码：</p>
-
-<pre><code>#pragma mark - 方法一
--(id)hitTest:(CGPoint)point withEvent:(UIEvent *)event
-{
-    UIView *hitView = [super hitTest:point withEvent:event];
-    if (hitView == self)
-    {
-        return nil;
-    }
-    else
-    {
-        return hitView;
-    }
-}
-</code></pre>
-
-<p>我们再来分析一下：</p>
-
-<p>还是这个场景，用户点击LGSecondView（点击的点不在buttonSecond上，但是在buttonFirst撒很难过吗），事件处理流程如下：</p>
-
-<p>1）调用UIWindow的hitTest:withEvent:方法，hitTest:withEvent:方法会调用pointInside:withEvent:方法。此时pointInside:withEvent:返回YES，说明触摸事件在UIWindow上面。</p>
-
-<p>2）去遍历UIWindow上面的子视图，也就是self.view。同样也是调用self.view的hitTest:withEvent:方法，hitTest:withEvent:方法会调用pointInside:withEvent:方法。此时pointInside:withEvent:返回YES，说明触摸事件在self.view上面。</p>
-
-<p>3）去遍历self.view上的子视图，也就是LGFirstView和LGSecondView。（注意：子视图的遍历顺序是从top到bottom，即从subviews数组的末尾向前遍历）。</p>
-
-<p>4）所以先调用LGSecondView的hitTest:withEvent:方法，hitTest:withEvent:方法会调用pointInside:withEvent:方法。此时pointInside:withEvent:返回YES，说明触摸事件在LGSecondView上面。</p>
-
-<p>5)但是，注意了，这里有个但是， UIView *hitView = [super hitTest:point withEvent:event];就是这句代码发挥了作用。如果hitView是LGSecondView的话，就不处理点击事件。（这跟userInteractionEnabled=NO是不一样的，userInteractionEnabled=NO，LGSecondView上的buttonSecond也不会响应点击事件了。）</p>
-
-<p>6)这个时候会去调用LGFirstView的hitTest:withEvent:方法，hitTest:withEvent:方法会调用pointInside:withEvent:方法。此时pointInside:withEvent:返回YES，说明触摸事件在LGFirstView上面。</p>
-
-<p>7）再去遍历LGFirstView上面的子视图，也就是buttonFirst，调用buttonFirst的hitTest:withEvent:方法，hitTest:withEvent:方法会调用pointInside:withEvent:方法。此时pointInside:withEvent:返回YES，说明触摸事件在buttonFirst上面。</p>
-
-<p>8）再去遍历buttonFirst上的所有子视图，结果所有子视图的hitTest:withEvent:方法都返回nil，说明点击就在buttonFirst，buttonFirst就用响应的点击方法。</p>
-
-<h5>方法二</h5>
-
-<p>在LGSecondView.m</p>
-
-<pre><code>@interface LGSecondView ()
-
-@property (nonatomic, strong) NSMutableArray *subControlsArray;
-
-@end
-
-@implementation LGSecondView
-
-
-- (id)initWithFrame:(CGRect)frame
-{
-    if (self = [super initWithFrame:frame]) {
-        self.subControlsArray = [NSMutableArray array];
-    }
-    return self;
-}
-
-
-#pragma mark - 方法二
-
-- (void)addSubview:(UIView *)view{
-    [super addSubview:view];
-    if ([view isKindOfClass:[UIControl class]]) {
-        [self.subControlsArray addObject:view];
-    }
-}
-
-//set self not response action and self subviews response action
-- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event;
-{
-    BOOL toNext = YES;
-    for (UIView *view in _subControlsArray) {
-        if (CGRectContainsPoint(view.frame, point)) {
-            toNext = NO;
-            break;
-        }
-    }
-    return !toNext;
-}
-</code></pre>
-
-<p>具体原理就不在累述了，大家自己推一下，也可以把你的思路写下来发给我。</p>
-
-<p>还有很多方法也欢迎你把思路写下来发给我。我的微信号iOS开发：iOSDevTip</p>
-
-<p>代码下载地址:<a href="https://github.com/worldligang/HitTestMaster.git"target="_blank"title="HitTestMaster">HitTestMaster</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/04/07/mvczhong-modelde-she-ji/">MVC中Model的设计</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-04-07T09:56:12+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:56 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>一般在定义ViewController的时候，都习惯定义一个BaseViewController作为基类（即父类）。这样做的好处是：把公共的属性提出来放在BaseViewController中，试代码结构更清晰。同样，设计Model的时候，也可以定义一个基类。</p>
-
-<p>比如：有一个房子，房子里面有一个电视和许多个桌子。电视和桌子分别有价格和型号。</p>
-
-<h3>定义基类LGObject</h3>
-
-<p>LGObject.h：</p>
-
-<pre><code> //
-//  LGObject.h
-//  LGAlertViewDemo
-//
-//  Created by apple on 15/4/6.
-//  Copyright (c) 2015年 LiGang. All rights reserved.
-//
-
-#import &lt;Foundation/Foundation.h&gt;
-
-@interface LGObject : NSObject
-
-@property (readonly, nonatomic) id data;
-
-- (id)initWithData:(id)data;
-- (BOOL)isEmpty;
-
-@end
-</code></pre>
-
-<p>LGObject.m：</p>
-
-<pre><code>//
-//  LGObject.m
-//  LGAlertViewDemo
-//
-//  Created by apple on 15/4/6.
-//  Copyright (c) 2015年 LiGang. All rights reserved.
-//
-
-#import "LGObject.h"
-
-@implementation LGObject
-
-- (id)initWithData:(id)data {
-    self = [super init];
-    if(self) {
-        _data = nil;
-        if(data != nil) _data = data;
-    }
-    return self;
-}
-
-- (BOOL)isEmpty
-{
-    return _data == nil ? YES : NO;
-}
-
-@end
-</code></pre>
-
-<h3>定义房子LGHouse、电视LGVideo、桌子LGDesk</h3>
-
-<p>电视LGVideo、桌子LGDesk可以放在LGHouse里面。多个桌子需要定义一个数组：arrayDesk。</p>
-
-<p>LGHouse.h：</p>
-
-<pre><code>//
-//  LGHouse.h
-//  LGAlertViewDemo
-//
-//  Created by apple on 15/4/6.
-//  Copyright (c) 2015年 LiGang. All rights reserved.
-//
-
-#import "LGObject.h"
-
-@class LGVideo;
-@class LGDesk;
-
-@interface LGHouse : LGObject
-
-@property (nonatomic, readonly) LGVideo  *video;     //电视
-@property (nonatomic, readonly) NSArray  *arrayDesk; //桌子
-
-@end
-
-@interface LGVideo : LGObject
-
-@property (nonatomic, assign)   float      money;//价格
-@property (nonatomic, readonly) NSString  *type;//型号
-
-@end
-
-@interface LGDesk : LGObject
-
-@property (nonatomic, assign)   float      money;//价格
-@property (nonatomic, readonly) NSString  *type;//型号
-
-@end
-</code></pre>
-
-<p>LGHouse.m：</p>
-
-<pre><code>//
-//  LGHouse.m
-//  LGAlertViewDemo
-//
-//  Created by apple on 15/4/6.
-//  Copyright (c) 2015年 LiGang. All rights reserved.
-//
-
-#import "LGHouse.h"
-
-@implementation LGHouse
-
-- (LGVideo *)video {
-    return [[LGVideo alloc] initWithData:[self.data objectForKey:@"video"]];
-}
-
-- (NSArray *)arrayDesk {
-    NSMutableArray *arrayDesk = [NSMutableArray array];
-    for (NSDictionary *dickDesk in [self.data objectForKey:@"desks"]) {
-        [arrayDesk addObject:[[LGDesk alloc] initWithData:dickDesk]];
-    }
-    return arrayDesk;
-}
-
-@end
-
-@implementation LGVideo
-
-- (float)money {
-    return [[self.data objectForKey:@"money"] floatValue];
-}
-
-- (NSString *)type {
-    return [self.data objectForKey:@"type"];
-}
-
-@end
-
-@implementation LGDesk
-
-- (float)money {
-    return [[self.data objectForKey:@"money"] floatValue];
-}
-
-- (NSString *)type {
-    return [self.data objectForKey:@"type"];
-}
-
-@end
-</code></pre>
-
-<p>以上是我对Model设计的简单理解，如果你有更好的想法，欢迎告诉我。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/04/03/ioskai-fa-zhi-asyncsocketshi-yong-jiao-cheng/">iOS开发之AsyncSocket使用教程</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-04-03T16:57:19+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>4:57 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>用socket可以实现像QQ那样发送即时消息的功能。客户端和服务端需要建立长连接，在长连接的情况下，发送消息。客户端可以发送心跳包来检测长连接。</p>
-
-<p>在iOS开发中使用socket，一般都是用第三方库AsyncSocket，不得不承认这个库确实很强大。下载地址<a href="https://github.com/robbiehanson/CocoaAsyncSocket.git"target="_blank"title="CocoaAsyncSocket">CocoaAsyncSocket</a><br/>
-。</p>
-
-<p>使用AsyncSocket的时候可以做一层封装，根据需求提供几个接口出来。比如：连接、断开连接、发送消息等等。还有接受消息，接受到的消息可以通过通知、代理、block等传出去。</p>
-
-<p>简单介绍一下对AsyncSocket使用.一般来说，一个用户只需要建立一个socket长连接，所以可以用单例类方便使用。</p>
-
-<h3>定义单列类：LGSocketServe</h3>
-
-<p>LGSocketServe.h</p>
-
-<pre><code>//
-//  LGSocketServe.h
-//  AsyncSocketDemo
-//
-//  Created by ligang on 15/4/3.
-//  Copyright (c) 2015年 ligang. All rights reserved.
-//
-
-#import &lt;Foundation/Foundation.h&gt;
-#import "AsyncSocket.h"
-
-@interface LGSocketServe : NSObject&lt;AsyncSocketDelegate&gt;
-
-+ (LGSocketServe *)sharedSocketServe;
-
-
-@end
-</code></pre>
-
-<p>LGSocketServe.m</p>
-
-<pre><code>//
-//  LGSocketServe.m
-//  AsyncSocketDemo
-//
-//  Created by ligang on 15/4/3.
-//  Copyright (c) 2015年 ligang. All rights reserved.
-//
-
-#import "LGSocketServe.h"
-
-@implementation LGSocketServe
-
-
-static LGSocketServe *socketServe = nil;
-
-#pragma mark public static methods
-
-
-+ (LGSocketServe *)sharedSocketServe {
-    @synchronized(self) {
-        if(socketServe == nil) {
-            socketServe = [[[self class] alloc] init];
-        }
-    }
-    return socketServe;
-}
-
-
-+(id)allocWithZone:(NSZone *)zone
-{
-    @synchronized(self)
-    {
-        if (socketServe == nil)
-        {
-            socketServe = [super allocWithZone:zone];
-            return socketServe;
-        }
-    }
-    return nil;
-}   
-
-
-@end
-</code></pre>
-
-<h3>建立socket长连接</h3>
-
-<p>LGSocketServe.h</p>
-
-<pre><code>@property (nonatomic, strong) AsyncSocket         *socket;       // socket
-
-//  socket连接
-- (void)startConnectSocket;
-</code></pre>
-
-<p>LGSocketServe.m</p>
-
-<pre><code>//自己设定
-#define HOST @"192.168.0.1"
-#define PORT 8080
-
-//设置连接超时
-#define TIME_OUT 20
-
-- (void)startConnectSocket
-{
-    self.socket = [[AsyncSocket alloc] initWithDelegate:self];
-    [self.socket setRunLoopModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
-    if ( ![self SocketOpen:HOST port:PORT] )
-    {
-
-    }
-
-}
-
-- (NSInteger)SocketOpen:(NSString*)addr port:(NSInteger)port
-{
-
-    if (![self.socket isConnected])
-    {
-        NSError *error = nil;
-        [self.socket connectToHost:addr onPort:port withTimeout:TIME_OUT error:&amp;error];
-    }
-
-    return 0;
-}
-</code></pre>
-
-<p>宏定义一下HOST、PORT、TIME_OUT，实现startConnectSocket方法。这个时候要设置一下AsyncSocket的代理AsyncSocketDelegate。当长连接成功之后会调用：</p>
-
-<pre><code>- (void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
-{
-    //这是异步返回的连接成功，
-    NSLog(@"didConnectToHost");
-}
-</code></pre>
-
-<h3>心跳</h3>
-
-<p>LGSocketServe.h</p>
-
-<pre><code>@property (nonatomic, retain) NSTimer             *heartTimer;   // 心跳计时器
-</code></pre>
-
-<p>LGSocketServe.m</p>
-
-<pre><code>- (void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
-{
-    //这是异步返回的连接成功，
-    NSLog(@"didConnectToHost");
-
-    //通过定时器不断发送消息，来检测长连接
-    self.heartTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(checkLongConnectByServe) userInfo:nil repeats:YES];
-    [self.heartTimer fire];
-}
-
-// 心跳连接
--(void)checkLongConnectByServe{
-
-    // 向服务器发送固定可是的消息，来检测长连接
-    NSString *longConnect = @"connect is here";
-    NSData   *data  = [longConnect dataUsingEncoding:NSUTF8StringEncoding];
-    [self.socket writeData:data withTimeout:1 tag:1];
-}
-</code></pre>
-
-<p>在连接成功的回调方法里，启动定时器，每隔2秒向服务器发送固定的消息来检测长连接。（这个根据服务器的需要就可以了）</p>
-
-<h3>断开连接</h3>
-
-<p>1，用户手动断开连接</p>
-
-<p>LGSocketServe.h</p>
-
-<pre><code>// 断开socket连接
--(void)cutOffSocket;
-</code></pre>
-
-<p>LGSocketServe.m</p>
-
-<pre><code>-(void)cutOffSocket
-{
-    self.socket.userData = SocketOfflineByUser;
-    [self.socket disconnect];
-}
-</code></pre>
-
-<p>cutOffSocket是用户断开连接之后，不在尝试重新连接。</p>
-
-<p>2，wifi断开，socket断开连接</p>
-
-<p>LGSocketServe.m</p>
-
-<pre><code>- (void)onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)err
-{
-
-    NSLog(@" willDisconnectWithError %ld   err = %@",sock.userData,[err description]);
-    if (err.code == 57) {
-        self.socket.userData = SocketOfflineByWifiCut;
-    }
-
-}
-</code></pre>
-
-<p>wifi断开之后，会回调onSocket:willDisconnectWithError:方法，err.code == 57，这个时候设置self.socket.userData = SocketOfflineByWifiCut。</p>
-
-<h3>重新连接</h3>
-
-<p>socket断开之后会回调：</p>
-
-<p>LGSocketServe.m</p>
-
-<pre><code>- (void)onSocketDidDisconnect:(AsyncSocket *)sock
-{
-
-    NSLog(@"7878 sorry the connect is failure %ld",sock.userData);
-
-    if (sock.userData == SocketOfflineByServer) {
-        // 服务器掉线，重连
-        [self startConnectSocket];
-    }
-    else if (sock.userData == SocketOfflineByUser) {
-
-        // 如果由用户断开，不进行重连
-        return;
-    }else if (sock.userData == SocketOfflineByWifiCut) {
-
-        // wifi断开，不进行重连
-        return;
-    }
-
-}
-</code></pre>
-
-<p>在onSocketDidDisconnect回调方法里面，会根据self.socket.userData来判断是否需要重新连接。</p>
-
-<h3>发送消息</h3>
-
-<p>LGSocketServe.h</p>
-
-<pre><code>// 发送消息
-- (void)sendMessage:(id)message;
-</code></pre>
-
-<p>LGSocketServe.m</p>
-
-<pre><code>//设置写入超时 -1 表示不会使用超时
-#define WRITE_TIME_OUT -1
-
-- (void)sendMessage:(id)message
-{
-    //像服务器发送数据
-    NSData *cmdData = [message dataUsingEncoding:NSUTF8StringEncoding];
-    [self.socket writeData:cmdData withTimeout:WRITE_TIME_OUT tag:1];
-}
-
-//发送消息成功之后回调
-- (void)onSocket:(AsyncSocket *)sock didWriteDataWithTag:(long)tag
-{
-
-}
-</code></pre>
-
-<p>发送消息成功之后会调用onSocket:didWriteDataWithTag:,在这个方法里可以进行读取消息。</p>
-
-<h3>接受消息</h3>
-
-<p>LGSocketServe.m</p>
-
-<pre><code>//设置读取超时 -1 表示不会使用超时
-#define READ_TIME_OUT -1
-
-#define MAX_BUFFER 1024
-
-//发送消息成功之后回调
-- (void)onSocket:(AsyncSocket *)sock didWriteDataWithTag:(long)tag
-{
-    //读取消息
-    [self.socket readDataWithTimeout:-1 buffer:nil bufferOffset:0 maxLength:MAX_BUFFER tag:0];
-}
-
-//接受消息成功之后回调
-- (void)onSocket:(AsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
-{
-    //服务端返回消息数据量比较大时，可能分多次返回。所以在读取消息的时候，设置MAX_BUFFER表示每次最多读取多少，当data.length &lt; MAX_BUFFER我们认为有可能是接受完一个完整的消息，然后才解析
-    if( data.length &lt; MAX_BUFFER )
-    {
-        //收到结果解析...
-        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-        NSLog(@"%@",dic);
-        //解析出来的消息，可以通过通知、代理、block等传出去
-
-    }
-
-
-    [self.socket readDataWithTimeout:READ_TIME_OUT buffer:nil bufferOffset:0 maxLength:MAX_BUFFER tag:0];
-</code></pre>
-
-<p>接受消息后去解析，然后可以通过通知、代理、block等传出去。在onSocket:didReadData:withTag:回调方法里面需要不断读取消息，因为数据量比较大的话，服务器会分多次返回。所以我们需要定义一个MAX_BUFFER的宏，表示每次最多读取多少。当data.length &lt; MAX_BUFFER我们认为有可能是接受完一个完整的消息，然后才解析
-。</p>
-
-<h3>出错处理</h3>
-
-<p>LGSocketServe.m</p>
-
-<pre><code>- (void)onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)err
-{
-    NSData * unreadData = [sock unreadData]; // ** This gets the current buffer
-    if(unreadData.length &gt; 0) {
-        [self onSocket:sock didReadData:unreadData withTag:0]; // ** Return as much data that could be collected
-    } else {
-
-        NSLog(@" willDisconnectWithError %ld   err = %@",sock.userData,[err description]);
-        if (err.code == 57) {
-            self.socket.userData = SocketOfflineByWifiCut;
-        }
-    }
-
-}
-</code></pre>
-
-<p>socket出错会回调onSocket:willDisconnectWithError:方法，可以通过unreadData来读取未来得及读取的buffer。</p>
-
-<h3>使用</h3>
-
-<p>导入#import &ldquo;LGSocketServe.h&rdquo;</p>
-
-<pre><code> LGSocketServe *socketServe = [LGSocketServe sharedSocketServe];
-//socket连接前先断开连接以免之前socket连接没有断开导致闪退
-[socketServe cutOffSocket];
-socketServe.socket.userData = SocketOfflineByServer;
-[socketServe startConnectSocket];
-
-//发送消息 @"hello world"只是举个列子，具体根据服务端的消息格式
-[socketServe sendMessage:@"hello world"];
-</code></pre>
-
-<p>以上是AsyncSocket的简单使用，在实际开发过程中依然会碰到很多问题，欢迎加我的微信公众号iOS开发：iOSDevTip，一起讨论AsyncSocket中遇到的问题。</p>
-
-<p>AsyncSocketDemo下载地址： <a href="https://github.com/worldligang/AsyncSocketDemo.git"target="_blank"title="CocoaAsyncSocket">AsyncSocketDemo</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/03/27/nssortdescriptorpai-xu/">NSSortDescriptor排序</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-03-27T19:01:45+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:01 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>NSSortDescriptor可以实现按照对象的属性进行排序。比如我们有一个对象（LGPeople）。LGPeople有两个属性分别是名字（name）和年龄（age）。现在我们要按照LGPeople的年龄（age）来进行排序。</p>
-
-<p>代码如下：</p>
-
-<pre><code>    //按年龄排序
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"_age" ascending:NO];
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
-    [arrayPeople sortUsingDescriptors:sortDescriptors];
-</code></pre>
-
-<p>这样是按照年龄的降序进行排序。如果想升序的话将NO改为YES即可。如果是按照名字进行排序的话也很简单：</p>
-
-<pre><code>    //按姓名排序
-    NSSortDescriptor *sortDescriptorName = [[NSSortDescriptor alloc] initWithKey:@"_name" ascending:NO];
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptorName, nil];
-    [arrayPeople sortUsingDescriptors:sortDescriptors];
-</code></pre>
-
-<p>也许我们还有一种需求：先按照年龄排序，再按名字进行排序。代码如下：</p>
-
-<pre><code>    //按年龄和名字排序
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"_age" ascending:NO];
-    NSSortDescriptor *sortDescriptorName = [[NSSortDescriptor alloc] initWithKey:@"_name" ascending:NO];
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, sortDescriptorName, nil];
-    [_mutArrVideo sortUsingDescriptors:sortDescriptors];
-</code></pre>
-
-<p>这样相同年龄的情况下，就会按照名字进行排序。当然还可以设置两个以上的排序条件。</p>
-
-<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -1514,19 +1441,19 @@ socketServe.socket.userData = SocketOfflineByServer;
       </li>
     
       <li class="post">
-        <a href="/blog/2015/06/04/mian-shi-guan-wen-xian-zai-gong-zi-shi-duo-shao-gai-zen-yao-hui-da/">面试官问现在工资是多少该怎么回答?</a>
+        <a href="/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/05/29/macxia-dot-gitconfigpei-zhi-bie-ming-alias/">mac下.gitconfig配置别名alias</a>
+        <a href="/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/05/22/iosxie-yi-li-mian-ke-yi-ding-yi-cheng-yuan-bian-liang-he-shu-xing-ma-%3F/">iOS协议里面可以定义成员变量和属性吗？</a>
+        <a href="/blog/2015/06/09/sdwebimagejia-zai-tu-pian-huan-cun-tu-pian/">SDWebImage加载图片缓存图片</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/05/14/iosdi-tu-ding-wei-shi-yong-xiao-ji-qiao/">iOS地图定位使用几个小功能</a>
+        <a href="/blog/2015/06/06/ios-kvcxiang-xi-jiang-jie/">iOS KVC详细讲解</a>
       </li>
     
   </ul>
