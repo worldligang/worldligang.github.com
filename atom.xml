@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-06-13T08:26:54+08:00</updated>
+  <updated>2015-06-13T08:34:19+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -158,6 +158,8 @@
 <p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
 
 <p><a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></p>
 ]]></content>
   </entry>
   
@@ -216,6 +218,8 @@
 <p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
 
 <p><a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></p>
 ]]></content>
   </entry>
   
@@ -262,7 +266,7 @@
 
 <h3>入门指南</h3>
 
-<p>下载 <a href="cdn2.raywenderlich.com/wp-content/uploads/2013/07/BlueLibrary-Starter.zip">启动项目</a>，从 ZIP 文件中提取文件，用 Xcode 打开 BlueLibrary.xcodeproj。</p>
+<p>下载 <a href="cdn2.raywenderlich.com/wp-content/uploads/2013/07/BlueLibrary-Starter.zip" target="_blank" title="启动项目">启动项目</a>，从 ZIP 文件中提取文件，用 Xcode 打开 BlueLibrary.xcodeproj。</p>
 
 <p>这没有多少文件，仅仅只有一个默认的 ViewController 文件和一个空的可执行的简单 HTTP 客户端。</p>
 
@@ -352,6 +356,8 @@
 <p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
 
 <p><a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></p>
 ]]></content>
   </entry>
   
