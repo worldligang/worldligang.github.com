@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>HackerNews - 刚刚在线</title>
+  <title>iOS 设计模式系列：Facade – 外观模式 - 刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="HackerNews">
-  <meta name="keywords" content="HackerNews, 源代码, Cocoapods, iPhone, Xcode, iPhone客户端, 客户端, iOS, iOS开发, cocoapods, 个人博客, 刚刚在线">
+  <meta name="description" content="iOS 设计模式系列：MVC、Singleton – 单例模式、Facade – 外观模式、Decorator – 装饰器模式、Adapter – 适配器模式、Observer – 观察者模式、Memento – 备忘录模式、Archiving – 归档模式、Command – 命令模式">
+  <meta name="keywords" content="设计模式, MVC, 单例模式, 外观模式, 装饰器模式, 适配器模式, 观察者模式,备忘录模式,归档模式,命令模式, cocoapods, 个人博客, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/blog/2015/01/07/hackernews">
+  <link rel="canonical" href="http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -83,7 +83,7 @@
   
   <header>
     
-      <h1 class="entry-title">HackerNews</h1>
+      <h1 class="entry-title">iOS 设计模式系列：Facade – 外观模式</h1>
     
     
       <p class="meta">
@@ -92,23 +92,112 @@
 
 
 
-<time class='entry-date' datetime='2015-01-07T11:09:29+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:09 am</span></time>
+<time class='entry-date' datetime='2015-06-15T10:06:20+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:06 am</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+<div class="entry-content"><p>目前你有 PersistencyManager 来在本地存储专辑数据，HTTPClient 处理远程通信。项目中其它的类跟这些逻辑都没关。</p>
 
-<pre><code>iOSDevTip
+<p>执行这个<a href="http://www.superqq.com/blog/2015/03/21/dan-li-mo-shi-de-xie-fa/">模式</a>，只有 LibraryAPI 来保存 PersistencyManager 和 HTTPClient 的实例。之后，LibraryAPI 将会公开一个简单的 API 来访问这些服务。</p>
+
+<pre><code>提示：通常，单例存在 app 的整个生命周期。不需一直使用很多指针指向其它对象，因为她们直到程序关闭后才会被释放。   
 </code></pre>
 
-<p> <a href="https://github.com/Xuzz/newsyc.git"target="_blank"title="源代码">源代码</a></p>
+<p>这个设计就像下图：</p>
 
-<p> Hacker News的iPhone客户端</p>
+<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2013/08/design-patterns-facade-uml-480x71.png" alt="icon" /></p>
 
-<p><img src="http://wangzz.github.io/images/article1/app_hack_news.png" alt="图1" title="图1" width="700"/></p>
+<p>LibraryAPI 将会公开给其它代码，但是它隐藏了 APP 中 HTTPClient 和 PersistencyManager 的复杂部分。</p>
+
+<p>打开 LibraryAPI.h，在顶部引入面文件：</p>
+
+<pre><code>#import "Album.h"
+</code></pre>
+
+<p>接下来，在 LibraryAPI.h下面添加如下方法：</p>
+
+<pre><code>- (NSArray*)getAlbums;
+- (void)addAlbum:(Album*)album atIndex:(int)index;
+- (void)deleteAlbumAtIndex:(int)index;
+</code></pre>
+
+<p>现在，这些方法都公开给了其它类。</p>
+
+<p>在 LibraryAPI.m 文件引入如下两个文件：</p>
+
+<h1>import &ldquo;PersistencyManager.h&rdquo;</h1>
+
+<h1>import &ldquo;HTTPClient.h&rdquo;</h1>
+
+<p>只有在这个地方你才会需要引入这些类。记住：你的 API 将会是你「复杂」系统的唯一的接入点。</p>
+
+<p>现在添加一些私有属性在你的类的扩展里（在 @implementation 上面）</p>
+
+<pre><code>@interface LibraryAPI () {
+    PersistencyManager *persistencyManager;
+    HTTPClient *httpClient;
+    BOOL isOnline;
+}
+@end
+</code></pre>
+
+<p>isOnline 用来判断，如果专辑列表数据发生变化是否能够更新到服务器，例如添加或者删除专辑。</p>
+
+<p>你现在需要在 init 方法中初始化这些变量，在 LibraryAPI.m 中添加下面代码：</p>
+
+<pre><code>- (id)init
+{
+    self = [super init];
+    if (self) {
+        persistencyManager = [[PersistencyManager alloc] init];
+        httpClient = [[HTTPClient alloc] init];
+        isOnline = NO;
+    }
+    return self;
+}
+</code></pre>
+
+<p>这个 HTTP 客户端在这里并不真正的工作，它只是在外观设计里面起一个示范用法的作用，所以 isOnline 永远是 NO 了。</p>
+
+<p>接下来，在 LibraryAPI.m 里面添加下面三个方法：</p>
+
+<pre><code>- (NSArray*)getAlbums
+{
+    return [persistencyManager getAlbums];
+}
+
+- (void)addAlbum:(Album*)album atIndex:(int)index
+{
+    [persistencyManager addAlbum:album atIndex:index];
+    if (isOnline)
+    {
+        [httpClient postRequest:@"/api/addAlbum" body:[album description]];
+    }
+}
+
+- (void)deleteAlbumAtIndex:(int)index
+{
+    [persistencyManager deleteAlbumAtIndex:index];
+    if (isOnline)
+    {
+        [httpClient postRequest:@"/api/deleteAlbum" body:[@(index) description]];
+    }
+}
+</code></pre>
+
+<p>看一下 addAlbum:atIndex:。这个类首先更新本地数据，如果联网，它再更新远端服务器。这就是外观设计的长处；当一些系统外的类添加了一个新专辑，它不知道─也不需要知道─复杂的内部系统。</p>
+
+<pre><code>提示：当在你的子系统里设计一个外观类的时候，记住没有任何东西可能阻止客户访问这些「隐藏」类。要多写些防御性的代码，不要想当然的认为所有客户都会用同样的方式使用你的外观类。
+</code></pre>
+
+<p>运行你的程序，你会看一个黑底空白内容的屏幕，像下面这样：</p>
+
+<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2013/09/2013-09-01_12-08-44-211x320.png" alt="icon1" /></p>
+
+<p>你需要在屏幕上显示一些专辑数据─这就需要使用到下面一个设计模式：装饰器 (Decorator)。</p>
 </div>
 
 
@@ -124,18 +213,18 @@
 
 
 
-<time class='entry-date' datetime='2015-01-07T11:09:29+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:09 am</span></time>
+<time class='entry-date' datetime='2015-06-15T10:06:20+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:06 am</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/yuan-dai-ma/'>源代码</a>
+    <a class='category' href='/blog/categories/ioskai-fa/'>ios开发</a>
   
 </span>
 
 
       <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
-<br>原文链接：<a href="http://www.superqq.com/blog/2015/01/07/hackernews/">http://www.superqq.com/blog/2015/01/07/hackernews/</a> <!-- 添加这一行代码 -->
+<br>原文链接：<a href="http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/">http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -160,10 +249,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/01/06/gpuimage/" title="Previous Post: GPUImage">&laquo; GPUImage</a>
+        <a class="basic-alignment left" href="/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/" title="Previous Post: iOS 设计模式系列：Singleton – 单例模式">&laquo; iOS 设计模式系列：Singleton – 单例模式</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/01/07/twittercover/" title="Next Post: TwitterCover">TwitterCover &ra/categories.htmlquo;</a>
       
     </p>
   </footer>
