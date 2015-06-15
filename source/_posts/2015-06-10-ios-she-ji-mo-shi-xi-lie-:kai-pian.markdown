@@ -41,7 +41,7 @@ iOS 设计模式 – 你大概经常听过这样的术语，但是你知道它�
 
 ###入门指南
 
-下载 [启动项目](cdn2.raywenderlich.com/wp-content/uploads/2013/07/BlueLibrary-Starter.zip)，从 ZIP 文件中提取文件，用 Xcode 打开 BlueLibrary.xcodeproj。
+下载 <a href="http://cdn2.raywenderlich.com/wp-content/uploads/2013/07/BlueLibrary-Starter.zip" target="_blank" title="启动项目">启动项目</a>，从 ZIP 文件中提取文件，用 Xcode 打开 BlueLibrary.xcodeproj。
 
 这没有多少文件，仅仅只有一个默认的 ViewController 文件和一个空的可执行的简单 HTTP 客户端。
 
@@ -124,3 +124,10 @@ Build 你的项目确保所有代码都能构运行。没有问题？你的第�
 **设计模式系列文章**：
 
 [iOS 设计模式系列：开篇](http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/)
+
+[iOS 设计模式系列：MVC – 设计模式中的国王](http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/)
+
+[iOS 设计模式系列：Singleton – 单例模式](http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/)
+
+[iOS 设计模式系列：Facade – 外观模式](http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/)
+
