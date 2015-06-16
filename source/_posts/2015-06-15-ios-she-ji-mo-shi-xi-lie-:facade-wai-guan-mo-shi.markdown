@@ -35,8 +35,8 @@ LibraryAPI 将会公开给其它代码，但是它隐藏了 APP 中 HTTPClient �
 
 在 LibraryAPI.m 文件引入如下两个文件：
 
-#import "PersistencyManager.h"
-#import "HTTPClient.h"
+	#import "PersistencyManager.h"
+	#import "HTTPClient.h"
 
 只有在这个地方你才会需要引入这些类。记住：你的 API 将会是你「复杂」系统的唯一的接入点。
 
