@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-06-15T18:43:02+08:00</updated>
+  <updated>2015-06-16T13:14:43+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -47,9 +47,9 @@
 
 <p>在 LibraryAPI.m 文件引入如下两个文件：</p>
 
-<h1>import &ldquo;PersistencyManager.h&rdquo;</h1>
-
-<h1>import &ldquo;HTTPClient.h&rdquo;</h1>
+<pre><code>#import "PersistencyManager.h"
+#import "HTTPClient.h"
+</code></pre>
 
 <p>只有在这个地方你才会需要引入这些类。记住：你的 API 将会是你「复杂」系统的唯一的接入点。</p>
 
