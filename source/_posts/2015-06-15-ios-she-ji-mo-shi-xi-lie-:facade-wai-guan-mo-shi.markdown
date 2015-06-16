@@ -4,7 +4,7 @@ title: "iOS 设计模式系列：Facade – 外观模式"
 date: 2015-06-15 10:06:20 +0800
 comments: true
 categories: iOS开发
-keywords: 设计模式, MVC, 单例模式, 外观模式, 装饰器模式, 适配器模式, 观察者模式,备忘录模式,归档模式,命令模式, cocoapods, 个人博客, 刚刚在线
+keywords: 外观模式, iOS外观模式, iOS Facade, 刚刚在线
 description: "iOS 设计模式系列：MVC、Singleton – 单例模式、Facade – 外观模式、Decorator – 装饰器模式、Adapter – 适配器模式、Observer – 观察者模式、Memento – 备忘录模式、Archiving – 归档模式、Command – 命令模式"
 
 ---

@@ -1,18 +1,18 @@
 ---
 layout: post
 title: "iOS 设计模式系列：Decorator – 装饰器模式"
-date: 2015-06-16 13:38:15 +0800
+date: 2015-06-16 07:44:51 +0800
 comments: true
-keywords: 装饰器模式, iOS装饰器模式, iOS Decorator,  设计模式, 个人博客, 刚刚在线
 categories: iOS开发
-description: 装饰器模式可以在不修改代码的情况下灵活的为一对象添加行为和职责。当你要修改一个被其它类包含的类的行为时，它可以代替子类化方法。
+keywords: 装饰器模式, iOS装饰器模式, iOS Decorator, 刚刚在线
+description: "iOS 设计模式系列：MVC、Singleton – 单例模式、Facade – 外观模式、Decorator – 装饰器模式、Adapter – 适配器模式、Observer – 观察者模式、Memento – 备忘录模式、Archiving – 归档模式、Command – 命令模式"
 
 ---
+
 **装饰器模式**可以在不修改代码的情况下灵活的为一对象添加行为和职责。当你要修改一个被其它类包含的类的行为时，它可以代替子类化方法。
 
 在 Object-C 里有两个种非常常见的实现模式：分类(Category)和委托(Delegation)。
-
-###分类 Category
+分类 Category
 
 分类是一种非常强大的机制，它允许你在一个已存在的类里添加新方法，而不需要去为他添加一个子类。新方法在编译的时候添加，它能像这个类的扩展方法一样正常执行。一个装饰器跟类的定义稍微有点不同的就是，因为装饰器不能被实例化，它只是一个扩展。
 
@@ -189,3 +189,13 @@ tableView:cellForRowAtIndexPath: 创建并返回一个带标题和信息的 cell
 这个可以重复使用的视图 (view)，它所有的内容都由另一个对象来管理：委托 (delegate)。这个水平滚动区域需要声明一个方法，一个为滚动区域工作的代理工具，就像 UITableView 代理方法如何工作一样。当我讨论下一个设计模式时将会实施它。
 
 **设计模式系列文章**：
+
+[iOS 设计模式系列：开篇](http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/)
+
+[iOS 设计模式系列：MVC – 设计模式中的国王](http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/)
+
+[iOS 设计模式系列：Singleton – 单例模式](http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/)
+
+[iOS 设计模式系列：Facade – 外观模式](http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/)
+
+
