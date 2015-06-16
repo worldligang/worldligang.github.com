@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-06-16T21:20:52+08:00</updated>
+  <updated>2015-06-16T21:51:46+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -18,7 +18,7 @@
     <link href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/"/>
     <updated>2015-06-16T07:44:51+08:00</updated>
     <id>http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi</id>
-    <content type="html"><![CDATA[<p>123<strong>装饰器模式</strong>可以在不修改代码的情况下灵活的为一对象添加行为和职责。当你要修改一个被其它类包含的类的行为时，它可以代替子类化方法。</p>
+    <content type="html"><![CDATA[<p><strong>装饰器模式</strong>可以在不修改代码的情况下灵活的为一对象添加行为和职责。当你要修改一个被其它类包含的类的行为时，它可以代替子类化方法。</p>
 
 <p>在 Object-C 里有两个种非常常见的实现模式：分类(Category)和委托(Delegation)。</p>
 
