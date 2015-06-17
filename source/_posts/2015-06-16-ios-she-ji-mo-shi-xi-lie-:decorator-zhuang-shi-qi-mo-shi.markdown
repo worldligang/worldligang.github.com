@@ -1,21 +1,20 @@
 ---
 layout: post
 title: "iOS 设计模式系列：Decorator – 装饰器模式"
-date: 2015-06-16 07:44:51 +0800
+date: 2015-06-16 13:38:15 +0800
 comments: true
+keywords: 装饰器模式, iOS装饰器模式, iOS Decorator,  设计模式, 个人博客, 刚刚在线
 categories: iOS开发
-keywords: 装饰器模式, iOS装饰器模式, iOS Decorator, 刚刚在线
-description: "iOS 设计模式系列：MVC、Singleton – 单例模式、Facade – 外观模式、Decorator – 装饰器模式、Adapter – 适配器模式、Observer – 观察者模式、Memento – 备忘录模式、Archiving – 归档模式、Command – 命令模式"
+description: 装饰器模式可以在不修改代码的情况下灵活的为一对象添加行为和职责。当你要修改一个被其它类包含的类的行为时，它可以代替子类化方法。
 
 ---
-
 **装饰器模式**可以在不修改代码的情况下灵活的为一对象添加行为和职责。当你要修改一个被其它类包含的类的行为时，它可以代替子类化方法。
 
 在 Object-C 里有两个种非常常见的实现模式：分类(Category)和委托(Delegation)。
 
 ###分类 Category
 
-[分类](http://www.superqq.com/blog/2015/01/15/objective-cxiang-guan-categoryde-shou-ji/)是一种非常强大的机制，它允许你在一个已存在的类里添加新方法，而不需要去为他添加一个子类。新方法在编译的时候添加，它能像这个类的扩展方法一样正常执行。一个装饰器跟类的定义稍微有点不同的就是，因为装饰器不能被实例化，它只是一个扩展。
+分类是一种非常强大的机制，它允许你在一个已存在的类里添加新方法，而不需要去为他添加一个子类。新方法在编译的时候添加，它能像这个类的扩展方法一样正常执行。一个装饰器跟类的定义稍微有点不同的就是，因为装饰器不能被实例化，它只是一个扩展。
 
 	提示：除了你自己类的扩展，你还可在任何 Cocoa 类里的扩展添加方法。
 
@@ -199,4 +198,6 @@ tableView:cellForRowAtIndexPath: 创建并返回一个带标题和信息的 cell
 
 [iOS 设计模式系列：Facade – 外观模式](http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/)
 
+[iOS 设计模式系列：Decorator – 装饰器模式](http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/)
 
+[iOS 设计模式系列：Adapter – 适配器模式](http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/)
