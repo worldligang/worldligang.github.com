@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-06-17T14:53:31+08:00</updated>
+  <updated>2015-06-17T23:29:06+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,27 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[上海iOS开发工资待遇如何？]]></title>
+    <link href="http://www.superqq.com/blog/2015/06/17/shang-hai-ioskai-fa-gong-zi-dai-yu-ru-he-%3F/"/>
+    <updated>2015-06-17T23:25:30+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/06/17/shang-hai-ioskai-fa-gong-zi-dai-yu-ru-he-?</id>
+    <content type="html"><![CDATA[<p><strong>上海iOS开发</strong>工资待遇如何呢？一般来说，上海iOS开发的工资还算相对不错的，毕竟是一线城市的魔都，整体来说还算可以。</p>
+
+<p>上海<a href="http://www.superqq.com/blog/2014/12/27/ioskai-fa-zhong-de-gcdduo-xian-cheng-tips/">iOS开发</a>起步薪资大概在5k~8k吧，如果你技术好，在大学里面就是学霸，对计算机也非常精通，超过8k，也不是完全没有可能的。5k~8k只是一个参考值，主要还是靠自己。</p>
+
+<p>对于工作一两年的上海iOS开发者朋友们来说，工资应该在8k~15k。也就是说，上海iOS开发者有一两年工作经验，工资很轻松过五位数。</p>
+
+<p>做一位一名程序员，工作过五位数很正常，尤其是上海iOS开发程序员。</p>
+
+<p>当你在上海做iOS开发三四年以上，而且你的技术确实有牛C，这个时候，工资完全可以突破2万。2万对于程序员来说是一个重要的标志，上海iOS开发程序员也不例外。2万说明你应该是一名很不错的程序员了。</p>
+
+<p>以上是上海iOS开发工资的一个参考，具体可以根据实际<a href="http://www.superqq.com/blog/2015/06/04/mian-shi-guan-wen-xian-zai-gong-zi-shi-duo-shao-gai-zen-yao-hui-da/">面试</a>情况来谈你的工资。</p>
+
+<p>上海iOS开发需求量也很大，所以对于想进入iOS开发行业的人来说，上海iOS开发职位是一个很不错的选择。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS 设计模式系列：Adapter – 适配器模式]]></title>
@@ -2879,59 +2900,6 @@ socketServe.socket.userData = SocketOfflineByServer;
 
 @end
 </code></pre>
-
-<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[单例模式的两种写法]]></title>
-    <link href="http://www.superqq.com/blog/2015/03/21/dan-li-mo-shi-de-xie-fa/"/>
-    <updated>2015-03-21T17:39:16+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/03/21/dan-li-mo-shi-de-xie-fa</id>
-    <content type="html"><![CDATA[<p>单例模式是iOS开发中最常用的设计模式，iOS的单例模式有两种官方写法，如下：</p>
-
-<h3>1，常用写法</h3>
-
-<pre><code>#import "LGManagerCenter.h"
-
-static LGManagerCenter *managerCenter;
-
-@implementation LGManagerCenter
-
-+(LGManagerCenter *)sharedManager{
-    if(!managerCenter)
-        managerCenter=[[self allocWithZone:NULL] init];
-    return  managerCenter;
-}
-
-@end
-</code></pre>
-
-<h3>2,用GCD创建单例类</h3>
-
-<pre><code>#import "LGManagerCenter.h"
-
-
-@implementation LGManagerCenter
-
-
-+(LGManagerCenter *)sharedManager{
-    static dispatch_once_t predicate;
-    static LGManagerCenter * managerCenter;
-    dispatch_once(&amp;predicate, ^{
-        managerCenter=[[LGManagerCenter alloc] init];
-    });
-    return managerCenter;
-}
-
-@end
-</code></pre>
-
-<p>其中dispatch_once函数只执行一次。</p>
 
 <p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
 
