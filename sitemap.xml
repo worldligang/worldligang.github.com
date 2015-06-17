@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/</loc>
+    <lastmod>2015-06-17T14:24:04+08:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/</loc>
     <lastmod>2015-06-16T13:38:15+08:00</lastmod>
     <priority>0.8</priority>
@@ -322,25 +327,25 @@
   </url>
   <url>
     <loc>http://www.superqq.com/blog/archives/</loc>
-    <lastmod>2015-06-16T14:53:51+08:00</lastmod>
+    <lastmod>2015-06-17T14:36:28+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://www.superqq.com/</loc>
-    <lastmod>2015-06-16T14:53:51+08:00</lastmod>
+    <lastmod>2015-06-17T14:36:28+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://www.superqq.com/about/</loc>
-    <lastmod>2015-06-16T14:53:51+08:00</lastmod>
+    <lastmod>2015-06-17T14:36:28+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://www.superqq.com/ios/</loc>
-    <lastmod>2015-06-16T14:53:51+08:00</lastmod>
+    <lastmod>2015-06-17T14:36:28+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
