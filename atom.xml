@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-06-18T23:37:35+08:00</updated>
+  <updated>2015-06-20T06:59:23+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,142 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS 设计模式系列：Archiving – 归档模式]]></title>
+    <link href="http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/"/>
+    <updated>2015-06-20T06:54:13+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi</id>
+    <content type="html"><![CDATA[<p>备忘录模式就是苹果中一种归档形式。它能够把对象转化成一种数据流，在不依赖于外部类的私有属性的情况下来存储和取出数据。你可以在 iOS 6 by Tutorials 这本书的第 16 章读到更多的相关信息。或者这里 Apple’s Archives and Serializations Programming Guide。</p>
+
+<h3>如何使用归档 Archiving</h3>
+
+<p>首先，你需要声明 Album，用 NSCoding 协议来归档数据。打开 Album.h 文件，修改 @ interface 行如下：</p>
+
+<pre><code>@interface Album : NSObject &lt;NSCoding&gt;
+</code></pre>
+
+<p>在 Album.m 添加下面两个方法：</p>
+
+<pre><code>- (void)encodeWithCode:(NSCode *)aCoder
+{
+    [aCode encodeObject:self.year forKey:@“year”];
+    [aCode encodeObject:self.title forKey:@“album”];
+    [aCode encodeObject:self.artist forKey:@“artist”];
+    [aCode encodeObject:self.coverUrl forKey:@“cover_url”];     [aCode encodeObject:self.genre forKey:@“genre”];
+}
+
+- (id)initWithCode:(NSCode *)aDecoder
+{
+    self = [super init];
+    if (self) {
+        _year = [aDecoder decodeObjectForKey:@“year”];
+        _title = [aDecoder decodeObjectForKey:@“album”];
+        _artist = [aDecoder decodeObjectForKey:@“artist”];
+        _coverUrl = [aDecoder decodeObjectForKey:@“cover_url”];
+        _genre = [aDecoder decodeObjectForKey:@“genre”];
+    }
+    return self;
+}
+</code></pre>
+
+<p>当你存档这个类的实例时调用 encodeWithCoder:。相反，当你通过解档来创建一个 Album 实例时，需要调用 iniWithCode: 。就这么简单，非常强大。</p>
+
+<p>现在 Album 类可以存档了，添加的代码实际上是存储和加载专辑列表的。</p>
+
+<p>在 PersistencyManger.h 里添加下面方法：</p>
+
+<pre><code>- (void)saveAlbums;
+</code></pre>
+
+<p>当存储专辑的时候调用些方法。</p>
+
+<p>现在，在 PersistencyManger.m 里添加方法实现：</p>
+
+<pre><code>- (void)saveAlbums
+{
+    NSString *filename = [NSHomeDirectory() stringByAppendingString:@“/Document/albums.bin”];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:albums];
+    [data writeToFile:filename atomically:YES];
+}
+</code></pre>
+
+<p>NSKeyedArchiver 把专辑数组存档进一个叫 album.bin 的文件里。</p>
+
+<p>当你存档的一个对象包含另一个对象的时候，存档自动递归的把子对象、子对象的子对象一并存储。在这个实例里，存储的是一个专辑实例的数组。因为数组和 Album 都支持 NSCopying 的接口，数组里的东西都会被自动存档。</p>
+
+<p>现在用下面代码替换 PersistencyManger.m 里的 init 方法：</p>
+
+<pre><code>- (id)init
+{
+    self = [super init];
+    if (self) {
+        NSData *data = [NSData dataWithContentsOfFile:[NSHomeDirectory() stringByAppendString:@“/Document/albums.bin”]];
+        albums = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        if (albums == nil) {
+            albums = [NSMutableArray arrayWithArray:
+                 @[[[Album alloc] initWithTitle:@"Best of Bowie" artist:@"David Bowie" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_david%20bowie_best%20of%20bowie.png" year:@"1992"],
+                 [[Album alloc] initWithTitle:@"It's My Life" artist:@"No Doubt" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_no%20doubt_its%20my%20life%20%20bathwater.png" year:@"2003"],
+                 [[Album alloc] initWithTitle:@"Nothing Like The Sun" artist:@"Sting" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_sting_nothing%20like%20the%20sun.png" year:@"1999"],
+                 [[Album alloc] initWithTitle:@"Staring at the Sun" artist:@"U2" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_u2_staring%20at%20the%20sun.png" year:@"2000"],
+                 [[Album alloc] initWithTitle:@"American Pie" artist:@"Madonna" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_madonna_american%20pie.png" year:@"2000"]]];
+                [self saveAlbums];
+        }
+    }
+    return self;
+}
+</code></pre>
+
+<p>在新代码里，如果文件存在，NSKeyedUnarchiver 就从文件加载专辑数据。如果不存在，它就创建专辑数据，然后立即存储，为下一次启动 app 使用。</p>
+
+<p>当然你也可以在 app 后台运行的时候再存储专辑数据。现在它看起来不是很有必要，但如果你在稍后添加修改专辑数据呢？你需要确保所有的数据修改都会被存储。</p>
+
+<p>在 LibraryAPI.h 添加下面的方法</p>
+
+<pre><code>- (void)saveAlbums;
+</code></pre>
+
+<p>因为程序的所以有服务都需要通过 LibraryAPI 提供，这就是程序为什么需要 PersistenrcyManger 来存储专辑数据。</p>
+
+<p>现在在 LibraryAPI.m 中添加实现方法：</p>
+
+<pre><code>- (void)saveAlbums
+{
+    [persistencyManger saveAlbums];
+}
+</code></pre>
+
+<p>这里是从 LibraryAPI 调用 PersistencyManger 来存储专辑。</p>
+
+<p>在 ViewController.m 文件 saveCurrentState 的后面添加下面代码：</p>
+
+<p>[[LibraryAPI sharedInstance] saveAlbums];</p>
+
+<p>上面的代码是每当 ViewController 存储当前状态时，使用 LibraryAPI 来存储专辑数据。</p>
+
+<p>构建你的 app，检查所有的都能正确编译。</p>
+
+<p>不幸的是，没有一种简单的方法来验证数据是否被正确的创建。你可以在 Finder 里检查模拟器下当前 app 的 Documents 文件夹，来看看专辑数据文件是否被创建，但是为了查看其它变化你还需要添加一些数据来改变专辑数据。</p>
+
+<p>但是，为了修改数据，假使为了删除专辑而需要临时添加一个删除选项，但这个选项并不会一直在你的库中存在？此外，由于误操作，错误的删除了一个专辑，但如果给这个操作添加一个撤消选项不是很好吗？</p>
+
+<p><strong>设计模式系列文章</strong>：</p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/">iOS 设计模式系列：Facade – 外观模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS 设计模式系列：Memento – 备忘录模式]]></title>
@@ -108,6 +244,8 @@
 <p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
 
 <p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
 ]]></content>
   </entry>
   
@@ -291,6 +429,8 @@
 <p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
 
 <p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
 ]]></content>
   </entry>
   
@@ -656,6 +796,8 @@ scroller.delegate = self;
 <p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
 
 <p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
 ]]></content>
   </entry>
   
@@ -876,6 +1018,8 @@ scroller.delegate = self;
 <p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
 
 <p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
 ]]></content>
   </entry>
   
@@ -997,6 +1141,8 @@ scroller.delegate = self;
 <p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
 
 <p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
 ]]></content>
   </entry>
   
@@ -1153,6 +1299,8 @@ scroller.delegate = self;
 <p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
 
 <p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
 ]]></content>
   </entry>
   
@@ -1219,6 +1367,8 @@ scroller.delegate = self;
 <p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
 
 <p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
 ]]></content>
   </entry>
   
@@ -1363,6 +1513,8 @@ scroller.delegate = self;
 <p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
 
 <p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
 ]]></content>
   </entry>
   
@@ -2708,348 +2860,6 @@ NSLog(@"Latitude = %f", distance);
 </code></pre>
 
 <p>以上是我对Model设计的简单理解，如果你有更好的想法，欢迎告诉我。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS开发之AsyncSocket使用教程]]></title>
-    <link href="http://www.superqq.com/blog/2015/04/03/ioskai-fa-zhi-asyncsocketshi-yong-jiao-cheng/"/>
-    <updated>2015-04-03T16:57:19+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/04/03/ioskai-fa-zhi-asyncsocketshi-yong-jiao-cheng</id>
-    <content type="html"><![CDATA[<p>用socket可以实现像QQ那样发送即时消息的功能。客户端和服务端需要建立长连接，在长连接的情况下，发送消息。客户端可以发送心跳包来检测长连接。</p>
-
-<p>在iOS开发中使用socket，一般都是用第三方库AsyncSocket，不得不承认这个库确实很强大。下载地址<a href="https://github.com/robbiehanson/CocoaAsyncSocket.git"target="_blank"title="CocoaAsyncSocket">CocoaAsyncSocket</a><br/>
-。</p>
-
-<p>使用AsyncSocket的时候可以做一层封装，根据需求提供几个接口出来。比如：连接、断开连接、发送消息等等。还有接受消息，接受到的消息可以通过通知、代理、block等传出去。</p>
-
-<p>简单介绍一下对AsyncSocket使用.一般来说，一个用户只需要建立一个socket长连接，所以可以用单例类方便使用。</p>
-
-<h3>定义单列类：LGSocketServe</h3>
-
-<p>LGSocketServe.h</p>
-
-<pre><code>//
-//  LGSocketServe.h
-//  AsyncSocketDemo
-//
-//  Created by ligang on 15/4/3.
-//  Copyright (c) 2015年 ligang. All rights reserved.
-//
-
-#import &lt;Foundation/Foundation.h&gt;
-#import "AsyncSocket.h"
-
-@interface LGSocketServe : NSObject&lt;AsyncSocketDelegate&gt;
-
-+ (LGSocketServe *)sharedSocketServe;
-
-
-@end
-</code></pre>
-
-<p>LGSocketServe.m</p>
-
-<pre><code>//
-//  LGSocketServe.m
-//  AsyncSocketDemo
-//
-//  Created by ligang on 15/4/3.
-//  Copyright (c) 2015年 ligang. All rights reserved.
-//
-
-#import "LGSocketServe.h"
-
-@implementation LGSocketServe
-
-
-static LGSocketServe *socketServe = nil;
-
-#pragma mark public static methods
-
-
-+ (LGSocketServe *)sharedSocketServe {
-    @synchronized(self) {
-        if(socketServe == nil) {
-            socketServe = [[[self class] alloc] init];
-        }
-    }
-    return socketServe;
-}
-
-
-+(id)allocWithZone:(NSZone *)zone
-{
-    @synchronized(self)
-    {
-        if (socketServe == nil)
-        {
-            socketServe = [super allocWithZone:zone];
-            return socketServe;
-        }
-    }
-    return nil;
-}   
-
-
-@end
-</code></pre>
-
-<h3>建立socket长连接</h3>
-
-<p>LGSocketServe.h</p>
-
-<pre><code>@property (nonatomic, strong) AsyncSocket         *socket;       // socket
-
-//  socket连接
-- (void)startConnectSocket;
-</code></pre>
-
-<p>LGSocketServe.m</p>
-
-<pre><code>//自己设定
-#define HOST @"192.168.0.1"
-#define PORT 8080
-
-//设置连接超时
-#define TIME_OUT 20
-
-- (void)startConnectSocket
-{
-    self.socket = [[AsyncSocket alloc] initWithDelegate:self];
-    [self.socket setRunLoopModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
-    if ( ![self SocketOpen:HOST port:PORT] )
-    {
-
-    }
-
-}
-
-- (NSInteger)SocketOpen:(NSString*)addr port:(NSInteger)port
-{
-
-    if (![self.socket isConnected])
-    {
-        NSError *error = nil;
-        [self.socket connectToHost:addr onPort:port withTimeout:TIME_OUT error:&amp;error];
-    }
-
-    return 0;
-}
-</code></pre>
-
-<p>宏定义一下HOST、PORT、TIME_OUT，实现startConnectSocket方法。这个时候要设置一下AsyncSocket的代理AsyncSocketDelegate。当长连接成功之后会调用：</p>
-
-<pre><code>- (void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
-{
-    //这是异步返回的连接成功，
-    NSLog(@"didConnectToHost");
-}
-</code></pre>
-
-<h3>心跳</h3>
-
-<p>LGSocketServe.h</p>
-
-<pre><code>@property (nonatomic, retain) NSTimer             *heartTimer;   // 心跳计时器
-</code></pre>
-
-<p>LGSocketServe.m</p>
-
-<pre><code>- (void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
-{
-    //这是异步返回的连接成功，
-    NSLog(@"didConnectToHost");
-
-    //通过定时器不断发送消息，来检测长连接
-    self.heartTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(checkLongConnectByServe) userInfo:nil repeats:YES];
-    [self.heartTimer fire];
-}
-
-// 心跳连接
--(void)checkLongConnectByServe{
-
-    // 向服务器发送固定可是的消息，来检测长连接
-    NSString *longConnect = @"connect is here";
-    NSData   *data  = [longConnect dataUsingEncoding:NSUTF8StringEncoding];
-    [self.socket writeData:data withTimeout:1 tag:1];
-}
-</code></pre>
-
-<p>在连接成功的回调方法里，启动定时器，每隔2秒向服务器发送固定的消息来检测长连接。（这个根据服务器的需要就可以了）</p>
-
-<h3>断开连接</h3>
-
-<p>1，用户手动断开连接</p>
-
-<p>LGSocketServe.h</p>
-
-<pre><code>// 断开socket连接
--(void)cutOffSocket;
-</code></pre>
-
-<p>LGSocketServe.m</p>
-
-<pre><code>-(void)cutOffSocket
-{
-    self.socket.userData = SocketOfflineByUser;
-    [self.socket disconnect];
-}
-</code></pre>
-
-<p>cutOffSocket是用户断开连接之后，不在尝试重新连接。</p>
-
-<p>2，wifi断开，socket断开连接</p>
-
-<p>LGSocketServe.m</p>
-
-<pre><code>- (void)onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)err
-{
-
-    NSLog(@" willDisconnectWithError %ld   err = %@",sock.userData,[err description]);
-    if (err.code == 57) {
-        self.socket.userData = SocketOfflineByWifiCut;
-    }
-
-}
-</code></pre>
-
-<p>wifi断开之后，会回调onSocket:willDisconnectWithError:方法，err.code == 57，这个时候设置self.socket.userData = SocketOfflineByWifiCut。</p>
-
-<h3>重新连接</h3>
-
-<p>socket断开之后会回调：</p>
-
-<p>LGSocketServe.m</p>
-
-<pre><code>- (void)onSocketDidDisconnect:(AsyncSocket *)sock
-{
-
-    NSLog(@"7878 sorry the connect is failure %ld",sock.userData);
-
-    if (sock.userData == SocketOfflineByServer) {
-        // 服务器掉线，重连
-        [self startConnectSocket];
-    }
-    else if (sock.userData == SocketOfflineByUser) {
-
-        // 如果由用户断开，不进行重连
-        return;
-    }else if (sock.userData == SocketOfflineByWifiCut) {
-
-        // wifi断开，不进行重连
-        return;
-    }
-
-}
-</code></pre>
-
-<p>在onSocketDidDisconnect回调方法里面，会根据self.socket.userData来判断是否需要重新连接。</p>
-
-<h3>发送消息</h3>
-
-<p>LGSocketServe.h</p>
-
-<pre><code>// 发送消息
-- (void)sendMessage:(id)message;
-</code></pre>
-
-<p>LGSocketServe.m</p>
-
-<pre><code>//设置写入超时 -1 表示不会使用超时
-#define WRITE_TIME_OUT -1
-
-- (void)sendMessage:(id)message
-{
-    //像服务器发送数据
-    NSData *cmdData = [message dataUsingEncoding:NSUTF8StringEncoding];
-    [self.socket writeData:cmdData withTimeout:WRITE_TIME_OUT tag:1];
-}
-
-//发送消息成功之后回调
-- (void)onSocket:(AsyncSocket *)sock didWriteDataWithTag:(long)tag
-{
-
-}
-</code></pre>
-
-<p>发送消息成功之后会调用onSocket:didWriteDataWithTag:,在这个方法里可以进行读取消息。</p>
-
-<h3>接受消息</h3>
-
-<p>LGSocketServe.m</p>
-
-<pre><code>//设置读取超时 -1 表示不会使用超时
-#define READ_TIME_OUT -1
-
-#define MAX_BUFFER 1024
-
-//发送消息成功之后回调
-- (void)onSocket:(AsyncSocket *)sock didWriteDataWithTag:(long)tag
-{
-    //读取消息
-    [self.socket readDataWithTimeout:-1 buffer:nil bufferOffset:0 maxLength:MAX_BUFFER tag:0];
-}
-
-//接受消息成功之后回调
-- (void)onSocket:(AsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
-{
-    //服务端返回消息数据量比较大时，可能分多次返回。所以在读取消息的时候，设置MAX_BUFFER表示每次最多读取多少，当data.length &lt; MAX_BUFFER我们认为有可能是接受完一个完整的消息，然后才解析
-    if( data.length &lt; MAX_BUFFER )
-    {
-        //收到结果解析...
-        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-        NSLog(@"%@",dic);
-        //解析出来的消息，可以通过通知、代理、block等传出去
-
-    }
-
-
-    [self.socket readDataWithTimeout:READ_TIME_OUT buffer:nil bufferOffset:0 maxLength:MAX_BUFFER tag:0];
-</code></pre>
-
-<p>接受消息后去解析，然后可以通过通知、代理、block等传出去。在onSocket:didReadData:withTag:回调方法里面需要不断读取消息，因为数据量比较大的话，服务器会分多次返回。所以我们需要定义一个MAX_BUFFER的宏，表示每次最多读取多少。当data.length &lt; MAX_BUFFER我们认为有可能是接受完一个完整的消息，然后才解析
-。</p>
-
-<h3>出错处理</h3>
-
-<p>LGSocketServe.m</p>
-
-<pre><code>- (void)onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)err
-{
-    NSData * unreadData = [sock unreadData]; // ** This gets the current buffer
-    if(unreadData.length &gt; 0) {
-        [self onSocket:sock didReadData:unreadData withTag:0]; // ** Return as much data that could be collected
-    } else {
-
-        NSLog(@" willDisconnectWithError %ld   err = %@",sock.userData,[err description]);
-        if (err.code == 57) {
-            self.socket.userData = SocketOfflineByWifiCut;
-        }
-    }
-
-}
-</code></pre>
-
-<p>socket出错会回调onSocket:willDisconnectWithError:方法，可以通过unreadData来读取未来得及读取的buffer。</p>
-
-<h3>使用</h3>
-
-<p>导入#import &ldquo;LGSocketServe.h&rdquo;</p>
-
-<pre><code> LGSocketServe *socketServe = [LGSocketServe sharedSocketServe];
-//socket连接前先断开连接以免之前socket连接没有断开导致闪退
-[socketServe cutOffSocket];
-socketServe.socket.userData = SocketOfflineByServer;
-[socketServe startConnectSocket];
-
-//发送消息 @"hello world"只是举个列子，具体根据服务端的消息格式
-[socketServe sendMessage:@"hello world"];
-</code></pre>
-
-<p>以上是AsyncSocket的简单使用，在实际开发过程中依然会碰到很多问题，欢迎加我的微信公众号iOS开发：iOSDevTip，一起讨论AsyncSocket中遇到的问题。</p>
-
-<p>AsyncSocketDemo下载地址： <a href="https://github.com/worldligang/AsyncSocketDemo.git"target="_blank"title="CocoaAsyncSocket">AsyncSocketDemo</a></p>
 ]]></content>
   </entry>
   
