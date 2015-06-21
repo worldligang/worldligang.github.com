@@ -223,11 +223,13 @@ undoStack = [[NSMutableArray alloc] init];
 
 <p>这个撤销操作是取消栈里最后一个对象，This object is always of type NSInvocation and can be invoked by calling … invoke. This invokes the command you created earlier when the album was deleted, and adds the deleted album back to the album list. Since you also deleted the last object in the stack when you “popped” it, you now check to see if the stack is empty. If it is, that means there are no more actions to undo. So you disable the Undo button.</p>
 
-<p>Build and run your app to test out your undo mechanism, delete an album (or two) and hit the Undo button to see it in action:</p>
+<p>运行你的app，测试撤销功能，删除一个专辑（或两个）然后点击撤销按钮看看效果：</p>
 
 <p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2013/08/design-pattern-stage4.png" alt="1" /></p>
 
 <p>这也是一个很好的地方来测试是否你的相册数据保留会变化。现在，如果你删除一个专辑，app退到后台，并终止应用程序，在下次启动应用程序显示的专辑列表不会有删除专辑信息。</p>
+
+<p>这里的源代码完成的项目：<a href="cdn2.raywenderlich.com/wp-content/uploads/2013/08/BlueLibrary-final.zip">最后bluelibrary</a></p>
 
 <p><strong>设计模式系列文章</strong>：</p>
 
@@ -389,7 +391,7 @@ undoStack = [[NSMutableArray alloc] init];
 
 <p>但是，为了修改数据，假使为了删除专辑而需要临时添加一个删除选项，但这个选项并不会一直在你的库中存在？此外，由于误操作，错误的删除了一个专辑，但如果给这个操作添加一个撤消选项不是很好吗？</p>
 
-<p>现在是时候讨论最后一个设计模式了：命令 Command。</p>
+<p>现在是时候讨论最后一个设计模式了：<a href="http://www.superqq.com/blog/2015/06/21/ios-she-ji-mo-shi-xi-lie-:command-ming-ling-mo-shi/">命令 Command</a>。</p>
 
 <p><strong>设计模式系列文章</strong>：</p>
 
