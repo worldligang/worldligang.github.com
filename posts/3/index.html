@@ -86,6 +86,188 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/04/07/mvczhong-modelde-she-ji/">MVC中Model的设计</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-04-07T09:56:12+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:56 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>一般在定义ViewController的时候，都习惯定义一个BaseViewController作为基类（即父类）。这样做的好处是：把公共的属性提出来放在BaseViewController中，试代码结构更清晰。同样，设计Model的时候，也可以定义一个基类。</p>
+
+<p>比如：有一个房子，房子里面有一个电视和许多个桌子。电视和桌子分别有价格和型号。</p>
+
+<h3>定义基类LGObject</h3>
+
+<p>LGObject.h：</p>
+
+<pre><code> //
+//  LGObject.h
+//  LGAlertViewDemo
+//
+//  Created by apple on 15/4/6.
+//  Copyright (c) 2015年 LiGang. All rights reserved.
+//
+
+#import &lt;Foundation/Foundation.h&gt;
+
+@interface LGObject : NSObject
+
+@property (readonly, nonatomic) id data;
+
+- (id)initWithData:(id)data;
+- (BOOL)isEmpty;
+
+@end
+</code></pre>
+
+<p>LGObject.m：</p>
+
+<pre><code>//
+//  LGObject.m
+//  LGAlertViewDemo
+//
+//  Created by apple on 15/4/6.
+//  Copyright (c) 2015年 LiGang. All rights reserved.
+//
+
+#import "LGObject.h"
+
+@implementation LGObject
+
+- (id)initWithData:(id)data {
+    self = [super init];
+    if(self) {
+        _data = nil;
+        if(data != nil) _data = data;
+    }
+    return self;
+}
+
+- (BOOL)isEmpty
+{
+    return _data == nil ? YES : NO;
+}
+
+@end
+</code></pre>
+
+<h3>定义房子LGHouse、电视LGVideo、桌子LGDesk</h3>
+
+<p>电视LGVideo、桌子LGDesk可以放在LGHouse里面。多个桌子需要定义一个数组：arrayDesk。</p>
+
+<p>LGHouse.h：</p>
+
+<pre><code>//
+//  LGHouse.h
+//  LGAlertViewDemo
+//
+//  Created by apple on 15/4/6.
+//  Copyright (c) 2015年 LiGang. All rights reserved.
+//
+
+#import "LGObject.h"
+
+@class LGVideo;
+@class LGDesk;
+
+@interface LGHouse : LGObject
+
+@property (nonatomic, readonly) LGVideo  *video;     //电视
+@property (nonatomic, readonly) NSArray  *arrayDesk; //桌子
+
+@end
+
+@interface LGVideo : LGObject
+
+@property (nonatomic, assign)   float      money;//价格
+@property (nonatomic, readonly) NSString  *type;//型号
+
+@end
+
+@interface LGDesk : LGObject
+
+@property (nonatomic, assign)   float      money;//价格
+@property (nonatomic, readonly) NSString  *type;//型号
+
+@end
+</code></pre>
+
+<p>LGHouse.m：</p>
+
+<pre><code>//
+//  LGHouse.m
+//  LGAlertViewDemo
+//
+//  Created by apple on 15/4/6.
+//  Copyright (c) 2015年 LiGang. All rights reserved.
+//
+
+#import "LGHouse.h"
+
+@implementation LGHouse
+
+- (LGVideo *)video {
+    return [[LGVideo alloc] initWithData:[self.data objectForKey:@"video"]];
+}
+
+- (NSArray *)arrayDesk {
+    NSMutableArray *arrayDesk = [NSMutableArray array];
+    for (NSDictionary *dickDesk in [self.data objectForKey:@"desks"]) {
+        [arrayDesk addObject:[[LGDesk alloc] initWithData:dickDesk]];
+    }
+    return arrayDesk;
+}
+
+@end
+
+@implementation LGVideo
+
+- (float)money {
+    return [[self.data objectForKey:@"money"] floatValue];
+}
+
+- (NSString *)type {
+    return [self.data objectForKey:@"type"];
+}
+
+@end
+
+@implementation LGDesk
+
+- (float)money {
+    return [[self.data objectForKey:@"money"] floatValue];
+}
+
+- (NSString *)type {
+    return [self.data objectForKey:@"type"];
+}
+
+@end
+</code></pre>
+
+<p>以上是我对Model设计的简单理解，如果你有更好的想法，欢迎告诉我。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/04/03/ioskai-fa-zhi-asyncsocketshi-yong-jiao-cheng/">iOS开发之AsyncSocket使用教程</a></h1>
     
     
@@ -1378,188 +1560,6 @@ static LGManagerCenter *managerCenter;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/01/14/ioskai-fa-zhi-shou-shi-shi-bie-hui-zong/">iOS开发之手势识别汇总</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-01-14T10:40:02+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:40 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>iOS开发中手势识别有六种：</p>
-
-<p>轻击手势（TapGestureRecognizer）,</p>
-
-<p>轻扫手势 （SwipeGestureRecognizer）,</p>
-
-<p>长按手势（LongPressGestureRecognizer）,</p>
-
-<p>拖动手势（PanGestureRecognizer）,</p>
-
-<p>捏合手势（PinchGestureRecognizer）,</p>
-
-<p>旋转手势（RotationGestureRecognizer）,</p>
-
-<h3>1，轻击手势（TapGestureRecognizer）</h3>
-
-<pre><code>UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
-tapGesture.numberOfTapsRequired = 1; //点击次数
-tapGesture.numberOfTouchesRequired = 1; //点击手指数
-[self.view addGestureRecognizer:tapGesture];
-
-//轻击手势触发方法
--(void)tapGesture:(UITapGestureRecognizer *)sender
-{
-    //your code
-}
-</code></pre>
-
-<h3>2，长按手势（LongPressGestureRecognizer）</h3>
-
-<pre><code>UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGesture:)];
-//设置长按时间
-longPressGesture.minimumPressDuration = 0.5;
-[self.view addGestureRecognizer:longPressGesture];
-
-//长按手势触发方法
--(void)longPressGesture:(id)sender
-{
-    UILongPressGestureRecognizer *longPress = sender;
-    if (longPress.state == UIGestureRecognizerStateBegan)
-    {
-       //your code
-    }
-}
-
-说明：长按手势的常用状态如下
-
-开始：UIGestureRecognizerStateBegan
-
-改变：UIGestureRecognizerStateChanged
-
-结束：UIGestureRecognizerStateEnded
-
-取消：UIGestureRecognizerStateCancelled
-
-失败：UIGestureRecognizerStateFailed
-</code></pre>
-
-<h3>3，轻扫手势（SwipeGestureRecognizer）</h3>
-
-<pre><code>UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGesture:)];
-//设置轻扫的方向
-swipeGesture.direction = UISwipeGestureRecognizerDirectionRight; //向右
-[self.view addGestureRecognizer:swipeGesture];
-
-UISwipeGestureRecognizer *swipeGestureLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGesture:)];
-//设置轻扫的方向
-swipeGestureLeft.direction = UISwipeGestureRecognizerDirectionLeft; //向左
-[self.view addGestureRecognizer:swipeGestureLeft];
-
-//轻扫手势触发方法
--(void)swipeGesture:(id)sender
-{
-
-    UISwipeGestureRecognizer *swipe = sender;
-
-    if (swipe.direction == UISwipeGestureRecognizerDirectionLeft)
-    {
-        //向左轻扫
-    }
-
-    if (swipe.direction == UISwipeGestureRecognizerDirectionRight)
-    {
-        //向右轻扫
-    }
-}
-</code></pre>
-
-<h3>4，捏合手势（PinchGestureRecognizer）</h3>
-
-<pre><code>UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchGesture:)];
-[self.view addGestureRecognizer:pinchGesture];
-
-    ////捏合手势触发方法
--(void) pinchGesture:(id)sender
-{
-    UIPinchGestureRecognizer *gesture = sender;
-    //手势改变时
-    if (gesture.state == UIGestureRecognizerStateChanged)
-    {
-         //捏合手势中scale属性记录的缩放比例
-        _imageView.transform = CGAffineTransformMakeScale(gesture.scale, gesture.scale);
-    }
-
-    //结束后恢复
-    if(gesture.state==UIGestureRecognizerStateEnded)
-    {
-        [UIView animateWithDuration:0.5 animations:^{
-            _imageView.transform = CGAffineTransformIdentity;//取消一切形变
-        }];
-    }
-}
-</code></pre>
-
-<h3>5，拖动手势（PanGestureRecognizer）</h3>
-
-<pre><code>UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGesture:)];
-[self.view addGestureRecognizer:panGesture];
-
-//拖动手势触发方法
--(void) panGesture:(id)sender
-{
-    UIPanGestureRecognizer *panGesture = sender;
-    CGPoint movePoint = [panGesture translationInView:self.view];
-    //your code
-}
-</code></pre>
-
-<h3>6，旋转手势（RotationGestureRecognizer）</h3>
-
-<pre><code>UIRotationGestureRecognizer *rotationGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotationGesture:)];
-[self.view addGestureRecognizer:rotationGesture];
-
-//旋转手势触发方法
--(void)rotationGesture:(id)sender
-{
-    UIRotationGestureRecognizer *gesture = sender;
-    if (gesture.state==UIGestureRecognizerStateChanged)
-    {
-        _imageView.transform=CGAffineTransformMakeRotation(gesture.rotation);
-    }
-    if(gesture.state==UIGestureRecognizerStateEnded)
-    {
-        [UIView animateWithDuration:1 animations:^{
-            _imageView.transform=CGAffineTransformIdentity;//取消形变
-        }];
-    }
-}
-</code></pre>
-
-<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/4">&larr; Older</a>
@@ -1577,6 +1577,10 @@ swipeGestureLeft.direction = UISwipeGestureRecognizerDirectionLeft; //向左
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/06/21/ios-she-ji-mo-shi-xi-lie-:command-ming-ling-mo-shi/">iOS 设计模式系列：Command – 命令模式</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/">iOS 设计模式系列：Archiving – 归档模式</a>
       </li>
     
@@ -1590,10 +1594,6 @@ swipeGestureLeft.direction = UISwipeGestureRecognizerDirectionLeft; //向左
     
       <li class="post">
         <a href="/blog/2015/06/17/shang-hai-ioskai-fa-gong-zi-dai-yu-ru-he-%3F/">上海iOS开发工资待遇如何？</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a>
       </li>
     
   </ul>

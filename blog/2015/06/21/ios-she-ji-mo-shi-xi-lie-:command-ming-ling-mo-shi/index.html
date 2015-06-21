@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>iOS 设计模式系列：Memento – 备忘录模式 - 刚刚在线</title>
+  <title>iOS 设计模式系列：Command – 命令模式 - 刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="备忘录模式是捕获和具体化当前对象的内部状态。换句话说，就是在某个地方存储个东西。稍后，在不违反封装的情况下能够恢复这个具体化的状态；就是说，一些私有数据被私下存储下来了。">
-  <meta name="keywords" content="备忘录模式, iOS备忘录模式, iOS Memento,  设计模式, 刚刚在线">
+  <meta name="description" content="命令模式封装一个请求或行为作为一个对象。封装的请求比原的更加灵活，可以在对象之间传递，储存，动态修改，或放入一个队列。苹果的Target-Action调用机制已经实现了命令模式。">
+  <meta name="keywords" content="命令模式, iOS命令模式, iOS Command,  设计模式, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi">
+  <link rel="canonical" href="http://www.superqq.com/blog/2015/06/21/ios-she-ji-mo-shi-xi-lie-:command-ming-ling-mo-shi">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -83,7 +83,7 @@
   
   <header>
     
-      <h1 class="entry-title">iOS 设计模式系列：Memento – 备忘录模式</h1>
+      <h1 class="entry-title">iOS 设计模式系列：Command – 命令模式</h1>
     
     
       <p class="meta">
@@ -92,89 +92,139 @@
 
 
 
-<time class='entry-date' datetime='2015-06-19T06:31:19+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>6:31 am</span></time>
+<time class='entry-date' datetime='2015-06-21T23:39:03+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>11:39 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><strong>备忘录模式</strong>是捕获和具体化当前对象的内部状态。换句话说，就是在某个地方存储个东西。稍后，在不违反封装的情况下能够恢复这个具体化的状态；就是说，一些私有数据被私下存储下来了。</p>
+<div class="entry-content"><p><strong>命令模式</strong>封装一个请求或行为作为一个对象。封装的请求比原的更加灵活，可以在对象之间传递，储存，动态修改，或放入一个队列。苹果的Target-Action调用机制已经实现了命令模式。</p>
 
-<h3>如何使用备忘录模式</h3>
+<p>你可以查看跟多关于<a href="https://developer.apple.com/library/ios/documentation/General/Conceptual/CocoaEncyclopedia/Target-Action/Target-Action.html">Target-Action</a>的苹果官方文档，
+NSInvocation包含一个target对象，一个方法和一些参数。这个对象可以按需要动态修改。这是一个非常好的命令模式的列子。减少发送对象和接受对象之间的操作，直接写成一个请求或请求链。</p>
 
-<p>添加下面两个方法到 ViewController.m 文件：</p>
+<h3>如何用命令模式</h3>
 
-<pre><code>- (void)saveCurrentState
-{
-    // 当用户退出应用之后再重新打开，他想要跟他之前退出时一样的状态
-    // 退出应用，这个时候我们需要做的是把当前显示的专辑存储下来
-    // 因为只有一小片信息，我们可用 NSUserDefaults 来存储信息
-    [[NSUserDefaults standardUserDefaults] setInteger:currentAlbumIndex forKey:@“currentAlbumIndex”];
-}
+<p>调用之前，你需要设置取消动作的框架。所以你需要定义一个UIToolBar和NSMutableArray保存需要撤销的堆栈。</p>
 
-- (void)loadPreviousState
-{
-    currentAlbumIndex = [[NSUserDefaults standardUserDefaults] integerForKey@“currentAlbumIndex”];
-    [self showDataForAlbumAtIndex:currentAlbumIndex];
-}
+<p>添加代码到ViewController.m 文件：</p>
+
+<pre><code>    UIToolbar *toolbar;
+// We will use this array as a stack to push and pop operation for the undo option
+    NSMutableArray *undoStack;
 </code></pre>
 
-<p>saveCurrentState 存储当前专辑的索引到 NSUserDefaults ─ NSUserDefaults 是一个标准数据存储，iOS 用来专门存放程序设置和数据。</p>
+<p>创建一个toolbar将显示新的动作按钮，以及一个数组作为命令队列。</p>
 
-<p>loadPreviousState 加载这之前存储的专辑索引。这不是备忘录模式的全部，不过你已经达到目的了。</p>
+<p>将下面的代码添加到viewDidLoad：</p>
 
-<p>现在，在 ViewController.m 里，滚动视图初始化之前，在 viewDidLoad 里添加下面一行：</p>
-
-<pre><code>[self loadPreviousState];
+<pre><code>  toolbar = [[UIToolbar alloc] init];
+UIBarButtonItem *undoItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemUndo target:self action:@selector(undoAction)];
+undoItem.enabled = NO;
+UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+UIBarButtonItem *delete = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteAlbum)];
+[toolbar setItems:@[undoItem,space,delete]];
+[self.view addSubview:toolbar];
+undoStack = [[NSMutableArray alloc] init];
 </code></pre>
 
-<p>当程序启动的时候加载上一次存储的状态。但是你在哪里存储程序的当前状态呢？你需要使用通知来做这样的事情。当程序进入后台时，iOS 会发送一个 UIApplicationDidEnterBackgroundNotification 通知。你可利用这个通知调用 saveCurrentState。就这么方便？</p>
+<p>上面的代码创建了一个toolbar和两个按钮，它还创建一个空的撤消堆栈。这里的撤销按钮被禁用因为撤销栈为空。</p>
 
-<p>在 viewDidLoad: 最后面添加下面一行</p>
+<p>将下面代码添加到ViewController.m：</p>
 
-<pre><code>[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(saveCurrentState) name:UIApplicationDidEnterBackgroundNotification object:nil];
-</code></pre>
-
-<p>现在，当你的 app 进入后台运行后，ViewController 会自动调用 saveCurrentState 存储当前的状态。</p>
-
-<p>现在，添加下面代码：</p>
-
-<pre><code>- (void)dealloc
+<pre><code>- (void)viewWillLayoutSubviews
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    toolbar.frame = CGRectMake(0, self.view.frame.size.height-44, self.view.frame.size.width, 44);
+    dataTable.frame = CGRectMake(0, 130, self.view.frame.size.width, self.view.frame.size.height - 200);
 }
 </code></pre>
 
-<p>这里是确保当 ViewController 被释放时，移除类的 <a href="http://www.superqq.com/blog/2015/06/05/ios-kvogai-shu-yu-shi-jian/">Observer</a>。</p>
+<p>在ViewController.m增加三个方法：增加、删除、撤销。</p>
 
-<p>构建和运行你的 app，点击到一个专辑，用 Command+Shift+H（如果你使用的是模拟器的话） 将程序在后台运行，然后关掉 app。重启 app，检查之前选择的专辑是不是居中显示：</p>
+<p>增加一个新专辑代码如下：</p>
 
-<p><img src="http://cdn3.raywenderlich.com/wp-content/uploads/2013/09/2013-09-02_10-51-27-214x320.png" alt="1" /></p>
-
-<p>专辑数据看起来是对的，但是正确的专辑封面确没有居中，哪出问题了？</p>
-
-<p>这就是可选方法 initialViewIndexForHorizontalScroller 的用处！因为这个方法没有被委托执行，ViewController 在这种情况下总是会显示默认的第一个专辑封面。</p>
-
-<p>修复这个问题，在 ViewController.m 中添加如下代码：</p>
-
-<pre><code>- (NSInteger)initialViewIndexForHorizontalScroller:(HorizontalScroller *)scroller
+<pre><code>- (void)addAlbum:(Album*)album atIndex:(int)index
 {
-    return currentAlbumIndex;
+    [[LibraryAPI sharedInstance] addAlbum:album atIndex:index];
+    currentAlbumIndex = index;
+    [self reloadScroller];
 }
 </code></pre>
 
-<p>现在 HorizontalScroller 的第一个视图总是会被设置成 currentAlbumIndex 索引的图片。这种方法能够确保你的 app 有一个非常棒的用户体验，并且它是可恢复的。</p>
+<p>在这里你添加相册，将其设置为当前专辑索引，并重新加载。</p>
 
-<p>重新运行你的 app，滚动专辑封面，关闭 app，然后重启确保问题已经得到解决：</p>
+<p>接下来就是删除方法：</p>
 
-<p><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2013/09/2013-09-02_10-56-59-214x320.png" alt="2" /></p>
+<pre><code>- (void)deleteAlbum
+{
+    // 1
+    Album *deletedAlbum = allAlbums[currentAlbumIndex];
 
-<p>如果你查看 PersistencyManger 的初始化方法，你会注意到专辑的数据是一种硬编码，PersistencyManger 每次创建，数据也会重复创建一次。有没有一种更好的方法当专辑列表被创建的时候就存储它们呢。那么如何把专辑数据存储到文件里呢？</p>
+    // 2
+    NSMethodSignature *sig = [self methodSignatureForSelector:@selector(addAlbum:atIndex:)];
+    NSInvocation *undoAction = [NSInvocation invocationWithMethodSignature:sig];
+    [undoAction setTarget:self];
+    [undoAction setSelector:@selector(addAlbum:atIndex:)];
+    [undoAction setArgument:&amp;deletedAlbum atIndex:2];
+    [undoAction setArgument:&amp;currentAlbumIndex atIndex:3];
+    [undoAction retainArguments];
 
-<p>一种选择就是循环访问 Album 的属性，然后把它存储在一个 plist 文件里，当需要它们的时候重新创建一个 Album 的实例。这不是最好的选择，这需要你在每一个类里根据不同的数据或属性写特定的代码。例子，如果稍后你需要一个电影的类，里面有一些不同的属性，存储和加载这些数据你就需要写一些新的代码。</p>
+    // 3
+    [undoStack addObject:undoAction];
 
-<p>此外，你不能在每一个类的实例里存储私有变量，因为他们是不可访问的外部类。这就是为什么苹果要创建归档 (Archiving) 机制。</p>
+    // 4
+    [[LibraryAPI sharedInstance] deleteAlbumAtIndex:currentAlbumIndex];
+    [self reloadScroller];
+
+    // 5
+    [toolbar.items[0] setEnabled:YES];
+}
+</code></pre>
+
+<p>这是一段新的令人激动的代码，讲解如下：</p>
+
+<ol>
+<li>得到要删除的专辑信息</li>
+<li>Define an object of type NSMethodSignature to create the NSInvocation, which will be used to reverse the delete action if the user later decides to undo a deletion. The NSInvocation needs to know three things: The selector (what message to send), the target (who to send the message to) and the arguments of the message. In this example the message sent is delete’s opposite since when you undo a deletion, you need to add back the deleted album.</li>
+<li>After the undoAction has been created you add it to the undoStack. This action will be added to the end of the array, just as in a normal stack.</li>
+<li>Use LibraryAPI to delete the album from the data structure and reload the scroller.</li>
+<li><p>Since there’s an action in the undo stack, you need to enable the undo button.</p>
+
+<pre><code> 提示: With NSInvocation, you need to keep the following points in mind:
+
+ The arguments must be passed by pointer.
+ The arguments start at index 2; indices 0 and 1 are reserved for the target and the selector.
+ If there’s a chance that the arguments will be deallocated, then you should call retainArguments.
+</code></pre></li>
+</ol>
+
+
+<p>最后，添加撤销方法：</p>
+
+<pre><code>- (void)undoAction
+{
+    if (undoStack.count &gt; 0)
+    {
+        NSInvocation *undoAction = [undoStack lastObject];
+        [undoStack removeLastObject];
+        [undoAction invoke];
+    }
+
+    if (undoStack.count == 0)
+    {
+        [toolbar.items[0] setEnabled:NO];
+    }
+}
+</code></pre>
+
+<p>这个撤销操作是取消栈里最后一个对象，This object is always of type NSInvocation and can be invoked by calling … invoke. This invokes the command you created earlier when the album was deleted, and adds the deleted album back to the album list. Since you also deleted the last object in the stack when you “popped” it, you now check to see if the stack is empty. If it is, that means there are no more actions to undo. So you disable the Undo button.</p>
+
+<p>Build and run your app to test out your undo mechanism, delete an album (or two) and hit the Undo button to see it in action:</p>
+
+<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2013/08/design-pattern-stage4.png" alt="1" /></p>
+
+<p>这也是一个很好的地方来测试是否你的相册数据保留会变化。现在，如果你删除一个专辑，app退到后台，并终止应用程序，在下次启动应用程序显示的专辑列表不会有删除专辑信息。</p>
 
 <p><strong>设计模式系列文章</strong>：</p>
 
@@ -210,7 +260,7 @@
 
 
 
-<time class='entry-date' datetime='2015-06-19T06:31:19+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>6:31 am</span></time>
+<time class='entry-date' datetime='2015-06-21T23:39:03+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>11:39 pm</span></time>
       
 
 <span class="categories">
@@ -221,7 +271,7 @@
 
 
       <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
-<br>原文链接：<a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/</a> <!-- 添加这一行代码 -->
+<br>原文链接：<a href="http://www.superqq.com/blog/2015/06/21/ios-she-ji-mo-shi-xi-lie-:command-ming-ling-mo-shi/">http://www.superqq.com/blog/2015/06/21/ios-she-ji-mo-shi-xi-lie-:command-ming-ling-mo-shi/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -246,10 +296,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/" title="Previous Post: iOS 设计模式系列：Observer – 观察者模式">&laquo; iOS 设计模式系列：Observer – 观察者模式</a>
+        <a class="basic-alignment left" href="/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/" title="Previous Post: iOS 设计模式系列：Archiving – 归档模式">&laquo; iOS 设计模式系列：Archiving – 归档模式</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/" title="Next Post: iOS 设计模式系列：Archiving – 归档模式">iOS 设计模式系列：Archiving – 归档模式 &ra/categories.htmlquo;</a>
       
     </p>
   </footer>
