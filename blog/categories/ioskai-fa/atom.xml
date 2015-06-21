@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-06-20T06:59:23+08:00</updated>
+  <updated>2015-06-21T23:38:36+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,148 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS 设计模式系列：Archiving – 归档模式]]></title>
+    <link href="http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/"/>
+    <updated>2015-06-20T06:54:13+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi</id>
+    <content type="html"><![CDATA[<p><strong>备忘录模式</strong>就是苹果中一种归档形式。它能够把对象转化成一种数据流，在不依赖于外部类的私有属性的情况下来存储和取出数据。你可以在 iOS 6 by Tutorials 这本书的第 16 章读到更多的相关信息。或者这里 Apple’s Archives and Serializations Programming Guide。</p>
+
+<h3>如何使用归档 Archiving</h3>
+
+<p>首先，你需要声明 Album，用 NSCoding 协议来归档数据。打开 Album.h 文件，修改 @ interface 行如下：</p>
+
+<pre><code>@interface Album : NSObject &lt;NSCoding&gt;
+</code></pre>
+
+<p>在 Album.m 添加下面两个方法：</p>
+
+<pre><code>- (void)encodeWithCode:(NSCode *)aCoder
+{
+    [aCode encodeObject:self.year forKey:@“year”];
+    [aCode encodeObject:self.title forKey:@“album”];
+    [aCode encodeObject:self.artist forKey:@“artist”];
+    [aCode encodeObject:self.coverUrl forKey:@“cover_url”];     [aCode encodeObject:self.genre forKey:@“genre”];
+}
+
+- (id)initWithCode:(NSCode *)aDecoder
+{
+    self = [super init];
+    if (self) {
+        _year = [aDecoder decodeObjectForKey:@“year”];
+        _title = [aDecoder decodeObjectForKey:@“album”];
+        _artist = [aDecoder decodeObjectForKey:@“artist”];
+        _coverUrl = [aDecoder decodeObjectForKey:@“cover_url”];
+        _genre = [aDecoder decodeObjectForKey:@“genre”];
+    }
+    return self;
+}
+</code></pre>
+
+<p>当你存档这个类的实例时调用 encodeWithCoder:。相反，当你通过解档来创建一个 Album 实例时，需要调用 iniWithCode: 。就这么简单，非常强大。</p>
+
+<p>现在 Album 类可以存档了，添加的代码实际上是存储和加载专辑列表的。</p>
+
+<p>在 PersistencyManger.h 里添加下面方法：</p>
+
+<pre><code>- (void)saveAlbums;
+</code></pre>
+
+<p>当存储专辑的时候调用些方法。</p>
+
+<p>现在，在 PersistencyManger.m 里添加方法实现：</p>
+
+<pre><code>- (void)saveAlbums
+{
+    NSString *filename = [NSHomeDirectory() stringByAppendingString:@“/Document/albums.bin”];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:albums];
+    [data writeToFile:filename atomically:YES];
+}
+</code></pre>
+
+<p>NSKeyedArchiver 把专辑数组存档进一个叫 album.bin 的文件里。</p>
+
+<p>当你存档的一个对象包含另一个对象的时候，存档自动递归的把子对象、子对象的子对象一并存储。在这个实例里，存储的是一个专辑实例的数组。因为数组和 Album 都支持 NSCopying 的接口，数组里的东西都会被自动存档。</p>
+
+<p>现在用下面代码替换 PersistencyManger.m 里的 init 方法：</p>
+
+<pre><code>- (id)init
+{
+    self = [super init];
+    if (self) {
+        NSData *data = [NSData dataWithContentsOfFile:[NSHomeDirectory() stringByAppendString:@“/Document/albums.bin”]];
+        albums = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        if (albums == nil) {
+            albums = [NSMutableArray arrayWithArray:
+                 @[[[Album alloc] initWithTitle:@"Best of Bowie" artist:@"David Bowie" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_david%20bowie_best%20of%20bowie.png" year:@"1992"],
+                 [[Album alloc] initWithTitle:@"It's My Life" artist:@"No Doubt" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_no%20doubt_its%20my%20life%20%20bathwater.png" year:@"2003"],
+                 [[Album alloc] initWithTitle:@"Nothing Like The Sun" artist:@"Sting" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_sting_nothing%20like%20the%20sun.png" year:@"1999"],
+                 [[Album alloc] initWithTitle:@"Staring at the Sun" artist:@"U2" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_u2_staring%20at%20the%20sun.png" year:@"2000"],
+                 [[Album alloc] initWithTitle:@"American Pie" artist:@"Madonna" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_madonna_american%20pie.png" year:@"2000"]]];
+                [self saveAlbums];
+        }
+    }
+    return self;
+}
+</code></pre>
+
+<p>在新代码里，如果文件存在，NSKeyedUnarchiver 就从文件加载专辑数据。如果不存在，它就创建专辑数据，然后立即存储，为下一次启动 app 使用。</p>
+
+<p>当然你也可以在 app 后台运行的时候再存储专辑数据。现在它看起来不是很有必要，但如果你在稍后添加修改专辑数据呢？你需要确保所有的数据修改都会被存储。</p>
+
+<p>在 LibraryAPI.h 添加下面的方法</p>
+
+<pre><code>- (void)saveAlbums;
+</code></pre>
+
+<p>因为程序的所以有服务都需要通过 LibraryAPI 提供，这就是程序为什么需要 PersistenrcyManger 来存储专辑数据。</p>
+
+<p>现在在 LibraryAPI.m 中添加实现方法：</p>
+
+<pre><code>- (void)saveAlbums
+{
+    [persistencyManger saveAlbums];
+}
+</code></pre>
+
+<p>这里是从 LibraryAPI 调用 PersistencyManger 来存储专辑。</p>
+
+<p>在 ViewController.m 文件 saveCurrentState 的后面添加下面代码：</p>
+
+<p>[[LibraryAPI sharedInstance] saveAlbums];</p>
+
+<p>上面的代码是每当 ViewController 存储当前状态时，使用 LibraryAPI 来存储专辑数据。</p>
+
+<p>构建你的 app，检查所有的都能正确编译。</p>
+
+<p>不幸的是，没有一种简单的方法来验证数据是否被正确的创建。你可以在 Finder 里检查模拟器下当前 app 的 Documents 文件夹，来看看专辑数据文件是否被创建，但是为了查看其它变化你还需要添加一些数据来改变专辑数据。</p>
+
+<p>但是，为了修改数据，假使为了删除专辑而需要临时添加一个删除选项，但这个选项并不会一直在你的库中存在？此外，由于误操作，错误的删除了一个专辑，但如果给这个操作添加一个撤消选项不是很好吗？</p>
+
+<p>现在是时候讨论最后一个设计模式了：命令 Command。</p>
+
+<p><strong>设计模式系列文章</strong>：</p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/">iOS 设计模式系列：Facade – 外观模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/">iOS 设计模式系列：Observer – 观察者模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/">iOS 设计模式系列：Archiving – 归档模式</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS 设计模式系列：Memento – 备忘录模式]]></title>
@@ -109,7 +251,11 @@
 
 <p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
 
+<p><a href="http://www.superqq.com/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/">iOS 设计模式系列：Observer – 观察者模式</a></p>
+
 <p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/">iOS 设计模式系列：Archiving – 归档模式</a></p>
 ]]></content>
   </entry>
   
@@ -294,7 +440,11 @@
 
 <p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
 
+<p><a href="http://www.superqq.com/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/">iOS 设计模式系列：Observer – 观察者模式</a></p>
+
 <p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/">iOS 设计模式系列：Archiving – 归档模式</a></p>
 ]]></content>
   </entry>
   
@@ -640,7 +790,11 @@ scroller.delegate = self;
 
 <p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
 
+<p><a href="http://www.superqq.com/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/">iOS 设计模式系列：Observer – 观察者模式</a></p>
+
 <p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/">iOS 设计模式系列：Archiving – 归档模式</a></p>
 ]]></content>
   </entry>
   
@@ -862,130 +1016,11 @@ scroller.delegate = self;
 
 <p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
 
-<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS 设计模式系列：Facade – 外观模式]]></title>
-    <link href="http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/"/>
-    <updated>2015-06-15T10:06:20+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi</id>
-    <content type="html"><![CDATA[<p>目前你有 PersistencyManager 来在本地存储专辑数据，HTTPClient 处理远程通信。项目中其它的类跟这些逻辑都没关。</p>
-
-<p>执行这个<a href="http://www.superqq.com/blog/2015/03/21/dan-li-mo-shi-de-xie-fa/">模式</a>，只有 LibraryAPI 来保存 PersistencyManager 和 HTTPClient 的实例。之后，LibraryAPI 将会公开一个简单的 API 来访问这些服务。</p>
-
-<pre><code>提示：通常，单例存在 app 的整个生命周期。不需一直使用很多指针指向其它对象，因为她们直到程序关闭后才会被释放。   
-</code></pre>
-
-<p>这个设计就像下图：</p>
-
-<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2013/08/design-patterns-facade-uml-480x71.png" alt="icon" /></p>
-
-<p>LibraryAPI 将会公开给其它代码，但是它隐藏了 APP 中 HTTPClient 和 PersistencyManager 的复杂部分。</p>
-
-<p>打开 LibraryAPI.h，在顶部引入面文件：</p>
-
-<pre><code>#import "Album.h"
-</code></pre>
-
-<p>接下来，在 LibraryAPI.h下面添加如下方法：</p>
-
-<pre><code>- (NSArray*)getAlbums;
-- (void)addAlbum:(Album*)album atIndex:(int)index;
-- (void)deleteAlbumAtIndex:(int)index;
-</code></pre>
-
-<p>现在，这些方法都公开给了其它类。</p>
-
-<p>在 LibraryAPI.m 文件引入如下两个文件：</p>
-
-<pre><code>#import "PersistencyManager.h"
-#import "HTTPClient.h"
-</code></pre>
-
-<p>只有在这个地方你才会需要引入这些类。记住：你的 API 将会是你「复杂」系统的唯一的接入点。</p>
-
-<p>现在添加一些私有属性在你的类的扩展里（在 @implementation 上面）</p>
-
-<pre><code>@interface LibraryAPI () {
-    PersistencyManager *persistencyManager;
-    HTTPClient *httpClient;
-    BOOL isOnline;
-}
-@end
-</code></pre>
-
-<p>isOnline 用来判断，如果专辑列表数据发生变化是否能够更新到服务器，例如添加或者删除专辑。</p>
-
-<p>你现在需要在 init 方法中初始化这些变量，在 LibraryAPI.m 中添加下面代码：</p>
-
-<pre><code>- (id)init
-{
-    self = [super init];
-    if (self) {
-        persistencyManager = [[PersistencyManager alloc] init];
-        httpClient = [[HTTPClient alloc] init];
-        isOnline = NO;
-    }
-    return self;
-}
-</code></pre>
-
-<p>这个 HTTP 客户端在这里并不真正的工作，它只是在外观设计里面起一个示范用法的作用，所以 isOnline 永远是 NO 了。</p>
-
-<p>接下来，在 LibraryAPI.m 里面添加下面三个方法：</p>
-
-<pre><code>- (NSArray*)getAlbums
-{
-    return [persistencyManager getAlbums];
-}
-
-- (void)addAlbum:(Album*)album atIndex:(int)index
-{
-    [persistencyManager addAlbum:album atIndex:index];
-    if (isOnline)
-    {
-        [httpClient postRequest:@"/api/addAlbum" body:[album description]];
-    }
-}
-
-- (void)deleteAlbumAtIndex:(int)index
-{
-    [persistencyManager deleteAlbumAtIndex:index];
-    if (isOnline)
-    {
-        [httpClient postRequest:@"/api/deleteAlbum" body:[@(index) description]];
-    }
-}
-</code></pre>
-
-<p>看一下 addAlbum:atIndex:。这个类首先更新本地数据，如果联网，它再更新远端服务器。这就是外观设计的长处；当一些系统外的类添加了一个新专辑，它不知道─也不需要知道─复杂的内部系统。</p>
-
-<pre><code>提示：当在你的子系统里设计一个外观类的时候，记住没有任何东西可能阻止客户访问这些「隐藏」类。要多写些防御性的代码，不要想当然的认为所有客户都会用同样的方式使用你的外观类。
-</code></pre>
-
-<p>运行你的程序，你会看一个黑底空白内容的屏幕，像下面这样：</p>
-
-<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2013/09/2013-09-01_12-08-44-211x320.png" alt="icon1" /></p>
-
-<p>你需要在屏幕上显示一些专辑数据─这就需要使用到下面一个设计模式：装饰器 (Decorator)。</p>
-
-<p><strong>设计模式系列文章</strong>：</p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/">iOS 设计模式系列：Facade – 外观模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
+<p><a href="http://www.superqq.com/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/">iOS 设计模式系列：Observer – 观察者模式</a></p>
 
 <p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/">iOS 设计模式系列：Archiving – 归档模式</a></p>
 ]]></content>
   </entry>
   
