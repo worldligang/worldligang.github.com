@@ -86,6 +86,188 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-13T08:21:55+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:21 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.superqq.com/blog/2015/03/21/dan-li-mo-shi-de-xie-fa/">单例设计模式</a>确切的说就是一个类只有一个实例，有一个全局的接口来访问这个实例。当第一次载入的时候，它通常使用延时加载的方法创建单一实例。</p>
+
+<pre><code>提示：苹果大量的使用了这种方法。例子：[NSUserDefaults standerUserDefaults], [UIApplication sharedApplication], [UIScreen mainScreen], [NSFileManager defaultManager] 都返回一个单一对象。
+</code></pre>
+
+<p>你可能想知道你为什么要关心一个类有多个的实例。代码和内存都很便宜，不是吗？</p>
+
+<p>在一些情况下，一个类只有一个实例是有意义的。例如，这里没有必要有多个登录实例，除非你一次想写入多个日志文件。或者，一个全局的配置类文件：它可以很容易的很安全的执行一个公共资源，这样的一个配置文件，要比同时修改多个配置类文件好很多。</p>
+
+<h3>如何使用单例模式</h3>
+
+<p>请看下面的图片</p>
+
+<p><img src="http://cdn3.raywenderlich.com/wp-content/uploads/2013/08/singleton.png" alt="icon" /></p>
+
+<p>上面的图片显示的是一个登录类，它有一个属性（这个单一实例），有两个方法：sharedInstance 和 init。</p>
+
+<p>首先一个客户端(client)发送 sharedInstance 信息，但是属性 instance 还没有初始化，所以你要先给这个类创建一个实例。</p>
+
+<p>然后你调用 sharedInstance，instance 会马上返回初始化的值。这个逻辑最终只会返回一个实例。</p>
+
+<p>你需要执行这个模式来创建单例类来管理所有的专辑数据。</p>
+
+<p>你需要注意在项目里有一个叫 API 文件夹，给你的 APP 提供服务的所有类都需要放在这里。在这个文件夹里用 iOS\Cocoa Touch\Object-C class 创建一个新类。类的名字叫 LibraryAPI，子类选择 NSObject。</p>
+
+<p>打开 LibraryAPI.h 文件用下面的代码替换里面的内容：</p>
+
+<pre><code>@interface LibraryAPI: NSObject
++ (LibraryAPI*)sharedInstance;
+@end
+</code></pre>
+
+<p>现在打开 LibraryAPI.m 文件，在 @implentation 后面添加如下方法：</p>
+
+<pre><code>+ (LibraryAPI*)sharedInstance 
+{
+    // 1
+    static LibraryAPI *_sharedInstance = nil;
+
+    // 2 
+    static dispatch_once_t oncePredicate; 
+
+    // 3
+    dispatch_once(&amp;nocePredicate, ^{
+        _sharedInstance = [[LibraryAPI alloc] init];
+    });
+    return _sharedInstance;
+}
+</code></pre>
+
+<p>在这个短方法中做了这些事情：</p>
+
+<ul>
+<li>在这个类中，声明一个静态变量来保存这个实例，保证它是一个全局可用的变量。</li>
+<li>声明一个静态这是 dispatch_one_t，确保这些初始化代码只能被执行一次。</li>
+<li>使用 Grand Central Dispatch（GCD）执行一个 block 来初始化 LibraryAPI 实例。这是单例设计模式的关键所在：一个类只能被实例化一次。</li>
+</ul>
+
+
+<p>接下来执行 sharedInstance，在 dispatch_once block 里的代码是不会被执行的（当它已经被执行过一次后），它会返回之前创建的 LibraryAPI 实例。</p>
+
+<pre><code>提示：想了解更多关于 GCD 和使用它，请点击这里的教程 Multithreading and Grand Central Dispatch，如何使用 Blocks 在这里。
+</code></pre>
+
+<p>你现在有一个单例对象来管理专辑了。下一步就是创建一个类用来保存你的专辑数据了。</p>
+
+<p>用 iOS\Cocoa Touch\Object-C class 在 API 文件夹下创建一个新的类，名字叫 PersistencyManager，子类选择 NSObject。</p>
+
+<p>打开 PersistencyManager.h，在顶部引入面文件：</p>
+
+<pre><code>#import "Album.h"
+</code></pre>
+
+<p>然后在 @interface 后面加入下面代码：</p>
+
+<pre><code>- (NSArray *)getAlbums;
+- (void)addAlbums:(Album*)album atIndex:(int)index;
+- (void)deleteAlbumAtIndex:(int)index;
+</code></pre>
+
+<p>上面的三个方法都需要跟专辑的数据相结合。</p>
+
+<p>打开 PersistencyManager.m，在 @implementation 上面添加如下代码：</p>
+
+<pre><code>@interface PersistencyManager () {
+    NSMutableArray *albums;
+}
+</code></pre>
+
+<p>上面的代码是给类添加了一个扩展，这是另一种给类添加私有方法和私有属性的方法，类外面的成员是看不到这些的。这里，你声明了一个 NSMutableArray 来保存专辑的数据。这是一个可变数组，你可以很容易的添加和删除专辑。</p>
+
+<p>现在在 @implementation 下面添加实现代码：</p>
+
+<pre><code>- (id)init {
+    self = [super init];
+    if (self) {
+        albums = [NSMutableArray arrayWithArray:@[[[Album alloc] initWithTitle:@"Best of Bowie" artist:@"David Bowie" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_david%20bowie_best%20of%20bowie.png" year:@"1992"],
+        [[Album alloc] initWithTitle:@"It's My Life" artist:@"No Doubt" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_no%20doubt_its%20my%20life%20%20bathwater.png" year:@"2003"],
+                [[Album alloc] initWithTitle:@"Nothing Like The Sun" artist:@"Sting" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_sting_nothing%20like%20the%20sun.png" year:@"1999"],
+            [[Album alloc] initWithTitle:@"Staring at the Sun" artist:@"U2" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_u2_staring%20at%20the%20sun.png" year:@"2000"],
+                [[Album alloc] initWithTitle:@"American Pie" artist:@"Madonna" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_madonna_american%20pie.png" year:@"2000"]]];
+    }
+    return self;
+}
+</code></pre>
+
+<p>在 init 里你在数组中加入了 5 张专辑。如果上面的专辑你不喜欢，你可以随意替换成你喜欢的。:]</p>
+
+<p>现存在 PersistencyManager.m 添加下面三个方法：</p>
+
+<pre><code>- (NSArray*)getAlbums
+{
+        return albums;
+}
+
+- (void)addAlbum:(Album*)album atIndex:(int)index
+{
+        if (albums.count &gt;= index)
+            [albums insertObject:album atIndex:index];
+        else
+        [albums addObject:album];
+}
+
+- (void)deleteAlbumAtIndex:(int)index
+{
+        [albums removeObjectAtIndex:index];
+}
+</code></pre>
+
+<p>这些方法是获取，添加，删除专辑。</p>
+
+<p>Build 你的项目，确保所有的代码都能正确编译。</p>
+
+<p>现在，你也许想知道为什么会有一个 PersistencyManager 类，因为它都不是单例类。不要着急，接下来第二步，外观设计模式(Facade design patten) 将会探讨 LibraryAPI 和 PersistencyManager 之间的关系。</p>
+
+<p><strong>设计模式系列文章</strong>：</p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/">iOS 设计模式系列：Facade – 外观模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/">iOS 设计模式系列：Observer – 观察者模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/">iOS 设计模式系列：Archiving – 归档模式</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></h1>
     
     
@@ -1429,110 +1611,6 @@ NSLog(@"Latitude = %f", distance);
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/04/25/iosdiao-yong-xi-tong-fa-duan-xin-gong-neng-xiang-jie/">iOS调用系统发短信功能详解</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-04-25T11:36:33+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:36 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>iOS调用系统的发短信功能可以分为两种：1，程序外调用系统发短信。2，程序内调用系统发短信。第二种的好处是用户发短信之后还可以回到app。这对app来说非常重要。</p>
-
-<h3>程序外调用系统发短信</h3>
-
-<p>这个方法其实很简单，直接调用openURL即可：</p>
-
-<pre><code>[[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"sms://13888888888"]];
-</code></pre>
-
-<h3>程序内调用系统发短信</h3>
-
-<h5>1）导入MessageUI.framework，并引入头文件：</h5>
-
-<pre><code>#import &lt;MessageUI/MessageUI.h&gt;
-</code></pre>
-
-<h5>2）实现代理方法MFMessageComposeViewControllerDelegate</h5>
-
-<pre><code>    -(void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
-{
-    [self dismissViewControllerAnimated:YES completion:nil];
-    switch (result) {
-        case MessageComposeResultSent:
-            //信息传送成功
-
-            break;
-        case MessageComposeResultFailed:
-            //信息传送失败
-
-            break;
-        case MessageComposeResultCancelled:
-            //信息被用户取消传送
-
-            break;
-        default:
-            break;
-    }
-}
-</code></pre>
-
-<h5>3）发送短信</h5>
-
-<pre><code>    -(void)showMessageView:(NSArray *)phones title:(NSString *)title body:(NSString *)body
-{
-    if( [MFMessageComposeViewController canSendText] )
-    {
-        MFMessageComposeViewController * controller = [[MFMessageComposeViewController alloc] init];
-        controller.recipients = phones;
-        controller.navigationBar.tintColor = [UIColor redColor];
-        controller.body = body;
-        controller.messageComposeDelegate = self;
-        [self presentViewController:controller animated:YES completion:nil];
-        [[[[controller viewControllers] lastObject] navigationItem] setTitle:title];//修改短信界面标题
-    }
-    else
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
-                                                        message:@"该设备不支持短信功能"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"确定"
-                                              otherButtonTitles:nil, nil];
-        [alert show];
-    }
-}
-</code></pre>
-
-<p>参数phones：发短信的手机号码的数组，数组中是一个即单发,多个即群发。</p>
-
-<h5>4）调用发短信的方法</h5>
-
-<pre><code>    [self showMessageView:[NSArray arrayWithObjects:@"13888888888",@"13999999999", nil] title:@"test" body:@"你是土豪么，么么哒"];
-</code></pre>
-
-<p>我的微信iOS开发：iOSDevTip</p>
-
-<p>代码下载地址:<a href="https://github.com/worldligang/SendMsgMaster.git"target="_blank"title="SendMsgMaster">SendMsgMaster</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -1550,6 +1628,10 @@ NSLog(@"Latitude = %f", distance);
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/06/26/nsdatehe-nsstringxiang-hu-zhuan-huan/">NSDate和NSString相互转换</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/06/25/ru-he-cheng-wei-%5B%3F%5D-ming-you-xiu-de-ioskai-fa-gong-cheng-shi/">如何成为一名优秀的iOS开发工程师</a>
       </li>
     
@@ -1563,10 +1645,6 @@ NSLog(@"Latitude = %f", distance);
     
       <li class="post">
         <a href="/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/">iOS 设计模式系列：Observer – 观察者模式</a>
       </li>
     
   </ul>
