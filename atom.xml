@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-06-26T15:37:35+08:00</updated>
+  <updated>2015-06-27T07:38:41+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,121 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[用正则表达式验证邮箱和手机号]]></title>
+    <link href="http://www.superqq.com/blog/2015/06/27/yong-zheng-ze-biao-da-shi-yan-zheng-you-xiang-he-shou-ji-hao/"/>
+    <updated>2015-06-27T07:35:42+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/06/27/yong-zheng-ze-biao-da-shi-yan-zheng-you-xiang-he-shou-ji-hao</id>
+    <content type="html"><![CDATA[<blockquote><p>正则表达式，又称正规表示法、常规表示法（英语：Regular Expression，在代码中常简写为regex、regexp或RE），计算机科学的一个概念。正则表达式使用单个字符串来描述、匹配一系列符合某个句法规则的字符串。</p></blockquote>
+
+<p>做iOS开发的童鞋，应该都用过正则表达式吧。正则表达式很好地，帮助我们判断一个字符串是否合法。比如：</p>
+
+<ol>
+<li><p>在做app注册页面的时候，需要判断手机号是否格式正确，是否够11位。</p></li>
+<li><p>在做意见反馈的时候，需要判断邮箱格式是否正确。</p></li>
+</ol>
+
+
+<p>判断手机号和判断邮箱，应该是iOS开发者们最常用的。具体如何判断，简单整理如下：</p>
+
+<h2>验证邮箱</h2>
+
+<pre><code>+ (BOOL)validateEmail:(NSString *)email
+{
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    return [emailTest evaluateWithObject:email];
+}
+</code></pre>
+
+<p>NSPredicate是一个Foundation类，是用来查询的，原理和用法都类似于SQL中的where。</p>
+
+<h2>验证手机号</h2>
+
+<h3>简单的判断方法</h3>
+
+<pre><code>+ (BOOL)validatePhone:(NSString *)phone
+{
+    NSString *phoneRegex = @"1[3|5|7|8|][0-9]{9}";
+    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
+    return [phoneTest evaluateWithObject:phone];
+}
+</code></pre>
+
+<p>这只是简单地判断手机号格式。其实手机的格式还是有一点复杂的。</p>
+
+<h3>详细的判断方法</h3>
+
+<pre><code>//正则判断手机号码格式
++ (BOOL)validatePhone:(NSString *)phone
+{
+       /**
+        * 手机号码
+        * 移动：134[0-8],135,136,137,138,139,150,151,157,158,159,182,187,188
+        * 联通：130,131,132,152,155,156,185,186
+        * 电信：133,1349,153,180,189
+        */
+       NSString * MOBILE = @"^1(3[0-9]|5[0-35-9]|8[025-9])\\d{8}$";
+       /**
+        10         * 中国移动：China Mobile
+        11         * 134[0-8],135,136,137,138,139,150,151,157,158,159,182,187,188
+        12         */
+       NSString * CM = @"^1(34[0-8]|(3[5-9]|5[017-9]|8[278])\\d)\\d{7}$";
+       /**
+        15         * 中国联通：China Unicom
+        16         * 130,131,132,152,155,156,185,186
+        17         */
+       NSString * CU = @"^1(3[0-2]|5[256]|8[56])\\d{8}$";
+       /**
+        20         * 中国电信：China Telecom
+        21         * 133,1349,153,180,189
+        22         */
+       NSString * CT = @"^1((33|53|8[09])[0-9]|349)\\d{7}$";
+       /**
+        25         * 大陆地区固话及小灵通
+        26         * 区号：010,020,021,022,023,024,025,027,028,029
+        27         * 号码：七位或八位
+        28         */
+      // NSString * PHS = @"^0(10|2[0-5789]|\\d{3})\\d{7,8}$";
+
+     NSPredicate *regextestmobile = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", MOBILE];
+     NSPredicate *regextestcm = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CM];
+     NSPredicate *regextestcu = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CU];
+     NSPredicate *regextestct = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CT];
+
+    if (([regextestmobile evaluateWithObject:phone] == YES)
+    || ([regextestcm evaluateWithObject:phone] == YES)
+    || ([regextestct evaluateWithObject:phone] == YES)
+    || ([regextestcu evaluateWithObject:phone] == YES))
+    {
+        if([regextestcm evaluateWithObject:phone] == YES) {
+          NSLog(@"China Mobile");
+        } else if([regextestct evaluateWithObject:phone] == YES) {
+          NSLog(@"China Telecom");
+        } else if ([regextestcu evaluateWithObject:phone] == YES) {
+          NSLog(@"China Unicom");
+        } else {
+          NSLog(@"Unknow");
+        }
+
+        return YES;
+    }
+    else 
+    {
+        return NO;
+    }
+}
+</code></pre>
+
+<p>以上这段（来自网络）是手机号判断的详细方法。基本上这个判断就够用了，如果三大运营商，再出其他段的手机号。直接子啊上面做简单修改即可。</p>
+
+<blockquote><p>作者李刚是刚刚在线（<a href="www.superqq.com">www.superqq.com</a>）站长，百度百家专栏作者
+iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</p></blockquote>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="2" /></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Xcode真机调试报错：The Application Could Not Be Verified.]]></title>
@@ -153,7 +268,7 @@ NSDate *date=[formatter dateFromString:dateString];
 
 <p>有了这个工具类，妈妈再也不用担心我的转换能力啦！</p>
 
-<blockquote><p>作者李刚是刚刚在线（www.superqq.com）站长，百度百家专栏作者
+<blockquote><p>作者李刚是刚刚在线（<a href="www.superqq.com">www.superqq.com</a>）站长，百度百家专栏作者
 iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</p></blockquote>
 
 <p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="2" /></p>
@@ -203,7 +318,7 @@ iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</
 
 <p><strong>你的博客将比简历更有价值</strong>。你在各大招聘网站写简历不如你有一个有价值的博客。</p>
 
-<p>把技术分享出来，不仅帮助新人，更是提高自己，这是一种双赢。如果你写了技术文章没有好的地方可以发布，可以投稿给我：<a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#x3a;&#119;&#111;&#x72;&#108;&#x64;&#108;&#105;&#103;&#x61;&#110;&#x67;&#64;&#49;&#54;&#x33;&#x2e;&#x63;&#x6f;&#109;">&#119;&#x6f;&#114;&#x6c;&#100;&#108;&#105;&#103;&#97;&#x6e;&#103;&#x40;&#49;&#54;&#x33;&#46;&#x63;&#x6f;&#109;</a> 我将发布在我的公众号iOS开发（<strong>iOSDevTip</strong>）上，直接分享给上万名iOS开发者。</p>
+<p>把技术分享出来，不仅帮助新人，更是提高自己，这是一种双赢。如果你写了技术文章没有好的地方可以发布，可以投稿给我：<a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#111;&#x3a;&#x77;&#x6f;&#114;&#x6c;&#100;&#108;&#105;&#x67;&#97;&#x6e;&#103;&#64;&#x31;&#54;&#x33;&#x2e;&#99;&#111;&#x6d;">&#119;&#x6f;&#x72;&#108;&#100;&#108;&#105;&#103;&#x61;&#x6e;&#103;&#64;&#49;&#x36;&#51;&#x2e;&#x63;&#111;&#109;</a> 我将发布在我的公众号iOS开发（<strong>iOSDevTip</strong>）上，直接分享给上万名iOS开发者。</p>
 
 <h3>看github开源项目</h3>
 
@@ -225,7 +340,7 @@ iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</
 
 <p>按照我们老师的话说：成为一名优秀的iOS开发工程师任重而道远！这句话也送给你。</p>
 
-<blockquote><p>作者李刚是刚刚在线（www.superqq.com）站长，百度百家专栏作者
+<blockquote><p>作者李刚是刚刚在线（<a href="www.superqq.com">www.superqq.com</a>）站长，百度百家专栏作者
 iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</p></blockquote>
 
 <p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="2" /></p>
@@ -2654,91 +2769,6 @@ b = branch
 <p>具体可以根据个人习惯进行添加修改。</p>
 
 <blockquote><p>关注公众号iOS开发：iOSDevTip</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS协议里面可以定义成员变量和属性吗？]]></title>
-    <link href="http://www.superqq.com/blog/2015/05/22/iosxie-yi-li-mian-ke-yi-ding-yi-cheng-yuan-bian-liang-he-shu-xing-ma-%3F/"/>
-    <updated>2015-05-22T11:08:18+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/05/22/iosxie-yi-li-mian-ke-yi-ding-yi-cheng-yuan-bian-liang-he-shu-xing-ma-?</id>
-    <content type="html"><![CDATA[<blockquote><p>关注iOS开发：iOSDevTip</p></blockquote>
-
-<p>在CSDN上看到有人提的问题，觉得很有价值，先看代码：</p>
-
-<pre><code>@protocol CAMediaTiming
-
-/* The begin time of the object, in relation to its parent object, if
- * applicable. Defaults to 0. */
-
-@property CFTimeInterval beginTime;
-
-/* The basic duration of the object. Defaults to 0. */
-
-@property CFTimeInterval duration;
-
-/* The rate of the layer. Used to scale parent time to local time, e.g.
- * if rate is 2, local time progresses twice as fast as parent time.
- * Defaults to 1. */
-
-@property float speed;
-
-/* Additional offset in active local time. i.e. to convert from parent
- * time tp to active local time t: t = (tp - begin) * speed + offset.
- * One use of this is to "pause" a layer by setting `speed' to zero and
- * `offset' to a suitable value. Defaults to 0. */
-
-@property CFTimeInterval timeOffset;
-
-/* The repeat count of the object. May be fractional. Defaults to 0. */
-
-@property float repeatCount;
-
-/* The repeat duration of the object. Defaults to 0. */
-
-@property CFTimeInterval repeatDuration;
-
-/* When true, the object plays backwards after playing forwards. Defaults
- * to NO. */
-
-@property BOOL autoreverses;
-
-/* Defines how the timed object behaves outside its active duration.
- * Local time may be clamped to either end of the active duration, or
- * the element may be removed from the presentation. The legal values
- * are `backwards', `forwards', `both' and `removed'. Defaults to
- * `removed'. */
-
-@property(copy) NSString *fillMode;
-
-@end
-</code></pre>
-
-<h3>问题：</h3>
-
-<p>上面那个协议时苹果自带的，为什么里面定义了成员变量呢？</p>
-
-<h3>网友回答：</h3>
-
-<p>这只是在头文件中声明，编译器是不会自动生成实例变量的，也就是说你可以用一个对象去实现这个协议，但是你不自己存储的话实例变量的话，访问同样会崩溃：
-self.fillModel = @&ldquo;test&rdquo;; // unrecognized selector</p>
-
-<h3>追问</h3>
-
-<p>你好，也就是说我需要这样：</p>
-
-<pre><code>@interface MyClass : NSObject &lt; CAMediaTiming &gt;
-@property CFTimeInterval beginTime;
-@end
-</code></pre>
-
-<p>这样才可以么？
-也就是@protocol能声明，不能定义变量么？</p>
-
-<h3>网友回答</h3>
-
-<p>协议声明出来的是方法，虽然看起来是属性，其实只有 getter、setter 这两个方法，内部是没有实例变量的，并且你不能去重定义它，只能在 getter、setter 里处理
-​</p>
 ]]></content>
   </entry>
   

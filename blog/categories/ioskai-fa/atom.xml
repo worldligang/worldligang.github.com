@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-06-26T15:37:35+08:00</updated>
+  <updated>2015-06-27T07:38:41+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -153,7 +153,7 @@ NSDate *date=[formatter dateFromString:dateString];
 
 <p>有了这个工具类，妈妈再也不用担心我的转换能力啦！</p>
 
-<blockquote><p>作者李刚是刚刚在线（www.superqq.com）站长，百度百家专栏作者
+<blockquote><p>作者李刚是刚刚在线（<a href="www.superqq.com">www.superqq.com</a>）站长，百度百家专栏作者
 iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</p></blockquote>
 
 <p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="2" /></p>
