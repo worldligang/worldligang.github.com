@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-06-26T09:49:35+08:00</updated>
+  <updated>2015-06-26T15:37:35+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,32 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Xcode真机调试报错：The Application Could Not Be Verified.]]></title>
+    <link href="http://www.superqq.com/blog/2015/06/26/xcodezhen-ji-diao-shi-bao-cuo-:the-application-could-not-be-verified/"/>
+    <updated>2015-06-26T15:33:34+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/06/26/xcodezhen-ji-diao-shi-bao-cuo-:the-application-could-not-be-verified</id>
+    <content type="html"><![CDATA[<p> 今天真机调试的时候遇到这个错误：</p>
+
+<pre><code>The application could not be verified.
+</code></pre>
+
+<p> 这还是第一次遇到，应该是手机上的app的证书跟现在的证书不一致导致。</p>
+
+<p> 解决方法有两个</p>
+
+<p> ###xcode中切换证书：</p>
+
+<pre><code>你手机上的app用的是哪个证书，你现在还用那个证书运行。
+</code></pre>
+
+<p> ###删除手机上的app</p>
+
+<pre><code>直接删除手机上的app，再运行就可以啦！
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NSDate和NSString相互转换]]></title>
@@ -177,7 +203,7 @@ iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</
 
 <p><strong>你的博客将比简历更有价值</strong>。你在各大招聘网站写简历不如你有一个有价值的博客。</p>
 
-<p>把技术分享出来，不仅帮助新人，更是提高自己，这是一种双赢。如果你写了技术文章没有好的地方可以发布，可以投稿给我：<a href="&#109;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#x77;&#x6f;&#x72;&#108;&#x64;&#108;&#105;&#103;&#x61;&#110;&#x67;&#64;&#x31;&#x36;&#x33;&#x2e;&#x63;&#111;&#109;">&#119;&#111;&#114;&#x6c;&#100;&#108;&#x69;&#103;&#x61;&#x6e;&#x67;&#64;&#x31;&#54;&#51;&#x2e;&#99;&#111;&#x6d;</a> 我将发布在我的公众号iOS开发（<strong>iOSDevTip</strong>）上，直接分享给上万名iOS开发者。</p>
+<p>把技术分享出来，不仅帮助新人，更是提高自己，这是一种双赢。如果你写了技术文章没有好的地方可以发布，可以投稿给我：<a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#x3a;&#119;&#111;&#x72;&#108;&#x64;&#108;&#105;&#103;&#x61;&#110;&#x67;&#64;&#49;&#54;&#x33;&#x2e;&#x63;&#x6f;&#109;">&#119;&#x6f;&#114;&#x6c;&#100;&#108;&#105;&#103;&#97;&#x6e;&#103;&#x40;&#49;&#54;&#x33;&#46;&#x63;&#x6f;&#109;</a> 我将发布在我的公众号iOS开发（<strong>iOSDevTip</strong>）上，直接分享给上万名iOS开发者。</p>
 
 <h3>看github开源项目</h3>
 
@@ -2713,141 +2739,6 @@ self.fillModel = @&ldquo;test&rdquo;; // unrecognized selector</p>
 
 <p>协议声明出来的是方法，虽然看起来是属性，其实只有 getter、setter 这两个方法，内部是没有实例变量的，并且你不能去重定义它，只能在 getter、setter 里处理
 ​</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS地图定位使用几个小功能]]></title>
-    <link href="http://www.superqq.com/blog/2015/05/14/iosdi-tu-ding-wei-shi-yong-xiao-ji-qiao/"/>
-    <updated>2015-05-14T10:16:30+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/05/14/iosdi-tu-ding-wei-shi-yong-xiao-ji-qiao</id>
-    <content type="html"><![CDATA[<p>iOS系统自带的定位服务可以实现很多需求。比如：获取当前经纬度，获取当前位置信息等等。</p>
-
-<h4>获取当前经纬度</h4>
-
-<p>首先导入#import &lt;CoreLocation/CoreLocation.h>，定义CLLocationManager的实例，实现CLLocationManagerDelegate。</p>
-
-<pre><code>@interface ViewController ()&lt;CLLocationManagerDelegate&gt;
-{
-    CLLocationManager *_locationManager;
-}
-
-@end
-</code></pre>
-
-<p>开始定位的方法：</p>
-
-<pre><code>- (void)startLocating
-{
-    if([CLLocationManager locationServicesEnabled])
-    {
-        _locationManager = [[CLLocationManager alloc] init];
-        //设置定位的精度
-        [_locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
-        _locationManager.distanceFilter = 100.0f;
-        _locationManager.delegate = self;
-        if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt; 8.0)
-        {
-            [_locationManager requestAlwaysAuthorization];
-            [_locationManager requestWhenInUseAuthorization];
-        }
-        //开始实时定位
-        [_locationManager startUpdatingLocation];
-    }
-}
-</code></pre>
-
-<p>实现代理方法：</p>
-
-<pre><code>-(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
-{
-    NSLog(@"Longitude = %f", manager.location.coordinate.longitude);
-    NSLog(@"Latitude = %f", manager.location.coordinate.latitude);
-    [_locationManager stopUpdatingLocation];
-}
-</code></pre>
-
-<h4>获取当前位置信息</h4>
-
-<p>在上面的代理方法中</p>
-
-<pre><code>-(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
-{
-    NSLog(@"Longitude = %f", manager.location.coordinate.longitude);
-    NSLog(@"Latitude = %f", manager.location.coordinate.latitude);
-    [_locationManager stopUpdatingLocation];
-
-    CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
-    [geoCoder reverseGeocodeLocation:manager.location completionHandler:^(NSArray *placemarks, NSError *error) {
-        for (CLPlacemark * placemark in placemarks) {
-            NSDictionary *test = [placemark addressDictionary];
-            //  Country(国家)  State(城市)  SubLocality(区)
-            NSLog(@"%@", [test objectForKey:@"Country"]);
-            NSLog(@"%@", [test objectForKey:@"State"]);
-            NSLog(@"%@", [test objectForKey:@"SubLocality"]);
-            NSLog(@"%@", [test objectForKey:@"Street"]);
-        }
-    }];
-
-}
-</code></pre>
-
-<p>这样就很简单获取了当前位置的详细信息。</p>
-
-<h4>获取某一个地点的经纬度</h4>
-
-<pre><code>- (void)getLongitudeAndLatitudeWithCity:(NSString *)city
-{
-    //city可以为中文
-    NSString *oreillyAddress = city;
-    CLGeocoder *myGeocoder = [[CLGeocoder alloc] init];
-    [myGeocoder geocodeAddressString:oreillyAddress completionHandler:^(NSArray *placemarks, NSError *error) {
-        if ([placemarks count] &gt; 0 &amp;&amp; error == nil)
-        {
-            NSLog(@"Found %lu placemark(s).", (unsigned long)[placemarks count]);
-            CLPlacemark *firstPlacemark = [placemarks objectAtIndex:0];
-            NSLog(@"Longitude = %f", firstPlacemark.location.coordinate.longitude);
-            NSLog(@"Latitude = %f", firstPlacemark.location.coordinate.latitude);
-        }
-        else if ([placemarks count] == 0 &amp;&amp; error == nil)
-        {
-            NSLog(@"Found no placemarks.");
-        }
-        else if (error != nil)
-        {
-            NSLog(@"An error occurred = %@", error);
-        }
-    }];
-}
-</code></pre>
-
-<h4>计算两个地点之间的距离</h4>
-
-<pre><code>- (double)distanceByLongitude:(double)longitude1 latitude:(double)latitude1 longitude:(double)longitude2 latitude:(double)latitude2{
-    CLLocation* curLocation = [[CLLocation alloc] initWithLatitude:latitude1 longitude:longitude1];
-    CLLocation* otherLocation = [[CLLocation alloc] initWithLatitude:latitude2 longitude:longitude2];
-    double distance  = [curLocation distanceFromLocation:otherLocation];//单位是m
-    return distance;
-}
-</code></pre>
-
-<p>首先我们可以用上面的getLongitudeAndLatitudeWithCity方法获取某一个地点的经纬度。比如我们获取北京和上海的经纬度分别为：北京Longitude = 116.405285，Latitude = 39.904989 上海Longitude = 121.472644， Latitude = 31.231706, 那么北京和上海之间的距离就是：</p>
-
-<pre><code>double distance = [self distanceByLongitude:116.405285 latitude:39.904989 longitude:121.472644 latitude:31.231706];
-NSLog(@"Latitude = %f", distance);
-</code></pre>
-
-<p>计算的是大概的距离，可能没有那么精准。输入结果为：</p>
-
-<pre><code>distance = 1066449.749194
-</code></pre>
-
-<p>代码下载地址:<a href="https://github.com/worldligang/MapDistanceMaster.git"target="_blank"title="MapDistanceMaster">MapDistanceMaster</a></p>
-
-<p>更多iOS技术请关注微信iOS开发</p>
-
-<pre><code>iOSDevTip
-</code></pre>
 ]]></content>
   </entry>
   

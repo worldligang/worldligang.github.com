@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>解读AFNetworking中Demo的MVC - 刚刚在线</title>
+  <title>Xcode真机调试报错：The Application Could Not Be Verified. - 刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="中文 iOS/Mac 开发博客列表">
-  <meta name="keywords" content="iOS,AFNetworking, Demo, MVC, iOSDevTip iOS开发, gcd, cocoapods, 队列, 个人博客, 刚刚在线">
+  <meta name="description" content="Xcode真机调试报错：The application could not be verified.">
+  <meta name="keywords" content="The application could not be verified., Xcode真机调试报错,  刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/blog/2014/11/11/jie-du-afnetworkingzhong-demode-mvc">
+  <link rel="canonical" href="http://www.superqq.com/blog/2015/06/26/xcodezhen-ji-diao-shi-bao-cuo-:the-application-could-not-be-verified">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -83,7 +83,7 @@
   
   <header>
     
-      <h1 class="entry-title">解读AFNetworking中Demo的MVC</h1>
+      <h1 class="entry-title">Xcode真机调试报错：The Application Could Not Be Verified.</h1>
     
     
       <p class="meta">
@@ -92,105 +92,30 @@
 
 
 
-<time class='entry-date' datetime='2014-11-11T11:00:21+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:00 am</span></time>
+<time class='entry-date' datetime='2015-06-26T15:33:34+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:33 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Demo的下载地址：<a href=""></a><a href="https://github.com/AFNetworking/AFNetworking.git"target="_blank"title="AFNetworking下载">AFNetworking下载</a></p>
+<div class="entry-content"><p> 今天真机调试的时候遇到这个错误：</p>
 
-<p>打开Demo：</p>
-
-<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlylDJt3FABXaQmFVO4Hqm1zNzeQGY2kKVSJ9CtQR7HWcsKelE6nuLauFQMdWtO2L90ccabibh5v1yeg/640"></p>
-
-<p>现实的功能，就是一个简易的微博timeline界面：</p>
-
-<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlylDJt3FABXaQmFVO4Hqm1zNW4svNoeQPlAsBHJ40YJeiaUib7ia5Hdgo9Yf5YBee5zZ1lDbXphGCHibCQ/640"></p>
-
-<p>项目预览：</p>
-
-<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlylDJt3FABXaQmFVO4Hqm1zNFUp9X2kpra3gqd98Qh4Yn1RhnHsIKcI46TP97BVKbvJicpvYoUd5tuA/640"></p>
-
-<p>用到的第三方：AFNetworking 和 UIKit+AFNetworking</p>
-
-<p>功能：用户图像（先显示默认图，在加载图片），用户发的内容，下拉刷新。</p>
-
-<p><div class="entry-content"><h3>C层：</h3></p>
-
-<p>发一个请求：（告诉M 要做什么）</p>
-
-<pre><code>- (void)reload:(__unusedid)sender {
-    self.navigationItem.rightBarButtonItem.enabled = NO;
-
-    NSURLSessionTask *task = [PostglobalTimelinePostsWithBlock:^(NSArray *posts, NSError *error) {
-        if (!error) {
-
-             self.posts = posts;
-            [self.tableViewreloadData];
-        }
-    }];
-
-    [UIAlertViewshowAlertViewForTaskWithErrorOnCompletion:task delegate:nil];
-    [self.refreshControlsetRefreshingWithStateOfTask:task];
-}
+<pre><code>The application could not be verified.
 </code></pre>
 
-<p>M 做完之手，产生多个post对象，放到self.post数组里面。C拿到M给的post对象，去更新V</p>
+<p> 这还是第一次遇到，应该是手机上的app的证书跟现在的证书不一致导致。</p>
 
-<pre><code>cell.post = [self.postsobjectAtIndex:(NSUInteger)indexPath.row];
+<p> 解决方法有两个</p>
+
+<p> ###xcode中切换证书：</p>
+
+<pre><code>你手机上的app用的是哪个证书，你现在还用那个证书运行。
 </code></pre>
 
-<p><div class="entry-content"><h3>M层：</h3></p>
+<p> ###删除手机上的app</p>
 
-<p>M 收到C的请求：去请求数据，解析，转换成post对象，然后通过block返回给C</p>
-
-<pre><code>+ (NSURLSessionDataTask *)globalTimelinePostsWithBlock:(void (^)(NSArray *posts, NSError *error))block {
-    return [[AFAppDotNetAPIClientsharedClient] GET:@"stream/0/posts/stream/global"parameters:nilsuccess:^(NSURLSessionDataTask * __unused task, id JSON) {
-        NSArray *postsFromResponse = [JSON valueForKeyPath:@"data"];
-        NSMutableArray *mutablePosts = [NSMutableArrayarrayWithCapacity:[postsFromResponse count]];
-        for (NSDictionary *attributes in postsFromResponse) {
-            Post *post = [[Postalloc] initWithAttributes:attributes];
-            [mutablePosts addObject:post];
-        }
-
-        if (block) {
-            block([NSArrayarrayWithArray:mutablePosts], nil);
-        }
-    } failure:^(NSURLSessionDataTask *__unused task, NSError *error) {
-        if (block) {
-            block([NSArrayarray], error);
-        }
-    }];
-}
-</code></pre>
-
-<p><div class="entry-content"><h3>V层：</h3></p>
-
-<p>V：拿到C给的数据，来展示出来，这一步就是更新UI</p>
-
-<pre><code>- (void)setPost:(Post *)post {
-    _post = post;
-
-    self.textLabel.text = _post.user.username;
-    self.detailTextLabel.text = _post.text;
-    [self.imageViewsetImageWithURL:_post.user.avatarImageURLplaceholderImage:[UIImageimageNamed:@"profile-image-placeholder"]];
-
-    [selfsetNeedsLayout];
-}
-</code></pre>
-
-<p>其中 ：</p>
-
-<pre><code>    [self.imageViewsetImageWithURL:_post.user.avatarImageURLplaceholderImage:[UIImageimageNamed:@"profile-image-placeholder"]];
-</code></pre>
-
-<p>这句代码是对UIImageView的扩展，在UIKit+AFNetworking可以直接使用，非常方便。</p>
-
-<p>我的微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
+<pre><code>直接删除手机上的app，再运行就可以啦！
 </code></pre>
 </div>
 
@@ -207,7 +132,7 @@
 
 
 
-<time class='entry-date' datetime='2014-11-11T11:00:21+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:00 am</span></time>
+<time class='entry-date' datetime='2015-06-26T15:33:34+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:33 pm</span></time>
       
 
 <span class="categories">
@@ -218,7 +143,7 @@
 
 
       <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
-<br>原文链接：<a href="http://www.superqq.com/blog/2014/11/11/jie-du-afnetworkingzhong-demode-mvc/">http://www.superqq.com/blog/2014/11/11/jie-du-afnetworkingzhong-demode-mvc/</a> <!-- 添加这一行代码 -->
+<br>原文链接：<a href="http://www.superqq.com/blog/2015/06/26/xcodezhen-ji-diao-shi-bao-cuo-:the-application-could-not-be-verified/">http://www.superqq.com/blog/2015/06/26/xcodezhen-ji-diao-shi-bao-cuo-:the-application-could-not-be-verified/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -243,10 +168,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/11/10/qian-xi-mvche-shuo-mei-de-guo-cheng/" title="Previous Post: 浅析MVC和说媒的过程">&laquo; 浅析MVC和说媒的过程</a>
+        <a class="basic-alignment left" href="/blog/2015/06/26/nsdatehe-nsstringxiang-hu-zhuan-huan/" title="Previous Post: NSDate和NSString相互转换">&laquo; NSDate和NSString相互转换</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/11/13/zhong-wen-ios-slash-mac-kai-fa-bo-ke-lie-biao/" title="Next Post: 中文 iOS/Mac 开发博客列表">中文 iOS/Mac 开发博客列表 &ra/categories.htmlquo;</a>
       
     </p>
   </footer>
