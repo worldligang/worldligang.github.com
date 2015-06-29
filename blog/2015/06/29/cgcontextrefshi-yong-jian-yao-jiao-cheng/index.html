@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>Octopress写博客的方法 - 刚刚在线</title>
+  <title>CGContextRef使用简要教程 - 刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="Octopress写博客的方法">
-  <meta name="keywords" content="iOS, 写博客, Octopress, rake new_post, iOSDevTip iOS开发, gcd, cocoapods, 队列, 个人博客, 刚刚在线">
+  <meta name="description" content="CGContextRef功能强大，我们借助它可以画各种图形。开发过程中灵活运用这些技巧，可以帮助我们提供代码水平。">
+  <meta name="keywords" content="CGContextRef, CGContextRef使用简要教程, CGContextRef教程, iOS CGContextRef, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/blog/2014/09/30/xie-bo-ke-de-fang-fa">
+  <link rel="canonical" href="http://www.superqq.com/blog/2015/06/29/cgcontextrefshi-yong-jian-yao-jiao-cheng">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -83,7 +83,7 @@
   
   <header>
     
-      <h1 class="entry-title">Octopress写博客的方法</h1>
+      <h1 class="entry-title">CGContextRef使用简要教程</h1>
     
     
       <p class="meta">
@@ -92,31 +92,107 @@
 
 
 
-<time class='entry-date' datetime='2014-09-30T11:34:57+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:34 am</span></time>
+<time class='entry-date' datetime='2015-06-29T10:55:01+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:55 am</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><a href="http://www.superqq.com/blog/2014/09/30/xie-bo-ke-de-fang-fa/">写博客的方法</a></p>
+<div class="entry-content"><p>Graphics Context是图形上下文,也可以理解为一块画布,我们可以在上面进行绘画操作,绘制完成后,将画布放到我们的view中显示即可,view看作是一个画框.</p>
 
-<p>写博客的方法:</p>
+<p>CGContextRef功能强大，我们借助它可以画各种图形。开发过程中灵活运用这些技巧，可以帮助我们提供代码水平。</p>
 
-<pre><code>rake new_post[‘article name’] 生成博文框架，填写文章标题
-open -a Mou source/_posts/2014-10-30-xie-bo-ke-de-fang-fa.markdown  打开markdown编辑工具（比较好用，下载地址：http://25.io/mou/）
-rake generate 生成静态文件
-rake watch 检测文件变化，实时生成新内容
-rake preview 本地预览“http://localhost:4000”
-rake deploy 发布文章
+<p>说到画图，我就立马想到：我的数学公式都快忘完了。</p>
+
+<h2>高中数学你还记得多少？</h2>
+
+<p>我记得我上学的时候，数学一直都很好。以至于在班里都不敢和别人吵吵闹闹。一吵吵闹闹，别人就会来一句：以为你数学好，就可以怎么样怎么样了是吧？说的我好无奈啊。</p>
+
+<p>这么多年过去了，说句实话，高中时学的数学公式什么的，都忘记的差不多了。现在要去做高三的考题，估计比写代码还难。</p>
+
+<p>作为一名程序员，数学好，一定是优势。就拿画图来说吧，如果你还清楚的记得那些公式，那么你就可以很随意地画出一些好看的图形出来。</p>
+
+<p>接下来，我们来看看CGContextRef到底能实现些什么？</p>
+
+<h2>写文字</h2>
+
+<pre><code>- (void)drawRect:(CGRect)rect
+{
+    //获得当前画板
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    //颜色
+    CGContextSetRGBStrokeColor(ctx, 0.2, 0.2, 0.2, 1.0);
+    //画线的宽度
+    CGContextSetLineWidth(ctx, 0.25);
+    //开始写字
+    [@"我是文字" drawInRect:CGRectMake(10, 10, 100, 30) withFont:font];  
+    [super drawRect:rect];
+}
 </code></pre>
 
-<p>微信公众账号：iOS开发</p>
+<p>这段代码就可以很漂亮的写出四个大字：我是文字。很容易理解，每句话都有注释。</p>
 
-<pre><code>iOSDevTip
+<h2>画直线</h2>
+
+<pre><code>- (void)drawRect:(CGRect)rect
+{
+    //获得当前画板
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    //颜色
+    CGContextSetRGBStrokeColor(ctx, 0.2, 0.2, 0.2, 1.0);
+    //画线的宽度
+    CGContextSetLineWidth(ctx, 0.25);
+    //顶部横线
+    CGContextMoveToPoint(ctx, 0, 10);
+    CGContextAddLineToPoint(ctx, self.bounds.size.width, 10);
+    CGContextStrokePath(ctx);
+    [super drawRect:rect];
+}
 </code></pre>
 
-<p>原文链接：<a href="http://blog.leichunfeng.com/blog/2014/11/11/use-octopress-plus-github-pages-to-setup-a-personal-blog/">使用 Octopress+GitHub Pages 搭建个人博客</a></p>
+<h2>画圆</h2>
+
+<pre><code>- (void)drawRect:(CGRect)rect
+{
+    //获得当前画板
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    //颜色
+    CGContextSetRGBStrokeColor(ctx, 0.2, 0.2, 0.2, 1.0);
+    //画线的宽度
+    CGContextSetLineWidth(ctx, 0.25);
+    //void CGContextAddArc(CGContextRef c,CGFloat x, CGFloat y,CGFloat radius,CGFloat startAngle,CGFloat endAngle, int clockwise)1弧度＝180°/π （≈57.3°） 度＝弧度×180°/π 360°＝360×π/180 ＝2π 弧度
+    // x,y为圆点坐标，radius半径，startAngle为开始的弧度，endAngle为 结束的弧度，clockwise 0为顺时针，1为逆时针。
+    CGContextAddArc(ctx, 100, 20, 20, 0, 2*M_PI, 0); //添加一个圆
+    CGContextDrawPath(ctx, kCGPathStroke); //绘制路径
+    [super drawRect:rect];
+}
+</code></pre>
+
+<p>这个画圆的公式你还记得吗？你还知道M_PI是什么吗？等于多少吗？赶紧脑补一下吧！</p>
+
+<h2>画矩形</h2>
+
+<pre><code>- (void)drawRect:(CGRect)rect
+{
+    //获得当前画板
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    //颜色
+    CGContextSetRGBStrokeColor(ctx, 0.2, 0.2, 0.2, 1.0);
+    //画线的宽度
+    CGContextSetLineWidth(ctx, 0.25);
+    CGContextAddRect(ctx, CGRectMake(2, 2, 30, 30));
+    CGContextStrokePath(ctx);
+    [super drawRect:rect];
+}
+</code></pre>
+
+<p>图形千千万，万变不离其宗。更多画图方法，期待你的探索。</p>
+
+<blockquote><p>作者李刚是刚刚在线（<a href="www.superqq.com">www.superqq.com</a>）站长，百度百家专栏作者
+iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</p></blockquote>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="2" /></p>
 </div>
 
 
@@ -132,7 +208,7 @@ rake deploy 发布文章
 
 
 
-<time class='entry-date' datetime='2014-09-30T11:34:57+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:34 am</span></time>
+<time class='entry-date' datetime='2015-06-29T10:55:01+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:55 am</span></time>
       
 
 <span class="categories">
@@ -143,7 +219,7 @@ rake deploy 发布文章
 
 
       <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
-<br>原文链接：<a href="http://www.superqq.com/blog/2014/09/30/xie-bo-ke-de-fang-fa/">http://www.superqq.com/blog/2014/09/30/xie-bo-ke-de-fang-fa/</a> <!-- 添加这一行代码 -->
+<br>原文链接：<a href="http://www.superqq.com/blog/2015/06/29/cgcontextrefshi-yong-jian-yao-jiao-cheng/">http://www.superqq.com/blog/2015/06/29/cgcontextrefshi-yong-jian-yao-jiao-cheng/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -168,10 +244,8 @@ rake deploy 发布文章
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/09/26/ios/" title="Previous Post: 刚刚在线正式上线">&laquo; 刚刚在线正式上线</a>
+        <a class="basic-alignment left" href="/blog/2015/06/27/yong-zheng-ze-biao-da-shi-yan-zheng-you-xiang-he-shou-ji-hao/" title="Previous Post: 用正则表达式验证邮箱和手机号">&laquo; 用正则表达式验证邮箱和手机号</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/10/16/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/" title="Next Post: CocoaPods安装和使用教程 ">CocoaPods安装和使用教程  &ra/categories.htmlquo;</a>
       
     </p>
   </footer>
