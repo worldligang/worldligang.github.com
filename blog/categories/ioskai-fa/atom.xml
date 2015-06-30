@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-01T00:14:02+08:00</updated>
+  <updated>2015-07-01T00:20:56+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -18,9 +18,7 @@
     <link href="http://www.superqq.com/blog/2015/07/01/egocachehuan-cun-kuang-jia-xiang-xi-jiang-jie/"/>
     <updated>2015-07-01T00:10:18+08:00</updated>
     <id>http://www.superqq.com/blog/2015/07/01/egocachehuan-cun-kuang-jia-xiang-xi-jiang-jie</id>
-    <content type="html"><![CDATA[<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/huancun.jpg" alt="1" /></p>
-
-<p><strong>EGOCache</strong>是一个轻量级的缓存框架。用法简单方便，在现在的项目中，我就用到EGOCache来缓存下载过的照片和字符串。</p>
+    <content type="html"><![CDATA[<p><strong>EGOCache</strong>是一个轻量级的缓存框架。用法简单方便，在现在的项目中，我就用到EGOCache来缓存下载过的照片和字符串。</p>
 
 <p>有人可能会问到，缓存照片还需要用EGOCache吗？<a href="http://www.superqq.com/blog/2014/11/07/ioswang-luo-bian-cheng-zhi-afnetworkingshi-yong/">AFNetworking</a>和<a href="http://www.superqq.com/blog/2015/06/09/sdwebimagejia-zai-tu-pian-huan-cun-tu-pian/">SDWebImage</a>不是已经有这些功能了吗？</p>
 
