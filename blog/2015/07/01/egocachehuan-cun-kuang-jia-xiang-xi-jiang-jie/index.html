@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>iOS协议里面可以定义成员变量和属性吗？ - 刚刚在线</title>
+  <title>EGOCache缓存框架详细讲解 - 刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="iOS协议里面可以定义成员变量和属性吗？">
-  <meta name="keywords" content="iOS, 协议, protocol,  成员变量, 属性, 获取当前位置信息, iOS协议, iOS开发, cocoapods, 个人博客, 刚刚在线">
+  <meta name="description" content="EGOCache是一个轻量级的缓存框架。用法简单方便，在现在的项目中，我就用到EGOCache来缓存下载过的照片和字符串。有人可能会问到，缓存照片还需要用EGOCache吗？AFNetworking和SDWebImage不是已经有这些功能了吗？">
+  <meta name="keywords" content="EGOCache, EGOCache缓存, EGOCache缓存框架, EGOCache使用, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/blog/2015/05/22/iosxie-yi-li-mian-ke-yi-ding-yi-cheng-yuan-bian-liang-he-shu-xing-ma-%3F">
+  <link rel="canonical" href="http://www.superqq.com/blog/2015/07/01/egocachehuan-cun-kuang-jia-xiang-xi-jiang-jie">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -83,7 +83,7 @@
   
   <header>
     
-      <h1 class="entry-title">iOS协议里面可以定义成员变量和属性吗？</h1>
+      <h1 class="entry-title">EGOCache缓存框架详细讲解</h1>
     
     
       <p class="meta">
@@ -92,90 +92,98 @@
 
 
 
-<time class='entry-date' datetime='2015-05-22T11:08:18+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:08 am</span></time>
+<time class='entry-date' datetime='2015-07-01T00:10:18+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>12:10 am</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><blockquote><p>关注iOS开发：iOSDevTip</p></blockquote>
+<div class="entry-content"><p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/huancun.jpg" alt="1" /></p>
 
-<p>在CSDN上看到有人提的问题，觉得很有价值，先看代码：</p>
+<p><strong>EGOCache</strong>是一个轻量级的缓存框架。用法简单方便，在现在的项目中，我就用到EGOCache来缓存下载过的照片和字符串。</p>
 
-<pre><code>@protocol CAMediaTiming
+<p>有人可能会问到，缓存照片还需要用EGOCache吗？<a href="http://www.superqq.com/blog/2014/11/07/ioswang-luo-bian-cheng-zhi-afnetworkingshi-yong/">AFNetworking</a>和<a href="http://www.superqq.com/blog/2015/06/09/sdwebimagejia-zai-tu-pian-huan-cun-tu-pian/">SDWebImage</a>不是已经有这些功能了吗？</p>
 
-/* The begin time of the object, in relation to its parent object, if
- * applicable. Defaults to 0. */
+<p>是的，不过AFNetworking和SDWebImage是http。我的项目用的是socket，所以我选择EGOCache来做缓存。用下来觉得EGOCache还是挺强大的。</p>
 
-@property CFTimeInterval beginTime;
+<h2>EGOCache简介</h2>
 
-/* The basic duration of the object. Defaults to 0. */
-
-@property CFTimeInterval duration;
-
-/* The rate of the layer. Used to scale parent time to local time, e.g.
- * if rate is 2, local time progresses twice as fast as parent time.
- * Defaults to 1. */
-
-@property float speed;
-
-/* Additional offset in active local time. i.e. to convert from parent
- * time tp to active local time t: t = (tp - begin) * speed + offset.
- * One use of this is to "pause" a layer by setting `speed' to zero and
- * `offset' to a suitable value. Defaults to 0. */
-
-@property CFTimeInterval timeOffset;
-
-/* The repeat count of the object. May be fractional. Defaults to 0. */
-
-@property float repeatCount;
-
-/* The repeat duration of the object. Defaults to 0. */
-
-@property CFTimeInterval repeatDuration;
-
-/* When true, the object plays backwards after playing forwards. Defaults
- * to NO. */
-
-@property BOOL autoreverses;
-
-/* Defines how the timed object behaves outside its active duration.
- * Local time may be clamped to either end of the active duration, or
- * the element may be removed from the presentation. The legal values
- * are `backwards', `forwards', `both' and `removed'. Defaults to
- * `removed'. */
-
-@property(copy) NSString *fillMode;
-
-@end
+<pre><code>EGOCache is a simple, thread-safe key value cache store. It has native support for NSString, UI/NSImage, and NSData, but can store anything that implements &lt;NSCoding&gt;. All cached items expire after the timeout, which by default, is one day.
 </code></pre>
 
-<h3>问题：</h3>
+<p>翻译过来就是：EGOCache一个简单、线程安全的基于 key-value 的缓存框架，原生支持NSString、UI/NSImage、和NSData，也支持储存任何实现<NSCoding>协议的类，可以设定缓存过期时间，默认是1天。</p>
 
-<p>上面那个协议时苹果自带的，为什么里面定义了成员变量呢？</p>
+<p>EGOCache只有一个类，EGOCache.h和EGOCache.m两个文件。用法也比较容易掌握，仔细研究一下EGOCache.h的方法，很快就可以上手。</p>
 
-<h3>网友回答：</h3>
+<p>EGOCache只提供了磁盘缓存，没有提供内存缓存。同时，也提供了清理缓存的方法：</p>
 
-<p>这只是在头文件中声明，编译器是不会自动生成实例变量的，也就是说你可以用一个对象去实现这个协议，但是你不自己存储的话实例变量的话，访问同样会崩溃：
-self.fillModel = @&ldquo;test&rdquo;; // unrecognized selector</p>
-
-<h3>追问</h3>
-
-<p>你好，也就是说我需要这样：</p>
-
-<pre><code>@interface MyClass : NSObject &lt; CAMediaTiming &gt;
-@property CFTimeInterval beginTime;
-@end
+<pre><code>- (void)clearCache;
 </code></pre>
 
-<p>这样才可以么？
-也就是@protocol能声明，不能定义变量么？</p>
+<p>EGOCache还提供了判断缓存是否存在的方法：</p>
 
-<h3>网友回答</h3>
+<pre><code>- (BOOL)hasCacheForKey:(NSString* __nonnull)key;
+</code></pre>
 
-<p>协议声明出来的是方法，虽然看起来是属性，其实只有 getter、setter 这两个方法，内部是没有实例变量的，并且你不能去重定义它，只能在 getter、setter 里处理
-​</p>
+<h2>通过Cocoapods直接加入项目</h2>
+
+<p>直接在你的项目的Podfile加入下面一行：</p>
+
+<pre><code>pod 'EGOCache'
+</code></pre>
+
+<p>然后执行：</p>
+
+<pre><code>$ pod update
+</code></pre>
+
+<h2>EGOCache用法</h2>
+
+<h3>用EGOCache缓存NSString</h3>
+
+<p>存储：</p>
+
+<pre><code>NSString *saveString = @"把我保存起来吧";
+[[EGOCache globalCache] setString:saveString forKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[saveString hash]] withTimeoutInterval:24*60*60];
+</code></pre>
+
+<p>读取：</p>
+
+<pre><code>NSString *getSaveString = [[EGOCache globalCache] stringForKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[@"SaveString" hash]]];
+</code></pre>
+
+<p>是不是感觉跟NSDictionary很相似，确实，前面我们说了EGOCache是基于key-value 的缓存框架。</p>
+
+<h3>用EGOCache缓存UIImage</h3>
+
+<p>存储：</p>
+
+<pre><code> UIImage *saveImage = [UIImage imageNamed:@"iOSDevTip"];
+[[EGOCache globalCache] setImage:saveImage forKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[@"SaveImage" hash]] withTimeoutInterval:24*60*60];
+</code></pre>
+
+<p>读取：</p>
+
+<pre><code>UIImage *getSaveImage = [[EGOCache globalCache] imageForKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[@"SaveImage" hash]]];
+</code></pre>
+
+<h3>用EGOCache缓存NSData</h3>
+
+<p>存储：</p>
+
+<pre><code>NSData *saveData = [NSData data];
+[[EGOCache globalCache] setData:saveData forKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[@"SaveData" hash]] withTimeoutInterval:24*60*60];
+</code></pre>
+
+<p>读取：</p>
+
+<pre><code>UIImage *getSaveData = [[EGOCache globalCache] dataForKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[@"SaveData" hash]]];
+</code></pre>
+
+<h3>EGOCache源码下载</h3>
+
+<p><a href="https://github.com/enormego/EGOCache">EGOCache</a></p>
 </div>
 
 
@@ -191,7 +199,7 @@ self.fillModel = @&ldquo;test&rdquo;; // unrecognized selector</p>
 
 
 
-<time class='entry-date' datetime='2015-05-22T11:08:18+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:08 am</span></time>
+<time class='entry-date' datetime='2015-07-01T00:10:18+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>12:10 am</span></time>
       
 
 <span class="categories">
@@ -202,7 +210,7 @@ self.fillModel = @&ldquo;test&rdquo;; // unrecognized selector</p>
 
 
       <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
-<br>原文链接：<a href="http://www.superqq.com/blog/2015/05/22/iosxie-yi-li-mian-ke-yi-ding-yi-cheng-yuan-bian-liang-he-shu-xing-ma-%3F/">http://www.superqq.com/blog/2015/05/22/iosxie-yi-li-mian-ke-yi-ding-yi-cheng-yuan-bian-liang-he-shu-xing-ma-%3F/</a> <!-- 添加这一行代码 -->
+<br>原文链接：<a href="http://www.superqq.com/blog/2015/07/01/egocachehuan-cun-kuang-jia-xiang-xi-jiang-jie/">http://www.superqq.com/blog/2015/07/01/egocachehuan-cun-kuang-jia-xiang-xi-jiang-jie/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -227,10 +235,8 @@ self.fillModel = @&ldquo;test&rdquo;; // unrecognized selector</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/05/14/iosdi-tu-ding-wei-shi-yong-xiao-ji-qiao/" title="Previous Post: iOS地图定位使用几个小功能">&laquo; iOS地图定位使用几个小功能</a>
+        <a class="basic-alignment left" href="/blog/2015/06/30/wei-you-jian-chi-fang-neng-cheng-gong/" title="Previous Post: 唯有坚持方能成功">&laquo; 唯有坚持方能成功</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/05/29/macxia-dot-gitconfigpei-zhi-bie-ming-alias/" title="Next Post: mac下.gitconfig配置别名alias">mac下.gitconfig配置别名alias &ra/categories.htmlquo;</a>
       
     </p>
   </footer>
