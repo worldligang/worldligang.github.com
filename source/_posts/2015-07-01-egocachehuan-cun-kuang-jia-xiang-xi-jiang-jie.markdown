@@ -80,6 +80,6 @@ EGOCache还提供了判断缓存是否存在的方法：
 
     UIImage *getSaveData = [[EGOCache globalCache] dataForKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[@"SaveData" hash]]];
 
-###EGOCache源码下载
+##EGOCache源码下载
 
 [EGOCache](https://github.com/enormego/EGOCache)
