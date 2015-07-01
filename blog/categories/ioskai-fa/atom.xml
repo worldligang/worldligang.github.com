@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-01T00:20:56+08:00</updated>
+  <updated>2015-07-01T09:49:55+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -98,7 +98,7 @@
 <pre><code>UIImage *getSaveData = [[EGOCache globalCache] dataForKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[@"SaveData" hash]]];
 </code></pre>
 
-<h3>EGOCache源码下载</h3>
+<h2>EGOCache源码下载</h2>
 
 <p><a href="https://github.com/enormego/EGOCache">EGOCache</a></p>
 ]]></content>
