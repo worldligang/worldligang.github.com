@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>Mac终端关机命令 - 刚刚在线</title>
+  <title>UIButton文字居左显示 - 刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="mac终端关机命令">
-  <meta name="keywords" content="mac, iOS,终端,关机命令, iOSDevTip iOS开发, gcd, cocoapods, 队列, 个人博客, 刚刚在线">
+  <meta name="description" content="今天我们来讲如何让UIButton文字居左显示？我们都应该写过让UILabel的text居左显示。代码也非常简单。">
+  <meta name="keywords" content="UIButton, UIButton文字居左, contentHorizontalAlignment, UIButton居左, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/blog/2014/11/14/maczhong-duan-guan-ji-ming-ling">
+  <link rel="canonical" href="http://www.superqq.com/blog/2015/07/02/uibuttonwen-zi-ju-zuo-xian-shi">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -83,7 +83,7 @@
   
   <header>
     
-      <h1 class="entry-title">Mac终端关机命令</h1>
+      <h1 class="entry-title">UIButton文字居左显示</h1>
     
     
       <p class="meta">
@@ -92,47 +92,104 @@
 
 
 
-<time class='entry-date' datetime='2014-11-14T14:00:26+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>2:00 pm</span></time>
+<time class='entry-date' datetime='2015-07-02T22:18:01+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:18 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>立即关机</p>
+<div class="entry-content"><p>题外话：时间依旧过的很快，不知不觉2015年就过去一半了。感觉自己好像没有大的改变，只能感叹时间飞逝，却不能有所收获。</p>
 
-<pre><code>sudo halt
+<p>我从来都不是一个安于现状的人，改变自己的想法从未停止过。我想大多数人都跟我有类似的想法。但是为什么很难有所成就呢？我觉得最重要的原因就是，<strong>只是想一下，而没有去行动</strong>。</p>
+
+<p>这是一个全民创业的时代，不把握机会，只能错过。错过的机会，越多遗憾就越多。有句话说：<strong>老了之后，回想人生，不会因为自己做过什么而后悔，而会因为自己没有做过什么而遗憾。</strong>不想给人生留下遗憾，所以努力去尝试是唯一的选择。</p>
+
+<p>随便感慨一下。每天上班太舒服了，淡忘了自己的理想，借此提醒一下自己。</p>
+
+<p>来来，收回思路，今天我们来讲如何让UIButton文字居左显示？我们都应该写过让UILabel的text居左显示。代码也非常简单。</p>
+
+<h2>UILabel文字居左显示</h2>
+
+<p>实现文字居左显示代码如下：</p>
+
+<pre><code>UILabel *label = [[UILabel alloc] init];
+label.frame = CGRectMake(50, 100, 200, 50);
+label.text = @"我是label";
+label.textAlignment = NSTextAlignmentLeft;
+label.backgroundColor = [UIColor orangeColor];
+[self.view addSubview:label];
 </code></pre>
 
-<p>或者</p>
+<p>运行起来看一下效果：</p>
 
-<pre><code>sudo shutdown -h now
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/labelleft.png" alt="1" /></p>
+
+<p>label.backgroundColor = [UIColor orangeColor];设置label的背景颜色方便我们参考。你是不是这样做的。依次类推UIButton也很简单，你肯定能想到。我们来看看。</p>
+
+<h2>UIButton文字居左显示</h2>
+
+<h3>创建UIButton</h3>
+
+<pre><code>UIButton *button = [[UIButton alloc] init];
+//设置坐标
+button.frame = CGRectMake(100, 100, 100, 50);
+//设置标题
+[button setTitle:@"我是UIButton" forState:UIControlStateNormal];
+//设置标题颜色
+[button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+//设置背景颜色    
+[button setBackgroundColor:[UIColor orangeColor]];
+[self.view addSubview:button];
 </code></pre>
 
-<p>10分钟后关机</p>
+<p>以上代码是创建一个button，设置坐标、标题、和标题颜色。</p>
 
-<pre><code>sudo shutdown -h +10
+<h3>让文字居左</h3>
+
+<p>按照UILabel文字居左的写法，UIButton应该这么写：</p>
+
+<pre><code> button.titleLabel.textAlignment = NSTextAlignmentLeft;
 </code></pre>
 
-<p>晚上8点关机</p>
+<p>运行一下看一下效果：</p>
 
-<pre><code>sudo shutdown -h 20:00
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/buttonnoleft.png" alt="2" /></p>
+
+<p>我们发现UIButton的文字还是居中显示。竟然没有居左显示，怎么办呢？进UIButton看看，还有哪些属性。很快发现：</p>
+
+<pre><code>@property(nonatomic) UIControlContentHorizontalAlignment contentHorizontalAlignment; // how to position content hozontally inside control. default is center
+
+typedef NS_ENUM(NSInteger, UIControlContentHorizontalAlignment) {
+    UIControlContentHorizontalAlignmentCenter = 0,
+    UIControlContentHorizontalAlignmentLeft   = 1,
+    UIControlContentHorizontalAlignmentRight  = 2,
+    UIControlContentHorizontalAlignmentFill   = 3,
+};
 </code></pre>
 
-<p>立即重启</p>
+<h3>设置contentHorizontalAlignment</h3>
 
-<pre><code>sudo reboot
+<pre><code>button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
 </code></pre>
 
-<p>或者</p>
+<p>再次运行起来看效果：</p>
 
-<pre><code>sudo shutdown -r now
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/buttonleft.png" alt="3" /></p>
+
+<p>果然可以，是不是看着居左显示很难看，太靠边了。很简单，设置UIButton的titleEdgeInsets属性：</p>
+
+<pre><code>button.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
 </code></pre>
 
-<p>我的微信公众号 iOS开发 ：</p>
+<p>这样button的title就距左边10个像素的距离。</p>
 
-<pre><code>iOSDevTip
+<p>居右显示就很简单了：</p>
+
+<pre><code>button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
 </code></pre>
+
+<p>ok，UIButton文字居左显示完成了。更多iOS技术请点击<a href="www.superqq.com">刚刚在线</a> : <strong>www.superqq.com</strong></p>
 </div>
 
 
@@ -148,7 +205,7 @@
 
 
 
-<time class='entry-date' datetime='2014-11-14T14:00:26+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>2:00 pm</span></time>
+<time class='entry-date' datetime='2015-07-02T22:18:01+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:18 pm</span></time>
       
 
 <span class="categories">
@@ -159,7 +216,7 @@
 
 
       <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
-<br>原文链接：<a href="http://www.superqq.com/blog/2014/11/14/maczhong-duan-guan-ji-ming-ling/">http://www.superqq.com/blog/2014/11/14/maczhong-duan-guan-ji-ming-ling/</a> <!-- 添加这一行代码 -->
+<br>原文链接：<a href="http://www.superqq.com/blog/2015/07/02/uibuttonwen-zi-ju-zuo-xian-shi/">http://www.superqq.com/blog/2015/07/02/uibuttonwen-zi-ju-zuo-xian-shi/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -184,10 +241,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/11/13/zhong-wen-ios-slash-mac-kai-fa-bo-ke-lie-biao/" title="Previous Post: 中文 iOS/Mac 开发博客列表">&laquo; 中文 iOS/Mac 开发博客列表</a>
+        <a class="basic-alignment left" href="/blog/2015/07/02/egocacheru-he-jian-ce-huan-cun-shi-jian-guo-qi/" title="Previous Post: EGOCache如何检测缓存时间过期">&laquo; EGOCache如何检测缓存时间过期</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/11/15/cocoapodsxiang-jie-zhi-shi-yong-pian/" title="Next Post: CocoaPods详解之----使用篇">CocoaPods详解之&#8212;-使用篇 &ra/categories.htmlquo;</a>
       
     </p>
   </footer>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-02T00:41:14+08:00</updated>
+  <updated>2015-07-02T22:20:55+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,105 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[UIButton文字居左显示]]></title>
+    <link href="http://www.superqq.com/blog/2015/07/02/uibuttonwen-zi-ju-zuo-xian-shi/"/>
+    <updated>2015-07-02T22:18:01+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/07/02/uibuttonwen-zi-ju-zuo-xian-shi</id>
+    <content type="html"><![CDATA[<p>题外话：时间依旧过的很快，不知不觉2015年就过去一半了。感觉自己好像没有大的改变，只能感叹时间飞逝，却不能有所收获。</p>
+
+<p>我从来都不是一个安于现状的人，改变自己的想法从未停止过。我想大多数人都跟我有类似的想法。但是为什么很难有所成就呢？我觉得最重要的原因就是，<strong>只是想一下，而没有去行动</strong>。</p>
+
+<p>这是一个全民创业的时代，不把握机会，只能错过。错过的机会，越多遗憾就越多。有句话说：<strong>老了之后，回想人生，不会因为自己做过什么而后悔，而会因为自己没有做过什么而遗憾。</strong>不想给人生留下遗憾，所以努力去尝试是唯一的选择。</p>
+
+<p>随便感慨一下。每天上班太舒服了，淡忘了自己的理想，借此提醒一下自己。</p>
+
+<p>来来，收回思路，今天我们来讲如何让UIButton文字居左显示？我们都应该写过让UILabel的text居左显示。代码也非常简单。</p>
+
+<h2>UILabel文字居左显示</h2>
+
+<p>实现文字居左显示代码如下：</p>
+
+<pre><code>UILabel *label = [[UILabel alloc] init];
+label.frame = CGRectMake(50, 100, 200, 50);
+label.text = @"我是label";
+label.textAlignment = NSTextAlignmentLeft;
+label.backgroundColor = [UIColor orangeColor];
+[self.view addSubview:label];
+</code></pre>
+
+<p>运行起来看一下效果：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/labelleft.png" alt="1" /></p>
+
+<p>label.backgroundColor = [UIColor orangeColor];设置label的背景颜色方便我们参考。你是不是这样做的。依次类推UIButton也很简单，你肯定能想到。我们来看看。</p>
+
+<h2>UIButton文字居左显示</h2>
+
+<h3>创建UIButton</h3>
+
+<pre><code>UIButton *button = [[UIButton alloc] init];
+//设置坐标
+button.frame = CGRectMake(100, 100, 100, 50);
+//设置标题
+[button setTitle:@"我是UIButton" forState:UIControlStateNormal];
+//设置标题颜色
+[button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+//设置背景颜色    
+[button setBackgroundColor:[UIColor orangeColor]];
+[self.view addSubview:button];
+</code></pre>
+
+<p>以上代码是创建一个button，设置坐标、标题、和标题颜色。</p>
+
+<h3>让文字居左</h3>
+
+<p>按照UILabel文字居左的写法，UIButton应该这么写：</p>
+
+<pre><code> button.titleLabel.textAlignment = NSTextAlignmentLeft;
+</code></pre>
+
+<p>运行一下看一下效果：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/buttonnoleft.png" alt="2" /></p>
+
+<p>我们发现UIButton的文字还是居中显示。竟然没有居左显示，怎么办呢？进UIButton看看，还有哪些属性。很快发现：</p>
+
+<pre><code>@property(nonatomic) UIControlContentHorizontalAlignment contentHorizontalAlignment; // how to position content hozontally inside control. default is center
+
+typedef NS_ENUM(NSInteger, UIControlContentHorizontalAlignment) {
+    UIControlContentHorizontalAlignmentCenter = 0,
+    UIControlContentHorizontalAlignmentLeft   = 1,
+    UIControlContentHorizontalAlignmentRight  = 2,
+    UIControlContentHorizontalAlignmentFill   = 3,
+};
+</code></pre>
+
+<h3>设置contentHorizontalAlignment</h3>
+
+<pre><code>button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+</code></pre>
+
+<p>再次运行起来看效果：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/buttonleft.png" alt="3" /></p>
+
+<p>果然可以，是不是看着居左显示很难看，太靠边了。很简单，设置UIButton的titleEdgeInsets属性：</p>
+
+<pre><code>button.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+</code></pre>
+
+<p>这样button的title就距左边10个像素的距离。</p>
+
+<p>居右显示就很简单了：</p>
+
+<pre><code>button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+</code></pre>
+
+<p>ok，UIButton文字居左显示完成了。更多iOS技术请点击<a href="www.superqq.com">刚刚在线</a> : <strong>www.superqq.com</strong></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[EGOCache如何检测缓存时间过期]]></title>
@@ -251,7 +350,7 @@ if(!_cacheInfo) {
 <pre><code>UIImage *getSaveData = [[EGOCache globalCache] dataForKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[@"SaveData" hash]]];
 </code></pre>
 
-<h3>EGOCache源码下载</h3>
+<h2>EGOCache源码下载</h2>
 
 <p><a href="https://github.com/enormego/EGOCache">EGOCache</a></p>
 ]]></content>
@@ -471,32 +570,6 @@ iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</
 iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</p></blockquote>
 
 <p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="2" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Xcode真机调试报错：The Application Could Not Be Verified.]]></title>
-    <link href="http://www.superqq.com/blog/2015/06/26/xcodezhen-ji-diao-shi-bao-cuo-:the-application-could-not-be-verified/"/>
-    <updated>2015-06-26T15:33:34+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/06/26/xcodezhen-ji-diao-shi-bao-cuo-:the-application-could-not-be-verified</id>
-    <content type="html"><![CDATA[<p> 今天真机调试的时候遇到这个错误：</p>
-
-<pre><code>The application could not be verified.
-</code></pre>
-
-<p> 这还是第一次遇到，应该是手机上的app的证书跟现在的证书不一致导致。</p>
-
-<p> 解决方法有两个</p>
-
-<p> ###xcode中切换证书：</p>
-
-<pre><code>你手机上的app用的是哪个证书，你现在还用那个证书运行。
-</code></pre>
-
-<p> ###删除手机上的app</p>
-
-<pre><code>直接删除手机上的app，再运行就可以啦！
-</code></pre>
 ]]></content>
   </entry>
   
