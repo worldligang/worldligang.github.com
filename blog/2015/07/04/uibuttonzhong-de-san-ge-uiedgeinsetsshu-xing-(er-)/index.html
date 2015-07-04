@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>iOS 设计模式系列：MVC – 设计模式中的国王 - 刚刚在线</title>
+  <title>UIButton中的三个UIEdgeInsets属性（二） - 刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="iOS 设计模式系列：MVC、Singleton – 单例模式、Facade – 外观模式、Decorator – 装饰器模式、Adapter – 适配器模式、Observer – 观察者模式、Memento – 备忘录模式、Archiving – 归档模式、Command – 命令模式">
-  <meta name="keywords" content="设计模式, MVC, 单例模式, 外观模式, 装饰器模式, 适配器模式, 观察者模式,备忘录模式,归档模式,命令模式, cocoapods, 个人博客, 刚刚在线">
+  <meta name="description" content="接着昨天的UIButton中的三个UIEdgeInsets属性，今天我们具体谈谈UIButton的contentEdgeInsets、titleEdgeInsets、imageEdgeInsets属性。">
+  <meta name="keywords" content="UIEdgeInsets, UIEdgeInsets, contentEdgeInsets, titleEdgeInsets, imageEdgeInsets, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang">
+  <link rel="canonical" href="http://www.superqq.com/blog/2015/07/04/uibuttonzhong-de-san-ge-uiedgeinsetsshu-xing-(er-)">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -83,7 +83,7 @@
   
   <header>
     
-      <h1 class="entry-title">iOS 设计模式系列：MVC – 设计模式中的国王</h1>
+      <h1 class="entry-title">UIButton中的三个UIEdgeInsets属性（二）</h1>
     
     
       <p class="meta">
@@ -92,77 +92,125 @@
 
 
 
-<time class='entry-date' datetime='2015-06-11T13:41:20+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:41 pm</span></time>
+<time class='entry-date' datetime='2015-07-04T14:14:43+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:14 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2013/07/mvcking.png" alt="icon" /></p>
+<div class="entry-content"><p>昨天去公司加班的人请举手，不是只有我一个吧？（😭）我觉得加班的人应该不少吧。今天周日，应该不需要去加班了。心里暗暗自喜，终于可以休息一天啦。（😄）</p>
 
-<p>模型(Model) 视图(View) 控制器(Controller) (<a href="http://www.superqq.com/blog/2014/11/10/qian-xi-mvche-shuo-mei-de-guo-cheng/">MVC</a>) 是 Cocoa 中的一种行为模块，并且也是所有 Cocoa 设计模式中使用最多的。在程序中按照它们的角色来分类这些对象并且鼓励你的基础代码也按照这个来划分。</p>
+<p>说到加班，应该是程序猿心里的痛啊。不加班吧，东西做不完；加班吧，身体吃不消。作为程序猿真的不容易，每天从早忙到晚。突然有一天，六点下班，看见太阳还在等我，心里被踢有多高兴。</p>
 
-<p>这三种角色是：</p>
+<p>弱弱的问一下：加班好不好？</p>
 
-<ul>
-<li>模型：这是一种暂时保存你程序数据和定义如何操作它的对象。一个例子，在你的程序中 Album 类就是一个模型。</li>
-<li>视图：这种对象是控制模型里的数据如何显示出来的，用户也可操作这些对象；事实上，包含所有的 UIView 和他们的子类。在你的程序中视图是 AlbumView 类。</li>
-<li>控制器：控制器是一个中介者协调所有的工作。他使数据从模型传出来然后显示在视图上，监听事件，在必要的时候操作数据。你能猜到哪个类你的控制器吗？对了，它就是 ViewController。</li>
-</ul>
+<p>要看这个问题问谁了。如果问老板，老板肯定美滋滋的说，加班好啊，说明你有责任心，有上进心，把公司当成自己的&hellip;</p>
 
+<p>如果问我，哈哈，我当然说加班不好啦，不然会被打死的。开个玩笑。说句实话，加班肯定是不好的，尤其是对程序猿来说。每天面对电脑，每天坐着，时间长了，各种问题就凸显出来。</p>
 
-<p>在你的程序中一个好的设计模式的实现意味者所有的对象都在这些群组中。</p>
+<p>但是，我说加班不好有用吗？如果我要是老板，我就直接让员工在家办公。（😊）所以大家感觉支持我吧，说不定哪天我真的&hellip;</p>
 
-<p>下图很好的描述了视图和模型之间的通信过程：</p>
+<p>接着昨天的<a href="http://www.superqq.com/blog/2015/07/03/uibuttonzhong-de-san-ge-uiedgeinsetsshu-xing-%28%5B%3F%5D-%29/">UIButton中的三个UIEdgeInsets属性</a>，今天我们具体谈谈UIButton的contentEdgeInsets、titleEdgeInsets、imageEdgeInsets属性。</p>
 
-<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2013/07/mvc0.png" alt="icon" /></p>
+<h2>创建UIButton</h2>
 
-<p>当有数据发生改变的时候模型通知控制器，然后控制器更新视图数据。 反过来，当用户在视图执行一些操作后，视图会通知控制器，如果有需要或是要取回请求数据，控制器也会更新模型或者。</p>
+<pre><code>UIButton *button = [[UIButton alloc] init];
+button.frame = CGRectMake(50, 200, 200, 50);
+[button setTitle:@"我是UIButton" forState:UIControlStateNormal];
+[button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+[button setBackgroundColor:[UIColor orangeColor]];
+button.titleLabel.textAlignment = NSTextAlignmentLeft;
+button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+[self.view addSubview:button];
+</code></pre>
 
-<p>你可能想我为什么不能丢掉控制器，在同一个类里实现视图和模型，这样看起来更简单。</p>
+<p>创建一个button，让button的title居左，以便观察：</p>
 
-<p>归根结底，这是为是分离代码和提高代码的可重用性。理想状态下视图应该完全从模型中分离出来。如果视图不依赖一个特殊的模型来实现，那么另外一个模型就可以重复利用这个视图显示一些其它不同的数据。</p>
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button1.png" alt="1" /></p>
 
-<p>举一个例子，在将来某一天你想在你的音乐库中加入一些电影或者一些书，你可以继续使用原来的 AlbumView 视图来显示这个电影或者图书对象。此外，如果你想创建一个新项目，这个项目中的一些东西跟音乐专辑有关，你可以很简单的拿来重用 Album 类，因为它不依赖于其它任何视图。这就是 MVC 的精髓所在。</p>
+<h2>UIButton的contentEdgeInsets属性</h2>
 
-<h3>如何使用 MVC 模式</h3>
+<pre><code>@property(nonatomic)          UIEdgeInsets contentEdgeInsets UI_APPEARANCE_SELECTOR; // default is UIEdgeInsetsZero
+</code></pre>
 
-<p>首先，你要保证在你的项目中任何一个类都有一个控制器，一个模型，一个视图，一个类中的函数不能有两种作用。到目前为至，你已经完成了一项很棒的工作，创建了一个 Album 类和一个 AlbumView 类。</p>
+<p>contentEdgeInsets里有一个content应该指的就是UIButton的title。</p>
 
-<p>第二步，根据这些方法的作用你应该创建三个文件夹，来存放不同类别的代码，每种类型一个文件夹。</p>
+<h3>参数含义</h3>
 
-<p>在菜单上选择 File\New\Group (或者按 Command+Option+N) ，创建名称为 Model，重复上面的动作，创建 View 和 Controller 文件夹。</p>
+<p>上一篇文章我们讲了UIEdgeInsets是个结构体类型。里面有四个参数，分别是：top, left, bottom, right。这四个参数表示距离上边界、左边界、下边界、右边界的距离。</p>
 
-<p>现在拖动 Album.h 和 Album.m 文件到 Model 文件夹。拖动 AlbumView.h 和 AlbumView.m 文件到 View 文件夹，最后拖动 ViewController.h 和 ViewController.m 文件到 Controller 文件夹中。</p>
+<p>这四个参数的值可以为正值，也可以为负值。拿left举例：</p>
 
-<p>现在，项目文件的结构目录应该是这个样子的：</p>
+<pre><code>left = 10; //代表以当前位置为基准，向右移动10个像素
+left = -10; //代表以当前位置为基准，向左移动10个像素
+</code></pre>
 
-<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2013/07/mvc2-255x320.png" alt="icon" /></p>
+<h3>向右移动20个像素</h3>
 
-<p>如果没有其它的文件漂在外面，你的项目看起来已经非常棒了。显然你还可能有其它的文件夹和类，但是你程序的核心内容应该包含在这三个分类中。</p>
+<pre><code>button.contentEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 0);
+</code></pre>
 
-<p>现在你的文件已经组织好了，你需要从其它地方获取专辑数据了。你需要创建一个 API 类用来管理你的代码的数据来源 — 现在是机会开始讨论下一个设计模式了 — 单例模式(The Singleton Pattern)。</p>
+<p>向右移动20个像素，left = 20，就可以了。</p>
 
-<p><strong>设计模式系列文章</strong>：</p>
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button2.png" alt="2" /></p>
 
-<p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
+<h3>向左移动20个像素</h3>
 
-<p><a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></p>
+<pre><code>button.contentEdgeInsets = UIEdgeInsetsMake(0, -20, 0, 0);
+</code></pre>
 
-<p><a href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></p>
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button3.png" alt="2" /></p>
 
-<p><a href="http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/">iOS 设计模式系列：Facade – 外观模式</a></p>
+<h2>UIButton的titleEdgeInsets属性</h2>
 
-<p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
+<p>titleEdgeInsets和contentEdgeInsets的作用差不多。我们及设置contentEdgeInsets，又设置titleEdgeInsets，会怎样呢？</p>
 
-<p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
+<pre><code>button.titleEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 0);
+button.contentEdgeInsets = UIEdgeInsetsMake(0, 20 , 0, 0);
+</code></pre>
 
-<p><a href="http://www.superqq.com/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/">iOS 设计模式系列：Observer – 观察者模式</a></p>
+<p>看一下效果：</p>
 
-<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button4.png" alt="3" /></p>
 
-<p><a href="http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/">iOS 设计模式系列：Archiving – 归档模式</a></p>
+<h2>UIButton的titleEdgeInsets属性</h2>
+
+<h3>创建一个带照片的button</h3>
+
+<pre><code>UIButton *button = [[UIButton alloc] init];
+button.frame = CGRectMake(50, 200, 200, 200);
+[button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+[button setBackgroundColor:[UIColor orangeColor]];
+[button setImage:[UIImage imageNamed:@"test"] forState:UIControlStateNormal];
+[self.view addSubview:button];
+</code></pre>
+
+<p>运行一下：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button5.png" alt="5" /></p>
+
+<h3>向右移动50个像素</h3>
+
+<pre><code>button.imageEdgeInsets = UIEdgeInsetsMake(0, 50, 0, 0);
+</code></pre>
+
+<p>看看效果：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button6.png" alt="6" /></p>
+
+<h3>向左移动50个像素</h3>
+
+<pre><code>button.imageEdgeInsets = UIEdgeInsetsMake(0, -50, 0, 0);
+</code></pre>
+
+<p>看看效果：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button7.png" alt="7" /></p>
+
+<p>大家可以自行设置其他三个参数看看效果是怎样的，自己动手便于理解。</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="ios" /></p>
 </div>
 
 
@@ -178,7 +226,7 @@
 
 
 
-<time class='entry-date' datetime='2015-06-11T13:41:20+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:41 pm</span></time>
+<time class='entry-date' datetime='2015-07-04T14:14:43+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:14 pm</span></time>
       
 
 <span class="categories">
@@ -189,7 +237,7 @@
 
 
       <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
-<br>原文链接：<a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/</a> <!-- 添加这一行代码 -->
+<br>原文链接：<a href="http://www.superqq.com/blog/2015/07/04/uibuttonzhong-de-san-ge-uiedgeinsetsshu-xing-(er-)/">http://www.superqq.com/blog/2015/07/04/uibuttonzhong-de-san-ge-uiedgeinsetsshu-xing-(er-)/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -214,10 +262,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/" title="Previous Post: iOS 设计模式系列：开篇">&laquo; iOS 设计模式系列：开篇</a>
+        <a class="basic-alignment left" href="/blog/2015/07/03/uibuttonzhong-de-san-ge-uiedgeinsetsshu-xing-(%5B%3F%5D-)/" title="Previous Post: UIButton中的三个UIEdgeInsets属性（一）">&laquo; UIButton中的三个UIEdgeInsets属性（一）</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/" title="Next Post: iOS 设计模式系列：Singleton – 单例模式">iOS 设计模式系列：Singleton – 单例模式 &ra/categories.htmlquo;</a>
       
     </p>
   </footer>
