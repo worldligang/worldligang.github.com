@@ -6,10 +6,18 @@ url: http://www.superqq.com
 title: 刚刚在线
 subtitle: 关注iOS开发和移动互联网的自媒体博客
 author: 李刚
-simple_search: http://www.baidu.com/
+simple_search: 
+	enable: true
+	id: "8287612116310593913"
+	site: http://zhannei.superqq.com/cse/search
 keywords: iOS开发, MVC, 单例模式, 外观模式, 装饰器模式, 适配器模式, 观察者模式,备忘录模式,归档模式,命令模式, cocoapods, 程序人生
 description: 2年iOS开发站长，优秀iOS开发博客之一。关注iOS开发、swift开发、iOSDevTip、移动互联网、自媒体、Cocoapods、Xcode、iOS，刚刚在线博客是一个值得收藏的网站！
 
+# baidu_search: 
+#   enable: true
+#   id: "8287612116310593913"
+#   site: http://zhannei.superqq.com/cse/search
+  
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
 # http://www.ruby-doc.org/core-1.9.2/Time.html#method-i-strftime
