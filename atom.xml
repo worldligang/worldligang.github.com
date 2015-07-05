@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-05T12:54:49+08:00</updated>
+  <updated>2015-07-05T23:38:16+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,57 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[程序员屌丝逆袭之路不是炒股]]></title>
+    <link href="http://www.superqq.com/blog/2015/07/05/cheng-xu-yuan-diao-si-ni-xi-zhi-lu-bu-shi-chao-gu/"/>
+    <updated>2015-07-05T23:35:57+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/07/05/cheng-xu-yuan-diao-si-ni-xi-zhi-lu-bu-shi-chao-gu</id>
+    <content type="html"><![CDATA[<p>最近这一段时间，你身边是不是大多数人都在谈论股票？那就对了，无论走到哪都能听到，今天又绿了，我的股票跌停了，冲上5000点啦，等等之类的话。</p>
+
+<p>我还不是一个股民，一直都不是。因为不懂，不敢入市；因为有人跳楼，害怕入市；最主要的原因是，因为手里没有人民币。</p>
+
+<p>人们常说：股市有风险，入市需谨慎。但是还是很多人挤破头皮，往里进。站着进去，趴着出来；笑着进去，哭着出来。</p>
+
+<p>作为一名屌丝，谁不想逆袭呢，谁不想通过炒股赚钱呢？</p>
+
+<h2>前同事炒股翻倍</h2>
+
+<p>最近群里，有个前同事做后台的。他进了一家证劵公司，做后台。应该是年初进去上班的，刚好赶上一波牛市。他买了几只股，好像都不错。</p>
+
+<p>其中有一只股，买的时候是30左右。在60几出的。赚了几万块钱吧。想想真的很不错，啥都不干白赚几万块钱，谁看了不心动呢。说实话，我也心动。</p>
+
+<p>估计是受到他的影响，公司里有些同事也开始炒股了。当然，有的人可能早就在炒股，只是之前股市不景气，大家都不谈论罢了。</p>
+
+<p>看着别人赚钱容易，到自己了估计就难了。真的是这样，尤其是股市里面的钱，真的不是那么好赚的。通过炒股走上逆袭之路，那更是难上加难。</p>
+
+<h2>我的模拟炒股之路</h2>
+
+<p>大家都在谈论股票，我也不能闲着啊。就Appstore里面找了一个模拟炒股软件，试着玩玩看。说不定能赚。</p>
+
+<p>里面有100万，是用来模拟炒股的。反正，是假的，就随便挑了几只股票入手。一共投了30多万吧。还别说，当天就赚了一万多。突然发现自己有成为股神的潜质，哈哈。</p>
+
+<p>紧接着，第二天，第三天，每天都能赚个两三万，第五天的时候，模拟资金已高达110多万。这要是真钱，该多好啊。那我岂不是白白赚了10万块钱。所以你想想，那些有钱的人，真的是越来越有钱。随便弄一下，几百万就来了。</p>
+
+<p>与此同时，其他炒股的同事都在赚，投一万多，赚一千多。看起来还真不错。看到大家都赚钱了，我这个股票小白，模拟都能赚10万块。是不是很想入市啊。</p>
+
+<p>事情并没有想象的那么简单。随后的两三周，股票大跌，各种跌停。有的股票都快跌一半了。包括我前同事买的那个股票从60多又跌回到30多了。不过幸好，他已经抛了。</p>
+
+<p>并不是每个人都那么幸运。有的人都快损失过半了。这种过山车的股市，真让人受不了。炒股不仅有风险，还严重影响生活。与其这样，还不如好好思考如何提高自己的技术。</p>
+
+<p>再看看我的模拟炒股战绩：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/monichaogu.png" alt="gu" /></p>
+
+<h2>股市大跌之后</h2>
+
+<p>经过前面的大跌，股市下一步走向如何呢？或许会继续跌一些，但是我更愿意相信股市会涨，我也希望能涨，让更多被套牢的朋友赚点。我不是股神，无法给出精准的答案。</p>
+
+<p>也许在中国根本就不存在巴菲特口中的<strong>价值投资理论</strong>。有的只是政策市。</p>
+
+<p>股市大跌之后，我也不再想通过股市走向逆袭之路。作为一名屌丝程序员，还是安心的做个美男子，去实现更多有价值的理想吧。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[UIButton中的三个UIEdgeInsets属性（二）]]></title>
@@ -997,7 +1048,7 @@ iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</
 
 <p><strong>你的博客将比简历更有价值</strong>。你在各大招聘网站写简历不如你有一个有价值的博客。</p>
 
-<p>把技术分享出来，不仅帮助新人，更是提高自己，这是一种双赢。如果你写了技术文章没有好的地方可以发布，可以投稿给我：<a href="&#109;&#97;&#105;&#108;&#x74;&#x6f;&#x3a;&#x77;&#111;&#114;&#x6c;&#x64;&#x6c;&#x69;&#x67;&#x61;&#110;&#x67;&#x40;&#49;&#54;&#51;&#x2e;&#99;&#111;&#x6d;">&#119;&#111;&#114;&#108;&#x64;&#108;&#105;&#x67;&#97;&#110;&#x67;&#x40;&#x31;&#x36;&#x33;&#46;&#99;&#x6f;&#109;</a> 我将发布在我的公众号iOS开发（<strong>iOSDevTip</strong>）上，直接分享给上万名iOS开发者。</p>
+<p>把技术分享出来，不仅帮助新人，更是提高自己，这是一种双赢。如果你写了技术文章没有好的地方可以发布，可以投稿给我：<a href="&#109;&#97;&#105;&#x6c;&#x74;&#111;&#x3a;&#x77;&#x6f;&#x72;&#x6c;&#100;&#x6c;&#x69;&#103;&#97;&#x6e;&#x67;&#x40;&#x31;&#54;&#x33;&#46;&#x63;&#111;&#109;">&#x77;&#111;&#114;&#x6c;&#100;&#x6c;&#105;&#103;&#97;&#x6e;&#103;&#x40;&#49;&#54;&#x33;&#x2e;&#99;&#111;&#x6d;</a> 我将发布在我的公众号iOS开发（<strong>iOSDevTip</strong>）上，直接分享给上万名iOS开发者。</p>
 
 <h3>看github开源项目</h3>
 
@@ -2318,168 +2369,6 @@ scroller.delegate = self;
 <p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2013/09/2013-09-01_12-08-44-211x320.png" alt="icon1" /></p>
 
 <p>你需要在屏幕上显示一些专辑数据─这就需要使用到下面一个设计模式：装饰器 (Decorator)。</p>
-
-<p><strong>设计模式系列文章</strong>：</p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/">iOS 设计模式系列：Facade – 外观模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/">iOS 设计模式系列：Observer – 观察者模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/">iOS 设计模式系列：Archiving – 归档模式</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS 设计模式系列：Singleton – 单例模式]]></title>
-    <link href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/"/>
-    <updated>2015-06-13T08:21:55+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi</id>
-    <content type="html"><![CDATA[<p><a href="http://www.superqq.com/blog/2015/03/21/dan-li-mo-shi-de-xie-fa/">单例设计模式</a>确切的说就是一个类只有一个实例，有一个全局的接口来访问这个实例。当第一次载入的时候，它通常使用延时加载的方法创建单一实例。</p>
-
-<pre><code>提示：苹果大量的使用了这种方法。例子：[NSUserDefaults standerUserDefaults], [UIApplication sharedApplication], [UIScreen mainScreen], [NSFileManager defaultManager] 都返回一个单一对象。
-</code></pre>
-
-<p>你可能想知道你为什么要关心一个类有多个的实例。代码和内存都很便宜，不是吗？</p>
-
-<p>在一些情况下，一个类只有一个实例是有意义的。例如，这里没有必要有多个登录实例，除非你一次想写入多个日志文件。或者，一个全局的配置类文件：它可以很容易的很安全的执行一个公共资源，这样的一个配置文件，要比同时修改多个配置类文件好很多。</p>
-
-<h3>如何使用单例模式</h3>
-
-<p>请看下面的图片</p>
-
-<p><img src="http://cdn3.raywenderlich.com/wp-content/uploads/2013/08/singleton.png" alt="icon" /></p>
-
-<p>上面的图片显示的是一个登录类，它有一个属性（这个单一实例），有两个方法：sharedInstance 和 init。</p>
-
-<p>首先一个客户端(client)发送 sharedInstance 信息，但是属性 instance 还没有初始化，所以你要先给这个类创建一个实例。</p>
-
-<p>然后你调用 sharedInstance，instance 会马上返回初始化的值。这个逻辑最终只会返回一个实例。</p>
-
-<p>你需要执行这个模式来创建单例类来管理所有的专辑数据。</p>
-
-<p>你需要注意在项目里有一个叫 API 文件夹，给你的 APP 提供服务的所有类都需要放在这里。在这个文件夹里用 iOS\Cocoa Touch\Object-C class 创建一个新类。类的名字叫 LibraryAPI，子类选择 NSObject。</p>
-
-<p>打开 LibraryAPI.h 文件用下面的代码替换里面的内容：</p>
-
-<pre><code>@interface LibraryAPI: NSObject
-+ (LibraryAPI*)sharedInstance;
-@end
-</code></pre>
-
-<p>现在打开 LibraryAPI.m 文件，在 @implentation 后面添加如下方法：</p>
-
-<pre><code>+ (LibraryAPI*)sharedInstance 
-{
-    // 1
-    static LibraryAPI *_sharedInstance = nil;
-
-    // 2 
-    static dispatch_once_t oncePredicate; 
-
-    // 3
-    dispatch_once(&amp;nocePredicate, ^{
-        _sharedInstance = [[LibraryAPI alloc] init];
-    });
-    return _sharedInstance;
-}
-</code></pre>
-
-<p>在这个短方法中做了这些事情：</p>
-
-<ul>
-<li>在这个类中，声明一个静态变量来保存这个实例，保证它是一个全局可用的变量。</li>
-<li>声明一个静态这是 dispatch_one_t，确保这些初始化代码只能被执行一次。</li>
-<li>使用 Grand Central Dispatch（GCD）执行一个 block 来初始化 LibraryAPI 实例。这是单例设计模式的关键所在：一个类只能被实例化一次。</li>
-</ul>
-
-
-<p>接下来执行 sharedInstance，在 dispatch_once block 里的代码是不会被执行的（当它已经被执行过一次后），它会返回之前创建的 LibraryAPI 实例。</p>
-
-<pre><code>提示：想了解更多关于 GCD 和使用它，请点击这里的教程 Multithreading and Grand Central Dispatch，如何使用 Blocks 在这里。
-</code></pre>
-
-<p>你现在有一个单例对象来管理专辑了。下一步就是创建一个类用来保存你的专辑数据了。</p>
-
-<p>用 iOS\Cocoa Touch\Object-C class 在 API 文件夹下创建一个新的类，名字叫 PersistencyManager，子类选择 NSObject。</p>
-
-<p>打开 PersistencyManager.h，在顶部引入面文件：</p>
-
-<pre><code>#import "Album.h"
-</code></pre>
-
-<p>然后在 @interface 后面加入下面代码：</p>
-
-<pre><code>- (NSArray *)getAlbums;
-- (void)addAlbums:(Album*)album atIndex:(int)index;
-- (void)deleteAlbumAtIndex:(int)index;
-</code></pre>
-
-<p>上面的三个方法都需要跟专辑的数据相结合。</p>
-
-<p>打开 PersistencyManager.m，在 @implementation 上面添加如下代码：</p>
-
-<pre><code>@interface PersistencyManager () {
-    NSMutableArray *albums;
-}
-</code></pre>
-
-<p>上面的代码是给类添加了一个扩展，这是另一种给类添加私有方法和私有属性的方法，类外面的成员是看不到这些的。这里，你声明了一个 NSMutableArray 来保存专辑的数据。这是一个可变数组，你可以很容易的添加和删除专辑。</p>
-
-<p>现在在 @implementation 下面添加实现代码：</p>
-
-<pre><code>- (id)init {
-    self = [super init];
-    if (self) {
-        albums = [NSMutableArray arrayWithArray:@[[[Album alloc] initWithTitle:@"Best of Bowie" artist:@"David Bowie" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_david%20bowie_best%20of%20bowie.png" year:@"1992"],
-        [[Album alloc] initWithTitle:@"It's My Life" artist:@"No Doubt" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_no%20doubt_its%20my%20life%20%20bathwater.png" year:@"2003"],
-                [[Album alloc] initWithTitle:@"Nothing Like The Sun" artist:@"Sting" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_sting_nothing%20like%20the%20sun.png" year:@"1999"],
-            [[Album alloc] initWithTitle:@"Staring at the Sun" artist:@"U2" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_u2_staring%20at%20the%20sun.png" year:@"2000"],
-                [[Album alloc] initWithTitle:@"American Pie" artist:@"Madonna" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_madonna_american%20pie.png" year:@"2000"]]];
-    }
-    return self;
-}
-</code></pre>
-
-<p>在 init 里你在数组中加入了 5 张专辑。如果上面的专辑你不喜欢，你可以随意替换成你喜欢的。:]</p>
-
-<p>现存在 PersistencyManager.m 添加下面三个方法：</p>
-
-<pre><code>- (NSArray*)getAlbums
-{
-        return albums;
-}
-
-- (void)addAlbum:(Album*)album atIndex:(int)index
-{
-        if (albums.count &gt;= index)
-            [albums insertObject:album atIndex:index];
-        else
-        [albums addObject:album];
-}
-
-- (void)deleteAlbumAtIndex:(int)index
-{
-        [albums removeObjectAtIndex:index];
-}
-</code></pre>
-
-<p>这些方法是获取，添加，删除专辑。</p>
-
-<p>Build 你的项目，确保所有的代码都能正确编译。</p>
-
-<p>现在，你也许想知道为什么会有一个 PersistencyManager 类，因为它都不是单例类。不要着急，接下来第二步，外观设计模式(Facade design patten) 将会探讨 LibraryAPI 和 PersistencyManager 之间的关系。</p>
 
 <p><strong>设计模式系列文章</strong>：</p>
 
