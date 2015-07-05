@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-05T11:31:49+08:00</updated>
+  <updated>2015-07-05T12:18:05+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -14,13 +14,133 @@
 
   
   <entry>
+    <title type="html"><![CDATA[UIButton中的三个UIEdgeInsets属性（二）]]></title>
+    <link href="http://www.superqq.com/blog/2015/07/04/uibuttonzhong-de-san-ge-uiedgeinsetsshu-xing-(er-)/"/>
+    <updated>2015-07-04T14:14:43+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/07/04/uibuttonzhong-de-san-ge-uiedgeinsetsshu-xing-(er-)</id>
+    <content type="html"><![CDATA[<p>昨天去公司加班的人请举手，不是只有我一个吧？（😭）我觉得加班的人应该不少吧。今天周日，应该不需要去加班了。心里暗暗自喜，终于可以休息一天啦。（😄）</p>
+
+<p>说到加班，应该是程序猿心里的痛啊。不加班吧，东西做不完；加班吧，身体吃不消。作为程序猿真的不容易，每天从早忙到晚。突然有一天，六点下班，看见太阳还在等我，心里被踢有多高兴。</p>
+
+<p>弱弱的问一下：加班好不好？</p>
+
+<p>要看这个问题问谁了。如果问老板，老板肯定美滋滋的说，加班好啊，说明你有责任心，有上进心，把公司当成自己的&hellip;</p>
+
+<p>如果问我，哈哈，我当然说加班不好啦，不然会被打死的。开个玩笑。说句实话，加班肯定是不好的，尤其是对程序猿来说。每天面对电脑，每天坐着，时间长了，各种问题就凸显出来。</p>
+
+<p>但是，我说加班不好有用吗？如果我要是老板，我就直接让员工在家办公。（😊）所以大家感觉支持我吧，说不定哪天我真的&hellip;</p>
+
+<p>接着昨天的<a href="http://www.superqq.com/blog/2015/07/03/uibuttonzhong-de-san-ge-uiedgeinsetsshu-xing-%28%5B%3F%5D-%29/">UIButton中的三个UIEdgeInsets属性</a>，今天我们具体谈谈UIButton的contentEdgeInsets、titleEdgeInsets、imageEdgeInsets属性。</p>
+
+<h2>创建UIButton</h2>
+
+<pre><code>UIButton *button = [[UIButton alloc] init];
+button.frame = CGRectMake(50, 200, 200, 50);
+[button setTitle:@"我是UIButton" forState:UIControlStateNormal];
+[button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+[button setBackgroundColor:[UIColor orangeColor]];
+button.titleLabel.textAlignment = NSTextAlignmentLeft;
+button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+[self.view addSubview:button];
+</code></pre>
+
+<p>创建一个button，让button的title居左，以便观察：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button1.png" alt="1" /></p>
+
+<h2>UIButton的contentEdgeInsets属性</h2>
+
+<pre><code>@property(nonatomic)          UIEdgeInsets contentEdgeInsets UI_APPEARANCE_SELECTOR; // default is UIEdgeInsetsZero
+</code></pre>
+
+<p>contentEdgeInsets里有一个content应该指的就是UIButton的title。</p>
+
+<h3>参数含义</h3>
+
+<p>上一篇文章我们讲了UIEdgeInsets是个结构体类型。里面有四个参数，分别是：top, left, bottom, right。这四个参数表示距离上边界、左边界、下边界、右边界的距离。</p>
+
+<p>这四个参数的值可以为正值，也可以为负值。拿left举例：</p>
+
+<pre><code>left = 10; //代表以当前位置为基准，向右移动10个像素
+left = -10; //代表以当前位置为基准，向左移动10个像素
+</code></pre>
+
+<h3>向右移动20个像素</h3>
+
+<pre><code>button.contentEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 0);
+</code></pre>
+
+<p>向右移动20个像素，left = 20，就可以了。</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button2.png" alt="2" /></p>
+
+<h3>向左移动20个像素</h3>
+
+<pre><code>button.contentEdgeInsets = UIEdgeInsetsMake(0, -20, 0, 0);
+</code></pre>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button3.png" alt="2" /></p>
+
+<h2>UIButton的titleEdgeInsets属性</h2>
+
+<p>titleEdgeInsets和contentEdgeInsets的作用差不多。我们及设置contentEdgeInsets，又设置titleEdgeInsets，会怎样呢？</p>
+
+<pre><code>button.titleEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 0);
+button.contentEdgeInsets = UIEdgeInsetsMake(0, 20 , 0, 0);
+</code></pre>
+
+<p>看一下效果：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button4.png" alt="3" /></p>
+
+<h2>UIButton的titleEdgeInsets属性</h2>
+
+<h3>创建一个带照片的button</h3>
+
+<pre><code>UIButton *button = [[UIButton alloc] init];
+button.frame = CGRectMake(50, 200, 200, 200);
+[button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+[button setBackgroundColor:[UIColor orangeColor]];
+[button setImage:[UIImage imageNamed:@"test"] forState:UIControlStateNormal];
+[self.view addSubview:button];
+</code></pre>
+
+<p>运行一下：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button5.png" alt="5" /></p>
+
+<h3>向右移动50个像素</h3>
+
+<pre><code>button.imageEdgeInsets = UIEdgeInsetsMake(0, 50, 0, 0);
+</code></pre>
+
+<p>看看效果：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button6.png" alt="6" /></p>
+
+<h3>向左移动50个像素</h3>
+
+<pre><code>button.imageEdgeInsets = UIEdgeInsetsMake(0, -50, 0, 0);
+</code></pre>
+
+<p>看看效果：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button7.png" alt="7" /></p>
+
+<p>大家可以自行设置其他三个参数看看效果是怎样的，自己动手便于理解。</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="ios" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[UIButton中的三个UIEdgeInsets属性（一）]]></title>
     <link href="http://www.superqq.com/blog/2015/07/03/uibuttonzhong-de-san-ge-uiedgeinsetsshu-xing-(%5B%3F%5D-)/"/>
     <updated>2015-07-03T23:29:55+08:00</updated>
     <id>http://www.superqq.com/blog/2015/07/03/uibuttonzhong-de-san-ge-uiedgeinsetsshu-xing-([?]-)</id>
     <content type="html"><![CDATA[<p>随着时间的推移，随着我的坚持，公众号的订阅用户已经越来越多了。非常感谢大家的信任，我会再接再厉，努力为大家提供更多优秀的文章。</p>
 
-<p>当初创建iOS开发（ <strong>iOSDevTip</strong> ），只是自己的兴趣。刚开始还不怎么会用微信公众号的后台，连发图文消息都不会。不知道怎么去编辑，当初的微信公众号后台也没有现在这么强大。我还以为就是个一对多的聊天工具呢。（😊）</p>
+<p>当初创建<a href="http://www.superqq.com/">iOS开发</a>（ <strong>iOSDevTip</strong> ），只是自己的兴趣。刚开始还不怎么会用微信公众号的后台，连发图文消息都不会。不知道怎么去编辑，当初的微信公众号后台也没有现在这么强大。我还以为就是个一对多的聊天工具呢。（😊）</p>
 
 <p>慢慢的我学会了编辑文章，成为一个真正意义上的小编。每天负责为大家推送一些iOS相关的技术文章。每天到各大论坛、网站、大神的博客找一些好的文章。这个过程是漫长的，但是是值得的。</p>
 
@@ -65,6 +185,8 @@
 </code></pre>
 
 <p>关于UIButton三个UIEdgeInsets属性的作用，下一篇文章介绍。</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="ios" /></p>
 ]]></content>
   </entry>
   
@@ -408,108 +530,6 @@ if(!_cacheInfo) {
 <h2>EGOCache源码下载</h2>
 
 <p><a href="https://github.com/enormego/EGOCache">EGOCache</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[CGContextRef使用简要教程]]></title>
-    <link href="http://www.superqq.com/blog/2015/06/29/cgcontextrefshi-yong-jian-yao-jiao-cheng/"/>
-    <updated>2015-06-29T10:55:01+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/06/29/cgcontextrefshi-yong-jian-yao-jiao-cheng</id>
-    <content type="html"><![CDATA[<p>Graphics Context是图形上下文,也可以理解为一块画布,我们可以在上面进行绘画操作,绘制完成后,将画布放到我们的view中显示即可,view看作是一个画框.</p>
-
-<p>CGContextRef功能强大，我们借助它可以画各种图形。开发过程中灵活运用这些技巧，可以帮助我们提供代码水平。</p>
-
-<p>说到画图，我就立马想到：我的数学公式都快忘完了。</p>
-
-<h2>高中数学你还记得多少？</h2>
-
-<p>我记得我上学的时候，数学一直都很好。以至于在班里都不敢和别人吵吵闹闹。一吵吵闹闹，别人就会来一句：以为你数学好，就可以怎么样怎么样了是吧？说的我好无奈啊。</p>
-
-<p>这么多年过去了，说句实话，高中时学的数学公式什么的，都忘记的差不多了。现在要去做高三的考题，估计比写代码还难。</p>
-
-<p>作为一名程序员，数学好，一定是优势。就拿画图来说吧，如果你还清楚的记得那些公式，那么你就可以很随意地画出一些好看的图形出来。</p>
-
-<p>接下来，我们来看看CGContextRef到底能实现些什么？</p>
-
-<h2>写文字</h2>
-
-<pre><code>- (void)drawRect:(CGRect)rect
-{
-    //获得当前画板
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    //颜色
-    CGContextSetRGBStrokeColor(ctx, 0.2, 0.2, 0.2, 1.0);
-    //画线的宽度
-    CGContextSetLineWidth(ctx, 0.25);
-    //开始写字
-    [@"我是文字" drawInRect:CGRectMake(10, 10, 100, 30) withFont:font];  
-    [super drawRect:rect];
-}
-</code></pre>
-
-<p>这段代码就可以很漂亮的写出四个大字：我是文字。很容易理解，每句话都有注释。</p>
-
-<h2>画直线</h2>
-
-<pre><code>- (void)drawRect:(CGRect)rect
-{
-    //获得当前画板
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    //颜色
-    CGContextSetRGBStrokeColor(ctx, 0.2, 0.2, 0.2, 1.0);
-    //画线的宽度
-    CGContextSetLineWidth(ctx, 0.25);
-    //顶部横线
-    CGContextMoveToPoint(ctx, 0, 10);
-    CGContextAddLineToPoint(ctx, self.bounds.size.width, 10);
-    CGContextStrokePath(ctx);
-    [super drawRect:rect];
-}
-</code></pre>
-
-<h2>画圆</h2>
-
-<pre><code>- (void)drawRect:(CGRect)rect
-{
-    //获得当前画板
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    //颜色
-    CGContextSetRGBStrokeColor(ctx, 0.2, 0.2, 0.2, 1.0);
-    //画线的宽度
-    CGContextSetLineWidth(ctx, 0.25);
-    //void CGContextAddArc(CGContextRef c,CGFloat x, CGFloat y,CGFloat radius,CGFloat startAngle,CGFloat endAngle, int clockwise)1弧度＝180°/π （≈57.3°） 度＝弧度×180°/π 360°＝360×π/180 ＝2π 弧度
-    // x,y为圆点坐标，radius半径，startAngle为开始的弧度，endAngle为 结束的弧度，clockwise 0为顺时针，1为逆时针。
-    CGContextAddArc(ctx, 100, 20, 20, 0, 2*M_PI, 0); //添加一个圆
-    CGContextDrawPath(ctx, kCGPathStroke); //绘制路径
-    [super drawRect:rect];
-}
-</code></pre>
-
-<p>这个画圆的公式你还记得吗？你还知道M_PI是什么吗？等于多少吗？赶紧脑补一下吧！</p>
-
-<h2>画矩形</h2>
-
-<pre><code>- (void)drawRect:(CGRect)rect
-{
-    //获得当前画板
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    //颜色
-    CGContextSetRGBStrokeColor(ctx, 0.2, 0.2, 0.2, 1.0);
-    //画线的宽度
-    CGContextSetLineWidth(ctx, 0.25);
-    CGContextAddRect(ctx, CGRectMake(2, 2, 30, 30));
-    CGContextStrokePath(ctx);
-    [super drawRect:rect];
-}
-</code></pre>
-
-<p>图形千千万，万变不离其宗。更多画图方法，期待你的探索。</p>
-
-<blockquote><p>作者李刚是刚刚在线（<a href="www.superqq.com">www.superqq.com</a>）站长，百度百家专栏作者
-iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</p></blockquote>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="2" /></p>
 ]]></content>
   </entry>
   
