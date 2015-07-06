@@ -86,6 +86,153 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/">iOS 设计模式系列：Facade – 外观模式</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-15T10:06:20+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:06 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>目前你有 PersistencyManager 来在本地存储专辑数据，HTTPClient 处理远程通信。项目中其它的类跟这些逻辑都没关。</p>
+
+<p>执行这个<a href="http://www.superqq.com/blog/2015/03/21/dan-li-mo-shi-de-xie-fa/">模式</a>，只有 LibraryAPI 来保存 PersistencyManager 和 HTTPClient 的实例。之后，LibraryAPI 将会公开一个简单的 API 来访问这些服务。</p>
+
+<pre><code>提示：通常，单例存在 app 的整个生命周期。不需一直使用很多指针指向其它对象，因为她们直到程序关闭后才会被释放。   
+</code></pre>
+
+<p>这个设计就像下图：</p>
+
+<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2013/08/design-patterns-facade-uml-480x71.png" alt="icon" /></p>
+
+<p>LibraryAPI 将会公开给其它代码，但是它隐藏了 APP 中 HTTPClient 和 PersistencyManager 的复杂部分。</p>
+
+<p>打开 LibraryAPI.h，在顶部引入面文件：</p>
+
+<pre><code>#import "Album.h"
+</code></pre>
+
+<p>接下来，在 LibraryAPI.h下面添加如下方法：</p>
+
+<pre><code>- (NSArray*)getAlbums;
+- (void)addAlbum:(Album*)album atIndex:(int)index;
+- (void)deleteAlbumAtIndex:(int)index;
+</code></pre>
+
+<p>现在，这些方法都公开给了其它类。</p>
+
+<p>在 LibraryAPI.m 文件引入如下两个文件：</p>
+
+<pre><code>#import "PersistencyManager.h"
+#import "HTTPClient.h"
+</code></pre>
+
+<p>只有在这个地方你才会需要引入这些类。记住：你的 API 将会是你「复杂」系统的唯一的接入点。</p>
+
+<p>现在添加一些私有属性在你的类的扩展里（在 @implementation 上面）</p>
+
+<pre><code>@interface LibraryAPI () {
+    PersistencyManager *persistencyManager;
+    HTTPClient *httpClient;
+    BOOL isOnline;
+}
+@end
+</code></pre>
+
+<p>isOnline 用来判断，如果专辑列表数据发生变化是否能够更新到服务器，例如添加或者删除专辑。</p>
+
+<p>你现在需要在 init 方法中初始化这些变量，在 LibraryAPI.m 中添加下面代码：</p>
+
+<pre><code>- (id)init
+{
+    self = [super init];
+    if (self) {
+        persistencyManager = [[PersistencyManager alloc] init];
+        httpClient = [[HTTPClient alloc] init];
+        isOnline = NO;
+    }
+    return self;
+}
+</code></pre>
+
+<p>这个 HTTP 客户端在这里并不真正的工作，它只是在外观设计里面起一个示范用法的作用，所以 isOnline 永远是 NO 了。</p>
+
+<p>接下来，在 LibraryAPI.m 里面添加下面三个方法：</p>
+
+<pre><code>- (NSArray*)getAlbums
+{
+    return [persistencyManager getAlbums];
+}
+
+- (void)addAlbum:(Album*)album atIndex:(int)index
+{
+    [persistencyManager addAlbum:album atIndex:index];
+    if (isOnline)
+    {
+        [httpClient postRequest:@"/api/addAlbum" body:[album description]];
+    }
+}
+
+- (void)deleteAlbumAtIndex:(int)index
+{
+    [persistencyManager deleteAlbumAtIndex:index];
+    if (isOnline)
+    {
+        [httpClient postRequest:@"/api/deleteAlbum" body:[@(index) description]];
+    }
+}
+</code></pre>
+
+<p>看一下 addAlbum:atIndex:。这个类首先更新本地数据，如果联网，它再更新远端服务器。这就是外观设计的长处；当一些系统外的类添加了一个新专辑，它不知道─也不需要知道─复杂的内部系统。</p>
+
+<pre><code>提示：当在你的子系统里设计一个外观类的时候，记住没有任何东西可能阻止客户访问这些「隐藏」类。要多写些防御性的代码，不要想当然的认为所有客户都会用同样的方式使用你的外观类。
+</code></pre>
+
+<p>运行你的程序，你会看一个黑底空白内容的屏幕，像下面这样：</p>
+
+<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2013/09/2013-09-01_12-08-44-211x320.png" alt="icon1" /></p>
+
+<p>你需要在屏幕上显示一些专辑数据─这就需要使用到下面一个设计模式：装饰器 (Decorator)。</p>
+
+<p><strong>设计模式系列文章</strong>：</p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/">iOS 设计模式系列：Facade – 外观模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/">iOS 设计模式系列：Observer – 观察者模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/">iOS 设计模式系列：Archiving – 归档模式</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></h1>
     
     
@@ -1456,161 +1603,6 @@ self.fillModel = @&ldquo;test&rdquo;; // unrecognized selector</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/05/14/iosdi-tu-ding-wei-shi-yong-xiao-ji-qiao/">iOS地图定位使用几个小功能</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-05-14T10:16:30+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:16 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>iOS系统自带的定位服务可以实现很多需求。比如：获取当前经纬度，获取当前位置信息等等。</p>
-
-<h4>获取当前经纬度</h4>
-
-<p>首先导入#import &lt;CoreLocation/CoreLocation.h>，定义CLLocationManager的实例，实现CLLocationManagerDelegate。</p>
-
-<pre><code>@interface ViewController ()&lt;CLLocationManagerDelegate&gt;
-{
-    CLLocationManager *_locationManager;
-}
-
-@end
-</code></pre>
-
-<p>开始定位的方法：</p>
-
-<pre><code>- (void)startLocating
-{
-    if([CLLocationManager locationServicesEnabled])
-    {
-        _locationManager = [[CLLocationManager alloc] init];
-        //设置定位的精度
-        [_locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
-        _locationManager.distanceFilter = 100.0f;
-        _locationManager.delegate = self;
-        if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt; 8.0)
-        {
-            [_locationManager requestAlwaysAuthorization];
-            [_locationManager requestWhenInUseAuthorization];
-        }
-        //开始实时定位
-        [_locationManager startUpdatingLocation];
-    }
-}
-</code></pre>
-
-<p>实现代理方法：</p>
-
-<pre><code>-(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
-{
-    NSLog(@"Longitude = %f", manager.location.coordinate.longitude);
-    NSLog(@"Latitude = %f", manager.location.coordinate.latitude);
-    [_locationManager stopUpdatingLocation];
-}
-</code></pre>
-
-<h4>获取当前位置信息</h4>
-
-<p>在上面的代理方法中</p>
-
-<pre><code>-(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
-{
-    NSLog(@"Longitude = %f", manager.location.coordinate.longitude);
-    NSLog(@"Latitude = %f", manager.location.coordinate.latitude);
-    [_locationManager stopUpdatingLocation];
-
-    CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
-    [geoCoder reverseGeocodeLocation:manager.location completionHandler:^(NSArray *placemarks, NSError *error) {
-        for (CLPlacemark * placemark in placemarks) {
-            NSDictionary *test = [placemark addressDictionary];
-            //  Country(国家)  State(城市)  SubLocality(区)
-            NSLog(@"%@", [test objectForKey:@"Country"]);
-            NSLog(@"%@", [test objectForKey:@"State"]);
-            NSLog(@"%@", [test objectForKey:@"SubLocality"]);
-            NSLog(@"%@", [test objectForKey:@"Street"]);
-        }
-    }];
-
-}
-</code></pre>
-
-<p>这样就很简单获取了当前位置的详细信息。</p>
-
-<h4>获取某一个地点的经纬度</h4>
-
-<pre><code>- (void)getLongitudeAndLatitudeWithCity:(NSString *)city
-{
-    //city可以为中文
-    NSString *oreillyAddress = city;
-    CLGeocoder *myGeocoder = [[CLGeocoder alloc] init];
-    [myGeocoder geocodeAddressString:oreillyAddress completionHandler:^(NSArray *placemarks, NSError *error) {
-        if ([placemarks count] &gt; 0 &amp;&amp; error == nil)
-        {
-            NSLog(@"Found %lu placemark(s).", (unsigned long)[placemarks count]);
-            CLPlacemark *firstPlacemark = [placemarks objectAtIndex:0];
-            NSLog(@"Longitude = %f", firstPlacemark.location.coordinate.longitude);
-            NSLog(@"Latitude = %f", firstPlacemark.location.coordinate.latitude);
-        }
-        else if ([placemarks count] == 0 &amp;&amp; error == nil)
-        {
-            NSLog(@"Found no placemarks.");
-        }
-        else if (error != nil)
-        {
-            NSLog(@"An error occurred = %@", error);
-        }
-    }];
-}
-</code></pre>
-
-<h4>计算两个地点之间的距离</h4>
-
-<pre><code>- (double)distanceByLongitude:(double)longitude1 latitude:(double)latitude1 longitude:(double)longitude2 latitude:(double)latitude2{
-    CLLocation* curLocation = [[CLLocation alloc] initWithLatitude:latitude1 longitude:longitude1];
-    CLLocation* otherLocation = [[CLLocation alloc] initWithLatitude:latitude2 longitude:longitude2];
-    double distance  = [curLocation distanceFromLocation:otherLocation];//单位是m
-    return distance;
-}
-</code></pre>
-
-<p>首先我们可以用上面的getLongitudeAndLatitudeWithCity方法获取某一个地点的经纬度。比如我们获取北京和上海的经纬度分别为：北京Longitude = 116.405285，Latitude = 39.904989 上海Longitude = 121.472644， Latitude = 31.231706, 那么北京和上海之间的距离就是：</p>
-
-<pre><code>double distance = [self distanceByLongitude:116.405285 latitude:39.904989 longitude:121.472644 latitude:31.231706];
-NSLog(@"Latitude = %f", distance);
-</code></pre>
-
-<p>计算的是大概的距离，可能没有那么精准。输入结果为：</p>
-
-<pre><code>distance = 1066449.749194
-</code></pre>
-
-<p>代码下载地址:<a href="https://github.com/worldligang/MapDistanceMaster.git"target="_blank"title="MapDistanceMaster">MapDistanceMaster</a></p>
-
-<p>更多iOS技术请关注微信iOS开发</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/4">&larr; Older</a>
@@ -1628,6 +1620,10 @@ NSLog(@"Latitude = %f", distance);
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/07/06/ioskai-fa-zi-ding-yi-shi-jian-xuan-qu-qi/">iOS开发自定义时间选取器</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/07/05/cheng-xu-yuan-diao-si-ni-xi-zhi-lu-bu-shi-chao-gu/">程序员屌丝逆袭之路不是炒股</a>
       </li>
     
@@ -1641,10 +1637,6 @@ NSLog(@"Latitude = %f", distance);
     
       <li class="post">
         <a href="/blog/2015/07/02/uibuttonwen-zi-ju-zuo-xian-shi/">UIButton文字居左显示</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/02/egocacheru-he-jian-ce-huan-cun-shi-jian-guo-qi/">EGOCache如何检测缓存时间过期</a>
       </li>
     
   </ul>

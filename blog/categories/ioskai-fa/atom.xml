@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-06T18:13:39+08:00</updated>
+  <updated>2015-07-06T23:42:50+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,23 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发自定义时间选取器]]></title>
+    <link href="http://www.superqq.com/blog/2015/07/06/ioskai-fa-zi-ding-yi-shi-jian-xuan-qu-qi/"/>
+    <updated>2015-07-06T23:40:21+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/07/06/ioskai-fa-zi-ding-yi-shi-jian-xuan-qu-qi</id>
+    <content type="html"><![CDATA[<p>又是一年的暑假日期而至，小孩子放假，都会到在外打工的父母身边。孩子想父母，父母也思念着自己的孩子。我身边的亲戚朋友的孩子 也都来了。这个暑假又该热闹起来。</p>
+
+<p>我有一个表妹，今年参加完高考，对自己的成绩不是特别满意。上次我回老家，刚好她给我一起来上海。准备来上海锻炼一下。</p>
+
+<p>车上我问她，准备去哪上学？她说不想上了，想打工。我没有怎么劝她，我想让她体验一下打工的生活，她就知道还是上学好。</p>
+
+<p>一个高中生，出来找工作，困难可想而知。经姐姐介绍，进了一家餐厅工作。工资也不是很高。干了两天，我问她怎么样？她说，高二要是来让我体验一下，我一定能考上一本。</p>
+
+<p>也许真的如她所说的那样，但是谁知道呢？时间也不会倒流，她也不再可能再参加一次高考了。人只有吃过苦头，才知道努力。这是件好事，大学好好把握也是一样的。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[UIButton中的三个UIEdgeInsets属性（二）]]></title>
@@ -439,97 +456,6 @@ if(!_cacheInfo) {
 </code></pre>
 
 <p>EGOCache检测缓存时间过期的思路值得学习，以后遇到类似场景，完全可以借鉴。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[EGOCache缓存框架详细讲解]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/01/egocachehuan-cun-kuang-jia-xiang-xi-jiang-jie/"/>
-    <updated>2015-07-01T00:10:18+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/01/egocachehuan-cun-kuang-jia-xiang-xi-jiang-jie</id>
-    <content type="html"><![CDATA[<p><strong>EGOCache</strong>是一个轻量级的缓存框架。用法简单方便，在现在的项目中，我就用到EGOCache来缓存下载过的照片和字符串。</p>
-
-<p>有人可能会问到，缓存照片还需要用EGOCache吗？<a href="http://www.superqq.com/blog/2014/11/07/ioswang-luo-bian-cheng-zhi-afnetworkingshi-yong/">AFNetworking</a>和<a href="http://www.superqq.com/blog/2015/06/09/sdwebimagejia-zai-tu-pian-huan-cun-tu-pian/">SDWebImage</a>不是已经有这些功能了吗？</p>
-
-<p>是的，不过AFNetworking和SDWebImage是http。我的项目用的是socket，所以我选择EGOCache来做缓存。用下来觉得EGOCache还是挺强大的。</p>
-
-<h2>EGOCache简介</h2>
-
-<pre><code>EGOCache is a simple, thread-safe key value cache store. It has native support for NSString, UI/NSImage, and NSData, but can store anything that implements &lt;NSCoding&gt;. All cached items expire after the timeout, which by default, is one day.
-</code></pre>
-
-<p>翻译过来就是：EGOCache一个简单、线程安全的基于 key-value 的缓存框架，原生支持NSString、UI/NSImage、和NSData，也支持储存任何实现<NSCoding>协议的类，可以设定缓存过期时间，默认是1天。</p>
-
-<p>EGOCache只有一个类，EGOCache.h和EGOCache.m两个文件。用法也比较容易掌握，仔细研究一下EGOCache.h的方法，很快就可以上手。</p>
-
-<p>EGOCache只提供了磁盘缓存，没有提供内存缓存。同时，也提供了清理缓存的方法：</p>
-
-<pre><code>- (void)clearCache;
-</code></pre>
-
-<p>EGOCache还提供了判断缓存是否存在的方法：</p>
-
-<pre><code>- (BOOL)hasCacheForKey:(NSString* __nonnull)key;
-</code></pre>
-
-<h2>通过Cocoapods直接加入项目</h2>
-
-<p>直接在你的项目的Podfile加入下面一行：</p>
-
-<pre><code>pod 'EGOCache'
-</code></pre>
-
-<p>然后执行：</p>
-
-<pre><code>$ pod update
-</code></pre>
-
-<h2>EGOCache用法</h2>
-
-<h3>用EGOCache缓存NSString</h3>
-
-<p>存储：</p>
-
-<pre><code>NSString *saveString = @"把我保存起来吧";
-[[EGOCache globalCache] setString:saveString forKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[saveString hash]] withTimeoutInterval:24*60*60];
-</code></pre>
-
-<p>读取：</p>
-
-<pre><code>NSString *getSaveString = [[EGOCache globalCache] stringForKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[@"SaveString" hash]]];
-</code></pre>
-
-<p>是不是感觉跟NSDictionary很相似，确实，前面我们说了EGOCache是基于key-value 的缓存框架。</p>
-
-<h3>用EGOCache缓存UIImage</h3>
-
-<p>存储：</p>
-
-<pre><code> UIImage *saveImage = [UIImage imageNamed:@"iOSDevTip"];
-[[EGOCache globalCache] setImage:saveImage forKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[@"SaveImage" hash]] withTimeoutInterval:24*60*60];
-</code></pre>
-
-<p>读取：</p>
-
-<pre><code>UIImage *getSaveImage = [[EGOCache globalCache] imageForKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[@"SaveImage" hash]]];
-</code></pre>
-
-<h3>用EGOCache缓存NSData</h3>
-
-<p>存储：</p>
-
-<pre><code>NSData *saveData = [NSData data];
-[[EGOCache globalCache] setData:saveData forKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[@"SaveData" hash]] withTimeoutInterval:24*60*60];
-</code></pre>
-
-<p>读取：</p>
-
-<pre><code>UIImage *getSaveData = [[EGOCache globalCache] dataForKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[@"SaveData" hash]]];
-</code></pre>
-
-<h2>EGOCache源码下载</h2>
-
-<p><a href="https://github.com/enormego/EGOCache">EGOCache</a></p>
 ]]></content>
   </entry>
   
