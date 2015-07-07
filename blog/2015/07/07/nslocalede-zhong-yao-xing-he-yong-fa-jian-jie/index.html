@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>mac下.gitconfig配置别名alias - 刚刚在线</title>
+  <title>NSLocale的重要性和用法简介 - 刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="iOS协议里面可以定义成员变量和属性吗？">
-  <meta name="keywords" content="git, alias, 缩写,  .gitconfig, mac, 别名, mac git, iOS开发, cocoapods, 个人博客, 刚刚在线">
+  <meta name="description" content="这个时候NSLocale的重要性就体现出来了。NSLocale作为大家都不常用的一个类，NSLocale类是将与国家和语言相关的信息进行简单的组合，包括货币、语言、国家等的信息。">
+  <meta name="keywords" content="NSLocale, NSLocale使用, NSLocale用法简介, NSLocale简介, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/blog/2015/05/29/macxia-dot-gitconfigpei-zhi-bie-ming-alias">
+  <link rel="canonical" href="http://www.superqq.com/blog/2015/07/07/nslocalede-zhong-yao-xing-he-yong-fa-jian-jie">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -83,7 +83,7 @@
   
   <header>
     
-      <h1 class="entry-title">mac下.gitconfig配置别名alias</h1>
+      <h1 class="entry-title">NSLocale的重要性和用法简介</h1>
     
     
       <p class="meta">
@@ -92,52 +92,104 @@
 
 
 
-<time class='entry-date' datetime='2015-05-29T13:01:00+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:01 pm</span></time>
+<time class='entry-date' datetime='2015-07-07T22:33:47+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:33 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>在多人协作开发时，一般用git来进行代码管理。git有一些命令如：git pull 、 git push等等，这些命令可以设置alias，也就是缩写。如：git pull 是 git pl， git push 是 git ps。可以根据个人习惯进行修改。</p>
+<div class="entry-content"><p>股票还在努力的往下跌，怎么办呢？我这真是杞人忧天啊。谁说我不着急呢？我的模拟炒股都亏的过吧了。你想想那些真真炒股的人该有多担心。</p>
 
-<p>修改别名alias步骤如下：</p>
+<p>罢了罢了，我还是滚去撸代码，消灭bug吧。</p>
 
-<h4>1,进入根目录</h4>
+<h2>上百万APP你用过几个？</h2>
 
-<pre><code>$ cd
+<p>随着iPhone的日趋强盛，随着AppStore的不断壮大，海量的应用如潮水般涌来。据统计AppStore上的应用早已过120万，Google Play Store更是超于AppStore，达到150万。</p>
+
+<p>知道120万、150万是什么概念吗？人生不过短短两三万天。也就是说，如果你一天用一个APP的话，AppStore够你用40辈子，Google Play Store够你用50辈子，前提是，你必须生下来就开始玩手机。</p>
+
+<p>这么多应用，不知道有没有你的贡献。估计正在看文章的你也贡献了好几个了吧。AppStore里面也有我的贡献。😊</p>
+
+<p>开发一个APP不是那么容易的一件事，有很多坑等着你去踩。今天我们就抛出一个格式化时间的坑。</p>
+
+<h2>NSDateFormatter格式化时间</h2>
+
+<p>之前的文章，讲到过：<a href="http://www.superqq.com/blog/2015/06/26/nsdatehe-nsstringxiang-hu-zhuan-huan/">NSDate和NSString相互转换</a>。里面提到过如何讲NSDate转化成NSString。代码如下：</p>
+
+<pre><code>//获取系统当前时间
+NSDate *currentDate = [NSDate date];
+//用于格式化NSDate对象
+NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//设置格式：zzz表示时区
+[dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
+//NSDate转NSString
+NSString *currentDateString = [dateFormatter stringFromDate:currentDate];
+//输出currentDateString
+NSLog(@"%@",currentDateString);
 </code></pre>
 
-<h4>2,查看根目录下面的文件</h4>
+<p>运行起来，看看打印的内容：</p>
 
-<pre><code>$ ls -la
+<pre><code>2015-07-07 22:08:57.422 TestDemo[6756:1555205] 2015-07-07 22:08:57
 </code></pre>
 
-<p>查看一下有没有.gitconfig文件。</p>
+<p>这样写是不是没有什么问题。看着应该是没什么问题，其实问题很大。但是如果你改一下系统设置：语言设置成印度尼西亚文，时间设置成12小时制。</p>
 
-<h4>3，编辑.gitconfig</h4>
+<p>大家应该知道如何去设置吧，不会设置的请不要告诉我你是一名<a href="http://www.superqq.com/blog/2015/06/25/ru-he-cheng-wei-%5B%3F%5D-ming-you-xiu-de-ioskai-fa-gong-cheng-shi/">iOS开发工程师</a>。再次编译起来，看看打印内容如下：</p>
 
-<pre><code>$ vi .gitconfig
+<pre><code>2015-07-07 22:09:14.928 TestDemo[6762:1555466] 2015-07-07 10.09.14 PM
 </code></pre>
 
-<p>添加如下：</p>
+<p>是不是愣住了，怎么会这么奇葩，时间怎么是.呢？还有更奇葩的呢，你去设置设置其他语言试试，也许有更多的收获。</p>
 
-<pre><code>[alias]
-co = checkout
-ci = commit
-st = status
-pl = pull
-ps = push
-dt = difftool
-l = log --stat
-cp = cherry-pick
-ca = commit -a
-b = branch
+<h2>如何正确的格式化时间</h2>
+
+<p>这也是我们这两天遇到的问题，跟用户几经沟通之后，终于抓到log，发现问题竟然是格式化导致的。怎么解决呢？</p>
+
+<p>这个时候NSLocale的重要性就体现出来了。NSLocale作为大家都不常用的一个类，NSLocale类是将与国家和语言相关的信息进行简单的组合，包括货币、语言、国家等的信息。</p>
+
+<p>所以很简单，我们把dateFormatter的locale属性改一下即可解决这个问题。将下面代码放在dateFormatter初始化之后：</p>
+
+<pre><code>NSLocale *usLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
+dateFormatter.locale = usLocale;
 </code></pre>
 
-<p>具体可以根据个人习惯进行添加修改。</p>
+<p>看看问题解决没有，编译一下：</p>
 
-<blockquote><p>关注公众号iOS开发：iOSDevTip</p></blockquote>
+<pre><code>2015-07-07 22:20:08.411 TestDemo[6769:1556968] 2015-07-07 22:20:08
+</code></pre>
+
+<p>果然，问题得到完美解决了。</p>
+
+<h2>NSLocale用法简介</h2>
+
+<h3>获取国家、货币、语言地区编码</h3>
+
+<p>既然谈到NSLocale，我们就来简单了解一下：</p>
+
+<pre><code>+ ISOCountryCodes// 所有的ISO定义的国家地区编码
++ ISOCurrencyCodes// 所有的ISO定义的货币编码
++ ISOLanguageCodes// 所有ISO定义的语言编码
+</code></pre>
+
+<p>以上我们可以用NSLog打印出来看一看。</p>
+
+<h3>监听用户本地化的设置信息</h3>
+
+<pre><code>FOUNDATION_EXPORT NSString * const NSCurrentLocaleDidChangeNotification NS_AVAILABLE(10_5, 2_0);
+</code></pre>
+
+<h3>获取当前系统设置语言的标识符</h3>
+
+<pre><code>[[NSLocale currentLocale] localeIdentifier];
+</code></pre>
+
+<p>还有很多关于NSLocale的用法，自己动手多尝试。还有一个小问题。</p>
+
+<h2>NSLocale怎么读？</h2>
+
+<p>看了这么久的NSLocale了，你知道NSLocale怎么读吗？不要翻译噢，看看你读的到底对不对？</p>
 </div>
 
 
@@ -153,7 +205,7 @@ b = branch
 
 
 
-<time class='entry-date' datetime='2015-05-29T13:01:00+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:01 pm</span></time>
+<time class='entry-date' datetime='2015-07-07T22:33:47+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:33 pm</span></time>
       
 
 <span class="categories">
@@ -164,7 +216,7 @@ b = branch
 
 
       <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
-<br>原文链接：<a href="http://www.superqq.com/blog/2015/05/29/macxia-dot-gitconfigpei-zhi-bie-ming-alias/">http://www.superqq.com/blog/2015/05/29/macxia-dot-gitconfigpei-zhi-bie-ming-alias/</a> <!-- 添加这一行代码 -->
+<br>原文链接：<a href="http://www.superqq.com/blog/2015/07/07/nslocalede-zhong-yao-xing-he-yong-fa-jian-jie/">http://www.superqq.com/blog/2015/07/07/nslocalede-zhong-yao-xing-he-yong-fa-jian-jie/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -189,10 +241,8 @@ b = branch
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/05/22/iosxie-yi-li-mian-ke-yi-ding-yi-cheng-yuan-bian-liang-he-shu-xing-ma-%3F/" title="Previous Post:  iOS协议里面可以定义成员变量和属性吗？">&laquo;  iOS协议里面可以定义成员变量和属性吗？</a>
+        <a class="basic-alignment left" href="/blog/2015/07/06/ioskai-fa-zi-ding-yi-shi-jian-xuan-qu-qi/" title="Previous Post: iOS开发自定义时间选取器">&laquo; iOS开发自定义时间选取器</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/06/04/mian-shi-guan-wen-xian-zai-gong-zi-shi-duo-shao-gai-zen-yao-hui-da/" title="Next Post:  面试官问现在工资是多少该怎么回答?"> 面试官问现在工资是多少该怎么回答? &ra/categories.htmlquo;</a>
       
     </p>
   </footer>

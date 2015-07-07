@@ -86,6 +86,125 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/07/07/nslocalede-zhong-yao-xing-he-yong-fa-jian-jie/">NSLocale的重要性和用法简介</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-07T22:33:47+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:33 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>股票还在努力的往下跌，怎么办呢？我这真是杞人忧天啊。谁说我不着急呢？我的模拟炒股都亏的过吧了。你想想那些真真炒股的人该有多担心。</p>
+
+<p>罢了罢了，我还是滚去撸代码，消灭bug吧。</p>
+
+<h2>上百万APP你用过几个？</h2>
+
+<p>随着iPhone的日趋强盛，随着AppStore的不断壮大，海量的应用如潮水般涌来。据统计AppStore上的应用早已过120万，Google Play Store更是超于AppStore，达到150万。</p>
+
+<p>知道120万、150万是什么概念吗？人生不过短短两三万天。也就是说，如果你一天用一个APP的话，AppStore够你用40辈子，Google Play Store够你用50辈子，前提是，你必须生下来就开始玩手机。</p>
+
+<p>这么多应用，不知道有没有你的贡献。估计正在看文章的你也贡献了好几个了吧。AppStore里面也有我的贡献。😊</p>
+
+<p>开发一个APP不是那么容易的一件事，有很多坑等着你去踩。今天我们就抛出一个格式化时间的坑。</p>
+
+<h2>NSDateFormatter格式化时间</h2>
+
+<p>之前的文章，讲到过：<a href="http://www.superqq.com/blog/2015/06/26/nsdatehe-nsstringxiang-hu-zhuan-huan/">NSDate和NSString相互转换</a>。里面提到过如何讲NSDate转化成NSString。代码如下：</p>
+
+<pre><code>//获取系统当前时间
+NSDate *currentDate = [NSDate date];
+//用于格式化NSDate对象
+NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//设置格式：zzz表示时区
+[dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
+//NSDate转NSString
+NSString *currentDateString = [dateFormatter stringFromDate:currentDate];
+//输出currentDateString
+NSLog(@"%@",currentDateString);
+</code></pre>
+
+<p>运行起来，看看打印的内容：</p>
+
+<pre><code>2015-07-07 22:08:57.422 TestDemo[6756:1555205] 2015-07-07 22:08:57
+</code></pre>
+
+<p>这样写是不是没有什么问题。看着应该是没什么问题，其实问题很大。但是如果你改一下系统设置：语言设置成印度尼西亚文，时间设置成12小时制。</p>
+
+<p>大家应该知道如何去设置吧，不会设置的请不要告诉我你是一名<a href="http://www.superqq.com/blog/2015/06/25/ru-he-cheng-wei-%5B%3F%5D-ming-you-xiu-de-ioskai-fa-gong-cheng-shi/">iOS开发工程师</a>。再次编译起来，看看打印内容如下：</p>
+
+<pre><code>2015-07-07 22:09:14.928 TestDemo[6762:1555466] 2015-07-07 10.09.14 PM
+</code></pre>
+
+<p>是不是愣住了，怎么会这么奇葩，时间怎么是.呢？还有更奇葩的呢，你去设置设置其他语言试试，也许有更多的收获。</p>
+
+<h2>如何正确的格式化时间</h2>
+
+<p>这也是我们这两天遇到的问题，跟用户几经沟通之后，终于抓到log，发现问题竟然是格式化导致的。怎么解决呢？</p>
+
+<p>这个时候NSLocale的重要性就体现出来了。NSLocale作为大家都不常用的一个类，NSLocale类是将与国家和语言相关的信息进行简单的组合，包括货币、语言、国家等的信息。</p>
+
+<p>所以很简单，我们把dateFormatter的locale属性改一下即可解决这个问题。将下面代码放在dateFormatter初始化之后：</p>
+
+<pre><code>NSLocale *usLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
+dateFormatter.locale = usLocale;
+</code></pre>
+
+<p>看看问题解决没有，编译一下：</p>
+
+<pre><code>2015-07-07 22:20:08.411 TestDemo[6769:1556968] 2015-07-07 22:20:08
+</code></pre>
+
+<p>果然，问题得到完美解决了。</p>
+
+<h2>NSLocale用法简介</h2>
+
+<h3>获取国家、货币、语言地区编码</h3>
+
+<p>既然谈到NSLocale，我们就来简单了解一下：</p>
+
+<pre><code>+ ISOCountryCodes// 所有的ISO定义的国家地区编码
++ ISOCurrencyCodes// 所有的ISO定义的货币编码
++ ISOLanguageCodes// 所有ISO定义的语言编码
+</code></pre>
+
+<p>以上我们可以用NSLog打印出来看一看。</p>
+
+<h3>监听用户本地化的设置信息</h3>
+
+<pre><code>FOUNDATION_EXPORT NSString * const NSCurrentLocaleDidChangeNotification NS_AVAILABLE(10_5, 2_0);
+</code></pre>
+
+<h3>获取当前系统设置语言的标识符</h3>
+
+<pre><code>[[NSLocale currentLocale] localeIdentifier];
+</code></pre>
+
+<p>还有很多关于NSLocale的用法，自己动手多尝试。还有一个小问题。</p>
+
+<h2>NSLocale怎么读？</h2>
+
+<p>看了这么久的NSLocale了，你知道NSLocale怎么读吗？不要翻译噢，看看你读的到底对不对？</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/07/06/ioskai-fa-zi-ding-yi-shi-jian-xuan-qu-qi/">iOS开发自定义时间选取器</a></h1>
     
     
@@ -1119,141 +1238,6 @@ iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/27/yong-zheng-ze-biao-da-shi-yan-zheng-you-xiang-he-shou-ji-hao/">用正则表达式验证邮箱和手机号</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-27T07:35:42+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:35 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>正则表达式，又称正规表示法、常规表示法（英语：Regular Expression，在代码中常简写为regex、regexp或RE），计算机科学的一个概念。正则表达式使用单个字符串来描述、匹配一系列符合某个句法规则的字符串。</p></blockquote>
-
-<p>做iOS开发的童鞋，应该都用过正则表达式吧。正则表达式很好地，帮助我们判断一个字符串是否合法。比如：</p>
-
-<ol>
-<li><p>在做app注册页面的时候，需要判断手机号是否格式正确，是否够11位。</p></li>
-<li><p>在做意见反馈的时候，需要判断邮箱格式是否正确。</p></li>
-</ol>
-
-
-<p>判断手机号和判断邮箱，应该是iOS开发者们最常用的。具体如何判断，简单整理如下：</p>
-
-<h2>验证邮箱</h2>
-
-<pre><code>+ (BOOL)validateEmail:(NSString *)email
-{
-    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
-    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
-    return [emailTest evaluateWithObject:email];
-}
-</code></pre>
-
-<p>NSPredicate是一个Foundation类，是用来查询的，原理和用法都类似于SQL中的where。</p>
-
-<h2>验证手机号</h2>
-
-<h3>简单的判断方法</h3>
-
-<pre><code>+ (BOOL)validatePhone:(NSString *)phone
-{
-    NSString *phoneRegex = @"1[3|5|7|8|][0-9]{9}";
-    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
-    return [phoneTest evaluateWithObject:phone];
-}
-</code></pre>
-
-<p>这只是简单地判断手机号格式。其实手机的格式还是有一点复杂的。</p>
-
-<h3>详细的判断方法</h3>
-
-<pre><code>//正则判断手机号码格式
-+ (BOOL)validatePhone:(NSString *)phone
-{
-       /**
-        * 手机号码
-        * 移动：134[0-8],135,136,137,138,139,150,151,157,158,159,182,187,188
-        * 联通：130,131,132,152,155,156,185,186
-        * 电信：133,1349,153,180,189
-        */
-       NSString * MOBILE = @"^1(3[0-9]|5[0-35-9]|8[025-9])\\d{8}$";
-       /**
-        10         * 中国移动：China Mobile
-        11         * 134[0-8],135,136,137,138,139,150,151,157,158,159,182,187,188
-        12         */
-       NSString * CM = @"^1(34[0-8]|(3[5-9]|5[017-9]|8[278])\\d)\\d{7}$";
-       /**
-        15         * 中国联通：China Unicom
-        16         * 130,131,132,152,155,156,185,186
-        17         */
-       NSString * CU = @"^1(3[0-2]|5[256]|8[56])\\d{8}$";
-       /**
-        20         * 中国电信：China Telecom
-        21         * 133,1349,153,180,189
-        22         */
-       NSString * CT = @"^1((33|53|8[09])[0-9]|349)\\d{7}$";
-       /**
-        25         * 大陆地区固话及小灵通
-        26         * 区号：010,020,021,022,023,024,025,027,028,029
-        27         * 号码：七位或八位
-        28         */
-      // NSString * PHS = @"^0(10|2[0-5789]|\\d{3})\\d{7,8}$";
-
-     NSPredicate *regextestmobile = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", MOBILE];
-     NSPredicate *regextestcm = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CM];
-     NSPredicate *regextestcu = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CU];
-     NSPredicate *regextestct = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CT];
-
-    if (([regextestmobile evaluateWithObject:phone] == YES)
-    || ([regextestcm evaluateWithObject:phone] == YES)
-    || ([regextestct evaluateWithObject:phone] == YES)
-    || ([regextestcu evaluateWithObject:phone] == YES))
-    {
-        if([regextestcm evaluateWithObject:phone] == YES) {
-          NSLog(@"China Mobile");
-        } else if([regextestct evaluateWithObject:phone] == YES) {
-          NSLog(@"China Telecom");
-        } else if ([regextestcu evaluateWithObject:phone] == YES) {
-          NSLog(@"China Unicom");
-        } else {
-          NSLog(@"Unknow");
-        }
-
-        return YES;
-    }
-    else 
-    {
-        return NO;
-    }
-}
-</code></pre>
-
-<p>以上这段（来自网络）是手机号判断的详细方法。基本上这个判断就够用了，如果三大运营商，再出其他段的手机号。直接子啊上面做简单修改即可。</p>
-
-<blockquote><p>作者李刚是刚刚在线（<a href="www.superqq.com">www.superqq.com</a>）站长，百度百家专栏作者
-iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</p></blockquote>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="2" /></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -1269,6 +1253,10 @@ iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/07/07/nslocalede-zhong-yao-xing-he-yong-fa-jian-jie/">NSLocale的重要性和用法简介</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/07/06/ioskai-fa-zi-ding-yi-shi-jian-xuan-qu-qi/">iOS开发自定义时间选取器</a>
       </li>
     
@@ -1282,10 +1270,6 @@ iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</
     
       <li class="post">
         <a href="/blog/2015/07/03/uibuttonzhong-de-san-ge-uiedgeinsetsshu-xing-(%5B%3F%5D-)/">UIButton中的三个UIEdgeInsets属性（一）</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/02/uibuttonwen-zi-ju-zuo-xian-shi/">UIButton文字居左显示</a>
       </li>
     
   </ul>
