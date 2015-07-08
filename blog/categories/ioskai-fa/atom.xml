@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-09T00:12:35+08:00</updated>
+  <updated>2015-07-09T00:19:26+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[UIWebView用法详解]]></title>
+    <title type="html"><![CDATA[UIWebView用法详解及代码分享]]></title>
     <link href="http://www.superqq.com/blog/2015/07/08/uiwebviewyong-fa-xiang-jie/"/>
     <updated>2015-07-08T23:52:34+08:00</updated>
     <id>http://www.superqq.com/blog/2015/07/08/uiwebviewyong-fa-xiang-jie</id>
@@ -158,6 +158,8 @@ webView.delegate = self;
 <p>大功告成，再来看看效果：</p>
 
 <p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/webview2.png" alt="2" /></p>
+
+<p>以上分享的内容我做了一个demo，需要的话可以点击这里下载：<a href="https://github.com/worldligang/UIWebViewDemo">UIWebView用法详解</a></p>
 ]]></content>
   </entry>
   
