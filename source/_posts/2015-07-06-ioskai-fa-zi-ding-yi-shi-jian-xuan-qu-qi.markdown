@@ -3,7 +3,7 @@ layout: post
 title: "iOS开发自定义时间选取器"
 date: 2015-07-06 23:40:21 +0800
 comments: true
-categories: iOS面试
+categories: iOS开发
 keywords: iOS开发, 时间选取器, UIDatePicker, iOSDevTip, 刚刚在线
 description: iOS开发自定义时间选取器背景是半透明的，点击的灰色背景的时候，时间选取器消失。在LGDatePickerView初始化方法里，代码如下
 
