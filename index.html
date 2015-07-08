@@ -86,6 +86,117 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/07/08/uiwebviewyong-fa-xiang-jie/">UIWebView用法详解</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-08T23:52:34+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:52 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>UIWebView是iOS内置的浏览器控件，可以浏览网页、打开文档等 能够加载html/htm、pdf、docx、txt等格式的文件.</p>
+
+<p>用UIWebView我们就可以做一个简易的浏览器了。</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/webview1.png" alt="1" /></p>
+
+<h2>创建UIWebView</h2>
+
+<pre><code>UIWebView *webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+webView.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
+[self.view addSubview:webView];
+</code></pre>
+
+<h2>UIWebView加载网络地址</h2>
+
+<pre><code>NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.superqq.com"]];
+[self.view addSubview:webView];
+[webView loadRequest:request];
+</code></pre>
+
+<h2>UIWebView加载本地资源</h2>
+
+<h3>通过NSURLRequest加载</h3>
+
+<pre><code>NSString *path = [[NSBundle mainBundle] pathForResource:@"swift" ofType:@"html"];
+NSURL* url = [NSURL   fileURLWithPath:path];//创建URL
+NSURLRequest* request = [NSURLRequest requestWithURL:url];//创建NSURLRequest
+[webView loadRequest:request];//加载
+</code></pre>
+
+<h3>通过NSString加载</h3>
+
+<pre><code>NSString *path = [[NSBundle mainBundle] pathForResource:@"index" ofType:@"html"];
+NSString *htmlString = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+[webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:path]];
+</code></pre>
+
+<h2>自动检测电话</h2>
+
+<pre><code>webView.dataDetectorTypes = UIDataDetectorTypePhoneNumber;//自动检测网页上的电话号码，单击可以拨打
+</code></pre>
+
+<h2>设置代理和代理方法</h2>
+
+<pre><code>//设置代理
+webView.delegate = self;
+
+//代理方法
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    //返回YES，进行加载。通过UIWebViewNavigationType可以得到请求发起的原因
+    return YES;
+}
+
+- (void)webViewDidStartLoad:(UIWebView *)webView
+{
+    //开始加载，可以加上风火轮（也叫菊花）
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    //完成加载
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+    //加载出错
+}
+</code></pre>
+
+<h2>前进后退</h2>
+
+<pre><code>- (void)goBack;
+- (void)goForward;
+</code></pre>
+
+<h2>加载停止加载</h2>
+
+<pre><code>- (void)reload;
+- (void)stopLoading;
+</code></pre>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/webview2.png" alt="2" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/07/07/nslocalede-zhong-yao-xing-he-yong-fa-jian-jie/">NSLocale的重要性和用法简介</a></h1>
     
     
@@ -1116,128 +1227,6 @@ if(!_cacheInfo) {
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/29/cgcontextrefshi-yong-jian-yao-jiao-cheng/">CGContextRef使用简要教程</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-29T10:55:01+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:55 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Graphics Context是图形上下文,也可以理解为一块画布,我们可以在上面进行绘画操作,绘制完成后,将画布放到我们的view中显示即可,view看作是一个画框.</p>
-
-<p>CGContextRef功能强大，我们借助它可以画各种图形。开发过程中灵活运用这些技巧，可以帮助我们提供代码水平。</p>
-
-<p>说到画图，我就立马想到：我的数学公式都快忘完了。</p>
-
-<h2>高中数学你还记得多少？</h2>
-
-<p>我记得我上学的时候，数学一直都很好。以至于在班里都不敢和别人吵吵闹闹。一吵吵闹闹，别人就会来一句：以为你数学好，就可以怎么样怎么样了是吧？说的我好无奈啊。</p>
-
-<p>这么多年过去了，说句实话，高中时学的数学公式什么的，都忘记的差不多了。现在要去做高三的考题，估计比写代码还难。</p>
-
-<p>作为一名程序员，数学好，一定是优势。就拿画图来说吧，如果你还清楚的记得那些公式，那么你就可以很随意地画出一些好看的图形出来。</p>
-
-<p>接下来，我们来看看CGContextRef到底能实现些什么？</p>
-
-<h2>写文字</h2>
-
-<pre><code>- (void)drawRect:(CGRect)rect
-{
-    //获得当前画板
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    //颜色
-    CGContextSetRGBStrokeColor(ctx, 0.2, 0.2, 0.2, 1.0);
-    //画线的宽度
-    CGContextSetLineWidth(ctx, 0.25);
-    //开始写字
-    [@"我是文字" drawInRect:CGRectMake(10, 10, 100, 30) withFont:font];  
-    [super drawRect:rect];
-}
-</code></pre>
-
-<p>这段代码就可以很漂亮的写出四个大字：我是文字。很容易理解，每句话都有注释。</p>
-
-<h2>画直线</h2>
-
-<pre><code>- (void)drawRect:(CGRect)rect
-{
-    //获得当前画板
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    //颜色
-    CGContextSetRGBStrokeColor(ctx, 0.2, 0.2, 0.2, 1.0);
-    //画线的宽度
-    CGContextSetLineWidth(ctx, 0.25);
-    //顶部横线
-    CGContextMoveToPoint(ctx, 0, 10);
-    CGContextAddLineToPoint(ctx, self.bounds.size.width, 10);
-    CGContextStrokePath(ctx);
-    [super drawRect:rect];
-}
-</code></pre>
-
-<h2>画圆</h2>
-
-<pre><code>- (void)drawRect:(CGRect)rect
-{
-    //获得当前画板
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    //颜色
-    CGContextSetRGBStrokeColor(ctx, 0.2, 0.2, 0.2, 1.0);
-    //画线的宽度
-    CGContextSetLineWidth(ctx, 0.25);
-    //void CGContextAddArc(CGContextRef c,CGFloat x, CGFloat y,CGFloat radius,CGFloat startAngle,CGFloat endAngle, int clockwise)1弧度＝180°/π （≈57.3°） 度＝弧度×180°/π 360°＝360×π/180 ＝2π 弧度
-    // x,y为圆点坐标，radius半径，startAngle为开始的弧度，endAngle为 结束的弧度，clockwise 0为顺时针，1为逆时针。
-    CGContextAddArc(ctx, 100, 20, 20, 0, 2*M_PI, 0); //添加一个圆
-    CGContextDrawPath(ctx, kCGPathStroke); //绘制路径
-    [super drawRect:rect];
-}
-</code></pre>
-
-<p>这个画圆的公式你还记得吗？你还知道M_PI是什么吗？等于多少吗？赶紧脑补一下吧！</p>
-
-<h2>画矩形</h2>
-
-<pre><code>- (void)drawRect:(CGRect)rect
-{
-    //获得当前画板
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    //颜色
-    CGContextSetRGBStrokeColor(ctx, 0.2, 0.2, 0.2, 1.0);
-    //画线的宽度
-    CGContextSetLineWidth(ctx, 0.25);
-    CGContextAddRect(ctx, CGRectMake(2, 2, 30, 30));
-    CGContextStrokePath(ctx);
-    [super drawRect:rect];
-}
-</code></pre>
-
-<p>图形千千万，万变不离其宗。更多画图方法，期待你的探索。</p>
-
-<blockquote><p>作者李刚是刚刚在线（<a href="www.superqq.com">www.superqq.com</a>）站长，百度百家专栏作者
-iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</p></blockquote>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="2" /></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -1253,6 +1242,10 @@ iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/07/08/uiwebviewyong-fa-xiang-jie/">UIWebView用法详解</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/07/07/nslocalede-zhong-yao-xing-he-yong-fa-jian-jie/">NSLocale的重要性和用法简介</a>
       </li>
     
@@ -1266,10 +1259,6 @@ iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</
     
       <li class="post">
         <a href="/blog/2015/07/04/uibuttonzhong-de-san-ge-uiedgeinsetsshu-xing-(er-)/">UIButton中的三个UIEdgeInsets属性（二）</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/03/uibuttonzhong-de-san-ge-uiedgeinsetsshu-xing-(%5B%3F%5D-)/">UIButton中的三个UIEdgeInsets属性（一）</a>
       </li>
     
   </ul>

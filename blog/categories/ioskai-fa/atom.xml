@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-08T18:41:48+08:00</updated>
+  <updated>2015-07-08T23:54:04+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,97 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[UIWebView用法详解]]></title>
+    <link href="http://www.superqq.com/blog/2015/07/08/uiwebviewyong-fa-xiang-jie/"/>
+    <updated>2015-07-08T23:52:34+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/07/08/uiwebviewyong-fa-xiang-jie</id>
+    <content type="html"><![CDATA[<p>UIWebView是iOS内置的浏览器控件，可以浏览网页、打开文档等 能够加载html/htm、pdf、docx、txt等格式的文件.</p>
+
+<p>用UIWebView我们就可以做一个简易的浏览器了。</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/webview1.png" alt="1" /></p>
+
+<h2>创建UIWebView</h2>
+
+<pre><code>UIWebView *webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+webView.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
+[self.view addSubview:webView];
+</code></pre>
+
+<h2>UIWebView加载网络地址</h2>
+
+<pre><code>NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.superqq.com"]];
+[self.view addSubview:webView];
+[webView loadRequest:request];
+</code></pre>
+
+<h2>UIWebView加载本地资源</h2>
+
+<h3>通过NSURLRequest加载</h3>
+
+<pre><code>NSString *path = [[NSBundle mainBundle] pathForResource:@"swift" ofType:@"html"];
+NSURL* url = [NSURL   fileURLWithPath:path];//创建URL
+NSURLRequest* request = [NSURLRequest requestWithURL:url];//创建NSURLRequest
+[webView loadRequest:request];//加载
+</code></pre>
+
+<h3>通过NSString加载</h3>
+
+<pre><code>NSString *path = [[NSBundle mainBundle] pathForResource:@"index" ofType:@"html"];
+NSString *htmlString = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+[webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:path]];
+</code></pre>
+
+<h2>自动检测电话</h2>
+
+<pre><code>webView.dataDetectorTypes = UIDataDetectorTypePhoneNumber;//自动检测网页上的电话号码，单击可以拨打
+</code></pre>
+
+<h2>设置代理和代理方法</h2>
+
+<pre><code>//设置代理
+webView.delegate = self;
+
+//代理方法
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    //返回YES，进行加载。通过UIWebViewNavigationType可以得到请求发起的原因
+    return YES;
+}
+
+- (void)webViewDidStartLoad:(UIWebView *)webView
+{
+    //开始加载，可以加上风火轮（也叫菊花）
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    //完成加载
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+    //加载出错
+}
+</code></pre>
+
+<h2>前进后退</h2>
+
+<pre><code>- (void)goBack;
+- (void)goForward;
+</code></pre>
+
+<h2>加载停止加载</h2>
+
+<pre><code>- (void)reload;
+- (void)stopLoading;
+</code></pre>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/webview2.png" alt="2" /></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NSLocale的重要性和用法简介]]></title>
@@ -414,105 +505,6 @@ button.frame = CGRectMake(50, 200, 200, 200);
 <p>关于UIButton三个UIEdgeInsets属性的作用，下一篇文章介绍。</p>
 
 <p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="ios" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[UIButton文字居左显示]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/02/uibuttonwen-zi-ju-zuo-xian-shi/"/>
-    <updated>2015-07-02T22:18:01+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/02/uibuttonwen-zi-ju-zuo-xian-shi</id>
-    <content type="html"><![CDATA[<p>题外话：时间依旧过的很快，不知不觉2015年就过去一半了。感觉自己好像没有大的改变，只能感叹时间飞逝，却不能有所收获。</p>
-
-<p>我从来都不是一个安于现状的人，改变自己的想法从未停止过。我想大多数人都跟我有类似的想法。但是为什么很难有所成就呢？我觉得最重要的原因就是，<strong>只是想一下，而没有去行动</strong>。</p>
-
-<p>这是一个全民创业的时代，不把握机会，只能错过。错过的机会，越多遗憾就越多。有句话说：<strong>老了之后，回想人生，不会因为自己做过什么而后悔，而会因为自己没有做过什么而遗憾。</strong>不想给人生留下遗憾，所以努力去尝试是唯一的选择。</p>
-
-<p>随便感慨一下。每天上班太舒服了，淡忘了自己的理想，借此提醒一下自己。</p>
-
-<p>来来，收回思路，今天我们来讲如何让UIButton文字居左显示？我们都应该写过让UILabel的text居左显示。代码也非常简单。</p>
-
-<h2>UILabel文字居左显示</h2>
-
-<p>实现文字居左显示代码如下：</p>
-
-<pre><code>UILabel *label = [[UILabel alloc] init];
-label.frame = CGRectMake(50, 100, 200, 50);
-label.text = @"我是label";
-label.textAlignment = NSTextAlignmentLeft;
-label.backgroundColor = [UIColor orangeColor];
-[self.view addSubview:label];
-</code></pre>
-
-<p>运行起来看一下效果：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/labelleft.png" alt="1" /></p>
-
-<p>label.backgroundColor = [UIColor orangeColor];设置label的背景颜色方便我们参考。你是不是这样做的。依次类推UIButton也很简单，你肯定能想到。我们来看看。</p>
-
-<h2>UIButton文字居左显示</h2>
-
-<h3>创建UIButton</h3>
-
-<pre><code>UIButton *button = [[UIButton alloc] init];
-//设置坐标
-button.frame = CGRectMake(100, 100, 100, 50);
-//设置标题
-[button setTitle:@"我是UIButton" forState:UIControlStateNormal];
-//设置标题颜色
-[button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-//设置背景颜色    
-[button setBackgroundColor:[UIColor orangeColor]];
-[self.view addSubview:button];
-</code></pre>
-
-<p>以上代码是创建一个button，设置坐标、标题、和标题颜色。</p>
-
-<h3>让文字居左</h3>
-
-<p>按照UILabel文字居左的写法，UIButton应该这么写：</p>
-
-<pre><code> button.titleLabel.textAlignment = NSTextAlignmentLeft;
-</code></pre>
-
-<p>运行一下看一下效果：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/buttonnoleft.png" alt="2" /></p>
-
-<p>我们发现UIButton的文字还是居中显示。竟然没有居左显示，怎么办呢？进UIButton看看，还有哪些属性。很快发现：</p>
-
-<pre><code>@property(nonatomic) UIControlContentHorizontalAlignment contentHorizontalAlignment; // how to position content hozontally inside control. default is center
-
-typedef NS_ENUM(NSInteger, UIControlContentHorizontalAlignment) {
-    UIControlContentHorizontalAlignmentCenter = 0,
-    UIControlContentHorizontalAlignmentLeft   = 1,
-    UIControlContentHorizontalAlignmentRight  = 2,
-    UIControlContentHorizontalAlignmentFill   = 3,
-};
-</code></pre>
-
-<h3>设置contentHorizontalAlignment</h3>
-
-<pre><code>button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-</code></pre>
-
-<p>再次运行起来看效果：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/buttonleft.png" alt="3" /></p>
-
-<p>果然可以，是不是看着居左显示很难看，太靠边了。很简单，设置UIButton的titleEdgeInsets属性：</p>
-
-<pre><code>button.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
-</code></pre>
-
-<p>这样button的title就距左边10个像素的距离。</p>
-
-<p>居右显示就很简单了：</p>
-
-<pre><code>button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
-</code></pre>
-
-<p>ok，UIButton文字居左显示完成了。更多iOS技术请点击<a href="www.superqq.com">刚刚在线</a> : <strong>www.superqq.com</strong></p>
 ]]></content>
   </entry>
   
