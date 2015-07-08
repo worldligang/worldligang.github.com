@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-07T22:49:27+08:00</updated>
+  <updated>2015-07-08T18:41:48+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -109,6 +109,134 @@ dateFormatter.locale = usLocale;
 <h2>NSLocale怎么读？</h2>
 
 <p>看了这么久的NSLocale了，你知道NSLocale怎么读吗？不要翻译噢，看看你读的到底对不对？</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发自定义时间选取器]]></title>
+    <link href="http://www.superqq.com/blog/2015/07/06/ioskai-fa-zi-ding-yi-shi-jian-xuan-qu-qi/"/>
+    <updated>2015-07-06T23:40:21+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/07/06/ioskai-fa-zi-ding-yi-shi-jian-xuan-qu-qi</id>
+    <content type="html"><![CDATA[<p>又是一年的暑假日期而至，小孩子放假，都会到在外打工的父母身边。孩子想父母，父母也思念着自己的孩子。我身边的亲戚朋友的孩子 也都来了。这个暑假又该热闹起来。</p>
+
+<h2>努力什么时候都不晚</h2>
+
+<p>我有一个表妹，今年参加完高考，对自己的成绩不是特别满意。上次我回老家，刚好她给我一起来上海。准备来上海锻炼一下。</p>
+
+<p>车上我问她，准备去哪上学？她说不想上了，想打工。我没有怎么劝她，我想让她体验一下打工的生活，她就知道还是上学好。</p>
+
+<p>一个高中生，出来找工作，困难可想而知。经姐姐介绍，进了一家餐厅工作。工资也不是很高。干了两天，我问她怎么样？她说，高二要是来让我体验一下，我一定能考上一本。</p>
+
+<p>也许真的如她所说的那样，但是谁知道呢？时间也不会倒流，她也不再可能再参加一次高考了。人只有吃过苦头，才知道努力。这是件好事，大学好好把握也是一样的。</p>
+
+<p><strong>无论处于什么困境，只要知道努力，我觉得什么时候都不晚。</strong>关注<a href="http://www.superqq.com/">iOS开发</a>微信公众号：<strong>iOSDevTip</strong></p>
+
+<h2>自定义时间选取器</h2>
+
+<p>每天都随便扯扯，回到正题。今天我们做一个时间选取器，很简单，效果如下：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/time.png" alt="time" /></p>
+
+<p>我们自定义一个LGDatePickerView，在LGDatePickerView里面实现。</p>
+
+<h2>背景半透明</h2>
+
+<p>背景是半透明的，点击的灰色背景的时候，时间选取器消失。在LGDatePickerView初始化方法里，代码如下：</p>
+
+<pre><code>- (id)init
+{
+    self = [super init];
+    if (self) {
+  //背景半透明，绑定取消方法
+    UIControl *control = [[UIControl alloc] initWithFrame:SCREEN_BOUNDS];
+    control.backgroundColor = [UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:0.5f];
+    [self addSubview:control];
+    [control addTarget:self action:@selector(actionCancel:) forControlEvents:UIControlEventTouchUpInside];     
+     }
+    return self;
+}
+</code></pre>
+
+<p>绑定的actionCancel方法：</p>
+
+<pre><code>- (void)actionCancel:(id)sender
+{
+    [self removeFromSuperview];
+}
+</code></pre>
+
+<h2>确定取消按钮</h2>
+
+<p>看到上面的确定取消按钮，你会怎么做，写一个UIView上面放两个UIButton。这样做也是可以实现的。我们还可以用UIToolbar。在LGDatePickerView初始化方法里加上下面这段代码：</p>
+
+<pre><code> // Toolbar
+UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, SCREEN.height - 250, SCREEN.width, 50)];
+toolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+UIBarButtonItem *itemCancelDone = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(actionConfirm:)];
+UIBarButtonItem *itemCancel = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(actionCancel:)];
+UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+[toolbar setItems:[NSArray arrayWithObjects:itemCancel,space,itemCancelDone, nil]];
+[control addSubview:toolbar];
+</code></pre>
+
+<p>actionCancel上面已经实现了。下面实现actionConfirm方法。它有什么作用呢？</p>
+
+<ul>
+<li>点击的时候获取到时间，然后通过代理代理出去</li>
+<li><p>时间选取器消失</p>
+
+<pre><code>  - (void)actionConfirm:(id)sender
+  {
+      if ([self.delegate respondsToSelector:@selector(datePickerView:didSelectTime:)]) {
+          [self.delegate datePickerView:self didSelectTime:self.datePicker.date];
+      }
+      [self removeFromSuperview];
+  }
+</code></pre></li>
+</ul>
+
+
+<h2>代理方法</h2>
+
+<p>在LGDatePickerView.h</p>
+
+<pre><code>@protocol LGDatePickerViewDelegate &lt;NSObject&gt;
+
+- (void)datePickerView:(LGDatePickerView *)datepicker didSelectTime:(NSDate *)time;
+
+@end
+</code></pre>
+
+<h2>创建UIDatePicker</h2>
+
+<p>在LGDatePickerView.h定义一个全局变量：</p>
+
+<pre><code>@property (nonatomic, strong) UIDatePicker *datePicker;
+</code></pre>
+
+<p>在LGDatePickerView初始化方法里加上下面这段代码：</p>
+
+<pre><code>UIDatePicker *datePicker = [[UIDatePicker alloc] init];
+datePicker.backgroundColor = [UIColor whiteColor];
+datePicker.datePickerMode = UIDatePickerModeCountDownTimer;
+datePicker.date = [NSDate date];
+datePicker.frame = CGRectMake(0, SCREEN.height - 200, SCREEN.width, 220);
+[control addSubview:datePicker];
+self.datePicker = datePicker;
+</code></pre>
+
+<h2>使用LGDatePickerView</h2>
+
+<p>使用起来很简单，创建一下，然后加载self.view上面即可：</p>
+
+<pre><code>    LGDatePickerView *datePicker = [[LGDatePickerView alloc] init];
+    datePicker.delegate = self;
+    datePicker.datePicker.date = [NSDate date];
+    datePicker.frame = self.view.bounds;
+    [self.view addSubview:datePicker];
+</code></pre>
+
+<p>以上就实现了iOS开发自定义时间选取器，代码不难，有什么问题，欢迎提问哈。</p>
 ]]></content>
   </entry>
   
@@ -385,159 +513,6 @@ typedef NS_ENUM(NSInteger, UIControlContentHorizontalAlignment) {
 </code></pre>
 
 <p>ok，UIButton文字居左显示完成了。更多iOS技术请点击<a href="www.superqq.com">刚刚在线</a> : <strong>www.superqq.com</strong></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[EGOCache如何检测缓存时间过期]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/02/egocacheru-he-jian-ce-huan-cun-shi-jian-guo-qi/"/>
-    <updated>2015-07-02T00:38:14+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/02/egocacheru-he-jian-ce-huan-cun-shi-jian-guo-qi</id>
-    <content type="html"><![CDATA[<blockquote><p>子曰:学而不思则罔,思而不学则殆。</p></blockquote>
-
-<p>在上一篇文章中：<a href="http://www.superqq.com/blog/2015/07/01/egocachehuan-cun-kuang-jia-xiang-xi-jiang-jie/">EGOCache缓存框架详细讲解</a> 提到<strong>EGOCache</strong>可以设定缓存过期时间，默认是1天。查看了一下EGOCache源码，设置默认时间：</p>
-
-<pre><code>    [self setDefaultTimeoutInterval:86400];
-
-    //86400 = 24 * 60 * 60 刚好是一天时间。
-</code></pre>
-
-<p>EGOCache为什么要提供设定缓存过期时间呢？或者说设定缓存过期时间有什么好处呢？我觉得最大的好处就是可以定时清除缓存。可以设置某一项的缓存时间，很方便管理缓存。</p>
-
-<p>那么问题来了：</p>
-
-<ol>
-<li>EGOCache是怎么检测缓存过期时间的呢？</li>
-<li>检测到时间过期之后，什么时候触发删除缓存项的？</li>
-</ol>
-
-
-<p>带着这两个问题，我们来继续分析。</p>
-
-<h2>你会怎么实现</h2>
-
-<p>记得在公司里，老板经常会举这样的例子：</p>
-
-<pre><code>某某同志，刚来我们公司的时候，遇到问题就知道抱怨。从来不知道去思考怎么解决，只知道把问题抛给领导。工作半年下来，成长了很多。现在碰到问题，不仅把问题抛出来，而且还提供了自己的解决方案...
-</code></pre>
-
-<p>类似的例子，相信大家都听过。同样，既然前面我们提出这两个问题，我们也先来思考一下，如果我们来做该怎么解决？</p>
-
-<p>如果让我来写的话，我脑海里初步实现方法有几个：</p>
-
-<ol>
-<li>通过定时器来轮询，每隔一段时间检测一次。</li>
-<li>写一个while循环来检测。</li>
-<li>每次去读取缓存项的时候，判断缓存时间有没有过期。没过期，就返回读取的缓存项；否则，返回nil。</li>
-</ol>
-
-
-<p>当然，还有一些方法，不一一例举了。仔细想想，这些方法弊端很容易显露出来。</p>
-
-<ol>
-<li>为了小小的缓存时间，就用定时器轮询，显然是资源浪费</li>
-<li>跟方法1差不多。</li>
-<li>每次读取的时候判断是否过期，如果一直不读取，app的缓存会越来越大，也不可取。</li>
-</ol>
-
-
-<p>这些方法都被排除了，还有好的方法吗？继续往下看：</p>
-
-<h2>EGOCache是怎么实现的？</h2>
-
-<p>仔细查看EGOCache源码，发现在initWithCacheDirectory:方法里，每次初始化EGOCache实例对象的时，会遍历一遍plist文件中所有已存在的缓存项，拿每个缓存项的时间和当前时间作比较，缓存项过期时间早于当前时间，则删除对应缓存文件，并删除 plist 文件中对应 key 的记录。</p>
-
-<p>具体实现代码如下：</p>
-
-<h3>读取缓存项信息</h3>
-
-<pre><code>_cacheInfo = [[NSDictionary dictionaryWithContentsOfFile:cachePathForKey(_directory, @"EGOCache.plist")] mutableCopy];
-
-if(!_cacheInfo) {
-    _cacheInfo = [[NSMutableDictionary alloc] init];
-}
-</code></pre>
-
-<h3>获取当前时间的NSTimeInterval</h3>
-
-<pre><code>NSTimeInterval now = [[NSDate date] timeIntervalSinceReferenceDate];
-</code></pre>
-
-<h3>声明removedKeys保存过期的缓存项对应的key</h3>
-
-<pre><code>NSMutableArray* removedKeys = [[NSMutableArray alloc] init];
-</code></pre>
-
-<h3>遍历缓存项信息并判断缓存时间</h3>
-
-<pre><code>for(NSString* key in _cacheInfo) {
-    //判断缓存项过期时间是否早于当前时间
-    if([_cacheInfo[key] timeIntervalSinceReferenceDate] &lt;= now) {
-        //如果缓存项过期时间早于当前时间，移除缓存项
-        [[NSFileManager defaultManager] removeItemAtPath:cachePathForKey(_directory, key) error:NULL];
-        //把过期的缓存项对于的key保存到removedKeys里面
-        [removedKeys addObject:key];
-    }
-}
-</code></pre>
-
-<h3>删除过期缓存项对于的key</h3>
-
-<pre><code>[_cacheInfo removeObjectsForKeys:removedKeys];
-</code></pre>
-
-<p>看到这些，是不是觉得人家思路特牛叉，反正，我是觉得这个作者不简单。到这一步就解决了吗？</p>
-
-<h2>EGOCache还做了什么？</h2>
-
-<p>细心的童鞋会发现：<strong>EGOCache是个<a href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">单列类</a></strong>，也就是说整个程序应用周期只初始化一次。</p>
-
-<pre><code>+ (instancetype)globalCache {
-    static id instance;
-
-    static dispatch_once_t onceToken;
-    dispatch_once(&amp;onceToken, ^{
-        instance = [[[self class] alloc] init];
-    });
-
-    return instance;
-}
-</code></pre>
-
-<p>每次初始化的时候去判断了缓存项是否过期，这样做非常正确。思考一个场景：</p>
-
-<ol>
-<li>用户打开app，EGOCache被初始化，并判断了缓存项是否过期。</li>
-<li>如果刚好有一些缓存项在EGOCache被初始化之后过期。这个时候我们依然可以读到这个缓存项。这就不对了。</li>
-</ol>
-
-
-<p>继续分析EGOCache源码发现，EGOCache在读取一个缓存项的时候，先判断缓存项是否存在，然后读取缓存项（注意：是读取EGOCache初始化的时候没有过期的缓存项，并没有说现在没有过期），最后去判断读取到的缓存项跟当前时间相比是否过期.</p>
-
-<p>具体实现如下：</p>
-
-<pre><code>- (BOOL)hasCacheForKey:(NSString*)key {
-    //读取EGOCache初始化的时候没有过期的缓存项
-    NSDate* date = [self dateForKey:key];
-    if(date == nil) return NO;
-    //判断读取到的缓存项当前是否过期
-    if([date timeIntervalSinceReferenceDate] &lt; CFAbsoluteTimeGetCurrent()) return NO;
-
-    return [[NSFileManager defaultManager] fileExistsAtPath:cachePathForKey(_directory, key)];
-}
-
-- (NSDate*)dateForKey:(NSString*)key {
-    __block NSDate* date = nil;
-
-    dispatch_sync(_frozenCacheInfoQueue, ^{
-        date = (self.frozenCacheInfo)[key];
-    });
-
-    return date;
-}
-</code></pre>
-
-<p>EGOCache检测缓存时间过期的思路值得学习，以后遇到类似场景，完全可以借鉴。</p>
 ]]></content>
   </entry>
   
