@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-10T00:36:06+08:00</updated>
+  <updated>2015-07-10T00:44:28+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,91 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[使用UIDataDetectorTypes自动检测电话、网址和邮箱]]></title>
+    <link href="http://www.superqq.com/blog/2015/07/09/shi-yong-uidatadetectortypeszi-dong-jian-ce-dian-hua-,-wang-zhi-he-you-xiang/"/>
+    <updated>2015-07-09T23:43:39+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/07/09/shi-yong-uidatadetectortypeszi-dong-jian-ce-dian-hua-,-wang-zhi-he-you-xiang</id>
+    <content type="html"><![CDATA[<p>支付宝发布最新版本9.0，再一次引发一场撕逼大战。微信说支付宝抄袭了它，支付宝说微信一直都在抄袭自己。在我看来，微信和支付宝都抄袭了对方。对于大佬们的抄袭，我们也是司空见惯了。</p>
+
+<p>支付宝这一次更新，真是赚足了眼球，估计这也是支付宝的推广策略。就是要造势，造势有利于品牌推广。传播速度可想而知，似乎一夜之间都在谈论支付宝和微信。</p>
+
+<p>至于支付宝和微信谁能打过谁，我们拭目以待。</p>
+
+<p>上一篇文章<a href="http://www.superqq.com/blog/2015/07/08/uiwebviewyong-fa-xiang-jie/">UIWebView用法详解及代码分享</a>里面提到：</p>
+
+<pre><code>webView.dataDetectorTypes = UIDataDetectorTypePhoneNumber;//自动检测网页上的电话号码，单击可以拨打
+</code></pre>
+
+<p>接下来我们来简单讲一下，使用UIDataDetectorTypes自动检测电话、网址和邮箱。我们先来看看UIDataDetectorTypes有哪些枚举值。</p>
+
+<h2>UIDataDetectorTypes的枚举值</h2>
+
+<pre><code>typedef NS_OPTIONS(NSUInteger, UIDataDetectorTypes) {
+    UIDataDetectorTypePhoneNumber   = 1 &lt;&lt; 0,          // Phone number detection
+    UIDataDetectorTypeLink          = 1 &lt;&lt; 1,          // URL detection    
+#if __IPHONE_4_0 &lt;= __IPHONE_OS_VERSION_MAX_ALLOWED
+    UIDataDetectorTypeAddress       = 1 &lt;&lt; 2,          // Street address detection
+    UIDataDetectorTypeCalendarEvent = 1 &lt;&lt; 3,          // Event detection
+#endif    
+
+    UIDataDetectorTypeNone          = 0,               // No detection at all
+    UIDataDetectorTypeAll           = NSUIntegerMax    // All types
+};
+</code></pre>
+
+<p>NS_OPTIONS一般用来定义位移相关操作的枚举值。UIDataDetectorTypeAddress，UIDataDetectorTypeCalendarEvent不在我们考虑的范围了。</p>
+
+<p>UIWebView有dataDetectorTypes属性，UITextView也有dataDetectorTypes属性。我们来UITextView来举例。</p>
+
+<h2>创建UITextView</h2>
+
+<pre><code>UITextView *textView = [[UITextView alloc] initWithFrame:self.view.bounds];
+textView.font = [UIFont systemFontOfSize:20];
+textView.editable = NO;
+textView.text = @"\r\n我的手机号不是： 13888888888 \r\n\r\n"
+"我的博客刚刚在线网址： www.xxxxxx.com \r\n\r\n"
+"我的邮箱： worldligang@163.com \r\n\r\n";
+[self.view addSubview:textView];
+</code></pre>
+
+<p>运行起来看一下：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/UIDataDetectorTypes1.jpeg" alt="UIDataDetectorTypes1" /></p>
+
+<p>可以看出来就是一个简单的文本，电话号码，网址和邮箱都没有检测出来。下面我们来看看dataDetectorTypes作用。</p>
+
+<h2>UIDataDetectorTypePhoneNumber检测电话</h2>
+
+<pre><code>textView.dataDetectorTypes = UIDataDetectorTypePhoneNumber;
+</code></pre>
+
+<p>设置textView.dataDetectorTypes的属性，即可检测文本中的电话。效果如下所示：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/UIDataDetectorTypes2.jpeg" alt="UIDataDetectorTypes2" /></p>
+
+<h2>UIDataDetectorTypeLink检测网址和邮箱</h2>
+
+<pre><code>textView.dataDetectorTypes = UIDataDetectorTypeLink;
+</code></pre>
+
+<p>UIDataDetectorTypeLink检测网址和邮箱的。点击网址会跳转到相应的网页，点击邮箱可以调用系统的发邮件。</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/UIDataDetectorTypes3.jpeg" alt="UIDataDetectorTypes3" /></p>
+
+<h2>UIDataDetectorTypeAll检测电话、网址和邮箱</h2>
+
+<pre><code>textView.dataDetectorTypes = UIDataDetectorTypeAll;
+</code></pre>
+
+<p>UIDataDetectorTypeAll可以检测检测电话、网址和邮箱。效果如下：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/UIDataDetectorTypes4.jpeg" alt="UIDataDetectorTypes4" /></p>
+
+<p>专门写了一个iOSStrongDemo以后都在这个iOSStrongDemo里面更新内容。下载地址：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[UIWebView用法详解及代码分享]]></title>
@@ -505,63 +590,6 @@ button.frame = CGRectMake(50, 200, 200, 200);
 <p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button7.png" alt="7" /></p>
 
 <p>大家可以自行设置其他三个参数看看效果是怎样的，自己动手便于理解。</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="ios" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[UIButton中的三个UIEdgeInsets属性（一）]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/03/uibuttonzhong-de-san-ge-uiedgeinsetsshu-xing-(%5B%3F%5D-)/"/>
-    <updated>2015-07-03T23:29:55+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/03/uibuttonzhong-de-san-ge-uiedgeinsetsshu-xing-([?]-)</id>
-    <content type="html"><![CDATA[<p>随着时间的推移，随着我的坚持，公众号的订阅用户已经越来越多了。非常感谢大家的信任，我会再接再厉，努力为大家提供更多优秀的文章。</p>
-
-<p>当初创建<a href="http://www.superqq.com/">iOS开发</a>（ <strong>iOSDevTip</strong> ），只是自己的兴趣。刚开始还不怎么会用微信公众号的后台，连发图文消息都不会。不知道怎么去编辑，当初的微信公众号后台也没有现在这么强大。我还以为就是个一对多的聊天工具呢。（😊）</p>
-
-<p>慢慢的我学会了编辑文章，成为一个真正意义上的小编。每天负责为大家推送一些iOS相关的技术文章。每天到各大论坛、网站、大神的博客找一些好的文章。这个过程是漫长的，但是是值得的。</p>
-
-<p>找文章的过程中，对自己来说，也是学习的好机会。如果没有这个公众号，我可能就看不到那么多的技术文章，也不能为大家推荐文章，自己也不会建立博客。</p>
-
-<p>现在微信团队已经邀请我开通原创功能，以后，我就会多发一些原创内容。一个人的力量比较是有限的，订阅的用户如果有喜欢写技术文章的，欢迎头投稿给我，我的邮箱：<strong>worldligang@163.com</strong></p>
-
-<p><strong>相信我，你的付出也会有回报的。</strong></p>
-
-<p>今天是周六，不知道正在看文章的你有没有在加班。没有加班的，就好好休息一下吧；加班的，我只能同情一下啦。今天我们来看看UIButton中的三个UIEdgeInsets属性。</p>
-
-<h2>UIEdgeInsets是什么</h2>
-
-<p>UIEdgeInsets是什么？我们点进去看一下：</p>
-
-<pre><code>typedef struct UIEdgeInsets {
-    CGFloat top, left, bottom, right;  // specify amount to inset (positive) for each of the edges. values can be negative to 'outset'
-} UIEdgeInsets;
-</code></pre>
-
-<p>UIEdgeInsets是个结构体类型。里面有四个参数，分别是：top, left, bottom, right。这四个参数表示距离上边界、左边界、下边界、右边界的距离。</p>
-
-<h2>哪三个UIEdgeInsets属性</h2>
-
-<p>不知道大家发现没有，UIButton里面有三个UIEdgeInsets属性，分别是：</p>
-
-<pre><code>@property(nonatomic)          UIEdgeInsets contentEdgeInsets UI_APPEARANCE_SELECTOR; // default is UIEdgeInsetsZero
-
-@property(nonatomic)          UIEdgeInsets titleEdgeInsets;                // default is UIEdgeInsetsZero
-
-@property(nonatomic)          UIEdgeInsets imageEdgeInsets;                // default is UIEdgeInsetsZero
-</code></pre>
-
-<p>contentEdgeInsets后面有个UI_APPEARANCE_SELECTOR是什么意思呢？</p>
-
-<pre><code>提示：UI_APPEARANCE_SELECTOR标记的属性都支持通过外观代理来定制。
-</code></pre>
-
-<p>举例，设置UIButton的contentEdgeInsets属性，可以直接调用：</p>
-
-<pre><code>[[UIButton appearance] setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
-</code></pre>
-
-<p>关于UIButton三个UIEdgeInsets属性的作用，下一篇文章介绍。</p>
 
 <p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="ios" /></p>
 ]]></content>
