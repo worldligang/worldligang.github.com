@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-10T23:27:00+08:00</updated>
+  <updated>2015-07-11T00:11:24+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -53,8 +53,6 @@
 
 <p>我们来写一个demo，在一个有UITableView的UIViewController上启动定时器，每1s数字加1，并将这个数字显示在UILabel上面.</p>
 
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/nstimer1.png" alt="nstimer1" /></p>
-
 <pre><code>- (void)viewDidLoad {
     [super viewDidLoad];
     [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(actionTimer:) userInfo:nil repeats:YES];
@@ -72,6 +70,8 @@
 
 <p>这样当用户在拖动UITableView处于UITrackingRunLoopMode时，NSTimer就失效了，不能fire。self.label上的数字也就无法更新。</p>
 
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/timer1.gif" alt="nstimer1" /></p>
+
 <h2>修改NSTimer的run loop</h2>
 
 <p>解决方法就是将其加入到UITrackingRunLoopMode模式或NSRunLoopCommonModes模式中。</p>
@@ -85,6 +85,8 @@
 </code></pre>
 
 <p>NSRunLoopCommonModes：是一个模式集合，当绑定一个事件源到这个模式集合的时候就相当于绑定到了集合内的每一个模式。</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/timer2.gif" alt="nstimer1" /></p>
 
 <p>代码下载地址：：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
 ]]></content>
