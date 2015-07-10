@@ -3,7 +3,7 @@ layout: post
 title: "如何成为一名优秀的iOS开发工程师"
 date: 2015-06-25 07:49:07 +0800
 comments: true
-categories: iOS面试
+categories: 程序员
 keywords: iOS开发工程师, iOS开发, 工程师,  优秀的iOS开发工程师, 刚刚在线
 description: 如果你是一位专业的iOS开发工程师，你应该为自己感到自豪。因为你能在强大的iOS系统下，一展身手实现自己和他人的想法，这是一件令人无比激动的事情。
 

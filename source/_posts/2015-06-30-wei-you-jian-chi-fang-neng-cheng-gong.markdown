@@ -3,7 +3,7 @@ layout: post
 title: "唯有坚持方能成功"
 date: 2015-06-30 00:44:54 +0800
 comments: true
-categories: iOS面试
+categories: 程序员
 keywords: 坚持, iOS入门, iOS入门教程, iOS入门项目, 刚刚在线
 description: iOS入门：坚持做一个项目，我常说一句话：不是因为有了希望才坚持，而是坚持了才有希望。我也一直用这句话来告诫自己。只要持续努力，才有成功的可能。
 
