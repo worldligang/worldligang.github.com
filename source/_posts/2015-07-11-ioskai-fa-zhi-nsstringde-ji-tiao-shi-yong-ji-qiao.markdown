@@ -1,0 +1,127 @@
+---
+layout: post
+title: "iOS开发之NSString的几条实用技巧"
+date: 2015-07-11 22:57:21 +0800
+comments: true
+categories: iOS开发
+keywords: NSString, NSString使用, NSString用法详解, NSString实用技巧, 刚刚在线
+description: 写这篇文章时，我刚到郑州，在同学安顿的宾馆里。虽然奔波了一天，有些疲惫。还是要给大家准备一些NSString的小技巧。希望你能把iOS开发：iOSDevTip。介绍给更多你身边的朋友，这就是对我最大的支持。
+
+---
+
+这两天上海台风“灿鸿”来袭，又是刮风，又是下雨。这雨已经连下好多天了，再不出太阳人都发霉了。不过无论再怎么样，也不要让天气破坏了心情。
+
+台风来了，刚好我要走了。周六一大早5点就爬起来，雨下的不小，风也特别大。我是7点多的动车。从我家过去大概需要一个半小时的时间。所以得提前起来，省的匆匆忙忙。
+
+##使用Uber的感受
+
+我还一直担心，这天气可能连车都打不到。抱着尝试的心态，我打开了Uber，为什么打开的是Uber，而不是滴滴，也不是快的呢。因为我的Uber上还有优惠劵，而且还有一个重要的原因，Uber上面的人民优步，不仅价格比出租车便宜，而且服务态度那也是相当好的。
+
+看来我的担心是多余的。我打开Uber点了打车，不到10s，就有司机抢单成功。我连目的地都没有来得及输入，这也是滴滴和快的不具备的。这一点我觉得真的比较人性。因为很多司机都是看距离抢单的，Uber这样做估计就是杜绝这样的事情发生。
+
+我并不说给Uber打广告的，再说了Uber也没给我钱。我之前一直用的都是滴滴和快的。我说的都是事实，大家可以自己尝试尝试。
+
+写这篇文章时，我刚到郑州，在同学安顿的宾馆里。虽然奔波了一天，有些疲惫。还是要给大家准备一些NSString的小技巧。希望你能把iOS开发：**iOSDevTip** 介绍给更多你身边的朋友，这就是对我最大的支持。
+
+##NSString的几条小技巧
+
+###创建字符串
+
+**常量字符串**
+
+	NSString *string = @"i am an iOSDevTip!";
+
+**常用创建方法**
+	
+	NSString *string = [[NSString alloc] init];
+ 
+	string = @"i am an iOSDevTip too!";
+	
+	
+**用initWithString创建字符串**
+
+	NSString *string = [[NSString alloc] initWithString:@"iOSDevTip is here!"];
+
+###格式化创建字符串
+
+**int格式化字符串**
+	
+	int age = 20;
+    NSString *personAge = [NSString stringWithFormat:@"this person age is %d",age];
+
+既然int格式化字符串，那么float、double等，也可以格式化字符串。
+
+**NSString格式化字符串**
+  
+    NSString *name = @"iOSDevTip";
+    NSString *personName = [NSString stringWithFormat:@"this person name is %@",name];
+
+###字符串比较
+
+**isEqualToString方法比较**
+
+	//比较字符串
+    NSString *stingOne = @"This is an iOSDevTip!";
+    NSString *stringTwo = @"This is an iOSDevTip!";
+    BOOL result = [stingOne isEqualToString:stringTwo];
+
+**compare方法比较**
+
+	BOOL result = [stingOne compare:stringTwo] == NSOrderedSame;
+
+compare:方法返回值类型为NSComparisonResult。而NSComparisonResult有下面几个枚举值。
+
+	typedef NS_ENUM(NSInteger, NSComparisonResult) {NSOrderedAscending = -1L, NSOrderedSame, NSOrderedDescending};
+
+###字符串大小写转换
+
+**小写转大写**
+
+	 NSString *string = @"This is an iOSDevTip!";
+    [string lowercaseString];
+
+**大写转小写**
+
+	NSString *string = @"This is an iOSDevTip!";
+	[string uppercaseString];
+	
+###截取字符串
+
+**substringToIndex截取字符串**
+
+	NSString *string = @"This is a operation string!";
+    NSString *subToString = [string substringToIndex:6];
+    
+截取的subToString为This i
+
+**substringFromIndex截取字符串**
+
+    NSString *subFromString = [string substringFromIndex:6];
+
+截取的subFromString为s a operation string!
+
+
+**substringWithRange截取字符串**    
+    
+    NSString *rangeString = [string substringWithRange:NSMakeRange(6, 3)];
+
+截取的rangeString为s a!
+
+###判断字符串是否包含另一个字符串
+
+**rangeOfString判断**	
+	
+    NSString *string1 = @"This is a iOSDevTip";
+    NSString *string2 = @"iOSDevTip";
+    NSRange range = [string1 rangeOfString:string2];
+    NSInteger location = range.location;
+    NSInteger leight = range.length;
+    NSString *logString = [[NSString alloc] initWithString:[NSString stringWithFormat:@"Location:%ld,Leight:%ld",location,leight]];
+    NSLog(@"logString:%@",logString);
+
+打印出来：
+
+	iOSStrongDemo[8837:2221170] logString:Location:10,Leight:9
+
+如果Leight为0，说明不包含。还有更多关于NSString的用法，大家一起探索吧。代码下载地址：[iOSStrongDemo](https://github.com/worldligang/iOSStrongDemo)
+
