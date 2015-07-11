@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-11T00:11:24+08:00</updated>
+  <updated>2015-07-11T23:08:01+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,153 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ioskai Fa Zhi Nsstringde Ji Tiao Shi Yong Ji Qiao]]></title>
+    <link href="http://www.superqq.com/blog/2015/07/11/ioskai-fa-zhi-nsstringde-ji-tiao-shi-yong-ji-qiao/"/>
+    <updated>2015-07-11T00:00:00+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/07/11/ioskai-fa-zhi-nsstringde-ji-tiao-shi-yong-ji-qiao</id>
+    <content type="html"><![CDATA[<p>`&mdash;
+layout: post
+title: &ldquo;iOS开发之NSString的几条实用技巧&rdquo;
+date: 2015-07-11 22:57:21 +0800
+comments: true
+categories: iOS开发
+keywords: NSString, NSString使用, NSString用法详解, NSString实用技巧, 刚刚在线
+description: 写这篇文章时，我刚到郑州，在同学安顿的宾馆里。虽然奔波了一天，有些疲惫。还是要给大家准备一些NSString的小技巧。希望你能把iOS开发：iOSDevTip。介绍给更多你身边的朋友，这就是对我最大的支持。</p>
+
+<hr />
+
+<p>这两天上海台风“灿鸿”来袭，又是刮风，又是下雨。这雨已经连下好多天了，再不出太阳人都发霉了。不过无论再怎么样，也不要让天气破坏了心情。</p>
+
+<p>台风来了，刚好我要走了。周六一大早5点就爬起来，雨下的不小，风也特别大。我是7点多的动车。从我家过去大概需要一个半小时的时间。所以得提前起来，省的匆匆忙忙。</p>
+
+<h2>使用Uber的感受</h2>
+
+<p>我还一直担心，这天气可能连车都打不到。抱着尝试的心态，我打开了Uber，为什么打开的是Uber，而不是滴滴，也不是快的呢。因为我的Uber上还有优惠劵，而且还有一个重要的原因，Uber上面的人民优步，不仅价格比出租车便宜，而且服务态度那也是相当好的。</p>
+
+<p>看来我的担心是多余的。我打开Uber点了打车，不到10s，就有司机抢单成功。我连目的地都没有来得及输入，这也是滴滴和快的不具备的。这一点我觉得真的比较人性。因为很多司机都是看距离抢单的，Uber这样做估计就是杜绝这样的事情发生。</p>
+
+<p>我并不说给Uber打广告的，再说了Uber也没给我钱。我之前一直用的都是滴滴和快的。我说的都是事实，大家可以自己尝试尝试。</p>
+
+<p>写这篇文章时，我刚到郑州，在同学安顿的宾馆里。虽然奔波了一天，有些疲惫。还是要给大家准备一些NSString的小技巧。希望你能把iOS开发：<strong>iOSDevTip</strong> 介绍给更多你身边的朋友，这就是对我最大的支持。</p>
+
+<h2>NSString的几条小技巧</h2>
+
+<h3>创建字符串</h3>
+
+<p><strong>常量字符串</strong></p>
+
+<pre><code>NSString *string = @"i am an iOSDevTip!";
+</code></pre>
+
+<p><strong>常用创建方法</strong></p>
+
+<pre><code>NSString *string = [[NSString alloc] init];
+
+string = @"i am an iOSDevTip too!";
+</code></pre>
+
+<p><strong>用initWithString创建字符串</strong></p>
+
+<pre><code>NSString *string = [[NSString alloc] initWithString:@"iOSDevTip is here!"];
+</code></pre>
+
+<h3>格式化创建字符串</h3>
+
+<p><strong>int格式化字符串</strong></p>
+
+<pre><code>int age = 20;
+NSString *personAge = [NSString stringWithFormat:@"this person age is %d",age];
+</code></pre>
+
+<p>既然int格式化字符串，那么float、double等，也可以格式化字符串。</p>
+
+<p><strong>NSString格式化字符串</strong></p>
+
+<pre><code>NSString *name = @"iOSDevTip";
+NSString *personName = [NSString stringWithFormat:@"this person name is %@",name];
+</code></pre>
+
+<h3>字符串比较</h3>
+
+<p><strong>isEqualToString方法比较</strong></p>
+
+<pre><code>//比较字符串
+NSString *stingOne = @"This is an iOSDevTip!";
+NSString *stringTwo = @"This is an iOSDevTip!";
+BOOL result = [stingOne isEqualToString:stringTwo];
+</code></pre>
+
+<p><strong>compare方法比较</strong></p>
+
+<pre><code>BOOL result = [stingOne compare:stringTwo] == NSOrderedSame;
+</code></pre>
+
+<p>compare:方法返回值类型为NSComparisonResult。而NSComparisonResult有下面几个枚举值。</p>
+
+<pre><code>typedef NS_ENUM(NSInteger, NSComparisonResult) {NSOrderedAscending = -1L, NSOrderedSame, NSOrderedDescending};
+</code></pre>
+
+<h3>字符串大小写转换</h3>
+
+<p><strong>小写转大写</strong></p>
+
+<pre><code> NSString *string = @"This is an iOSDevTip!";
+[string lowercaseString];
+</code></pre>
+
+<p><strong>大写转小写</strong></p>
+
+<pre><code>NSString *string = @"This is an iOSDevTip!";
+[string uppercaseString];
+</code></pre>
+
+<h3>截取字符串</h3>
+
+<p><strong>substringToIndex截取字符串</strong></p>
+
+<pre><code>NSString *string = @"This is a operation string!";
+NSString *subToString = [string substringToIndex:6];
+</code></pre>
+
+<p>截取的subToString为This i</p>
+
+<p><strong>substringFromIndex截取字符串</strong></p>
+
+<pre><code>NSString *subFromString = [string substringFromIndex:6];
+</code></pre>
+
+<p>截取的subFromString为s a operation string!</p>
+
+<p><strong>substringWithRange截取字符串</strong></p>
+
+<pre><code>NSString *rangeString = [string substringWithRange:NSMakeRange(6, 3)];
+</code></pre>
+
+<p>截取的rangeString为s a!</p>
+
+<h3>判断字符串是否包含另一个字符串</h3>
+
+<p><strong>rangeOfString判断</strong></p>
+
+<pre><code>NSString *string1 = @"This is a iOSDevTip";
+NSString *string2 = @"iOSDevTip";
+NSRange range = [string1 rangeOfString:string2];
+NSInteger location = range.location;
+NSInteger leight = range.length;
+NSString *logString = [[NSString alloc] initWithString:[NSString stringWithFormat:@"Location:%ld,Leight:%ld",location,leight]];
+NSLog(@"logString:%@",logString);
+</code></pre>
+
+<p>打印出来：</p>
+
+<pre><code>iOSStrongDemo[8837:2221170] logString:Location:10,Leight:9
+</code></pre>
+
+<p>如果Leight为0，说明不包含。还有更多关于NSString的用法，大家一起探索吧。代码下载地址：：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS开发之NSTimer使用初探]]></title>
@@ -1632,7 +1779,7 @@ iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</
 
 <p><strong>你的博客将比简历更有价值</strong>。你在各大招聘网站写简历不如你有一个有价值的博客。</p>
 
-<p>把技术分享出来，不仅帮助新人，更是提高自己，这是一种双赢。如果你写了技术文章没有好的地方可以发布，可以投稿给我：<a href="&#109;&#97;&#105;&#108;&#x74;&#x6f;&#58;&#119;&#x6f;&#114;&#108;&#100;&#x6c;&#105;&#x67;&#97;&#110;&#x67;&#x40;&#x31;&#54;&#x33;&#x2e;&#99;&#111;&#109;">&#x77;&#111;&#114;&#108;&#100;&#108;&#x69;&#103;&#97;&#110;&#103;&#64;&#49;&#x36;&#51;&#x2e;&#x63;&#x6f;&#x6d;</a> 我将发布在我的公众号iOS开发（<strong>iOSDevTip</strong>）上，直接分享给上万名iOS开发者。</p>
+<p>把技术分享出来，不仅帮助新人，更是提高自己，这是一种双赢。如果你写了技术文章没有好的地方可以发布，可以投稿给我：<a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#119;&#111;&#114;&#108;&#100;&#108;&#x69;&#x67;&#97;&#x6e;&#103;&#x40;&#49;&#x36;&#51;&#x2e;&#x63;&#111;&#109;">&#119;&#111;&#x72;&#x6c;&#x64;&#108;&#x69;&#x67;&#x61;&#x6e;&#103;&#64;&#x31;&#54;&#51;&#x2e;&#x63;&#111;&#109;</a> 我将发布在我的公众号iOS开发（<strong>iOSDevTip</strong>）上，直接分享给上万名iOS开发者。</p>
 
 <h3>看github开源项目</h3>
 
@@ -1794,148 +1941,6 @@ undoStack = [[NSMutableArray alloc] init];
 <p>这也是一个很好的地方来测试是否你的相册数据保留会变化。现在，如果你删除一个专辑，app退到后台，并终止应用程序，在下次启动应用程序显示的专辑列表不会有删除专辑信息。</p>
 
 <p>这里的源代码完成的项目：<a href="cdn2.raywenderlich.com/wp-content/uploads/2013/08/BlueLibrary-final.zip">最后bluelibrary</a></p>
-
-<p><strong>设计模式系列文章</strong>：</p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/">iOS 设计模式系列：Facade – 外观模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/">iOS 设计模式系列：Observer – 观察者模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/">iOS 设计模式系列：Archiving – 归档模式</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS 设计模式系列：Archiving – 归档模式]]></title>
-    <link href="http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/"/>
-    <updated>2015-06-20T06:54:13+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi</id>
-    <content type="html"><![CDATA[<p><strong>备忘录模式</strong>就是苹果中一种归档形式。它能够把对象转化成一种数据流，在不依赖于外部类的私有属性的情况下来存储和取出数据。你可以在 iOS 6 by Tutorials 这本书的第 16 章读到更多的相关信息。或者这里 Apple’s Archives and Serializations Programming Guide。</p>
-
-<h3>如何使用归档 Archiving</h3>
-
-<p>首先，你需要声明 Album，用 NSCoding 协议来归档数据。打开 Album.h 文件，修改 @ interface 行如下：</p>
-
-<pre><code>@interface Album : NSObject &lt;NSCoding&gt;
-</code></pre>
-
-<p>在 Album.m 添加下面两个方法：</p>
-
-<pre><code>- (void)encodeWithCode:(NSCode *)aCoder
-{
-    [aCode encodeObject:self.year forKey:@“year”];
-    [aCode encodeObject:self.title forKey:@“album”];
-    [aCode encodeObject:self.artist forKey:@“artist”];
-    [aCode encodeObject:self.coverUrl forKey:@“cover_url”];     [aCode encodeObject:self.genre forKey:@“genre”];
-}
-
-- (id)initWithCode:(NSCode *)aDecoder
-{
-    self = [super init];
-    if (self) {
-        _year = [aDecoder decodeObjectForKey:@“year”];
-        _title = [aDecoder decodeObjectForKey:@“album”];
-        _artist = [aDecoder decodeObjectForKey:@“artist”];
-        _coverUrl = [aDecoder decodeObjectForKey:@“cover_url”];
-        _genre = [aDecoder decodeObjectForKey:@“genre”];
-    }
-    return self;
-}
-</code></pre>
-
-<p>当你存档这个类的实例时调用 encodeWithCoder:。相反，当你通过解档来创建一个 Album 实例时，需要调用 iniWithCode: 。就这么简单，非常强大。</p>
-
-<p>现在 Album 类可以存档了，添加的代码实际上是存储和加载专辑列表的。</p>
-
-<p>在 PersistencyManger.h 里添加下面方法：</p>
-
-<pre><code>- (void)saveAlbums;
-</code></pre>
-
-<p>当存储专辑的时候调用些方法。</p>
-
-<p>现在，在 PersistencyManger.m 里添加方法实现：</p>
-
-<pre><code>- (void)saveAlbums
-{
-    NSString *filename = [NSHomeDirectory() stringByAppendingString:@“/Document/albums.bin”];
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:albums];
-    [data writeToFile:filename atomically:YES];
-}
-</code></pre>
-
-<p>NSKeyedArchiver 把专辑数组存档进一个叫 album.bin 的文件里。</p>
-
-<p>当你存档的一个对象包含另一个对象的时候，存档自动递归的把子对象、子对象的子对象一并存储。在这个实例里，存储的是一个专辑实例的数组。因为数组和 Album 都支持 NSCopying 的接口，数组里的东西都会被自动存档。</p>
-
-<p>现在用下面代码替换 PersistencyManger.m 里的 init 方法：</p>
-
-<pre><code>- (id)init
-{
-    self = [super init];
-    if (self) {
-        NSData *data = [NSData dataWithContentsOfFile:[NSHomeDirectory() stringByAppendString:@“/Document/albums.bin”]];
-        albums = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-        if (albums == nil) {
-            albums = [NSMutableArray arrayWithArray:
-                 @[[[Album alloc] initWithTitle:@"Best of Bowie" artist:@"David Bowie" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_david%20bowie_best%20of%20bowie.png" year:@"1992"],
-                 [[Album alloc] initWithTitle:@"It's My Life" artist:@"No Doubt" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_no%20doubt_its%20my%20life%20%20bathwater.png" year:@"2003"],
-                 [[Album alloc] initWithTitle:@"Nothing Like The Sun" artist:@"Sting" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_sting_nothing%20like%20the%20sun.png" year:@"1999"],
-                 [[Album alloc] initWithTitle:@"Staring at the Sun" artist:@"U2" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_u2_staring%20at%20the%20sun.png" year:@"2000"],
-                 [[Album alloc] initWithTitle:@"American Pie" artist:@"Madonna" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_madonna_american%20pie.png" year:@"2000"]]];
-                [self saveAlbums];
-        }
-    }
-    return self;
-}
-</code></pre>
-
-<p>在新代码里，如果文件存在，NSKeyedUnarchiver 就从文件加载专辑数据。如果不存在，它就创建专辑数据，然后立即存储，为下一次启动 app 使用。</p>
-
-<p>当然你也可以在 app 后台运行的时候再存储专辑数据。现在它看起来不是很有必要，但如果你在稍后添加修改专辑数据呢？你需要确保所有的数据修改都会被存储。</p>
-
-<p>在 LibraryAPI.h 添加下面的方法</p>
-
-<pre><code>- (void)saveAlbums;
-</code></pre>
-
-<p>因为程序的所以有服务都需要通过 LibraryAPI 提供，这就是程序为什么需要 PersistenrcyManger 来存储专辑数据。</p>
-
-<p>现在在 LibraryAPI.m 中添加实现方法：</p>
-
-<pre><code>- (void)saveAlbums
-{
-    [persistencyManger saveAlbums];
-}
-</code></pre>
-
-<p>这里是从 LibraryAPI 调用 PersistencyManger 来存储专辑。</p>
-
-<p>在 ViewController.m 文件 saveCurrentState 的后面添加下面代码：</p>
-
-<p>[[LibraryAPI sharedInstance] saveAlbums];</p>
-
-<p>上面的代码是每当 ViewController 存储当前状态时，使用 LibraryAPI 来存储专辑数据。</p>
-
-<p>构建你的 app，检查所有的都能正确编译。</p>
-
-<p>不幸的是，没有一种简单的方法来验证数据是否被正确的创建。你可以在 Finder 里检查模拟器下当前 app 的 Documents 文件夹，来看看专辑数据文件是否被创建，但是为了查看其它变化你还需要添加一些数据来改变专辑数据。</p>
-
-<p>但是，为了修改数据，假使为了删除专辑而需要临时添加一个删除选项，但这个选项并不会一直在你的库中存在？此外，由于误操作，错误的删除了一个专辑，但如果给这个操作添加一个撤消选项不是很好吗？</p>
-
-<p>现在是时候讨论最后一个设计模式了：<a href="http://www.superqq.com/blog/2015/06/21/ios-she-ji-mo-shi-xi-lie-:command-ming-ling-mo-shi/">命令 Command</a>。</p>
 
 <p><strong>设计模式系列文章</strong>：</p>
 
