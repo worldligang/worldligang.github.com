@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://www.superqq.com/blog/2015/07/12/ios-zhong-de-nstimer/</loc>
+    <lastmod>2015-07-12T21:02:51+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://www.superqq.com/blog/2015/07/11/ioskai-fa-zhi-nsstringde-ji-tiao-shi-yong-ji-qiao/</loc>
     <lastmod>2015-07-11T22:57:21+08:00</lastmod>
   </url>
@@ -388,5 +392,32 @@
   </url>
   <url>
     <loc>http://www.superqq.com/blog/categories/hu-lian-wang/</loc>
+  </url>
+  <url>
+    <loc>http://www.superqq.com/blog/categories/hao-wen-tui-jian/</loc>
+  </url>
+  <url>
+    <loc>http://www.superqq.com/posts/2/</loc>
+  </url>
+  <url>
+    <loc>http://www.superqq.com/posts/3/</loc>
+  </url>
+  <url>
+    <loc>http://www.superqq.com/posts/4/</loc>
+  </url>
+  <url>
+    <loc>http://www.superqq.com/posts/5/</loc>
+  </url>
+  <url>
+    <loc>http://www.superqq.com/posts/6/</loc>
+  </url>
+  <url>
+    <loc>http://www.superqq.com/posts/7/</loc>
+  </url>
+  <url>
+    <loc>http://www.superqq.com/posts/8/</loc>
+  </url>
+  <url>
+    <loc>http://www.superqq.com/posts/9/</loc>
   </url>
 </urlset>
