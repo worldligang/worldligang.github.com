@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-13T23:51:49+08:00</updated>
+  <updated>2015-07-14T00:13:03+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -26,9 +26,29 @@
 
 <h2>第一次在教堂里参加婚礼</h2>
 
-<p>我的这位同学，他是一位虔诚的基督徒，他们的婚礼也理所当然的在教堂举行。教堂是一个神圣庄严的地方，虽然我不是一名基督徒，但是我依然怀有一颗虔诚的新心。</p>
+<p>我的这位同学，他是一位虔诚的基督徒，他们的婚礼也理所当然的在教堂举行。教堂是一个神圣庄严的地方，虽然我不是一名基督徒，但是我依然怀有一颗虔诚的心。</p>
 
-<p>既然是教堂，一定会跟你想的一样，婚礼上有牧师为他们证婚。</p>
+<p>婚礼还是相当热闹的。有牧师为他们证婚，真的是很幸福。新娘也感动的眼泪都留下来了。</p>
+
+<p>婚礼结束之后，抽空拉着另外一个同学，加上新郎，我们三兄弟合了一张影。这张照片可以发给大家欣赏一下：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/hunli.png" alt="1" /></p>
+
+<p>看到这张我不由得说一句：又长胖了！好吧，闲话就絮叨这里。今天给大家分享一个小功能：从app跳到设置界面。</p>
+
+<h2>从app跳到设置界面</h2>
+
+<p>直接上代码：</p>
+
+<pre><code> NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+ if ([[UIApplication sharedApplication] canOpenURL:url]) {
+     [[UIApplication sharedApplication] openURL:url];
+ }
+</code></pre>
+
+<p>上面这段代码要在iOS 8以上的系统使用。一般做智能家居app的，需要到设置界面连接wifi，但是苹果没有提供这样的接口。所以可以退而求其次，跳到系统的设置界面。</p>
+
+<p>想测试的童鞋请下载demo：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
 ]]></content>
   </entry>
   

@@ -12,8 +12,8 @@
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="这次去郑州主要是参加大学同学的婚礼。匆匆而来，匆匆而回。时间安排的好紧，还没有来得及多看两眼我的大好中原。 来参加婚礼的还有其他几位同学，有的真是多年不见。见面之后相互虚寒一番，一起讨论讨论各自的近况。时间飞逝，让这样的相遇变得非常珍贵。 这次的婚礼，别有一番风味。 第一次在教堂里参加婚礼 &hellip;">
-  
+  <meta name="description" content="看到这张我不由得说一句：又长胖了！好吧，闲话就絮叨这里。今天给大家分享一个小功能：从app跳到设置界面。">
+  <meta name="keywords" content="从app跳到设置界面, app跳设置界面, 设置界面, app, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -110,9 +110,29 @@
 
 <h2>第一次在教堂里参加婚礼</h2>
 
-<p>我的这位同学，他是一位虔诚的基督徒，他们的婚礼也理所当然的在教堂举行。教堂是一个神圣庄严的地方，虽然我不是一名基督徒，但是我依然怀有一颗虔诚的新心。</p>
+<p>我的这位同学，他是一位虔诚的基督徒，他们的婚礼也理所当然的在教堂举行。教堂是一个神圣庄严的地方，虽然我不是一名基督徒，但是我依然怀有一颗虔诚的心。</p>
 
-<p>既然是教堂，一定会跟你想的一样，婚礼上有牧师为他们证婚。</p>
+<p>婚礼还是相当热闹的。有牧师为他们证婚，真的是很幸福。新娘也感动的眼泪都留下来了。</p>
+
+<p>婚礼结束之后，抽空拉着另外一个同学，加上新郎，我们三兄弟合了一张影。这张照片可以发给大家欣赏一下：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/hunli.png" alt="1" /></p>
+
+<p>看到这张我不由得说一句：又长胖了！好吧，闲话就絮叨这里。今天给大家分享一个小功能：从app跳到设置界面。</p>
+
+<h2>从app跳到设置界面</h2>
+
+<p>直接上代码：</p>
+
+<pre><code> NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+ if ([[UIApplication sharedApplication] canOpenURL:url]) {
+     [[UIApplication sharedApplication] openURL:url];
+ }
+</code></pre>
+
+<p>上面这段代码要在iOS 8以上的系统使用。一般做智能家居app的，需要到设置界面连接wifi，但是苹果没有提供这样的接口。所以可以退而求其次，跳到系统的设置界面。</p>
+
+<p>想测试的童鞋请下载demo：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
 </div>
 
 
@@ -130,6 +150,12 @@
 
 <time class='entry-date' datetime='2015-07-13T23:50:45+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:50 pm</span></time>
       
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ioskai-fa/'>ios开发</a>
+  
+</span>
 
 
       <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
