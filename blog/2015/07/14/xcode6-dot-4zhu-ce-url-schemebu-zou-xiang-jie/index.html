@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>iOS开发：UITableView加载多张照片导致内存上涨的问题 - 刚刚在线</title>
+  <title>Xcode6.4注册URL Scheme步骤详解 - 刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="iOS开发：UITableView加载多张照片导致内存上涨的问题">
-  <meta name="keywords" content="iOS, UITableView, 内存上涨, iOSDevTip iOS开发, gcd, cocoapods, 队列, 个人博客, 刚刚在线">
+  <meta name="description" content="我们都知道苹果手机中的APP都有一个沙盒，APP就是一个信息孤岛，相互是不可以进行通信的。但是iOS的APP可以注册自己的URL Scheme，URL Scheme是为方便app之间互相调用而设计的。我们可以通过系统的OpenURL来打开该app，并可以传递一些参数。">
+  <meta name="keywords" content="URL Scheme, URL Identifier, Xcode6.4, Scheme, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/blog/2014/11/06/ioskai-fa-:uitableviewjia-zai-duo-zhang-zhao-pian-dao-zhi-nei-cun-shang-zhang-de-wen-ti">
+  <link rel="canonical" href="http://www.superqq.com/blog/2015/07/14/xcode6-dot-4zhu-ce-url-schemebu-zou-xiang-jie">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -86,7 +86,7 @@
   
   <header>
     
-      <h1 class="entry-title">iOS开发：UITableView加载多张照片导致内存上涨的问题</h1>
+      <h1 class="entry-title">Xcode6.4注册URL Scheme步骤详解</h1>
     
     
       <p class="meta">
@@ -95,57 +95,111 @@
 
 
 
-<time class='entry-date' datetime='2014-11-06T10:14:54+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:14 am</span></time>
+<time class='entry-date' datetime='2015-07-14T23:34:16+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:34 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><a href="http://www.superqq.com/blog/2014/11/06/ioskai-fa-:uitableviewjia-zai-duo-zhang-zhao-pian-dao-zhi-nei-cun-shang-zhang-de-wen-ti/">iOS开发：UITableView加载多张照片导致内存上涨的问题</a></p>
+<div class="entry-content"><p>好消息：微信团队邀请我的iOS开发（id：<strong>iOSDevTip</strong>）微信公众号开通赞赏功能，以后我就可以光明正大的通过文章要饭啦。你的赞赏就是我最大的动力。</p>
 
-<p>最近在写一个文件管理的页面，里面功能挺多的，有缩略图下载（socket），有文件下载（http）。</p>
+<p>这是今天下午15：30收到的邀请：</p>
 
-<p>说说缩略图下载这一块，我的UITableView的一个cell要加载四张缩略图，iPhone5s的屏幕能加载8行。大概UI上是这样布局的。（另外缩略图需要一张张下载）</p>
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/zanshang.png" alt="zanshang1" /></p>
 
-<p>刚开始进到文件管理界面，内存占用20几M，随着缩略图不断下载下来内存在上涨，我不断的往上拉，内存一值在涨。达到一定值app出现闪退。大概是300多M的时候闪退。什么原因造成的呢？</p>
+<h2>微信赞赏功能</h2>
 
-<p>先看下图：</p>
+<p>为什么推出赞赏功能？微信公众号自2012年推出以来，一直成爆发式的增长。微信推出赞赏功能最重要的目的就是为了鼓励原创，鼓励创新。</p>
 
-<p><img src="http://www.superqq.com/images/neicun1.jpg" ></p>
+<p>之前，原创功能、赞赏功能和评论功能是一起邀请开通的。现在微信团队分三次邀请。现在我的iOS开发公众号，已经被邀请开通了原创和赞赏功能，下一步争取开通评论功能。</p>
 
-<p>我是这样写的：建立一个对象，这个对象有一个属性是UIImage。对象保存在数组里面。大概有800多张照片。</p>
+<p>如果开通评论功能，我就可以更方便的和大家交流。一经邀请，我会第一时间告诉大家的。好消息，大家也知道啦。接下来继续回到正题，我们来谈谈iOS中的URL Scheme。</p>
 
-<p>当缩略图没有下载下来的时候，我加载的是一张默认图片。当缩略图下载下来的时候，我就把下载下来的缩略图赋给相应对象的UIImage属性。</p>
+<h2>URL Scheme的作用</h2>
 
-<p>cell是重用的，这样看应该是没有什么问题的。但是内存就是不断上涨，而且是不动的时候，内存不涨，上下滑动UITableView，内存不断上涨。</p>
+<p>我们都知道苹果手机中的APP都有一个沙盒，APP就是一个信息孤岛，相互是不可以进行通信的。但是iOS的APP可以注册自己的URL Scheme，URL Scheme是为方便app之间互相调用而设计的。我们可以通过系统的OpenURL来打开该app，并可以传递一些参数。</p>
 
-<p>我一直在思考cell是重用的，内存怎么会不断上涨呢？问题不是cell引起的，而是上面我说的那个对象的UIImage属性引起的。</p>
+<p>例如：你在Safari里输入www.alipay.com，就可以直接打开你的支付宝app，前提是你的手机装了<a href="http://www.superqq.com/blog/2015/07/10/zhi-fu-bao-he-wei-xin-zai-chao-xi-shang-shui-geng-sheng-%5B%3F%5D-chou/">支付宝</a>。如果你没有装支付宝，应该显示的是支付宝下载界面，点击会跳到AppStore的支付宝下载界面。</p>
 
-<p>思考一下，缩略图不断下载下来， 下载下来的缩略图都赋给对象的UIImage属性，而对象又在数组里面，可想而知，800多张缩略图不断下载内存肯定上涨。</p>
+<p>URL Scheme必须能唯一标识一个APP，如果你设置的URL Scheme与别的APP的URL Scheme冲突时，你的APP不一定会被启动起来。因为当你的APP在安装的时候，系统里面已经注册了你的URL Scheme。</p>
 
-<p>于是，我去掉对象的UIImage属性，把下载下来的照片通过EGOCache缓存起来，加载cell上的UIImage的时候，直接从缓存里面取出来就可以了。</p>
+<p>一般情况下，是会调用先安装的app。但是iOS的系统app的URL Scheme肯定是最高的。所以我们定义URL Scheme的时候，尽量避开系统app已经定义过的URL Scheme。</p>
 
-<p>代码如下：</p>
+<h2>注册URL Scheme</h2>
 
-<pre><code>[[EGOCache globalCache] setImage:image forKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[[fmObject.path description] hash]] withTimeoutInterval:CacheingTime];
+<h3>1.在info.plist里添加URL types</h3>
+
+<p>每一个项目里面都会有一个info.plist配置文件。找到info.plist，右键选择Add Row，然后选择URL types。如图所示：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url1.jpg" alt="url1" /></p>
+
+<h3>2.添加URL Schemes</h3>
+
+<p>添加完URL types，点击展开。右键选择Add Row，添加URL Schemes：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url2.jpg" alt="url2" /></p>
+
+<h3>3.设置URL Schemes</h3>
+
+<p>设置URL Schemes为iOSDevTip</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url3.jpg" alt="url3" /></p>
+
+<h3>4.设置URL Identifier</h3>
+
+<p>URL Identifier是自定义的 URL scheme 的名字，一般采用反转域名的方法保证该名字的唯一性，比如 com.iOSStrongDemo.www</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url4.jpg" alt="url4" /></p>
+
+<h2>添加成功启动提示</h2>
+
+<p>为了方便测试，我们在AppDelegate里面添加一个UIAlertView，当app被成功打开时，会提出提示：</p>
+
+<pre><code>- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL*)url
+{
+    // 接受传过来的参数
+    NSString *text = [[url host] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"打开啦"
+                                           message:text
+                                          delegate:nil
+                                 cancelButtonTitle:@"OK"
+                                 otherButtonTitles:nil];
+    [alertView show];
+    return YES;
+}
 </code></pre>
 
-<p>再次运行起来，看一下内存这一块：</p>
+<h2>Safari启动自定义的URL Schemes APP</h2>
 
-<p><img src="http://www.superqq.com/images/neicun2.png" ></p>
+<p>既然已经配置好URL Schemes，那么我们可以来款速测试一下，我们设置的URL Schemes是否有效。打开Safari，在地址栏里输入：iOSDevTip://</p>
 
-<p>果然，问题解决了。看来以后给对象加UIImage属性需谨慎啊！</p>
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url6.png" alt="url6" /></p>
 
-<p>大家有问题可以加入iOS学习交流群：</p>
+<p>果然成功打开：</p>
 
-<pre><code>303868520
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url5.png" alt="url5" /></p>
+
+<p>也可以在地址栏中输入：iOSDevTip://com.iOSStrongDemo.www。也是可以打开注册了URL Schemes的APP的。</p>
+
+<h2>通过另一个APP启动注册了URL Schemes的APP</h2>
+
+<pre><code> NSString *url = @"iOSDevTip://";
+//    NSString *url = @"iOSDevTip://com.iOSStrongDemo.www";
+if ([[UIApplication sharedApplication]
+     canOpenURL:[NSURL URLWithString:url]])
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+}
+else
+{
+    NSLog(@"can not open URL scheme iOSDevTip");
+}
 </code></pre>
 
-<p>微信公众账号：iOS开发</p>
+<p>打开注册iOSDevTip的APP格式为: URL Scheme://URL identifier，直接调用URL Scheme也可打开程序, URL identifier是可选的。</p>
 
-<pre><code>iOSDevTip
-</code></pre>
+<p>注册URL Scheme就是这么简单。下一篇会分享如何通过URL Scheme传递参数。demo下载地址：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
 </div>
 
 
@@ -161,7 +215,7 @@
 
 
 
-<time class='entry-date' datetime='2014-11-06T10:14:54+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:14 am</span></time>
+<time class='entry-date' datetime='2015-07-14T23:34:16+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:34 pm</span></time>
       
 
 <span class="categories">
@@ -172,7 +226,7 @@
 
 
       <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
-<br>原文链接：<a href="http://www.superqq.com/blog/2014/11/06/ioskai-fa-:uitableviewjia-zai-duo-zhang-zhao-pian-dao-zhi-nei-cun-shang-zhang-de-wen-ti/">http://www.superqq.com/blog/2014/11/06/ioskai-fa-:uitableviewjia-zai-duo-zhang-zhao-pian-dao-zhi-nei-cun-shang-zhang-de-wen-ti/</a> <!-- 添加这一行代码 -->
+<br>原文链接：<a href="http://www.superqq.com/blog/2015/07/14/xcode6-dot-4zhu-ce-url-schemebu-zou-xiang-jie/">http://www.superqq.com/blog/2015/07/14/xcode6-dot-4zhu-ce-url-schemebu-zou-xiang-jie/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -197,10 +251,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/10/16/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/" title="Previous Post: CocoaPods安装和使用教程 ">&laquo; CocoaPods安装和使用教程 </a>
+        <a class="basic-alignment left" href="/blog/2015/07/13/cong-apptiao-dao-she-zhi-jie-mian/" title="Previous Post: 从app跳到设置界面">&laquo; 从app跳到设置界面</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/11/07/xcode6-dot-1diao-shi-de-shi-hou-you-shi-can-shu-du-wei-nilzen-yao-jie-jue/" title="Next Post: xcode6.1调试的时候有时参数都为nil怎么解决?">xcode6.1调试的时候有时参数都为nil怎么解决? &ra/categories.htmlquo;</a>
       
     </p>
   </footer>
