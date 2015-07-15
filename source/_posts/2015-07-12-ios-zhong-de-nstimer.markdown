@@ -3,7 +3,7 @@ layout: post
 title: "iOS 中的 NSTimer"
 date: 2015-07-12 21:02:51 +0800
 comments: true
-categories: 好文推荐
+categories: 推荐
 keywords: NSTimer, NSTimer使用, NSTimer用法详解, NSTimer实用技巧, 刚刚在线
 description: 前阵子在整理公司项目的时候，发现老代码在使用NSTimer时出现了内存泄露。然后整理了一些 NSTimer 的相关内容。比较简单，各位见笑啦。
 

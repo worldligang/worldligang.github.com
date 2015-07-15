@@ -3,7 +3,7 @@ layout: post
 title: "iOS提交后申请加急审核"
 date: 2015-07-13 23:14:17 +0800
 comments: true
-categories: 好文推荐
+categories: 推荐
 keywords: 加急审核, 加急, 审核, iOS加急审核, 刚刚在线
 description: 之前只是听过加急审核这回事，一直也没有用到过。昨天用了下果然很给力。昨天晚上将近8点（北京时间）提交应用，今天早上上班看了下已经通过了审核，而且可以在AppStore里下载到。
 
