@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-15T23:04:14+08:00</updated>
+  <updated>2015-07-16T23:14:52+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,133 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NSString的八条实用技巧]]></title>
+    <link href="http://www.superqq.com/blog/2015/07/16/nsstringde-ba-tiao-shi-yong-ji-qiao/"/>
+    <updated>2015-07-16T23:07:57+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/07/16/nsstringde-ba-tiao-shi-yong-ji-qiao</id>
+    <content type="html"><![CDATA[<p>有一篇文章写了：<a href="http://www.superqq.com/blog/2015/07/11/ioskai-fa-zhi-nsstringde-ji-tiao-shi-yong-ji-qiao/">iOS开发之NSString的几条实用技巧</a> ， 今天这篇，我们讲讲NSString的八条实用技巧。大家可以收藏起来，方便开发随时可以复制粘贴。</p>
+
+<h2>0.首字母大写</h2>
+
+<p>代码：</p>
+
+<pre><code>//首字母大写
+NSString *string = @"ligang";
+NSLog(@"string: %@",[string capitalizedString]);
+</code></pre>
+
+<p>打印：</p>
+
+<pre><code>2015-07-16 23:06:11.652 iOSStrongDemo[10279:3062010] string: Ligang
+</code></pre>
+
+<h2>1.分割字符串</h2>
+
+<p>代码：</p>
+
+<pre><code>//分割字符串
+NSString *string = @"This is a iOSDevTip";
+NSArray *array = [string componentsSeparatedByString:@"a"];
+NSString *string1 = [array objectAtIndex:0];
+NSString *string2 = [array objectAtIndex:1];
+NSLog(@"string1:%@  string2:%@",string1,string2);
+</code></pre>
+
+<p>打印：</p>
+
+<pre><code>2015-07-16 22:40:39.559 iOSStrongDemo[10165:3055448] string1:This is   string2: iOSDevTip
+</code></pre>
+
+<h2>2.追加字符串</h2>
+
+<p>代码：</p>
+
+<pre><code>//追加字符串
+NSMutableString *string = [[NSMutableString alloc] initWithString:@"I Love "];
+[string appendString:@"China"];
+NSLog(@"string:%@",string);
+</code></pre>
+
+<p>打印：</p>
+
+<pre><code>2015-07-16 22:42:32.305 iOSStrongDemo[10189:3056410] string:I Love China
+</code></pre>
+
+<h2>3.插入字符串</h2>
+
+<p>代码：</p>
+
+<pre><code>//插入字符串
+NSMutableString *string = [[NSMutableString alloc] initWithString:@"I China"];
+[string insertString:@"Love " atIndex:2];
+NSLog(@"string: %@",string);
+</code></pre>
+
+<p>打印：</p>
+
+<pre><code>2015-07-16 22:44:10.706 iOSStrongDemo[10206:3057014] string: I Love China
+</code></pre>
+
+<h2>4.删除字符串</h2>
+
+<p>代码：</p>
+
+<pre><code>//删除字符串
+NSMutableString *string = [[NSMutableString alloc] initWithString:@"I love China"];
+[string deleteCharactersInRange:NSMakeRange(2, 4)];
+NSLog(@"String1: %@",string);
+</code></pre>
+
+<p>打印：</p>
+
+<pre><code>2015-07-16 22:46:58.437 iOSStrongDemo[10219:3057749] String1: I  China
+</code></pre>
+
+<h2>5.判断是否包含前后缀</h2>
+
+<p>代码：</p>
+
+<pre><code>//判断是否包含前后缀
+NSString *string = @"I love China";
+BOOL isHasI = [string hasPrefix:@"I"];
+BOOL isHasChina = [string hasSuffix:@"China"];
+</code></pre>
+
+<h2>6.替换字符串</h2>
+
+<p>代码：</p>
+
+<pre><code>//替换字符串
+NSString *string = @"I love China";
+NSString *replaceString = [string stringByReplacingOccurrencesOfString:@"love" withString:@"like"];
+NSLog(@"replaceString:  %@",replaceString);
+</code></pre>
+
+<p>打印：</p>
+
+<pre><code>2015-07-16 22:56:07.405 iOSStrongDemo[10236:3059503] replaceString:  I like China
+</code></pre>
+
+<h2>7.去除字符串首尾的空格和换行符</h2>
+
+<p>代码：</p>
+
+<pre><code>//去除字符串首尾的空格和换行符
+NSString *string = @" I love China ";
+NSString *text = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+NSLog(@"text:%@",text);
+</code></pre>
+
+<p>打印：</p>
+
+<pre><code>2015-07-16 23:00:47.845 iOSStrongDemo[10265:3061013] text:I love China
+</code></pre>
+
+<p>代码已经更新，demo下载地址：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[通过URL Scheme传递参数]]></title>
@@ -1935,108 +2062,6 @@ if(!_cacheInfo) {
 <p>订阅iOS开发的用户不乏有一些大牛，希望你们能把自己的技术分享出来。分享既是快乐，分享既是成长。</p>
 
 <p>投稿邮箱：<strong>worldligang@163.com</strong></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[CGContextRef使用简要教程]]></title>
-    <link href="http://www.superqq.com/blog/2015/06/29/cgcontextrefshi-yong-jian-yao-jiao-cheng/"/>
-    <updated>2015-06-29T10:55:01+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/06/29/cgcontextrefshi-yong-jian-yao-jiao-cheng</id>
-    <content type="html"><![CDATA[<p>Graphics Context是图形上下文,也可以理解为一块画布,我们可以在上面进行绘画操作,绘制完成后,将画布放到我们的view中显示即可,view看作是一个画框.</p>
-
-<p>CGContextRef功能强大，我们借助它可以画各种图形。开发过程中灵活运用这些技巧，可以帮助我们提供代码水平。</p>
-
-<p>说到画图，我就立马想到：我的数学公式都快忘完了。</p>
-
-<h2>高中数学你还记得多少？</h2>
-
-<p>我记得我上学的时候，数学一直都很好。以至于在班里都不敢和别人吵吵闹闹。一吵吵闹闹，别人就会来一句：以为你数学好，就可以怎么样怎么样了是吧？说的我好无奈啊。</p>
-
-<p>这么多年过去了，说句实话，高中时学的数学公式什么的，都忘记的差不多了。现在要去做高三的考题，估计比写代码还难。</p>
-
-<p>作为一名程序员，数学好，一定是优势。就拿画图来说吧，如果你还清楚的记得那些公式，那么你就可以很随意地画出一些好看的图形出来。</p>
-
-<p>接下来，我们来看看CGContextRef到底能实现些什么？</p>
-
-<h2>写文字</h2>
-
-<pre><code>- (void)drawRect:(CGRect)rect
-{
-    //获得当前画板
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    //颜色
-    CGContextSetRGBStrokeColor(ctx, 0.2, 0.2, 0.2, 1.0);
-    //画线的宽度
-    CGContextSetLineWidth(ctx, 0.25);
-    //开始写字
-    [@"我是文字" drawInRect:CGRectMake(10, 10, 100, 30) withFont:font];  
-    [super drawRect:rect];
-}
-</code></pre>
-
-<p>这段代码就可以很漂亮的写出四个大字：我是文字。很容易理解，每句话都有注释。</p>
-
-<h2>画直线</h2>
-
-<pre><code>- (void)drawRect:(CGRect)rect
-{
-    //获得当前画板
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    //颜色
-    CGContextSetRGBStrokeColor(ctx, 0.2, 0.2, 0.2, 1.0);
-    //画线的宽度
-    CGContextSetLineWidth(ctx, 0.25);
-    //顶部横线
-    CGContextMoveToPoint(ctx, 0, 10);
-    CGContextAddLineToPoint(ctx, self.bounds.size.width, 10);
-    CGContextStrokePath(ctx);
-    [super drawRect:rect];
-}
-</code></pre>
-
-<h2>画圆</h2>
-
-<pre><code>- (void)drawRect:(CGRect)rect
-{
-    //获得当前画板
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    //颜色
-    CGContextSetRGBStrokeColor(ctx, 0.2, 0.2, 0.2, 1.0);
-    //画线的宽度
-    CGContextSetLineWidth(ctx, 0.25);
-    //void CGContextAddArc(CGContextRef c,CGFloat x, CGFloat y,CGFloat radius,CGFloat startAngle,CGFloat endAngle, int clockwise)1弧度＝180°/π （≈57.3°） 度＝弧度×180°/π 360°＝360×π/180 ＝2π 弧度
-    // x,y为圆点坐标，radius半径，startAngle为开始的弧度，endAngle为 结束的弧度，clockwise 0为顺时针，1为逆时针。
-    CGContextAddArc(ctx, 100, 20, 20, 0, 2*M_PI, 0); //添加一个圆
-    CGContextDrawPath(ctx, kCGPathStroke); //绘制路径
-    [super drawRect:rect];
-}
-</code></pre>
-
-<p>这个画圆的公式你还记得吗？你还知道M_PI是什么吗？等于多少吗？赶紧脑补一下吧！</p>
-
-<h2>画矩形</h2>
-
-<pre><code>- (void)drawRect:(CGRect)rect
-{
-    //获得当前画板
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    //颜色
-    CGContextSetRGBStrokeColor(ctx, 0.2, 0.2, 0.2, 1.0);
-    //画线的宽度
-    CGContextSetLineWidth(ctx, 0.25);
-    CGContextAddRect(ctx, CGRectMake(2, 2, 30, 30));
-    CGContextStrokePath(ctx);
-    [super drawRect:rect];
-}
-</code></pre>
-
-<p>图形千千万，万变不离其宗。更多画图方法，期待你的探索。</p>
-
-<blockquote><p>作者李刚是刚刚在线（<a href="www.superqq.com">www.superqq.com</a>）站长，百度百家专栏作者
-iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</p></blockquote>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="2" /></p>
 ]]></content>
   </entry>
   

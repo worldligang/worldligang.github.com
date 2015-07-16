@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-15T23:04:14+08:00</updated>
+  <updated>2015-07-16T23:14:52+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,133 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NSString的八条实用技巧]]></title>
+    <link href="http://www.superqq.com/blog/2015/07/16/nsstringde-ba-tiao-shi-yong-ji-qiao/"/>
+    <updated>2015-07-16T23:07:57+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/07/16/nsstringde-ba-tiao-shi-yong-ji-qiao</id>
+    <content type="html"><![CDATA[<p>有一篇文章写了：<a href="http://www.superqq.com/blog/2015/07/11/ioskai-fa-zhi-nsstringde-ji-tiao-shi-yong-ji-qiao/">iOS开发之NSString的几条实用技巧</a> ， 今天这篇，我们讲讲NSString的八条实用技巧。大家可以收藏起来，方便开发随时可以复制粘贴。</p>
+
+<h2>0.首字母大写</h2>
+
+<p>代码：</p>
+
+<pre><code>//首字母大写
+NSString *string = @"ligang";
+NSLog(@"string: %@",[string capitalizedString]);
+</code></pre>
+
+<p>打印：</p>
+
+<pre><code>2015-07-16 23:06:11.652 iOSStrongDemo[10279:3062010] string: Ligang
+</code></pre>
+
+<h2>1.分割字符串</h2>
+
+<p>代码：</p>
+
+<pre><code>//分割字符串
+NSString *string = @"This is a iOSDevTip";
+NSArray *array = [string componentsSeparatedByString:@"a"];
+NSString *string1 = [array objectAtIndex:0];
+NSString *string2 = [array objectAtIndex:1];
+NSLog(@"string1:%@  string2:%@",string1,string2);
+</code></pre>
+
+<p>打印：</p>
+
+<pre><code>2015-07-16 22:40:39.559 iOSStrongDemo[10165:3055448] string1:This is   string2: iOSDevTip
+</code></pre>
+
+<h2>2.追加字符串</h2>
+
+<p>代码：</p>
+
+<pre><code>//追加字符串
+NSMutableString *string = [[NSMutableString alloc] initWithString:@"I Love "];
+[string appendString:@"China"];
+NSLog(@"string:%@",string);
+</code></pre>
+
+<p>打印：</p>
+
+<pre><code>2015-07-16 22:42:32.305 iOSStrongDemo[10189:3056410] string:I Love China
+</code></pre>
+
+<h2>3.插入字符串</h2>
+
+<p>代码：</p>
+
+<pre><code>//插入字符串
+NSMutableString *string = [[NSMutableString alloc] initWithString:@"I China"];
+[string insertString:@"Love " atIndex:2];
+NSLog(@"string: %@",string);
+</code></pre>
+
+<p>打印：</p>
+
+<pre><code>2015-07-16 22:44:10.706 iOSStrongDemo[10206:3057014] string: I Love China
+</code></pre>
+
+<h2>4.删除字符串</h2>
+
+<p>代码：</p>
+
+<pre><code>//删除字符串
+NSMutableString *string = [[NSMutableString alloc] initWithString:@"I love China"];
+[string deleteCharactersInRange:NSMakeRange(2, 4)];
+NSLog(@"String1: %@",string);
+</code></pre>
+
+<p>打印：</p>
+
+<pre><code>2015-07-16 22:46:58.437 iOSStrongDemo[10219:3057749] String1: I  China
+</code></pre>
+
+<h2>5.判断是否包含前后缀</h2>
+
+<p>代码：</p>
+
+<pre><code>//判断是否包含前后缀
+NSString *string = @"I love China";
+BOOL isHasI = [string hasPrefix:@"I"];
+BOOL isHasChina = [string hasSuffix:@"China"];
+</code></pre>
+
+<h2>6.替换字符串</h2>
+
+<p>代码：</p>
+
+<pre><code>//替换字符串
+NSString *string = @"I love China";
+NSString *replaceString = [string stringByReplacingOccurrencesOfString:@"love" withString:@"like"];
+NSLog(@"replaceString:  %@",replaceString);
+</code></pre>
+
+<p>打印：</p>
+
+<pre><code>2015-07-16 22:56:07.405 iOSStrongDemo[10236:3059503] replaceString:  I like China
+</code></pre>
+
+<h2>7.去除字符串首尾的空格和换行符</h2>
+
+<p>代码：</p>
+
+<pre><code>//去除字符串首尾的空格和换行符
+NSString *string = @" I love China ";
+NSString *text = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+NSLog(@"text:%@",text);
+</code></pre>
+
+<p>打印：</p>
+
+<pre><code>2015-07-16 23:00:47.845 iOSStrongDemo[10265:3061013] text:I love China
+</code></pre>
+
+<p>代码已经更新，demo下载地址：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[通过URL Scheme传递参数]]></title>
@@ -442,85 +569,6 @@ NSLog(@"logString:%@",logString);
 </code></pre>
 
 <p>如果Leight为0，说明不包含。还有更多关于NSString的用法，大家一起探索吧。代码下载地址：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS开发之NSTimer使用初探]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/10/ioskai-fa-zhi-nstimershi-yong-chu-tan/"/>
-    <updated>2015-07-10T23:21:44+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/10/ioskai-fa-zhi-nstimershi-yong-chu-tan</id>
-    <content type="html"><![CDATA[<p>这个周日，我的大学同学结婚。他们的婚礼选在郑州举办。他不是郑州的，他女朋友也不是郑州的。但是他们是在郑州相识相爱，最终走到一起的，所以他们选择在郑州举办婚礼。</p>
-
-<p>这几年大家都在各自忙碌着，很少有见面的机会。不过经常会电话联系，相互了解一下情况。</p>
-
-<p>作为兄弟，我打心底为他们高兴，为他们祝福。我也会到现场参加，估计现在我已经坐上开发郑州的动车了。</p>
-
-<p>我喜欢走出去的感觉，很喜欢坐车，去各个地方，哪怕是路过。<strong>感觉走的越远，离心越近。</strong>辞职去旅行也许很快就可以实现。</p>
-
-<p>最近我在改一个bug，在一个UIViewController上有一个定时器，在执行轮播图片。push到别的UIViewController的时候，暂停定时器（NSTimer）；pop回来的时候，开启定时器（NSTimer）。这个bug是：push到别的UIViewController暂定定时器（NSTimer），有时候有作用，有时候没有作用。</p>
-
-<p>开始我以为是NSTimer运行的run loop有问题，最后发现是别的地方导致这个bug的。不过正好，我们来一起了解一下NSTimer。</p>
-
-<h2>创建一个定时器（NSTimer）</h2>
-
-<pre><code>- (void)viewDidLoad {
-    [super viewDidLoad];
-    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(actionTimer:) userInfo:nil repeats:YES];
-}
-
-- (void)actionTimer:(NSTimer *)timer
-{
-
-}
-</code></pre>
-
-<p>NSTimer默认运行在default mode下，default mode几乎包括所有输入源(除NSConnection) NSDefaultRunLoopMode模式。</p>
-
-<p>actionTimer方法会每隔1s中被调用一次。NSTimer使用起来是不是非常简单。这是NSTimer比较初级的应用。</p>
-
-<h2>当主界面被滑动时NSTimer失效了</h2>
-
-<p>主界面被滑动是什么意思呢？就是说主界面有UITableView或者UIScrollView，滑动UITableView或者UIScrollView。这个时候NSTimer失效了。</p>
-
-<p>我们来写一个demo，在一个有UITableView的UIViewController上启动定时器，每1s数字加1，并将这个数字显示在UILabel上面.</p>
-
-<pre><code>- (void)viewDidLoad {
-    [super viewDidLoad];
-    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(actionTimer:) userInfo:nil repeats:YES];
-}
-
-- (void)actionTimer:(NSTimer *)timer
-{
-    self.number++;
-    self.label.text = [NSString stringWithFormat:@"%d",self.number];
-    NSLog(@"%d",self.number);
-}
-</code></pre>
-
-<p>关于UITableView和UILabel的创建我省去了。详细的代码可以点击这里下载：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a>，iOSStrongDemo我会不断更新，大家在github上star一下。</p>
-
-<p>这样当用户在拖动UITableView处于UITrackingRunLoopMode时，NSTimer就失效了，不能fire。self.label上的数字也就无法更新。</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/timer1.gif" alt="nstimer1" /></p>
-
-<h2>修改NSTimer的run loop</h2>
-
-<p>解决方法就是将其加入到UITrackingRunLoopMode模式或NSRunLoopCommonModes模式中。</p>
-
-<pre><code>[[NSRunLoop currentRunLoop] addTimer:timer forMode:UITrackingRunLoopMode];
-</code></pre>
-
-<p>或者</p>
-
-<pre><code>[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
-</code></pre>
-
-<p>NSRunLoopCommonModes：是一个模式集合，当绑定一个事件源到这个模式集合的时候就相当于绑定到了集合内的每一个模式。</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/timer2.gif" alt="nstimer1" /></p>
-
-<p>代码下载地址：：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
 ]]></content>
   </entry>
   
