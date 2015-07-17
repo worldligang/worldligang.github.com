@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-17T10:30:44+08:00</updated>
+  <updated>2015-07-18T00:21:30+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,51 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[我这个站长是怎么炼成的]]></title>
+    <link href="http://www.superqq.com/blog/2015/07/17/wo-zhe-ge-zhan-chang-shi-zen-yao-lian-cheng-de/"/>
+    <updated>2015-07-17T23:16:16+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/07/17/wo-zhe-ge-zhan-chang-shi-zen-yao-lian-cheng-de</id>
+    <content type="html"><![CDATA[<p>我是一个喜欢折腾的人，不喜欢就这么平平淡淡度过，但是想改变也不是那么容易的。现在的我已经成了一个彻头彻尾的程序员、白领，也许有人会羡慕这样的生活。但我却厌倦了，这并不是我所想要的人生。</p>
+
+<h2>想改变没那么简单</h2>
+
+<p>曾几何时，我也想有一份稳定的工作，就像现在一样。但是当我真正身处其中时，这样的生活、这样的工作显得是那么的廉价，让我没有一丝珍惜的意愿。</p>
+
+<p>所以我想改变，这个想法从来没有停止过。</p>
+
+<p>我一直是做iOS开发，平时没事总想倒腾个什么出来。做什么呢？想法很多，但很少付出行动，有的行动了，效果也一般，所以每次都不了了之。</p>
+
+<h2>swift论坛起落</h2>
+
+<p>2014年6月，苹果在WWDC大会上发布了swift语言。公司同事讨论激烈，有人提议做个论坛出来，肯定可以火起来的。</p>
+
+<p>这一次说干就干。刚好我有服务器。光有服务器也不行，还需要有域名。我查了一下跟swift相关的域名，很多都被注册了，看来中国人真是够多的，抢注的这么快。最后我注册了<a href="http://www.iswifting.com/">www.iswifting.com</a></p>
+
+<p>很快网站就被搭建起来了，这算是我踏入站长行列的第一步。</p>
+
+<p>我非常认真地对待它，经常找一些优秀的文章。我也学着推广，在别的论坛里，QQ群里。每天也有一些人访问，注册会员也有几百人了。</p>
+
+<p>尽管这样，我也看不到网站的前途在哪。刚好赶上服务器到期，我就放弃了这个论坛。虽然这个论坛没给我带来什么盈利，但是这次的站长经历着实让我过了一把瘾。</p>
+
+<p>前段时间，我再次启用了这个域名<a href="http://www.iswifting.com/">www.iswifting.com</a>，做一个<a href="http://www.iswifting.com/">swift开发</a>，以后还会在这里分享一些关于swift的优秀文章。算是对上一个论坛的延续吧。</p>
+
+<h2>刚刚在线正式上线</h2>
+
+<p>论坛没了，又开始每天漫无目的的逛游。无意间我发现一个iOS开发的人叫唐巧，也许你也听说过。他有一个个人博客网站做的不错，<a href="http://blog.devtang.com/">唐巧的技术博客</a>，里面都是他自己写的iOS开发技术文章和一些琐事。</p>
+
+<p>看一个网站好不好就看他的访问量多少，排名如何。我那个时候查的时候，他的博客就有上千UV。在中国排名也不错，有得公司官网可能就没有他的排名高。</p>
+
+<p>虽然我的技术不如巧哥那么厉害，但是我也想在茫茫互联网中找到自己的一席之地。所以我也想做一个类似的网站。名字我都想好了，叫<a href="http://www.superqq.com/">刚刚在线</a>，刚好我手里有域名：www.superqq.com。这个域名还不错吧，偷偷的告诉你，我以前还做过域名的生意，赚了点儿小钱而已。</p>
+
+<p>做个网站应该没什么难的吧，但是对于没做过网站的我来说，还真是个问题。我告诉自己不能退缩，要找方法。刚好公司有个同事之前弄过网站。</p>
+
+<p>在公司同事的帮助下，很快我们用octopress把网站搭建起来了。而且这一切都是免费的，所以再也不会存在关闭的问题啦。我非常激动的在我的网站上发了一篇文章：<a href="http://www.superqq.com/blog/2014/09/26/ios/">刚刚在线正式上线</a> 。</p>
+
+<p>我再一次踏入站长行列。这一次或许我能走的更远。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NSString的八条实用技巧]]></title>
@@ -1937,97 +1982,6 @@ if(!_cacheInfo) {
 </code></pre>
 
 <p>EGOCache检测缓存时间过期的思路值得学习，以后遇到类似场景，完全可以借鉴。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[EGOCache缓存框架详细讲解]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/01/egocachehuan-cun-kuang-jia-xiang-xi-jiang-jie/"/>
-    <updated>2015-07-01T00:10:18+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/01/egocachehuan-cun-kuang-jia-xiang-xi-jiang-jie</id>
-    <content type="html"><![CDATA[<p><strong>EGOCache</strong>是一个轻量级的缓存框架。用法简单方便，在现在的项目中，我就用到EGOCache来缓存下载过的照片和字符串。</p>
-
-<p>有人可能会问到，缓存照片还需要用EGOCache吗？<a href="http://www.superqq.com/blog/2014/11/07/ioswang-luo-bian-cheng-zhi-afnetworkingshi-yong/">AFNetworking</a>和<a href="http://www.superqq.com/blog/2015/06/09/sdwebimagejia-zai-tu-pian-huan-cun-tu-pian/">SDWebImage</a>不是已经有这些功能了吗？</p>
-
-<p>是的，不过AFNetworking和SDWebImage是http。我的项目用的是socket，所以我选择EGOCache来做缓存。用下来觉得EGOCache还是挺强大的。</p>
-
-<h2>EGOCache简介</h2>
-
-<pre><code>EGOCache is a simple, thread-safe key value cache store. It has native support for NSString, UI/NSImage, and NSData, but can store anything that implements &lt;NSCoding&gt;. All cached items expire after the timeout, which by default, is one day.
-</code></pre>
-
-<p>翻译过来就是：EGOCache一个简单、线程安全的基于 key-value 的缓存框架，原生支持NSString、UI/NSImage、和NSData，也支持储存任何实现<NSCoding>协议的类，可以设定缓存过期时间，默认是1天。</p>
-
-<p>EGOCache只有一个类，EGOCache.h和EGOCache.m两个文件。用法也比较容易掌握，仔细研究一下EGOCache.h的方法，很快就可以上手。</p>
-
-<p>EGOCache只提供了磁盘缓存，没有提供内存缓存。同时，也提供了清理缓存的方法：</p>
-
-<pre><code>- (void)clearCache;
-</code></pre>
-
-<p>EGOCache还提供了判断缓存是否存在的方法：</p>
-
-<pre><code>- (BOOL)hasCacheForKey:(NSString* __nonnull)key;
-</code></pre>
-
-<h2>通过Cocoapods直接加入项目</h2>
-
-<p>直接在你的项目的Podfile加入下面一行：</p>
-
-<pre><code>pod 'EGOCache'
-</code></pre>
-
-<p>然后执行：</p>
-
-<pre><code>$ pod update
-</code></pre>
-
-<h2>EGOCache用法</h2>
-
-<h3>用EGOCache缓存NSString</h3>
-
-<p>存储：</p>
-
-<pre><code>NSString *saveString = @"把我保存起来吧";
-[[EGOCache globalCache] setString:saveString forKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[saveString hash]] withTimeoutInterval:24*60*60];
-</code></pre>
-
-<p>读取：</p>
-
-<pre><code>NSString *getSaveString = [[EGOCache globalCache] stringForKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[@"SaveString" hash]]];
-</code></pre>
-
-<p>是不是感觉跟NSDictionary很相似，确实，前面我们说了EGOCache是基于key-value 的缓存框架。</p>
-
-<h3>用EGOCache缓存UIImage</h3>
-
-<p>存储：</p>
-
-<pre><code> UIImage *saveImage = [UIImage imageNamed:@"iOSDevTip"];
-[[EGOCache globalCache] setImage:saveImage forKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[@"SaveImage" hash]] withTimeoutInterval:24*60*60];
-</code></pre>
-
-<p>读取：</p>
-
-<pre><code>UIImage *getSaveImage = [[EGOCache globalCache] imageForKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[@"SaveImage" hash]]];
-</code></pre>
-
-<h3>用EGOCache缓存NSData</h3>
-
-<p>存储：</p>
-
-<pre><code>NSData *saveData = [NSData data];
-[[EGOCache globalCache] setData:saveData forKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[@"SaveData" hash]] withTimeoutInterval:24*60*60];
-</code></pre>
-
-<p>读取：</p>
-
-<pre><code>UIImage *getSaveData = [[EGOCache globalCache] dataForKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[@"SaveData" hash]]];
-</code></pre>
-
-<h2>EGOCache源码下载</h2>
-
-<p><a href="https://github.com/enormego/EGOCache">EGOCache</a></p>
 ]]></content>
   </entry>
   
