@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>MVC中Model的设计 - 刚刚在线</title>
+  <title>iOS开发之沙盒机制（SandBox) - 刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="MVC中Model的设计">
-  <meta name="keywords" content="MVC, Model, git,  基类, LGObject, BaseViewController, iOS开发, cocoapods, 个人博客, 刚刚在线">
+  <meta name="description" content="iOS APP可以在自己的沙盒里读写文件，但是，不可以访问其他APP的沙盒。每一个APP都是一个信息孤岛，相互是不可以进行通信的。">
+  <meta name="keywords" content="沙盒机制, 读取文件, 沙盒, iOS开发, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/blog/2015/04/07/mvczhong-modelde-she-ji">
+  <link rel="canonical" href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-(sandbox">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -86,7 +86,7 @@
   
   <header>
     
-      <h1 class="entry-title">MVC中Model的设计</h1>
+      <h1 class="entry-title">iOS开发之沙盒机制（SandBox)</h1>
     
     
       <p class="meta">
@@ -95,167 +95,61 @@
 
 
 
-<time class='entry-date' datetime='2015-04-07T09:56:12+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:56 am</span></time>
+<time class='entry-date' datetime='2015-07-20T00:36:13+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:36 am</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>一般在定义ViewController的时候，都习惯定义一个BaseViewController作为基类（即父类）。这样做的好处是：把公共的属性提出来放在BaseViewController中，试代码结构更清晰。同样，设计Model的时候，也可以定义一个基类。</p>
+<div class="entry-content"><p>iOS APP可以在自己的沙盒里读写文件，但是，不可以访问其他APP的沙盒。每一个APP都是一个信息孤岛，相互是不可以进行通信的，唯独可以通过<a href="http://www.superqq.com/blog/2015/07/14/xcode6-dot-4zhu-ce-url-schemebu-zou-xiang-jie/">URL Scheme</a>。沙盒里面的文件可以是照片、声音文件、文本、属性列表等。</p>
 
-<p>比如：有一个房子，房子里面有一个电视和许多个桌子。电视和桌子分别有价格和型号。</p>
+<h2>沙盒机制简介</h2>
 
-<h3>定义基类LGObject</h3>
+<p><strong>沙盒简述：</strong></p>
 
-<p>LGObject.h：</p>
+<ol>
+<li>每一个APP都有一个存储空间，就是沙盒。</li>
+<li>APP之间不能相互通信。</li>
+<li>沙盒根目录结构：Documents、Library、temp。</li>
+</ol>
 
-<pre><code> //
-//  LGObject.h
-//  LGAlertViewDemo
-//
-//  Created by apple on 15/4/6.
-//  Copyright (c) 2015年 LiGang. All rights reserved.
-//
 
-#import &lt;Foundation/Foundation.h&gt;
+<p>简述一下Documents、Library、temp的区别：</p>
 
-@interface LGObject : NSObject
+<ol>
+<li><strong>Documents：</strong>用于存储用户数据，iTunes备份和恢复的时候会包括此目录，所以，苹果建议将程序中建立的或在程序中浏览到的文件数据保存在该目录下。</li>
+<li><strong>Library：</strong>包含两个子目录：Caches 和 Preferences。Caches用来存放用户需要换成的文件。Preferences是APP的偏好设置，可以通过NSUserDefaults来读取和设置。</li>
+<li><strong>tmp：</strong> 用于存放临时文件，这个可以放一些当APP退出后不再需要的文件。</li>
+</ol>
 
-@property (readonly, nonatomic) id data;
 
-- (id)initWithData:(id)data;
-- (BOOL)isEmpty;
+<h2>打开模拟器沙盒方法</h2>
 
-@end
+<p><strong>方法一：前往文件夹打开</strong></p>
+
+<pre><code>/Users/ligang/Library/Application Support/iPhone Simulator/ 
 </code></pre>
 
-<p>LGObject.m：</p>
+<p>直接在Finder->前往->前往文件夹，输入上面的内容即可。记住将ligang换成你的电脑用户名。</p>
 
-<pre><code>//
-//  LGObject.m
-//  LGAlertViewDemo
-//
-//  Created by apple on 15/4/6.
-//  Copyright (c) 2015年 LiGang. All rights reserved.
-//
+<p><strong>方法二：通过Finder一步步查找</strong></p>
 
-#import "LGObject.h"
+<p>模拟器上的APP的沙盒实在用户目录下的资源库里面，但是资源库是隐藏文件夹。所以查看沙盒之前，现将隐藏文件夹显示出来。显示隐藏文件的命令：</p>
 
-@implementation LGObject
-
-- (id)initWithData:(id)data {
-    self = [super init];
-    if(self) {
-        _data = nil;
-        if(data != nil) _data = data;
-    }
-    return self;
-}
-
-- (BOOL)isEmpty
-{
-    return _data == nil ? YES : NO;
-}
-
-@end
+<pre><code>defaults write com.apple.finder AppleShowAllFiles -bool true
 </code></pre>
 
-<h3>定义房子LGHouse、电视LGVideo、桌子LGDesk</h3>
+<p>用心的童鞋会发现，隐藏隐藏文件的命令：</p>
 
-<p>电视LGVideo、桌子LGDesk可以放在LGHouse里面。多个桌子需要定义一个数组：arrayDesk。</p>
-
-<p>LGHouse.h：</p>
-
-<pre><code>//
-//  LGHouse.h
-//  LGAlertViewDemo
-//
-//  Created by apple on 15/4/6.
-//  Copyright (c) 2015年 LiGang. All rights reserved.
-//
-
-#import "LGObject.h"
-
-@class LGVideo;
-@class LGDesk;
-
-@interface LGHouse : LGObject
-
-@property (nonatomic, readonly) LGVideo  *video;     //电视
-@property (nonatomic, readonly) NSArray  *arrayDesk; //桌子
-
-@end
-
-@interface LGVideo : LGObject
-
-@property (nonatomic, assign)   float      money;//价格
-@property (nonatomic, readonly) NSString  *type;//型号
-
-@end
-
-@interface LGDesk : LGObject
-
-@property (nonatomic, assign)   float      money;//价格
-@property (nonatomic, readonly) NSString  *type;//型号
-
-@end
+<pre><code>defaults write com.apple.finder AppleShowAllFiles -bool false
 </code></pre>
 
-<p>LGHouse.m：</p>
+<p>查找步骤请看图：</p>
 
-<pre><code>//
-//  LGHouse.m
-//  LGAlertViewDemo
-//
-//  Created by apple on 15/4/6.
-//  Copyright (c) 2015年 LiGang. All rights reserved.
-//
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/sandbox.jpg" alt="sandbox" /></p>
 
-#import "LGHouse.h"
-
-@implementation LGHouse
-
-- (LGVideo *)video {
-    return [[LGVideo alloc] initWithData:[self.data objectForKey:@"video"]];
-}
-
-- (NSArray *)arrayDesk {
-    NSMutableArray *arrayDesk = [NSMutableArray array];
-    for (NSDictionary *dickDesk in [self.data objectForKey:@"desks"]) {
-        [arrayDesk addObject:[[LGDesk alloc] initWithData:dickDesk]];
-    }
-    return arrayDesk;
-}
-
-@end
-
-@implementation LGVideo
-
-- (float)money {
-    return [[self.data objectForKey:@"money"] floatValue];
-}
-
-- (NSString *)type {
-    return [self.data objectForKey:@"type"];
-}
-
-@end
-
-@implementation LGDesk
-
-- (float)money {
-    return [[self.data objectForKey:@"money"] floatValue];
-}
-
-- (NSString *)type {
-    return [self.data objectForKey:@"type"];
-}
-
-@end
-</code></pre>
-
-<p>以上是我对Model设计的简单理解，如果你有更好的想法，欢迎告诉我。</p>
+<p>关于沙盒机制（SandBox)的介绍大概就是这样，以后面试的时候万一碰到你就可以这么回答。</p>
 </div>
 
 
@@ -271,7 +165,7 @@
 
 
 
-<time class='entry-date' datetime='2015-04-07T09:56:12+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:56 am</span></time>
+<time class='entry-date' datetime='2015-07-20T00:36:13+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:36 am</span></time>
       
 
 <span class="categories">
@@ -282,7 +176,7 @@
 
 
       <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
-<br>原文链接：<a href="http://www.superqq.com/blog/2015/04/07/mvczhong-modelde-she-ji/">http://www.superqq.com/blog/2015/04/07/mvczhong-modelde-she-ji/</a> <!-- 添加这一行代码 -->
+<br>原文链接：<a href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-(sandbox/">http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-(sandbox/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -307,10 +201,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/04/03/ioskai-fa-zhi-asyncsocketshi-yong-jiao-cheng/" title="Previous Post: iOS开发之AsyncSocket使用教程">&laquo; iOS开发之AsyncSocket使用教程</a>
+        <a class="basic-alignment left" href="/blog/2015/07/19/cheng-xu-yuan-tou-tiao-:cheng-xu-yuan-guan-xin-de-,cai-shi-tou-tiao-!/" title="Previous Post: 程序员头条：程序员关心的，才是头条！">&laquo; 程序员头条：程序员关心的，才是头条！</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/04/23/iosyong-hu-dian-ji-shi-jian-chu-li/" title="Next Post: hitTest和pointInside如何响应用户点击事件">hitTest和pointInside如何响应用户点击事件 &ra/categories.htmlquo;</a>
       
     </p>
   </footer>

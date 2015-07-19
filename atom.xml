@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-19T10:21:16+08:00</updated>
+  <updated>2015-07-20T00:49:34+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,62 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发之沙盒机制（SandBox)]]></title>
+    <link href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-(sandbox/"/>
+    <updated>2015-07-20T00:36:13+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-(sandbox</id>
+    <content type="html"><![CDATA[<p>iOS APP可以在自己的沙盒里读写文件，但是，不可以访问其他APP的沙盒。每一个APP都是一个信息孤岛，相互是不可以进行通信的，唯独可以通过<a href="http://www.superqq.com/blog/2015/07/14/xcode6-dot-4zhu-ce-url-schemebu-zou-xiang-jie/">URL Scheme</a>。沙盒里面的文件可以是照片、声音文件、文本、属性列表等。</p>
+
+<h2>沙盒机制简介</h2>
+
+<p><strong>沙盒简述：</strong></p>
+
+<ol>
+<li>每一个APP都有一个存储空间，就是沙盒。</li>
+<li>APP之间不能相互通信。</li>
+<li>沙盒根目录结构：Documents、Library、temp。</li>
+</ol>
+
+
+<p>简述一下Documents、Library、temp的区别：</p>
+
+<ol>
+<li><strong>Documents：</strong>用于存储用户数据，iTunes备份和恢复的时候会包括此目录，所以，苹果建议将程序中建立的或在程序中浏览到的文件数据保存在该目录下。</li>
+<li><strong>Library：</strong>包含两个子目录：Caches 和 Preferences。Caches用来存放用户需要换成的文件。Preferences是APP的偏好设置，可以通过NSUserDefaults来读取和设置。</li>
+<li><strong>tmp：</strong> 用于存放临时文件，这个可以放一些当APP退出后不再需要的文件。</li>
+</ol>
+
+
+<h2>打开模拟器沙盒方法</h2>
+
+<p><strong>方法一：前往文件夹打开</strong></p>
+
+<pre><code>/Users/ligang/Library/Application Support/iPhone Simulator/ 
+</code></pre>
+
+<p>直接在Finder->前往->前往文件夹，输入上面的内容即可。记住将ligang换成你的电脑用户名。</p>
+
+<p><strong>方法二：通过Finder一步步查找</strong></p>
+
+<p>模拟器上的APP的沙盒实在用户目录下的资源库里面，但是资源库是隐藏文件夹。所以查看沙盒之前，现将隐藏文件夹显示出来。显示隐藏文件的命令：</p>
+
+<pre><code>defaults write com.apple.finder AppleShowAllFiles -bool true
+</code></pre>
+
+<p>用心的童鞋会发现，隐藏隐藏文件的命令：</p>
+
+<pre><code>defaults write com.apple.finder AppleShowAllFiles -bool false
+</code></pre>
+
+<p>查找步骤请看图：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/sandbox.jpg" alt="sandbox" /></p>
+
+<p>关于沙盒机制（SandBox)的介绍大概就是这样，以后面试的时候万一碰到你就可以这么回答。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[程序员头条：程序员关心的，才是头条！]]></title>
@@ -122,11 +178,11 @@ Objective-C 没有消失，但是现在用一个慢慢失去关注的语言来�
 
 <p><strong>林翔宇</strong>
 - <a href="http://linxiangyu.org">http://linxiangyu.org</a>
-- <a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#x6f;&#58;&#108;&#x69;&#110;&#x78;&#x69;&#x61;&#x6e;&#103;&#121;&#117;&#x40;&#110;&#x75;&#112;&#116;&#101;&#x72;&#x2e;&#x6f;&#114;&#x67;">&#x6c;&#105;&#x6e;&#120;&#x69;&#97;&#x6e;&#x67;&#x79;&#x75;&#x40;&#x6e;&#117;&#x70;&#116;&#x65;&#114;&#x2e;&#x6f;&#114;&#103;</a>
+- <a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#x6f;&#58;&#x6c;&#105;&#110;&#x78;&#x69;&#x61;&#x6e;&#103;&#121;&#117;&#x40;&#110;&#x75;&#x70;&#x74;&#x65;&#x72;&#46;&#111;&#x72;&#x67;">&#x6c;&#x69;&#110;&#x78;&#x69;&#97;&#110;&#x67;&#x79;&#117;&#64;&#110;&#117;&#112;&#x74;&#x65;&#x72;&#46;&#x6f;&#114;&#x67;</a>
 - <a href="http://github.com/oa414">http://github.com/oa414</a></p>
 
 <p><strong>庞博</strong>
-- <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#x62;&#111;&#x70;&#97;&#110;&#x67;&#64;&#x73;&#x6f;&#104;&#117;&#x2d;&#x69;&#110;&#99;&#x2e;&#x63;&#111;&#x6d;">&#x62;&#x6f;&#112;&#x61;&#110;&#103;&#x40;&#115;&#x6f;&#x68;&#117;&#x2d;&#x69;&#x6e;&#99;&#x2e;&#x63;&#x6f;&#109;</a>
+- <a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#x3a;&#98;&#x6f;&#112;&#97;&#110;&#x67;&#x40;&#x73;&#x6f;&#x68;&#117;&#x2d;&#x69;&#x6e;&#x63;&#x2e;&#x63;&#111;&#109;">&#98;&#111;&#112;&#97;&#x6e;&#103;&#x40;&#x73;&#x6f;&#x68;&#x75;&#x2d;&#105;&#110;&#x63;&#46;&#99;&#111;&#x6d;</a>
 - <a href="https://github.com/heistings">https://github.com/heistings</a></p>
 
 <p>翻译已得到原作者许可，并且会在更加完善后申请合并到原文仓库。</p>
@@ -1952,63 +2008,6 @@ button.frame = CGRectMake(50, 200, 200, 200);
 <p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button7.png" alt="7" /></p>
 
 <p>大家可以自行设置其他三个参数看看效果是怎样的，自己动手便于理解。</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="ios" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[UIButton中的三个UIEdgeInsets属性（一）]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/03/uibuttonzhong-de-san-ge-uiedgeinsetsshu-xing-(%5B%3F%5D-)/"/>
-    <updated>2015-07-03T23:29:55+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/03/uibuttonzhong-de-san-ge-uiedgeinsetsshu-xing-([?]-)</id>
-    <content type="html"><![CDATA[<p>随着时间的推移，随着我的坚持，公众号的订阅用户已经越来越多了。非常感谢大家的信任，我会再接再厉，努力为大家提供更多优秀的文章。</p>
-
-<p>当初创建<a href="http://www.superqq.com/">iOS开发</a>（ <strong>iOSDevTip</strong> ），只是自己的兴趣。刚开始还不怎么会用微信公众号的后台，连发图文消息都不会。不知道怎么去编辑，当初的微信公众号后台也没有现在这么强大。我还以为就是个一对多的聊天工具呢。（😊）</p>
-
-<p>慢慢的我学会了编辑文章，成为一个真正意义上的小编。每天负责为大家推送一些iOS相关的技术文章。每天到各大论坛、网站、大神的博客找一些好的文章。这个过程是漫长的，但是是值得的。</p>
-
-<p>找文章的过程中，对自己来说，也是学习的好机会。如果没有这个公众号，我可能就看不到那么多的技术文章，也不能为大家推荐文章，自己也不会建立博客。</p>
-
-<p>现在微信团队已经邀请我开通原创功能，以后，我就会多发一些原创内容。一个人的力量比较是有限的，订阅的用户如果有喜欢写技术文章的，欢迎头投稿给我，我的邮箱：<strong>worldligang@163.com</strong></p>
-
-<p><strong>相信我，你的付出也会有回报的。</strong></p>
-
-<p>今天是周六，不知道正在看文章的你有没有在加班。没有加班的，就好好休息一下吧；加班的，我只能同情一下啦。今天我们来看看UIButton中的三个UIEdgeInsets属性。</p>
-
-<h2>UIEdgeInsets是什么</h2>
-
-<p>UIEdgeInsets是什么？我们点进去看一下：</p>
-
-<pre><code>typedef struct UIEdgeInsets {
-    CGFloat top, left, bottom, right;  // specify amount to inset (positive) for each of the edges. values can be negative to 'outset'
-} UIEdgeInsets;
-</code></pre>
-
-<p>UIEdgeInsets是个结构体类型。里面有四个参数，分别是：top, left, bottom, right。这四个参数表示距离上边界、左边界、下边界、右边界的距离。</p>
-
-<h2>哪三个UIEdgeInsets属性</h2>
-
-<p>不知道大家发现没有，UIButton里面有三个UIEdgeInsets属性，分别是：</p>
-
-<pre><code>@property(nonatomic)          UIEdgeInsets contentEdgeInsets UI_APPEARANCE_SELECTOR; // default is UIEdgeInsetsZero
-
-@property(nonatomic)          UIEdgeInsets titleEdgeInsets;                // default is UIEdgeInsetsZero
-
-@property(nonatomic)          UIEdgeInsets imageEdgeInsets;                // default is UIEdgeInsetsZero
-</code></pre>
-
-<p>contentEdgeInsets后面有个UI_APPEARANCE_SELECTOR是什么意思呢？</p>
-
-<pre><code>提示：UI_APPEARANCE_SELECTOR标记的属性都支持通过外观代理来定制。
-</code></pre>
-
-<p>举例，设置UIButton的contentEdgeInsets属性，可以直接调用：</p>
-
-<pre><code>[[UIButton appearance] setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
-</code></pre>
-
-<p>关于UIButton三个UIEdgeInsets属性的作用，下一篇文章介绍。</p>
 
 <p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="ios" /></p>
 ]]></content>
