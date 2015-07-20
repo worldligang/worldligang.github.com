@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "报错：process launch failed：failed to get the task for process 1285（解决方案）"
+title: "报错：failed to get the task for process 1285（解决方案）"
 date: 2015-07-21 00:16:31 +0800
 comments: true
 categories: iOS开发
 keywords: 沙盒机制, 读取文件, 沙盒, iOS开发, 刚刚在线
-description: 初接触iOS开发的童鞋估计会被真机调试搞的稀里糊涂的。在模拟器上运行什么问题没有，真机调试就会碰到各种各样的问题。
+description: process launch failed：failed to get the task for process 1285,初接触iOS开发的童鞋估计会被真机调试搞的稀里糊涂的。在模拟器上运行什么问题没有，真机调试就会碰到各种各样的问题。
 
 
 ---
@@ -32,7 +32,8 @@ description: 初接触iOS开发的童鞋估计会被真机调试搞的稀里糊�
 
 我看了一下Build Settings里的Code Signing配置，发现Provisioning Profile选择的是XC Ad Hoc: *。如下图所示：
 
-![fixbug12851](http://7xjrlb.com1.z0.glb.clouddn.com/fixbug12851.jpg)
+![fixbug](http://7xjrlb.com1.z0.glb.clouddn.com/fixbug.jpg)
+
 
 Ad Hoc是用来实现发布前的用户测试的，也就是通过Ad Hoc将未发布的App给其他人提前使用。显然这是不对的，我们是要真机调试。
 
