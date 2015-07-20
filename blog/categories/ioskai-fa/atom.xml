@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-21T00:23:11+08:00</updated>
+  <updated>2015-07-21T00:32:04+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[报错：process Launch Failed：failed to Get the Task for Process 1285（解决方案）]]></title>
+    <title type="html"><![CDATA[报错：failed to Get the Task for Process 1285（解决方案）]]></title>
     <link href="http://www.superqq.com/blog/2015/07/21/bao-cuo-:process-launch-failed-failed-to-get-the-task-for-process-1285(jie-jue-fang-an-)/"/>
     <updated>2015-07-21T00:16:31+08:00</updated>
     <id>http://www.superqq.com/blog/2015/07/21/bao-cuo-:process-launch-failed-failed-to-get-the-task-for-process-1285(jie-jue-fang-an-)</id>
@@ -40,7 +40,7 @@ process launch failed: failed to get the task for process 1285
 
 <p>我看了一下Build Settings里的Code Signing配置，发现Provisioning Profile选择的是XC Ad Hoc: *。如下图所示：</p>
 
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/fixbug12851.jpg" alt="fixbug12851" /></p>
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/fixbug.jpg" alt="fixbug" /></p>
 
 <p>Ad Hoc是用来实现发布前的用户测试的，也就是通过Ad Hoc将未发布的App给其他人提前使用。显然这是不对的，我们是要真机调试。</p>
 
