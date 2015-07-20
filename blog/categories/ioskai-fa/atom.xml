@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-21T00:18:42+08:00</updated>
+  <updated>2015-07-21T00:23:11+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,43 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[报错：process Launch Failed：failed to Get the Task for Process 1285（解决方案）]]></title>
+    <link href="http://www.superqq.com/blog/2015/07/21/bao-cuo-:process-launch-failed-failed-to-get-the-task-for-process-1285(jie-jue-fang-an-)/"/>
+    <updated>2015-07-21T00:16:31+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/07/21/bao-cuo-:process-launch-failed-failed-to-get-the-task-for-process-1285(jie-jue-fang-an-)</id>
+    <content type="html"><![CDATA[<h2>你遇到的问题别人也遇到过</h2>
+
+<p>初接触iOS开发的童鞋估计会被真机调试搞的稀里糊涂的。在模拟器上运行什么问题没有，真机调试就会碰到各种各样的问题。</p>
+
+<p>不用担心。记住：你碰到的问题别人肯定都已经碰到过了。我们不是有百度和谷歌嘛，把你的问题描述出来，一定有解决方案的。还可以在<a href="http://zhannei.superqq.com/">刚刚在线站内搜索</a>里搜索，说不定也能帮你解决不少问题呢。</p>
+
+<p>我会经常把自己开发过程中碰到的调试问题，一一总结出来。一来是帮助自己在下一次碰到同样问题时，可以游刃有余。二来是帮助大家再碰到类似问题的时候，有一个参考的作用。</p>
+
+<h2>failed to get the task for process 1285</h2>
+
+<p>这一次碰到的问题是这样的：模拟器上运行正常。我在iPhone 6上运行，程序编译正常，但是跑起来之后，大概一两秒的时间，就闪退（代码是没有问题的）。这个时候，Xcode6.4弹出这样的提示：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/fixbug12850.jpg" alt="fixbug1285" /></p>
+
+<pre><code>Could not launch “iOSStrongDemo”
+process launch failed: failed to get the task for process 1285
+</code></pre>
+
+<h2>错误分析</h2>
+
+<p>我看了一下Build Settings里的Code Signing配置，发现Provisioning Profile选择的是XC Ad Hoc: *。如下图所示：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/fixbug12851.jpg" alt="fixbug12851" /></p>
+
+<p>Ad Hoc是用来实现发布前的用户测试的，也就是通过Ad Hoc将未发布的App给其他人提前使用。显然这是不对的，我们是要真机调试。</p>
+
+<h2>解决方案</h2>
+
+<p>解决方法很简单，将Provisioning Profile换成用开发证书创建的Provisioning Profile即可。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS开发之沙盒机制（SandBox)]]></title>
@@ -436,59 +473,6 @@ else
 <p>打开注册iOSDevTip的APP格式为: URL Scheme://URL identifier，直接调用URL Scheme也可打开程序, URL identifier是可选的。</p>
 
 <p>注册URL Scheme就是这么简单。下一篇会分享如何通过URL Scheme传递参数。demo下载地址：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[从app跳到设置界面]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/13/cong-apptiao-dao-she-zhi-jie-mian/"/>
-    <updated>2015-07-13T23:50:45+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/13/cong-apptiao-dao-she-zhi-jie-mian</id>
-    <content type="html"><![CDATA[<p>这次去郑州主要是参加大学同学的婚礼。匆匆而来，匆匆而回。时间安排的好紧，还没有来得及多看两眼我的大好中原。</p>
-
-<p>来参加婚礼的还有其他几位同学，有的真是多年不见。见面之后相互虚寒一番，一起讨论讨论各自的近况。时间飞逝，让这样的相遇变得非常珍贵。</p>
-
-<p>这次的婚礼，别有一番风味。</p>
-
-<h2>第一次在教堂里参加婚礼</h2>
-
-<p>我的这位同学，他是一位虔诚的基督徒，他们的婚礼也理所当然的在教堂举行。教堂是一个神圣庄严的地方，虽然我不是一名基督徒，但是我依然怀有一颗虔诚的心。</p>
-
-<p>婚礼还是相当热闹的。有牧师为他们证婚，真的是很幸福。新娘也感动的眼泪都留下来了。</p>
-
-<p>婚礼结束之后，抽空拉着另外一个同学，加上新郎，我们三兄弟合了一张影。这张照片可以发给大家欣赏一下：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/hunli.png" alt="1" /></p>
-
-<p>看到这张我不由得说一句：又长胖了！好吧，闲话就絮叨这里。今天给大家分享一个小功能：从app跳到设置界面。</p>
-
-<h2>从app跳到设置界面</h2>
-
-<p>直接上代码：</p>
-
-<pre><code> NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
- if ([[UIApplication sharedApplication] canOpenURL:url]) {
-     [[UIApplication sharedApplication] openURL:url];
- }
-</code></pre>
-
-<p>上面这段代码要在iOS 8以上的系统使用。一般做智能家居app的，需要到设置界面连接wifi，但是苹果没有提供这样的接口。所以可以退而求其次，跳到系统的设置界面。</p>
-
-<p>想测试的童鞋请下载demo：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
-
-<h2>回复关键词获取相应文章</h2>
-
-<p>公众号iOS开发：<strong>iOSDevTip</strong>，已经发展一年多的时间，已经积累了很多优秀的文章。也许能帮到一些小忙。</p>
-
-<p>我告诉大家，如何找到这些优秀的文章：</p>
-
-<ol>
-<li>查看历史消息</li>
-<li>关键词回复，先回复“m”，获取目录。目录里面详细讲解了，哪些关键词对应哪些文章。</li>
-</ol>
-
-
-<p>有什么不懂得可以随时联系我，直接在后台回复就可以，也可以加我的微信：<strong>chinaligang</strong></p>
 ]]></content>
   </entry>
   
