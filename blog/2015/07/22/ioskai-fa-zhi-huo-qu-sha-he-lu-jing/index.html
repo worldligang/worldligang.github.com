@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>iOS开发之沙盒机制（SandBox) - 刚刚在线</title>
+  <title>iOS开发之获取沙盒路径 - 刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="iOS APP可以在自己的沙盒里读写文件，但是，不可以访问其他APP的沙盒。每一个APP都是一个信息孤岛，相互是不可以进行通信的。">
-  <meta name="keywords" content="沙盒机制, 读取文件, 沙盒, iOS开发, 刚刚在线">
+  <meta name="description" content="iOS开发之沙盒机制（SandBox)详细讲解了沙盒的一些机制。在开发中，我们需要对沙盒进行操作，所以我们需要获取到沙盒路径。">
+  <meta name="keywords" content="沙盒机制, 沙盒路径, 沙盒, iOS开发, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-(sandbox">
+  <link rel="canonical" href="http://www.superqq.com/blog/2015/07/22/ioskai-fa-zhi-huo-qu-sha-he-lu-jing">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -86,7 +86,7 @@
   
   <header>
     
-      <h1 class="entry-title">iOS开发之沙盒机制（SandBox)</h1>
+      <h1 class="entry-title">iOS开发之获取沙盒路径</h1>
     
     
       <p class="meta">
@@ -95,61 +95,88 @@
 
 
 
-<time class='entry-date' datetime='2015-07-20T00:36:13+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:36 am</span></time>
+<time class='entry-date' datetime='2015-07-22T01:02:41+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>1:02 am</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>iOS APP可以在自己的沙盒里读写文件，但是，不可以访问其他APP的沙盒。每一个APP都是一个信息孤岛，相互是不可以进行通信的，唯独可以通过<a href="http://www.superqq.com/blog/2015/07/14/xcode6-dot-4zhu-ce-url-schemebu-zou-xiang-jie/">URL Scheme</a>。沙盒里面的文件可以是照片、声音文件、文本、属性列表等。</p>
+<div class="entry-content"><p><a href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-%28sandbox/">iOS开发之沙盒机制（SandBox)</a>详细讲解了沙盒的一些机制。在开发中，我们需要对沙盒进行操作，所以我们需要获取到沙盒路径。</p>
 
-<h2>沙盒机制简介</h2>
+<p>沙盒里的文件夹包括Documents、Library、tmp。这三个文件夹的作用请点击<a href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-%28sandbox/">这里</a>。接下来我们来讲解如何获取Documents、Library、tmp的路径。</p>
 
-<p><strong>沙盒简述：</strong></p>
+<h3>获取沙盒根目录</h3>
 
-<ol>
-<li>每一个APP都有一个存储空间，就是沙盒。</li>
-<li>APP之间不能相互通信。</li>
-<li>沙盒根目录结构：Documents、Library、temp。</li>
-</ol>
+<p>获取沙盒根目录，直接调用NSHomeDirectory()：</p>
 
-
-<p>简述一下Documents、Library、temp的区别：</p>
-
-<ol>
-<li><strong>Documents：</strong>用于存储用户数据，iTunes备份和恢复的时候会包括此目录，所以，苹果建议将程序中建立的或在程序中浏览到的文件数据保存在该目录下。</li>
-<li><strong>Library：</strong>包含两个子目录：Caches 和 Preferences。Caches用来存放用户需要换成的文件。Preferences是APP的偏好设置，可以通过NSUserDefaults来读取和设置。</li>
-<li><strong>tmp：</strong> 用于存放临时文件，这个可以放一些当APP退出后不再需要的文件。</li>
-</ol>
-
-
-<h2>打开模拟器沙盒方法</h2>
-
-<p><strong>方法一：前往文件夹打开</strong></p>
-
-<pre><code>/Users/ligang/Library/Application Support/iPhone Simulator/ 
+<pre><code>//获取沙盒根目录
+NSString *directory = NSHomeDirectory();
+NSLog(@"directory:%@", directory);
 </code></pre>
 
-<p>直接在Finder->前往->前往文件夹，输入上面的内容即可。记住将ligang换成你的电脑用户名。</p>
+<p>控制台输出：</p>
 
-<p><strong>方法二：通过Finder一步步查找</strong></p>
-
-<p>模拟器上的APP的沙盒实在用户目录下的资源库里面，但是资源库是隐藏文件夹。所以查看沙盒之前，现将隐藏文件夹显示出来。显示隐藏文件的命令：</p>
-
-<pre><code>defaults write com.apple.finder AppleShowAllFiles -bool true
+<pre><code>2015-07-22 00:40:16.185 iOSStrongDemo[1605:555658] directory:/var/mobile/Containers/Data/Application/F9418815-51A9-4A0A-A76C-6FD37C400928
 </code></pre>
 
-<p>用心的童鞋会发现，隐藏隐藏文件的命令：</p>
+<p>这个是真机的路径，大家有时间的话可以看看模拟器的根目录路径。</p>
 
-<pre><code>defaults write com.apple.finder AppleShowAllFiles -bool false
+<h3>获取Documents路径</h3>
+
+<p>获取Documents路径如下：</p>
+
+<pre><code>//获取Documents路径
+NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+NSString *path = [paths objectAtIndex:0];
+NSLog(@"path:%@", path);
 </code></pre>
 
-<p>查找步骤请看图：</p>
+<p>控制台输出：</p>
 
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/sandbox.jpg" alt="sandbox" /></p>
+<pre><code>2015-07-22 00:41:41.397 iOSStrongDemo[1613:556159] path:/var/mobile/Containers/Data/Application/A62B886B-A8F0-4215-B59D-1F505C3997BD/Documents
+</code></pre>
 
-<p>关于沙盒机制（SandBox)的介绍大概就是这样，以后面试的时候万一碰到你就可以这么回答。</p>
+<p>获取Documents文件夹目录,第一个参数是说明获取Doucments文件夹目录，第二个参数说明是在当前应用沙盒中获取。</p>
+
+<h3>获取Library路径</h3>
+
+<pre><code>//获取Library路径
+NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+NSString *path = [paths objectAtIndex:0];
+NSLog(@"path：%@", path);
+</code></pre>
+
+<p>控制台输出：</p>
+
+<pre><code>2015-07-22 00:43:15.803 iOSStrongDemo[1619:556638] /var/mobile/Containers/Data/Application/17300507-4643-4DE7-BC68-E13DB19C8D98/Library
+</code></pre>
+
+<h3>获取Caches路径</h3>
+
+<pre><code>//获取Caches路径
+NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+NSString *path = [paths objectAtIndex:0];
+NSLog(@"path：%@", path);
+</code></pre>
+
+<p>控制台输出：</p>
+
+<pre><code>2015-07-22 00:44:31.383 iOSStrongDemo[1626:557083] path：/var/mobile/Containers/Data/Application/1E945B52-E29D-4041-A489-1AA1B11BB960/Library/Caches
+</code></pre>
+
+<h3>获取tmp路径</h3>
+
+<pre><code>NSString *tmp = NSTemporaryDirectory();
+NSLog(@"tmp：%@", tmp);
+</code></pre>
+
+<p>控制台输出：</p>
+
+<pre><code>2015-07-22 00:46:07.846 iOSStrongDemo[1632:557537] tmp：/private/var/mobile/Containers/Data/Application/4BE02307-1CC5-47E8-BEA8-CEBB7ED5A402/tmp/
+</code></pre>
+
+<p>以上是iOS开发中获取沙盒路径的方法，也许还有更好的获取方法等待我们去发现。后面我们还会讲到关于在沙盒里进行读写文件操作。</p>
 </div>
 
 
@@ -165,7 +192,7 @@
 
 
 
-<time class='entry-date' datetime='2015-07-20T00:36:13+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:36 am</span></time>
+<time class='entry-date' datetime='2015-07-22T01:02:41+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>1:02 am</span></time>
       
 
 <span class="categories">
@@ -176,7 +203,7 @@
 
 
       <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
-<br>原文链接：<a href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-(sandbox/">http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-(sandbox/</a> <!-- 添加这一行代码 -->
+<br>原文链接：<a href="http://www.superqq.com/blog/2015/07/22/ioskai-fa-zhi-huo-qu-sha-he-lu-jing/">http://www.superqq.com/blog/2015/07/22/ioskai-fa-zhi-huo-qu-sha-he-lu-jing/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -201,10 +228,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/07/19/cheng-xu-yuan-tou-tiao-:cheng-xu-yuan-guan-xin-de-,cai-shi-tou-tiao-!/" title="Previous Post: 程序员头条：程序员关心的，才是头条！">&laquo; 程序员头条：程序员关心的，才是头条！</a>
+        <a class="basic-alignment left" href="/blog/2015/07/21/bao-cuo-:process-launch-failed-failed-to-get-the-task-for-process-1285(jie-jue-fang-an-)/" title="Previous Post: 报错：failed to get the task for process 1285（解决方案）">&laquo; 报错：failed to get the task for process 1285（解决方案）</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/07/21/bao-cuo-:process-launch-failed-failed-to-get-the-task-for-process-1285(jie-jue-fang-an-)/" title="Next Post: 报错：failed to get the task for process 1285（解决方案）">报错：failed to get the task for process 1285（解决方案） &ra/categories.htmlquo;</a>
       
     </p>
   </footer>
