@@ -78,7 +78,7 @@ Objective-C 没有消失，但是现在用一个慢慢失去关注的语言来�
 
 **推荐:**
 
-```objective-c
+```
 if (!error) {
     return success;
 }
@@ -86,14 +86,14 @@ if (!error) {
 
 **不推荐:**
 
-```objective-c
+```
 if (!error)
     return success;
 ```
 
 或者
 
-```objective-c
+```
 if (!error) return success;
 ```
 
@@ -103,28 +103,28 @@ if (!error) return success;
 代码在这里：
 
 
-```objective-c
-static OSStatus
-SSLVerifySignedServerKeyExchange(SSLContext *ctx, bool isRsa, SSLBuffer signedParams,
-                                 uint8_t *signature, UInt16 signatureLen)
-{
-  OSStatus        err;
-  ...
-
-  if ((err = SSLHashSHA1.update(&hashCtx, &serverRandom)) != 0)
-    goto fail;
-  if ((err = SSLHashSHA1.update(&hashCtx, &signedParams)) != 0)
-    goto fail;
-    goto fail;
-  if ((err = SSLHashSHA1.final(&hashCtx, &hashOut)) != 0)
-    goto fail;
-  ...
-
-fail:
-  SSLFreeBuffer(&signedHashes);
-  SSLFreeBuffer(&hashCtx);
-  return err;
-}
+```
+	static OSStatus
+	SSLVerifySignedServerKeyExchange(SSLContext *ctx, bool isRsa, SSLBuffer signedParams,
+	                                 uint8_t *signature, UInt16 signatureLen)
+	{
+	  OSStatus        err;
+	  ...
+	
+	  if ((err = SSLHashSHA1.update(&hashCtx, &serverRandom)) != 0)
+	    goto fail;
+	  if ((err = SSLHashSHA1.update(&hashCtx, &signedParams)) != 0)
+	    goto fail;
+	    goto fail;
+	  if ((err = SSLHashSHA1.final(&hashCtx, &hashOut)) != 0)
+	    goto fail;
+	  ...
+	
+	fail:
+	  SSLFreeBuffer(&signedHashes);
+	  SSLFreeBuffer(&hashCtx);
+	  return err;
+	}
 ```
 
 
@@ -142,12 +142,14 @@ fail:
 （译者注：名字起源于星球大战中尤达大师的讲话方式，总是用倒装的语序）
 
 **推荐:**
-```objective-c
+
+```
 if ([myValue isEqual:@42]) { ...
 ```
 
 **不推荐:**
-```objective-c
+
+```
 if ([@42 isEqual:myValue]) { ...
 ```
 
@@ -156,19 +158,19 @@ if ([@42 isEqual:myValue]) { ...
 
 类似于 Yoda 表达式，nil 检查的方式也是存在争议的。一些 notous 库像这样检查对象是否为 nil：
 
-```objective-c
+```
 if (nil == myValue) { ...
 ```
 
 或许有人会提出这是错的，因为在 nil 作为一个常量的情况下，这样做就像 Yoda 表达式了。 但是一些程序员这么做的原因是为了避免调试的困难，看下面的代码：
 
-```objective-c
+```
 if (myValue == nil) { ...
 ```
 
 如果程序员敲错成这样：
 
-```objective-c
+```
 if (myValue = nil) { ...
 ```
 
@@ -178,14 +180,16 @@ if (myValue = nil) { ...
 为了避免这些奇怪的问题，可以用感叹号来作为运算符。因为 nil 是 解释到 NO，所以没必要在条件语句里面把它和其他值比较。同时，不要直接把它和 `YES` 比较，因为 `YES` 的定义是 1， 而 `BOOL` 是 8 bit的，实际上是 char 类型。
 
 **推荐:**
-```objective-c
+
+```
 if (someObject) { ...
 if (![someObject boolValue]) { ...
 if (!someObject) { ...
 ```
 
 **不推荐:**
-```objective-c
+
+```
 if (someObject == YES) { ... // Wrong
 if (myRawValue == YES) { ... // Never do this.
 if ([someObject boolValue] == NO) { ...
