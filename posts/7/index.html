@@ -89,6 +89,226 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/01/15/objective-cxiang-guan-categoryde-shou-ji/">Objective-C相关Category的收集</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-15T10:38:25+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:38 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p>Categories是给你得不到源码的classes增加功能的一种方法。 <a href="http://cocoacats.com"target="_blank"title="iOS开发">这个页面</a> 收集一些相关的Category，并且持续更新，你可以订阅关注。作者是Fille Åström，是@ IMGNRY的联合创始人和开发者。</p>
+
+<p>感谢大家的反馈，如果你有任何想法、抱怨或者建议，可以给我发送邮件（fille@imgnry.com），也可以在<a href="twitter.com/bobmoff"target="_blank"title="iOS开发">推特</a>或者App.net上给我发信息（@bobmoff）。</p>
+
+<p>参考阅读：
+苹果官方文档：<a href="https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/CustomizingExistingClasses/CustomizingExistingClasses.html"target="_blank"title="iOS开发">Customizing Existing Classes </a></p>
+
+<p><a href="https://github.com/Julioacarrettoni/UIImageView_FaceAwareFill"target="_blank"title="iOS开发">UIImageView+FaceAwareFill</a></p>
+
+<p>这个类别使用了Aspect Fill内容模式，可以自动根据图像内容进行调整，当检测到人脸时，它会以脸部中心替代掉以图片的几何中心。
+测试环境：Xcode 5.0，iOS 6.0以上</p>
+
+<p><a href="https://github.com/bendytree/Objective-C-RegEx-Categories"target="_blank"title="iOS开发">NSRegularEx+ObjCRegex</a></p>
+
+<p>Objective-C-RegEx-Categories是NSRegularExpression的一个延展，它可以把Object-C中的很多正则表达式合并成一个，简化了代码。
+这个库没有任何依赖性，适用于iOS 4+和OS X 10.7+。</p>
+
+<p><a href="https://github.com/nicklockwood/AutoCoding"target="_blank"title="iOS开发">NSObject+AutoCoding</a></p>
+
+<p>AutoCoding是一个NSObject的类目，提供了对NSCoding 和NSCopying的自动支持。
+兼容ARC和non-ARC编译目标
+支持iOS 7.0/Mac OS 10.9 (Xcode 5.0, Apple LLVM compiler 5.0)</p>
+
+<p><a href="https://gist.github.com/alvesjtiago/8123006"target="_blank"title="iOS开发">NSInvocation+SimpleCreation</a></p>
+
+<p>创建invocations的简单方法</p>
+
+<p><a href="https://github.com/shaahin/SHPersian"target="_blank"title="iOS开发">NSString+SHPersian</a></p>
+
+<p>SHPersian是一个针对使用波斯语和阿拉伯语的iOS开发者提供的工具，包含了一个在Persian iOS app中为文本添加自定义外观的必需的类。</p>
+
+<p><a href="https://gist.github.com/billyohgren/7944887"target="_blank"title="iOS开发">UILabel+ContentSize</a></p>
+
+<p>在UILabel内计算内容的大小。</p>
+
+<p><a href="https://github.com/RuiAAPeres/UIViewController-Swizzled"target="_blank"title="iOS开发">UIViewController+Swizzled</a></p>
+
+<p>记录UIViewController层次：包括你在视图控制器的名字，还有你进入层次的展示。</p>
+
+<p><a href="https://gist.github.com/maciekish/7772693"target="_blank"title="iOS开发">NSObject+Association</a></p>
+
+<p>你是不是一直希望将&#8221;userInfo&#8221;显示到UIAlertView上呢？通过Association这个category可以将任意的对象赋值给其它任意对象(从iOS3.1和mac os 10.6到最新的系统版本。)</p>
+
+<p><a href="https://gist.github.com/maciekish/6268142"target="_blank"title="iOS开发">NSHTTPCookieStorage+FreezeDry</a></p>
+
+<p>app重启时，清除UIWebView cookies。</p>
+
+<p><a href="https://github.com/erica/uidevice-extension"target="_blank"title="iOS开发">UIDevice+Hardware</a></p>
+
+<p>检测硬件设备的版本。</p>
+
+<p><a href="https://gist.github.com/aegzorz/6068741"target="_blank"title="iOS开发">NSObject+LogDealloc</a></p>
+
+<p>是一个NSObject category，对于内存泄露的跟踪非常有用</p>
+
+<p><a href="https://github.com/krzysztofzablocki/SFObservers"target="_blank"title="iOS开发">NSObject+SFObservers</a></p>
+
+<p>是对NSNotificationCenter and KVO的一个扩展，它能够自动移除观察者。</p>
+
+<p><a href="https://gist.github.com/maciekish/6052297"target="_blank"title="iOS开发">UIApplication+NetworkActivity</a></p>
+
+<p>UIApplication+NetworkActivity跟踪你最近进行过的网络操作，并管理NetworkActivityIndicator。</p>
+
+<p><a href="https://gist.github.com/aegzorz/5974444"target="_blank"title="iOS开发">UIView+Recursion</a></p>
+
+<p>以递归的方式遍历(查找)subview</p>
+
+<p><a href="https://gist.github.com/bobmoff/5967220"target="_blank"title="iOS开发">UIView+RoundedCorners</a></p>
+
+<p>使用图层蒙版为视图添加圆角</p>
+
+<p><a href="https://gist.github.com/bobmoff/5967180"target="_blank"title="iOS开发">UIView+Stacker</a></p>
+
+<p>Stack subviews是按照索引进行垂直排序的。主要用于——使用xib时，以及需要进行view布局时(显示/隐藏)——当基于外部数据。不过不能用于autolayout。.</p>
+
+<p><a href="https://github.com/carlbrown/RegexOnNSString"target="_blank"title="iOS开发">NSString+PDRegex</a></p>
+
+<p>简化正则表达式的使用</p>
+
+<p><a href="https://gist.github.com/maciekish/5947238"target="_blank"title="iOS开发">MKMapView+MoveLogo</a></p>
+
+<p>这个类目允许你移动MKMapView logo，即使你放其他东西在mapview上它仍能保持可见。如果隐藏了logo，那将不能通过App Store审核。已经在iOS 5-iOS 7上进行了测试。</p>
+
+<p><a href="https://github.com/azu/NSDate-Escort"target="_blank"title="iOS开发">NSDate+Escort</a></p>
+
+<p>NSDate-Escort是一个NSDate实用库，兼容NSDate-Extensions API</p>
+
+<p><a href="https://gist.github.com/danielphillips/1005520"target="_blank"title="iOS开发">UILabel+DynamicSizeMe</a></p>
+
+<p>调整UILabel来根据内容改变其框架</p>
+
+<p><a href="https://github.com/scalessec/Toast"target="_blank"title="iOS开发">UIView+Toast</a></p>
+
+<p>适用于iOS上的Android风格toas通知。</p>
+
+<p><a href="https://github.com/Nyx0uf/NYXImagesKit"target="_blank"title="iOS开发">UIImage+NYXImagesKit</a></p>
+
+<p>NYXImagesKit是一个重组了多个有用的UIImage categories的iOS项目，可对图像/图片进行多个处理，比如筛选、模糊、优化、蒙版、调整大小、旋转以及保存等等。同时还提供了一个UIImageView子类从URL异步加载图片，并在下载完毕时展示图片。</p>
+
+<p><a href="https://github.com/martinjuhasz/MJPopupViewController"target="_blank"title="iOS开发">UIViewController+MJPopup</a></p>
+
+<p>MJPopupViewController是一个 UIViewController Category，用于使用不同的过渡效果来把ViewController作为弹出视图进行展示。</p>
+
+<p>  <a href="https://github.com/mattgemmell/MGImageUtilities"target="_blank"title="iOS开发">UIImage+MGImageUtilities</a></p>
+
+<p>MGImageUtilities展示两个UIImage category：UIImage+ProportionalFill和UIImage+Tint。你可以通过UIImage+ProportionalFill调整任意图片的尺寸，可以使用UIImage+Tint来为图片着色。</p>
+
+<p><a href="https://github.com/Cocoanetics/DTFoundation"target="_blank"title="iOS开发">MultipleObjects+DTFoundation</a></p>
+
+<p>DTFoundation集合了实用方法和category的扩展，逐渐演变成一个文档齐全的工具集，记录和测试代码以加快开发。</p>
+
+<p><a href="https://github.com/rs/SDWebImage"target="_blank"title="iOS开发">UIImageView+WebCache</a></p>
+
+<p>SDWebImage提供一个UIImageView类别，以支持加载管理源自网络的远程图片。具有异步加载、缓存管理、同一个URL下载次数控制和优化等特征。简单易用。</p>
+
+<p> <a href="https://github.com/bennyguitar/Colours"target="_blank"title="iOS开发">UIColor+Colours</a></p>
+
+<p>100组漂亮的预制的色彩和配色方案可以让你的iOS/OS X开发更轻松。</p>
+
+<p> <a href="https://github.com/ProjectDent/UIImage-PDFColoredImage"target="_blank"title="iOS开发">UIImage+PDFColoredImage</a></p>
+
+<p>UIImage-PDFColoredImage是一个UIImage扩展，可以把黑色的PDF image转换成任意尺寸任意颜色的UIImage，只需一行代码，简单易用。</p>
+
+<p><a href="https://github.com/k06a/NSData-AsyncCacher"target="_blank"title="iOS开发">NSData+AsyncCacher</a></p>
+
+<p>NSData-AsyncCacher是NSData的一个category，用于从url和block中异步加载数据。请求数据使用NSCache缓存，可以多次请求。</p>
+
+<p> <a href="https://github.com/billymeltdown/nsdate-helper"target="_blank"title="iOS开发">NSDate+Helper</a></p>
+
+<p>通过一些便捷函数扩展了Cocoa的NSDate</p>
+
+<p> <a href="https://github.com/supermarin/ObjectiveSugar"target="_blank"title="iOS开发">MultipleObjects+ObjectiveSugar</a></p>
+
+<p>Objective-C additions for humans. Ruby style.</p>
+
+<p><a href="https://github.com/Kjuly/MKMapView-ZoomLevel"target="_blank"title="iOS开发">MKMapView+ZoomLevel</a></p>
+
+<p>在MapView中设置缩放比例。</p>
+
+<p> <a href="https://gist.github.com/Abeansits/5848341"target="_blank"title="iOS开发">NSString+Extensions</a></p>
+
+<p>一个针对NSStrings的category，它能将string转换为SHA1，NSNumber。检测string是否为空、是否包含某个子字符串，以及替换掉NSDictionary中的子字符串。</p>
+
+<p><a href="https://github.com/nicklockwood/ViewUtils"target="_blank"title="iOS开发">UIView+Utils</a></p>
+
+<p>ViewUtils是一个category methods的集合，这些方法是UIView的扩展，包含了许多方便的属性和方法，其中许多都是我们希望苹果内置的。</p>
+
+<p> <a href="https://github.com/kevinlawler/NSDate-TimeAgo"target="_blank"title="iOS开发">NSDate+TimeAgo</a></p>
+
+<p>让NSDate报告时间，比如&#8221;A moment ago&#8221;, &ldquo;30 seconds ago&rdquo;, &ldquo;5 minutes ago&rdquo;, &ldquo;Yesterday&rdquo;, &ldquo;Last month&rdquo;, &ldquo;2 years ago&#8221;以及其他。</p>
+
+<p> <a href="https://github.com/alexdrone/ios-fontawesome"target="_blank"title="iOS开发">NSString+FontAwesome</a></p>
+
+<p>FontAwesome+iOS是一个开源形象字体库，通过扩展 NSString 让你在app中轻松使用 FontAwesome 字体。
+官方网站：<a href="http://fortawesome.github.io/Font-Awesome/">http://fortawesome.github.io/Font-Awesome/</a></p>
+
+<p> <a href="https://gist.github.com/aegzorz/5797393"target="_blank"title="iOS开发">NSArray+FirstObject</a></p>
+
+<p>从数组中获得第一个对象，或者从空数组中返回零</p>
+
+<p>  <a href="https://github.com/djmadcat/NSObject-AutoDescription"target="_blank"title="iOS开发">NSObject+AutoDescription</a></p>
+
+<p>能够简单地为任何类描述日志(从 NSObject派生出来)</p>
+
+<p>  <a href="https://gist.github.com/aegzorz/5797337"target="_blank"title="iOS开发">CGRect+Additions</a></p>
+
+<p>处理CGRects的一些函数。</p>
+
+<p> <a href="https://gist.github.com/bobmoff/5276954"target="_blank"title="iOS开发">UIView+ModifyFrame</a></p>
+
+<p>简单实用的UIView类目使修改框架不那么变态。</p>
+
+<p><a href="https://gist.github.com/dsibilly/1038500"target="_blank"title="iOS开发">NSString+UsefulShit</a></p>
+
+<p>Objective-C category 示范</p>
+
+<p><strong>更多源代码：</strong></p>
+
+<p><a href="http://www.superqq.com/blog/2015/01/07/paperfold-for-ios/">PaperFold-for-iOS</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/01/07/dkcirclebutton/">DKCircleButton</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/01/07/twittercover/">TwitterCover</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/01/07/hackernews/">HackerNews</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/01/06/gpuimage/">GPUImage</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/01/14/ioskai-fa-zhi-shou-shi-shi-bie-hui-zong/">iOS开发之手势识别汇总</a></h1>
     
     
@@ -689,7 +909,7 @@ UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds]
 
 <p><a href="http://twitter.com/bradlarson">@bradlarson</a></p>
 
-<p><a href="&#109;&#97;&#x69;&#108;&#x74;&#x6f;&#58;&#99;&#111;&#x6e;&#x74;&#97;&#99;&#116;&#x40;&#115;&#117;&#x6e;&#115;&#101;&#x74;&#108;&#97;&#107;&#x65;&#x73;&#111;&#x66;&#x74;&#x77;&#x61;&#x72;&#x65;&#x2e;&#x63;&#111;&#109;">&#99;&#x6f;&#110;&#x74;&#97;&#99;&#x74;&#x40;&#115;&#x75;&#x6e;&#x73;&#101;&#116;&#108;&#97;&#107;&#101;&#x73;&#111;&#x66;&#x74;&#x77;&#97;&#114;&#x65;&#46;&#x63;&#111;&#109;</a></p>
+<p><a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#x6f;&#x3a;&#x63;&#111;&#x6e;&#x74;&#97;&#99;&#x74;&#x40;&#115;&#x75;&#x6e;&#x73;&#101;&#x74;&#x6c;&#x61;&#107;&#x65;&#115;&#x6f;&#x66;&#116;&#x77;&#x61;&#x72;&#101;&#46;&#99;&#x6f;&#x6d;">&#x63;&#x6f;&#110;&#116;&#97;&#99;&#116;&#x40;&#115;&#117;&#110;&#x73;&#101;&#116;&#108;&#x61;&#x6b;&#101;&#115;&#111;&#102;&#x74;&#119;&#x61;&#114;&#101;&#x2e;&#99;&#111;&#109;</a></p>
 
 <h2>Overview</h2>
 
@@ -2106,7 +2326,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 <p>本人是因为兴趣业余时间来开发推聊，考虑到 IM 占用的时间太多，所以请谅解，不提供任何 IM 的沟通方式。希望大家以如下的方式交流：</p>
 
 <ul>
-<li>Email:  <a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x70;&#117;&#115;&#104;&#116;&#x61;&#108;&#107;&#46;&#x6f;&#114;&#103;&#x40;&#103;&#109;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#111;&#x6d;">&#112;&#117;&#115;&#104;&#116;&#x61;&#x6c;&#107;&#46;&#111;&#114;&#x67;&#x40;&#103;&#109;&#x61;&#105;&#108;&#46;&#x63;&#111;&#x6d;</a></li>
+<li>Email:  <a href="&#x6d;&#97;&#105;&#108;&#x74;&#x6f;&#58;&#x70;&#x75;&#115;&#104;&#x74;&#x61;&#108;&#107;&#46;&#111;&#x72;&#103;&#64;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#46;&#99;&#x6f;&#109;">&#112;&#x75;&#x73;&#104;&#x74;&#x61;&#108;&#107;&#x2e;&#x6f;&#114;&#x67;&#64;&#x67;&#109;&#97;&#105;&#108;&#46;&#x63;&#x6f;&#109;</a></li>
 <li>项目Wiki: <a href="https://github.com/good-life/PushTalk/wiki">https://github.com/good-life/PushTalk/wiki</a></li>
 <li>项目Bug: <a href="https://github.com/good-life/PushTalk/issues">https://github.com/good-life/PushTalk/issues</a></li>
 <li>PushTalk频道：<code>pushtalk</code>, <code>报告bug</code>, <code>新功能讨论</code> 等</li>
@@ -2118,405 +2338,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 <p>你也可以自由地 fork 本项目，自己去发布新的版本。</p>
 
 <p>推聊使用的开源协议：<a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/01/05/pnchart/">PNChart</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-01-05T17:16:07+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:16 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-
-<p> <a href="https://github.com/kevinzhow/PNChart"target="_blank"title="源代码">源代码</a></p>
-
-<h1>PNChart</h1>
-
-<p><a href="https://travis-ci.org/kevinzhow/PNChart"><img src="https://travis-ci.org/kevinzhow/PNChart.png?branch=master" alt="Build Status" /></a></p>
-
-<p>You can also find swift version at here <a href="https://github.com/kevinzhow/PNChart-Swift">https://github.com/kevinzhow/PNChart-Swift</a></p>
-
-<p>A simple and beautiful chart lib with <strong>animation</strong> used in <a href="https://itunes.apple.com/us/app/piner/id637706410">Piner</a> and <a href="https://itunes.apple.com/us/app/coinsman/id772163893">CoinsMan</a> for iOS</p>
-
-<p><a href="https://dl.dropboxusercontent.com/u/1599662/pnchart.gif"><img src="https://dl.dropboxusercontent.com/u/1599662/pnchart.gif" alt="" /></a></p>
-
-<h2>Requirements</h2>
-
-<p>PNChart works on iOS 6.0 and later version and is compatible with ARC projects. It depends on the following Apple frameworks, which should already be included with most Xcode templates:</p>
-
-<ul>
-<li>Foundation.framework</li>
-<li>UIKit.framework</li>
-<li>CoreGraphics.framework</li>
-<li>QuartzCore.framework</li>
-</ul>
-
-
-<p>You will need LLVM 3.0 or later in order to build PNChart.</p>
-
-<h2>Usage</h2>
-
-<h3>Cocoapods</h3>
-
-<p><a href="http://cocoapods.org">CocoaPods</a> is the recommended way to add PNChart to your project.</p>
-
-<ol>
-<li>Add a pod entry for PNChart to your Podfile <code>pod 'PNChart', '~&gt; 0.6.0'</code></li>
-<li>Install the pod(s) by running <code>pod install</code>.</li>
-<li>Include PNChart wherever you need it with <code>#import "PNChart.h"</code>.</li>
-</ol>
-
-
-<h3>Copy the PNChart folder to your project</h3>
-
-<p><a href="https://dl.dropboxusercontent.com/u/1599662/line.png"><img src="https://dl.dropboxusercontent.com/u/1599662/line.png" alt="" /></a></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &quot;PNChart.h&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//For Line Chart</span>
-</span><span class='line'><span class="n">PNLineChart</span> <span class="o">*</span> <span class="n">lineChart</span> <span class="o">=</span> <span class="p">[[</span><span class="n">PNLineChart</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">135.0</span><span class="p">,</span> <span class="n">SCREEN_WIDTH</span><span class="p">,</span> <span class="mf">200.0</span><span class="p">)];</span>
-</span><span class='line'><span class="p">[</span><span class="n">lineChart</span> <span class="nl">setXLabels</span><span class="p">:</span><span class="l">@[</span><span class="s">@&quot;SEP 1&quot;</span><span class="p">,</span><span class="s">@&quot;SEP 2&quot;</span><span class="p">,</span><span class="s">@&quot;SEP 3&quot;</span><span class="p">,</span><span class="s">@&quot;SEP 4&quot;</span><span class="p">,</span><span class="s">@&quot;SEP 5&quot;</span><span class="l">]</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Line Chart No.1</span>
-</span><span class='line'><span class="bp">NSArray</span> <span class="o">*</span> <span class="n">data01Array</span> <span class="o">=</span> <span class="l">@[</span><span class="mf">@60.1</span><span class="p">,</span> <span class="mf">@160.1</span><span class="p">,</span> <span class="mf">@126.4</span><span class="p">,</span> <span class="mf">@262.2</span><span class="p">,</span> <span class="mf">@186.2</span><span class="l">]</span><span class="p">;</span>
-</span><span class='line'><span class="n">PNLineChartData</span> <span class="o">*</span><span class="n">data01</span> <span class="o">=</span> <span class="p">[</span><span class="n">PNLineChartData</span> <span class="n">new</span><span class="p">];</span>
-</span><span class='line'><span class="n">data01</span><span class="p">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">PNFreshGreen</span><span class="p">;</span>
-</span><span class='line'><span class="n">data01</span><span class="p">.</span><span class="n">itemCount</span> <span class="o">=</span> <span class="n">lineChart</span><span class="p">.</span><span class="n">xLabels</span><span class="p">.</span><span class="n">count</span><span class="p">;</span>
-</span><span class='line'><span class="n">data01</span><span class="p">.</span><span class="n">getData</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="bp">NSUInteger</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">CGFloat</span> <span class="n">yValue</span> <span class="o">=</span> <span class="p">[</span><span class="n">data01Array</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="n">floatValue</span><span class="p">];</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="n">PNLineChartDataItem</span> <span class="nl">dataItemWithY</span><span class="p">:</span><span class="n">yValue</span><span class="p">];</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'><span class="c1">// Line Chart No.2</span>
-</span><span class='line'><span class="bp">NSArray</span> <span class="o">*</span> <span class="n">data02Array</span> <span class="o">=</span> <span class="l">@[</span><span class="mf">@20.1</span><span class="p">,</span> <span class="mf">@180.1</span><span class="p">,</span> <span class="mf">@26.4</span><span class="p">,</span> <span class="mf">@202.2</span><span class="p">,</span> <span class="mf">@126.2</span><span class="l">]</span><span class="p">;</span>
-</span><span class='line'><span class="n">PNLineChartData</span> <span class="o">*</span><span class="n">data02</span> <span class="o">=</span> <span class="p">[</span><span class="n">PNLineChartData</span> <span class="n">new</span><span class="p">];</span>
-</span><span class='line'><span class="n">data02</span><span class="p">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">PNTwitterColor</span><span class="p">;</span>
-</span><span class='line'><span class="n">data02</span><span class="p">.</span><span class="n">itemCount</span> <span class="o">=</span> <span class="n">lineChart</span><span class="p">.</span><span class="n">xLabels</span><span class="p">.</span><span class="n">count</span><span class="p">;</span>
-</span><span class='line'><span class="n">data02</span><span class="p">.</span><span class="n">getData</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="bp">NSUInteger</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">CGFloat</span> <span class="n">yValue</span> <span class="o">=</span> <span class="p">[</span><span class="n">data02Array</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="n">floatValue</span><span class="p">];</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="n">PNLineChartDataItem</span> <span class="nl">dataItemWithY</span><span class="p">:</span><span class="n">yValue</span><span class="p">];</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">lineChart</span><span class="p">.</span><span class="n">chartData</span> <span class="o">=</span> <span class="l">@[</span><span class="n">data01</span><span class="p">,</span> <span class="n">data02</span><span class="l">]</span><span class="p">;</span>
-</span><span class='line'><span class="p">[</span><span class="n">lineChart</span> <span class="n">strokeChart</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><a href="https://dl.dropboxusercontent.com/u/1599662/bar.png"><img src="https://dl.dropboxusercontent.com/u/1599662/bar.png" alt="" /></a></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &quot;PNChart.h&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//For BarC hart</span>
-</span><span class='line'><span class="n">PNBarChart</span> <span class="o">*</span> <span class="n">barChart</span> <span class="o">=</span> <span class="p">[[</span><span class="n">PNBarChart</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">135.0</span><span class="p">,</span> <span class="n">SCREEN_WIDTH</span><span class="p">,</span> <span class="mf">200.0</span><span class="p">)];</span>
-</span><span class='line'><span class="p">[</span><span class="n">barChart</span> <span class="nl">setXLabels</span><span class="p">:</span><span class="l">@[</span><span class="s">@&quot;SEP 1&quot;</span><span class="p">,</span><span class="s">@&quot;SEP 2&quot;</span><span class="p">,</span><span class="s">@&quot;SEP 3&quot;</span><span class="p">,</span><span class="s">@&quot;SEP 4&quot;</span><span class="p">,</span><span class="s">@&quot;SEP 5&quot;</span><span class="l">]</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">barChart</span> <span class="nl">setYValues</span><span class="p">:</span><span class="l">@[</span><span class="mi">@1</span><span class="p">,</span>  <span class="mi">@10</span><span class="p">,</span> <span class="mi">@2</span><span class="p">,</span> <span class="mi">@6</span><span class="p">,</span> <span class="mi">@3</span><span class="l">]</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">barChart</span> <span class="n">strokeChart</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><a href="https://dl.dropboxusercontent.com/u/1599662/circle.png"><img src="https://dl.dropboxusercontent.com/u/1599662/circle.png" alt="" /></a></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &quot;PNChart.h&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//For Circle Chart</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">PNCircleChart</span> <span class="o">*</span> <span class="n">circleChart</span> <span class="o">=</span> <span class="p">[[</span><span class="n">PNCircleChart</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">80.0</span><span class="p">,</span> <span class="n">SCREEN_WIDTH</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">)</span> <span class="nl">andTotal</span><span class="p">:[</span><span class="bp">NSNumber</span> <span class="nl">numberWithInt</span><span class="p">:</span><span class="mi">100</span><span class="p">]</span> <span class="nl">andCurrent</span><span class="p">:[</span><span class="bp">NSNumber</span> <span class="nl">numberWithInt</span><span class="p">:</span><span class="mi">60</span><span class="p">]</span> <span class="nl">andClockwise</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
-</span><span class='line'><span class="n">circleChart</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">clearColor</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">circleChart</span> <span class="nl">setStrokeColor</span><span class="p">:</span><span class="n">PNGreen</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">circleChart</span> <span class="n">strokeChart</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><a href="https://dl.dropboxusercontent.com/u/1599662/pie.png"><img src="https://dl.dropboxusercontent.com/u/1599662/pie.png" alt="" /></a></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp"># import &quot;PNChart.h&quot;</span>
-</span><span class='line'><span class="c1">//For Pie Chart</span>
-</span><span class='line'><span class="bp">NSArray</span> <span class="o">*</span><span class="n">items</span> <span class="o">=</span> <span class="l">@[</span><span class="p">[</span><span class="n">PNPieChartDataItem</span> <span class="nl">dataItemWithValue</span><span class="p">:</span><span class="mi">10</span> <span class="nl">color</span><span class="p">:</span><span class="n">PNRed</span><span class="p">],</span>
-</span><span class='line'>                           <span class="p">[</span><span class="n">PNPieChartDataItem</span> <span class="nl">dataItemWithValue</span><span class="p">:</span><span class="mi">20</span> <span class="nl">color</span><span class="p">:</span><span class="n">PNBlue</span> <span class="nl">description</span><span class="p">:</span><span class="s">@&quot;WWDC&quot;</span><span class="p">],</span>
-</span><span class='line'>                           <span class="p">[</span><span class="n">PNPieChartDataItem</span> <span class="nl">dataItemWithValue</span><span class="p">:</span><span class="mi">40</span> <span class="nl">color</span><span class="p">:</span><span class="n">PNGreen</span> <span class="nl">description</span><span class="p">:</span><span class="s">@&quot;GOOL I/O&quot;</span><span class="p">],</span>
-</span><span class='line'>                           <span class="l">]</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="n">PNPieChart</span> <span class="o">*</span><span class="n">pieChart</span> <span class="o">=</span> <span class="p">[[</span><span class="n">PNPieChart</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mf">40.0</span><span class="p">,</span> <span class="mf">155.0</span><span class="p">,</span> <span class="mf">240.0</span><span class="p">,</span> <span class="mf">240.0</span><span class="p">)</span> <span class="nl">items</span><span class="p">:</span><span class="n">items</span><span class="p">];</span>
-</span><span class='line'><span class="n">pieChart</span><span class="p">.</span><span class="n">descriptionTextColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">];</span>
-</span><span class='line'><span class="n">pieChart</span><span class="p">.</span><span class="n">descriptionTextFont</span>  <span class="o">=</span> <span class="p">[</span><span class="bp">UIFont</span> <span class="nl">fontWithName</span><span class="p">:</span><span class="s">@&quot;Avenir-Medium&quot;</span> <span class="nl">size</span><span class="p">:</span><span class="mf">14.0</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">pieChart</span> <span class="n">strokeChart</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><a href="https://dl.dropboxusercontent.com/u/1599662/scatter.png"><img src="https://dl.dropboxusercontent.com/u/1599662/scatter.png" alt="" /></a></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp"># import &quot;PNChart.h&quot;</span>
-</span><span class='line'><span class="c1">//For Scatter Chart</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">PNScatterChart</span> <span class="o">*</span><span class="n">scatterChart</span> <span class="o">=</span> <span class="p">[[</span><span class="n">PNScatterChart</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="n">SCREEN_WIDTH</span> <span class="o">/</span><span class="mf">6.0</span> <span class="o">-</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">135</span><span class="p">,</span> <span class="mi">280</span><span class="p">,</span> <span class="mi">200</span><span class="p">)];</span>
-</span><span class='line'><span class="p">[</span><span class="n">scatterChart</span> <span class="nl">setAxisXWithMinimumValue</span><span class="p">:</span><span class="mi">20</span> <span class="nl">andMaxValue</span><span class="p">:</span><span class="mi">100</span> <span class="nl">toTicks</span><span class="p">:</span><span class="mi">6</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">scatterChart</span> <span class="nl">setAxisYWithMinimumValue</span><span class="p">:</span><span class="mi">30</span> <span class="nl">andMaxValue</span><span class="p">:</span><span class="mi">50</span> <span class="nl">toTicks</span><span class="p">:</span><span class="mi">5</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="bp">NSArray</span> <span class="o">*</span> <span class="n">data01Array</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span> <span class="n">randomSetOfObjects</span><span class="p">];</span>
-</span><span class='line'><span class="n">PNScatterChartData</span> <span class="o">*</span><span class="n">data01</span> <span class="o">=</span> <span class="p">[</span><span class="n">PNScatterChartData</span> <span class="n">new</span><span class="p">];</span>
-</span><span class='line'><span class="n">data01</span><span class="p">.</span><span class="n">strokeColor</span> <span class="o">=</span> <span class="n">PNGreen</span><span class="p">;</span>
-</span><span class='line'><span class="n">data01</span><span class="p">.</span><span class="n">fillColor</span> <span class="o">=</span> <span class="n">PNFreshGreen</span><span class="p">;</span>
-</span><span class='line'><span class="n">data01</span><span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
-</span><span class='line'><span class="n">data01</span><span class="p">.</span><span class="n">itemCount</span> <span class="o">=</span> <span class="p">[[</span><span class="n">data01Array</span> <span class="nl">objectAtIndex</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="n">count</span><span class="p">];</span>
-</span><span class='line'><span class="n">data01</span><span class="p">.</span><span class="n">inflexionPointStyle</span> <span class="o">=</span> <span class="n">PNScatterChartPointStyleCircle</span><span class="p">;</span>
-</span><span class='line'><span class="k">__block</span> <span class="bp">NSMutableArray</span> <span class="o">*</span><span class="n">XAr1</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableArray</span> <span class="nl">arrayWithArray</span><span class="p">:[</span><span class="n">data01Array</span> <span class="nl">objectAtIndex</span><span class="p">:</span><span class="mi">0</span><span class="p">]];</span>
-</span><span class='line'><span class="k">__block</span> <span class="bp">NSMutableArray</span> <span class="o">*</span><span class="n">YAr1</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableArray</span> <span class="nl">arrayWithArray</span><span class="p">:[</span><span class="n">data01Array</span> <span class="nl">objectAtIndex</span><span class="p">:</span><span class="mi">1</span><span class="p">]];</span>
-</span><span class='line'><span class="n">data01</span><span class="p">.</span><span class="n">getData</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="bp">NSUInteger</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">CGFloat</span> <span class="n">xValue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">XAr1</span> <span class="nl">objectAtIndex</span><span class="p">:</span><span class="n">index</span><span class="p">]</span> <span class="n">floatValue</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">CGFloat</span> <span class="n">yValue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">YAr1</span> <span class="nl">objectAtIndex</span><span class="p">:</span><span class="n">index</span><span class="p">]</span> <span class="n">floatValue</span><span class="p">];</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="n">PNScatterChartDataItem</span> <span class="nl">dataItemWithX</span><span class="p">:</span><span class="n">xValue</span> <span class="nl">AndWithY</span><span class="p">:</span><span class="n">yValue</span><span class="p">];</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">[</span><span class="n">scatterChart</span> <span class="n">setup</span><span class="p">];</span>
-</span><span class='line'><span class="nb">self</span><span class="p">.</span><span class="n">scatterChart</span><span class="p">.</span><span class="n">chartData</span> <span class="o">=</span> <span class="l">@[</span><span class="n">data01</span><span class="l">]</span><span class="p">;</span>
-</span><span class='line'><span class="cm">/***</span>
-</span><span class='line'><span class="cm">this is for drawing line to compare</span>
-</span><span class='line'><span class="cm">CGPoint start = CGPointMake(20, 35);</span>
-</span><span class='line'><span class="cm">CGPoint end = CGPointMake(80, 45);</span>
-</span><span class='line'><span class="cm">[scatterChart drawLineFromPoint:start ToPoint:end WithLineWith:2 AndWithColor:PNBlack];</span>
-</span><span class='line'><span class="cm">***/</span>
-</span><span class='line'><span class="n">scatterChart</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Update Value</h4>
-
-<p>Now it&rsquo;s easy to update value in real time</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">if</span> <span class="p">([</span><span class="nb">self</span><span class="p">.</span><span class="n">title</span> <span class="nl">isEqualToString</span><span class="p">:</span><span class="s">@&quot;Line Chart&quot;</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// Line Chart #1</span>
-</span><span class='line'>    <span class="bp">NSArray</span> <span class="o">*</span> <span class="n">data01Array</span> <span class="o">=</span> <span class="l">@[@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">300</span><span class="l">)</span><span class="p">,</span> <span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">300</span><span class="l">)</span><span class="p">,</span> <span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">300</span><span class="l">)</span><span class="p">,</span> <span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">300</span><span class="l">)</span><span class="p">,</span> <span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">300</span><span class="l">)</span><span class="p">,</span> <span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">300</span><span class="l">)</span><span class="p">,</span> <span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">300</span><span class="l">)]</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">PNLineChartData</span> <span class="o">*</span><span class="n">data01</span> <span class="o">=</span> <span class="p">[</span><span class="n">PNLineChartData</span> <span class="n">new</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">data01</span><span class="p">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">PNFreshGreen</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">data01</span><span class="p">.</span><span class="n">itemCount</span> <span class="o">=</span> <span class="n">data01Array</span><span class="p">.</span><span class="n">count</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">data01</span><span class="p">.</span><span class="n">inflexionPointStyle</span> <span class="o">=</span> <span class="n">PNLineChartPointStyleTriangle</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">data01</span><span class="p">.</span><span class="n">getData</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="bp">NSUInteger</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">CGFloat</span> <span class="n">yValue</span> <span class="o">=</span> <span class="p">[</span><span class="n">data01Array</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="n">floatValue</span><span class="p">];</span>
-</span><span class='line'>        <span class="k">return</span> <span class="p">[</span><span class="n">PNLineChartDataItem</span> <span class="nl">dataItemWithY</span><span class="p">:</span><span class="n">yValue</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// Line Chart #2</span>
-</span><span class='line'>    <span class="bp">NSArray</span> <span class="o">*</span> <span class="n">data02Array</span> <span class="o">=</span> <span class="l">@[@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">300</span><span class="l">)</span><span class="p">,</span> <span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">300</span><span class="l">)</span><span class="p">,</span> <span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">300</span><span class="l">)</span><span class="p">,</span> <span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">300</span><span class="l">)</span><span class="p">,</span> <span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">300</span><span class="l">)</span><span class="p">,</span> <span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">300</span><span class="l">)</span><span class="p">,</span> <span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">300</span><span class="l">)]</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">PNLineChartData</span> <span class="o">*</span><span class="n">data02</span> <span class="o">=</span> <span class="p">[</span><span class="n">PNLineChartData</span> <span class="n">new</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">data02</span><span class="p">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">PNTwitterColor</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">data02</span><span class="p">.</span><span class="n">itemCount</span> <span class="o">=</span> <span class="n">data02Array</span><span class="p">.</span><span class="n">count</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">data02</span><span class="p">.</span><span class="n">inflexionPointStyle</span> <span class="o">=</span> <span class="n">PNLineChartPointStyleSquare</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">data02</span><span class="p">.</span><span class="n">getData</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="bp">NSUInteger</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">CGFloat</span> <span class="n">yValue</span> <span class="o">=</span> <span class="p">[</span><span class="n">data02Array</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="n">floatValue</span><span class="p">];</span>
-</span><span class='line'>        <span class="k">return</span> <span class="p">[</span><span class="n">PNLineChartDataItem</span> <span class="nl">dataItemWithY</span><span class="p">:</span><span class="n">yValue</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">lineChart</span> <span class="nl">setXLabels</span><span class="p">:</span><span class="l">@[</span><span class="s">@&quot;DEC 1&quot;</span><span class="p">,</span><span class="s">@&quot;DEC 2&quot;</span><span class="p">,</span><span class="s">@&quot;DEC 3&quot;</span><span class="p">,</span><span class="s">@&quot;DEC 4&quot;</span><span class="p">,</span><span class="s">@&quot;DEC 5&quot;</span><span class="p">,</span><span class="s">@&quot;DEC 6&quot;</span><span class="p">,</span><span class="s">@&quot;DEC 7&quot;</span><span class="l">]</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">lineChart</span> <span class="nl">updateChartData</span><span class="p">:</span><span class="l">@[</span><span class="n">data01</span><span class="p">,</span> <span class="n">data02</span><span class="l">]</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">else</span> <span class="k">if</span> <span class="p">([</span><span class="nb">self</span><span class="p">.</span><span class="n">title</span> <span class="nl">isEqualToString</span><span class="p">:</span><span class="s">@&quot;Bar Chart&quot;</span><span class="p">])</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">barChart</span> <span class="nl">setXLabels</span><span class="p">:</span><span class="l">@[</span><span class="s">@&quot;Jan 1&quot;</span><span class="p">,</span><span class="s">@&quot;Jan 2&quot;</span><span class="p">,</span><span class="s">@&quot;Jan 3&quot;</span><span class="p">,</span><span class="s">@&quot;Jan 4&quot;</span><span class="p">,</span><span class="s">@&quot;Jan 5&quot;</span><span class="p">,</span><span class="s">@&quot;Jan 6&quot;</span><span class="p">,</span><span class="s">@&quot;Jan 7&quot;</span><span class="l">]</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">barChart</span> <span class="nl">updateChartData</span><span class="p">:</span><span class="l">@[@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">30</span><span class="l">)</span><span class="p">,</span><span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">30</span><span class="l">)</span><span class="p">,</span><span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">30</span><span class="l">)</span><span class="p">,</span><span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">30</span><span class="l">)</span><span class="p">,</span><span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">30</span><span class="l">)</span><span class="p">,</span><span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">30</span><span class="l">)</span><span class="p">,</span><span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">30</span><span class="l">)]</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">else</span> <span class="k">if</span> <span class="p">([</span><span class="nb">self</span><span class="p">.</span><span class="n">title</span> <span class="nl">isEqualToString</span><span class="p">:</span><span class="s">@&quot;Circle Chart&quot;</span><span class="p">])</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">circleChart</span> <span class="nl">updateChartByCurrent</span><span class="p">:</span><span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">100</span><span class="l">)</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Callback</h4>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &quot;PNChart.h&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//For LineChart</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">lineChart</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">//For DelegateMethod</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">userClickedOnLineKeyPoint:</span><span class="p">(</span><span class="bp">CGPoint</span><span class="p">)</span><span class="nv">point</span> <span class="nf">lineIndex:</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nv">lineIndex</span> <span class="nf">pointIndex:</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nv">pointIndex</span><span class="p">{</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Click Key on line %f, %f line index is %d and point index is %d&quot;</span><span class="p">,</span><span class="n">point</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">point</span><span class="p">.</span><span class="n">y</span><span class="p">,(</span><span class="kt">int</span><span class="p">)</span><span class="n">lineIndex</span><span class="p">,</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">pointIndex</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">userClickedOnLinePoint:</span><span class="p">(</span><span class="bp">CGPoint</span><span class="p">)</span><span class="nv">point</span> <span class="nf">lineIndex:</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nv">lineIndex</span><span class="p">{</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Click on line %f, %f, line index is %d&quot;</span><span class="p">,</span><span class="n">point</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">point</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">lineIndex</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>License</h2>
-
-<p>This code is distributed under the terms and conditions of the <a href="LICENSE">MIT license</a>.</p>
-
-<h2>SpecialThanks</h2>
-
-<p><a href="http://twitter.com/lexrus">@lexrus</a>  CocoaPods Spec</p>
 </div>
   
   
@@ -2553,11 +2374,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       </li>
     
       <li class="post">
-        <a href="/blog/2015/07/17/wo-zhe-ge-zhan-chang-shi-zen-yao-lian-cheng-de/">我这个站长是怎么炼成的</a>
+        <a href="/blog/2015/07/18/ios/">禅与Objective-C编程艺术(译)</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/07/16/nsstringde-ba-tiao-shi-yong-ji-qiao/">NSString的八条实用技巧</a>
+        <a href="/blog/2015/07/17/wo-zhe-ge-zhan-chang-shi-zen-yao-lian-cheng-de/">我这个站长是怎么炼成的</a>
       </li>
     
   </ul>
