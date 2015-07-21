@@ -19,7 +19,7 @@ iOS APP可以在自己的沙盒里读写文件，但是，不可以访问其他A
 2. APP之间不能相互通信。
 3. 沙盒根目录结构：Documents、Library、temp。
 
-简述一下Documents、Library、temp的区别：
+简述一下Documents、Library、tmp的区别：
 
 1. **Documents：**用于存储用户数据，iTunes备份和恢复的时候会包括此目录，所以，苹果建议将程序中建立的或在程序中浏览到的文件数据保存在该目录下。
 2. **Library：**包含两个子目录：Caches 和 Preferences。Caches用来存放用户需要换成的文件。Preferences是APP的偏好设置，可以通过NSUserDefaults来读取和设置。
