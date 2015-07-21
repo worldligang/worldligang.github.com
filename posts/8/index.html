@@ -89,6 +89,920 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/01/05/coding-ios/">Coding-iOS</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-05T13:09:26+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:09 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p> <a href="https://coding.net/u/coding"target="_blank"title="源代码">源代码</a></p>
+
+<h3>Coding_iOS客户端项目介绍</h3>
+
+<p><em>编译环境：Xcode-Version 6.1 (6A1052d)</em></p>
+
+<h4>下面介绍一下文件的大概目录先：</h4>
+
+<pre><code>.
+├── Coding_iOS
+│   ├── Models：数据类
+│   ├── Views：视图类
+│   │   ├── CCell：所有的CollectionViewCell都在这里
+│   │   ├── Cell：所有的TableViewCell都在这里
+│   │   └── XXX：ListView（项目、动态、任务、讨论、文档、代码）和InputView（用于聊天和评论的输入框）
+│   ├── Controllers：控制器，对应app中的各个页面
+│   │   ├── Login：登录页面
+│   │   ├── RootControllers：登录后的根页面
+│   │   ├── MeSetting：设置信息页面
+│   │   └── XXX：其它页面
+│   ├── Images：app中用到的所有的图片都在这里
+│   ├── Resources：资源文件
+│   ├── Util：一些常用控件和Category、Manager之类
+│   │   ├── Common
+│   │   ├── Manager
+│   │   ├── OC_Category
+│   │   └── ObjcRuntime
+│   └── Vendor：用到的一些第三方类库，一般都有改动
+│       ├── AFNetworking
+│       ├── AGEmojiKeyboard
+│       ├── ASProgressPopUpView
+│       ├── ActionSheetPicker
+│       ├── FontAwesome+iOS
+│       ├── MJPhotoBrowser
+│       ├── MLEmojiLabel
+│       ├── NSDate+Helper
+│       ├── NSStringEmojize
+│       ├── PPiAwesomeButton
+│       ├── QBImagePickerController
+│       ├── RDVTabBarController
+│       ├── SMPageControl
+│       ├── SVPullToRefresh
+│       ├── SWTableViewCell
+│       ├── UMENG
+│       ├── UMessage_Sdk_1.1.0
+│       ├── XGPush
+│       ├── XTSegmentControl
+│       └── iCarousel
+└── Pods：项目使用了[CocoaPods](http://code4app.com/article/cocoapods-install-usage)这个类库管理工具
+</code></pre>
+
+<h4>再说下项目的启动流程：</h4>
+
+<p>在AppDelegate的启动方法中，先设置了一下Appearance的样式，然后根据用户的登录状态选择是去加载登录页面LoginViewController，还是登录后的RootTabViewController页面。</p>
+
+<p>RootTabViewController继承自第三方库<a href="https://github.com/robbdimitrov/RDVTabBarController">RDVTabBarController</a>。在RootTabViewController里面依次加载了Project_RootViewController、MyTask_RootViewController、Tweet_RootViewController、Message_RootViewController、Me_RootViewController五个RootViewController，后续的页面跳转都是基于这几个RootViewController引过去的。</p>
+
+<h4>项目里面还有些需要注意的点</h4>
+
+<ul>
+<li><p>Coding_NetAPIManager：基本上app的所有请求接口都放在了这里。网络请求使用的是<a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a>库，与服务器之间的数据交互格式用的都是json（与<a href="https://coding.net">Coding</a>使用的api一致）。</p></li>
+<li><p>关于推送：刚开始是用的<a href="http://www.umeng.com/">友盟推送</a>，后来又改用了<a href="http://xg.qq.com/">腾讯信鸽</a>，因为要兼顾旧版本app的推送，所以服务器是同时保留了两套推送。但是为了确保新版本的app不同时收到双份相同的推送消息，所以当前代码里还存留了友盟的sdk，用于解除推送token与友盟Alias的绑定。</p></li>
+<li><p>关于ProjectViewController：这个就是进入到某个项目之后的页面，这里包含了项目的动态、任务、讨论、文档、代码、成员各类信息，而且每类信息里面还可能会有新的分类（如‘任务’里面还分有各个成员的任务）；这个页面相当的臃肿，我对它们做了拆分，都放在视图类Views目录下面。 首先是把数据列表独立成了对应的XXXListView（如ProjectTaskListView）；然后如果需要标签切换的话，会再新建一个XXXsView（如：ProjectTasksView），在这个视图中，上面会放一个切换栏<a href="https://github.com/xushao1990/XTNews">XTSegmentControl</a>显示各个标签，下面放一个<a href="https://github.com/nicklockwood/iCarousel">iCarousel</a>可以滑动显示各个标签的内容；最后这些视图都会存储在ProjectViewController的projectContentDict变量里面，根据顶部导航栏选择的类别，去显示或隐藏对应的视图。</p></li>
+<li><p>关于UIMessageInputView：这个是私信聊天的输入框。因为这个输入框好多地方都有用到（冒泡、任务、讨论的评论还有私信），所以这个输入框就写成了一个相对独立的控件，并且直接显示在了keyWindow里面而不是某个视图里。这里的表情键盘用的是<a href="https://github.com/ayushgoel/AGEmojiKeyboard">AGEmojiKeyboard</a>改写了一下。</p></li>
+<li><p>关于Emoji：这个，<a href="https://coding.net">Coding</a>站点的emoji都是用的图片，而且服务器是不接受大部分emoji字符的，所以刚开始的时候app一直不能处理emoji表情；又因为没有emoji图片名和emoji code码的对应关系表，所以拖了很久都没能做好转换。直到在github上面找到了<a href="https://github.com/diy/NSStringEmojize">NSStringEmojize</a>这个项目；试了一下，虽然也不能全部解析，但是大部分表情都能正确显示了，不能更感谢。</p></li>
+<li><p>关于如何正确显示冒泡的内容：api返回的数据里面，冒泡内容都是html格式，需要做一下预处理；其实私信、讨论里面的内容也是html。解析html的类名是HtmlMediaItem，它是先用<a href="https://github.com/topfunky/hpple">hpple</a>对html进行了解析，然后把对应的media元素和对应的位置做一个存储，显示的时候便可以根据需要来显示了。</p></li>
+</ul>
+
+
+<h4>最后说下<a href="http://code4app.com/article/cocoapods-install-usage">CocoaPods</a>里面用到的第三方类库</h4>
+
+<ul>
+<li><a href="https://github.com/rs/SDWebImage">SDWebImage</a>：图片加载</li>
+<li><a href="https://github.com/TTTAttributedLabel/TTTAttributedLabel">TTTAttributedLabel</a>：富文本的label，可点击链接</li>
+<li><a href="https://github.com/wezm/RegexKitLite">RegexKitLite</a>：正则表达式</li>
+<li><a href="https://github.com/topfunky/hpple">hpple</a>：html解析</li>
+<li><a href="https://github.com/jdg/MBProgressHUD">MBProgressHUD</a>：hud提示框</li>
+<li><a href="https://github.com/Sephiroth87/ODRefreshControl">ODRefreshControl</a>：下拉刷新</li>
+<li><a href="https://github.com/michaeltyson/TPKeyboardAvoiding">TPKeyboardAvoiding</a>：有文字输入时，能根据键盘是否弹出来调整自身显示内容的位置</li>
+<li><a href="https://github.com/jaydee3/JDStatusBarNotification">JDStatusBarNotification</a>：状态栏提示框</li>
+<li><a href="https://github.com/zwaldowski/BlocksKit">BlocksKit</a>：block工具包。将很多需要用delegate实现的方法整合成了block的形式</li>
+<li><a href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa</a>：基于响应式编程思想的oc实践（是个好东西呢）</li>
+</ul>
+
+
+<h4>License</h4>
+
+<p>Coding is available under the MIT license. See the LICENSE file for more info.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/01/05/iosda-shen-matttjie-zuo-afnetworking/">AFNetworking</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-05T12:56:20+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:56 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p>AFNetworking是一个轻量级的iOS网络通信类库，继ASI类库不在更新之后开发者们有一套不错选择；</p>
+
+<p> <a href="https://github.com/AFNetworking/AFNetworking"target="_blank"title="源代码">源代码</a></p>
+
+<p align="center" >
+  <img src="https://raw.github.com/AFNetworking/AFNetworking/assets/afnetworking-logo.png" alt="AFNetworking" title="AFNetworking">
+</p>
+
+
+<p><a href="https://travis-ci.org/AFNetworking/AFNetworking"><img src="https://travis-ci.org/AFNetworking/AFNetworking.svg" alt="Build Status" /></a></p>
+
+<p>AFNetworking is a delightful networking library for iOS and Mac OS X. It&rsquo;s built on top of the <a href="http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/URLLoadingSystem/URLLoadingSystem.html">Foundation URL Loading System</a>, extending the powerful high-level networking abstractions built into Cocoa. It has a modular architecture with well-designed, feature-rich APIs that are a joy to use.</p>
+
+<p>Perhaps the most important feature of all, however, is the amazing community of developers who use and contribute to AFNetworking every day. AFNetworking powers some of the most popular and critically-acclaimed apps on the iPhone, iPad, and Mac.</p>
+
+<p>Choose AFNetworking for your next project, or migrate over your existing projects—you&rsquo;ll be happy you did!</p>
+
+<h2>How To Get Started</h2>
+
+<ul>
+<li><a href="https://github.com/AFNetworking/AFNetworking/archive/master.zip">Download AFNetworking</a> and try out the included Mac and iPhone example apps</li>
+<li>Read the <a href="https://github.com/AFNetworking/AFNetworking/wiki/Getting-Started-with-AFNetworking">&ldquo;Getting Started&rdquo; guide</a>, <a href="https://github.com/AFNetworking/AFNetworking/wiki/AFNetworking-FAQ">FAQ</a>, or <a href="https://github.com/AFNetworking/AFNetworking/wiki">other articles on the Wiki</a></li>
+<li>Check out the <a href="http://cocoadocs.org/docsets/AFNetworking/">documentation</a> for a comprehensive look at all of the APIs available in AFNetworking</li>
+<li>Read the <a href="https://github.com/AFNetworking/AFNetworking/wiki/AFNetworking-2.0-Migration-Guide">AFNetworking 2.0 Migration Guide</a> for an overview of the architectural changes from 1.0.</li>
+</ul>
+
+
+<h2>Communication</h2>
+
+<ul>
+<li>If you <strong>need help</strong>, use <a href="http://stackoverflow.com/questions/tagged/afnetworking">Stack Overflow</a>. (Tag &lsquo;afnetworking&rsquo;)</li>
+<li>If you&rsquo;d like to <strong>ask a general question</strong>, use <a href="http://stackoverflow.com/questions/tagged/afnetworking">Stack Overflow</a>.</li>
+<li>If you <strong>found a bug</strong>, <em>and can provide steps to reliably reproduce it</em>, open an issue.</li>
+<li>If you <strong>have a feature request</strong>, open an issue.</li>
+<li>If you <strong>want to contribute</strong>, submit a pull request.</li>
+</ul>
+
+
+<h3>Installation with CocoaPods</h3>
+
+<p><a href="http://cocoapods.org">CocoaPods</a> is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries like AFNetworking in your projects. See the <a href="https://github.com/AFNetworking/AFNetworking/wiki/Getting-Started-with-AFNetworking">&ldquo;Getting Started&rdquo; guide for more information</a>.</p>
+
+<h4>Podfile</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">platform</span> <span class="ss">:ios</span><span class="p">,</span> <span class="s1">&#39;7.0&#39;</span>
+</span><span class='line'><span class="n">pod</span> <span class="s2">&quot;AFNetworking&quot;</span><span class="p">,</span> <span class="s2">&quot;~&gt; 2.0&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Requirements</h2>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:center;"> AFNetworking Version </th>
+<th style="text-align:center;"> Minimum iOS Target  </th>
+<th style="text-align:center;"> Minimum OS X Target  </th>
+<th style="text-align:center;">                                   Notes                                   </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">          2.x         </td>
+<td style="text-align:center;">            iOS 6            </td>
+<td style="text-align:center;">           OS X 10.8          </td>
+<td style="text-align:center;"> Xcode 5 is required. <code>AFHTTPSessionManager</code> requires iOS 7 or OS X 10.9. </td>
+</tr>
+<tr>
+<td style="text-align:center;">          <a href="https://github.com/AFNetworking/AFNetworking/tree/1.x">1.x</a>         </td>
+<td style="text-align:center;">            iOS 5            </td>
+<td style="text-align:center;">         Mac OS X 10.7        </td>
+<td style="text-align:center;">                                                                           </td>
+</tr>
+<tr>
+<td style="text-align:center;">        <a href="https://github.com/AFNetworking/AFNetworking/tree/0.10.x">0.10.x</a>        </td>
+<td style="text-align:center;">            iOS 4            </td>
+<td style="text-align:center;">         Mac OS X 10.6        </td>
+<td style="text-align:center;">                                                                           </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>(OS X projects must support <a href="https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtVersionsPlatforms.html">64-bit with modern Cocoa runtime</a>).</p>
+
+<blockquote><p>Programming in Swift? Try <a href="https://github.com/Alamofire/Alamofire">Alamofire</a> for a more conventional set of APIs.</p></blockquote>
+
+<h2>Architecture</h2>
+
+<h3>NSURLConnection</h3>
+
+<ul>
+<li><code>AFURLConnectionOperation</code></li>
+<li><code>AFHTTPRequestOperation</code></li>
+<li><code>AFHTTPRequestOperationManager</code></li>
+</ul>
+
+
+<h3>NSURLSession <em>(iOS 7 / Mac OS X 10.9)</em></h3>
+
+<ul>
+<li><code>AFURLSessionManager</code></li>
+<li><code>AFHTTPSessionManager</code></li>
+</ul>
+
+
+<h3>Serialization</h3>
+
+<ul>
+<li><code>&lt;AFURLRequestSerialization&gt;</code>
+
+<ul>
+<li><code>AFHTTPRequestSerializer</code></li>
+<li><code>AFJSONRequestSerializer</code></li>
+<li><code>AFPropertyListRequestSerializer</code></li>
+</ul>
+</li>
+<li><code>&lt;AFURLResponseSerialization&gt;</code>
+
+<ul>
+<li><code>AFHTTPResponseSerializer</code></li>
+<li><code>AFJSONResponseSerializer</code></li>
+<li><code>AFXMLParserResponseSerializer</code></li>
+<li><code>AFXMLDocumentResponseSerializer</code> <em>(Mac OS X)</em></li>
+<li><code>AFPropertyListResponseSerializer</code></li>
+<li><code>AFImageResponseSerializer</code></li>
+<li><code>AFCompoundResponseSerializer</code></li>
+</ul>
+</li>
+</ul>
+
+
+<h3>Additional Functionality</h3>
+
+<ul>
+<li><code>AFSecurityPolicy</code></li>
+<li><code>AFNetworkReachabilityManager</code></li>
+</ul>
+
+
+<h2>Usage</h2>
+
+<h3>HTTP Request Operation Manager</h3>
+
+<p><code>AFHTTPRequestOperationManager</code> encapsulates the common patterns of communicating with a web application over HTTP, including request creation, response serialization, network reachability monitoring, and security, as well as request operation management.</p>
+
+<h4><code>GET</code> Request</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">AFHTTPRequestOperationManager</span> <span class="o">*</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFHTTPRequestOperationManager</span> <span class="n">manager</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">manager</span> <span class="nl">GET</span><span class="p">:</span><span class="s">@&quot;http://example.com/resources.json&quot;</span> <span class="nl">parameters</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="kt">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;JSON: %@&quot;</span><span class="p">,</span> <span class="n">responseObject</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span> <span class="nl">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Error: %@&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
+</span><span class='line'><span class="p">}];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4><code>POST</code> URL-Form-Encoded Request</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">AFHTTPRequestOperationManager</span> <span class="o">*</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFHTTPRequestOperationManager</span> <span class="n">manager</span><span class="p">];</span>
+</span><span class='line'><span class="bp">NSDictionary</span> <span class="o">*</span><span class="n">parameters</span> <span class="o">=</span> <span class="l">@{</span><span class="s">@&quot;foo&quot;</span><span class="o">:</span> <span class="s">@&quot;bar&quot;</span><span class="l">}</span><span class="p">;</span>
+</span><span class='line'><span class="p">[</span><span class="n">manager</span> <span class="nl">POST</span><span class="p">:</span><span class="s">@&quot;http://example.com/resources.json&quot;</span> <span class="nl">parameters</span><span class="p">:</span><span class="n">parameters</span> <span class="nl">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="kt">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;JSON: %@&quot;</span><span class="p">,</span> <span class="n">responseObject</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span> <span class="nl">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Error: %@&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
+</span><span class='line'><span class="p">}];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4><code>POST</code> Multi-Part Request</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">AFHTTPRequestOperationManager</span> <span class="o">*</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFHTTPRequestOperationManager</span> <span class="n">manager</span><span class="p">];</span>
+</span><span class='line'><span class="bp">NSDictionary</span> <span class="o">*</span><span class="n">parameters</span> <span class="o">=</span> <span class="l">@{</span><span class="s">@&quot;foo&quot;</span><span class="o">:</span> <span class="s">@&quot;bar&quot;</span><span class="l">}</span><span class="p">;</span>
+</span><span class='line'><span class="bp">NSURL</span> <span class="o">*</span><span class="n">filePath</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURL</span> <span class="nl">fileURLWithPath</span><span class="p">:</span><span class="s">@&quot;file://path/to/image.png&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">manager</span> <span class="nl">POST</span><span class="p">:</span><span class="s">@&quot;http://example.com/resources.json&quot;</span> <span class="nl">parameters</span><span class="p">:</span><span class="n">parameters</span> <span class="nl">constructingBodyWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="n">AFMultipartFormData</span><span class="o">&gt;</span> <span class="n">formData</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">formData</span> <span class="nl">appendPartWithFileURL</span><span class="p">:</span><span class="n">filePath</span> <span class="nl">name</span><span class="p">:</span><span class="s">@&quot;image&quot;</span> <span class="nl">error</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span> <span class="nl">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="kt">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Success: %@&quot;</span><span class="p">,</span> <span class="n">responseObject</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span> <span class="nl">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Error: %@&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
+</span><span class='line'><span class="p">}];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<hr />
+
+<h3>AFURLSessionManager</h3>
+
+<p><code>AFURLSessionManager</code> creates and manages an <code>NSURLSession</code> object based on a specified <code>NSURLSessionConfiguration</code> object, which conforms to <code>&lt;NSURLSessionTaskDelegate&gt;</code>, <code>&lt;NSURLSessionDataDelegate&gt;</code>, <code>&lt;NSURLSessionDownloadDelegate&gt;</code>, and <code>&lt;NSURLSessionDelegate&gt;</code>.</p>
+
+<h4>Creating a Download Task</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">NSURLSessionConfiguration</span> <span class="o">*</span><span class="n">configuration</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURLSessionConfiguration</span> <span class="n">defaultSessionConfiguration</span><span class="p">];</span>
+</span><span class='line'><span class="n">AFURLSessionManager</span> <span class="o">*</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFURLSessionManager</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithSessionConfiguration</span><span class="p">:</span><span class="n">configuration</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="bp">NSURL</span> <span class="o">*</span><span class="n">URL</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="s">@&quot;http://example.com/download.zip&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="bp">NSURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURLRequest</span> <span class="nl">requestWithURL</span><span class="p">:</span><span class="n">URL</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="bp">NSURLSessionDownloadTask</span> <span class="o">*</span><span class="n">downloadTask</span> <span class="o">=</span> <span class="p">[</span><span class="n">manager</span> <span class="nl">downloadTaskWithRequest</span><span class="p">:</span><span class="n">request</span> <span class="nl">progress</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">destination</span><span class="p">:</span><span class="o">^</span><span class="bp">NSURL</span> <span class="o">*</span><span class="p">(</span><span class="bp">NSURL</span> <span class="o">*</span><span class="n">targetPath</span><span class="p">,</span> <span class="bp">NSURLResponse</span> <span class="o">*</span><span class="n">response</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="bp">NSURL</span> <span class="o">*</span><span class="n">documentsDirectoryURL</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSFileManager</span> <span class="n">defaultManager</span><span class="p">]</span> <span class="nl">URLForDirectory</span><span class="p">:</span><span class="n">NSDocumentDirectory</span> <span class="nl">inDomain</span><span class="p">:</span><span class="n">NSUserDomainMask</span> <span class="nl">appropriateForURL</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">create</span><span class="p">:</span><span class="nb">NO</span> <span class="nl">error</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="n">documentsDirectoryURL</span> <span class="nl">URLByAppendingPathComponent</span><span class="p">:[</span><span class="n">response</span> <span class="n">suggestedFilename</span><span class="p">]];</span>
+</span><span class='line'><span class="p">}</span> <span class="nl">completionHandler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSURLResponse</span> <span class="o">*</span><span class="n">response</span><span class="p">,</span> <span class="bp">NSURL</span> <span class="o">*</span><span class="n">filePath</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;File downloaded to: %@&quot;</span><span class="p">,</span> <span class="n">filePath</span><span class="p">);</span>
+</span><span class='line'><span class="p">}];</span>
+</span><span class='line'><span class="p">[</span><span class="n">downloadTask</span> <span class="n">resume</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Creating an Upload Task</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">NSURLSessionConfiguration</span> <span class="o">*</span><span class="n">configuration</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURLSessionConfiguration</span> <span class="n">defaultSessionConfiguration</span><span class="p">];</span>
+</span><span class='line'><span class="n">AFURLSessionManager</span> <span class="o">*</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFURLSessionManager</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithSessionConfiguration</span><span class="p">:</span><span class="n">configuration</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="bp">NSURL</span> <span class="o">*</span><span class="n">URL</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="s">@&quot;http://example.com/upload&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="bp">NSURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURLRequest</span> <span class="nl">requestWithURL</span><span class="p">:</span><span class="n">URL</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="bp">NSURL</span> <span class="o">*</span><span class="n">filePath</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURL</span> <span class="nl">fileURLWithPath</span><span class="p">:</span><span class="s">@&quot;file://path/to/image.png&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="bp">NSURLSessionUploadTask</span> <span class="o">*</span><span class="n">uploadTask</span> <span class="o">=</span> <span class="p">[</span><span class="n">manager</span> <span class="nl">uploadTaskWithRequest</span><span class="p">:</span><span class="n">request</span> <span class="nl">fromFile</span><span class="p">:</span><span class="n">filePath</span> <span class="nl">progress</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">completionHandler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSURLResponse</span> <span class="o">*</span><span class="n">response</span><span class="p">,</span> <span class="kt">id</span> <span class="n">responseObject</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Error: %@&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Success: %@ %@&quot;</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">responseObject</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}];</span>
+</span><span class='line'><span class="p">[</span><span class="n">uploadTask</span> <span class="n">resume</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Creating an Upload Task for a Multi-Part Request, with Progress</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">NSMutableURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFHTTPRequestSerializer</span> <span class="n">serializer</span><span class="p">]</span> <span class="nl">multipartFormRequestWithMethod</span><span class="p">:</span><span class="s">@&quot;POST&quot;</span> <span class="nl">URLString</span><span class="p">:</span><span class="s">@&quot;http://example.com/upload&quot;</span> <span class="nl">parameters</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">constructingBodyWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="n">AFMultipartFormData</span><span class="o">&gt;</span> <span class="n">formData</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">formData</span> <span class="nl">appendPartWithFileURL</span><span class="p">:[</span><span class="bp">NSURL</span> <span class="nl">fileURLWithPath</span><span class="p">:</span><span class="s">@&quot;file://path/to/image.jpg&quot;</span><span class="p">]</span> <span class="nl">name</span><span class="p">:</span><span class="s">@&quot;file&quot;</span> <span class="nl">fileName</span><span class="p">:</span><span class="s">@&quot;filename.jpg&quot;</span> <span class="nl">mimeType</span><span class="p">:</span><span class="s">@&quot;image/jpeg&quot;</span> <span class="nl">error</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span> <span class="nl">error</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">AFURLSessionManager</span> <span class="o">*</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFURLSessionManager</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithSessionConfiguration</span><span class="p">:[</span><span class="bp">NSURLSessionConfiguration</span> <span class="n">defaultSessionConfiguration</span><span class="p">]];</span>
+</span><span class='line'><span class="bp">NSProgress</span> <span class="o">*</span><span class="n">progress</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="bp">NSURLSessionUploadTask</span> <span class="o">*</span><span class="n">uploadTask</span> <span class="o">=</span> <span class="p">[</span><span class="n">manager</span> <span class="nl">uploadTaskWithStreamedRequest</span><span class="p">:</span><span class="n">request</span> <span class="nl">progress</span><span class="p">:</span><span class="o">&amp;</span><span class="n">progress</span> <span class="nl">completionHandler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSURLResponse</span> <span class="o">*</span><span class="n">response</span><span class="p">,</span> <span class="kt">id</span> <span class="n">responseObject</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Error: %@&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@ %@&quot;</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">responseObject</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}];</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">[</span><span class="n">uploadTask</span> <span class="n">resume</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Creating a Data Task</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">NSURLSessionConfiguration</span> <span class="o">*</span><span class="n">configuration</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURLSessionConfiguration</span> <span class="n">defaultSessionConfiguration</span><span class="p">];</span>
+</span><span class='line'><span class="n">AFURLSessionManager</span> <span class="o">*</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFURLSessionManager</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithSessionConfiguration</span><span class="p">:</span><span class="n">configuration</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="bp">NSURL</span> <span class="o">*</span><span class="n">URL</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="s">@&quot;http://example.com/upload&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="bp">NSURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURLRequest</span> <span class="nl">requestWithURL</span><span class="p">:</span><span class="n">URL</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="bp">NSURLSessionDataTask</span> <span class="o">*</span><span class="n">dataTask</span> <span class="o">=</span> <span class="p">[</span><span class="n">manager</span> <span class="nl">dataTaskWithRequest</span><span class="p">:</span><span class="n">request</span> <span class="nl">completionHandler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSURLResponse</span> <span class="o">*</span><span class="n">response</span><span class="p">,</span> <span class="kt">id</span> <span class="n">responseObject</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Error: %@&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@ %@&quot;</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">responseObject</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}];</span>
+</span><span class='line'><span class="p">[</span><span class="n">dataTask</span> <span class="n">resume</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<hr />
+
+<h3>Request Serialization</h3>
+
+<p>Request serializers create requests from URL strings, encoding parameters as either a query string or HTTP body.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">NSString</span> <span class="o">*</span><span class="n">URLString</span> <span class="o">=</span> <span class="s">@&quot;http://example.com&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="bp">NSDictionary</span> <span class="o">*</span><span class="n">parameters</span> <span class="o">=</span> <span class="l">@{</span><span class="s">@&quot;foo&quot;</span><span class="o">:</span> <span class="s">@&quot;bar&quot;</span><span class="p">,</span> <span class="s">@&quot;baz&quot;</span><span class="o">:</span> <span class="l">@[</span><span class="mi">@1</span><span class="p">,</span> <span class="mi">@2</span><span class="p">,</span> <span class="mi">@3</span><span class="l">]}</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Query String Parameter Encoding</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[[</span><span class="n">AFHTTPRequestSerializer</span> <span class="n">serializer</span><span class="p">]</span> <span class="nl">requestWithMethod</span><span class="p">:</span><span class="s">@&quot;GET&quot;</span> <span class="nl">URLString</span><span class="p">:</span><span class="n">URLString</span> <span class="nl">parameters</span><span class="p">:</span><span class="n">parameters</span> <span class="nl">error</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code>GET http://example.com?foo=bar&amp;baz[]=1&amp;baz[]=2&amp;baz[]=3
+</code></pre>
+
+<h4>URL Form Parameter Encoding</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[[</span><span class="n">AFHTTPRequestSerializer</span> <span class="n">serializer</span><span class="p">]</span> <span class="nl">requestWithMethod</span><span class="p">:</span><span class="s">@&quot;POST&quot;</span> <span class="nl">URLString</span><span class="p">:</span><span class="n">URLString</span> <span class="nl">parameters</span><span class="p">:</span><span class="n">parameters</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code>POST http://example.com/
+Content-Type: application/x-www-form-urlencoded
+
+foo=bar&amp;baz[]=1&amp;baz[]=2&amp;baz[]=3
+</code></pre>
+
+<h4>JSON Parameter Encoding</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[[</span><span class="n">AFJSONRequestSerializer</span> <span class="n">serializer</span><span class="p">]</span> <span class="nl">requestWithMethod</span><span class="p">:</span><span class="s">@&quot;POST&quot;</span> <span class="nl">URLString</span><span class="p">:</span><span class="n">URLString</span> <span class="nl">parameters</span><span class="p">:</span><span class="n">parameters</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code>POST http://example.com/
+Content-Type: application/json
+
+{"foo": "bar", "baz": [1,2,3]}
+</code></pre>
+
+<hr />
+
+<h3>Network Reachability Manager</h3>
+
+<p><code>AFNetworkReachabilityManager</code> monitors the reachability of domains, and addresses for both WWAN and WiFi network interfaces.</p>
+
+<h4>Shared Network Reachability</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[[</span><span class="n">AFNetworkReachabilityManager</span> <span class="n">sharedManager</span><span class="p">]</span> <span class="nl">setReachabilityStatusChangeBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFNetworkReachabilityStatus</span> <span class="n">status</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Reachability: %@&quot;</span><span class="p">,</span> <span class="n">AFStringFromNetworkReachabilityStatus</span><span class="p">(</span><span class="n">status</span><span class="p">));</span>
+</span><span class='line'><span class="p">}];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>HTTP Manager Reachability</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">NSURL</span> <span class="o">*</span><span class="n">baseURL</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="s">@&quot;http://example.com/&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="n">AFHTTPRequestOperationManager</span> <span class="o">*</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFHTTPRequestOperationManager</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithBaseURL</span><span class="p">:</span><span class="n">baseURL</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="bp">NSOperationQueue</span> <span class="o">*</span><span class="n">operationQueue</span> <span class="o">=</span> <span class="n">manager</span><span class="p">.</span><span class="n">operationQueue</span><span class="p">;</span>
+</span><span class='line'><span class="p">[</span><span class="n">manager</span><span class="p">.</span><span class="n">reachabilityManager</span> <span class="nl">setReachabilityStatusChangeBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFNetworkReachabilityStatus</span> <span class="n">status</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">switch</span> <span class="p">(</span><span class="n">status</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">case</span> <span class="nl">AFNetworkReachabilityStatusReachableViaWWAN</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">case</span> <span class="nl">AFNetworkReachabilityStatusReachableViaWiFi</span><span class="p">:</span>
+</span><span class='line'>            <span class="p">[</span><span class="n">operationQueue</span> <span class="nl">setSuspended</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
+</span><span class='line'>            <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">case</span> <span class="nl">AFNetworkReachabilityStatusNotReachable</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">default</span><span class="o">:</span>
+</span><span class='line'>            <span class="p">[</span><span class="n">operationQueue</span> <span class="nl">setSuspended</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
+</span><span class='line'>            <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}];</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">[</span><span class="n">manager</span><span class="p">.</span><span class="n">reachabilityManager</span> <span class="n">startMonitoring</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<hr />
+
+<h3>Security Policy</h3>
+
+<p><code>AFSecurityPolicy</code> evaluates server trust against pinned X.509 certificates and public keys over secure connections.</p>
+
+<p>Adding pinned SSL certificates to your app helps prevent man-in-the-middle attacks and other vulnerabilities. Applications dealing with sensitive customer data or financial information are strongly encouraged to route all communication over an HTTPS connection with SSL pinning configured and enabled.</p>
+
+<h4>Allowing Invalid SSL Certificates</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">AFHTTPRequestOperationManager</span> <span class="o">*</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFHTTPRequestOperationManager</span> <span class="n">manager</span><span class="p">];</span>
+</span><span class='line'><span class="n">manager</span><span class="p">.</span><span class="n">securityPolicy</span><span class="p">.</span><span class="n">allowInvalidCertificates</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span> <span class="c1">// not recommended for production</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<hr />
+
+<h3>AFHTTPRequestOperation</h3>
+
+<p><code>AFHTTPRequestOperation</code> is a subclass of <code>AFURLConnectionOperation</code> for requests using the HTTP or HTTPS protocols. It encapsulates the concept of acceptable status codes and content types, which determine the success or failure of a request.</p>
+
+<p>Although <code>AFHTTPRequestOperationManager</code> is usually the best way to go about making requests, <code>AFHTTPRequestOperation</code> can be used by itself.</p>
+
+<h4><code>GET</code> with <code>AFHTTPRequestOperation</code></h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">NSURL</span> <span class="o">*</span><span class="n">URL</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="s">@&quot;http://example.com/resources/123.json&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="bp">NSURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURLRequest</span> <span class="nl">requestWithURL</span><span class="p">:</span><span class="n">URL</span><span class="p">];</span>
+</span><span class='line'><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">op</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFHTTPRequestOperation</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithRequest</span><span class="p">:</span><span class="n">request</span><span class="p">];</span>
+</span><span class='line'><span class="n">op</span><span class="p">.</span><span class="n">responseSerializer</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFJSONResponseSerializer</span> <span class="n">serializer</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">op</span> <span class="nl">setCompletionBlockWithSuccess</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="kt">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;JSON: %@&quot;</span><span class="p">,</span> <span class="n">responseObject</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span> <span class="nl">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Error: %@&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
+</span><span class='line'><span class="p">}];</span>
+</span><span class='line'><span class="p">[[</span><span class="bp">NSOperationQueue</span> <span class="n">mainQueue</span><span class="p">]</span> <span class="nl">addOperation</span><span class="p">:</span><span class="n">op</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Batch of Operations</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">NSMutableArray</span> <span class="o">*</span><span class="n">mutableOperations</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableArray</span> <span class="n">array</span><span class="p">];</span>
+</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="bp">NSURL</span> <span class="o">*</span><span class="n">fileURL</span> <span class="k">in</span> <span class="n">filesToUpload</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="bp">NSURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFHTTPRequestSerializer</span> <span class="n">serializer</span><span class="p">]</span> <span class="nl">multipartFormRequestWithMethod</span><span class="p">:</span><span class="s">@&quot;POST&quot;</span> <span class="nl">URLString</span><span class="p">:</span><span class="s">@&quot;http://example.com/upload&quot;</span> <span class="nl">parameters</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">constructingBodyWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="n">AFMultipartFormData</span><span class="o">&gt;</span> <span class="n">formData</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">formData</span> <span class="nl">appendPartWithFileURL</span><span class="p">:</span><span class="n">fileURL</span> <span class="nl">name</span><span class="p">:</span><span class="s">@&quot;images[]&quot;</span> <span class="nl">error</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFHTTPRequestOperation</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithRequest</span><span class="p">:</span><span class="n">request</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">[</span><span class="n">mutableOperations</span> <span class="nl">addObject</span><span class="p">:</span><span class="n">operation</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="bp">NSArray</span> <span class="o">*</span><span class="n">operations</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFURLConnectionOperation</span> <span class="nl">batchOfRequestOperations</span><span class="p">:</span><span class="l">@[</span><span class="p">...</span><span class="l">]</span> <span class="nl">progressBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSUInteger</span> <span class="n">numberOfFinishedOperations</span><span class="p">,</span> <span class="bp">NSUInteger</span> <span class="n">totalNumberOfOperations</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%lu of %lu complete&quot;</span><span class="p">,</span> <span class="n">numberOfFinishedOperations</span><span class="p">,</span> <span class="n">totalNumberOfOperations</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span> <span class="nl">completionBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSArray</span> <span class="o">*</span><span class="n">operations</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;All operations in batch complete&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}];</span>
+</span><span class='line'><span class="p">[[</span><span class="bp">NSOperationQueue</span> <span class="n">mainQueue</span><span class="p">]</span> <span class="nl">addOperations</span><span class="p">:</span><span class="n">operations</span> <span class="nl">waitUntilFinished</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Unit Tests</h2>
+
+<p>AFNetworking includes a suite of unit tests within the Tests subdirectory. In order to run the unit tests, you must install the testing dependencies via <a href="http://cocoapods.org/">CocoaPods</a>:</p>
+
+<pre><code>$ cd Tests
+$ pod install
+</code></pre>
+
+<p>Once testing dependencies are installed, you can execute the test suite via the &lsquo;iOS Tests&rsquo; and &lsquo;OS X Tests&rsquo; schemes within Xcode.</p>
+
+<h3>Running Tests from the Command Line</h3>
+
+<p>Tests can also be run from the command line or within a continuous integration environment. The <a href="https://github.com/mneorr/xcpretty"><code>xcpretty</code></a> utility needs to be installed before running the tests from the command line:</p>
+
+<pre><code>$ gem install xcpretty
+</code></pre>
+
+<p>Once <code>xcpretty</code> is installed, you can execute the suite via <code>rake test</code>.</p>
+
+<h2>Credits</h2>
+
+<p>AFNetworking was originally created by <a href="https://github.com/sco/">Scott Raymond</a> and <a href="https://github.com/mattt/">Mattt Thompson</a> in the development of <a href="http://en.wikipedia.org/wiki/Gowalla">Gowalla for iPhone</a>.</p>
+
+<p>AFNetworking&rsquo;s logo was designed by <a href="http://www.alandefibaugh.com/">Alan Defibaugh</a>.</p>
+
+<p>And most of all, thanks to AFNetworking&rsquo;s <a href="https://github.com/AFNetworking/AFNetworking/contributors">growing list of contributors</a>.</p>
+
+<h2>Contact</h2>
+
+<p>Follow AFNetworking on Twitter (<a href="https://twitter.com/AFNetworking">@AFNetworking</a>)</p>
+
+<h3>Maintainers</h3>
+
+<ul>
+<li><a href="http://github.com/mattt">Mattt Thompson</a> (<a href="https://twitter.com/mattt">@mattt</a>)</li>
+</ul>
+
+
+<h2>License</h2>
+
+<p>AFNetworking is available under the MIT license. See the LICENSE file for more info.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/01/05/ios-slash-androidkai-fa-yi-dong-duan-xin-sdklie-biao/">iOS/Android开发移动短信SDK列表</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-05T12:25:55+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:25 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<h3>Mob免费短信验证码</h3>
+
+<p><a href="http://mob.com/sms"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>开发者只需申请账号，APP内植入短信验证码SDK，简单设置后便可完美实现短信验证，同时也可实现通信录好友匹配功能，轻而易举实现短信验证服务。</p>
+
+<h2></br></h2>
+
+<h3>威达手机号码验证</h3>
+
+<p><a href="http://www.yuxin168.com/PNVWebSite/index.html"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>由于短信验证码会遇到发送不成功、到达太迟、易被软件拦截等种种弊端，威尔信达手机号码验证服务是一款不用向用户发送短信验证码，不用用户输入验证码，只要知道用户的手机号码和sim卡号码，通过电信网络自动完成号码验证的服务。</p>
+
+<h2></br></h2>
+
+<h3>新浪SAE短信服务</h3>
+
+<p><a href="http://sae.sina.com.cn"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>新浪无线短信服务是由新浪无线提供的综合性短信服务。通过该服务您可以给指定的手机发短信( 支持中国移动、中国联通、中国电信网络，短信到达率90%以上)；您发送的短信内容字数将不能超过72字(不含签名)。 短信服务属于收费服务，您可以使用付费云豆购买开通使用。</p>
+
+<h2></br></h2>
+
+<h3>电信天翼WEB短信API能力接口</h3>
+
+<p><a href="http://open.189.cn/show-6-88-1.html"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>中国电信天翼开放平台宣布最新推出免费WEB短信API能力接口，向第三方开发者提供免费WEB短信推送的能力。</p>
+
+<h2></br></h2>
+
+<h3>联通Wo短信能力开放接口</h3>
+
+<p><a href="http://open.wo.com.cn/aep/index.html"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>系统提供短信能力开放接口，通过联通能力共享平台，互联网应用能够向终端用户发送短信。</p>
+
+<h2></br></h2>
+
+<h3>飞拓·掌中传媒</h3>
+
+<p><a href="http://www.groupsms.cn/"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>南京飞拓短信验证码接口/订单通知短信专用接口，具有全国全网发送、3-5秒内响应、100%到达、通道稳定免维护等优势。专为网站短信验证码、网站订单通知等互动应用开设。</p>
+
+<h2></br></h2>
+
+<h3>天翼开放平台短消息</h3>
+
+<p><a href="http://open.189.cn/index.php?m=ability&c=index&a=show&id=359"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>天翼短消息包括：模板短信、短信验证码、发送免费web短息。</p>
+
+<h2></br></h2>
+
+<h3>三基时代</h3>
+
+<p><a href="http://www.3gimes.com"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>三基时代（3Gimes）成立于2007年5月，早期专注于移动增值信息服务（SI），是中国移动、联通、电信的高级战略合伙伙伴；目前专注于验证码短信、移动互联网的统一通讯融合平台。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/01/05/ios-slash-androidkai-fa-ji-shi-tong-xun-sdklie-biao/">iOS/Android开发即时通讯SDK列表</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-05T12:16:22+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:16 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<h3>环信即时通讯云</h3>
+
+<p><a href="http://www.easemob.com"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>环信即时通讯云是移动即时通讯能力的云计算 PaaS (Platform as a Service, 平台即服务) 平台服务商。移动即时通讯能力是指基于互联网和移动终端的单聊，群聊，富媒体消息，实时语音，实时视频，多人语音视频，流媒体播放及互动等通讯能力。环信将移动即时通讯能力通过云端开放的API 和客户端 SDK 包的方式提供给开发者和企业，帮助合作伙伴在自己的产品中便捷、快速的实现通讯和社交功能。</p>
+
+<h2></br></h2>
+
+<h3>融云即时通讯云</h3>
+
+<p><a href="http://www.rongcloud.cn"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>融云是国内首家专业的即时通讯云服务提供商，专注为互联网、移动互联网开发者提供即时通讯基础能力和云端服务。通过融云平台，开发者不必搭建服务端硬件环境，就可以将即时通讯、实时网络能力快速集成至应用中。融云针对开发者所需的不同场景，提供了一系列产品、技术解决方案，包括：客户端IM组件，客户端IM基础库，服务端REST API，客户端实时网络通讯基础库等。利用这些解决方案，开发者可以直接在自己的应用中构建出即时通讯产品，也可以无限创意出自己的即时通讯场景。</p>
+
+<h2></br></h2>
+
+<h3>容联·云通讯语音服务</h3>
+
+<p><a href="http://www.yuntongxun.com"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>云通讯平台为企业及个人开发者提供各种通讯能力，包括VoIP、视频、会议、呼叫中心/IVR、IM等，开发者通过嵌入云通讯API能够在应用中轻松实现各种通讯功能，包括语音验证码、语音对讲、群组语聊、点击拨号、营销外呼、语音会议、视频通话、云呼叫中心等功能。</p>
+
+<h2></br></h2>
+
+<h3>亲加即时通讯云</h3>
+
+<p><a href="http://www.gotye.com.cn"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>亲加即时通讯云通过向开发者提供SDK和API，帮助开发者实现应用内部的单聊，群聊，聊天室功能。其中 API 提供了完整的聊天室及一对一单聊功能，通过在应用中接入亲加API，能够实现文字、图片以及语音的发送和接收。</p>
+
+<h2></br></h2>
+
+<h3>LeanCloud实时消息</h3>
+
+<p><a href="https://cn.avoscloud.com/features/storage.html#%2Fslide-2"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>LeanCloud实时消息只需几行代码，就可使用户的应用完成移动 IM 的功能添加。IM 系统与当前用户系统完全解耦，无需同步或修改现有用户体系，即可使用；除 iOS、Android 移动开发的原生 SDK 之外，还也支持网页内聊天。</p>
+
+<h2></br></h2>
+
+<h3>云之讯</h3>
+
+<p><a href="http://www.ucpaas.com/product_service/download"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>云之讯融合通讯开放平台为企业及个人开发者提供各种通讯能力，包括VoIP、视频、会议、呼叫中心/IVR、IM等，开发者通过嵌入云通讯API能够在应用中轻松实现各种通讯功能，包括语音验证码、语音对讲、群组语聊、点击拨号、营销外呼、语音会议、视频通话等功能。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/01/04/ios-slash-androidkai-fa-ren-lian-shi-bie-sdklie-biao/">iOS/Android开发人脸识别SDK列表</a></h1>
     
     
@@ -1180,520 +2094,6 @@ _videoBuffer = [[GPUImageBuffer alloc] init];
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/12/13/ioskai-fa-da-zhong-dian-ping-urlqian-ming-sheng-cheng-gui-ze-he-sha-1bian-ma/">iOS开发大众点评URL签名生成规则和SHA-1编码</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-12-13T13:52:29+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>1:52 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p></br>
-URL签名生成规则</p>
-
-<p>所有<a href="http://www.superqq.com/blog/2014/12/13/ioskai-fa-da-zhong-dian-ping-urlqian-ming-sheng-cheng-gui-ze-he-sha-1bian-ma/">大众点评API</a>的有效访问URL包括以下三个部分：
-1. 资源访问路径，如/v1/deal/find_deals;
-2. 请求参数：即API对应所需的参数名和参数值param=value，多个请求参数间用&amp;连接
-   如deal_id=1-85462&amp;appkey=00000；
-3. 签名串，由签名算法生成</p>
-
-<p>签名算法如下：
-1. 对除appkey以外的所有请求参数进行字典升序排列；
-2. 将以上排序后的参数表进行字符串连接，如key1value1key2value2key3value3&hellip;keyNvalueN；
-3. 将app key作为前缀，将app secret作为后缀，对该字符串进行SHA-1计算，并转换成16进制编码；
-4. 转换为全大写形式后即获得签名串</p>
-
-<p>签名串获得后，将其作为sign参数附加到对应的URL中，即可正常访问API。</p>
-
-<pre><code>注意：请保证HTTP请求数据编码务必为UTF-8格式，URL也务必为UTF-8编码格式。
-</code></pre>
-
-<p>具体调用示例请参见<a href="https://github.com/dianping/dianping-open-sdk"target="_blank"title="刚刚在线"><a href="https://github.com/dianping/dianping-open-sdk">https://github.com/dianping/dianping-open-sdk</a></a></p>
-
-<pre><code>+ (NSDictionary *)parseQueryString:(NSString *)query {
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:6];
-    NSArray *pairs = [query componentsSeparatedByString:@"&amp;"];
-
-    for (NSString *pair in pairs) {
-        NSArray *elements = [pair componentsSeparatedByString:@"="];
-
-        if ([elements count] &lt;= 1) {
-            return nil;
-        }
-
-        NSString *key = [[elements objectAtIndex:0] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSString *val = [[elements objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-
-        [dict setObject:val forKey:key];
-    }
-    return dict;
-}
-
-
-
-+ (NSString *)serializeURL:(NSString *)baseURL params:(NSDictionary *)params
-{
-    NSURL* parsedURL = [NSURL URLWithString:[baseURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    NSMutableDictionary *paramsDic = [NSMutableDictionary dictionaryWithDictionary:[self parseQueryString:[parsedURL query]]];
-    if (params) {
-        [paramsDic setValuesForKeysWithDictionary:params];
-    }
-
-    NSMutableString *signString = [NSMutableString stringWithString:DIANPING_APP_KEY];
-    NSMutableString *paramsString = [NSMutableString stringWithFormat:@"appkey=%@", DIANPING_APP_KEY];
-    NSArray *sortedKeys = [[paramsDic allKeys] sortedArrayUsingSelector: @selector(compare:)];
-    for (NSString *key in sortedKeys) {
-        [signString appendFormat:@"%@%@", key, [paramsDic objectForKey:key]];
-        [paramsString appendFormat:@"&amp;%@=%@", key, [paramsDic objectForKey:key]];
-    }
-    [signString appendString:DIANPING_APP_Secret];
-    unsigned char digest[CC_SHA1_DIGEST_LENGTH];
-    NSData *stringBytes = [signString dataUsingEncoding: NSUTF8StringEncoding];
-    if (CC_SHA1([stringBytes bytes], (long)[stringBytes length], digest)) {
-        /* SHA-1 hash has been calculated and stored in 'digest'. */
-        NSMutableString *digestString = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH];
-        for (int i=0; i&lt;CC_SHA1_DIGEST_LENGTH; i++) {
-            unsigned char aChar = digest[i];
-            [digestString appendFormat:@"%02X", aChar];
-        }
-        [paramsString appendFormat:@"&amp;sign=%@", [digestString uppercaseString]];
-        return [NSString stringWithFormat:@"%@://%@%@?%@", [parsedURL scheme], [parsedURL host], [parsedURL path], [paramsString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    } else {
-        return nil;
-    }
-}
-</code></pre>
-
-<p>直接调用这个方法即可签名成功，+ (NSString <em>)serializeURL:(NSString </em>)baseURL params:(NSDictionary *)params</p>
-
-<pre><code>NSString *url = [LGClient serializeURL:string params:nil];
-
-//string是大众点评的需要请求的接口
-</code></pre>
-
-<p>这个url就可以用来请求大众点评数据了</p>
-
-<p>我的微信公众号：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-
-<p>我也会将大家分享的方法发到iOS开发微信公众账号：iOSDevTip 里面，分享给更多iOS开发者。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/12/11/nsmutableurlrequesthe-nsurlconnectionyong-postfang-shi-shang-chuan-zhao-pian/">NSMutableURLRequest和NSURLConnection用Post方式上传照片</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-12-11T10:00:07+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:00 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>需求：上传一张照片和内容，内容包括：用户编辑的内容、经纬度、地点等等，就是类似发一个说说。这就是一个很平常的功能，实现的方式想必各位能想到很多。</p>
-
-<p>接下来我想用系统的NSURLConnection来实现这个功能：</p>
-
-<p>首先我们要定义一个全局变量:</p>
-
-<pre><code>/**
- *  请求返回数据
- */
-@property (nonatomic, strong) NSMutableData *mResponseData;
-</code></pre>
-
-<p>实现代码：</p>
-
-<pre><code>//字典里面装的是你要上传的内容
-NSDictionary *parameters = @{@"content": @"这是刚刚在线的官方网站www.superqq.com"};
-
-//上传的接口
-NSString* urlstring = @"http://superqq.com/";
-//分界线的标识符
-NSString *TWITTERFON_FORM_BOUNDARY = @"AaB03x";
-//根据url初始化request
-NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlstring]
-                                                        cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
-                                                    timeoutInterval:10];
-//分界线 --AaB03x
-NSString *MPboundary=[[NSString alloc]initWithFormat:@"--%@",TWITTERFON_FORM_BOUNDARY];
-//结束符 AaB03x--
-NSString *endMPboundary=[[NSString alloc]initWithFormat:@"%@--",MPboundary];
-//    //要上传的图片
-//    UIImage *image=[params objectForKey:@"pic"];
-//得到图片的data
-NSData *data = UIImagePNGRepresentation(self.image);
-//http body的字符串
-NSMutableString *body=[[NSMutableString alloc]init];
-//参数的集合的所有key的集合
-NSArray *keys= [parameters allKeys];
-
-//遍历keys
-for(int i=0;i&lt;[keys count];i++)
-{
-    //得到当前key
-    NSString *key=[keys objectAtIndex:i];
-    //如果key不是pic，说明value是字符类型，比如name：Boris
-    if(![key isEqualToString:@"pic"])
-    {
-        //添加分界线，换行
-        [body appendFormat:@"%@\r\n",MPboundary];
-        //添加字段名称，换2行
-        [body appendFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n",key];
-        //添加字段的值
-        [body appendFormat:@"%@\r\n",[parameters objectForKey:key]];
-    }
-}
-
-////添加分界线，换行
-[body appendFormat:@"%@\r\n",MPboundary];
-//声明pic字段，文件名为boris.png
-[body appendFormat:@"Content-Disposition: form-data; name=\"pic\"; filename=\"boris.png\"\r\n"];
-//声明上传文件的格式
-[body appendFormat:@"Content-Type: image/png\r\n\r\n"];
-
-//声明结束符：--AaB03x--
-NSString *end=[[NSString alloc]initWithFormat:@"\r\n%@",endMPboundary];
-//声明myRequestData，用来放入http body
-NSMutableData *myRequestData=[NSMutableData data];
-//将body字符串转化为UTF8格式的二进制
-[myRequestData appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
-//将image的data加入
-[myRequestData appendData:data];
-//加入结束符--AaB03x--
-[myRequestData appendData:[end dataUsingEncoding:NSUTF8StringEncoding]];
-
-//设置HTTPHeader中Content-Type的值
-NSString *content=[[NSString alloc]initWithFormat:@"multipart/form-data; boundary=%@",TWITTERFON_FORM_BOUNDARY];
-//设置HTTPHeader
-[request setValue:content forHTTPHeaderField:@"Content-Type"];
-//设置Content-Length
-[request setValue:[NSString stringWithFormat:@"%d", (int)[myRequestData length]] forHTTPHeaderField:@"Content-Length"];
-//设置http body
-[request setHTTPBody:myRequestData];
-//http method
-[request setHTTPMethod:@"POST"];
-
-//建立连接，设置代理
-NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-
-//设置接受response的data
-if (conn) {
-    _mResponseData = [[NSMutableData alloc] init];
-}
-</code></pre>
-
-<p>NSURLConnectionDelegate的代理方法：</p>
-
-<pre><code>#pragma mark - NSURLConnectionDelegate
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-   [_mResponseData setLength:0];
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-   [_mResponseData appendData:data];
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-
-   NSDictionary *dic =  [NSJSONSerialization JSONObjectWithData:_mResponseData options:kNilOptions error:nil];
-   NSLog(@"%@", dic);
-
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
-   NSLog(@"Error: %@", error);
-}
-</code></pre>
-
-<p>这是我的实现方式，再次抛砖引玉，如果你要好的方法，欢迎分享！</p>
-
-<p>iOS开发微信公众号：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-
-<p>我也会将大家分享的方法发到iOS开发微信公众账号：iOSDevTip 里面，分享给更多iOS开发者。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/12/05/cheng-xu-yuan-fu-li-ge-da-ping-tai-mian-fei-jie-kou-,fei-chang-gua-yong/">程序员福利各大平台免费接口，非常适用</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-12-05T10:39:56+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:39 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>电商接口</p>
-
-<p>京东获取单个商品价格接口:</p>
-
-<pre><code>http://p.3.cn/prices/mgets?skuIds=J_商品ID&amp;type=1
-</code></pre>
-
-<p>ps:商品ID这么获取:<a href="http://item.jd.com/954086.html">http://item.jd.com/954086.html</a>
-物流接口</p>
-
-<p>快递接口:</p>
-
-<pre><code>http://www.kuaidi100.com/query?type=快递公司代号&amp;postid=快递单号
-</code></pre>
-
-<p>ps:快递公司编码:申通=”shentong” EMS=”ems” 顺丰=”shunfeng” 圆通=”yuantong” 中通=”zhongtong” 韵达=”yunda” 天天=”tiantian” 汇通=”huitongkuaidi” 全峰=”quanfengkuaidi” 德邦=”debangwuliu” 宅急送=”zhaijisong”
-谷歌接口</p>
-
-<p>FeedXml转json接口:</p>
-
-<pre><code>http://ajax.googleapis.com/ajax/services/feed/load?q=Feed地址&amp;v=1.0
-</code></pre>
-
-<p>备选参数:callback：&amp;callback=foo就会在json外面嵌套foo({})方便做jsonp使用。</p>
-
-<p>备选参数:n：返回多少条记录。
-天气接口</p>
-
-<p>百度接口:</p>
-
-<pre><code>http://api.map.baidu.com/telematics/v3/weather?location=嘉兴&amp;output=json&amp;ak=5slgyqGDENN7Sy7pw29IUvrZ
-</code></pre>
-
-<p>location:城市名或经纬度 ak:开发者密钥 output:默认xml</p>
-
-<p>气象局接口:</p>
-
-<pre><code>http://m.weather.com.cn/data/101010100.html
-</code></pre>
-
-<p>音乐接口</p>
-
-<p>虾米接口</p>
-
-<pre><code>http://kuang.xiami.com/app/nineteen/search/key/歌曲名称/diandian/1/page/歌曲当前页?_=当前毫秒&amp;callback=getXiamiData
-</code></pre>
-
-<p>QQ空间音乐接口</p>
-
-<pre><code>http://qzone-music.qq.com/fcg-bin/cgi_playlist_xml.fcg?uin=QQ号码&amp;json=1&amp;g_tk=1916754934
-</code></pre>
-
-<p>QQ空间收藏音乐接口</p>
-
-<pre><code>http://qzone-music.qq.com/fcg-bin/fcg_music_fav_getinfo.fcg?dirinfo=0&amp;dirid=1&amp;uin=QQ号&amp;p=0.519638272547262&amp;g_tk=1284234856
-</code></pre>
-
-<p>多米音乐接口</p>
-
-<pre><code>http://v5.pc.duomi.com/search-ajaxsearch-searchall?kw=关键字&amp;pi=页码&amp;pz=每页音乐数
-</code></pre>
-
-<p>soso接口</p>
-
-<pre><code>http://cgi.music.soso.com/fcgi-bin/fcg_search_xmldata.q?source=10&amp;w=关键字&amp;perpage=1&amp;ie=utf-8
-</code></pre>
-
-<p>视频接口</p>
-
-<p>土豆接口</p>
-
-<pre><code>http://api.tudou.com/v3/gw?method=album.item.get&amp;amp;appKey=Appkey&amp;format=json&amp;albumId=视频剧集ID&amp;pageNo=当前页&amp;pageSize=每页显示
-</code></pre>
-
-<p>地图接口</p>
-
-<p>阿里云根据地区名获取经纬度接口</p>
-
-<pre><code>http://gc.ditu.aliyun.com/geocoding?a=苏州市
-</code></pre>
-
-<p>参数解释: 纬度,经度type 001 (100代表道路，010代表POI，001代表门址，111可以同时显示前三项)</p>
-
-<p>阿里云根据经纬度获取地区名接口</p>
-
-<pre><code>http://gc.ditu.aliyun.com/regeocoding?l=39.938133,116.395739&amp;type=001
-</code></pre>
-
-<p>IP接口</p>
-
-<p>新浪接口(ip值为空的时候 获取本地的)</p>
-
-<pre><code>http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json&amp;ip=218.4.255.255
-</code></pre>
-
-<p>淘宝接口</p>
-
-<pre><code>http://ip.taobao.com/service/getIpInfo.php?ip=63.223.108.42
-</code></pre>
-
-<p>手机信息查询接口</p>
-
-<p>淘宝网接口</p>
-
-<pre><code>http://tcc.taobao.com/cc/json/mobile_tel_segment.htm?tel=手机号
-</code></pre>
-
-<p>拍拍接口</p>
-
-<pre><code>http://virtual.paipai.com/extinfo/GetMobileProductInfo?mobile=手机号&amp;amount=10000&amp;callname=getPhoneNumInfoExtCallback 用例
-</code></pre>
-
-<p>百付宝接口</p>
-
-<pre><code>https://www.baifubao.com/callback?cmd=1059&amp;callback=phone&amp;phone=手机号
-</code></pre>
-
-<p>115接口</p>
-
-<pre><code>http://cz.115.com/?ct=index&amp;ac=get_mobile_local&amp;callback=jsonp1333962541001&amp;mobile=手机号
-</code></pre>
-
-<p>有道接口</p>
-
-<pre><code>http://www.youdao.com/smartresult-xml/search.s?jsFlag=true&amp;type=mobile&amp;q=手机号
-</code></pre>
-
-<p>手机在线接口</p>
-
-<pre><code>http://api.showji.com/Locating/www.showji.com.aspx?m=手机号&amp;output=json&amp;callback=querycallback
-</code></pre>
-
-<p>视频信息接口</p>
-
-<p>优酷</p>
-
-<pre><code>http://v.youku.com/player/getPlayList/VideoIDS/视频ID (比如 http://v.youku.com/v_show/id_XNTQxNzc4ODg0.html的ID就是XNTQxNzc4ODg0)
-</code></pre>
-
-<p>翻译、词典接口</p>
-
-<p>腾讯</p>
-
-<pre><code>http://dict.qq.com/dict?q=词语
-</code></pre>
-
-<p>腾讯的部分接口</p>
-
-<p>获取QQ昵称和用户头像</p>
-
-<pre><code>http://r.qzone.qq.com/cgi-bin/user/cgi_personal_card?uin=QQ
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/12/04/ioskai-fa-:gitming-ling-fan-hui-ren-yi-%5B%3F%5D-ge-ban-ben-de-fang-fa/">iOS开发：git命令返回任意一个版本的方法</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-12-04T18:28:04+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>6:28 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>git回退某一个版本的方法：</p>
-
-<p><div class="entry-content"><h3>一：记录回退的hash值</h3></p>
-
-<p>首先要查看你要回退到哪一个版本</p>
-
-<p>方法1：git log</p>
-
-<p>会展示最新的提交记录，然后你按着键盘的“向下”键，看更多的提交记录，记住你要回退的哪一个版本的hash值</p>
-
-<p>方法2：git reflog</p>
-
-<p>会展示最近操作的记录，然后你记住要回退的hash值</p>
-
-<p><div class="entry-content"><h3>二：执行回退命令</h3></p>
-
-<p>知道hash值之后，接下来就是指向回退命令了：</p>
-
-<p>git reset &ndash;hard +版本号回到该版本状态下</p>
-
-<p>这样你就可以回退的任意一个版本了，挺方便的。</p>
-
-<p></br></p>
-
-<p>更多iOS开发技术请关注：</p>
-
-<p>微信公众号：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/9">&larr; Older</a>
@@ -1711,23 +2111,23 @@ if (conn) {
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/07/21/bao-cuo-:process-launch-failed-failed-to-get-the-task-for-process-1285(jie-jue-fang-an-)/">报错：failed to Get the Task for Process 1285（解决方案）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-(sandbox/">iOS开发之沙盒机制（SandBox)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/19/cheng-xu-yuan-tou-tiao-:cheng-xu-yuan-guan-xin-de-,cai-shi-tou-tiao-!/">程序员头条：程序员关心的，才是头条！</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/17/wo-zhe-ge-zhan-chang-shi-zen-yao-lian-cheng-de/">我这个站长是怎么炼成的</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/07/16/nsstringde-ba-tiao-shi-yong-ji-qiao/">NSString的八条实用技巧</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/16/cheng-xu-yuan-:xuan-dui-fang-xiang-chi-xu-nu-li/">程序员：选对方向持续努力</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/15/tong-guo-url-schemechuan-di-can-shu/">通过URL Scheme传递参数</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/14/xcode6-dot-4zhu-ce-url-schemebu-zou-xiang-jie/">Xcode6.4注册URL Scheme步骤详解</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/13/cong-apptiao-dao-she-zhi-jie-mian/">从app跳到设置界面</a>
       </li>
     
   </ul>
