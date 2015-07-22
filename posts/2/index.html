@@ -89,6 +89,205 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/07/14/xcode6-dot-4zhu-ce-url-schemebu-zou-xiang-jie/">Xcode6.4注册URL Scheme步骤详解</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-14T23:34:16+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:34 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>好消息：微信团队邀请我的iOS开发（id：<strong>iOSDevTip</strong>）微信公众号开通赞赏功能，以后我就可以光明正大的通过文章要饭啦。你的赞赏就是我最大的动力。</p>
+
+<p>这是今天下午15：30收到的邀请：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/zanshang.png" alt="zanshang1" /></p>
+
+<h2>微信赞赏功能</h2>
+
+<p>为什么推出赞赏功能？微信公众号自2012年推出以来，一直成爆发式的增长。微信推出赞赏功能最重要的目的就是为了鼓励原创，鼓励创新。</p>
+
+<p>之前，原创功能、赞赏功能和评论功能是一起邀请开通的。现在微信团队分三次邀请。现在我的iOS开发公众号，已经被邀请开通了原创和赞赏功能，下一步争取开通评论功能。</p>
+
+<p>如果开通评论功能，我就可以更方便的和大家交流。一经邀请，我会第一时间告诉大家的。好消息，大家也知道啦。接下来继续回到正题，我们来谈谈iOS中的URL Scheme。</p>
+
+<h2>URL Scheme的作用</h2>
+
+<p>我们都知道苹果手机中的APP都有一个沙盒，APP就是一个信息孤岛，相互是不可以进行通信的。但是iOS的APP可以注册自己的URL Scheme，URL Scheme是为方便app之间互相调用而设计的。我们可以通过系统的OpenURL来打开该app，并可以传递一些参数。</p>
+
+<p>例如：你在Safari里输入www.alipay.com，就可以直接打开你的支付宝app，前提是你的手机装了<a href="http://www.superqq.com/blog/2015/07/10/zhi-fu-bao-he-wei-xin-zai-chao-xi-shang-shui-geng-sheng-%5B%3F%5D-chou/">支付宝</a>。如果你没有装支付宝，应该显示的是支付宝下载界面，点击会跳到AppStore的支付宝下载界面。</p>
+
+<p>URL Scheme必须能唯一标识一个APP，如果你设置的URL Scheme与别的APP的URL Scheme冲突时，你的APP不一定会被启动起来。因为当你的APP在安装的时候，系统里面已经注册了你的URL Scheme。</p>
+
+<p>一般情况下，是会调用先安装的app。但是iOS的系统app的URL Scheme肯定是最高的。所以我们定义URL Scheme的时候，尽量避开系统app已经定义过的URL Scheme。</p>
+
+<h2>注册URL Scheme</h2>
+
+<h3>1.在info.plist里添加URL types</h3>
+
+<p>每一个项目里面都会有一个info.plist配置文件。找到info.plist，右键选择Add Row，然后选择URL types。如图所示：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url1.jpg" alt="url1" /></p>
+
+<h3>2.添加URL Schemes</h3>
+
+<p>添加完URL types，点击展开。右键选择Add Row，添加URL Schemes：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url2.jpg" alt="url2" /></p>
+
+<h3>3.设置URL Schemes</h3>
+
+<p>设置URL Schemes为iOSDevTip</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url3.jpg" alt="url3" /></p>
+
+<h3>4.设置URL Identifier</h3>
+
+<p>URL Identifier是自定义的 URL scheme 的名字，一般采用反转域名的方法保证该名字的唯一性，比如 com.iOSStrongDemo.www</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url4.jpg" alt="url4" /></p>
+
+<h2>添加成功启动提示</h2>
+
+<p>为了方便测试，我们在AppDelegate里面添加一个UIAlertView，当app被成功打开时，会提出提示：</p>
+
+<pre><code>- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL*)url
+{
+    // 接受传过来的参数
+    NSString *text = [[url host] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"打开啦"
+                                           message:text
+                                          delegate:nil
+                                 cancelButtonTitle:@"OK"
+                                 otherButtonTitles:nil];
+    [alertView show];
+    return YES;
+}
+</code></pre>
+
+<h2>Safari启动自定义的URL Schemes APP</h2>
+
+<p>既然已经配置好URL Schemes，那么我们可以来款速测试一下，我们设置的URL Schemes是否有效。打开Safari，在地址栏里输入：iOSDevTip://</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url6.png" alt="url6" /></p>
+
+<p>果然成功打开：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url5.png" alt="url5" /></p>
+
+<p>也可以在地址栏中输入：iOSDevTip://com.iOSStrongDemo.www。也是可以打开注册了URL Schemes的APP的。</p>
+
+<h2>通过另一个APP启动注册了URL Schemes的APP</h2>
+
+<pre><code> NSString *url = @"iOSDevTip://";
+//    NSString *url = @"iOSDevTip://com.iOSStrongDemo.www";
+if ([[UIApplication sharedApplication]
+     canOpenURL:[NSURL URLWithString:url]])
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+}
+else
+{
+    NSLog(@"can not open URL scheme iOSDevTip");
+}
+</code></pre>
+
+<p>打开注册iOSDevTip的APP格式为: URL Scheme://URL identifier，直接调用URL Scheme也可打开程序, URL identifier是可选的。</p>
+
+<p>注册URL Scheme就是这么简单。下一篇会分享如何通过URL Scheme传递参数。demo下载地址：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/13/cong-apptiao-dao-she-zhi-jie-mian/">从app跳到设置界面</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-13T23:50:45+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:50 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>这次去郑州主要是参加大学同学的婚礼。匆匆而来，匆匆而回。时间安排的好紧，还没有来得及多看两眼我的大好中原。</p>
+
+<p>来参加婚礼的还有其他几位同学，有的真是多年不见。见面之后相互虚寒一番，一起讨论讨论各自的近况。时间飞逝，让这样的相遇变得非常珍贵。</p>
+
+<p>这次的婚礼，别有一番风味。</p>
+
+<h2>第一次在教堂里参加婚礼</h2>
+
+<p>我的这位同学，他是一位虔诚的基督徒，他们的婚礼也理所当然的在教堂举行。教堂是一个神圣庄严的地方，虽然我不是一名基督徒，但是我依然怀有一颗虔诚的心。</p>
+
+<p>婚礼还是相当热闹的。有牧师为他们证婚，真的是很幸福。新娘也感动的眼泪都留下来了。</p>
+
+<p>婚礼结束之后，抽空拉着另外一个同学，加上新郎，我们三兄弟合了一张影。这张照片可以发给大家欣赏一下：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/hunli.png" alt="1" /></p>
+
+<p>看到这张我不由得说一句：又长胖了！好吧，闲话就絮叨这里。今天给大家分享一个小功能：从app跳到设置界面。</p>
+
+<h2>从app跳到设置界面</h2>
+
+<p>直接上代码：</p>
+
+<pre><code> NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+ if ([[UIApplication sharedApplication] canOpenURL:url]) {
+     [[UIApplication sharedApplication] openURL:url];
+ }
+</code></pre>
+
+<p>上面这段代码要在iOS 8以上的系统使用。一般做智能家居app的，需要到设置界面连接wifi，但是苹果没有提供这样的接口。所以可以退而求其次，跳到系统的设置界面。</p>
+
+<p>想测试的童鞋请下载demo：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
+
+<h2>回复关键词获取相应文章</h2>
+
+<p>公众号iOS开发：<strong>iOSDevTip</strong>，已经发展一年多的时间，已经积累了很多优秀的文章。也许能帮到一些小忙。</p>
+
+<p>我告诉大家，如何找到这些优秀的文章：</p>
+
+<ol>
+<li>查看历史消息</li>
+<li>关键词回复，先回复“m”，获取目录。目录里面详细讲解了，哪些关键词对应哪些文章。</li>
+</ol>
+
+
+<p>有什么不懂得可以随时联系我，直接在后台回复就可以，也可以加我的微信：<strong>chinaligang</strong></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/07/13/iosti-jiao-hou-shen-qing-jia-ji-shen-he/">iOS提交后申请加急审核</a></h1>
     
     
@@ -1117,225 +1316,6 @@ dateFormatter.locale = usLocale;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/06/ioskai-fa-zi-ding-yi-shi-jian-xuan-qu-qi/">iOS开发自定义时间选取器</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-06T23:40:21+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:40 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>又是一年的暑假日期而至，小孩子放假，都会到在外打工的父母身边。孩子想父母，父母也思念着自己的孩子。我身边的亲戚朋友的孩子 也都来了。这个暑假又该热闹起来。</p>
-
-<h2>努力什么时候都不晚</h2>
-
-<p>我有一个表妹，今年参加完高考，对自己的成绩不是特别满意。上次我回老家，刚好她给我一起来上海。准备来上海锻炼一下。</p>
-
-<p>车上我问她，准备去哪上学？她说不想上了，想打工。我没有怎么劝她，我想让她体验一下打工的生活，她就知道还是上学好。</p>
-
-<p>一个高中生，出来找工作，困难可想而知。经姐姐介绍，进了一家餐厅工作。工资也不是很高。干了两天，我问她怎么样？她说，高二要是来让我体验一下，我一定能考上一本。</p>
-
-<p>也许真的如她所说的那样，但是谁知道呢？时间也不会倒流，她也不再可能再参加一次高考了。人只有吃过苦头，才知道努力。这是件好事，大学好好把握也是一样的。</p>
-
-<p><strong>无论处于什么困境，只要知道努力，我觉得什么时候都不晚。</strong>关注<a href="http://www.superqq.com/">iOS开发</a>微信公众号：<strong>iOSDevTip</strong></p>
-
-<h2>自定义时间选取器</h2>
-
-<p>每天都随便扯扯，回到正题。今天我们做一个时间选取器，很简单，效果如下：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/time.png" alt="time" /></p>
-
-<p>我们自定义一个LGDatePickerView，在LGDatePickerView里面实现。</p>
-
-<h2>背景半透明</h2>
-
-<p>背景是半透明的，点击的灰色背景的时候，时间选取器消失。在LGDatePickerView初始化方法里，代码如下：</p>
-
-<pre><code>- (id)init
-{
-    self = [super init];
-    if (self) {
-  //背景半透明，绑定取消方法
-    UIControl *control = [[UIControl alloc] initWithFrame:SCREEN_BOUNDS];
-    control.backgroundColor = [UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:0.5f];
-    [self addSubview:control];
-    [control addTarget:self action:@selector(actionCancel:) forControlEvents:UIControlEventTouchUpInside];     
-     }
-    return self;
-}
-</code></pre>
-
-<p>绑定的actionCancel方法：</p>
-
-<pre><code>- (void)actionCancel:(id)sender
-{
-    [self removeFromSuperview];
-}
-</code></pre>
-
-<h2>确定取消按钮</h2>
-
-<p>看到上面的确定取消按钮，你会怎么做，写一个UIView上面放两个UIButton。这样做也是可以实现的。我们还可以用UIToolbar。在LGDatePickerView初始化方法里加上下面这段代码：</p>
-
-<pre><code> // Toolbar
-UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, SCREEN.height - 250, SCREEN.width, 50)];
-toolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
-UIBarButtonItem *itemCancelDone = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(actionConfirm:)];
-UIBarButtonItem *itemCancel = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(actionCancel:)];
-UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-[toolbar setItems:[NSArray arrayWithObjects:itemCancel,space,itemCancelDone, nil]];
-[control addSubview:toolbar];
-</code></pre>
-
-<p>actionCancel上面已经实现了。下面实现actionConfirm方法。它有什么作用呢？</p>
-
-<ul>
-<li>点击的时候获取到时间，然后通过代理代理出去</li>
-<li><p>时间选取器消失</p>
-
-<pre><code>  - (void)actionConfirm:(id)sender
-  {
-      if ([self.delegate respondsToSelector:@selector(datePickerView:didSelectTime:)]) {
-          [self.delegate datePickerView:self didSelectTime:self.datePicker.date];
-      }
-      [self removeFromSuperview];
-  }
-</code></pre></li>
-</ul>
-
-
-<h2>代理方法</h2>
-
-<p>在LGDatePickerView.h</p>
-
-<pre><code>@protocol LGDatePickerViewDelegate &lt;NSObject&gt;
-
-- (void)datePickerView:(LGDatePickerView *)datepicker didSelectTime:(NSDate *)time;
-
-@end
-</code></pre>
-
-<h2>创建UIDatePicker</h2>
-
-<p>在LGDatePickerView.h定义一个全局变量：</p>
-
-<pre><code>@property (nonatomic, strong) UIDatePicker *datePicker;
-</code></pre>
-
-<p>在LGDatePickerView初始化方法里加上下面这段代码：</p>
-
-<pre><code>UIDatePicker *datePicker = [[UIDatePicker alloc] init];
-datePicker.backgroundColor = [UIColor whiteColor];
-datePicker.datePickerMode = UIDatePickerModeCountDownTimer;
-datePicker.date = [NSDate date];
-datePicker.frame = CGRectMake(0, SCREEN.height - 200, SCREEN.width, 220);
-[control addSubview:datePicker];
-self.datePicker = datePicker;
-</code></pre>
-
-<h2>使用LGDatePickerView</h2>
-
-<p>使用起来很简单，创建一下，然后加载self.view上面即可：</p>
-
-<pre><code>    LGDatePickerView *datePicker = [[LGDatePickerView alloc] init];
-    datePicker.delegate = self;
-    datePicker.datePicker.date = [NSDate date];
-    datePicker.frame = self.view.bounds;
-    [self.view addSubview:datePicker];
-</code></pre>
-
-<p>以上就实现了iOS开发自定义时间选取器，代码不难，有什么问题，欢迎提问哈。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/05/cheng-xu-yuan-diao-si-ni-xi-zhi-lu-bu-shi-chao-gu/">程序员屌丝逆袭之路不是炒股</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-05T23:35:57+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:35 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>最近这一段时间，你身边是不是大多数人都在谈论股票？那就对了，无论走到哪都能听到，今天又绿了，我的股票跌停了，冲上5000点啦，等等之类的话。</p>
-
-<p>我还不是一个股民，一直都不是。因为不懂，不敢入市；因为有人跳楼，害怕入市；最主要的原因是，因为手里没有人民币。</p>
-
-<p>人们常说：股市有风险，入市需谨慎。但是还是很多人挤破头皮，往里进。站着进去，趴着出来；笑着进去，哭着出来。</p>
-
-<p>作为一名屌丝，谁不想逆袭呢，谁不想通过炒股赚钱呢？</p>
-
-<h2>前同事炒股翻倍</h2>
-
-<p>最近群里，有个前同事做后台的。他进了一家证劵公司，做后台。应该是年初进去上班的，刚好赶上一波牛市。他买了几只股，好像都不错。</p>
-
-<p>其中有一只股，买的时候是30左右。在60几出的。赚了几万块钱吧。想想真的很不错，啥都不干白赚几万块钱，谁看了不心动呢。说实话，我也心动。</p>
-
-<p>估计是受到他的影响，公司里有些同事也开始炒股了。当然，有的人可能早就在炒股，只是之前股市不景气，大家都不谈论罢了。</p>
-
-<p>看着别人赚钱容易，到自己了估计就难了。真的是这样，尤其是股市里面的钱，真的不是那么好赚的。通过炒股走上逆袭之路，那更是难上加难。</p>
-
-<h2>我的模拟炒股之路</h2>
-
-<p>大家都在谈论股票，我也不能闲着啊。就Appstore里面找了一个模拟炒股软件，试着玩玩看。说不定能赚。</p>
-
-<p>里面有100万，是用来模拟炒股的。反正，是假的，就随便挑了几只股票入手。一共投了30多万吧。还别说，当天就赚了一万多。突然发现自己有成为股神的潜质，哈哈。</p>
-
-<p>紧接着，第二天，第三天，每天都能赚个两三万，第五天的时候，模拟资金已高达110多万。这要是真钱，该多好啊。那我岂不是白白赚了10万块钱。所以你想想，那些有钱的人，真的是越来越有钱。随便弄一下，几百万就来了。</p>
-
-<p>与此同时，其他炒股的同事都在赚，投一万多，赚一千多。看起来还真不错。看到大家都赚钱了，我这个股票小白，模拟都能赚10万块。是不是很想入市啊。</p>
-
-<p>事情并没有想象的那么简单。随后的两三周，股票大跌，各种跌停。有的股票都快跌一半了。包括我前同事买的那个股票从60多又跌回到30多了。不过幸好，他已经抛了。</p>
-
-<p>并不是每个人都那么幸运。有的人都快损失过半了。这种过山车的股市，真让人受不了。炒股不仅有风险，还严重影响生活。与其这样，还不如好好思考如何提高自己的技术。</p>
-
-<p>再看看我的模拟炒股战绩：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/monichaogu.png" alt="gu" /></p>
-
-<h2>股市大跌之后</h2>
-
-<p>经过前面的大跌，股市下一步走向如何呢？或许会继续跌一些，但是我更愿意相信股市会涨，我也希望能涨，让更多被套牢的朋友赚点。我不是股神，无法给出精准的答案。</p>
-
-<p>也许在中国根本就不存在巴菲特口中的<strong>价值投资理论</strong>。有的只是政策市。</p>
-
-<p>股市大跌之后，我也不再想通过股市走向逆袭之路。作为一名屌丝程序员，还是安心的做个美男子，去实现更多有价值的理想吧。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -1353,6 +1333,14 @@ self.datePicker = datePicker;
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/07/22/kuai-kuai-kuai-!27ge-ti-sheng-xiao-lu-de-ioskai-yuan-ku-tui-jian/">快快快！27个提升效率的iOS开源库推荐</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/22/ioskai-fa-zhi-huo-qu-sha-he-lu-jing/">iOS开发之获取沙盒路径</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/07/21/bao-cuo-:process-launch-failed-failed-to-get-the-task-for-process-1285(jie-jue-fang-an-)/">报错：failed to Get the Task for Process 1285（解决方案）</a>
       </li>
     
@@ -1362,14 +1350,6 @@ self.datePicker = datePicker;
     
       <li class="post">
         <a href="/blog/2015/07/19/cheng-xu-yuan-tou-tiao-:cheng-xu-yuan-guan-xin-de-,cai-shi-tou-tiao-!/">程序员头条：程序员关心的，才是头条！</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/18/ios/">禅与Objective-C编程艺术(译)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/17/wo-zhe-ge-zhan-chang-shi-zen-yao-lian-cheng-de/">我这个站长是怎么炼成的</a>
       </li>
     
   </ul>
