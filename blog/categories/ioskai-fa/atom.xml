@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-24T23:37:24+08:00</updated>
+  <updated>2015-07-25T00:40:03+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[iOS开发之沙盒和文件操作（汇总）]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/24/ioskai-fa-zhi-sha-he-he-wen-jian-cao-zuo-(hui-zong-)/"/>
-    <updated>2015-07-24T23:15:17+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/24/ioskai-fa-zhi-sha-he-he-wen-jian-cao-zuo-(hui-zong-)</id>
+    <link href="http://www.superqq.com/blog/2015/07/25/ioskai-fa-zhi-sha-he-he-wen-jian-cao-zuo-(hui-zong-)/"/>
+    <updated>2015-07-25T00:15:17+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/07/25/ioskai-fa-zhi-sha-he-he-wen-jian-cao-zuo-(hui-zong-)</id>
     <content type="html"><![CDATA[<p>关于沙盒和文件操作的文章写了几篇，在写的过程中加深了自己的记忆。今天来做一下汇总，算是对知识点的梳理。</p>
 
 <h2>文章梳理</h2>
