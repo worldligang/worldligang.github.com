@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-24T00:16:27+08:00</updated>
+  <updated>2015-07-24T23:37:24+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,39 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发之沙盒和文件操作（汇总）]]></title>
+    <link href="http://www.superqq.com/blog/2015/07/24/ioskai-fa-zhi-sha-he-he-wen-jian-cao-zuo-(hui-zong-)/"/>
+    <updated>2015-07-24T23:15:17+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/07/24/ioskai-fa-zhi-sha-he-he-wen-jian-cao-zuo-(hui-zong-)</id>
+    <content type="html"><![CDATA[<p>关于沙盒和文件操作的文章写了几篇，在写的过程中加深了自己的记忆。今天来做一下汇总，算是对知识点的梳理。</p>
+
+<h2>文章梳理</h2>
+
+<p>1 <a href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-%28sandbox/">iOS开发之沙盒机制（SandBox)</a></p>
+
+<p>这是一篇关于沙盒的基础知识教程。简述沙盒的作用，对Documents、Library、tmp之间的区别做了介绍。通过两种方法打开沙盒，查看其中的内容。</p>
+
+<p>2 <a href="http://www.superqq.com/blog/2015/07/22/ioskai-fa-zhi-huo-qu-sha-he-lu-jing/">iOS开发之获取沙盒路径</a></p>
+
+<p>沙盒里的文件夹包括Documents、Library、tmp。文章介绍了如何获取Documents、Library、Caches、tmp的路径。</p>
+
+<p>3 <a href="http://www.superqq.com/blog/2015/07/23/ru-he-cha-kan-zhen-ji-de-sha-he-%28tu-wen-jiao-cheng-%29/">如何查看真机的沙盒（图文教程）</a></p>
+
+<p>通过图文的方式详细讲解如何查看真机沙盒。</p>
+
+<p>4 <a href="http://www.superqq.com/blog/2015/07/24/nsfilemanagerwen-jian-cao-zuo-de-shi-ge-xiao-gong-neng/">NSFileManager文件操作的十个小功能</a></p>
+
+<p>NSFileManager是一个单列类，也是一个文件管理器。可以通过NSFileManager创建文件夹、创建文件、写文件、读文件内容等等基本功能。</p>
+
+<h2>小记</h2>
+
+<p>希望以上的知识梳理能帮助大家更好的掌握沙盒机制以及文件操作。我会持续分享更多关于iOS开发相关的技术文章。</p>
+
+<p>swift推出这么久，不知道你有没有开始用swift写项目。推荐给你一个swift学习网站:<a href="http://www.iswifting.com/">swift开发</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NSFileManager文件操作的十个小功能]]></title>
@@ -800,11 +833,11 @@ Objective-C 没有消失，但是现在用一个慢慢失去关注的语言来�
 
 <p><strong>林翔宇</strong>
 - <a href="http://linxiangyu.org">http://linxiangyu.org</a>
-- <a href="&#109;&#x61;&#x69;&#x6c;&#116;&#111;&#x3a;&#108;&#x69;&#x6e;&#120;&#105;&#x61;&#x6e;&#103;&#x79;&#x75;&#x40;&#110;&#x75;&#x70;&#116;&#x65;&#114;&#46;&#111;&#x72;&#x67;">&#x6c;&#105;&#110;&#x78;&#x69;&#x61;&#110;&#103;&#x79;&#x75;&#64;&#x6e;&#x75;&#112;&#x74;&#101;&#x72;&#x2e;&#x6f;&#114;&#103;</a>
+- <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#111;&#58;&#x6c;&#x69;&#110;&#120;&#x69;&#97;&#110;&#x67;&#121;&#x75;&#x40;&#x6e;&#117;&#x70;&#x74;&#x65;&#x72;&#x2e;&#111;&#x72;&#103;">&#108;&#105;&#110;&#x78;&#105;&#97;&#110;&#103;&#121;&#x75;&#x40;&#x6e;&#x75;&#112;&#116;&#x65;&#114;&#46;&#x6f;&#x72;&#x67;</a>
 - <a href="http://github.com/oa414">http://github.com/oa414</a></p>
 
 <p><strong>庞博</strong>
-- <a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#111;&#58;&#x62;&#x6f;&#x70;&#97;&#x6e;&#x67;&#64;&#x73;&#x6f;&#104;&#x75;&#45;&#105;&#x6e;&#x63;&#x2e;&#x63;&#x6f;&#x6d;">&#98;&#111;&#112;&#97;&#x6e;&#x67;&#64;&#x73;&#111;&#104;&#x75;&#45;&#x69;&#x6e;&#x63;&#46;&#99;&#x6f;&#109;</a>
+- <a href="&#x6d;&#97;&#105;&#108;&#x74;&#x6f;&#x3a;&#x62;&#111;&#x70;&#x61;&#110;&#x67;&#x40;&#115;&#x6f;&#x68;&#117;&#x2d;&#105;&#x6e;&#99;&#46;&#x63;&#x6f;&#x6d;">&#x62;&#x6f;&#x70;&#x61;&#110;&#103;&#x40;&#115;&#111;&#104;&#x75;&#x2d;&#x69;&#x6e;&#99;&#x2e;&#x63;&#x6f;&#109;</a>
 - <a href="https://github.com/heistings">https://github.com/heistings</a></p>
 
 <p>翻译已得到原作者许可，并且会在更加完善后申请合并到原文仓库。</p>
@@ -1988,91 +2021,6 @@ NSLog(@"logString:%@",logString);
 <h2>支付社交谁主沉浮？</h2>
 
 <p>微信进军支付，支付宝进军社交。这场撕逼大战何时会分出胜负呢？你是支持支付宝，还是支持微信。请留下你的观点。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[使用UIDataDetectorTypes自动检测电话、网址和邮箱]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/09/shi-yong-uidatadetectortypeszi-dong-jian-ce-dian-hua-,-wang-zhi-he-you-xiang/"/>
-    <updated>2015-07-09T23:43:39+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/09/shi-yong-uidatadetectortypeszi-dong-jian-ce-dian-hua-,-wang-zhi-he-you-xiang</id>
-    <content type="html"><![CDATA[<p>支付宝发布最新版本9.0，再一次引发一场撕逼大战。微信说支付宝抄袭了它，支付宝说微信一直都在抄袭自己。在我看来，微信和支付宝都抄袭了对方。对于大佬们的抄袭，我们也是司空见惯了。</p>
-
-<p>支付宝这一次更新，真是赚足了眼球，估计这也是支付宝的推广策略。就是要造势，造势有利于品牌推广。传播速度可想而知，似乎一夜之间都在谈论支付宝和微信。</p>
-
-<p>至于支付宝和微信谁能打过谁，我们拭目以待。</p>
-
-<p>上一篇文章<a href="http://www.superqq.com/blog/2015/07/08/uiwebviewyong-fa-xiang-jie/">UIWebView用法详解及代码分享</a>里面提到：</p>
-
-<pre><code>webView.dataDetectorTypes = UIDataDetectorTypePhoneNumber;//自动检测网页上的电话号码，单击可以拨打
-</code></pre>
-
-<p>接下来我们来简单讲一下，使用UIDataDetectorTypes自动检测电话、网址和邮箱。我们先来看看UIDataDetectorTypes有哪些枚举值。</p>
-
-<h2>UIDataDetectorTypes的枚举值</h2>
-
-<pre><code>typedef NS_OPTIONS(NSUInteger, UIDataDetectorTypes) {
-    UIDataDetectorTypePhoneNumber   = 1 &lt;&lt; 0,          // Phone number detection
-    UIDataDetectorTypeLink          = 1 &lt;&lt; 1,          // URL detection    
-#if __IPHONE_4_0 &lt;= __IPHONE_OS_VERSION_MAX_ALLOWED
-    UIDataDetectorTypeAddress       = 1 &lt;&lt; 2,          // Street address detection
-    UIDataDetectorTypeCalendarEvent = 1 &lt;&lt; 3,          // Event detection
-#endif    
-
-    UIDataDetectorTypeNone          = 0,               // No detection at all
-    UIDataDetectorTypeAll           = NSUIntegerMax    // All types
-};
-</code></pre>
-
-<p>NS_OPTIONS一般用来定义位移相关操作的枚举值。UIDataDetectorTypeAddress，UIDataDetectorTypeCalendarEvent不在我们考虑的范围了。</p>
-
-<p>UIWebView有dataDetectorTypes属性，UITextView也有dataDetectorTypes属性。我们来UITextView来举例。</p>
-
-<h2>创建UITextView</h2>
-
-<pre><code>UITextView *textView = [[UITextView alloc] initWithFrame:self.view.bounds];
-textView.font = [UIFont systemFontOfSize:20];
-textView.editable = NO;
-textView.text = @"\r\n我的手机号不是： 13888888888 \r\n\r\n"
-"我的博客刚刚在线网址： www.xxxxxx.com \r\n\r\n"
-"我的邮箱： worldligang@163.com \r\n\r\n";
-[self.view addSubview:textView];
-</code></pre>
-
-<p>运行起来看一下：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/UIDataDetectorTypes1.jpeg" alt="UIDataDetectorTypes1" /></p>
-
-<p>可以看出来就是一个简单的文本，电话号码，网址和邮箱都没有检测出来。下面我们来看看dataDetectorTypes作用。</p>
-
-<h2>UIDataDetectorTypePhoneNumber检测电话</h2>
-
-<pre><code>textView.dataDetectorTypes = UIDataDetectorTypePhoneNumber;
-</code></pre>
-
-<p>设置textView.dataDetectorTypes的属性，即可检测文本中的电话。效果如下所示：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/UIDataDetectorTypes2.jpeg" alt="UIDataDetectorTypes2" /></p>
-
-<h2>UIDataDetectorTypeLink检测网址和邮箱</h2>
-
-<pre><code>textView.dataDetectorTypes = UIDataDetectorTypeLink;
-</code></pre>
-
-<p>UIDataDetectorTypeLink检测网址和邮箱的。点击网址会跳转到相应的网页，点击邮箱可以调用系统的发邮件。</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/UIDataDetectorTypes3.jpeg" alt="UIDataDetectorTypes3" /></p>
-
-<h2>UIDataDetectorTypeAll检测电话、网址和邮箱</h2>
-
-<pre><code>textView.dataDetectorTypes = UIDataDetectorTypeAll;
-</code></pre>
-
-<p>UIDataDetectorTypeAll可以检测检测电话、网址和邮箱。效果如下：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/UIDataDetectorTypes4.jpeg" alt="UIDataDetectorTypes4" /></p>
-
-<p>专门写了一个iOSStrongDemo以后都在这个iOSStrongDemo里面更新内容。下载地址：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
 ]]></content>
   </entry>
   
