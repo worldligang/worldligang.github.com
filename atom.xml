@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-26T08:43:15+08:00</updated>
+  <updated>2015-07-26T10:09:11+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,124 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[截取UIImage指定大小区域]]></title>
+    <link href="http://www.superqq.com/blog/2015/07/26/jie-qu-uiimagezhi-ding-da-xiao-qu-yu/"/>
+    <updated>2015-07-26T10:07:58+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/07/26/jie-qu-uiimagezhi-ding-da-xiao-qu-yu</id>
+    <content type="html"><![CDATA[<p>最近遇到这样的需求：从服务器获取到一张照片，只需要显示他的左半部分，或者中间部分等等。也就是截取UIImage指定大小区域。</p>
+
+<h2>UIImage扩展</h2>
+
+<p>我的解决方案是对<code>UIImage</code>进行扩展。通过<code>CGImageRef</code>和<code>CGImage</code>完成截取，调用的方法是：<code>CGImageCreateWithImageInRect</code>。扩展类叫<code>UIImage+Crop</code>，具体代码如下：</p>
+
+<h3>UIImage+Crop.h</h3>
+
+<pre><code>#import &lt;UIKit/UIKit.h&gt;
+
+typedef NS_ENUM(NSInteger, XYCropImageStyle){
+    XYCropImageStyleRight               =0,      // 右半部分
+    XYCropImageStyleCenter              =1,      // 中间部分
+    XYCropImageStyleLeft                =2,      // 左半部分
+    XYCropImageStyleRightOneOfThird     =3,      // 右侧三分之一部分
+    XYCropImageStyleCenterOneOfThird    =4,      // 中间三分之一部分
+    XYCropImageStyleLeftOneOfThird      =5,      // 左侧三分之一部分
+    XYCropImageStyleRightQuarter        =6,      // 右侧四分之一部分
+    XYCropImageStyleCenterRightQuarter  =7,      // 中间右侧四分之一部分
+    XYCropImageStyleCenterLeftQuarter   =8,      // 中间左侧四分之一部分
+    XYCropImageStyleLeftQuarter         =9,      // 左侧四分之一部分
+};
+
+@interface UIImage (Crop)
+- (UIImage *)imageByCroppingWithStyle:(XYCropImageStyle)style;
+
+@end
+</code></pre>
+
+<h3>UIImage+Crop.m</h3>
+
+<pre><code>#import "UIImage+Crop.h"
+
+@implementation UIImage (Crop)
+
+- (UIImage *)imageByCroppingWithStyle:(XYCropImageStyle)style
+{
+    CGRect rect;
+    switch (style) {
+        case XYCropImageStyleLeft:
+            rect = CGRectMake(0, 0, self.size.width/2, self.size.height);
+            break;
+        case XYCropImageStyleCenter:
+            rect = CGRectMake(self.size.width/4, 0, self.size.width/2, self.size.height);
+            break;
+        case XYCropImageStyleRight:
+            rect = CGRectMake(self.size.width/2, 0, self.size.width/2, self.size.height);
+            break;
+        case XYCropImageStyleLeftOneOfThird:
+            rect = CGRectMake(0, 0, self.size.width/3, self.size.height);
+            break;
+        case XYCropImageStyleCenterOneOfThird:
+            rect = CGRectMake(self.size.width/3, 0, self.size.width/3, self.size.height);
+            break;
+        case XYCropImageStyleRightOneOfThird:
+            rect = CGRectMake(self.size.width/3*2, 0, self.size.width/3, self.size.height);
+            break;
+        case XYCropImageStyleLeftQuarter:
+            rect = CGRectMake(0, 0, self.size.width/4, self.size.height);
+            break;
+        case XYCropImageStyleCenterLeftQuarter:
+            rect = CGRectMake(self.size.width/4, 0, self.size.width/4, self.size.height);
+            break;
+        case XYCropImageStyleCenterRightQuarter:
+            rect = CGRectMake(self.size.width/4*2, 0, self.size.width/4, self.size.height);
+            break;
+        case XYCropImageStyleRightQuarter:
+            rect = CGRectMake(self.size.width/4*3, 0, self.size.width/4, self.size.height);
+            break;
+        default:
+            break;
+    }
+    CGImageRef imageRef = self.CGImage;
+    CGImageRef imagePartRef = CGImageCreateWithImageInRect(imageRef, rect);
+    UIImage *cropImage = [UIImage imageWithCGImage:imagePartRef];
+    CGImageRelease(imagePartRef);
+    return cropImage;
+}
+</code></pre>
+
+<h2>实际运用</h2>
+
+<p>简单测试一下，看看有没有实现我们想要的效果。首先，先加载一个完整的UIImageView。这个应该不难。代码如下：</p>
+
+<pre><code>UIImageView *imgView = [[UIImageView alloc] init];
+imgView.frame = CGRectMake((SCREEN.width - 226) / 2, 100, 226, 106);
+UIImage *image = [UIImage imageNamed:@"ganggang"];
+imgView.image = image;
+[self.view addSubview:imgView];
+</code></pre>
+
+<p>运行一下：</p>
+
+<p><img src="https://gitcafe.com/worldligang/GitCafePhoto/blob/master/150726/jiequing.png" alt="jiequing" /></p>
+
+<p>要对UIImage进行裁剪，首先导入头文件：</p>
+
+<pre><code>#import "UIImage+Crop.h"
+</code></pre>
+
+<p>在上面<code>UIImage *image = [UIImage imageNamed:@"ganggang"];</code>这段代码之后加上下面这句：</p>
+
+<pre><code>image = [image imageByCroppingWithStyle:XYCropImageStyleLeft];
+</code></pre>
+
+<p><code>XYCropImageStyleLeft</code>是截取照片的左半部分。效果如下：</p>
+
+<p><img src="https://gitcafe.com/worldligang/GitCafePhoto/blob/master/150726/jiequed.png" alt="jiequed" /></p>
+
+<p>截取成功，还可以截取其他区域的，只需要传入不同的<code>XYCropImageStyle</code>即可实现。以上代码依然在<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a>里。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[程序员：这个周末不加班]]></title>
@@ -870,11 +988,11 @@ Objective-C 没有消失，但是现在用一个慢慢失去关注的语言来�
 
 <p><strong>林翔宇</strong>
 - <a href="http://linxiangyu.org">http://linxiangyu.org</a>
-- <a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#111;&#x3a;&#108;&#105;&#110;&#x78;&#x69;&#x61;&#110;&#103;&#121;&#x75;&#64;&#110;&#x75;&#x70;&#x74;&#101;&#x72;&#46;&#111;&#114;&#x67;">&#x6c;&#x69;&#x6e;&#x78;&#105;&#97;&#x6e;&#x67;&#x79;&#117;&#64;&#x6e;&#117;&#x70;&#116;&#101;&#x72;&#46;&#111;&#x72;&#x67;</a>
+- <a href="&#x6d;&#97;&#105;&#108;&#x74;&#111;&#x3a;&#108;&#105;&#x6e;&#x78;&#105;&#97;&#110;&#103;&#x79;&#x75;&#64;&#110;&#117;&#112;&#116;&#x65;&#x72;&#46;&#x6f;&#x72;&#103;">&#108;&#x69;&#110;&#x78;&#105;&#97;&#x6e;&#x67;&#121;&#x75;&#x40;&#110;&#117;&#112;&#116;&#x65;&#x72;&#46;&#111;&#114;&#x67;</a>
 - <a href="http://github.com/oa414">http://github.com/oa414</a></p>
 
 <p><strong>庞博</strong>
-- <a href="&#109;&#97;&#105;&#x6c;&#116;&#111;&#x3a;&#x62;&#111;&#x70;&#97;&#110;&#103;&#x40;&#115;&#111;&#104;&#117;&#x2d;&#105;&#110;&#x63;&#x2e;&#x63;&#x6f;&#x6d;">&#x62;&#111;&#x70;&#97;&#x6e;&#103;&#64;&#x73;&#x6f;&#x68;&#x75;&#x2d;&#105;&#110;&#99;&#46;&#99;&#111;&#x6d;</a>
+- <a href="&#109;&#x61;&#x69;&#108;&#116;&#111;&#58;&#x62;&#111;&#112;&#x61;&#x6e;&#103;&#x40;&#x73;&#x6f;&#104;&#x75;&#x2d;&#x69;&#110;&#99;&#46;&#x63;&#111;&#x6d;">&#98;&#x6f;&#x70;&#97;&#110;&#x67;&#x40;&#x73;&#x6f;&#x68;&#x75;&#x2d;&#105;&#x6e;&#x63;&#46;&#x63;&#x6f;&#x6d;</a>
 - <a href="https://github.com/heistings">https://github.com/heistings</a></p>
 
 <p>翻译已得到原作者许可，并且会在更加完善后申请合并到原文仓库。</p>
@@ -1936,85 +2054,6 @@ NSLog(@"logString:%@",logString);
 </code></pre>
 
 <p>如果Leight为0，说明不包含。还有更多关于NSString的用法，大家一起探索吧。代码下载地址：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS开发之NSTimer使用初探]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/10/ioskai-fa-zhi-nstimershi-yong-chu-tan/"/>
-    <updated>2015-07-10T23:21:44+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/10/ioskai-fa-zhi-nstimershi-yong-chu-tan</id>
-    <content type="html"><![CDATA[<p>这个周日，我的大学同学结婚。他们的婚礼选在郑州举办。他不是郑州的，他女朋友也不是郑州的。但是他们是在郑州相识相爱，最终走到一起的，所以他们选择在郑州举办婚礼。</p>
-
-<p>这几年大家都在各自忙碌着，很少有见面的机会。不过经常会电话联系，相互了解一下情况。</p>
-
-<p>作为兄弟，我打心底为他们高兴，为他们祝福。我也会到现场参加，估计现在我已经坐上开发郑州的动车了。</p>
-
-<p>我喜欢走出去的感觉，很喜欢坐车，去各个地方，哪怕是路过。<strong>感觉走的越远，离心越近。</strong>辞职去旅行也许很快就可以实现。</p>
-
-<p>最近我在改一个bug，在一个UIViewController上有一个定时器，在执行轮播图片。push到别的UIViewController的时候，暂停定时器（NSTimer）；pop回来的时候，开启定时器（NSTimer）。这个bug是：push到别的UIViewController暂定定时器（NSTimer），有时候有作用，有时候没有作用。</p>
-
-<p>开始我以为是NSTimer运行的run loop有问题，最后发现是别的地方导致这个bug的。不过正好，我们来一起了解一下NSTimer。</p>
-
-<h2>创建一个定时器（NSTimer）</h2>
-
-<pre><code>- (void)viewDidLoad {
-    [super viewDidLoad];
-    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(actionTimer:) userInfo:nil repeats:YES];
-}
-
-- (void)actionTimer:(NSTimer *)timer
-{
-
-}
-</code></pre>
-
-<p>NSTimer默认运行在default mode下，default mode几乎包括所有输入源(除NSConnection) NSDefaultRunLoopMode模式。</p>
-
-<p>actionTimer方法会每隔1s中被调用一次。NSTimer使用起来是不是非常简单。这是NSTimer比较初级的应用。</p>
-
-<h2>当主界面被滑动时NSTimer失效了</h2>
-
-<p>主界面被滑动是什么意思呢？就是说主界面有UITableView或者UIScrollView，滑动UITableView或者UIScrollView。这个时候NSTimer失效了。</p>
-
-<p>我们来写一个demo，在一个有UITableView的UIViewController上启动定时器，每1s数字加1，并将这个数字显示在UILabel上面.</p>
-
-<pre><code>- (void)viewDidLoad {
-    [super viewDidLoad];
-    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(actionTimer:) userInfo:nil repeats:YES];
-}
-
-- (void)actionTimer:(NSTimer *)timer
-{
-    self.number++;
-    self.label.text = [NSString stringWithFormat:@"%d",self.number];
-    NSLog(@"%d",self.number);
-}
-</code></pre>
-
-<p>关于UITableView和UILabel的创建我省去了。详细的代码可以点击这里下载：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a>，iOSStrongDemo我会不断更新，大家在github上star一下。</p>
-
-<p>这样当用户在拖动UITableView处于UITrackingRunLoopMode时，NSTimer就失效了，不能fire。self.label上的数字也就无法更新。</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/timer1.gif" alt="nstimer1" /></p>
-
-<h2>修改NSTimer的run loop</h2>
-
-<p>解决方法就是将其加入到UITrackingRunLoopMode模式或NSRunLoopCommonModes模式中。</p>
-
-<pre><code>[[NSRunLoop currentRunLoop] addTimer:timer forMode:UITrackingRunLoopMode];
-</code></pre>
-
-<p>或者</p>
-
-<pre><code>[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
-</code></pre>
-
-<p>NSRunLoopCommonModes：是一个模式集合，当绑定一个事件源到这个模式集合的时候就相当于绑定到了集合内的每一个模式。</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/timer2.gif" alt="nstimer1" /></p>
-
-<p>代码下载地址：：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
 ]]></content>
   </entry>
   

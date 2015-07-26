@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>iOS开发：git创建仓库 - 刚刚在线</title>
+  <title>截取UIImage指定大小区域 - 刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="iOS开发：git创建仓库">
-  <meta name="keywords" content="iOS, git, 版本, 仓库, repository, git reflog, iOSDevTip iOS开发, gcd, cocoapods, 队列, 个人博客, 刚刚在线">
+  <meta name="description" content="从服务器获取到一张照片，只需要显示他的左半部分，或者中间部分等等。也就是截取UIImage指定大小区域。">
+  <meta name="keywords" content="截取UIImage, iOS UIImage, UIImage, iOS开发, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/blog/2014/11/24/ioskai-fa-:gitchuang-jian-cang-ku">
+  <link rel="canonical" href="http://www.superqq.com/blog/2015/07/26/jie-qu-uiimagezhi-ding-da-xiao-qu-yu">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -86,7 +86,7 @@
   
   <header>
     
-      <h1 class="entry-title">iOS开发：git创建仓库</h1>
+      <h1 class="entry-title">截取UIImage指定大小区域</h1>
     
     
       <p class="meta">
@@ -95,39 +95,123 @@
 
 
 
-<time class='entry-date' datetime='2014-11-24T09:17:38+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:17 am</span></time>
+<time class='entry-date' datetime='2015-07-26T10:07:58+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:07 am</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>从 Git 中移除某个文件</p>
+<div class="entry-content"><p>最近遇到这样的需求：从服务器获取到一张照片，只需要显示他的左半部分，或者中间部分等等。也就是截取UIImage指定大小区域。</p>
 
-<pre><code>rm test.txt
+<h2>UIImage扩展</h2>
 
-git rm test.txt
+<p>我的解决方案是对<code>UIImage</code>进行扩展。通过<code>CGImageRef</code>和<code>CGImage</code>完成截取，调用的方法是：<code>CGImageCreateWithImageInRect</code>。扩展类叫<code>UIImage+Crop</code>，具体代码如下：</p>
+
+<h3>UIImage+Crop.h</h3>
+
+<pre><code>#import &lt;UIKit/UIKit.h&gt;
+
+typedef NS_ENUM(NSInteger, XYCropImageStyle){
+    XYCropImageStyleRight               =0,      // 右半部分
+    XYCropImageStyleCenter              =1,      // 中间部分
+    XYCropImageStyleLeft                =2,      // 左半部分
+    XYCropImageStyleRightOneOfThird     =3,      // 右侧三分之一部分
+    XYCropImageStyleCenterOneOfThird    =4,      // 中间三分之一部分
+    XYCropImageStyleLeftOneOfThird      =5,      // 左侧三分之一部分
+    XYCropImageStyleRightQuarter        =6,      // 右侧四分之一部分
+    XYCropImageStyleCenterRightQuarter  =7,      // 中间右侧四分之一部分
+    XYCropImageStyleCenterLeftQuarter   =8,      // 中间左侧四分之一部分
+    XYCropImageStyleLeftQuarter         =9,      // 左侧四分之一部分
+};
+
+@interface UIImage (Crop)
+- (UIImage *)imageByCroppingWithStyle:(XYCropImageStyle)style;
+
+@end
 </code></pre>
 
-<p>添加远程仓库</p>
+<h3>UIImage+Crop.m</h3>
 
-<pre><code>$ git remote origin $ git remote add pb git://github.com/paulboone/ticgit.git $ git remote -v origin  git://github.com/schacon/ticgit.git pb  git://github.com/paulboone/ticgit.git
+<pre><code>#import "UIImage+Crop.h"
+
+@implementation UIImage (Crop)
+
+- (UIImage *)imageByCroppingWithStyle:(XYCropImageStyle)style
+{
+    CGRect rect;
+    switch (style) {
+        case XYCropImageStyleLeft:
+            rect = CGRectMake(0, 0, self.size.width/2, self.size.height);
+            break;
+        case XYCropImageStyleCenter:
+            rect = CGRectMake(self.size.width/4, 0, self.size.width/2, self.size.height);
+            break;
+        case XYCropImageStyleRight:
+            rect = CGRectMake(self.size.width/2, 0, self.size.width/2, self.size.height);
+            break;
+        case XYCropImageStyleLeftOneOfThird:
+            rect = CGRectMake(0, 0, self.size.width/3, self.size.height);
+            break;
+        case XYCropImageStyleCenterOneOfThird:
+            rect = CGRectMake(self.size.width/3, 0, self.size.width/3, self.size.height);
+            break;
+        case XYCropImageStyleRightOneOfThird:
+            rect = CGRectMake(self.size.width/3*2, 0, self.size.width/3, self.size.height);
+            break;
+        case XYCropImageStyleLeftQuarter:
+            rect = CGRectMake(0, 0, self.size.width/4, self.size.height);
+            break;
+        case XYCropImageStyleCenterLeftQuarter:
+            rect = CGRectMake(self.size.width/4, 0, self.size.width/4, self.size.height);
+            break;
+        case XYCropImageStyleCenterRightQuarter:
+            rect = CGRectMake(self.size.width/4*2, 0, self.size.width/4, self.size.height);
+            break;
+        case XYCropImageStyleRightQuarter:
+            rect = CGRectMake(self.size.width/4*3, 0, self.size.width/4, self.size.height);
+            break;
+        default:
+            break;
+    }
+    CGImageRef imageRef = self.CGImage;
+    CGImageRef imagePartRef = CGImageCreateWithImageInRect(imageRef, rect);
+    UIImage *cropImage = [UIImage imageWithCGImage:imagePartRef];
+    CGImageRelease(imagePartRef);
+    return cropImage;
+}
 </code></pre>
 
-<p>远程仓库的删除和重命名</p>
+<h2>实际运用</h2>
 
-<pre><code>$ git remote rename pb paul $ git remote origin paul
+<p>简单测试一下，看看有没有实现我们想要的效果。首先，先加载一个完整的UIImageView。这个应该不难。代码如下：</p>
+
+<pre><code>UIImageView *imgView = [[UIImageView alloc] init];
+imgView.frame = CGRectMake((SCREEN.width - 226) / 2, 100, 226, 106);
+UIImage *image = [UIImage imageNamed:@"ganggang"];
+imgView.image = image;
+[self.view addSubview:imgView];
 </code></pre>
 
-<p>碰到远端仓库服务器迁移，或者原来的克隆镜像不再使用，又或者某个参与者不再贡献代码，那么需要移除对应的远端仓库，可以运行 git remote rm 命令：</p>
+<p>运行一下：</p>
 
-<pre><code>$ git remote rm paul $ git remote origin 
+<p><img src="https://gitcafe.com/worldligang/GitCafePhoto/blob/master/150726/jiequing.png" alt="jiequing" /></p>
+
+<p>要对UIImage进行裁剪，首先导入头文件：</p>
+
+<pre><code>#import "UIImage+Crop.h"
 </code></pre>
 
-<p>我的微信公众号：</p>
+<p>在上面<code>UIImage *image = [UIImage imageNamed:@"ganggang"];</code>这段代码之后加上下面这句：</p>
 
-<pre><code>iOSDevTip
+<pre><code>image = [image imageByCroppingWithStyle:XYCropImageStyleLeft];
 </code></pre>
+
+<p><code>XYCropImageStyleLeft</code>是截取照片的左半部分。效果如下：</p>
+
+<p><img src="https://gitcafe.com/worldligang/GitCafePhoto/blob/master/150726/jiequed.png" alt="jiequed" /></p>
+
+<p>截取成功，还可以截取其他区域的，只需要传入不同的<code>XYCropImageStyle</code>即可实现。以上代码依然在<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a>里。</p>
 </div>
 
 
@@ -143,7 +227,7 @@ git rm test.txt
 
 
 
-<time class='entry-date' datetime='2014-11-24T09:17:38+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:17 am</span></time>
+<time class='entry-date' datetime='2015-07-26T10:07:58+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:07 am</span></time>
       
 
 <span class="categories">
@@ -154,7 +238,7 @@ git rm test.txt
 
 
       <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
-<br>原文链接：<a href="http://www.superqq.com/blog/2014/11/24/ioskai-fa-:gitchuang-jian-cang-ku/">http://www.superqq.com/blog/2014/11/24/ioskai-fa-:gitchuang-jian-cang-ku/</a> <!-- 添加这一行代码 -->
+<br>原文链接：<a href="http://www.superqq.com/blog/2015/07/26/jie-qu-uiimagezhi-ding-da-xiao-qu-yu/">http://www.superqq.com/blog/2015/07/26/jie-qu-uiimagezhi-ding-da-xiao-qu-yu/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -179,10 +263,8 @@ git rm test.txt
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/11/19/ioskai-fa-zhong-gitfen-zhi-chuang-jian-he-guan-li/" title="Previous Post:  iOS开发中git分支创建和管理">&laquo;  iOS开发中git分支创建和管理</a>
+        <a class="basic-alignment left" href="/blog/2015/07/25/cheng-xu-yuan-:zhe-ge-zhou-mo-bu-jia-ban/" title="Previous Post: 程序员：这个周末不加班">&laquo; 程序员：这个周末不加班</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/12/04/ioskai-fa-:gitming-ling-fan-hui-ren-yi-%5B%3F%5D-ge-ban-ben-de-fang-fa/" title="Next Post: iOS开发：git命令返回任意一个版本的方法">iOS开发：git命令返回任意一个版本的方法 &ra/categories.htmlquo;</a>
       
     </p>
   </footer>

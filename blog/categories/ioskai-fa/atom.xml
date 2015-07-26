@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-26T08:43:15+08:00</updated>
+  <updated>2015-07-26T10:09:11+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,124 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[截取UIImage指定大小区域]]></title>
+    <link href="http://www.superqq.com/blog/2015/07/26/jie-qu-uiimagezhi-ding-da-xiao-qu-yu/"/>
+    <updated>2015-07-26T10:07:58+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/07/26/jie-qu-uiimagezhi-ding-da-xiao-qu-yu</id>
+    <content type="html"><![CDATA[<p>最近遇到这样的需求：从服务器获取到一张照片，只需要显示他的左半部分，或者中间部分等等。也就是截取UIImage指定大小区域。</p>
+
+<h2>UIImage扩展</h2>
+
+<p>我的解决方案是对<code>UIImage</code>进行扩展。通过<code>CGImageRef</code>和<code>CGImage</code>完成截取，调用的方法是：<code>CGImageCreateWithImageInRect</code>。扩展类叫<code>UIImage+Crop</code>，具体代码如下：</p>
+
+<h3>UIImage+Crop.h</h3>
+
+<pre><code>#import &lt;UIKit/UIKit.h&gt;
+
+typedef NS_ENUM(NSInteger, XYCropImageStyle){
+    XYCropImageStyleRight               =0,      // 右半部分
+    XYCropImageStyleCenter              =1,      // 中间部分
+    XYCropImageStyleLeft                =2,      // 左半部分
+    XYCropImageStyleRightOneOfThird     =3,      // 右侧三分之一部分
+    XYCropImageStyleCenterOneOfThird    =4,      // 中间三分之一部分
+    XYCropImageStyleLeftOneOfThird      =5,      // 左侧三分之一部分
+    XYCropImageStyleRightQuarter        =6,      // 右侧四分之一部分
+    XYCropImageStyleCenterRightQuarter  =7,      // 中间右侧四分之一部分
+    XYCropImageStyleCenterLeftQuarter   =8,      // 中间左侧四分之一部分
+    XYCropImageStyleLeftQuarter         =9,      // 左侧四分之一部分
+};
+
+@interface UIImage (Crop)
+- (UIImage *)imageByCroppingWithStyle:(XYCropImageStyle)style;
+
+@end
+</code></pre>
+
+<h3>UIImage+Crop.m</h3>
+
+<pre><code>#import "UIImage+Crop.h"
+
+@implementation UIImage (Crop)
+
+- (UIImage *)imageByCroppingWithStyle:(XYCropImageStyle)style
+{
+    CGRect rect;
+    switch (style) {
+        case XYCropImageStyleLeft:
+            rect = CGRectMake(0, 0, self.size.width/2, self.size.height);
+            break;
+        case XYCropImageStyleCenter:
+            rect = CGRectMake(self.size.width/4, 0, self.size.width/2, self.size.height);
+            break;
+        case XYCropImageStyleRight:
+            rect = CGRectMake(self.size.width/2, 0, self.size.width/2, self.size.height);
+            break;
+        case XYCropImageStyleLeftOneOfThird:
+            rect = CGRectMake(0, 0, self.size.width/3, self.size.height);
+            break;
+        case XYCropImageStyleCenterOneOfThird:
+            rect = CGRectMake(self.size.width/3, 0, self.size.width/3, self.size.height);
+            break;
+        case XYCropImageStyleRightOneOfThird:
+            rect = CGRectMake(self.size.width/3*2, 0, self.size.width/3, self.size.height);
+            break;
+        case XYCropImageStyleLeftQuarter:
+            rect = CGRectMake(0, 0, self.size.width/4, self.size.height);
+            break;
+        case XYCropImageStyleCenterLeftQuarter:
+            rect = CGRectMake(self.size.width/4, 0, self.size.width/4, self.size.height);
+            break;
+        case XYCropImageStyleCenterRightQuarter:
+            rect = CGRectMake(self.size.width/4*2, 0, self.size.width/4, self.size.height);
+            break;
+        case XYCropImageStyleRightQuarter:
+            rect = CGRectMake(self.size.width/4*3, 0, self.size.width/4, self.size.height);
+            break;
+        default:
+            break;
+    }
+    CGImageRef imageRef = self.CGImage;
+    CGImageRef imagePartRef = CGImageCreateWithImageInRect(imageRef, rect);
+    UIImage *cropImage = [UIImage imageWithCGImage:imagePartRef];
+    CGImageRelease(imagePartRef);
+    return cropImage;
+}
+</code></pre>
+
+<h2>实际运用</h2>
+
+<p>简单测试一下，看看有没有实现我们想要的效果。首先，先加载一个完整的UIImageView。这个应该不难。代码如下：</p>
+
+<pre><code>UIImageView *imgView = [[UIImageView alloc] init];
+imgView.frame = CGRectMake((SCREEN.width - 226) / 2, 100, 226, 106);
+UIImage *image = [UIImage imageNamed:@"ganggang"];
+imgView.image = image;
+[self.view addSubview:imgView];
+</code></pre>
+
+<p>运行一下：</p>
+
+<p><img src="https://gitcafe.com/worldligang/GitCafePhoto/blob/master/150726/jiequing.png" alt="jiequing" /></p>
+
+<p>要对UIImage进行裁剪，首先导入头文件：</p>
+
+<pre><code>#import "UIImage+Crop.h"
+</code></pre>
+
+<p>在上面<code>UIImage *image = [UIImage imageNamed:@"ganggang"];</code>这段代码之后加上下面这句：</p>
+
+<pre><code>image = [image imageByCroppingWithStyle:XYCropImageStyleLeft];
+</code></pre>
+
+<p><code>XYCropImageStyleLeft</code>是截取照片的左半部分。效果如下：</p>
+
+<p><img src="https://gitcafe.com/worldligang/GitCafePhoto/blob/master/150726/jiequed.png" alt="jiequed" /></p>
+
+<p>截取成功，还可以截取其他区域的，只需要传入不同的<code>XYCropImageStyle</code>即可实现。以上代码依然在<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a>里。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS开发之沙盒和文件操作（汇总）]]></title>
@@ -365,43 +483,6 @@ NSLog(@"tmp：%@", tmp);
 </code></pre>
 
 <p>以上是iOS开发中获取沙盒路径的方法，也许还有更好的获取方法等待我们去发现。后面我们还会讲到关于在沙盒里进行读写文件操作。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[报错：failed to Get the Task for Process 1285（解决方案）]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/21/bao-cuo-:process-launch-failed-failed-to-get-the-task-for-process-1285(jie-jue-fang-an-)/"/>
-    <updated>2015-07-21T00:16:31+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/21/bao-cuo-:process-launch-failed-failed-to-get-the-task-for-process-1285(jie-jue-fang-an-)</id>
-    <content type="html"><![CDATA[<h2>你遇到的问题别人也遇到过</h2>
-
-<p>初接触iOS开发的童鞋估计会被真机调试搞的稀里糊涂的。在模拟器上运行什么问题没有，真机调试就会碰到各种各样的问题。</p>
-
-<p>不用担心。记住：你碰到的问题别人肯定都已经碰到过了。我们不是有百度和谷歌嘛，把你的问题描述出来，一定有解决方案的。还可以在<a href="http://zhannei.superqq.com/">刚刚在线站内搜索</a>里搜索，说不定也能帮你解决不少问题呢。</p>
-
-<p>我会经常把自己开发过程中碰到的调试问题，一一总结出来。一来是帮助自己在下一次碰到同样问题时，可以游刃有余。二来是帮助大家再碰到类似问题的时候，有一个参考的作用。</p>
-
-<h2>failed to get the task for process 1285</h2>
-
-<p>这一次碰到的问题是这样的：模拟器上运行正常。我在iPhone 6上运行，程序编译正常，但是跑起来之后，大概一两秒的时间，就闪退（代码是没有问题的）。这个时候，Xcode6.4弹出这样的提示：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/fixbug12850.jpg" alt="fixbug1285" /></p>
-
-<pre><code>Could not launch “iOSStrongDemo”
-process launch failed: failed to get the task for process 1285
-</code></pre>
-
-<h2>错误分析</h2>
-
-<p>我看了一下Build Settings里的Code Signing配置，发现Provisioning Profile选择的是XC Ad Hoc: *。如下图所示：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/fixbug.jpg" alt="fixbug" /></p>
-
-<p>Ad Hoc是用来实现发布前的用户测试的，也就是通过Ad Hoc将未发布的App给其他人提前使用。显然这是不对的，我们是要真机调试。</p>
-
-<h2>解决方案</h2>
-
-<p>解决方法很简单，将Provisioning Profile换成用开发证书创建的Provisioning Profile即可。</p>
 ]]></content>
   </entry>
   
