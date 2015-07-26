@@ -3,7 +3,7 @@ layout: post
 title: "程序员：这个周末不加班"
 date: 2015-07-25 09:01:33 +0800
 comments: true
-categories: iOS开发
+categories: 程序员
 keywords: 程序员, 程序员加班, 加班, iOS开发, 刚刚在线
 description: 作为程序员每天都在解决永远解不完的bug，做着永远做不完的需求，能有个周末好好休息休息，真的是一件非常奢侈的事情。
 
