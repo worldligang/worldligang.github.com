@@ -1,0 +1,68 @@
+<h3>iOS开发已开通评论功能</h3>
+
+<p>皇天不负有心人，iOS开发的评论功能已经被邀请开通啦。这几天一直想着，微信团队大概在月底的时候会邀请我开通评论功能。果然不出我所料。这是我收到的消息：</p>
+
+<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/weixincomment.png" alt="weixincomment.png" /></p>
+
+<p>至此，iOS开发的原创、赞赏、评论三个功能都齐啦，这也是对我辛苦努力的一种肯定。前方的路依然很漫长，我们一起努力，让iOS开发变得更好。</p>
+
+<p>既然评论功能已经开通，大家也别闲着啦！今天的文章大家一起尽情的吐槽吧！</p>
+
+<p><code>UIImage</code>有四个类方法，用来创建<code>UIImage</code>的。下面介绍一下每个类方法的作用和创建实例。</p>
+
+<h3>1.使用类方法<code>imageNamed:</code>创建</h3>
+
+<pre><code>+ (UIImage *)imageNamed:(NSString *)name;      // load from main bundle      
+</code></pre>
+
+<p><code>name</code>是照片名称。创建UIImage对象，代码如下：</p>
+
+<pre><code>UIImage *image = [UIImage imageNamed:@"ganggang"];   
+</code></pre>
+
+<p>使用<code>imageNamed:</code>初始化的时候，会先检查缓存中是否存在<code>ganggang</code>的照片，如不存在，图片首先会被缓存起来，然后才返回要加载的图片对象；如果存在，直接返回要加载的照片对象。</p>
+
+<h3>2.使用类方法<code>imageWithContentsOfFile:</code>创建</h3>
+
+<pre><code>+ (UIImage *)imageWithContentsOfFile:(NSString *)path;
+</code></pre>
+
+<p><code>path</code>是需要加载照片的路径，如何获取照片的路径请点击<a href="http://www.superqq.com/blog/2015/07/22/ioskai-fa-zhi-huo-qu-sha-he-lu-jing/">iOS开发之获取沙盒路径</a>。实现代码如下：</p>
+
+<pre><code>UIImage *image = [UIImage imageWithContentsOfFile:path];   
+</code></pre>
+
+<p>使用<code>imageWithContentsOfFile:</code>创建<code>UIImage</code>的时候，是直接从磁盘上加载。当收到内存警告时，<code>UIImage</code>对象会被释放，下一次绘图的时候，需要重新加载。</p>
+
+<h3>3.使用类方法<code>imageWithData:</code>创建</h3>
+
+<pre><code>+ (UIImage *)imageWithData:(NSData *)data;
+</code></pre>
+
+<p><code>data</code>是照片数据，一般是请求返回的，然后通过<code>imageWithData:</code>创建<code>UIImage</code>。实现代码如下所示：</p>
+
+<pre><code>NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://www.superqq.com/images/getqrcode.jpg"]];
+UIImage *image =[UIImage imageWithData:data]; 
+</code></pre>
+
+<h3>4.使用类方法<code>imageWithCGImage:</code>创建</h3>
+
+<pre><code>+ (UIImage *)imageWithCGImage:(CGImageRef)cgImage;
+</code></pre>
+
+<p><code>cgImage</code>是定义在QuartzCore框架中的一个结构体指针。这个结构用来创建像素位图，可以通过操作存储的像素位来编辑图片。</p>
+
+<pre><code>UIImage *image = [UIImage imageWithCGImage:cgImage];   
+</code></pre>
+
+<h3>5.使用类方法<code>imageWithCIImage:</code>创建</h3>
+
+<pre><code>+ (UIImage *)imageWithCIImage:(CIImage *)ciImage NS_AVAILABLE_IOS(5_0);
+</code></pre>
+
+<p><code>CIImage</code>是<code>CoreImage</code>框架中最基本代表图像的对象，在<code>CIImage</code>被<code>CIContext</code>渲染出来之前，他是依赖于滤镜链的，滤镜是不会更改<code>CIImage</code>中的图像数据。</p>
+
+<pre><code> UIImage *image = [UIImage imageWithCGImage:ciImage];   
+</code></pre>
+
+<p>以上四种方法都是<code>UIImage</code>的类方法，使用<code>UIImage</code>的初始化方法也是可以创建<code>UIImage</code>对象的大家可以进<code>UIImage</code>详细了解一下。</p>
