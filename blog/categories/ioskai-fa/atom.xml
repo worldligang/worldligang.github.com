@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-26T10:21:09+08:00</updated>
+  <updated>2015-07-27T14:02:05+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,58 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发之layoutSubviews的作用和调用机制]]></title>
+    <link href="http://www.superqq.com/blog/2015/07/27/ioskai-fa-zhi-layoutsubviewsde-zuo-yong-he-diao-yong-ji-zhi/"/>
+    <updated>2015-07-27T13:57:27+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/07/27/ioskai-fa-zhi-layoutsubviewsde-zuo-yong-he-diao-yong-ji-zhi</id>
+    <content type="html"><![CDATA[<p>在UIView里面有一个方法<code>layoutSubviews</code>，这个方法具体作用是什么呢？</p>
+
+<pre><code>- (void)layoutSubviews;    // override point. called by layoutIfNeeded automatically. As of iOS 6.0, when constraints-based layout is used the base implementation applies the constraints-based layout, otherwise it does nothing.
+</code></pre>
+
+<h2>官方文档解释</h2>
+
+<p>我们先来看看苹果官方文档的解释：</p>
+
+<pre><code>The default implementation of this method does nothing on iOS 5.1 and earlier. Otherwise, the default implementation uses any constraints you have set to determine the size and position of any subviews.
+
+Subclasses can override this method as needed to perform more precise layout of their subviews. You should override this method only if the autoresizing and constraint-based behaviors of the subviews do not offer the behavior you want. You can use your implementation to set the frame rectangles of your subviews directly.
+
+You should not call this method directly. If you want to force a layout update, call the setNeedsLayout method instead to do so prior to the next drawing update. If you want to update the layout of your views immediately, call the layoutIfNeeded method.
+</code></pre>
+
+<p>最后一段说，不要直接调用此方法。如果你想强制更新布局，你可以调用<code>setNeedsLayout</code>方法；如果你想立即数显你的<code>views</code>，你需要调用<code>layoutIfNeeded</code>方法。</p>
+
+<h2>layoutSubviews作用</h2>
+
+<p><code>layoutSubviews</code>是对<code>subviews</code>重新布局。比如，我们想更新子视图的位置的时候，可以通过调用<code>layoutSubviews</code>方法，既可以实现对子视图重新布局。</p>
+
+<p><code>layoutSubviews</code>默认是不做任何事情的，用到的时候，需要在自雷进行重写。</p>
+
+<h2>layoutSubviews以下情况会被调用</h2>
+
+<p>苹果官方文档已经强调，不能直接调用<code>layoutSubviews</code>对子视图进行重新布局。那么，<code>layoutSubviews</code>什么情况下会被调用呢？通过百度搜索，发现以下几种情况<code>layoutSubviews</code>会被调用。</p>
+
+<ol>
+<li>直接调用<code>setLayoutSubviews</code>。（这个在上面苹果官方文档里有说明）</li>
+<li><code>addSubview</code>的时候。</li>
+<li>当<code>view</code>的<code>frame</code>发生改变的时候。</li>
+<li>滑动<code>UIScrollView</code>的时候。</li>
+<li>旋转<code>Screen</code>会触发父<code>UIView</code>上的<code>layoutSubviews</code>事件。</li>
+<li>改变一个<code>UIView</code>大小的时候也会触发父<code>UIView</code>上的<code>layoutSubviews</code>事件。</li>
+</ol>
+
+
+<p>我简单测试了一下，上面基本都会被调用。 注意：</p>
+
+<pre><code>当view的fram的值为0的时候，`addSubview`也不会调用`layoutSubviews`的。
+</code></pre>
+
+<p><code>layoutSubviews</code>方法在对自雷视图进行布局的时候非常方便。可以自己动手，深入理解<code>layoutSubviews</code>的调用机制。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[截取UIImage指定大小区域]]></title>
@@ -400,89 +452,6 @@ imgView.image = image;
 <p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/realsandbox8.jpg" alt="realsandbox8.jpg" /></p>
 
 <p>这就是APP的沙盒，在这里我们可以对文件进行增删查改操作。更多内容以后继续慢慢分享。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS开发之获取沙盒路径]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/22/ioskai-fa-zhi-huo-qu-sha-he-lu-jing/"/>
-    <updated>2015-07-22T01:02:41+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/22/ioskai-fa-zhi-huo-qu-sha-he-lu-jing</id>
-    <content type="html"><![CDATA[<p><a href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-%28sandbox/">iOS开发之沙盒机制（SandBox)</a>详细讲解了沙盒的一些机制。在开发中，我们需要对沙盒进行操作，所以我们需要获取到沙盒路径。</p>
-
-<p>沙盒里的文件夹包括Documents、Library、tmp。这三个文件夹的作用请点击<a href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-%28sandbox/">这里</a>。接下来我们来讲解如何获取Documents、Library、tmp的路径。</p>
-
-<h3>获取沙盒根目录</h3>
-
-<p>获取沙盒根目录，直接调用NSHomeDirectory()：</p>
-
-<pre><code>//获取沙盒根目录
-NSString *directory = NSHomeDirectory();
-NSLog(@"directory:%@", directory);
-</code></pre>
-
-<p>控制台输出：</p>
-
-<pre><code>2015-07-22 00:40:16.185 iOSStrongDemo[1605:555658] directory:/var/mobile/Containers/Data/Application/F9418815-51A9-4A0A-A76C-6FD37C400928
-</code></pre>
-
-<p>这个是真机的路径，大家有时间的话可以看看模拟器的根目录路径。</p>
-
-<h3>获取Documents路径</h3>
-
-<p>获取Documents路径如下：</p>
-
-<pre><code>//获取Documents路径
-NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-NSString *path = [paths objectAtIndex:0];
-NSLog(@"path:%@", path);
-</code></pre>
-
-<p>控制台输出：</p>
-
-<pre><code>2015-07-22 00:41:41.397 iOSStrongDemo[1613:556159] path:/var/mobile/Containers/Data/Application/A62B886B-A8F0-4215-B59D-1F505C3997BD/Documents
-</code></pre>
-
-<p>获取Documents文件夹目录,第一个参数是说明获取Doucments文件夹目录，第二个参数说明是在当前应用沙盒中获取。</p>
-
-<h3>获取Library路径</h3>
-
-<pre><code>//获取Library路径
-NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-NSString *path = [paths objectAtIndex:0];
-NSLog(@"path：%@", path);
-</code></pre>
-
-<p>控制台输出：</p>
-
-<pre><code>2015-07-22 00:43:15.803 iOSStrongDemo[1619:556638] /var/mobile/Containers/Data/Application/17300507-4643-4DE7-BC68-E13DB19C8D98/Library
-</code></pre>
-
-<h3>获取Caches路径</h3>
-
-<pre><code>//获取Caches路径
-NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-NSString *path = [paths objectAtIndex:0];
-NSLog(@"path：%@", path);
-</code></pre>
-
-<p>控制台输出：</p>
-
-<pre><code>2015-07-22 00:44:31.383 iOSStrongDemo[1626:557083] path：/var/mobile/Containers/Data/Application/1E945B52-E29D-4041-A489-1AA1B11BB960/Library/Caches
-</code></pre>
-
-<h3>获取tmp路径</h3>
-
-<pre><code>NSString *tmp = NSTemporaryDirectory();
-NSLog(@"tmp：%@", tmp);
-</code></pre>
-
-<p>控制台输出：</p>
-
-<pre><code>2015-07-22 00:46:07.846 iOSStrongDemo[1632:557537] tmp：/private/var/mobile/Containers/Data/Application/4BE02307-1CC5-47E8-BEA8-CEBB7ED5A402/tmp/
-</code></pre>
-
-<p>以上是iOS开发中获取沙盒路径的方法，也许还有更好的获取方法等待我们去发现。后面我们还会讲到关于在沙盒里进行读写文件操作。</p>
 ]]></content>
   </entry>
   

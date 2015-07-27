@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>刚刚在线正式上线 - 刚刚在线</title>
+  <title>iOS开发之layoutSubviews的作用和调用机制 - 刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="刚刚在线正式上线">
-  <meta name="keywords" content="iOS, 写博客, Octopress, rake new_post, iOSDevTip iOS开发, gcd, cocoapods, 队列, 个人博客, 刚刚在线">
+  <meta name="description" content="在UIView里面有一个方法`layoutSubviews`，这个方法具体作用是什么呢？改变一个`UIView`大小的时候也会触发父`UIView`上的`layoutSubviews`事件。">
+  <meta name="keywords" content="layoutSubviews, iOS layoutSubviews, setNeedsLayout, iOS开发, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/blog/2014/09/26/ios">
+  <link rel="canonical" href="http://www.superqq.com/blog/2015/07/27/ioskai-fa-zhi-layoutsubviewsde-zuo-yong-he-diao-yong-ji-zhi">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -86,7 +86,7 @@
   
   <header>
     
-      <h1 class="entry-title">刚刚在线正式上线</h1>
+      <h1 class="entry-title">iOS开发之layoutSubviews的作用和调用机制</h1>
     
     
       <p class="meta">
@@ -95,37 +95,57 @@
 
 
 
-<time class='entry-date' datetime='2014-09-26T11:10:05+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:10 am</span></time>
+<time class='entry-date' datetime='2015-07-27T13:57:27+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:57 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><a href="http://www.superqq.com/blog/2014/09/26/ios/">刚刚在线正式上线</a></p>
+<div class="entry-content"><p>在UIView里面有一个方法<code>layoutSubviews</code>，这个方法具体作用是什么呢？</p>
 
-<p>大家好！</p>
-
-<p>我是<a href="http://www.superqq.com/blog/2014/09/26/ios/">刚刚在线</a>
-的作者刚刚</p>
-
-<p>以后就在这里跟大家分享一些东西</p>
-
-<p>下面两种方式参与学习讨论：</p>
-
-<p>1，我的微信公众账号：iOS开发</p>
-
-<pre><code>iOSDevTip
+<pre><code>- (void)layoutSubviews;    // override point. called by layoutIfNeeded automatically. As of iOS 6.0, when constraints-based layout is used the base implementation applies the constraints-based layout, otherwise it does nothing.
 </code></pre>
 
-<p>（扫描二维码直接关注）</p>
+<h2>官方文档解释</h2>
 
-<p><img src="http://www.superqq.com/images/getqrcode.jpg" ></p>
+<p>我们先来看看苹果官方文档的解释：</p>
 
-<p>2，我建立的QQ群：iOS学习交流群</p>
+<pre><code>The default implementation of this method does nothing on iOS 5.1 and earlier. Otherwise, the default implementation uses any constraints you have set to determine the size and position of any subviews.
 
-<pre><code>303868520
+Subclasses can override this method as needed to perform more precise layout of their subviews. You should override this method only if the autoresizing and constraint-based behaviors of the subviews do not offer the behavior you want. You can use your implementation to set the frame rectangles of your subviews directly.
+
+You should not call this method directly. If you want to force a layout update, call the setNeedsLayout method instead to do so prior to the next drawing update. If you want to update the layout of your views immediately, call the layoutIfNeeded method.
 </code></pre>
+
+<p>最后一段说，不要直接调用此方法。如果你想强制更新布局，你可以调用<code>setNeedsLayout</code>方法；如果你想立即数显你的<code>views</code>，你需要调用<code>layoutIfNeeded</code>方法。</p>
+
+<h2>layoutSubviews作用</h2>
+
+<p><code>layoutSubviews</code>是对<code>subviews</code>重新布局。比如，我们想更新子视图的位置的时候，可以通过调用<code>layoutSubviews</code>方法，既可以实现对子视图重新布局。</p>
+
+<p><code>layoutSubviews</code>默认是不做任何事情的，用到的时候，需要在自雷进行重写。</p>
+
+<h2>layoutSubviews以下情况会被调用</h2>
+
+<p>苹果官方文档已经强调，不能直接调用<code>layoutSubviews</code>对子视图进行重新布局。那么，<code>layoutSubviews</code>什么情况下会被调用呢？通过百度搜索，发现以下几种情况<code>layoutSubviews</code>会被调用。</p>
+
+<ol>
+<li>直接调用<code>setLayoutSubviews</code>。（这个在上面苹果官方文档里有说明）</li>
+<li><code>addSubview</code>的时候。</li>
+<li>当<code>view</code>的<code>frame</code>发生改变的时候。</li>
+<li>滑动<code>UIScrollView</code>的时候。</li>
+<li>旋转<code>Screen</code>会触发父<code>UIView</code>上的<code>layoutSubviews</code>事件。</li>
+<li>改变一个<code>UIView</code>大小的时候也会触发父<code>UIView</code>上的<code>layoutSubviews</code>事件。</li>
+</ol>
+
+
+<p>我简单测试了一下，上面基本都会被调用。 注意：</p>
+
+<pre><code>当view的fram的值为0的时候，`addSubview`也不会调用`layoutSubviews`的。
+</code></pre>
+
+<p><code>layoutSubviews</code>方法在对自雷视图进行布局的时候非常方便。可以自己动手，深入理解<code>layoutSubviews</code>的调用机制。</p>
 </div>
 
 
@@ -141,7 +161,7 @@
 
 
 
-<time class='entry-date' datetime='2014-09-26T11:10:05+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:10 am</span></time>
+<time class='entry-date' datetime='2015-07-27T13:57:27+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:57 pm</span></time>
       
 
 <span class="categories">
@@ -152,7 +172,7 @@
 
 
       <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
-<br>原文链接：<a href="http://www.superqq.com/blog/2014/09/26/ios/">http://www.superqq.com/blog/2014/09/26/ios/</a> <!-- 添加这一行代码 -->
+<br>原文链接：<a href="http://www.superqq.com/blog/2015/07/27/ioskai-fa-zhi-layoutsubviewsde-zuo-yong-he-diao-yong-ji-zhi/">http://www.superqq.com/blog/2015/07/27/ioskai-fa-zhi-layoutsubviewsde-zuo-yong-he-diao-yong-ji-zhi/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -177,8 +197,8 @@
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2015/07/26/jie-qu-uiimagezhi-ding-da-xiao-qu-yu/" title="Previous Post: 截取UIImage指定大小区域">&laquo; 截取UIImage指定大小区域</a>
       
-        <a class="basic-alignment right" href="/blog/2014/09/30/xie-bo-ke-de-fang-fa/" title="Next Post: Octopress写博客的方法">Octopress写博客的方法 &ra/categories.htmlquo;</a>
       
     </p>
   </footer>

@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-26T10:21:09+08:00</updated>
+  <updated>2015-07-27T14:02:05+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,58 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发之layoutSubviews的作用和调用机制]]></title>
+    <link href="http://www.superqq.com/blog/2015/07/27/ioskai-fa-zhi-layoutsubviewsde-zuo-yong-he-diao-yong-ji-zhi/"/>
+    <updated>2015-07-27T13:57:27+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/07/27/ioskai-fa-zhi-layoutsubviewsde-zuo-yong-he-diao-yong-ji-zhi</id>
+    <content type="html"><![CDATA[<p>在UIView里面有一个方法<code>layoutSubviews</code>，这个方法具体作用是什么呢？</p>
+
+<pre><code>- (void)layoutSubviews;    // override point. called by layoutIfNeeded automatically. As of iOS 6.0, when constraints-based layout is used the base implementation applies the constraints-based layout, otherwise it does nothing.
+</code></pre>
+
+<h2>官方文档解释</h2>
+
+<p>我们先来看看苹果官方文档的解释：</p>
+
+<pre><code>The default implementation of this method does nothing on iOS 5.1 and earlier. Otherwise, the default implementation uses any constraints you have set to determine the size and position of any subviews.
+
+Subclasses can override this method as needed to perform more precise layout of their subviews. You should override this method only if the autoresizing and constraint-based behaviors of the subviews do not offer the behavior you want. You can use your implementation to set the frame rectangles of your subviews directly.
+
+You should not call this method directly. If you want to force a layout update, call the setNeedsLayout method instead to do so prior to the next drawing update. If you want to update the layout of your views immediately, call the layoutIfNeeded method.
+</code></pre>
+
+<p>最后一段说，不要直接调用此方法。如果你想强制更新布局，你可以调用<code>setNeedsLayout</code>方法；如果你想立即数显你的<code>views</code>，你需要调用<code>layoutIfNeeded</code>方法。</p>
+
+<h2>layoutSubviews作用</h2>
+
+<p><code>layoutSubviews</code>是对<code>subviews</code>重新布局。比如，我们想更新子视图的位置的时候，可以通过调用<code>layoutSubviews</code>方法，既可以实现对子视图重新布局。</p>
+
+<p><code>layoutSubviews</code>默认是不做任何事情的，用到的时候，需要在自雷进行重写。</p>
+
+<h2>layoutSubviews以下情况会被调用</h2>
+
+<p>苹果官方文档已经强调，不能直接调用<code>layoutSubviews</code>对子视图进行重新布局。那么，<code>layoutSubviews</code>什么情况下会被调用呢？通过百度搜索，发现以下几种情况<code>layoutSubviews</code>会被调用。</p>
+
+<ol>
+<li>直接调用<code>setLayoutSubviews</code>。（这个在上面苹果官方文档里有说明）</li>
+<li><code>addSubview</code>的时候。</li>
+<li>当<code>view</code>的<code>frame</code>发生改变的时候。</li>
+<li>滑动<code>UIScrollView</code>的时候。</li>
+<li>旋转<code>Screen</code>会触发父<code>UIView</code>上的<code>layoutSubviews</code>事件。</li>
+<li>改变一个<code>UIView</code>大小的时候也会触发父<code>UIView</code>上的<code>layoutSubviews</code>事件。</li>
+</ol>
+
+
+<p>我简单测试了一下，上面基本都会被调用。 注意：</p>
+
+<pre><code>当view的fram的值为0的时候，`addSubview`也不会调用`layoutSubviews`的。
+</code></pre>
+
+<p><code>layoutSubviews</code>方法在对自雷视图进行布局的时候非常方便。可以自己动手，深入理解<code>layoutSubviews</code>的调用机制。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[截取UIImage指定大小区域]]></title>
@@ -988,11 +1040,11 @@ Objective-C 没有消失，但是现在用一个慢慢失去关注的语言来�
 
 <p><strong>林翔宇</strong>
 - <a href="http://linxiangyu.org">http://linxiangyu.org</a>
-- <a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#58;&#108;&#105;&#110;&#120;&#x69;&#x61;&#x6e;&#103;&#x79;&#x75;&#64;&#x6e;&#x75;&#112;&#x74;&#x65;&#114;&#46;&#111;&#x72;&#103;">&#x6c;&#105;&#110;&#x78;&#105;&#x61;&#x6e;&#103;&#x79;&#117;&#64;&#110;&#117;&#112;&#x74;&#101;&#114;&#x2e;&#x6f;&#x72;&#103;</a>
+- <a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#108;&#x69;&#110;&#x78;&#x69;&#97;&#x6e;&#103;&#x79;&#x75;&#64;&#110;&#x75;&#112;&#116;&#101;&#114;&#x2e;&#111;&#x72;&#x67;">&#108;&#105;&#110;&#x78;&#105;&#x61;&#x6e;&#103;&#121;&#x75;&#64;&#x6e;&#x75;&#x70;&#x74;&#x65;&#114;&#x2e;&#111;&#x72;&#x67;</a>
 - <a href="http://github.com/oa414">http://github.com/oa414</a></p>
 
 <p><strong>庞博</strong>
-- <a href="&#109;&#97;&#105;&#x6c;&#116;&#111;&#58;&#98;&#111;&#112;&#x61;&#110;&#103;&#x40;&#115;&#111;&#104;&#117;&#x2d;&#105;&#x6e;&#x63;&#x2e;&#x63;&#111;&#x6d;">&#x62;&#111;&#112;&#97;&#110;&#103;&#x40;&#115;&#x6f;&#x68;&#x75;&#x2d;&#x69;&#x6e;&#x63;&#x2e;&#x63;&#111;&#109;</a>
+- <a href="&#109;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#x62;&#111;&#x70;&#x61;&#110;&#103;&#x40;&#x73;&#x6f;&#104;&#x75;&#x2d;&#x69;&#x6e;&#x63;&#46;&#x63;&#111;&#109;">&#x62;&#x6f;&#112;&#x61;&#110;&#x67;&#x40;&#x73;&#111;&#104;&#117;&#45;&#105;&#x6e;&#x63;&#x2e;&#x63;&#x6f;&#109;</a>
 - <a href="https://github.com/heistings">https://github.com/heistings</a></p>
 
 <p>翻译已得到原作者许可，并且会在更加完善后申请合并到原文仓库。</p>
@@ -1918,142 +1970,6 @@ _timer = [NSTimer scheduledTimerWithTimeInterval:3.0f
 
 
 <p>原文链接： <a href="http://blog.callmewhy.com/2015/07/06/weak-timer-in-ios/?sukey=fc78a68049a14bb264852ae4e610e664d74bb6bf7a3e31be7aa2ac6c3e5a83ca566fa1c683d37c01e8569e560d873907" target="_blank" title=" iOS 中的 NSTimer "> iOS 中的 NSTimer </a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS开发之NSString的几条实用技巧]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/11/ioskai-fa-zhi-nsstringde-ji-tiao-shi-yong-ji-qiao/"/>
-    <updated>2015-07-11T22:57:21+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/11/ioskai-fa-zhi-nsstringde-ji-tiao-shi-yong-ji-qiao</id>
-    <content type="html"><![CDATA[<p>这两天上海台风“灿鸿”来袭，又是刮风，又是下雨。这雨已经连下好多天了，再不出太阳人都发霉了。不过无论再怎么样，也不要让天气破坏了心情。</p>
-
-<p>台风来了，刚好我要走了。周六一大早5点就爬起来，雨下的不小，风也特别大。我是7点多的动车。从我家过去大概需要一个半小时的时间。所以得提前起来，省的匆匆忙忙。</p>
-
-<h2>使用Uber的感受</h2>
-
-<p>我还一直担心，这天气可能连车都打不到。抱着尝试的心态，我打开了Uber，为什么打开的是Uber，而不是滴滴，也不是快的呢。因为我的Uber上还有优惠劵，而且还有一个重要的原因，Uber上面的人民优步，不仅价格比出租车便宜，而且服务态度那也是相当好的。</p>
-
-<p>看来我的担心是多余的。我打开Uber点了打车，不到10s，就有司机抢单成功。我连目的地都没有来得及输入，这也是滴滴和快的不具备的。这一点我觉得真的比较人性。因为很多司机都是看距离抢单的，Uber这样做估计就是杜绝这样的事情发生。</p>
-
-<p>我并不说给Uber打广告的，再说了Uber也没给我钱。我之前一直用的都是滴滴和快的。我说的都是事实，大家可以自己尝试尝试。</p>
-
-<p>写这篇文章时，我刚到郑州，在同学安顿的宾馆里。虽然奔波了一天，有些疲惫。还是要给大家准备一些NSString的小技巧。希望你能把iOS开发：<strong>iOSDevTip</strong> 介绍给更多你身边的朋友，这就是对我最大的支持。</p>
-
-<h2>NSString的几条小技巧</h2>
-
-<h3>创建字符串</h3>
-
-<p><strong>常量字符串</strong></p>
-
-<pre><code>NSString *string = @"i am an iOSDevTip!";
-</code></pre>
-
-<p><strong>常用创建方法</strong></p>
-
-<pre><code>NSString *string = [[NSString alloc] init];
-
-string = @"i am an iOSDevTip too!";
-</code></pre>
-
-<p><strong>用initWithString创建字符串</strong></p>
-
-<pre><code>NSString *string = [[NSString alloc] initWithString:@"iOSDevTip is here!"];
-</code></pre>
-
-<h3>格式化创建字符串</h3>
-
-<p><strong>int格式化字符串</strong></p>
-
-<pre><code>int age = 20;
-NSString *personAge = [NSString stringWithFormat:@"this person age is %d",age];
-</code></pre>
-
-<p>既然int格式化字符串，那么float、double等，也可以格式化字符串。</p>
-
-<p><strong>NSString格式化字符串</strong></p>
-
-<pre><code>NSString *name = @"iOSDevTip";
-NSString *personName = [NSString stringWithFormat:@"this person name is %@",name];
-</code></pre>
-
-<h3>字符串比较</h3>
-
-<p><strong>isEqualToString方法比较</strong></p>
-
-<pre><code>//比较字符串
-NSString *stingOne = @"This is an iOSDevTip!";
-NSString *stringTwo = @"This is an iOSDevTip!";
-BOOL result = [stingOne isEqualToString:stringTwo];
-</code></pre>
-
-<p><strong>compare方法比较</strong></p>
-
-<pre><code>BOOL result = [stingOne compare:stringTwo] == NSOrderedSame;
-</code></pre>
-
-<p>compare:方法返回值类型为NSComparisonResult。而NSComparisonResult有下面几个枚举值。</p>
-
-<pre><code>typedef NS_ENUM(NSInteger, NSComparisonResult) {NSOrderedAscending = -1L, NSOrderedSame, NSOrderedDescending};
-</code></pre>
-
-<h3>字符串大小写转换</h3>
-
-<p><strong>小写转大写</strong></p>
-
-<pre><code> NSString *string = @"This is an iOSDevTip!";
-[string lowercaseString];
-</code></pre>
-
-<p><strong>大写转小写</strong></p>
-
-<pre><code>NSString *string = @"This is an iOSDevTip!";
-[string uppercaseString];
-</code></pre>
-
-<h3>截取字符串</h3>
-
-<p><strong>substringToIndex截取字符串</strong></p>
-
-<pre><code>NSString *string = @"This is a operation string!";
-NSString *subToString = [string substringToIndex:6];
-</code></pre>
-
-<p>截取的subToString为This i</p>
-
-<p><strong>substringFromIndex截取字符串</strong></p>
-
-<pre><code>NSString *subFromString = [string substringFromIndex:6];
-</code></pre>
-
-<p>截取的subFromString为s a operation string!</p>
-
-<p><strong>substringWithRange截取字符串</strong></p>
-
-<pre><code>NSString *rangeString = [string substringWithRange:NSMakeRange(6, 3)];
-</code></pre>
-
-<p>截取的rangeString为s a!</p>
-
-<h3>判断字符串是否包含另一个字符串</h3>
-
-<p><strong>rangeOfString判断</strong></p>
-
-<pre><code>NSString *string1 = @"This is a iOSDevTip";
-NSString *string2 = @"iOSDevTip";
-NSRange range = [string1 rangeOfString:string2];
-NSInteger location = range.location;
-NSInteger leight = range.length;
-NSString *logString = [[NSString alloc] initWithString:[NSString stringWithFormat:@"Location:%ld,Leight:%ld",location,leight]];
-NSLog(@"logString:%@",logString);
-</code></pre>
-
-<p>打印出来：</p>
-
-<pre><code>iOSStrongDemo[8837:2221170] logString:Location:10,Leight:9
-</code></pre>
-
-<p>如果Leight为0，说明不包含。还有更多关于NSString的用法，大家一起探索吧。代码下载地址：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
 ]]></content>
   </entry>
   
