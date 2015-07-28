@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 源代码 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/yuan-dai-ma/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-28T20:45:48+08:00</updated>
+  <updated>2015-07-28T21:10:36+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -84,12 +84,12 @@ iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</
 
 <p>CocoaPods 0.36 adds supports for Swift and embedded frameworks. You can install it with the following command:</p>
 
-<pre><code class="bash">$ gem install cocoapods
+<pre><code>$ gem install cocoapods
 </code></pre>
 
 <p>To integrate Alamofire into your Xcode project using CocoaPods, specify it in your <code>Podfile</code>:</p>
 
-<pre><code class="ruby">source 'https://github.com/CocoaPods/Specs.git'
+<pre><code>source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 use_frameworks!
 
@@ -98,7 +98,7 @@ pod 'Alamofire', '~&gt; 1.3'
 
 <p>Then, run the following command:</p>
 
-<pre><code class="bash">$ pod install
+<pre><code>$ pod install
 </code></pre>
 
 <h3>Carthage</h3>
@@ -107,13 +107,13 @@ pod 'Alamofire', '~&gt; 1.3'
 
 <p>You can install Carthage with <a href="http://brew.sh/">Homebrew</a> using the following command:</p>
 
-<pre><code class="bash">$ brew update
+<pre><code>$ brew update
 $ brew install carthage
 </code></pre>
 
 <p>To integrate Alamofire into your Xcode project using Carthage, specify it in your <code>Cartfile</code>:</p>
 
-<pre><code class="ogdl">github "Alamofire/Alamofire" &gt;= 1.3
+<pre><code>github "Alamofire/Alamofire" &gt;= 1.3
 </code></pre>
 
 <h3>Manually</h3>
@@ -123,14 +123,9 @@ $ brew install carthage
 <h4>Embedded Framework</h4>
 
 <ul>
-<li>Add Alamofire as a <a href="http://git-scm.com/docs/git-submodule">submodule</a> by opening the Terminal, <code>cd</code>-ing into your top-level project directory, and entering the following command:</li>
-</ul>
+<li><p>Add Alamofire as a <a href="http://git-scm.com/docs/git-submodule">submodule</a> by opening the Terminal, <code>cd</code>-ing into your top-level project directory, and entering the following command:</p>
 
-
-<pre><code class="bash">$ git submodule add https://github.com/Alamofire/Alamofire.git
-</code></pre>
-
-<ul>
+<p>   $ git submodule add <a href="https://github.com/Alamofire/Alamofire.git">https://github.com/Alamofire/Alamofire.git</a></p></li>
 <li><p>Open the new <code>Alamofire</code> folder, and drag the <code>Alamofire.xcodeproj</code> into the Project Navigator of your application&rsquo;s Xcode project.</p>
 
 <blockquote><p>It should appear nested underneath your application&rsquo;s blue project icon. Whether it is above or below all the other Xcode groups does not matter.</p></blockquote></li>
@@ -160,14 +155,14 @@ $ brew install carthage
 
 <h3>Making a Request</h3>
 
-<pre><code class="swift">import Alamofire
+<pre><code>import Alamofire
 
 Alamofire.request(.GET, "http://httpbin.org/get")
 </code></pre>
 
 <h3>Response Handling</h3>
 
-<pre><code class="swift">Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
+<pre><code>Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
          .response { request, response, data, error in
               println(request)
               println(response)
@@ -193,7 +188,7 @@ Alamofire.request(.GET, "http://httpbin.org/get")
 
 <h4>Response String Handler</h4>
 
-<pre><code class="swift">Alamofire.request(.GET, "http://httpbin.org/get")
+<pre><code>Alamofire.request(.GET, "http://httpbin.org/get")
          .responseString { _, _, string, _ in
              println(string)
          }
@@ -201,7 +196,7 @@ Alamofire.request(.GET, "http://httpbin.org/get")
 
 <h4>Response JSON Handler</h4>
 
-<pre><code class="swift">Alamofire.request(.GET, "http://httpbin.org/get")
+<pre><code>Alamofire.request(.GET, "http://httpbin.org/get")
          .responseJSON { _, _, JSON, _ in
              println(JSON)
          }
@@ -211,7 +206,7 @@ Alamofire.request(.GET, "http://httpbin.org/get")
 
 <p>Response handlers can even be chained:</p>
 
-<pre><code class="swift">Alamofire.request(.GET, "http://httpbin.org/get")
+<pre><code>Alamofire.request(.GET, "http://httpbin.org/get")
          .responseString { _, _, string, _ in
              println(string)
          }
@@ -224,7 +219,7 @@ Alamofire.request(.GET, "http://httpbin.org/get")
 
 <p><code>Alamofire.Method</code> lists the HTTP methods defined in <a href="http://tools.ietf.org/html/rfc7231#section-4.3">RFC 7231 §4.3</a>:</p>
 
-<pre><code class="swift">public enum Method: String {
+<pre><code>public enum Method: String {
     case OPTIONS = "OPTIONS"
     case GET = "GET"
     case HEAD = "HEAD"
@@ -239,7 +234,7 @@ Alamofire.request(.GET, "http://httpbin.org/get")
 
 <p>These values can be passed as the first argument of the <code>Alamofire.request</code> method:</p>
 
-<pre><code class="swift">Alamofire.request(.POST, "http://httpbin.org/post")
+<pre><code>Alamofire.request(.POST, "http://httpbin.org/post")
 
 Alamofire.request(.PUT, "http://httpbin.org/put")
 
@@ -250,13 +245,13 @@ Alamofire.request(.DELETE, "http://httpbin.org/delete")
 
 <h4>GET Request With URL-Encoded Parameters</h4>
 
-<pre><code class="swift">Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
+<pre><code>Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
 // http://httpbin.org/get?foo=bar
 </code></pre>
 
 <h4>POST Request With URL-Encoded Parameters</h4>
 
-<pre><code class="swift">let parameters = [
+<pre><code>    let parameters = [
     "foo": "bar",
     "baz": ["a", 1],
     "qux": [
@@ -274,7 +269,7 @@ Alamofire.request(.POST, "http://httpbin.org/post", parameters: parameters)
 
 <p>Parameters can also be encoded as JSON, Property List, or any custom format, using the <code>ParameterEncoding</code> enum:</p>
 
-<pre><code class="swift">enum ParameterEncoding {
+<pre><code>enum ParameterEncoding {
     case URL
     case JSON
     case PropertyList(format: NSPropertyListFormat, options: NSPropertyListWriteOptions)
@@ -295,7 +290,7 @@ Alamofire.request(.POST, "http://httpbin.org/post", parameters: parameters)
 
 <h4>Manual Parameter Encoding of an NSURLRequest</h4>
 
-<pre><code class="swift">let URL = NSURL(string: "http://httpbin.org/get")!
+<pre><code>let URL = NSURL(string: "http://httpbin.org/get")!
 var request = NSURLRequest(URL: URL)
 
 let parameters = ["foo": "bar"]
@@ -305,7 +300,7 @@ let encoding = Alamofire.ParameterEncoding.URL
 
 <h4>POST Request with JSON-encoded Parameters</h4>
 
-<pre><code class="swift">let parameters = [
+<pre><code>let parameters = [
     "foo": [1,2,3],
     "bar": [
         "baz": "qux"
@@ -322,7 +317,7 @@ Alamofire.request(.POST, "http://httpbin.org/post", parameters: parameters, enco
 
 <blockquote><p>For HTTP headers that do not change, it is recommended to set them on the <code>NSURLSessionConfiguration</code> so they are automatically applied to any <code>NSURLSessionTask</code> created by the underlying <code>NSURLSession</code>.</p></blockquote>
 
-<pre><code class="swift">let headers = [
+<pre><code>let headers = [
     "Authorization": "Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==",
     "Content-Type": "application/x-www-form-urlencoded"
 ]
@@ -351,24 +346,24 @@ Alamofire.request(.GET, "http://httpbin.org/get", headers: headers)
 
 <h4>Uploading a File</h4>
 
-<pre><code class="swift">let fileURL = NSBundle.mainBundle().URLForResource("Default", withExtension: "png")
+<pre><code>let fileURL = NSBundle.mainBundle().URLForResource("Default", withExtension: "png")
 Alamofire.upload(.POST, "http://httpbin.org/post", file: fileURL)
 </code></pre>
 
 <h4>Uploading with Progress</h4>
 
-<pre><code class="swift">Alamofire.upload(.POST, "http://httpbin.org/post", file: fileURL)
-         .progress { bytesWritten, totalBytesWritten, totalBytesExpectedToWrite in
-             println(totalBytesWritten)
-         }
-         .responseJSON { request, response, JSON, error in
-             println(JSON)
-         }
+<pre><code>Alamofire.upload(.POST, "http://httpbin.org/post", file: fileURL)
+     .progress { bytesWritten, totalBytesWritten, totalBytesExpectedToWrite in
+         println(totalBytesWritten)
+     }
+     .responseJSON { request, response, JSON, error in
+         println(JSON)
+     }
 </code></pre>
 
 <h4>Uploading MultipartFormData</h4>
 
-<pre><code class="swift">Alamofire.upload(
+<pre><code>Alamofire.upload(
     .POST,
     URLString: "http://httpbin.org/post",
     multipartFormData: { multipartFormData in
@@ -400,7 +395,7 @@ Alamofire.upload(.POST, "http://httpbin.org/post", file: fileURL)
 
 <h4>Downloading a File</h4>
 
-<pre><code class="swift">Alamofire.download(.GET, "http://httpbin.org/stream/100") { temporaryURL, response in
+<pre><code>Alamofire.download(.GET, "http://httpbin.org/stream/100") { temporaryURL, response in
     let fileManager = NSFileManager.defaultManager()
     if let directoryURL = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0] as? NSURL {
         let pathComponent = response.suggestedFilename
@@ -413,13 +408,13 @@ Alamofire.upload(.POST, "http://httpbin.org/post", file: fileURL)
 
 <h4>Using the Default Download Destination</h4>
 
-<pre><code class="swift">let destination = Alamofire.Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
+<pre><code>let destination = Alamofire.Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
 Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
 </code></pre>
 
 <h4>Downloading a File w/Progress</h4>
 
-<pre><code class="swift">Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
+<pre><code>Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
          .progress { bytesRead, totalBytesRead, totalBytesExpectedToRead in
              println(totalBytesRead)
          }
@@ -446,7 +441,7 @@ Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destinati
 
 <p>The <code>authenticate</code> method on a <code>Request</code> will automatically provide an <code>NSURLCredential</code> to an <code>NSURLAuthenticationChallenge</code> when appropriate:</p>
 
-<pre><code class="swift">let user = "user"
+<pre><code>let user = "user"
 let password = "password"
 
 Alamofire.request(.GET, "https://httpbin.org/basic-auth/\(user)/\(password)")
@@ -458,7 +453,7 @@ Alamofire.request(.GET, "https://httpbin.org/basic-auth/\(user)/\(password)")
 
 <p>Depending upon your server implementation, an <code>Authorization</code> header may also be appropriate:</p>
 
-<pre><code class="swift">let user = "user"
+<pre><code>let user = "user"
 let password = "password"
 
 let credentialData = "\(user):\(password)".dataUsingEncoding(NSUTF8StringEncoding)!
@@ -474,7 +469,7 @@ Alamofire.request(.GET, "http://httpbin.org/basic-auth/user/password", headers: 
 
 <h4>Authentication with NSURLCredential</h4>
 
-<pre><code class="swift">let user = "user"
+<pre><code>let user = "user"
 let password = "password"
 
 let credential = NSURLCredential(user: user, password: password, persistence: .ForSession)
@@ -492,7 +487,7 @@ Alamofire.request(.GET, "https://httpbin.org/basic-auth/\(user)/\(password)")
 
 <h4>Manual Validation</h4>
 
-<pre><code class="swift">Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
+<pre><code>Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
          .validate(statusCode: 200..&lt;300)
          .validate(contentType: ["application/json"])
          .response { _, _, _, error in
@@ -504,7 +499,7 @@ Alamofire.request(.GET, "https://httpbin.org/basic-auth/\(user)/\(password)")
 
 <p>Automatically validates status code within <code>200...299</code> range, and that the <code>Content-Type</code> header of the response matches the <code>Accept</code> header of the request, if one is provided.</p>
 
-<pre><code class="swift">Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
+<pre><code>Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
          .validate()
          .response { _, _, _, error in
              println(error)
@@ -513,7 +508,7 @@ Alamofire.request(.GET, "https://httpbin.org/basic-auth/\(user)/\(password)")
 
 <h3>Printable</h3>
 
-<pre><code class="swift">let request = Alamofire.request(.GET, "http://httpbin.org/ip")
+<pre><code>let request = Alamofire.request(.GET, "http://httpbin.org/ip")
 
 println(request)
 // GET http://httpbin.org/ip (200)
@@ -521,14 +516,14 @@ println(request)
 
 <h3>DebugPrintable</h3>
 
-<pre><code class="swift">let request = Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
+<pre><code>let request = Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
 
 debugPrintln(request)
 </code></pre>
 
 <h4>Output (cURL)</h4>
 
-<pre><code class="bash">$ curl -i \
+<pre><code>$ curl -i \
     -H "User-Agent: Alamofire" \
     -H "Accept-Encoding: Accept-Encoding: gzip;q=1.0,compress;q=0.5" \
     -H "Accept-Language: en;q=1.0,fr;q=0.9,de;q=0.8,zh-Hans;q=0.7,zh-Hant;q=0.6,ja;q=0.5" \
@@ -558,10 +553,10 @@ this framework, it is recommended that you be familiar with the concepts and cap
 
 <p>As such, the following two statements are equivalent:</p>
 
-<pre><code class="swift">Alamofire.request(.GET, "http://httpbin.org/get")
-</code></pre>
+<pre><code>Alamofire.request(.GET, "http://httpbin.org/get")
 
-<pre><code class="swift">let manager = Alamofire.Manager.sharedInstance
+
+let manager = Alamofire.Manager.sharedInstance
 manager.request(NSURLRequest(URL: NSURL(string: "http://httpbin.org/get")))
 </code></pre>
 
@@ -569,385 +564,15 @@ manager.request(NSURLRequest(URL: NSURL(string: "http://httpbin.org/get")))
 
 <h4>Creating a Manager with Default Configuration</h4>
 
-<pre><code class="swift">let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+<pre><code>let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
 let manager = Alamofire.Manager(configuration: configuration)
 </code></pre>
 
 <h4>Creating a Manager with Background Configuration</h4>
 
-<pre><code class="swift">let configuration = NSURLSessionConfiguration.backgroundSessionConfiguration("com.example.app.background")
+<pre><code>let configuration =     NSURLSessionConfiguration.backgroundSessionConfiguration("com.example.app.background")
 let manager = Alamofire.Manager(configuration: configuration)
 </code></pre>
-
-<h4>Creating a Manager with Ephemeral Configuration</h4>
-
-<pre><code class="swift">let configuration = NSURLSessionConfiguration.ephemeralSessionConfiguration()
-let manager = Alamofire.Manager(configuration: configuration)
-</code></pre>
-
-<h4>Modifying Session Configuration</h4>
-
-<pre><code class="swift">var defaultHeaders = Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders ?? [:]
-defaultHeaders["DNT"] = "1 (Do Not Track Enabled)"
-
-let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
-configuration.HTTPAdditionalHeaders = defaultHeaders
-
-let manager = Alamofire.Manager(configuration: configuration)
-</code></pre>
-
-<blockquote><p>This is <strong>not</strong> recommended for <code>Authorization</code> or <code>Content-Type</code> headers. Instead, use <code>URLRequestConvertible</code> and <code>ParameterEncoding</code>, respectively.</p></blockquote>
-
-<h3>Request</h3>
-
-<p>The result of a <code>request</code>, <code>upload</code>, or <code>download</code> method is an instance of <code>Alamofire.Request</code>. A request is always created using a constructor method from an owning manager, and never initialized directly.</p>
-
-<p>Methods like <code>authenticate</code>, <code>validate</code>, and <code>response</code> return the caller in order to facilitate chaining.</p>
-
-<p>Requests can be suspended, resumed, and cancelled:</p>
-
-<ul>
-<li><code>suspend()</code>: Suspends the underlying task and dispatch queue</li>
-<li><code>resume()</code>: Resumes the underlying task and dispatch queue. If the owning manager does not have <code>startRequestsImmediately</code> set to <code>true</code>, the request must call <code>resume()</code> in order to start.</li>
-<li><code>cancel()</code>: Cancels the underlying task, producing an error that is passed to any registered response handlers.</li>
-</ul>
-
-
-<h3>Response Serialization</h3>
-
-<h4>Creating a Custom Response Serializer</h4>
-
-<p>Alamofire provides built-in response serialization for strings, JSON, and property lists, but others can be added in extensions on <code>Alamofire.Request</code>.</p>
-
-<p>For example, here&rsquo;s how a response handler using <a href="https://github.com/mattt/Ono">Ono</a> might be implemented:</p>
-
-<pre><code class="swift">extension Request {
-    public static func XMLResponseSerializer() -&gt; GenericResponseSerializer&lt;ONOXMLDocument&gt; {
-        return GenericResponseSerializer { request, response, data in
-            if data == nil {
-                return (nil, nil)
-            }
-
-            var XMLSerializationError: NSError?
-            let XML = ONOXMLDocument(data: data!, error: &amp;XMLSerializationError)
-
-            return (XML, XMLSerializationError)
-        }
-    }
-
-    public func responseXMLDocument(completionHandler: (NSURLRequest, NSHTTPURLResponse?, ONOXMLDocument?, NSError?) -&gt; Void) -&gt; Self {
-        return response(responseSerializer: Request.XMLResponseSerializer(), completionHandler: completionHandler)
-    }
-}
-</code></pre>
-
-<h4>Generic Response Object Serialization</h4>
-
-<p>Generics can be used to provide automatic, type-safe response object serialization.</p>
-
-<pre><code class="swift">@objc public protocol ResponseObjectSerializable {
-    init?(response: NSHTTPURLResponse, representation: AnyObject)
-}
-
-extension Request {
-    public func responseObject&lt;T: ResponseObjectSerializable&gt;(completionHandler: (NSURLRequest, NSHTTPURLResponse?, T?, NSError?) -&gt; Void) -&gt; Self {
-        let responseSerializer = GenericResponseSerializer&lt;T&gt; { request, response, data in
-            let JSONResponseSerializer = Request.JSONResponseSerializer(options: .AllowFragments)
-            let (JSON: AnyObject?, serializationError) = JSONResponseSerializer.serializeResponse(request, response, data)
-
-            if let response = response, JSON: AnyObject = JSON {
-                return (T(response: response, representation: JSON), nil)
-            } else {
-                return (nil, serializationError)
-            }
-        }
-
-        return response(responseSerializer: responseSerializer, completionHandler: completionHandler)
-    }
-}
-</code></pre>
-
-<pre><code class="swift">final class User: ResponseObjectSerializable {
-    let username: String
-    let name: String
-
-    @objc required init?(response: NSHTTPURLResponse, representation: AnyObject) {
-        self.username = response.URL!.lastPathComponent!
-        self.name = representation.valueForKeyPath("name") as! String
-    }
-}
-</code></pre>
-
-<pre><code class="swift">Alamofire.request(.GET, "http://example.com/users/mattt")
-         .responseObject { (_, _, user: User?, _) in
-             println(user)
-         }
-</code></pre>
-
-<p>The same approach can also be used to handle endpoints that return a representation of a collection of objects:</p>
-
-<pre><code class="swift">@objc public protocol ResponseCollectionSerializable {
-    static func collection(#response: NSHTTPURLResponse, representation: AnyObject) -&gt; [Self]
-}
-
-extension Alamofire.Request {
-    public func responseCollection&lt;T: ResponseCollectionSerializable&gt;(completionHandler: (NSURLRequest, NSHTTPURLResponse?, [T]?, NSError?) -&gt; Void) -&gt; Self {
-        let responseSerializer = GenericResponseSerializer&lt;[T]&gt; { request, response, data in
-            let JSONSerializer = Request.JSONResponseSerializer(options: .AllowFragments)
-            let (JSON: AnyObject?, serializationError) = JSONSerializer.serializeResponse(request, response, data)
-
-            if let response = response, JSON: AnyObject = JSON {
-                return (T.collection(response: response, representation: JSON), nil)
-            } else {
-                return (nil, serializationError)
-            }
-        }
-
-        return response(responseSerializer: responseSerializer, completionHandler: completionHandler)
-    }
-}
-</code></pre>
-
-<pre><code class="swift">@objc final class User: ResponseObjectSerializable, ResponseCollectionSerializable {
-    let username: String
-    let name: String
-
-    required init?(response: NSHTTPURLResponse, representation: AnyObject) {
-        self.username = response.URL!.lastPathComponent!
-        self.name = representation.valueForKeyPath("name") as! String
-    }
-
-    static func collection(#response: NSHTTPURLResponse, representation: AnyObject) -&gt; [User] {
-        var users: [User] = []
-
-        if let representation = representation as? [[String: AnyObject]] {
-            for userRepresentation in representation {
-                if let user = User(response: response, representation: userRepresentation) {
-                    users.append(user)
-                }
-            }
-        }
-
-        return users
-    }
-}
-</code></pre>
-
-<pre><code class="swift">Alamofire.request(.GET, "http://example.com/users")
-         .responseCollection { (_, _, users: [User]?, _) in
-             println(users)
-         }
-</code></pre>
-
-<h3>URLStringConvertible</h3>
-
-<p>Types adopting the <code>URLStringConvertible</code> protocol can be used to construct URL strings, which are then used to construct URL requests. <code>NSString</code>, <code>NSURL</code>, <code>NSURLComponents</code>, and <code>NSURLRequest</code> conform to <code>URLStringConvertible</code> by default, allowing any of them to be passed as <code>URLString</code> parameters to the <code>request</code>, <code>upload</code>, and <code>download</code> methods:</p>
-
-<pre><code class="swift">let string = NSString(string: "http://httpbin.org/post")
-Alamofire.request(.POST, string)
-
-let URL = NSURL(string: string)!
-Alamofire.request(.POST, URL)
-
-let URLRequest = NSURLRequest(URL: URL)
-Alamofire.request(.POST, URLRequest) // overrides `HTTPMethod` of `URLRequest`
-
-let URLComponents = NSURLComponents(URL: URL, resolvingAgainstBaseURL: true)
-Alamofire.request(.POST, URLComponents)
-</code></pre>
-
-<p>Applications interacting with web applications in a significant manner are encouraged to have custom types conform to <code>URLStringConvertible</code> as a convenient way to map domain-specific models to server resources.</p>
-
-<h4>Type-Safe Routing</h4>
-
-<pre><code class="swift">extension User: URLStringConvertible {
-    static let baseURLString = "http://example.com"
-
-    var URLString: String {
-        return User.baseURLString + "/users/\(username)/"
-    }
-}
-</code></pre>
-
-<pre><code class="swift">let user = User(username: "mattt")
-Alamofire.request(.GET, user) // http://example.com/users/mattt
-</code></pre>
-
-<h3>URLRequestConvertible</h3>
-
-<p>Types adopting the <code>URLRequestConvertible</code> protocol can be used to construct URL requests. <code>NSURLRequest</code> conforms to <code>URLRequestConvertible</code> by default, allowing it to be passed into <code>request</code>, <code>upload</code>, and <code>download</code> methods directly (this is the recommended way to specify custom HTTP header fields or HTTP body for individual requests):</p>
-
-<pre><code class="swift">let URL = NSURL(string: "http://httpbin.org/post")!
-let mutableURLRequest = NSMutableURLRequest(URL: URL)
-mutableURLRequest.HTTPMethod = "POST"
-
-let parameters = ["foo": "bar"]
-var JSONSerializationError: NSError? = nil
-mutableURLRequest.HTTPBody = NSJSONSerialization.dataWithJSONObject(parameters, options: nil, error: &amp;JSONSerializationError)
-mutableURLRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-Alamofire.request(mutableURLRequest)
-</code></pre>
-
-<p>Applications interacting with web applications in a significant manner are encouraged to have custom types conform to <code>URLRequestConvertible</code> as a way to ensure consistency of requested endpoints. Such an approach can be used to abstract away server-side inconsistencies and provide type-safe routing, as well as manage authentication credentials and other state.</p>
-
-<h4>API Parameter Abstraction</h4>
-
-<pre><code class="swift">enum Router: URLRequestConvertible {
-    static let baseURLString = "http://example.com"
-    static let perPage = 50
-
-    case Search(query: String, page: Int)
-
-    // MARK: URLRequestConvertible
-
-    var URLRequest: NSURLRequest {
-        let (path: String, parameters: [String: AnyObject]?) = {
-            switch self {
-            case .Search(let query, let page) where page &gt; 1:
-                return ("/search", ["q": query, "offset": Router.perPage * page])
-            case .Search(let query, _):
-                return ("/search", ["q": query])
-            }
-        }()
-
-        let URL = NSURL(string: Router.baseURLString)!
-        let URLRequest = NSURLRequest(URL: URL.URLByAppendingPathComponent(path))
-        let encoding = Alamofire.ParameterEncoding.URL
-
-        return encoding.encode(URLRequest, parameters: parameters).0
-    }
-}
-</code></pre>
-
-<pre><code class="swift">Alamofire.request(Router.Search(query: "foo bar", page: 1)) // ?q=foo%20bar&amp;offset=50
-</code></pre>
-
-<h4>CRUD &amp; Authorization</h4>
-
-<pre><code class="swift">enum Router: URLRequestConvertible {
-    static let baseURLString = "http://example.com"
-    static var OAuthToken: String?
-
-    case CreateUser([String: AnyObject])
-    case ReadUser(String)
-    case UpdateUser(String, [String: AnyObject])
-    case DestroyUser(String)
-
-    var method: Alamofire.Method {
-        switch self {
-        case .CreateUser:
-            return .POST
-        case .ReadUser:
-            return .GET
-        case .UpdateUser:
-            return .PUT
-        case .DestroyUser:
-            return .DELETE
-        }
-    }
-
-    var path: String {
-        switch self {
-        case .CreateUser:
-            return "/users"
-        case .ReadUser(let username):
-            return "/users/\(username)"
-        case .UpdateUser(let username, _):
-            return "/users/\(username)"
-        case .DestroyUser(let username):
-            return "/users/\(username)"
-        }
-    }
-
-    // MARK: URLRequestConvertible
-
-    var URLRequest: NSURLRequest {
-        let URL = NSURL(string: Router.baseURLString)!
-        let mutableURLRequest = NSMutableURLRequest(URL: URL.URLByAppendingPathComponent(path))
-        mutableURLRequest.HTTPMethod = method.rawValue
-
-        if let token = Router.OAuthToken {
-            mutableURLRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        }
-
-        switch self {
-        case .CreateUser(let parameters):
-            return Alamofire.ParameterEncoding.JSON.encode(mutableURLRequest, parameters: parameters).0
-        case .UpdateUser(_, let parameters):
-            return Alamofire.ParameterEncoding.URL.encode(mutableURLRequest, parameters: parameters).0
-        default:
-            return mutableURLRequest
-        }
-    }
-}
-</code></pre>
-
-<pre><code class="swift">Alamofire.request(Router.ReadUser("mattt")) // GET /users/mattt
-</code></pre>
-
-<h3>Security</h3>
-
-<p>Using a secure HTTPS connection when communicating with servers and web services is an important step in securing sensitive data. By default, Alamofire will evaluate the certificate chain provided by the server using Apple&rsquo;s built in validation provided by the Security framework. While this guarantees the certificate chain is valid, it does not prevent man-in-the-middle (MITM) attacks or other potential vulnerabilities. In order to mitigate MITM attacks, applications dealing with sensitive customer data or financial information should use certificate or public key pinning provided by the <code>ServerTrustPolicy</code>.</p>
-
-<h4>ServerTrustPolicy</h4>
-
-<p>The <code>ServerTrustPolicy</code> enumeration evaluates the server trust generally provided by an <code>NSURLAuthenticationChallenge</code> when connecting to a server over a secure HTTPS connection.</p>
-
-<pre><code class="swift">let serverTrustPolicy = ServerTrustPolicy.PinCertificates(
-    certificates: ServerTrustPolicy.certificatesInBundle(),
-    validateCertificateChain: true,
-    validateHost: true
-)
-</code></pre>
-
-<p>There are many different cases of server trust evaluation giving you complete control over the validation process:</p>
-
-<ul>
-<li><code>PerformDefaultEvaluation</code>: Uses the default server trust evaluation while allowing you to control whether to validate the host provided by the challenge.</li>
-<li><code>PinCertificates</code>: Uses the pinned certificates to validate the server trust. The server trust is considered valid if one of the pinned certificates match one of the server certificates.</li>
-<li><code>PinPublicKeys</code>: Uses the pinned public keys to validate the server trust. The server trust is considered valid if one of the pinned public keys match one of the server certificate public keys.</li>
-<li><code>DisableEvaluation</code>: Disables all evaluation which in turn will always consider any server trust as valid.</li>
-<li><code>CustomEvaluation</code>: Uses the associated closure to evaluate the validity of the server trust thus giving you complete control over the validation process. Use with caution.</li>
-</ul>
-
-
-<h4>Server Trust Policy Manager</h4>
-
-<p>The <code>ServerTrustPolicyManager</code> is responsible for storing an internal mapping of server trust policies to a particular host. This allows Alamofire to evaluate each host against a different server trust policy.</p>
-
-<pre><code class="swift">let serverTrustPolicies: [String: ServerTrustPolicy] = [
-    "test.example.com": .PinCertificates(
-        certificates: ServerTrustPolicy.certificatesInBundle(),
-        validateCertificateChain: true,
-        validateHost: true
-    ),
-    "insecure.expired-apis.com": .DisableEvaluation
-]
-
-let manager = Manager(
-    configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
-    serverTrustPolicyManager: ServerTrustPolicyManager(policies: serverTrustPolicies)
-)
-</code></pre>
-
-<p>These server trust policies will result in the following behavior:</p>
-
-<ul>
-<li><code>test.example.com</code> will always use certificate pinning with certificate chain and host validation enabled thus requiring the following criteria to be met to allow the TLS handshake to succeed:
-
-<ul>
-<li>Certificate chain MUST be valid.</li>
-<li>Certificate chain MUST include one of the pinned certificates.</li>
-<li>Challenge host MUST match the host in the certificate chain&rsquo;s leaf certificate.</li>
-</ul>
-</li>
-<li><code>insecure.expired-apis.com</code> will never evaluate the certificate chain and will always allow the TLS handshake to succeed.</li>
-<li>All other hosts will use the default evaluation provided by Apple.</li>
-</ul>
-
-
-<hr />
 
 <h2>FAQ</h2>
 
@@ -981,7 +606,7 @@ let manager = Manager(
 
 <h3>Security Disclosure</h3>
 
-<p>If you believe you have identified a security vulnerability with Alamofire, you should report it as soon as possible via email to <a href="&#x6d;&#97;&#105;&#108;&#116;&#111;&#x3a;&#115;&#101;&#x63;&#x75;&#114;&#105;&#116;&#121;&#64;&#97;&#x6c;&#97;&#109;&#x6f;&#102;&#x69;&#x72;&#x65;&#46;&#x6f;&#x72;&#103;&#x2e;">&#115;&#x65;&#99;&#x75;&#114;&#105;&#x74;&#x79;&#64;&#x61;&#108;&#x61;&#x6d;&#111;&#x66;&#105;&#114;&#x65;&#x2e;&#x6f;&#114;&#103;&#x2e;</a> Please do not post it to a public issue tracker.</p>
+<p>If you believe you have identified a security vulnerability with Alamofire, you should report it as soon as possible via email to <a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#111;&#x3a;&#x73;&#x65;&#x63;&#117;&#x72;&#x69;&#x74;&#x79;&#x40;&#x61;&#108;&#97;&#x6d;&#111;&#102;&#x69;&#114;&#101;&#46;&#x6f;&#114;&#x67;&#46;">&#115;&#101;&#x63;&#117;&#x72;&#105;&#116;&#121;&#x40;&#x61;&#108;&#x61;&#x6d;&#x6f;&#102;&#105;&#x72;&#101;&#46;&#x6f;&#x72;&#103;&#46;</a> Please do not post it to a public issue tracker.</p>
 
 <h2>License</h2>
 
@@ -1708,16 +1333,23 @@ $ cd DKCircleButton/
 <h3>Initialization</h3>
 
 <p>Like a regular custom UIButton
-&#8220;` objective-c
-- (void)viewDidLoad {
-  [super viewDidLoad];</p>
-
-<p>  DKCircleButton *button1 = [[DKCircleButton alloc] initWithFrame:CGRectMake(0, 0, 90, 90)];</p>
-
-<p>  button1.center = CGPointMake(160, 200);
-  button1.titleLabel.font = [UIFont systemFontOfSize:22];
-}
-&#8220;`</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLoad</span><span class="p">];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="n">DKCircleButton</span> <span class="o">*</span><span class="n">button1</span> <span class="o">=</span> <span class="p">[[</span><span class="n">DKCircleButton</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">)];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="n">button1</span><span class="p">.</span><span class="n">center</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="mi">160</span><span class="p">,</span> <span class="mi">200</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">button1</span><span class="p">.</span><span class="n">titleLabel</span><span class="p">.</span><span class="n">font</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIFont</span> <span class="nl">systemFontOfSize</span><span class="p">:</span><span class="mi">22</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <h3>Toggle animation mode</h3>
 
