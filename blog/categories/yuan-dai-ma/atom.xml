@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 源代码 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/yuan-dai-ma/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-28T20:25:18+08:00</updated>
+  <updated>2015-07-28T20:27:10+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[swift-Alamofire]]></title>
+    <title type="html"><![CDATA[著名的AFNetworking网络基础库Swift版Alamofire]]></title>
     <link href="http://www.superqq.com/blog/2015/07/28/swift-alamofire/"/>
     <updated>2015-07-28T20:16:37+08:00</updated>
     <id>http://www.superqq.com/blog/2015/07/28/swift-alamofire</id>
@@ -981,7 +981,7 @@ let manager = Manager(
 
 <h3>Security Disclosure</h3>
 
-<p>If you believe you have identified a security vulnerability with Alamofire, you should report it as soon as possible via email to <a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#x6f;&#58;&#115;&#x65;&#x63;&#x75;&#114;&#105;&#x74;&#x79;&#x40;&#x61;&#x6c;&#x61;&#x6d;&#x6f;&#102;&#105;&#114;&#101;&#46;&#111;&#114;&#x67;&#x2e;">&#115;&#x65;&#99;&#117;&#x72;&#x69;&#x74;&#x79;&#x40;&#x61;&#108;&#x61;&#x6d;&#111;&#102;&#105;&#x72;&#x65;&#46;&#111;&#x72;&#x67;&#46;</a> Please do not post it to a public issue tracker.</p>
+<p>If you believe you have identified a security vulnerability with Alamofire, you should report it as soon as possible via email to <a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#x6f;&#58;&#x73;&#x65;&#x63;&#x75;&#114;&#x69;&#116;&#121;&#x40;&#97;&#x6c;&#x61;&#x6d;&#111;&#102;&#105;&#114;&#101;&#46;&#x6f;&#114;&#x67;&#x2e;">&#x73;&#x65;&#99;&#117;&#114;&#x69;&#x74;&#x79;&#64;&#97;&#108;&#x61;&#109;&#x6f;&#x66;&#x69;&#114;&#x65;&#46;&#x6f;&#114;&#103;&#46;</a> Please do not post it to a public issue tracker.</p>
 
 <h2>License</h2>
 
