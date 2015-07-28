@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-28T01:29:33+08:00</updated>
+  <updated>2015-07-28T18:27:57+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -28,7 +28,7 @@
 
 <p>既然评论功能已经开通，大家也别闲着啦！今天的文章大家一起尽情的吐槽吧！</p>
 
-<p><code>UIImage</code>有四个类方法，用来创建<code>UIImage</code>的。下面介绍一下每个类方法的作用和创建实例。</p>
+<p><code>UIImage</code>有五个类方法，用来创建<code>UIImage</code>的。下面介绍一下每个类方法的作用和创建实例。</p>
 
 <h3>1.使用类方法<code>imageNamed:</code>创建</h3>
 
