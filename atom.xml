@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-28T21:10:36+08:00</updated>
+  <updated>2015-07-28T23:38:07+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,128 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发之UIImage等比缩放]]></title>
+    <link href="http://www.superqq.com/blog/2015/07/29/uiimage-geometric-zoom/"/>
+    <updated>2015-07-29T00:35:15+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/07/29/uiimage-geometric-zoom</id>
+    <content type="html"><![CDATA[<h2>评论功能真不错</h2>
+
+<p>评论开通后，果然有很多人吐槽。谢谢大家的支持和关爱，如果有做的不到的地方，还请海涵。毕竟我一个人的力量是有限的，我会尽自己最大的努力大家准备一些干货。</p>
+
+<p>有些内容可能都是比较基础的，记住：不积跬步无以至千里，不积小流无以成江海。我想这个道理大家都懂，在为大家准备文章的过程中，对我来说也是一次学习成长。</p>
+
+<p>大家可以继续吐槽！微信的评论就是一个沟通的渠道，也是一篇文章的延续。你也可以在评论中写一些你对iOS开发的见解，说不定就会对他人有帮助。</p>
+
+<p>很高兴，已经有好几位iOS开发的朋友答应以后会写文章投稿给我。在这里，我再强调一下：如果你有好的技术文章一定要投稿给我噢！投稿邮箱：</p>
+
+<pre><code>worldligang@163.com
+</code></pre>
+
+<p>前面讲了<a href="http://www.superqq.com/blog/2015/07/26/jie-qu-uiimagezhi-ding-da-xiao-qu-yu/">截取UIImage指定大小区域</a>，很方便的截取<code>UIImage</code>。今天要和大家分享的是<code>UIImage</code>的缩放。</p>
+
+<p>两种缩放:</p>
+
+<ol>
+<li>缩放到指定大小，也就是指定的<code>size</code>.</li>
+<li>等比缩放。</li>
+</ol>
+
+
+<h2>缩放到指定大小</h2>
+
+<pre><code>- (UIImage*)imageCompressWithSimple:(UIImage*)image scaledToSize:(CGSize)size
+{
+    UIGraphicsBeginImageContext(size);
+    [image drawInRect:CGRectMake(0,0,size.width,size.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+</code></pre>
+
+<h2>等比缩放</h2>
+
+<h3>通过缩放系数</h3>
+
+<pre><code>- (UIImage*)imageCompressWithSimple:(UIImage*)image scale:(float)scale
+{
+    CGSize size = image.size;
+    CGFloat width = size.width;
+    CGFloat height = size.height;
+    CGFloat scaledWidth = width * scale;
+    CGFloat scaledHeight = height * scale;
+    UIGraphicsBeginImageContext(size); // this will crop
+    [image drawInRect:CGRectMake(0,0,scaledWidth,scaledHeight)];
+    UIImage* newImage= UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+</code></pre>
+
+<p><code>scale</code>是缩放系数  。</p>
+
+<h3>通过计算得到缩放系数</h3>
+
+<pre><code>- (UIImage*)imageByScalingAndCroppingForSize:(CGSize)targetSize
+{
+
+    UIImage *sourceImage = [UIImage imageNamed:@"test.jpg"];
+    UIImage *newImage = nil;
+    CGSize imageSize = sourceImage.size;
+    CGFloat width = imageSize.width;
+    CGFloat height = imageSize.height;
+    CGFloat targetWidth = targetSize.width;
+    CGFloat targetHeight = targetSize.height;
+    CGFloat scaleFactor = 0.0;
+    CGFloat scaledWidth = targetWidth;
+    CGFloat scaledHeight = targetHeight;
+    CGPoint thumbnailPoint = CGPointMake(0.0,0.0);
+
+    if (CGSizeEqualToSize(imageSize, targetSize) == NO)
+    {
+        CGFloat widthFactor = targetWidth / width;
+        CGFloat heightFactor = targetHeight / height;
+        if (widthFactor &gt; heightFactor)
+            scaleFactor = widthFactor; // scale to fit height
+        else
+            scaleFactor = heightFactor; // scale to fit width
+
+        scaledWidth= width * scaleFactor;
+        scaledHeight = height * scaleFactor;
+        // center the image
+        if (widthFactor &gt; heightFactor)
+        {
+            thumbnailPoint.y = (targetHeight - scaledHeight) * 0.5;
+        }
+        else if (widthFactor &lt; heightFactor)
+        {
+            thumbnailPoint.x = (targetWidth - scaledWidth) * 0.5;
+        }
+    }
+
+    UIGraphicsBeginImageContext(targetSize); // this will crop
+    CGRect thumbnailRect = CGRectZero;
+    thumbnailRect.origin = thumbnailPoint;
+    thumbnailRect.size.width= scaledWidth;
+    thumbnailRect.size.height = scaledHeight;
+    [sourceImage drawInRect:thumbnailRect];
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
+
+    if(newImage == nil)
+        NSLog(@"could not scale image");
+    //pop the context to get back to the default
+    UIGraphicsEndImageContext();
+
+    return newImage;
+
+}
+</code></pre>
+
+<p>很久之前写了一篇文章<a href="http://www.superqq.com/blog/2015/01/22/jie-jue-mwphotobrowserzhong-de-sdwebimagejia-zai-da-tu-dao-zhi-de-nei-cun-jing-gao-wen-ti/">解决MWPhotoBrowser中的SDWebImage加载大图导致的内存警告问题</a>。这个我记得当时从服务器拿到的照片大概有10几M的样子，加载出来会导致内存警告。所以我当时通过修改SDWebImage源码，就是把下载下来的照片进行缩放，内存就降下来了。一般情况下应该不会加载这么大的照片的，用户要是知道，早把你的APP给删掉了。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[著名的AFNetworking网络基础库Swift版Alamofire]]></title>
@@ -606,7 +728,7 @@ let manager = Alamofire.Manager(configuration: configuration)
 
 <h3>Security Disclosure</h3>
 
-<p>If you believe you have identified a security vulnerability with Alamofire, you should report it as soon as possible via email to <a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#x6f;&#58;&#x73;&#101;&#99;&#x75;&#x72;&#105;&#x74;&#x79;&#x40;&#97;&#108;&#x61;&#109;&#x6f;&#x66;&#x69;&#114;&#x65;&#x2e;&#111;&#x72;&#x67;&#x2e;">&#115;&#101;&#99;&#117;&#x72;&#x69;&#116;&#121;&#x40;&#97;&#108;&#97;&#109;&#111;&#x66;&#x69;&#114;&#x65;&#46;&#x6f;&#x72;&#x67;&#x2e;</a> Please do not post it to a public issue tracker.</p>
+<p>If you believe you have identified a security vulnerability with Alamofire, you should report it as soon as possible via email to <a href="&#109;&#97;&#105;&#108;&#x74;&#111;&#58;&#115;&#x65;&#99;&#117;&#114;&#105;&#116;&#x79;&#x40;&#97;&#108;&#x61;&#x6d;&#x6f;&#102;&#x69;&#x72;&#101;&#x2e;&#111;&#x72;&#103;&#46;">&#115;&#101;&#99;&#x75;&#x72;&#x69;&#x74;&#x79;&#x40;&#97;&#108;&#x61;&#109;&#111;&#102;&#105;&#114;&#101;&#46;&#x6f;&#x72;&#103;&#x2e;</a> Please do not post it to a public issue tracker.</p>
 
 <h2>License</h2>
 
@@ -1717,11 +1839,11 @@ Objective-C 没有消失，但是现在用一个慢慢失去关注的语言来�
 
 <p><strong>林翔宇</strong>
 - <a href="http://linxiangyu.org">http://linxiangyu.org</a>
-- <a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#x6c;&#105;&#110;&#120;&#x69;&#x61;&#x6e;&#103;&#121;&#117;&#x40;&#110;&#117;&#x70;&#x74;&#x65;&#x72;&#46;&#x6f;&#114;&#x67;">&#x6c;&#105;&#x6e;&#x78;&#x69;&#97;&#x6e;&#x67;&#x79;&#x75;&#64;&#x6e;&#x75;&#x70;&#116;&#101;&#114;&#46;&#x6f;&#x72;&#x67;</a>
+- <a href="&#109;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#x6c;&#x69;&#x6e;&#x78;&#105;&#97;&#x6e;&#103;&#x79;&#117;&#x40;&#110;&#x75;&#112;&#x74;&#101;&#x72;&#46;&#111;&#114;&#x67;">&#108;&#105;&#110;&#x78;&#105;&#x61;&#110;&#x67;&#x79;&#117;&#x40;&#x6e;&#x75;&#112;&#x74;&#x65;&#114;&#x2e;&#111;&#114;&#x67;</a>
 - <a href="http://github.com/oa414">http://github.com/oa414</a></p>
 
 <p><strong>庞博</strong>
-- <a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#111;&#x3a;&#98;&#111;&#x70;&#x61;&#110;&#103;&#64;&#115;&#111;&#104;&#x75;&#x2d;&#x69;&#x6e;&#99;&#46;&#99;&#111;&#109;">&#x62;&#111;&#x70;&#97;&#110;&#x67;&#x40;&#x73;&#111;&#104;&#x75;&#x2d;&#105;&#x6e;&#99;&#x2e;&#99;&#111;&#109;</a>
+- <a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#x6f;&#58;&#x62;&#x6f;&#112;&#97;&#110;&#103;&#x40;&#115;&#x6f;&#x68;&#117;&#x2d;&#x69;&#x6e;&#99;&#46;&#x63;&#x6f;&#109;">&#x62;&#111;&#112;&#97;&#x6e;&#x67;&#x40;&#x73;&#111;&#x68;&#117;&#45;&#105;&#x6e;&#99;&#46;&#x63;&#111;&#x6d;</a>
 - <a href="https://github.com/heistings">https://github.com/heistings</a></p>
 
 <p>翻译已得到原作者许可，并且会在更加完善后申请合并到原文仓库。</p>
@@ -2313,59 +2435,6 @@ else
 <p>打开注册iOSDevTip的APP格式为: URL Scheme://URL identifier，直接调用URL Scheme也可打开程序, URL identifier是可选的。</p>
 
 <p>注册URL Scheme就是这么简单。下一篇会分享如何通过URL Scheme传递参数。demo下载地址：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[从app跳到设置界面]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/13/cong-apptiao-dao-she-zhi-jie-mian/"/>
-    <updated>2015-07-13T23:50:45+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/13/cong-apptiao-dao-she-zhi-jie-mian</id>
-    <content type="html"><![CDATA[<p>这次去郑州主要是参加大学同学的婚礼。匆匆而来，匆匆而回。时间安排的好紧，还没有来得及多看两眼我的大好中原。</p>
-
-<p>来参加婚礼的还有其他几位同学，有的真是多年不见。见面之后相互虚寒一番，一起讨论讨论各自的近况。时间飞逝，让这样的相遇变得非常珍贵。</p>
-
-<p>这次的婚礼，别有一番风味。</p>
-
-<h2>第一次在教堂里参加婚礼</h2>
-
-<p>我的这位同学，他是一位虔诚的基督徒，他们的婚礼也理所当然的在教堂举行。教堂是一个神圣庄严的地方，虽然我不是一名基督徒，但是我依然怀有一颗虔诚的心。</p>
-
-<p>婚礼还是相当热闹的。有牧师为他们证婚，真的是很幸福。新娘也感动的眼泪都留下来了。</p>
-
-<p>婚礼结束之后，抽空拉着另外一个同学，加上新郎，我们三兄弟合了一张影。这张照片可以发给大家欣赏一下：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/hunli.png" alt="1" /></p>
-
-<p>看到这张我不由得说一句：又长胖了！好吧，闲话就絮叨这里。今天给大家分享一个小功能：从app跳到设置界面。</p>
-
-<h2>从app跳到设置界面</h2>
-
-<p>直接上代码：</p>
-
-<pre><code> NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
- if ([[UIApplication sharedApplication] canOpenURL:url]) {
-     [[UIApplication sharedApplication] openURL:url];
- }
-</code></pre>
-
-<p>上面这段代码要在iOS 8以上的系统使用。一般做智能家居app的，需要到设置界面连接wifi，但是苹果没有提供这样的接口。所以可以退而求其次，跳到系统的设置界面。</p>
-
-<p>想测试的童鞋请下载demo：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
-
-<h2>回复关键词获取相应文章</h2>
-
-<p>公众号iOS开发：<strong>iOSDevTip</strong>，已经发展一年多的时间，已经积累了很多优秀的文章。也许能帮到一些小忙。</p>
-
-<p>我告诉大家，如何找到这些优秀的文章：</p>
-
-<ol>
-<li>查看历史消息</li>
-<li>关键词回复，先回复“m”，获取目录。目录里面详细讲解了，哪些关键词对应哪些文章。</li>
-</ol>
-
-
-<p>有什么不懂得可以随时联系我，直接在后台回复就可以，也可以加我的微信：<strong>chinaligang</strong></p>
 ]]></content>
   </entry>
   

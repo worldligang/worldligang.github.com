@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-28T21:10:36+08:00</updated>
+  <updated>2015-07-28T23:38:07+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,128 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发之UIImage等比缩放]]></title>
+    <link href="http://www.superqq.com/blog/2015/07/29/uiimage-geometric-zoom/"/>
+    <updated>2015-07-29T00:35:15+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/07/29/uiimage-geometric-zoom</id>
+    <content type="html"><![CDATA[<h2>评论功能真不错</h2>
+
+<p>评论开通后，果然有很多人吐槽。谢谢大家的支持和关爱，如果有做的不到的地方，还请海涵。毕竟我一个人的力量是有限的，我会尽自己最大的努力大家准备一些干货。</p>
+
+<p>有些内容可能都是比较基础的，记住：不积跬步无以至千里，不积小流无以成江海。我想这个道理大家都懂，在为大家准备文章的过程中，对我来说也是一次学习成长。</p>
+
+<p>大家可以继续吐槽！微信的评论就是一个沟通的渠道，也是一篇文章的延续。你也可以在评论中写一些你对iOS开发的见解，说不定就会对他人有帮助。</p>
+
+<p>很高兴，已经有好几位iOS开发的朋友答应以后会写文章投稿给我。在这里，我再强调一下：如果你有好的技术文章一定要投稿给我噢！投稿邮箱：</p>
+
+<pre><code>worldligang@163.com
+</code></pre>
+
+<p>前面讲了<a href="http://www.superqq.com/blog/2015/07/26/jie-qu-uiimagezhi-ding-da-xiao-qu-yu/">截取UIImage指定大小区域</a>，很方便的截取<code>UIImage</code>。今天要和大家分享的是<code>UIImage</code>的缩放。</p>
+
+<p>两种缩放:</p>
+
+<ol>
+<li>缩放到指定大小，也就是指定的<code>size</code>.</li>
+<li>等比缩放。</li>
+</ol>
+
+
+<h2>缩放到指定大小</h2>
+
+<pre><code>- (UIImage*)imageCompressWithSimple:(UIImage*)image scaledToSize:(CGSize)size
+{
+    UIGraphicsBeginImageContext(size);
+    [image drawInRect:CGRectMake(0,0,size.width,size.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+</code></pre>
+
+<h2>等比缩放</h2>
+
+<h3>通过缩放系数</h3>
+
+<pre><code>- (UIImage*)imageCompressWithSimple:(UIImage*)image scale:(float)scale
+{
+    CGSize size = image.size;
+    CGFloat width = size.width;
+    CGFloat height = size.height;
+    CGFloat scaledWidth = width * scale;
+    CGFloat scaledHeight = height * scale;
+    UIGraphicsBeginImageContext(size); // this will crop
+    [image drawInRect:CGRectMake(0,0,scaledWidth,scaledHeight)];
+    UIImage* newImage= UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+</code></pre>
+
+<p><code>scale</code>是缩放系数  。</p>
+
+<h3>通过计算得到缩放系数</h3>
+
+<pre><code>- (UIImage*)imageByScalingAndCroppingForSize:(CGSize)targetSize
+{
+
+    UIImage *sourceImage = [UIImage imageNamed:@"test.jpg"];
+    UIImage *newImage = nil;
+    CGSize imageSize = sourceImage.size;
+    CGFloat width = imageSize.width;
+    CGFloat height = imageSize.height;
+    CGFloat targetWidth = targetSize.width;
+    CGFloat targetHeight = targetSize.height;
+    CGFloat scaleFactor = 0.0;
+    CGFloat scaledWidth = targetWidth;
+    CGFloat scaledHeight = targetHeight;
+    CGPoint thumbnailPoint = CGPointMake(0.0,0.0);
+
+    if (CGSizeEqualToSize(imageSize, targetSize) == NO)
+    {
+        CGFloat widthFactor = targetWidth / width;
+        CGFloat heightFactor = targetHeight / height;
+        if (widthFactor &gt; heightFactor)
+            scaleFactor = widthFactor; // scale to fit height
+        else
+            scaleFactor = heightFactor; // scale to fit width
+
+        scaledWidth= width * scaleFactor;
+        scaledHeight = height * scaleFactor;
+        // center the image
+        if (widthFactor &gt; heightFactor)
+        {
+            thumbnailPoint.y = (targetHeight - scaledHeight) * 0.5;
+        }
+        else if (widthFactor &lt; heightFactor)
+        {
+            thumbnailPoint.x = (targetWidth - scaledWidth) * 0.5;
+        }
+    }
+
+    UIGraphicsBeginImageContext(targetSize); // this will crop
+    CGRect thumbnailRect = CGRectZero;
+    thumbnailRect.origin = thumbnailPoint;
+    thumbnailRect.size.width= scaledWidth;
+    thumbnailRect.size.height = scaledHeight;
+    [sourceImage drawInRect:thumbnailRect];
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
+
+    if(newImage == nil)
+        NSLog(@"could not scale image");
+    //pop the context to get back to the default
+    UIGraphicsEndImageContext();
+
+    return newImage;
+
+}
+</code></pre>
+
+<p>很久之前写了一篇文章<a href="http://www.superqq.com/blog/2015/01/22/jie-jue-mwphotobrowserzhong-de-sdwebimagejia-zai-da-tu-dao-zhi-de-nei-cun-jing-gao-wen-ti/">解决MWPhotoBrowser中的SDWebImage加载大图导致的内存警告问题</a>。这个我记得当时从服务器拿到的照片大概有10几M的样子，加载出来会导致内存警告。所以我当时通过修改SDWebImage源码，就是把下载下来的照片进行缩放，内存就降下来了。一般情况下应该不会加载这么大的照片的，用户要是知道，早把你的APP给删掉了。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[五种创建UIImage的类方法]]></title>
@@ -289,179 +411,6 @@ imgView.image = image;
 <p>希望以上的知识梳理能帮助大家更好的掌握沙盒机制以及文件操作。我会持续分享更多关于iOS开发相关的技术文章。</p>
 
 <p>swift推出这么久，不知道你有没有开始用swift写项目。推荐给你一个swift学习网站:<a href="http://www.iswifting.com/">swift开发</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NSFileManager文件操作的十个小功能]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/24/nsfilemanagerwen-jian-cao-zuo-de-shi-ge-xiao-gong-neng/"/>
-    <updated>2015-07-24T00:14:03+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/24/nsfilemanagerwen-jian-cao-zuo-de-shi-ge-xiao-gong-neng</id>
-    <content type="html"><![CDATA[<p>NSFileManager是一个单列类，也是一个文件管理器。可以通过NSFileManager创建文件夹、创建文件、写文件、读文件内容等等基本功能。</p>
-
-<p>下面将介绍NSFileManager文件操作的十个小功能。我们在Documents里面进行举例，首先是获取Documents的路径。这个在<a href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-%28sandbox/">iOS开发之沙盒机制（SandBox)</a>已经详细讲解过了。获取Documents路径方法如下：</p>
-
-<pre><code>- (NSString *)getDocumentsPath
-{
-    //获取Documents路径
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *path = [paths objectAtIndex:0];
-    NSLog(@"path:%@", path);
-    return path;
-}
-</code></pre>
-
-<h3>创建文件夹</h3>
-
-<pre><code>-(void)createDirectory{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *iOSDirectory = [documentsPath stringByAppendingPathComponent:@"iOS"];
-    BOOL isSuccess = [fileManager createDirectoryAtPath:iOSDirectory withIntermediateDirectories:YES attributes:nil error:nil];
-    if (isSuccess) {
-        NSLog(@"success");
-    } else {
-        NSLog(@"fail");
-    }
-}
-</code></pre>
-
-<h3>创建文件</h3>
-
-<pre><code>-(void)createFile{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    BOOL isSuccess = [fileManager createFileAtPath:iOSPath contents:nil attributes:nil];
-    if (isSuccess) {
-        NSLog(@"success");
-    } else {
-        NSLog(@"fail");
-    }
-}
-</code></pre>
-
-<h3>写文件</h3>
-
-<pre><code>-(void)writeFile{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    NSString *content = @"我要写数据啦";
-    BOOL isSuccess = [content writeToFile:iOSPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    if (isSuccess) {
-        NSLog(@"write success");
-    } else {
-        NSLog(@"write fail");
-    }
-}
-</code></pre>
-
-<h3>读取文件内容</h3>
-
-<pre><code>-(void)readFileContent{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    NSString *content = [NSString stringWithContentsOfFile:iOSPath encoding:NSUTF8StringEncoding error:nil];
-    NSLog(@"read success: %@",content);
-}
-</code></pre>
-
-<h3>判断文件是否存在</h3>
-
-<pre><code>- (BOOL)isSxistAtPath:(NSString *)filePath{
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL isExist = [fileManager fileExistsAtPath:filePath];
-    return isExist;
-}
-</code></pre>
-
-<h3>计算文件大小</h3>
-
-<pre><code>- (unsigned long long)fileSizeAtPath:(NSString *)filePath{
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL isExist = [fileManager fileExistsAtPath:filePath];
-    if (isExist){
-        unsigned long long fileSize = [[fileManager attributesOfItemAtPath:filePath error:nil] fileSize];
-        return fileSize;
-    } else {
-        NSLog(@"file is not exist");
-        return 0;
-    }
-}
-</code></pre>
-
-<h3>计算整个文件夹中所有文件大小</h3>
-
-<pre><code>- (unsigned long long)folderSizeAtPath:(NSString*)folderPath{
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL isExist = [fileManager fileExistsAtPath:folderPath];
-    if (isExist){
-        NSEnumerator *childFileEnumerator = [[fileManager subpathsAtPath:folderPath] objectEnumerator];
-        unsigned long long folderSize = 0;
-        NSString *fileName = @"";
-        while ((fileName = [childFileEnumerator nextObject]) != nil){
-            NSString* fileAbsolutePath = [folderPath stringByAppendingPathComponent:fileName];
-            folderSize += [self fileSizeAtPath:fileAbsolutePath];
-        }
-        return folderSize / (1024.0 * 1024.0);
-    } else {
-        NSLog(@"file is not exist");
-        return 0;
-    }
-}
-</code></pre>
-
-<h3>删除文件</h3>
-
-<pre><code>-(void)deleteFile{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    BOOL isSuccess = [fileManager removeItemAtPath:iOSPath error:nil];
-    if (isSuccess) {
-        NSLog(@"delete success");
-    }else{
-        NSLog(@"delete fail");
-    }
-}
-</code></pre>
-
-<h3>移动文件</h3>
-
-<pre><code>- (void)moveFileName
-{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *filePath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    NSString *moveToPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    BOOL isSuccess = [fileManager moveItemAtPath:filePath toPath:moveToPath error:nil];
-    if (isSuccess) {
-        NSLog(@"rename success");
-    }else{
-        NSLog(@"rename fail");
-    }
-}
-</code></pre>
-
-<h3>重命名</h3>
-
-<pre><code>- (void)renameFileName
-{
-    //通过移动该文件对文件重命名
-    NSString *documentsPath =[self getDocumentsPath];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *filePath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    NSString *moveToPath = [documentsPath stringByAppendingPathComponent:@"rename.txt"];
-    BOOL isSuccess = [fileManager moveItemAtPath:filePath toPath:moveToPath error:nil];
-    if (isSuccess) {
-        NSLog(@"rename success");
-    }else{
-        NSLog(@"rename fail");
-    }
-}
-</code></pre>
-
-<p>以上文件操作代码都在<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a>，可以直接通过git拉下来进行测试。关于NSFileManager的用法还有很多，一起接续探索吧！</p>
 ]]></content>
   </entry>
   

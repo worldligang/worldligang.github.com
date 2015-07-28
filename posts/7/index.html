@@ -89,6 +89,110 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/04/25/iosdiao-yong-xi-tong-fa-duan-xin-gong-neng-xiang-jie/">iOS调用系统发短信功能详解</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-04-25T11:36:33+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:36 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>iOS调用系统的发短信功能可以分为两种：1，程序外调用系统发短信。2，程序内调用系统发短信。第二种的好处是用户发短信之后还可以回到app。这对app来说非常重要。</p>
+
+<h3>程序外调用系统发短信</h3>
+
+<p>这个方法其实很简单，直接调用openURL即可：</p>
+
+<pre><code>[[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"sms://13888888888"]];
+</code></pre>
+
+<h3>程序内调用系统发短信</h3>
+
+<h5>1）导入MessageUI.framework，并引入头文件：</h5>
+
+<pre><code>#import &lt;MessageUI/MessageUI.h&gt;
+</code></pre>
+
+<h5>2）实现代理方法MFMessageComposeViewControllerDelegate</h5>
+
+<pre><code>    -(void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    switch (result) {
+        case MessageComposeResultSent:
+            //信息传送成功
+
+            break;
+        case MessageComposeResultFailed:
+            //信息传送失败
+
+            break;
+        case MessageComposeResultCancelled:
+            //信息被用户取消传送
+
+            break;
+        default:
+            break;
+    }
+}
+</code></pre>
+
+<h5>3）发送短信</h5>
+
+<pre><code>    -(void)showMessageView:(NSArray *)phones title:(NSString *)title body:(NSString *)body
+{
+    if( [MFMessageComposeViewController canSendText] )
+    {
+        MFMessageComposeViewController * controller = [[MFMessageComposeViewController alloc] init];
+        controller.recipients = phones;
+        controller.navigationBar.tintColor = [UIColor redColor];
+        controller.body = body;
+        controller.messageComposeDelegate = self;
+        [self presentViewController:controller animated:YES completion:nil];
+        [[[[controller viewControllers] lastObject] navigationItem] setTitle:title];//修改短信界面标题
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                        message:@"该设备不支持短信功能"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil, nil];
+        [alert show];
+    }
+}
+</code></pre>
+
+<p>参数phones：发短信的手机号码的数组，数组中是一个即单发,多个即群发。</p>
+
+<h5>4）调用发短信的方法</h5>
+
+<pre><code>    [self showMessageView:[NSArray arrayWithObjects:@"13888888888",@"13999999999", nil] title:@"test" body:@"你是土豪么，么么哒"];
+</code></pre>
+
+<p>我的微信iOS开发：iOSDevTip</p>
+
+<p>代码下载地址:<a href="https://github.com/worldligang/SendMsgMaster.git"target="_blank"title="SendMsgMaster">SendMsgMaster</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/04/23/iosyong-hu-dian-ji-shi-jian-chu-li/">hitTest和pointInside如何响应用户点击事件</a></h1>
     
     
@@ -1415,107 +1519,6 @@ static LGManagerCenter *managerCenter;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/01/19/ioskai-fa-zhi-uisearchbarchu-tan/">iOS开发之UISearchBar初探</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-01-19T09:56:52+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:56 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>UISearchBar也是iOS开发常用控件之一，点进去看看里面的属性barStyle、text、placeholder等等。但是这些属性显然不足矣满足我们的开发需求。比如：修改placeholder的颜色、修改UISearchBar上面的UITextfield的背景颜色、修改UITextfield上面的照片等等。</p>
-
-<p>为了实现上述的需求，最好写一个UISearchBar的子类就叫LSSearchBar吧</p>
-
-<p>LSSearchBar.h如下：</p>
-
-<pre><code>#import &lt;UIKit/UIKit.h&gt;
-
-@interface LSSearchBar : UISearchBar
-
-@end
-</code></pre>
-
-<p>LSSearchBar.m如下：</p>
-
-<pre><code>#import "LSSearchBar.h"
-
-@implementation LSSearchBar
-
-- (void)layoutSubviews {
-
-    [super layoutSubviews];
-
-    //通过遍历self.subviews找到searchField
-    UITextField *searchField;
-    NSUInteger numViews = [self.subviews count];
-    for(int i = 0; i &lt; numViews; i++) {
-        if([[self.subviews objectAtIndex:i] isKindOfClass:[UITextField class]]) {
-            searchField = [self.subviews objectAtIndex:i];
-        }
-    }
-
-    //如果上述方法找不到searchField，那就试试下面的方法吧
-
-    if (searchField ==  nil) {
-        NSArray *arraySub = [self subviews];
-        UIView *viewSelf = [arraySub objectAtIndex:0];
-        NSArray *arrayView = [viewSelf subviews];
-        for(int i = 0; i &lt; arrayView.count; i++) {
-            if([[arrayView objectAtIndex:i] isKindOfClass:[UITextField class]]) {
-                searchField = [arrayView objectAtIndex:i];
-            }
-        }
-    }
-
-
-    if(!(searchField == nil)) {
-        //设置颜色
-        searchField.textColor = [UIColor whiteColor];
-
-        //设置背景颜色
-        [searchField setBackground: [UIImage imageNamed:@"searchbar"] ];
-        [searchField setBorderStyle:UITextBorderStyleNone];
-
-        //设置placeholder的颜色
-        [searchField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
-
-        //设置searchField上的照片
-        UIImage *image = [UIImage imageNamed:@"search"];
-        UIImageView *iView = [[UIImageView alloc] initWithImage:image];
-        iView.frame = CGRectMake(0, 0, 15, 15);
-        searchField.leftView = iView;
-    }
-
-}
-
-@end
-</code></pre>
-
-<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/8">&larr; Older</a>
@@ -1533,6 +1536,10 @@ static LGManagerCenter *managerCenter;
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/07/29/uiimage-geometric-zoom/">iOS开发之UIImage等比缩放</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/07/28/swift-alamofire/">著名的AFNetworking网络基础库Swift版Alamofire</a>
       </li>
     
@@ -1546,10 +1553,6 @@ static LGManagerCenter *managerCenter;
     
       <li class="post">
         <a href="/blog/2015/07/26/jie-qu-uiimagezhi-ding-da-xiao-qu-yu/">截取UIImage指定大小区域</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/25/cheng-xu-yuan-:zhe-ge-zhou-mo-bu-jia-ban/">程序员：这个周末不加班</a>
       </li>
     
   </ul>
