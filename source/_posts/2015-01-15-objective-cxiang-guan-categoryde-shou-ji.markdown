@@ -45,7 +45,7 @@ AutoCoding是一个NSObject的类目，提供了对NSCoding 和NSCopying的自�
 
 SHPersian是一个针对使用波斯语和阿拉伯语的iOS开发者提供的工具，包含了一个在Persian iOS app中为文本添加自定义外观的必需的类。
  
-<a href="https://gist.github.com/billyohgren/7944887"target="_blank"title="iOS开发">UILabel+ContentSize</a>
+<a href="https://github.com/mergesort/UILabel-ContentSize"target="_blank"title="iOS开发">UILabel+ContentSize</a>
 
 在UILabel内计算内容的大小。
 
