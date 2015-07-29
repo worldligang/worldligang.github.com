@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>PushTalk - 刚刚在线</title>
+  <title>Category: Swift开发 - 刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="PushTalk">
-  <meta name="keywords" content="PushTalk, 源代码, Cocoapods, 推聊, 极光推送, 点对点, 点对点聊天, iOS, iOS开发, cocoapods, 个人博客, 刚刚在线">
+  <meta name="description" content="Category: swift开发">
+  
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/blog/2015/01/05/pushtalk">
+  <link rel="canonical" href="http://www.superqq.com/blog/categories/swiftkai-fa">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -83,196 +83,35 @@
   <div id="main">
     <div id="content">
       <div>
-<article class="hentry" role="article">
+<article role="article">
   
   <header>
-    
-      <h1 class="entry-title">PushTalk</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-01-05T17:20:23+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:20 pm</span></time>
-        
-      </p>
+    <h1 class="entry-title">Category: Swift开发</h1>
     
   </header>
+  
+  <div id="blog-archives" class="category">
 
 
-<div class="entry-content"><p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
 
-<pre><code>iOSDevTip
-</code></pre>
+  
+  <h2>2015</h2>
 
-<p> <a href="https://github.com/good-life/PushTalk"target="_blank"title="源代码">源代码</a></p>
+<article>
+  
+<h1><a href="/blog/2015/07/28/swift-alamofire/">著名的AFNetworking网络基础库Swift版Alamofire</a></h1>
+<time datetime="2015-07-28T20:42:52+08:00" pubdate><span class='month'>Jul</span> <span class='day'>28</span> <span class='year'>2015</span></time>
 
-<h1>推聊概述 PushTalk Overview</h1>
-
-<p>推聊是一个基于极光推送的Android手机聊天系统。支持群聊与点对点聊天。当前包括Android客户端与Java服务器端。3分钟就可以整套系统跑起来。</p>
-
-<p><img src="https://github.com/downloads/good-life/PushTalk/pushtalk_architecture_2.png" alt="" /></p>
-
-<h3>项目官方网站</h3>
-
-<p><a href="http://github.com/good-life/pushtalk">http://github.com/good-life/pushtalk</a></p>
-
-<h3>功能与特点</h3>
-
-<h5>功能列表</h5>
-
-<ul>
-<li>频道里群聊</li>
-<li>与其他用户点对点聊天</li>
-<li>聊天支持文字、表情、URL等</li>
-<li>注册用户（不需要密码）</li>
-<li>创建频道、加入频道</li>
-<li>我的最近聊天、我的频道</li>
-<li>聊天记录缓存（在服务器端）</li>
-<li>客户端选择聊天服务器、添加聊天服务器</li>
-</ul>
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/swiftkai-fa/'>swift开发</a></span>
+</footer>
 
 
-<h5>特点</h5>
+</article>
 
-<ul>
-<li>简单到极致的 http 聊天服务器：一个 jar 包跑起来</li>
-<li>轻量级客户端：聊天界面使用 Webview 的方式</li>
-<li>下行消息推送基于 <a href="http://jpush.cn/">JPush</a>（一个免费的第三方 Android Push 服务），上行消息采用 http 请求的方式实现</li>
-</ul>
-
-
-<h3>聊天服务器</h3>
-
-<p>推聊的服务器端使用 Java 语言编写，基于最简单实用的开源框架。</p>
-
-<ul>
-<li>http 服务器使用 <a href="http://www.eclipse.org/jetty/">Jetty</a>：轻量级的 Java Servlet 容器。</li>
-<li>数据库使用 <a href="http://http://www.h2database.com/">H2</a>： 轻量级的 Java 内存/文件数据库。</li>
-<li>页面模板使用 <a href="http://freemarker.sourceforge.net/">Freemarker</a>：轻量级的 Java 页面模板引擎。</li>
-<li>打包时集成为一个整体 jar 包（包含所有的依赖包）</li>
-</ul>
-
-
-<p>要运行推聊服务器端，请在 github项目界面相关版本下载 dist/ 目录下的 pushtalk-server jar 文件。</p>
-
-<p>要打包 server-java，请在项目该目录下执行 mvn package 命令。</p>
-
-<p>使用如下命令运行服务器：</p>
-
-<pre><code>java -Dfile.encoding=UTF-8 -jar pushtalk-server-with-dependencies.jar
-</code></pre>
-
-<p><code>注：实际的文件名后边一般会加上一个版本号。</code></p>
-
-<p>上述命令运行后：</p>
-
-<ul>
-<li>一个 http server 启动了，监听端口为 10010</li>
-<li>浏览器里输入 <a href="http://localhost:10010">http://localhost:10010</a> 则可以访问到界面</li>
-<li>要正确地运行服务器，需要通过客户端访问</li>
-</ul>
-
-
-<p>推聊服务器默认使用 <code>10010</code> 端口。可以在上述命令后指定使用另外的端口。比如以下命令指定使用 <code>10011</code> 来启动推聊聊天服务器：</p>
-
-<pre><code>java -Dfile.encoding=UTF-8 -jar pushtalk-server-with-dependencies.jar 10011
-</code></pre>
-
-<h3>Android 客户端</h3>
-
-<p><img src="https://github.com/downloads/good-life/PushTalk/pushtalk_client.png" alt="" /></p>
-
-<p>客户端运行，请在 github 文件下载页 <a href="https://github.com/good-life/PushTalk/downloads/">https://github.com/good-life/PushTalk/downloads/</a> 下载 Android apk 安装到 Android 手机即可。</p>
-
-<p>你也可以自己编译 <code>/client-android</code> 项目之后安装到手机。</p>
-
-<p>客户端默认内置官方聊天服务器地址。也可以直接在客户端添加新的服务器，选择新的聊天服务器。</p>
-
-<p>如果你有服务器资源，可以长期运行，欢迎你架设推聊聊天服务器，请添加到以下的页面。经过测试没有问题，会被选择预置到客户端代码里：</p>
-
-<p><a href="https://github.com/good-life/PushTalk/wiki/PushTalk-Third-Party-Servers">https://github.com/good-life/PushTalk/wiki/PushTalk-Third-Party-Servers</a></p>
-
-<h3>开发者支持</h3>
-
-<p>欢迎广大开发者加入本开源项目，大家一起来不断地丰满、完善推聊。</p>
-
-<p>本人是因为兴趣业余时间来开发推聊，考虑到 IM 占用的时间太多，所以请谅解，不提供任何 IM 的沟通方式。希望大家以如下的方式交流：</p>
-
-<ul>
-<li>Email:  <a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#x70;&#x75;&#x73;&#104;&#x74;&#97;&#108;&#x6b;&#46;&#111;&#114;&#x67;&#x40;&#x67;&#109;&#97;&#x69;&#108;&#x2e;&#99;&#x6f;&#x6d;">&#112;&#117;&#115;&#x68;&#116;&#x61;&#108;&#107;&#46;&#x6f;&#114;&#x67;&#64;&#x67;&#109;&#97;&#x69;&#108;&#46;&#x63;&#x6f;&#x6d;</a></li>
-<li>项目Wiki: <a href="https://github.com/good-life/PushTalk/wiki">https://github.com/good-life/PushTalk/wiki</a></li>
-<li>项目Bug: <a href="https://github.com/good-life/PushTalk/issues">https://github.com/good-life/PushTalk/issues</a></li>
-<li>PushTalk频道：<code>pushtalk</code>, <code>报告bug</code>, <code>新功能讨论</code> 等</li>
-</ul>
-
-
-<p>代码提交方式：请先提交Bug修复，把 diff 以文件方式发邮件给我。合作多次后，我可以把你加入到本项目贡献者里来，你就可以随时自由地提交代码了。</p>
-
-<p>你也可以自由地 fork 本项目，自己去发布新的版本。</p>
-
-<p>推聊使用的开源协议：<a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a></p>
 </div>
 
-
-  <footer>
-    <p class="meta">
-      
   
-
-<span class="byline author vcard">Posted by <span class="fn">李刚</span></span>
-
-      
-
-
-
-
-<time class='entry-date' datetime='2015-01-05T17:20:23+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:20 pm</span></time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/yuan-dai-ma/'>源代码</a>
-  
-</span>
-
-
-      <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
-<br>原文链接：<a href="http://www.superqq.com/blog/2015/01/05/pushtalk/">http://www.superqq.com/blog/2015/01/05/pushtalk/</a> <!-- 添加这一行代码 -->
-    </p>
-    
-      <!-- JiaThis Button BEGIN -->
-<div class="jiathis_style">
-    <span class="jiathis_txt">分享到：</span>
-    <a class="jiathis_button_tools_1"></a>
-    <a class="jiathis_button_tools_2"></a>
-    <a class="jiathis_button_tools_3"></a>
-    <a class="jiathis_button_tools_4"></a>
-    <a href="http://www.jiathis.com/share?uid=1983651" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
-    <a class="jiathis_counter_style"></a>
-</div>
-<script type="text/javascript">
-    var jiathis_config = {data_track_clickback:'true'};
-    </script>
-<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1401863435807252" charset="utf-8"></script>
-<!-- JiaThis Button END -->
-<!-- UY BEGIN -->
-<div id="uyan_frame"></div>
-<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1984773"></script>
-<!-- UY END -->
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2015/01/05/pnchart/" title="Previous Post: PNChart">&laquo; PNChart</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2015/01/06/vvdocumenter-xcode/" title="Next Post: VVDocumenter-Xcode">VVDocumenter-Xcode &ra/categories.htmlquo;</a>
-      
-    </p>
-  </footer>
 </article>
 
 </div>

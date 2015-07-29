@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 源代码 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/yuan-dai-ma/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-29T18:15:13+08:00</updated>
+  <updated>2015-07-29T18:18:09+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,313 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[著名的AFNetworking网络基础库Swift版Alamofire]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/28/swift-alamofire/"/>
-    <updated>2015-07-28T20:42:52+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/28/swift-alamofire</id>
-    <content type="html"><![CDATA[<p><a href="https://github.com/Alamofire/Alamofire" target="_blank" title=“源代码”>源代码</a></p>
-
-<p><img src="http://swiftmi.qiniudn.com/codeimage/201409/13_1410874399080_89.gif" alt="swift-gif" /></p>
-
-<h2>Swift Alamofire 简介</h2>
-
-<p><img src="https://raw.githubusercontent.com/Alamofire/Alamofire/assets/alamofire.png" alt="Alamofire: Elegant Networking in Swift" /></p>
-
-<p>Alamofire是 Swift 语言的 HTTP 网络开发工具包,相当于Swift实现<a href="http://www.superqq.com/blog/2014/11/07/ioswang-luo-bian-cheng-zhi-afnetworkingshi-yong/">AFNetworking</a>版本。</p>
-
-<p>当然,AFNetworking非常稳定,在Mac OSX与iOS中也能像其他Objective-C代码一样用Swift编写。不过Alamofire更适合Swift语言风格习惯(Alamofire与AFNetworking可以共存一个项目中,互不影响).</p>
-
-<pre><code>Alamofire 取名来源于 [Alamo Fire flower](https://aggie-horticulture.tamu.edu/wildseed/alamofire.html)
-</code></pre>
-
-<h2>Alamofire安装使用方法</h2>
-
-<p>使用CocoaPods安装，在podfile</p>
-
-<pre><code>source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '8.0'
-use_frameworks!
-
-pod 'Alamofire', '~&gt; 1.2'
-</code></pre>
-
-<p>submodule 方式安装</p>
-
-<pre><code>$ git submodule add https://github.com/Alamofire/Alamofire.git
-</code></pre>
-
-<h2>环境要求</h2>
-
-<p>Xcode 6</p>
-
-<p>iOS 7.0+ / Mac OS X 10.9+</p>
-
-<h2>Alamofire使用方法</h2>
-
-<h3>GET 请求</h3>
-
-<pre><code>Alamofire.request(.GET, "http://httpbin.org/get")
-</code></pre>
-
-<p>带参数</p>
-
-<pre><code>Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
-</code></pre>
-
-<p>Response结果处理</p>
-
-<pre><code>Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
-         .response { (request, response, data, error) in
-                     println(request)
-                     println(response)
-                     println(error)
-                   }
-</code></pre>
-
-<p>Response结果字符串处理</p>
-
-<pre><code>Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
-         .responseString { (request, response, string, error) in
-                  println(string)
-         }
-</code></pre>
-
-<h2>HTTP 方法（Medthods）</h2>
-
-<p>Alamofire.Method enum 列表出在RFC 2616中定义的HTTP方法 §9:</p>
-
-<pre><code>public enum Method: String {
-    case OPTIONS = "OPTIONS"
-    case GET = "GET"
-    case HEAD = "HEAD"
-    case POST = "POST"
-    case PUT = "PUT"
-    case PATCH = "PATCH"
-    case DELETE = "DELETE"
-    case TRACE = "TRACE"
-    case CONNECT = "CONNECT"
-}
-</code></pre>
-
-<p>这些值可以作为Alamofire.request请求的第一个参数.</p>
-
-<pre><code>Alamofire.request(.POST, "http://httpbin.org/post")
-
-Alamofire.request(.PUT, "http://httpbin.org/put")
-
-Alamofire.request(.DELETE, "http://httpbin.org/delete")
-</code></pre>
-
-<p>POST请求</p>
-
-<pre><code>let parameters = [
-    "foo": "bar",
-    "baz": ["a", 1],
-    "qux": [
-        "x": 1,
-        "y": 2,
-        "z": 3
-    ]
-]
-
-Alamofire.request(.POST, "http://httpbin.org/post", parameters: parameters)
-</code></pre>
-
-<p>发送以下HttpBody内容:</p>
-
-<pre><code>foo=bar&amp;baz[]=a&amp;baz[]=1&amp;qux[x]=1&amp;qux[y]=2&amp;qux[z]=3
-</code></pre>
-
-<p>Alamofire 使用Alamofire.ParameterEncoding可以支持URL query/URI form,JSON, PropertyList方式编码参数。</p>
-
-<p>Parameter Encoding</p>
-
-<pre><code>enum ParameterEncoding {
-    case URL
-    case JSON(options: NSJSONWritingOptions)
-    case PropertyList(format: NSPropertyListFormat,
-                      options: NSPropertyListWriteOptions)
-
-    func encode(request: NSURLRequest,
-                parameters: [String: AnyObject]?) -&gt;
-                    (NSURLRequest, NSError?)
-    { ... }
-}
-</code></pre>
-
-<p>NSURLRequest方式编码参数</p>
-
-<pre><code>let URL = NSURL(string: "http://httpbin.org/get")
-var request = NSURLRequest(URL: URL)
-
-let parameters = ["foo": "bar"]
-let encoding = Alamofire.ParameterEncoding.URL
-(request, _) = encoding.encode(request, parameters)
-</code></pre>
-
-<p>POST JSON格式数据</p>
-
-<pre><code>Alamofire.request(.POST, "http://httpbin.org/post", parameters: parameters, encoding: .JSON(options: nil))
-         .responseJSON {(request, response, JSON, error) in
-            println(JSON)
-     }
-</code></pre>
-
-<p>Response 方法</p>
-
-<pre><code>response()
-responseString(encoding: NSStringEncoding)
-responseJSON(options: NSJSONReadingOptions)
-responsePropertyList(options: NSPropertyListReadOptions)
-</code></pre>
-
-<h3>上传（Uploading）</h3>
-
-<p>支持的类型</p>
-
-<pre><code>File
-Data
-Stream
-Multipart (Coming Soon)
-</code></pre>
-
-<p>上传文件</p>
-
-<pre><code>let fileURL = NSBundle.mainBundle()
-                  .URLForResource("Default",
-                                  withExtension: "png")
-
-Alamofire.upload(.POST, "http://httpbin.org/post", file: fileURL)
-</code></pre>
-
-<h3>上传进度</h3>
-
-<pre><code>Alamofire.upload(.POST, "http://httpbin.org/post", file: fileURL)
-    .progress { (bytesWritten, totalBytesWritten, totalBytesExpectedToWrite) in
-        println(totalBytesWritten)
-    }
-    .responseJSON { (request, response, JSON, error) in
-        println(JSON)
-    }
-</code></pre>
-
-<h3>下载</h3>
-
-<p>支持的类型</p>
-
-<pre><code>Request
-Resume Data
-</code></pre>
-
-<p>下载文件</p>
-
-<pre><code>Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: { (temporaryURL, response) in
-    if let directoryURL = NSFileManager.defaultManager()
-                          .URLsForDirectory(.DocumentDirectory,
-                                            inDomains: .UserDomainMask)[0]
-                          as? NSURL {
-        let pathComponent = response.suggestedFilename
-
-        return directoryURL.URLByAppendingPathComponent(pathComponent)
-    }
-
-    return temporaryURL
-})
-</code></pre>
-
-<p>下载到默认路径</p>
-
-<pre><code>let destination = Alamofire.Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
-
-Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
-</code></pre>
-
-<p>下载进度</p>
-
-<pre><code>Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
-         .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
-             println(totalBytesRead)
-         }
-         .response { (request, response, _, error) in
-             println(response)
-         }
-</code></pre>
-
-<h3>认证（Authentication）</h3>
-
-<p>支持以下几种认证</p>
-
-<pre><code>HTTP Basic
-HTTP Digest
-Kerberos
-NTLM
-</code></pre>
-
-<p>Http basic认证</p>
-
-<pre><code>let user = "user"
-let password = "password"
-
-Alamofire.request(.GET, "https://httpbin.org/basic-auth/\(user)/\(password)")
-    .authenticate(HTTPBasic: user, password: password)
-    .response {(request, response, _, error) in
-        println(response)
-        }
-</code></pre>
-
-<p>采用NSURLCredential&amp;NSURLProtectionSpace方式认证</p>
-
-<pre><code>let user = "user"
-let password = "password"
-
-let credential = NSURLCredential(user: user, password: password, persistence: .ForSession)
-let protectionSpace = NSURLProtectionSpace(host: "httpbin.org", port: 0, `protocol`: "https", realm: nil, authenticationMethod: NSURLAuthenticationMethodHTTPBasic)
-
-
-
-Alamofire.request(.GET, "https://httpbin.org/basic-auth/\(user)/\(password)")
-    .authenticate(usingCredential: credential, forProtectionSpace: protectionSpace)
-    .response {(request, response, _, error) in
-        println(response)
-}
-</code></pre>
-
-<h3>Printable</h3>
-
-<pre><code>let request = Alamofire.request(.GET, "http://httpbin.org/ip")
-
-println(request)
-// GET http://httpbin.org/ip (200)
-</code></pre>
-
-<h3>调试</h3>
-
-<pre><code>let request = Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
-
-debugPrintln(request)
-</code></pre>
-
-<h3>Output (cURL)</h3>
-
-<pre><code>$ curl -i \
-    -H "User-Agent: Alamofire" \
-    -H "Accept-Encoding: Accept-Encoding: gzip;q=1.0,compress;q=0.5" \
-    -H "Accept-Language: en;q=1.0,fr;q=0.9,de;q=0.8,zh-Hans;q=0.7,zh-Hant;q=0.6,ja;q=0.5" \
-    "http://httpbin.org/get?foo=bar"
-</code></pre>
-
-<p>更多的用法将会在接口文档中一一列出,敬请期待。</p>
-
-<p>Alamofire与AFNetworking是同一个作者</p>
-
-<blockquote><p>作者李刚是刚刚在线（www.superqq.com）站长，百度百家专栏作者
-iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</p></blockquote>
-
-<p><img src="http://upload-images.jianshu.io/upload_images/624136-963198258f95cc10.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="iOSDevTip" /></p>
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[SDWebImage加载图片缓存图片]]></title>
@@ -1070,6 +763,69 @@ Earliest supported deployment target - iOS 7.0</p>
 <h2>License</h2>
 
 <p>DKCircleButton is available under the MIT license. See the LICENSE file for more info.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[TwitterCover]]></title>
+    <link href="http://www.superqq.com/blog/2015/01/07/twittercover/"/>
+    <updated>2015-01-07T13:20:17+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/01/07/twittercover</id>
+    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p> <a href="https://github.com/cyndibaby905/TwitterCover.git"target="_blank"title="源代码">源代码</a></p>
+
+<p> ## TwitterCover ##</p>
+
+<p>TwitterCover is a parallax top view with real time blur effect to any UIScrollView, inspired by Twitter for iOS.</p>
+
+<p>Completely created using UIKit framework.</p>
+
+<p>Easy to drop into your project.</p>
+
+<p>You can add this feature to your own project, <code>TwitterCover</code> is easy-to-use.</p>
+
+<h2>Requirements</h2>
+
+<p>TwitterCover requires Xcode 5, targeting either iOS 5.0 and above, ARC-enabled.</p>
+
+<h2>How to use</h2>
+
+<p>Drag UIScrollView+TwitterCover.h amd UIScrollView+TwitterCover.m files to your project.</p>
+
+<p>No other frameworks required.</p>
+
+<pre><code>#import "UIScrollView+TwitterCover.h"
+
+UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+[scrollView addTwitterCoverWithImage:[UIImage imageNamed:@"cover.png"]];
+</code></pre>
+
+<p>And do not forget to remove it in your dealloc method, otherwise memory leaks:</p>
+
+<pre><code>[scrollView removeTwitterCoverView];    
+</code></pre>
+
+<h2>How it looks</h2>
+
+<p><img src="https://raw.github.com/cyndibaby905/TwitterCover/master/TwitterCover.gif" /></a></p>
+
+<h2>Lincense</h2>
+
+<p><code>TwitterCover</code> is available under the MIT license. See the LICENSE file for more info.</p>
+
+<p><strong>更多源代码：</strong></p>
+
+<p><a href="http://www.superqq.com/blog/2015/01/07/dkcirclebutton/">DKCircleButton</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/01/06/vvdocumenter-xcode/">VVDocumenter-Xcode</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/01/07/hackernews/">HackerNews</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/01/06/gpuimage/">GPUImage</a></p>
 ]]></content>
   </entry>
   
