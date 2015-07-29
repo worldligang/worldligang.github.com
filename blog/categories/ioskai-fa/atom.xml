@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-30T00:14:48+08:00</updated>
+  <updated>2015-07-30T00:17:47+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,81 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[关于导航栏的六个小技巧]]></title>
+    <link href="http://www.superqq.com/blog/2015/07/30/six-tips-on-navigation-bar/"/>
+    <updated>2015-07-30T00:13:43+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/07/30/six-tips-on-navigation-bar</id>
+    <content type="html"><![CDATA[<p><code>UINavigationBar</code>和<code>UINavigationItem</code>是iOS开发中常用的控件。今天给大家介绍一下六个关于导航栏的小技巧。</p>
+
+<h2>1.设置导航栏标题</h2>
+
+<pre><code>self.title = @"iOS开发：iOSDevTip";
+</code></pre>
+
+<h2>2.设置导航栏样式</h2>
+
+<p>设置方法：</p>
+
+<pre><code>[self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
+</code></pre>
+
+<p><code>UIBarStyle</code>的样式：</p>
+
+<pre><code>typedef NS_ENUM(NSInteger, UIBarStyle) {
+    UIBarStyleDefault          = 0,
+    UIBarStyleBlack            = 1,
+
+    UIBarStyleBlackOpaque      = 1, // Deprecated. Use UIBarStyleBlack
+    UIBarStyleBlackTranslucent = 2, // Deprecated. Use UIBarStyleBlack and set the translucent property to YES
+};
+</code></pre>
+
+<p><code>UIBarStyleDefault</code>是默认样式，<code>UIBarStyleBlack</code>是黑色不透明。<code>UIBarStyleBlackOpaque</code>和<code>UIBarStyleBlackTranslucent</code>这两个已经废弃了。</p>
+
+<p>如果想设置导航栏透明，可以加上下面这句代码：</p>
+
+<pre><code>self.navigationController.navigationBar.translucent = YES;
+</code></pre>
+
+<h2>3.修改返回按钮title</h2>
+
+<pre><code>self.navigationItem.title = @"test";
+</code></pre>
+
+<h2>4.隐藏返回按钮title</h2>
+
+<p>比较笨的方法是：</p>
+
+<pre><code>self.navigationItem.title = @"";
+</code></pre>
+
+<p>还可以这样设置：</p>
+
+<pre><code>[[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
+</code></pre>
+
+<h2>5.设置leftBarButtonItem</h2>
+
+<pre><code>self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"back" style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
+
+- (void)back:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+</code></pre>
+
+<h2>6.左滑返回手势失效了怎么办</h2>
+
+<p>如果按上一步设置<code>leftBarButtonItem</code>之后，左滑返回手势就会失效。设置一下<code>UIGestureRecognizerDelegate</code>代理即可：</p>
+
+<pre><code>self.navigationController.interactivePopGestureRecognizer.delegate = self;
+</code></pre>
+
+<p>以上是六个关于导航栏的小技巧。更多iOS开发相关的技术，请关注我的微信公众号iOS开发：<strong>iOSDevTip</strong></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS开发之UIImage等比缩放]]></title>
@@ -378,39 +453,6 @@ imgView.image = image;
 <p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/jiequed.png" alt="jiequed" /></p>
 
 <p>截取成功，还可以截取其他区域的，只需要传入不同的<code>XYCropImageStyle</code>即可实现。以上代码依然在<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a>里。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS开发之沙盒和文件操作（汇总）]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/25/ioskai-fa-zhi-sha-he-he-wen-jian-cao-zuo-(hui-zong-)/"/>
-    <updated>2015-07-25T00:15:17+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/25/ioskai-fa-zhi-sha-he-he-wen-jian-cao-zuo-(hui-zong-)</id>
-    <content type="html"><![CDATA[<p>关于沙盒和文件操作的文章写了几篇，在写的过程中加深了自己的记忆。今天来做一下汇总，算是对知识点的梳理。</p>
-
-<h2>文章梳理</h2>
-
-<p>1 <a href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-%28sandbox/">iOS开发之沙盒机制（SandBox)</a></p>
-
-<p>这是一篇关于沙盒的基础知识教程。简述沙盒的作用，对Documents、Library、tmp之间的区别做了介绍。通过两种方法打开沙盒，查看其中的内容。</p>
-
-<p>2 <a href="http://www.superqq.com/blog/2015/07/22/ioskai-fa-zhi-huo-qu-sha-he-lu-jing/">iOS开发之获取沙盒路径</a></p>
-
-<p>沙盒里的文件夹包括Documents、Library、tmp。文章介绍了如何获取Documents、Library、Caches、tmp的路径。</p>
-
-<p>3 <a href="http://www.superqq.com/blog/2015/07/23/ru-he-cha-kan-zhen-ji-de-sha-he-%28tu-wen-jiao-cheng-%29/">如何查看真机的沙盒（图文教程）</a></p>
-
-<p>通过图文的方式详细讲解如何查看真机沙盒。</p>
-
-<p>4 <a href="http://www.superqq.com/blog/2015/07/24/nsfilemanagerwen-jian-cao-zuo-de-shi-ge-xiao-gong-neng/">NSFileManager文件操作的十个小功能</a></p>
-
-<p>NSFileManager是一个单列类，也是一个文件管理器。可以通过NSFileManager创建文件夹、创建文件、写文件、读文件内容等等基本功能。</p>
-
-<h2>小记</h2>
-
-<p>希望以上的知识梳理能帮助大家更好的掌握沙盒机制以及文件操作。我会持续分享更多关于iOS开发相关的技术文章。</p>
-
-<p>swift推出这么久，不知道你有没有开始用swift写项目。推荐给你一个swift学习网站:<a href="http://www.iswifting.com/">swift开发</a></p>
 ]]></content>
   </entry>
   
