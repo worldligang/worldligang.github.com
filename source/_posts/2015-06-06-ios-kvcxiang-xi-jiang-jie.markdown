@@ -3,7 +3,7 @@ layout: post
 title: "iOS KVC详细讲解"
 date: 2015-06-06 09:20:27 +0800
 comments: true
-categories: iOS面试
+categories: 程序员
 keywords: iOS KVC, KVC, iOS开发, iOS, 面试,  iOS面试, cocoapods, 个人博客, 刚刚在线
 description: "iOS KVC详细讲解,关于KVC的知识"
 

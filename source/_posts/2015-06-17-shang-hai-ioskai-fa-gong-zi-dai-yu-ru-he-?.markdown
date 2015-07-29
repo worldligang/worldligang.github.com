@@ -4,7 +4,7 @@ title: "上海iOS开发工资待遇如何？"
 date: 2015-06-17 23:25:30 +0800
 comments: true
 keywords: 上海iOS开发, 上海iOS开发工作,上海iOS开发工资, 上海iOS开发待遇, 刚刚在线
-categories: iOS面试
+categories: 程序员
 description: 上海iOS开发工资待遇如何呢？一般来说，上海iOS开发的工资还算相对不错的，毕竟是一线城市的魔都，整体来说还算可以。做上海iOS开发程序员吧。
 
 ---

@@ -3,7 +3,7 @@ layout: post
 title: " 面试官问现在工资是多少该怎么回答?"
 date: 2015-06-04 10:36:30 +0800
 comments: true
-categories: iOS面试
+categories: 程序员
 keywords: iOS开发, iOS, 面试,  iOS面试, cocoapods, 个人博客, 刚刚在线
 description: "iOS开发中的cocoapods"
 

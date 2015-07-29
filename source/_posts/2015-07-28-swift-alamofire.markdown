@@ -3,7 +3,7 @@ layout: post
 title: "著名的AFNetworking网络基础库Swift版Alamofire"
 date: 2015-07-28 20:42:52 +0800
 comments: true
-categories: 源代码
+categories: swift开发
 keywords: Alamofire, swift,第三方, iOS开发, 刚刚在线
 description: Alamofire是Swift语言的HTTP网络开发工具包,相当于Swift实现AFNetworking版本。
 

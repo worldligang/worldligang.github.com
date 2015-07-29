@@ -3,7 +3,7 @@ layout: post
 title: "我这个站长是怎么炼成的"
 date: 2015-07-17 23:16:16 +0800
 comments: true
-categories: 互联网
+categories: 程序员
 keywords: 互联网, 站长, swift开发, iOS开发, 刚刚在线
 description: 我是一个喜欢折腾的人，不喜欢就这么平平淡淡度过，但是想改变也不是那么容易的。现在的我已经成了一个彻头彻尾的程序员、白领，也许有人会羡慕这样的生活。但我却厌倦了，这并不是我所想要的人生。
 

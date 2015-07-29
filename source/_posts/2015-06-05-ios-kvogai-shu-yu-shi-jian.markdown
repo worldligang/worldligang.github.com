@@ -3,7 +3,7 @@ layout: post
 title: "iOS KVO概述"
 date: 2015-06-05 11:06:59 +0800
 comments: true
-categories: iOS面试
+categories: 程序员
 keywords: iOS KVO, KVO, iOS开发, iOS, 面试,  iOS面试, cocoapods, 个人博客, 刚刚在线
 description: "iOS KVO概述与实践，KVO是什么？"
 
