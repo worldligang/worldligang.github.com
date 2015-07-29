@@ -89,6 +89,101 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/07/30/guan-yu-dao-hang-lan-de-liu-ge-xiao-ji-qiao/">Guan Yu Dao Hang Lan De Liu Ge Xiao Ji Qiao</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-30T00:00:00+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><code>UINavigationBar</code>和<code>UINavigationItem</code>是iOS开发中常用的控件。今天给大家介绍一下六个关于导航栏的小技巧。</p>
+
+<h2>1.设置导航栏标题</h2>
+
+<pre><code>self.title = @"iOS开发：iOSDevTip";
+</code></pre>
+
+<h2>2.设置导航栏样式</h2>
+
+<p>设置方法：</p>
+
+<pre><code>[self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
+</code></pre>
+
+<p><code>UIBarStyle</code>的样式：</p>
+
+<pre><code>typedef NS_ENUM(NSInteger, UIBarStyle) {
+    UIBarStyleDefault          = 0,
+    UIBarStyleBlack            = 1,
+
+    UIBarStyleBlackOpaque      = 1, // Deprecated. Use UIBarStyleBlack
+    UIBarStyleBlackTranslucent = 2, // Deprecated. Use UIBarStyleBlack and set the translucent property to YES
+};
+</code></pre>
+
+<p><code>UIBarStyleDefault</code>是默认样式，<code>UIBarStyleBlack</code>是黑色不透明。<code>UIBarStyleBlackOpaque</code>和<code>UIBarStyleBlackTranslucent</code>这两个已经废弃了。</p>
+
+<p>如果想设置导航栏透明，可以加上下面这句代码：</p>
+
+<pre><code>self.navigationController.navigationBar.translucent = YES;
+</code></pre>
+
+<h2>3.修改返回按钮title</h2>
+
+<pre><code>self.navigationItem.title = @"test";
+</code></pre>
+
+<h2>4.隐藏返回按钮title</h2>
+
+<p>比较笨的方法是：</p>
+
+<pre><code>self.navigationItem.title = @"";
+</code></pre>
+
+<p>还可以这样设置：</p>
+
+<pre><code>[[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
+</code></pre>
+
+<h2>5.设置leftBarButtonItem</h2>
+
+<pre><code>self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"back" style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
+
+- (void)back:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+</code></pre>
+
+<h2>6.左滑返回手势失效了怎么办</h2>
+
+<p>如果按上一步设置<code>leftBarButtonItem</code>之后，左滑返回手势就会失效。设置一下<code>UIGestureRecognizerDelegate</code>代理即可：</p>
+
+<pre><code>self.navigationController.interactivePopGestureRecognizer.delegate = self;
+</code></pre>
+
+<p>以上是六个关于导航栏的小技巧。更多iOS开发相关的技术，请关注我的微信公众号iOS开发：<strong>iOSDevTip</strong></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/07/29/uiimage-geometric-zoom/">iOS开发之UIImage等比缩放</a></h1>
     
     
@@ -1248,289 +1343,6 @@ imgView.image = image;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/22/kuai-kuai-kuai-!27ge-ti-sheng-xiao-lu-de-ioskai-yuan-ku-tui-jian/">快快快！27个提升效率的iOS开源库推荐</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-22T13:11:49+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>1:11 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>CSDN移动将持续为您优选移动开发的精华内容，共同探讨移动开发的技术热点话题，涵盖移动应用、开发工具、移动游戏及引擎、智能硬件、物联网等方方面面。如果您想投稿、参与内容翻译工作，或寻求近匠报道，请发送邮件至tangxy#csdn.net（请把#改成@）。</p></blockquote>
-
-<p>我热爱开源，更喜爱那些花费宝贵的业余时间来创造奇迹的开发者们，感谢他们将自己辛苦劳动的成果无偿分享给大家。开源作者和贡献者们，你们太了不起了，感谢你们所付出的一切。</p>
-
-<p>鉴于我是收集不全会死星人，这里我根据个人喜好选取了一些iOS的开源库。这些项目的顺序完全随机，每个都棒到爆。绝大多数支持CocoaPods，所以将它们添加到你的Xcode项目中只是小事一桩。</p>
-
-<p>在本文末尾你可以找到一个长文慎入版本——一个只包含题目与项目链接的简单列表。如果你觉得这篇文章有用的话，请把它分享给其他做iOS开发的小伙伴们，好酒也怕巷子深。</p>
-
-<h3>1. <a href="https://github.com/dzenbot/DZNEmptyDataSet" target="_blank" title=“DZNEmptyDataSet”>DZNEmptyDataSet</a></h3>
-
-<p>DZNEmptyDataSet算是一个很标准的iOS内建方式，适合用来处理空的table view和collection view。默认情况下，如果你的table view为空，屏幕就为空，这样一来用户体验并不理想。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55adfe02a4a2f_middle.jpg" alt="1" /></p>
-
-<p>使用这个库，你只需遵守一些协议，iOS就会自动将collection view处理完善，并将用户消息以合适美观的方式显示出来。每个iOS项目都可以自动处理，不用再一一费神。</p>
-
-<h3>2. <a href="https://github.com/jivesoftware/PDTSimpleCalendar" target="_blank" title=“PDTSimpleCalendar”>PDTSimpleCalendar</a></h3>
-
-<p>你的应用需要一个简单美观且正常运行的日历组件吗？现在有了——PDTSimpleCalendar也许可以算是iOS最棒的日历组件了。你可以在各个方面对它进行定制，无论是运行逻辑还是外观方面。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55adff269e028_middle.jpg" alt="2" /></p>
-
-<h3>3. <a href="https://github.com/magicalpanda/MagicalRecord" target="_blank" title=“MagicalRecord”>MagicalRecord</a></h3>
-
-<p>他们都说：Core Data简洁易用。他们又说：很棒很好用噢。哈？真的吗，苹果？添加到各个项目中的大量样板数据完全不符合简洁而易用的标准。更别提添加、移除和更新那一大堆的entities、保存context、按不同环境创建不同的Core Data堆栈等等。当然，我很喜欢Core Data，但是苹果真的可以把它更好地简化一下——使用MagicalRecord方式。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0130e5bb0_middle.jpg" alt="3" /></p>
-
-<p>MagicalRecord就像是给Core Data提供了一层外包装，隐藏掉所有不相关的东西。如果你曾经使用过active record模式（比如Ruby on Rails），你就知道了。倾情推荐，在应用中使用Core Data的童鞋们可一定要试试。</p>
-
-<h3>4. <a href="https://github.com/ViccAlexander/Chameleon" target="_blank" title=“Chameleon”>Chameleon</a></h3>
-
-<p>如果你已经看到这里了，我猜你更有可能是个程序猿，而不是设计狮。这里有个东东很适合你。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae02035ca71_middle.jpg" alt="4" /></p>
-
-<p>Chameleon是一个iOS的色彩框架。它运用现代化flat color将UIColor扩展地非常美观。我们还可以通过它运用自定义颜色创建调色板。它还有很多功用，请浏览readme。如果你想要应用美观的话，一定要把这个库加到项目里。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0212f22c6_middle.jpg" alt="4-1" /></p>
-
-<h3>5. <a href="https://github.com/Alamofire/Alamofire" target="_blank" title=“Alamofire”>Alamofire</a></h3>
-
-<p>Alamofire是一个简洁的网络库，用Swift语言编写。你是否曾经使用过AFNetworking呢？Alamofire是它的小弟。更年轻更时尚，当然（AFNetworking是用Objective-C编写的）。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae024c07d47_middle.jpg" alt="5" /></p>
-
-<p>如果你需要进行网络的相关工作，诸如下载、上传与获取JSONs等等的话，Alamofire正是你所需要的。GitHub上8000人次推荐，一定不会错。</p>
-
-<h3>6. <a href="https://github.com/raulriera/TextFieldEffects" target="_blank" title=“TextFieldEffects”>TextFieldEffects</a></h3>
-
-<p>你不觉得标准的UITextField有些枯燥么？我也这样想——来认识一下TextFieldEffects吧！废话不多说，只要看几个例子：</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae048484702.jpg" alt="6" /></p>
-
-<p>是啊，都是些简单的dropin控制器。你甚至可以在storyboard中使用IBDesignables。</p>
-
-<p>不幸地是：这个库不支持CocoaPods（如果你来自未来，而这一情况什么时候会改变的话，一定要在Twitter上告诉我），但是它支持Carthage。你只管从GitHub上下载项目，把它放入你的workspace就行了。</p>
-
-<h3>7. <a href="https://github.com/BradLarson/GPUImage" target="_blank" title=“GPUImage”>GPUImage</a></h3>
-
-<p>你曾经写过照相机应用吗？如果没有的话，很快你一定会遇到这个库的。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae04fe94fc8.jpg" alt="7" /></p>
-
-<p>GPUImage为我们提供了一个GPU加速的照相机效果（同时支持照片与视频），而且处理速度飞快。在App Store中，使用这个库的应用数以百计。我有一个应用也用到了GPUImage。 它在GitHub上获得了8869个star，而且还在增长。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae053f548d5_middle.jpg" alt="7-1" /></p>
-
-<h3>8. <a href="https://github.com/nicklockwood/iRate" target="_blank" title=“iRate”>iRate</a></h3>
-
-<p>想要在App Store中获得更多评论的最佳方式是什么？想要回答这个问题，我缺乏切实数据，但如果必须猜一下的话，我会建议问问用户。也许这样做有点老套——大多开发者现在都有创建定制的应用内置alert。</p>
-
-<p>但是如果你没有时间，或者不想从头实现的话，最好用一下iRata。这个就是iRata——一个小型库——你可以把它放入项目中，把问卷调查什么的都忘记吧，iRate会在恰当的时候为你解决这个问题。</p>
-
-<h3>9. <a href="https://github.com/nihalahmed/GameCenterManager" target="_blank" title=“GameCenterManager”>GameCenterManager</a></h3>
-
-<p>无论你喜不喜欢单例模式，管理一个GameCenter都比我们已知的其他相反模式要好很多。（你的游戏只有一个GameCenter，对吗？）</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae05bd3f99e_middle.jpg" alt="9" /></p>
-
-<p>说实话，在iOS上管理GameCenter vanilla并不算难，但是有了这个库会更简单也更快。好上加好不是更好么。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae05c9cba37_middle.jpg" alt="9-1" /></p>
-
-<p>我在我一个游戏中用到了这个，体验很好。</p>
-
-<h3>10. <a href="https://github.com/pkluz/PKRevealController" target="_blank" title=“PKRevealController 2”>PKRevealController 2</a></h3>
-
-<p>这个要注意，真的很棒！是我最喜爱的iOS控件之一。PKRevealController是一个可以滑动的侧边栏菜单（可向左、向右或者同时向两侧），只需手指轻轻一点（或者按一下按钮，但是这样滑动时不够炫酷）。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae067bd3b6b.jpg" alt="2" /></p>
-
-<p>我试过一些可以提供这类控制的其他库，而PKRevealController是最棒的。安装简便，高度定制且对手势识别良好。可以当做一个标准控件用在iOS SDK中。</p>
-
-<h3>11. <a href="https://github.com/slackhq/SlackTextViewController" target="_blank" title=“SlackTextViewController”>SlackTextViewController</a></h3>
-
-<p>你曾经用过Slack iOS应用吗？如果你在较大的软件公司工作，也许会用过。对那些没用过的人呢？—?Slack令人激动。用到Slack的应用也是这样，尤其是用作极佳、定制的文本输入控制时。这时你有了一个现成可用在应用中的代码。</p>
-
-<p>自适应文本区域？试一下。</p>
-
-<p>手势识别、自动填充、多媒体合并？试一下。</p>
-
-<p>快速drop-in解决方案？试一下。</p>
-
-<p>其他还想要什么？</p>
-
-<h3>12. <a href="https://github.com/romaonthego/RETableViewManager" target="_blank" title=“RETableViewManager”>RETableViewManager</a></h3>
-
-<p>RETableViewManager可以帮助你进行动态创建与管理table views。它给我们提供了预定义cells（bool类型、文本、日期等等——请看下面的截图），但是你还可以创建自定义views，并与默认视图一同使用。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0702088ab_middle.jpg" alt="12" /></p>
-
-<p>左侧截图显得非常古板！在storyboard中没有这个库的时候，你能做的就是这些了，但是有时候代码比可视化编辑器要好。</p>
-
-<h3>13. <a href="https://github.com/nickoneill/PermissionScope" target="_blank" title=“PermissionScope”>PermissionScope</a></h3>
-
-<p>用这个库可以在询问用户前，就告知用户所需的系统权限，为用户带来更好的体验。接受度更高—>更多活跃用户->更高的留存率->数据更好->下载率更高。墙裂推荐pod。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0733b6110_middle.jpg" alt="13" /></p>
-
-<h3>14. <a href="https://github.com/TransitApp/SVProgressHUD" target="_blank" title=“SVProgressHUD”>SVProgressHUD</a></h3>
-
-<p>这张图片在正常加载，无需等待太久或者刷新页面。这正是SVProgressHUD在你的应用中的表现。如果你需要定制化的等待提示器，这个就是了（也许是最好的）。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae077d15432.jpg" alt="14" /></p>
-
-<h3>15. <a href="https://github.com/PrideChung/FontAwesomeKit" target="_blank" title=“FontAwesomeKit”>FontAwesomeKit</a></h3>
-
-<p>Font Awesome很棒，有了它你可以很容易地给项目加字体，使用方式繁多。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae07a34b492_middle.jpg" alt="15" /></p>
-
-<h3>16. <a href="https://github.com/SnapKit/SnapKit" target="_blank" title=“SnapKit”>SnapKit</a></h3>
-
-<p>喜欢自动布局吗？当然喜欢！至少在storyboard中创建时会喜欢。 在代码中纯手工创建约束灰常痛苦，但幸运的是我们有了SnapKit，在board中用上它，你可以简单直观地编写约束了。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae07ebf3c2c_middle.jpg" alt="16" /></p>
-
-<h3>17. <a href="https://github.com/MortimerGoro/MGSwipeTableCell" target="_blank" title=“MGSwipeTableCell”>MGSwipeTableCell</a></h3>
-
-<p>这是另一个常见于很多应用中的UI组件，苹果应该考虑在标准的iOS SDK中加入一些类似的内容。Swipeable表格cell是这个pod的最佳描述，也是最好的。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0953304a9.jpg" alt="17" /></p>
-
-<p>这只是其中三个动画类型，还有更多变化，请查看readme。</p>
-
-<h3>18. <a href="https://github.com/Quick/Quick" target="_blank" title=“Quick”>Quick</a></h3>
-
-<p>用于Swift中的单元测试（也可用于Objective-C），与Xcode整合在一起。如果你是Objective-C的粉丝，我建议用Specta代替这个，但是对Swift使用者来说，Quick是最佳选择。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0a6012068_middle.jpg" alt="18" /></p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0a767198e_middle.jpg" alt="181" /></p>
-
-<h3>19. <a href="https://github.com/saturngod/IAPHelper" target="_blank" title=“IAPHelper”>IAPHelper</a></h3>
-
-<p>应用内付费给我们提供了很多样本代码，而这个库丢掉了那些代码，将金钱交易相关的大多通用任务做了简单的封装。</p>
-
-<h3>20. <a href="https://github.com/ReactiveCocoa/ReactiveCocoa" target="_blank" title=“ReactiveCocoa”>ReactiveCocoa</a></h3>
-
-<p>好吧，这是个小怪物。</p>
-
-<p>ReactiveCocoa并不像列表中其他库一样，它不是小型的drop-in项目。ReactiveCocoa给我们带来了一个迥异的编程风格与结构，它是基于信号与数据流的。首先你需要忘掉已知的一切，才能理解它的工作方式。很有难度，但是价值不斐。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0acf1f0dc_middle.jpg" alt="20" /></p>
-
-<p>在这里教ReactiveCocoa有点不合适，但是如果你感兴趣的话，我会提供一些好源：</p>
-
-<ul>
-<li><a href="http://www.teehanlax.com/blog/getting-started-with-reactivecocoa/" target="_blank" title=“Getting Started with ReactiveCocoa”>Getting Started with ReactiveCocoa</a></li>
-<li><a href="http://nshipster.com/reactivecocoa/" target="_blank" title=“Mattt Thompson：Reactive​Cocoa”>Mattt Thompson：Reactive​Cocoa</a></li>
-<li><a href="http://www.raywenderlich.com/62699/reactivecocoa-tutorial-pt1" target="_blank" title=“ReactiveCocoa Tutorial – The Definitive Introduction: Part 1/2”>ReactiveCocoa Tutorial – The Definitive Introduction: Part &frac12;</a></li>
-</ul>
-
-
-<p>注意：对我们iOS开发社区的朋友来说，这会是一个稍微有些技术含量的活儿。</p>
-
-<h3>21. <a href="https://github.com/SwiftyJSON/SwiftyJSON" target="_blank" title=“SwiftyJSON”>SwiftyJSON</a></h3>
-
-<p>使Swift的JSON解析变得简单。</p>
-
-<h3>22. <a href="https://github.com/MengTo/Spring" target="_blank" title=“Spring”>Spring</a></h3>
-
-<p>使动画在简单性、可链接性与声明性方面有所提高。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0dfe58b6c_middle.jpg" alt="22" /></p>
-
-<h3>23. <a href="https://github.com/ArtSabintsev/FontBlaster" target="_blank" title=“FontBlaster”>FontBlaster</a></h3>
-
-<p>载入定制字体时更简单。</p>
-
-<h3>24. <a href="https://github.com/JanC/TAPromotee" target="_blank" title=“TAPromotee”>TAPromotee</a></h3>
-
-<p>交叉推广应用是你可以免费实现的最佳市场推广策略之一。使用这个库做起来非常简单，不用都不可能——将TAPromotee加入你的podfile中，免费配置与享受更多下载吧。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0e81d6464_middle.jpg" alt="24" /></p>
-
-<h3>25. <a href="https://github.com/contentful-labs/Concorde" target="_blank" title=“Concorde”>Concorde</a></h3>
-
-<p>你在应用中载入了一堆jpeg吗？有了Concorde，你可以用更好的方式来解决，这是一个很大的进步。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae11e47390e.jpg" alt="25" /></p>
-
-<h3>26. <a href="https://github.com/kishikawakatsumi/KeychainAccess" target="_blank" title=“KeychainAccess”>KeychainAccess</a></h3>
-
-<p>管理Keychain接入的小助手。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0f198a4dc_middle.jpg" alt="26" /></p>
-
-<h3>27. <a href="https://github.com/danielgindi/ios-charts" target="_blank" title=“iOS-charts”>iOS-charts</a></h3>
-
-<p>最后一个，但绝不是最不重要的——iOS图表库！非常有用而且美观，这里我无需赘言。向下看，你就知道用它可以做什么了。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0f6715aec_middle.jpg" alt="27" /></p>
-
-<p>没错，一切都变成了drop-in组件了（也许是“code-in组件）。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0f7ec6743_middle.jpg" alt="271" /></p>
-
-<p>不幸的是，它还不支持CocoaPods，所以你得手动把它拽到你的Xcode workspace里面去。</p>
-
-<p>超长慎入列表：</p>
-
-<ol>
-<li><a href="https://github.com/dzenbot/DZNEmptyDataSet" target="_blank" title=“DZNEmptyDataSet”>DZNEmptyDataSet</a>（UI，空表格视图解算器）</li>
-<li><a href="https://github.com/jivesoftware/PDTSimpleCalendar" target="_blank" title=“PDTSimpleCalendar”>PDTSimpleCalendar</a>（UI，drop-in日历组件）</li>
-<li><a href="https://github.com/magicalpanda/MagicalRecord" target="_blank" title=“MagicalRecord”>MagicalRecord</a>（实施活跃记录模式的Core Data助手）</li>
-<li><a href="https://github.com/ViccAlexander/Chameleon" target="_blank" title=“Chameleon”>Chameleon</a>（UI，色彩框架）</li>
-<li><a href="https://github.com/Alamofire/Alamofire" target="_blank" title=“Alamofire”>Alamofire</a>（Swift 网络）</li>
-<li><a href="https://github.com/raulriera/TextFieldEffects" target="_blank" title=“TextFieldEffects”>TextFieldEffects</a> （UI，自定义外观的文本区域）</li>
-<li><a href="https://github.com/BradLarson/GPUImage" target="_blank" title=“GPUImage”>GPUImage</a>（快速图片处理）</li>
-<li><a href="https://github.com/nicklockwood/iRate" target="_blank" title=“iRate”>iRate</a>（获取用户评价）</li>
-<li><a href="https://github.com/nihalahmed/GameCenterManager" target="_blank" title=“GameCenterManager”>GameCenterManager</a>（快速管理游戏中心）</li>
-<li><a href="https://github.com/pkluz/PKRevealController" target="_blank" title=“PKRevealController 2”>PKRevealController 2</a>（UI，滑动侧边栏菜单）</li>
-<li><a href="https://github.com/slackhq/SlackTextViewController" target="_blank" title=“SlackTextViewController”>SlackTextViewController</a>（UI，高度可定制的自定义文本区域）</li>
-<li><a href="https://github.com/romaonthego/RETableViewManager" target="_blank" title=“RETableViewManager”>RETableViewManager</a>（自动以代码创建表格视图）</li>
-<li><a href="https://github.com/nickoneill/PermissionScope" target="_blank" title=“PermissionScope”>PermissionScope</a>（UI，预询问用户系统权限的友好体验）</li>
-<li><a href="https://github.com/TransitApp/SVProgressHUD" target="_blank" title=“SVProgressHUD”>SVProgressHUD</a> （UI，自定义等待进度条）</li>
-<li><a href="https://github.com/PrideChung/FontAwesomeKit" target="_blank" title=“FontAwesomeKit”>FontAwesomeKit</a> （快速添加Awesome字体）</li>
-<li><a href="https://github.com/SnapKit/SnapKit" target="_blank" title=“SnapKit”>SnapKit</a>（在代码中快速自动布局）</li>
-<li><a href="https://github.com/MortimerGoro/MGSwipeTableCell" target="_blank" title=“MGSwipeTableCell”>MGSwipeTableCell</a> （UI，可滑动的表格视图cell）</li>
-<li><a href="https://github.com/Quick/Quick" target="_blank" title=“Quick”>Quick</a>（Swift单元测试框架）</li>
-<li><a href="https://github.com/saturngod/IAPHelper" target="_blank" title=“IAPHelper”>IAPHelper</a>（应用内购买助手封装）</li>
-<li><a href="https://github.com/ReactiveCocoa/ReactiveCocoa" target="_blank" title=“ReactiveCocoa”>ReactiveCocoa</a>（FRP框架）</li>
-<li><a href="https://github.com/SwiftyJSON/SwiftyJSON" target="_blank" title=“SwiftyJSON”>SwiftyJSON</a>（Swift JSON库）</li>
-<li><a href="https://github.com/MengTo/Spring" target="_blank" title=“Spring”>Spring</a>（动画框架）</li>
-<li><a href="https://github.com/ArtSabintsev/FontBlaster" target="_blank" title=“FontBlaster”>FontBlaster</a>（在应用中快速载入个性化字体）</li>
-<li><a href="https://github.com/JanC/TAPromotee" target="_blank" title=“TAPromotee”>TAPromotee</a>（使用drop-in视图交叉推广应用）</li>
-<li><a href="https://github.com/contentful-labs/Concorde" target="_blank" title=“Concorde”>Concorde</a>（下载解码渐进式jpeg）</li>
-<li><a href="https://github.com/kishikawakatsumi/KeychainAccess" target="_blank" title=“KeychainAccess”>KeychainAccess</a>（简便管理keychain）</li>
-<li><a href="https://github.com/danielgindi/ios-charts" target="_blank" title=“iOS-charts”>iOS-charts</a>（美观的图表库）</li>
-</ol>
-
-
-<p>文章来源：<a href="https://medium.com/app-coder-io/27-ios-open-source-libraries-to-skyrocket-your-development-301b67d3124c" target="_blank" title=“Medium”>Medium</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -1546,6 +1358,10 @@ imgView.image = image;
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/07/30/guan-yu-dao-hang-lan-de-liu-ge-xiao-ji-qiao/">Guan Yu Dao Hang Lan De Liu Ge Xiao Ji Qiao</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/07/29/uiimage-geometric-zoom/">iOS开发之UIImage等比缩放</a>
       </li>
     
@@ -1559,10 +1375,6 @@ imgView.image = image;
     
       <li class="post">
         <a href="/blog/2015/07/27/ioskai-fa-zhi-layoutsubviewsde-zuo-yong-he-diao-yong-ji-zhi/">iOS开发之layoutSubviews的作用和调用机制</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/26/jie-qu-uiimagezhi-ding-da-xiao-qu-yu/">截取UIImage指定大小区域</a>
       </li>
     
   </ul>

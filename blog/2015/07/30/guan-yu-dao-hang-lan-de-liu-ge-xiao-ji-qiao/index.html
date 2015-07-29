@@ -1,0 +1,67 @@
+<p><code>UINavigationBar</code>和<code>UINavigationItem</code>是iOS开发中常用的控件。今天给大家介绍一下六个关于导航栏的小技巧。</p>
+
+<h2>1.设置导航栏标题</h2>
+
+<pre><code>self.title = @"iOS开发：iOSDevTip";
+</code></pre>
+
+<h2>2.设置导航栏样式</h2>
+
+<p>设置方法：</p>
+
+<pre><code>[self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
+</code></pre>
+
+<p><code>UIBarStyle</code>的样式：</p>
+
+<pre><code>typedef NS_ENUM(NSInteger, UIBarStyle) {
+    UIBarStyleDefault          = 0,
+    UIBarStyleBlack            = 1,
+
+    UIBarStyleBlackOpaque      = 1, // Deprecated. Use UIBarStyleBlack
+    UIBarStyleBlackTranslucent = 2, // Deprecated. Use UIBarStyleBlack and set the translucent property to YES
+};
+</code></pre>
+
+<p><code>UIBarStyleDefault</code>是默认样式，<code>UIBarStyleBlack</code>是黑色不透明。<code>UIBarStyleBlackOpaque</code>和<code>UIBarStyleBlackTranslucent</code>这两个已经废弃了。</p>
+
+<p>如果想设置导航栏透明，可以加上下面这句代码：</p>
+
+<pre><code>self.navigationController.navigationBar.translucent = YES;
+</code></pre>
+
+<h2>3.修改返回按钮title</h2>
+
+<pre><code>self.navigationItem.title = @"test";
+</code></pre>
+
+<h2>4.隐藏返回按钮title</h2>
+
+<p>比较笨的方法是：</p>
+
+<pre><code>self.navigationItem.title = @"";
+</code></pre>
+
+<p>还可以这样设置：</p>
+
+<pre><code>[[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
+</code></pre>
+
+<h2>5.设置leftBarButtonItem</h2>
+
+<pre><code>self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"back" style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
+
+- (void)back:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+</code></pre>
+
+<h2>6.左滑返回手势失效了怎么办</h2>
+
+<p>如果按上一步设置<code>leftBarButtonItem</code>之后，左滑返回手势就会失效。设置一下<code>UIGestureRecognizerDelegate</code>代理即可：</p>
+
+<pre><code>self.navigationController.interactivePopGestureRecognizer.delegate = self;
+</code></pre>
+
+<p>以上是六个关于导航栏的小技巧。更多iOS开发相关的技术，请关注我的微信公众号iOS开发：<strong>iOSDevTip</strong></p>
