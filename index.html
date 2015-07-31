@@ -100,7 +100,7 @@
   </header>
 
 
-  <div class="entry-content"><p>今天是八一建军节，中国人民解放军建军纪念日。心里不由自主地升起一番爱国之情。</p>
+  <div class="entry-content"><blockquote><p>今天是八一建军节，中国人民解放军建军纪念日。心里不由自主地升起一份爱国之情。</p></blockquote>
 
 <p>我的网站<a href="http://www.superqq.com/">刚刚在线</a>去年九月份正式上线的，马上快一周年啦！作为一个技术型的博客网站，<a href="http://www.superqq.com/">刚刚在线</a>成长速度还是蛮快的。</p>
 
@@ -128,7 +128,9 @@
 
 <h3>1.获取站点的short_name</h3>
 
-<p>到多说的官网注册账号，并且添加你的站点。<code>short_name</code>就是添加站点的时候的多说域名框里填写的。具体流程可以登录多说官网：**<a href="http://duoshuo.com/**">http://duoshuo.com/**</a></p>
+<p>到多说的官网注册账号，并且添加你的站点。<code>short_name</code>就是添加站点的时候的多说域名框里填写的。添加站点流程如下：</p>
+
+<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/duoshuozhuce.jpg" alt="duoshuozhuce.jpg" /></p>
 
 <h3>2.配置_config.yml</h3>
 
@@ -139,58 +141,22 @@ duoshuo_comments: true
 duoshuo_short_name: superqq
 </code></pre>
 
-<h3>3.添加多说评论模块</h3>
+<h3>5.配置article.html</h3>
 
-<p>打开文件 source/_layouts/post.html 找到下面这段<code>disqus</code>代码</p>
+<p>打开文件 _includes/article.html 文件，在</p>
 
 <p>在下面增加：</p>
 
-<pre><code>  &lt;section&gt;
-    &lt;h1&gt;Comments&lt;/h1&gt;
-    &lt;div id="comments" aria-live="polite"&gt;&lt;!-- Duoshuo Comment BEGIN --&gt;
+<pre><code>      | &lt;a href="#comments"&gt;Comments&lt;/a&gt;
 </code></pre>
 
-<div class="ds-thread" data-title="为刚刚在线（Octopress）添加多说评论系统"></div>
+<p>ok，经过上面五小步就可以实现接入多说评论版块啦。迫不及待地想看看问题有没有解决，下过如何？赶紧部署上去，我简单的测试了一下。你可以点击<a href="http://www.superqq.com/">刚刚在线</a>，看看实现效果：</p>
 
+<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/duoshuocomment.jpg" alt="duoshuocomment.jpg" /></p>
 
-<script type="text/javascript">
-  var duoshuoQuery = {short_name:"superqq"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = 'http://static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-    || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-</script>
+<h2>网站有评论必回复噢</h2>
 
-
-<!-- Duoshuo Comment END -->
-
-
-<p></div>
-      </section></p>
-
-<h3>4.创建duoshuo.html</h3>
-
-<p>创建一个source/_includes/post/duoshuo.html，里面实现代码如下：</p>
-
-<pre><code>&lt;!-- Duoshuo Comment BEGIN --&gt;
-&lt;div class="ds-thread" data-title="为刚刚在线（Octopress）添加多说评论系统"&gt;&lt;/div&gt;
-&lt;script type="text/javascript"&gt;
-  var duoshuoQuery = {short_name:"superqq"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = 'http://static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-    || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-&lt;/script&gt;
-&lt;!-- Duoshuo Comment END --&gt;
-</code></pre>
+<p>既然网站评论已经成功接入，大家以后有什么问题，或者需要交流的可以直接在网站上评论。虽然，每天有很多少要做，但是我依然会抽出时间来看看大家提的评论，一起探讨，一起成长。</p>
 </div>
   
   

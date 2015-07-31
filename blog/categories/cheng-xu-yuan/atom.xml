@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 程序员 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/cheng-xu-yuan/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-01T01:31:39+08:00</updated>
+  <updated>2015-08-01T01:33:39+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -18,7 +18,7 @@
     <link href="http://www.superqq.com/blog/2015/08/01/octopress-add-duoshuo/"/>
     <updated>2015-08-01T01:04:31+08:00</updated>
     <id>http://www.superqq.com/blog/2015/08/01/octopress-add-duoshuo</id>
-    <content type="html"><![CDATA[<p>今天是八一建军节，中国人民解放军建军纪念日。心里不由自主地升起一番爱国之情。</p>
+    <content type="html"><![CDATA[<blockquote><p>今天是八一建军节，中国人民解放军建军纪念日。心里不由自主地升起一份爱国之情。</p></blockquote>
 
 <p>我的网站<a href="http://www.superqq.com/">刚刚在线</a>去年九月份正式上线的，马上快一周年啦！作为一个技术型的博客网站，<a href="http://www.superqq.com/">刚刚在线</a>成长速度还是蛮快的。</p>
 
@@ -46,7 +46,9 @@
 
 <h3>1.获取站点的short_name</h3>
 
-<p>到多说的官网注册账号，并且添加你的站点。<code>short_name</code>就是添加站点的时候的多说域名框里填写的。具体流程可以登录多说官网：**<a href="http://duoshuo.com/**">http://duoshuo.com/**</a></p>
+<p>到多说的官网注册账号，并且添加你的站点。<code>short_name</code>就是添加站点的时候的多说域名框里填写的。添加站点流程如下：</p>
+
+<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/duoshuozhuce.jpg" alt="duoshuozhuce.jpg" /></p>
 
 <h3>2.配置_config.yml</h3>
 
@@ -57,37 +59,27 @@ duoshuo_comments: true
 duoshuo_short_name: superqq
 </code></pre>
 
-<h3>3.添加多说评论模块</h3>
+<h3>5.配置article.html</h3>
 
-<p>打开文件 source/_layouts/post.html 找到下面这段<code>disqus</code>代码</p>
+<p>打开文件 _includes/article.html 文件，在</p>
 
 <pre><code>
 </code></pre>
 
 <p>在下面增加：</p>
 
-<pre><code>
+<pre><code>     
+      | &lt;a href="#comments"&gt;Comments&lt;/a&gt;
+     
 </code></pre>
 
-<h3>4.创建duoshuo.html</h3>
+<p>ok，经过上面五小步就可以实现接入多说评论版块啦。迫不及待地想看看问题有没有解决，下过如何？赶紧部署上去，我简单的测试了一下。你可以点击<a href="http://www.superqq.com/">刚刚在线</a>，看看实现效果：</p>
 
-<p>创建一个source/_includes/post/duoshuo.html，里面实现代码如下：</p>
+<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/duoshuocomment.jpg" alt="duoshuocomment.jpg" /></p>
 
-<pre><code>&lt;!-- Duoshuo Comment BEGIN --&gt;
-&lt;div class="ds-thread" data-title="Category: 程序员"&gt;&lt;/div&gt;
-&lt;script type="text/javascript"&gt;
-  var duoshuoQuery = {short_name:"superqq"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = 'http://static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-    || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-&lt;/script&gt;
-&lt;!-- Duoshuo Comment END --&gt;
-</code></pre>
+<h2>网站有评论必回复噢</h2>
+
+<p>既然网站评论已经成功接入，大家以后有什么问题，或者需要交流的可以直接在网站上评论。虽然，每天有很多少要做，但是我依然会抽出时间来看看大家提的评论，一起探讨，一起成长。</p>
 ]]></content>
   </entry>
   
