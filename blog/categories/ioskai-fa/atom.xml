@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-30T23:31:42+08:00</updated>
+  <updated>2015-07-31T10:10:17+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -96,7 +96,7 @@ _tabBarController = [[AKTabBarController alloc] initWithTabBarHeight:50 position
 • 支持设置tabBar字体。
 </code></pre>
 
-<h2>失效效果</h2>
+<h2>实际效果</h2>
 
 <p>最终实现的效果如下所示：</p>
 
