@@ -81,147 +81,6 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/01/octopress-add-duoshuo/">Octopress-add-duoshuo</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-08-01T01:04:31+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>1:04 am</span></time>
-        
-        
-          | <a href="/blog/2015/08/01/octopress-add-duoshuo/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>今天是八一建军节，中国人民解放军建军纪念日。心里不由自主地升起一番爱国之情。</p>
-
-<p>我的网站<a href="http://www.superqq.com/">刚刚在线</a>去年九月份正式上线的，马上快一周年啦！作为一个技术型的博客网站，<a href="http://www.superqq.com/">刚刚在线</a>成长速度还是蛮快的。</p>
-
-<h2>刚刚在线排名</h2>
-
-<p>特别是最近一段时间，我一直在关注<a href="http://www.superqq.com/">刚刚在线</a>的排名，每天的进步速度非常快。这也是我持续更新的结果，百度对持续更新的网站是非常友好的。</p>
-
-<p>我用Alexa的插件看了一下<a href="http://www.superqq.com/">刚刚在线</a>的排名，全球排名：<strong>240334</strong> ， 中国区排名：<strong>14665</strong> 。我特意截了一张图给大家看一看：</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/superqqalexa.jpg" alt="superqqalexa.jpg" /></p>
-
-<p>路漫漫其修远兮，吾将上下而求索。要想取得更好的成就，仍需努力！<a href="http://www.superqq.com/">刚刚在线</a>一直有一个问题困惑着我。就是在火狐浏览器中，文章底部评论模块会出现错乱。</p>
-
-<h2>火狐评论版块错乱修复</h2>
-
-<p><a href="http://www.superqq.com/">刚刚在线</a>的评论模块用的是友言。也挺奇怪的，在其他浏览器中就好好的，唯独在火狐浏览器了会出现错乱。我知道这个问题的存在，已有一些访客反应过这个问题。但是，我一直没有找到原因。</p>
-
-<p>估计iOS开发者用火狐浏览器的人肯定不少，这个错乱问题一直在这里的话，肯定会给访客留下不好的印象。所以得尽早解决这个问题。</p>
-
-<p>既然找不到解决错乱的方法，就把友言给替换掉吧。百度搜了一下，发现国内的还有多说，评论功能还是挺不错的。我也看到很多网站在用多说。</p>
-
-<h2>把友言替换成多说</h2>
-
-<p>说换就换，多说（ **<a href="http://duoshuo.com/**">http://duoshuo.com/**</a> ）接入流程也不复杂。网上有很多教程，我简单说一下我是如何操作的。</p>
-
-<h3>1.获取站点的short_name</h3>
-
-<p>到多说的官网注册账号，并且添加你的站点。<code>short_name</code>就是添加站点的时候的多说域名框里填写的。添加站点流程如下：</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/duoshuozhuce.jpg" alt="duoshuozhuce.jpg" /></p>
-
-<h3>2.配置_config.yml</h3>
-
-<p>在 <code>_config.yml</code> 中添加</p>
-
-<pre><code># duoshuo comments
-duoshuo_comments: true
-duoshuo_short_name: superqq
-</code></pre>
-
-<h3>3.添加多说评论模块</h3>
-
-<p>打开文件 source/_layouts/post.html 找到下面这段<code>disqus</code>代码</p>
-
-<p>在下面增加：</p>
-
-<pre><code>  &lt;section&gt;
-    &lt;h1&gt;Comments&lt;/h1&gt;
-    &lt;div id="comments" aria-live="polite"&gt;&lt;!-- Duoshuo Comment BEGIN --&gt;
-</code></pre>
-
-<div class="ds-thread" data-title="Octopress-add-duoshuo"></div>
-
-
-<script type="text/javascript">
-  var duoshuoQuery = {short_name:"superqq"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = 'http://static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-    || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-</script>
-
-
-<!-- Duoshuo Comment END -->
-
-
-<p></div>
-      </section></p>
-
-<h3>4.创建duoshuo.html</h3>
-
-<p>创建一个source/_includes/post/duoshuo.html，里面实现代码如下：</p>
-
-<pre><code>&lt;!-- Duoshuo Comment BEGIN --&gt;
-&lt;div class="ds-thread" data-title="Octopress-add-duoshuo"&gt;&lt;/div&gt;
-&lt;script type="text/javascript"&gt;
-  var duoshuoQuery = {short_name:"superqq"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = 'http://static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-    || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-&lt;/script&gt;
-&lt;!-- Duoshuo Comment END --&gt;
-</code></pre>
-
-<h3>5.配置article.html</h3>
-
-<p>打开文件 _includes/article.html 文件，在</p>
-
-<p>在下面增加：</p>
-
-<pre><code>      | &lt;a href="#comments"&gt;Comments&lt;/a&gt;
-</code></pre>
-
-<p>ok，经过上面五小步就可以实现接入多说评论版块啦。迫不及待地想看看问题有没有解决，下过如何？赶紧部署上去，我简单的测试了一下。你可以点击<a href="http://www.superqq.com/">刚刚在线</a>，看看实现效果：</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/duoshuocomment.jpg" alt="duoshuocomment.jpg" /></p>
-
-<h2>网站有评论必回复噢</h2>
-
-<p>既然网站评论已经成功接入，大家以后有什么问题，或者需要交流的可以直接在网站上评论。虽然，每天有很多少要做，但是我依然会抽出时间来看看大家提的评论，一起探讨，一起成长。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
       <h1 class="entry-title"><a href="/blog/2015/07/31/aktabbarcontroller-similar-to-wechat-library/">AKTabBarController：类似微信的第三方库</a></h1>
     
     
@@ -1337,6 +1196,202 @@ imgView.image = image;
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/24/nsfilemanagerwen-jian-cao-zuo-de-shi-ge-xiao-gong-neng/">NSFileManager文件操作的十个小功能</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-24T00:14:03+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:14 am</span></time>
+        
+        
+          | <a href="/blog/2015/07/24/nsfilemanagerwen-jian-cao-zuo-de-shi-ge-xiao-gong-neng/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>NSFileManager是一个单列类，也是一个文件管理器。可以通过NSFileManager创建文件夹、创建文件、写文件、读文件内容等等基本功能。</p>
+
+<p>下面将介绍NSFileManager文件操作的十个小功能。我们在Documents里面进行举例，首先是获取Documents的路径。这个在<a href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-%28sandbox/">iOS开发之沙盒机制（SandBox)</a>已经详细讲解过了。获取Documents路径方法如下：</p>
+
+<pre><code>- (NSString *)getDocumentsPath
+{
+    //获取Documents路径
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *path = [paths objectAtIndex:0];
+    NSLog(@"path:%@", path);
+    return path;
+}
+</code></pre>
+
+<h3>创建文件夹</h3>
+
+<pre><code>-(void)createDirectory{
+    NSString *documentsPath =[self getDocumentsPath];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *iOSDirectory = [documentsPath stringByAppendingPathComponent:@"iOS"];
+    BOOL isSuccess = [fileManager createDirectoryAtPath:iOSDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+    if (isSuccess) {
+        NSLog(@"success");
+    } else {
+        NSLog(@"fail");
+    }
+}
+</code></pre>
+
+<h3>创建文件</h3>
+
+<pre><code>-(void)createFile{
+    NSString *documentsPath =[self getDocumentsPath];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
+    BOOL isSuccess = [fileManager createFileAtPath:iOSPath contents:nil attributes:nil];
+    if (isSuccess) {
+        NSLog(@"success");
+    } else {
+        NSLog(@"fail");
+    }
+}
+</code></pre>
+
+<h3>写文件</h3>
+
+<pre><code>-(void)writeFile{
+    NSString *documentsPath =[self getDocumentsPath];
+    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
+    NSString *content = @"我要写数据啦";
+    BOOL isSuccess = [content writeToFile:iOSPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    if (isSuccess) {
+        NSLog(@"write success");
+    } else {
+        NSLog(@"write fail");
+    }
+}
+</code></pre>
+
+<h3>读取文件内容</h3>
+
+<pre><code>-(void)readFileContent{
+    NSString *documentsPath =[self getDocumentsPath];
+    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
+    NSString *content = [NSString stringWithContentsOfFile:iOSPath encoding:NSUTF8StringEncoding error:nil];
+    NSLog(@"read success: %@",content);
+}
+</code></pre>
+
+<h3>判断文件是否存在</h3>
+
+<pre><code>- (BOOL)isSxistAtPath:(NSString *)filePath{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL isExist = [fileManager fileExistsAtPath:filePath];
+    return isExist;
+}
+</code></pre>
+
+<h3>计算文件大小</h3>
+
+<pre><code>- (unsigned long long)fileSizeAtPath:(NSString *)filePath{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL isExist = [fileManager fileExistsAtPath:filePath];
+    if (isExist){
+        unsigned long long fileSize = [[fileManager attributesOfItemAtPath:filePath error:nil] fileSize];
+        return fileSize;
+    } else {
+        NSLog(@"file is not exist");
+        return 0;
+    }
+}
+</code></pre>
+
+<h3>计算整个文件夹中所有文件大小</h3>
+
+<pre><code>- (unsigned long long)folderSizeAtPath:(NSString*)folderPath{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL isExist = [fileManager fileExistsAtPath:folderPath];
+    if (isExist){
+        NSEnumerator *childFileEnumerator = [[fileManager subpathsAtPath:folderPath] objectEnumerator];
+        unsigned long long folderSize = 0;
+        NSString *fileName = @"";
+        while ((fileName = [childFileEnumerator nextObject]) != nil){
+            NSString* fileAbsolutePath = [folderPath stringByAppendingPathComponent:fileName];
+            folderSize += [self fileSizeAtPath:fileAbsolutePath];
+        }
+        return folderSize / (1024.0 * 1024.0);
+    } else {
+        NSLog(@"file is not exist");
+        return 0;
+    }
+}
+</code></pre>
+
+<h3>删除文件</h3>
+
+<pre><code>-(void)deleteFile{
+    NSString *documentsPath =[self getDocumentsPath];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
+    BOOL isSuccess = [fileManager removeItemAtPath:iOSPath error:nil];
+    if (isSuccess) {
+        NSLog(@"delete success");
+    }else{
+        NSLog(@"delete fail");
+    }
+}
+</code></pre>
+
+<h3>移动文件</h3>
+
+<pre><code>- (void)moveFileName
+{
+    NSString *documentsPath =[self getDocumentsPath];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *filePath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
+    NSString *moveToPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
+    BOOL isSuccess = [fileManager moveItemAtPath:filePath toPath:moveToPath error:nil];
+    if (isSuccess) {
+        NSLog(@"rename success");
+    }else{
+        NSLog(@"rename fail");
+    }
+}
+</code></pre>
+
+<h3>重命名</h3>
+
+<pre><code>- (void)renameFileName
+{
+    //通过移动该文件对文件重命名
+    NSString *documentsPath =[self getDocumentsPath];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *filePath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
+    NSString *moveToPath = [documentsPath stringByAppendingPathComponent:@"rename.txt"];
+    BOOL isSuccess = [fileManager moveItemAtPath:filePath toPath:moveToPath error:nil];
+    if (isSuccess) {
+        NSLog(@"rename success");
+    }else{
+        NSLog(@"rename fail");
+    }
+}
+</code></pre>
+
+<p>以上文件操作代码都在<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a>，可以直接通过git拉下来进行测试。关于NSFileManager的用法还有很多，一起接续探索吧！</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -1369,10 +1424,6 @@ imgView.image = image;
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/08/01/octopress-add-duoshuo/">Octopress-add-duoshuo</a>
-      </li>
-    
-      <li class="post">
         <a href="/blog/2015/07/31/aktabbarcontroller-similar-to-wechat-library/">AKTabBarController：类似微信的第三方库</a>
       </li>
     
@@ -1386,6 +1437,10 @@ imgView.image = image;
     
       <li class="post">
         <a href="/blog/2015/07/28/swift-alamofire/">著名的AFNetworking网络基础库Swift版Alamofire</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/28/four-create-uiimage-method/">五种创建UIImage的类方法</a>
       </li>
     
   </ul>
