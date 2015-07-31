@@ -97,14 +97,98 @@
 
 <time class='entry-date' datetime='2015-07-01T00:10:18+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>12:10 am</span></time>
         
+        
           | <a href="#comments">Comments</a>
          
-        
       </p>
     
   </header>
 
 
+<div class="entry-content"><p><strong>EGOCache</strong>是一个轻量级的缓存框架。用法简单方便，在现在的项目中，我就用到EGOCache来缓存下载过的照片和字符串。</p>
+
+<p>有人可能会问到，缓存照片还需要用EGOCache吗？<a href="http://www.superqq.com/blog/2014/11/07/ioswang-luo-bian-cheng-zhi-afnetworkingshi-yong/">AFNetworking</a>和<a href="http://www.superqq.com/blog/2015/06/09/sdwebimagejia-zai-tu-pian-huan-cun-tu-pian/">SDWebImage</a>不是已经有这些功能了吗？</p>
+
+<p>是的，不过AFNetworking和SDWebImage是http。我的项目用的是socket，所以我选择EGOCache来做缓存。用下来觉得EGOCache还是挺强大的。</p>
+
+<h2>EGOCache简介</h2>
+
+<pre><code>EGOCache is a simple, thread-safe key value cache store. It has native support for NSString, UI/NSImage, and NSData, but can store anything that implements &lt;NSCoding&gt;. All cached items expire after the timeout, which by default, is one day.
+</code></pre>
+
+<p>翻译过来就是：EGOCache一个简单、线程安全的基于 key-value 的缓存框架，原生支持NSString、UI/NSImage、和NSData，也支持储存任何实现<NSCoding>协议的类，可以设定缓存过期时间，默认是1天。</p>
+
+<p>EGOCache只有一个类，EGOCache.h和EGOCache.m两个文件。用法也比较容易掌握，仔细研究一下EGOCache.h的方法，很快就可以上手。</p>
+
+<p>EGOCache只提供了磁盘缓存，没有提供内存缓存。同时，也提供了清理缓存的方法：</p>
+
+<pre><code>- (void)clearCache;
+</code></pre>
+
+<p>EGOCache还提供了判断缓存是否存在的方法：</p>
+
+<pre><code>- (BOOL)hasCacheForKey:(NSString* __nonnull)key;
+</code></pre>
+
+<h2>通过Cocoapods直接加入项目</h2>
+
+<p>直接在你的项目的Podfile加入下面一行：</p>
+
+<pre><code>pod 'EGOCache'
+</code></pre>
+
+<p>然后执行：</p>
+
+<pre><code>$ pod update
+</code></pre>
+
+<h2>EGOCache用法</h2>
+
+<h3>用EGOCache缓存NSString</h3>
+
+<p>存储：</p>
+
+<pre><code>NSString *saveString = @"把我保存起来吧";
+[[EGOCache globalCache] setString:saveString forKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[saveString hash]] withTimeoutInterval:24*60*60];
+</code></pre>
+
+<p>读取：</p>
+
+<pre><code>NSString *getSaveString = [[EGOCache globalCache] stringForKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[@"SaveString" hash]]];
+</code></pre>
+
+<p>是不是感觉跟NSDictionary很相似，确实，前面我们说了EGOCache是基于key-value 的缓存框架。</p>
+
+<h3>用EGOCache缓存UIImage</h3>
+
+<p>存储：</p>
+
+<pre><code> UIImage *saveImage = [UIImage imageNamed:@"iOSDevTip"];
+[[EGOCache globalCache] setImage:saveImage forKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[@"SaveImage" hash]] withTimeoutInterval:24*60*60];
+</code></pre>
+
+<p>读取：</p>
+
+<pre><code>UIImage *getSaveImage = [[EGOCache globalCache] imageForKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[@"SaveImage" hash]]];
+</code></pre>
+
+<h3>用EGOCache缓存NSData</h3>
+
+<p>存储：</p>
+
+<pre><code>NSData *saveData = [NSData data];
+[[EGOCache globalCache] setData:saveData forKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[@"SaveData" hash]] withTimeoutInterval:24*60*60];
+</code></pre>
+
+<p>读取：</p>
+
+<pre><code>UIImage *getSaveData = [[EGOCache globalCache] dataForKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[@"SaveData" hash]]];
+</code></pre>
+
+<h2>EGOCache源码下载</h2>
+
+<p><a href="https://github.com/enormego/EGOCache">EGOCache</a></p>
+</div>
 <!--广告位-->
 <script type="text/javascript">
     /*刚刚在线700*350 创建于 2015-07-31*/

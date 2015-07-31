@@ -97,14 +97,54 @@
 
 <time class='entry-date' datetime='2015-05-29T13:01:00+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:01 pm</span></time>
         
+        
           | <a href="#comments">Comments</a>
          
-        
       </p>
     
   </header>
 
 
+<div class="entry-content"><p>在多人协作开发时，一般用git来进行代码管理。git有一些命令如：git pull 、 git push等等，这些命令可以设置alias，也就是缩写。如：git pull 是 git pl， git push 是 git ps。可以根据个人习惯进行修改。</p>
+
+<p>修改别名alias步骤如下：</p>
+
+<h4>1,进入根目录</h4>
+
+<pre><code>$ cd
+</code></pre>
+
+<h4>2,查看根目录下面的文件</h4>
+
+<pre><code>$ ls -la
+</code></pre>
+
+<p>查看一下有没有.gitconfig文件。</p>
+
+<h4>3，编辑.gitconfig</h4>
+
+<pre><code>$ vi .gitconfig
+</code></pre>
+
+<p>添加如下：</p>
+
+<pre><code>[alias]
+co = checkout
+ci = commit
+st = status
+pl = pull
+ps = push
+dt = difftool
+l = log --stat
+cp = cherry-pick
+ca = commit -a
+b = branch
+</code></pre>
+
+<p>具体可以根据个人习惯进行添加修改。</p>
+
+<blockquote><p>关注公众号iOS开发：iOSDevTip</p></blockquote>
+</div>
 <!--广告位-->
 <script type="text/javascript">
     /*刚刚在线700*350 创建于 2015-07-31*/

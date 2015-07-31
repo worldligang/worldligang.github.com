@@ -97,14 +97,125 @@
 
 <time class='entry-date' datetime='2015-07-26T10:07:58+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:07 am</span></time>
         
+        
           | <a href="#comments">Comments</a>
          
-        
       </p>
     
   </header>
 
 
+<div class="entry-content"><p>最近遇到这样的需求：从服务器获取到一张照片，只需要显示他的左半部分，或者中间部分等等。也就是截取UIImage指定大小区域。</p>
+
+<h2>UIImage扩展</h2>
+
+<p>我的解决方案是对<code>UIImage</code>进行扩展。通过<code>CGImageRef</code>和<code>CGImage</code>完成截取，调用的方法是：<code>CGImageCreateWithImageInRect</code>。扩展类叫<code>UIImage+Crop</code>，具体代码如下：</p>
+
+<h3>UIImage+Crop.h</h3>
+
+<pre><code>#import &lt;UIKit/UIKit.h&gt;
+
+typedef NS_ENUM(NSInteger, XYCropImageStyle){
+    XYCropImageStyleRight               =0,      // 右半部分
+    XYCropImageStyleCenter              =1,      // 中间部分
+    XYCropImageStyleLeft                =2,      // 左半部分
+    XYCropImageStyleRightOneOfThird     =3,      // 右侧三分之一部分
+    XYCropImageStyleCenterOneOfThird    =4,      // 中间三分之一部分
+    XYCropImageStyleLeftOneOfThird      =5,      // 左侧三分之一部分
+    XYCropImageStyleRightQuarter        =6,      // 右侧四分之一部分
+    XYCropImageStyleCenterRightQuarter  =7,      // 中间右侧四分之一部分
+    XYCropImageStyleCenterLeftQuarter   =8,      // 中间左侧四分之一部分
+    XYCropImageStyleLeftQuarter         =9,      // 左侧四分之一部分
+};
+
+@interface UIImage (Crop)
+- (UIImage *)imageByCroppingWithStyle:(XYCropImageStyle)style;
+
+@end
+</code></pre>
+
+<h3>UIImage+Crop.m</h3>
+
+<pre><code>#import "UIImage+Crop.h"
+
+@implementation UIImage (Crop)
+
+- (UIImage *)imageByCroppingWithStyle:(XYCropImageStyle)style
+{
+    CGRect rect;
+    switch (style) {
+        case XYCropImageStyleLeft:
+            rect = CGRectMake(0, 0, self.size.width/2, self.size.height);
+            break;
+        case XYCropImageStyleCenter:
+            rect = CGRectMake(self.size.width/4, 0, self.size.width/2, self.size.height);
+            break;
+        case XYCropImageStyleRight:
+            rect = CGRectMake(self.size.width/2, 0, self.size.width/2, self.size.height);
+            break;
+        case XYCropImageStyleLeftOneOfThird:
+            rect = CGRectMake(0, 0, self.size.width/3, self.size.height);
+            break;
+        case XYCropImageStyleCenterOneOfThird:
+            rect = CGRectMake(self.size.width/3, 0, self.size.width/3, self.size.height);
+            break;
+        case XYCropImageStyleRightOneOfThird:
+            rect = CGRectMake(self.size.width/3*2, 0, self.size.width/3, self.size.height);
+            break;
+        case XYCropImageStyleLeftQuarter:
+            rect = CGRectMake(0, 0, self.size.width/4, self.size.height);
+            break;
+        case XYCropImageStyleCenterLeftQuarter:
+            rect = CGRectMake(self.size.width/4, 0, self.size.width/4, self.size.height);
+            break;
+        case XYCropImageStyleCenterRightQuarter:
+            rect = CGRectMake(self.size.width/4*2, 0, self.size.width/4, self.size.height);
+            break;
+        case XYCropImageStyleRightQuarter:
+            rect = CGRectMake(self.size.width/4*3, 0, self.size.width/4, self.size.height);
+            break;
+        default:
+            break;
+    }
+    CGImageRef imageRef = self.CGImage;
+    CGImageRef imagePartRef = CGImageCreateWithImageInRect(imageRef, rect);
+    UIImage *cropImage = [UIImage imageWithCGImage:imagePartRef];
+    CGImageRelease(imagePartRef);
+    return cropImage;
+}
+</code></pre>
+
+<h2>实际运用</h2>
+
+<p>简单测试一下，看看有没有实现我们想要的效果。首先，先加载一个完整的UIImageView。这个应该不难。代码如下：</p>
+
+<pre><code>UIImageView *imgView = [[UIImageView alloc] init];
+imgView.frame = CGRectMake((SCREEN.width - 226) / 2, 100, 226, 106);
+UIImage *image = [UIImage imageNamed:@"ganggang"];
+imgView.image = image;
+[self.view addSubview:imgView];
+</code></pre>
+
+<p>运行一下：</p>
+
+<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/jiequing.png" alt="jiequing" /></p>
+
+<p>要对UIImage进行裁剪，首先导入头文件：</p>
+
+<pre><code>#import "UIImage+Crop.h"
+</code></pre>
+
+<p>在上面<code>UIImage *image = [UIImage imageNamed:@"ganggang"];</code>这段代码之后加上下面这句：</p>
+
+<pre><code>image = [image imageByCroppingWithStyle:XYCropImageStyleLeft];
+</code></pre>
+
+<p><code>XYCropImageStyleLeft</code>是截取照片的左半部分。效果如下：</p>
+
+<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/jiequed.png" alt="jiequed" /></p>
+
+<p>截取成功，还可以截取其他区域的，只需要传入不同的<code>XYCropImageStyle</code>即可实现。以上代码依然在<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a>里。</p>
+</div>
 <!--广告位-->
 <script type="text/javascript">
     /*刚刚在线700*350 创建于 2015-07-31*/

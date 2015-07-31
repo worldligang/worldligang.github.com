@@ -97,14 +97,41 @@
 
 <time class='entry-date' datetime='2014-11-24T09:17:38+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:17 am</span></time>
         
+        
           | <a href="#comments">Comments</a>
          
-        
       </p>
     
   </header>
 
 
+<div class="entry-content"><p>从 Git 中移除某个文件</p>
+
+<pre><code>rm test.txt
+
+git rm test.txt
+</code></pre>
+
+<p>添加远程仓库</p>
+
+<pre><code>$ git remote origin $ git remote add pb git://github.com/paulboone/ticgit.git $ git remote -v origin  git://github.com/schacon/ticgit.git pb  git://github.com/paulboone/ticgit.git
+</code></pre>
+
+<p>远程仓库的删除和重命名</p>
+
+<pre><code>$ git remote rename pb paul $ git remote origin paul
+</code></pre>
+
+<p>碰到远端仓库服务器迁移，或者原来的克隆镜像不再使用，又或者某个参与者不再贡献代码，那么需要移除对应的远端仓库，可以运行 git remote rm 命令：</p>
+
+<pre><code>$ git remote rm paul $ git remote origin 
+</code></pre>
+
+<p>我的微信公众号：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+</div>
 <!--广告位-->
 <script type="text/javascript">
     /*刚刚在线700*350 创建于 2015-07-31*/

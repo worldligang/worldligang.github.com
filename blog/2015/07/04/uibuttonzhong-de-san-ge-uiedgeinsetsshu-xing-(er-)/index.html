@@ -97,14 +97,127 @@
 
 <time class='entry-date' datetime='2015-07-04T14:14:43+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:14 pm</span></time>
         
+        
           | <a href="#comments">Comments</a>
          
-        
       </p>
     
   </header>
 
 
+<div class="entry-content"><p>昨天去公司加班的人请举手，不是只有我一个吧？（😭）我觉得加班的人应该不少吧。今天周日，应该不需要去加班了。心里暗暗自喜，终于可以休息一天啦。（😄）</p>
+
+<p>说到加班，应该是程序猿心里的痛啊。不加班吧，东西做不完；加班吧，身体吃不消。作为程序猿真的不容易，每天从早忙到晚。突然有一天，六点下班，看见太阳还在等我，心里被踢有多高兴。</p>
+
+<p>弱弱的问一下：加班好不好？</p>
+
+<p>要看这个问题问谁了。如果问老板，老板肯定美滋滋的说，加班好啊，说明你有责任心，有上进心，把公司当成自己的&hellip;</p>
+
+<p>如果问我，哈哈，我当然说加班不好啦，不然会被打死的。开个玩笑。说句实话，加班肯定是不好的，尤其是对程序猿来说。每天面对电脑，每天坐着，时间长了，各种问题就凸显出来。</p>
+
+<p>但是，我说加班不好有用吗？如果我要是老板，我就直接让员工在家办公。（😊）所以大家感觉支持我吧，说不定哪天我真的&hellip;</p>
+
+<p>接着昨天的<a href="http://www.superqq.com/blog/2015/07/03/uibuttonzhong-de-san-ge-uiedgeinsetsshu-xing-%28%5B%3F%5D-%29/">UIButton中的三个UIEdgeInsets属性</a>，今天我们具体谈谈UIButton的contentEdgeInsets、titleEdgeInsets、imageEdgeInsets属性。</p>
+
+<h2>创建UIButton</h2>
+
+<pre><code>UIButton *button = [[UIButton alloc] init];
+button.frame = CGRectMake(50, 200, 200, 50);
+[button setTitle:@"我是UIButton" forState:UIControlStateNormal];
+[button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+[button setBackgroundColor:[UIColor orangeColor]];
+button.titleLabel.textAlignment = NSTextAlignmentLeft;
+button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+[self.view addSubview:button];
+</code></pre>
+
+<p>创建一个button，让button的title居左，以便观察：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button1.png" alt="1" /></p>
+
+<h2>UIButton的contentEdgeInsets属性</h2>
+
+<pre><code>@property(nonatomic)          UIEdgeInsets contentEdgeInsets UI_APPEARANCE_SELECTOR; // default is UIEdgeInsetsZero
+</code></pre>
+
+<p>contentEdgeInsets里有一个content应该指的就是UIButton的title。</p>
+
+<h3>参数含义</h3>
+
+<p>上一篇文章我们讲了UIEdgeInsets是个结构体类型。里面有四个参数，分别是：top, left, bottom, right。这四个参数表示距离上边界、左边界、下边界、右边界的距离。</p>
+
+<p>这四个参数的值可以为正值，也可以为负值。拿left举例：</p>
+
+<pre><code>left = 10; //代表以当前位置为基准，向右移动10个像素
+left = -10; //代表以当前位置为基准，向左移动10个像素
+</code></pre>
+
+<h3>向右移动20个像素</h3>
+
+<pre><code>button.contentEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 0);
+</code></pre>
+
+<p>向右移动20个像素，left = 20，就可以了。</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button2.png" alt="2" /></p>
+
+<h3>向左移动20个像素</h3>
+
+<pre><code>button.contentEdgeInsets = UIEdgeInsetsMake(0, -20, 0, 0);
+</code></pre>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button3.png" alt="2" /></p>
+
+<h2>UIButton的titleEdgeInsets属性</h2>
+
+<p>titleEdgeInsets和contentEdgeInsets的作用差不多。我们及设置contentEdgeInsets，又设置titleEdgeInsets，会怎样呢？</p>
+
+<pre><code>button.titleEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 0);
+button.contentEdgeInsets = UIEdgeInsetsMake(0, 20 , 0, 0);
+</code></pre>
+
+<p>看一下效果：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button4.png" alt="3" /></p>
+
+<h2>UIButton的titleEdgeInsets属性</h2>
+
+<h3>创建一个带照片的button</h3>
+
+<pre><code>UIButton *button = [[UIButton alloc] init];
+button.frame = CGRectMake(50, 200, 200, 200);
+[button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+[button setBackgroundColor:[UIColor orangeColor]];
+[button setImage:[UIImage imageNamed:@"test"] forState:UIControlStateNormal];
+[self.view addSubview:button];
+</code></pre>
+
+<p>运行一下：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button5.png" alt="5" /></p>
+
+<h3>向右移动50个像素</h3>
+
+<pre><code>button.imageEdgeInsets = UIEdgeInsetsMake(0, 50, 0, 0);
+</code></pre>
+
+<p>看看效果：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button6.png" alt="6" /></p>
+
+<h3>向左移动50个像素</h3>
+
+<pre><code>button.imageEdgeInsets = UIEdgeInsetsMake(0, -50, 0, 0);
+</code></pre>
+
+<p>看看效果：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button7.png" alt="7" /></p>
+
+<p>大家可以自行设置其他三个参数看看效果是怎样的，自己动手便于理解。</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="ios" /></p>
+</div>
 <!--广告位-->
 <script type="text/javascript">
     /*刚刚在线700*350 创建于 2015-07-31*/

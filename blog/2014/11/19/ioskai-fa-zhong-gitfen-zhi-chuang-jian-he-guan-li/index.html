@@ -97,14 +97,65 @@
 
 <time class='entry-date' datetime='2014-11-19T10:19:00+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:19 am</span></time>
         
+        
           | <a href="#comments">Comments</a>
          
-        
       </p>
     
   </header>
 
 
+<div class="entry-content"><p><a href="http://www.superqq.com/">iOS开发中git分支创建和管理</a></p>
+
+<p>创建分支</p>
+
+<pre><code>$ git branch testing
+</code></pre>
+
+<p>切换到testing分支</p>
+
+<pre><code>$ git checkout testing
+</code></pre>
+
+<p>查看本地分支</p>
+
+<pre><code>$ git branch
+</code></pre>
+
+<p>查看远程分支</p>
+
+<pre><code>$ git branch -a
+</code></pre>
+
+<p>删除本地分支</p>
+
+<pre><code>$ git branch -D testing
+</code></pre>
+
+<p>提交本地分支到远程</p>
+
+<p>1，切换到要提交的分支</p>
+
+<pre><code>$ git checkout testing
+</code></pre>
+
+<p>2，提交到远程</p>
+
+<pre><code>$ git push origin testing
+</code></pre>
+
+<p>删除远程分支</p>
+
+<pre><code>$git push origin :branch-name
+</code></pre>
+
+<p>冒号前面的空格不能少，原理是把一个空分支push到server上，相当于删除该分支。</p>
+
+<p>iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+</div>
 <!--广告位-->
 <script type="text/javascript">
     /*刚刚在线700*350 创建于 2015-07-31*/

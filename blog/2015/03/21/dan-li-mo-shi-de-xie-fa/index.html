@@ -97,14 +97,60 @@
 
 <time class='entry-date' datetime='2015-03-21T17:39:16+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>5:39 pm</span></time>
         
+        
           | <a href="#comments">Comments</a>
          
-        
       </p>
     
   </header>
 
 
+<div class="entry-content"><p>单例模式是iOS开发中最常用的设计模式，iOS的单例模式有两种官方写法，如下：</p>
+
+<h3>1，常用写法</h3>
+
+<pre><code>#import "LGManagerCenter.h"
+
+static LGManagerCenter *managerCenter;
+
+@implementation LGManagerCenter
+
++(LGManagerCenter *)sharedManager{
+    if(!managerCenter)
+        managerCenter=[[self allocWithZone:NULL] init];
+    return  managerCenter;
+}
+
+@end
+</code></pre>
+
+<h3>2,用GCD创建单例类</h3>
+
+<pre><code>#import "LGManagerCenter.h"
+
+
+@implementation LGManagerCenter
+
+
++(LGManagerCenter *)sharedManager{
+    static dispatch_once_t predicate;
+    static LGManagerCenter * managerCenter;
+    dispatch_once(&amp;predicate, ^{
+        managerCenter=[[LGManagerCenter alloc] init];
+    });
+    return managerCenter;
+}
+
+@end
+</code></pre>
+
+<p>其中dispatch_once函数只执行一次。</p>
+
+<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+</div>
 <!--广告位-->
 <script type="text/javascript">
     /*刚刚在线700*350 创建于 2015-07-31*/

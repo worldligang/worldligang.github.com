@@ -97,14 +97,102 @@
 
 <time class='entry-date' datetime='2015-03-24T17:13:39+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:13 pm</span></time>
         
+        
           | <a href="#comments">Comments</a>
          
-        
       </p>
     
   </header>
 
 
+<div class="entry-content"><p>iOS系统没有提供queue容器，如果想用，需要手动自己来写一个：</p>
+
+<p>.h</p>
+
+<pre><code>//
+//  LGQueue.h
+//  AntsSportApp
+//
+//  Created by ligang on 15/3/24.
+//  Copyright (c) 2015年 ligang. All rights reserved.
+//
+
+#import &lt;Foundation/Foundation.h&gt;
+
+@interface LGQueue : NSObject
+
+@property (nonatomic, strong) NSMutableArray *queue;
+
+@property (nonatomic, readonly) NSInteger count;
+
+- (void)enterQueue:(id)object;
+- (id)exitQueue;
+- (void)clear;
+
+
+
+@end
+</code></pre>
+
+<p>.m</p>
+
+<pre><code>//
+//  LGQueue.m
+//  AntsSportApp
+//
+//  Created by ligang on 15/3/24.
+//  Copyright (c) 2015年 ligang. All rights reserved.
+//
+
+#import "LGQueue.h"
+
+@implementation LGQueue
+
+- (id)init
+{
+    if ( self = [super init] ) {
+
+        self.queue = [[NSMutableArray alloc] init];
+        _count = 0;
+
+    }
+    return self;
+}
+
+- (void)enterQueue:(id)object
+{
+    [self.queue addObject:object];
+    _count = self.queue.count;
+}
+
+
+- (id)exitQueue
+{
+    if ( self.queue.count == 0 )  return nil;
+
+    id object = [self.queue objectAtIndex:0];
+    [self.queue removeObjectAtIndex:0];
+    _count = self.queue.count;
+
+    return object;
+
+}
+
+
+- (void)clear
+{
+    [self.queue removeAllObjects];
+    _count = 0;
+}
+
+@end
+</code></pre>
+
+<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+</div>
 <!--广告位-->
 <script type="text/javascript">
     /*刚刚在线700*350 创建于 2015-07-31*/
