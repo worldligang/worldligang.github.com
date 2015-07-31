@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-01T01:18:03+08:00</updated>
+  <updated>2015-08-01T01:20:19+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -46,9 +46,11 @@
 
 <h3>1.获取站点的short_name</h3>
 
-<p>到多说的官网注册账号，并且添加你的站点。<code>short_name</code>就是添加站点的时候的多说域名框里填写的。添加站点流程如下：</p>
+<p>到多说的官网注册账号，并且添加你的站点。<code>short_name</code>就是添加站点的时候的多说域名框里填写的。具体流程可以登录多说官网：**<a href="http://duoshuo.com/**">http://duoshuo.com/**</a></p>
 
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/duoshuozhuce.jpg" alt="duoshuozhuce.jpg" /></p>
+<!--![duoshuozhuce.jpg](http://7xkkk9.com1.z0.glb.clouddn.com/duoshuozhuce.jpg)
+-->
+
 
 <h3>2.配置_config.yml</h3>
 
@@ -121,9 +123,13 @@ duoshuo_short_name: superqq
 <pre><code>      | &lt;a href="#comments"&gt;Comments&lt;/a&gt;
 </code></pre>
 
-<p>ok，经过上面五小步就可以实现接入多说评论版块啦。迫不及待地想看看问题有没有解决，下过如何？赶紧部署上去，我简单的测试了一下。你可以点击<a href="http://www.superqq.com/">刚刚在线</a>，看看实现效果：</p>
+<p>ok，经过上面五小步就可以实现接入多说评论版块啦。迫不及待地想看看问题有没有解决，下过如何？赶紧部署上去，我简单的测试了一下。你可以点击<a href="http://www.superqq.com/">刚刚在线</a>，看看实现效果。</p>
 
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/duoshuocomment.jpg" alt="duoshuocomment.jpg" /></p>
+<!--![duoshuocomment.jpg](http://7xkkk9.com1.z0.glb.clouddn.com/duoshuocomment.jpg)
+-->
+
+
+<p></p>
 
 <h2>网站有评论必回复噢</h2>
 
@@ -1831,11 +1837,11 @@ Objective-C 没有消失，但是现在用一个慢慢失去关注的语言来�
 
 <p><strong>林翔宇</strong>
 - <a href="http://linxiangyu.org">http://linxiangyu.org</a>
-- <a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#x6c;&#x69;&#110;&#x78;&#105;&#x61;&#110;&#x67;&#121;&#x75;&#x40;&#110;&#117;&#112;&#x74;&#x65;&#114;&#46;&#x6f;&#114;&#103;">&#108;&#105;&#x6e;&#x78;&#105;&#97;&#110;&#x67;&#x79;&#x75;&#64;&#x6e;&#x75;&#x70;&#x74;&#101;&#114;&#46;&#111;&#x72;&#x67;</a>
+- <a href="&#109;&#97;&#105;&#x6c;&#116;&#111;&#x3a;&#108;&#105;&#x6e;&#x78;&#105;&#x61;&#x6e;&#x67;&#121;&#x75;&#x40;&#110;&#117;&#112;&#x74;&#101;&#114;&#x2e;&#x6f;&#x72;&#x67;">&#108;&#105;&#x6e;&#120;&#105;&#x61;&#x6e;&#103;&#x79;&#117;&#64;&#x6e;&#x75;&#x70;&#x74;&#x65;&#114;&#46;&#x6f;&#x72;&#x67;</a>
 - <a href="http://github.com/oa414">http://github.com/oa414</a></p>
 
 <p><strong>庞博</strong>
-- <a href="&#109;&#x61;&#x69;&#108;&#x74;&#x6f;&#58;&#98;&#x6f;&#112;&#97;&#x6e;&#103;&#x40;&#x73;&#111;&#x68;&#x75;&#45;&#105;&#x6e;&#x63;&#x2e;&#x63;&#111;&#x6d;">&#x62;&#111;&#112;&#97;&#110;&#103;&#x40;&#x73;&#111;&#104;&#x75;&#45;&#105;&#110;&#x63;&#46;&#99;&#x6f;&#x6d;</a>
+- <a href="&#109;&#x61;&#x69;&#x6c;&#116;&#111;&#x3a;&#x62;&#x6f;&#112;&#x61;&#x6e;&#x67;&#x40;&#x73;&#111;&#104;&#117;&#45;&#105;&#110;&#x63;&#46;&#99;&#x6f;&#x6d;">&#98;&#x6f;&#112;&#97;&#x6e;&#103;&#x40;&#115;&#111;&#x68;&#117;&#x2d;&#105;&#x6e;&#x63;&#x2e;&#99;&#111;&#109;</a>
 - <a href="https://github.com/heistings">https://github.com/heistings</a></p>
 
 <p>翻译已得到原作者许可，并且会在更加完善后申请合并到原文仓库。</p>
