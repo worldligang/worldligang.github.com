@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 程序员 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/cheng-xu-yuan/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-01T01:30:30+08:00</updated>
+  <updated>2015-08-01T01:31:39+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -55,6 +55,38 @@
 <pre><code># duoshuo comments
 duoshuo_comments: true
 duoshuo_short_name: superqq
+</code></pre>
+
+<h3>3.添加多说评论模块</h3>
+
+<p>打开文件 source/_layouts/post.html 找到下面这段<code>disqus</code>代码</p>
+
+<pre><code>
+</code></pre>
+
+<p>在下面增加：</p>
+
+<pre><code>
+</code></pre>
+
+<h3>4.创建duoshuo.html</h3>
+
+<p>创建一个source/_includes/post/duoshuo.html，里面实现代码如下：</p>
+
+<pre><code>&lt;!-- Duoshuo Comment BEGIN --&gt;
+&lt;div class="ds-thread" data-title="Category: 程序员"&gt;&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+  var duoshuoQuery = {short_name:"superqq"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+&lt;/script&gt;
+&lt;!-- Duoshuo Comment END --&gt;
 </code></pre>
 ]]></content>
   </entry>

@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-01T01:30:30+08:00</updated>
+  <updated>2015-08-01T01:31:39+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -55,6 +55,59 @@
 <pre><code># duoshuo comments
 duoshuo_comments: true
 duoshuo_short_name: superqq
+</code></pre>
+
+<h3>3.添加多说评论模块</h3>
+
+<p>打开文件 source/_layouts/post.html 找到下面这段<code>disqus</code>代码</p>
+
+<p>在下面增加：</p>
+
+<pre><code>  &lt;section&gt;
+    &lt;h1&gt;Comments&lt;/h1&gt;
+    &lt;div id="comments" aria-live="polite"&gt;&lt;!-- Duoshuo Comment BEGIN --&gt;
+</code></pre>
+
+<div class="ds-thread" data-title="为刚刚在线（Octopress）添加多说评论系统"></div>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"superqq"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+
+
+<!-- Duoshuo Comment END -->
+
+
+<p></div>
+      </section></p>
+
+<h3>4.创建duoshuo.html</h3>
+
+<p>创建一个source/_includes/post/duoshuo.html，里面实现代码如下：</p>
+
+<pre><code>&lt;!-- Duoshuo Comment BEGIN --&gt;
+&lt;div class="ds-thread" data-title="为刚刚在线（Octopress）添加多说评论系统"&gt;&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+  var duoshuoQuery = {short_name:"superqq"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+&lt;/script&gt;
+&lt;!-- Duoshuo Comment END --&gt;
 </code></pre>
 ]]></content>
   </entry>
@@ -1759,11 +1812,11 @@ Objective-C 没有消失，但是现在用一个慢慢失去关注的语言来�
 
 <p><strong>林翔宇</strong>
 - <a href="http://linxiangyu.org">http://linxiangyu.org</a>
-- <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#x3a;&#108;&#105;&#110;&#x78;&#x69;&#97;&#110;&#103;&#x79;&#x75;&#64;&#110;&#117;&#x70;&#x74;&#101;&#114;&#x2e;&#x6f;&#x72;&#103;">&#108;&#105;&#110;&#120;&#105;&#97;&#110;&#x67;&#121;&#117;&#x40;&#110;&#117;&#112;&#116;&#101;&#114;&#46;&#x6f;&#x72;&#103;</a>
+- <a href="&#x6d;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#108;&#105;&#110;&#x78;&#105;&#x61;&#110;&#103;&#121;&#117;&#x40;&#x6e;&#117;&#x70;&#x74;&#101;&#x72;&#x2e;&#111;&#114;&#x67;">&#x6c;&#x69;&#110;&#120;&#105;&#97;&#x6e;&#x67;&#121;&#x75;&#x40;&#110;&#x75;&#112;&#116;&#x65;&#x72;&#46;&#x6f;&#x72;&#103;</a>
 - <a href="http://github.com/oa414">http://github.com/oa414</a></p>
 
 <p><strong>庞博</strong>
-- <a href="&#x6d;&#97;&#105;&#108;&#116;&#111;&#x3a;&#98;&#111;&#x70;&#97;&#110;&#x67;&#64;&#x73;&#x6f;&#104;&#117;&#x2d;&#105;&#x6e;&#99;&#46;&#x63;&#111;&#109;">&#98;&#111;&#x70;&#x61;&#x6e;&#103;&#x40;&#x73;&#111;&#104;&#x75;&#x2d;&#105;&#x6e;&#99;&#46;&#99;&#x6f;&#109;</a>
+- <a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#x6f;&#x3a;&#98;&#x6f;&#x70;&#x61;&#110;&#x67;&#x40;&#115;&#111;&#104;&#117;&#45;&#105;&#x6e;&#99;&#x2e;&#99;&#x6f;&#109;">&#x62;&#x6f;&#112;&#97;&#x6e;&#x67;&#x40;&#x73;&#x6f;&#104;&#117;&#45;&#105;&#x6e;&#x63;&#x2e;&#x63;&#x6f;&#x6d;</a>
 - <a href="https://github.com/heistings">https://github.com/heistings</a></p>
 
 <p>翻译已得到原作者许可，并且会在更加完善后申请合并到原文仓库。</p>
