@@ -89,6 +89,72 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/11/07/xcode6-dot-1diao-shi-de-shi-hou-you-shi-can-shu-du-wei-nilzen-yao-jie-jue/">xcode6.1调试的时候有时参数都为nil怎么解决?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-11-07T09:18:04+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:18 am</span></time>
+        
+         
+          | <a href="/blog/2014/11/07/xcode6-dot-1diao-shi-de-shi-hou-you-shi-can-shu-du-wei-nilzen-yao-jie-jue/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.superqq.com/blog/2014/11/07/xcode6-dot-1diao-shi-de-shi-hou-you-shi-can-shu-du-wei-nilzen-yao-jie-jue/">xcode6.1调试的时候有时参数都为nil怎么解决?</a></p>
+
+<p>昨天我在写代码的时候，发现xcode6.1调试的时候有时参数都为nil？曾经有朋友遇到过这个问题，我一直没当回事，昨天我也碰到了：</p>
+
+<p>看下图：</p>
+
+<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlylSosnUuLhV6wTjsFzyRRxoxIUFMqUwfUBic9qDUm8IY9gJQibL0oNeGUMCKN1oVJBwnv6l5OAezkicg/640" ></p>
+
+<p>刚创建的vc 和 nav 都为nil，这给断点调试增加了很多麻烦，难道是xcode的bug吗？</p>
+
+<p>群里问问大牛，不得姐，网上有查，最终找到解决方法：</p>
+
+<p>在Project的Build Settings中把Optimization Level 设置成 None 即可。</p>
+
+<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlylSosnUuLhV6wTjsFzyRRxo44fXntXf13uoSlnLOsdTkbhHFsHXeDljz69g3JR4sEJnr5SRSLO8icQ/640" ></p>
+
+<p>在运行看一下结果：</p>
+
+<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlylSosnUuLhV6wTjsFzyRRxoHE3BZhvRDgzxlCG8ibiceSGl81ykIM58AejX3nYW5YO5aSTwTsick82Sw/640" ></p>
+
+<p>果然，有值了。小问题的解决方法，分享给大家。</p>
+
+<p>喜欢我们的内容，可以点击右上角「分享到朋友圈」</p>
+
+<p>以后大家有什么问题，可以登录<a href="http://www.iswifting.com">swift社区</a> 里面设置有问答区，会有大牛帮大家解答问题的。</p>
+
+<p>微信公众账号：iOS开发</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p>QQ群：iOS学习交流群</p>
+
+<pre><code>303868520
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/11/06/ioskai-fa-:uitableviewjia-zai-duo-zhang-zhao-pian-dao-zhi-nei-cun-shang-zhang-de-wen-ti/">iOS开发：UITableView加载多张照片导致内存上涨的问题</a></h1>
     
     
@@ -524,6 +590,10 @@ rake deploy 发布文章
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/07/31/123/">123</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/07/31/aktabbarcontroller-similar-to-wechat-library/">AKTabBarController：类似微信的第三方库</a>
       </li>
     
@@ -537,10 +607,6 @@ rake deploy 发布文章
     
       <li class="post">
         <a href="/blog/2015/07/28/swift-alamofire/">著名的AFNetworking网络基础库Swift版Alamofire</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/28/four-create-uiimage-method/">五种创建UIImage的类方法</a>
       </li>
     
   </ul>

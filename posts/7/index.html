@@ -89,6 +89,76 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/05/29/macxia-dot-gitconfigpei-zhi-bie-ming-alias/">mac下.gitconfig配置别名alias</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-05-29T13:01:00+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:01 pm</span></time>
+        
+         
+          | <a href="/blog/2015/05/29/macxia-dot-gitconfigpei-zhi-bie-ming-alias/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在多人协作开发时，一般用git来进行代码管理。git有一些命令如：git pull 、 git push等等，这些命令可以设置alias，也就是缩写。如：git pull 是 git pl， git push 是 git ps。可以根据个人习惯进行修改。</p>
+
+<p>修改别名alias步骤如下：</p>
+
+<h4>1,进入根目录</h4>
+
+<pre><code>$ cd
+</code></pre>
+
+<h4>2,查看根目录下面的文件</h4>
+
+<pre><code>$ ls -la
+</code></pre>
+
+<p>查看一下有没有.gitconfig文件。</p>
+
+<h4>3，编辑.gitconfig</h4>
+
+<pre><code>$ vi .gitconfig
+</code></pre>
+
+<p>添加如下：</p>
+
+<pre><code>[alias]
+co = checkout
+ci = commit
+st = status
+pl = pull
+ps = push
+dt = difftool
+l = log --stat
+cp = cherry-pick
+ca = commit -a
+b = branch
+</code></pre>
+
+<p>具体可以根据个人习惯进行添加修改。</p>
+
+<blockquote><p>关注公众号iOS开发：iOSDevTip</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/05/22/iosxie-yi-li-mian-ke-yi-ding-yi-cheng-yuan-bian-liang-he-shu-xing-ma-%3F/">iOS协议里面可以定义成员变量和属性吗？</a></h1>
     
     
@@ -1441,94 +1511,6 @@ static LGManagerCenter *managerCenter;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/03/13/xi-tong-ti-gong-de-dispatchfang-fa/">系统提供的dispatch方法</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-03-13T17:41:11+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:41 pm</span></time>
-        
-         
-          | <a href="/blog/2015/03/13/xi-tong-ti-gong-de-dispatchfang-fa/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>为了方便地使用GCD，苹果提供了一些方法方便我们将block放在主线程或后台线程执行，或者延后执行。使用的例子如下所示：</p>
-
-<pre><code> //  后台执行：
- dispatch_async(dispatch_get_global_queue(0, 0), ^{
-      // something
- });
-
- // 主线程执行：
- dispatch_async(dispatch_get_main_queue(), ^{
-      // something
- });
-
- // 一次性执行：
- static dispatch_once_t onceToken;
- dispatch_once(&amp;onceToken, ^{
-     // code to be executed once
- });
-
- // 延迟2秒执行：
- double delayInSeconds = 2.0;
- dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
- dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-     // code to be executed on the main queue after delay
- });
-</code></pre>
-
-<p>dispatch_queue_t也可以自己定义，如要自定义queue，可以用dispatch_queue_create方法，示例如下：</p>
-
-<pre><code> // 自定义dispatch_queue_t
- dispatch_queue_t urls_queue = dispatch_queue_create("blog.devtang.com", NULL);
- dispatch_async(urls_queue, ^{  
-　 　// your code 
- });
- dispatch_release(urls_queue);
-</code></pre>
-
-<p>另外，GCD还有一些高级用法，例如让后台两个线程并行执行，然后等两个线程都结束后，再汇总执行结果。这个可以用dispatch_group_t、dispatch_group_async、dispatch_group_notify来实现，示例如下：</p>
-
-<pre><code> // 合并汇总结果
- dispatch_group_t group = dispatch_group_create();
- dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
-      // 并行执行的线程一
- });
- dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
-      // 并行执行的线程二
- });
- dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
-      // 汇总结果
- });
-</code></pre>
-
-<p>文章来自唐巧《iOS开发进阶》</p>
-
-<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/8">&larr; Older</a>
@@ -1563,6 +1545,10 @@ static LGManagerCenter *managerCenter;
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/07/31/123/">123</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/07/31/aktabbarcontroller-similar-to-wechat-library/">AKTabBarController：类似微信的第三方库</a>
       </li>
     
@@ -1576,10 +1562,6 @@ static LGManagerCenter *managerCenter;
     
       <li class="post">
         <a href="/blog/2015/07/28/swift-alamofire/">著名的AFNetworking网络基础库Swift版Alamofire</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/28/four-create-uiimage-method/">五种创建UIImage的类方法</a>
       </li>
     
   </ul>

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://www.superqq.com/blog/2015/07/31/123/</loc>
+    <lastmod>2015-07-31T15:24:11+08:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>http://www.superqq.com/blog/2015/07/31/aktabbarcontroller-similar-to-wechat-library/</loc>
     <lastmod>2015-07-31T00:28:53+08:00</lastmod>
     <priority>0.8</priority>
@@ -572,31 +577,31 @@
   </url>
   <url>
     <loc>http://www.superqq.com/404.html</loc>
-    <lastmod>2015-07-31T15:17:31+08:00</lastmod>
+    <lastmod>2015-07-31T15:25:11+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://www.superqq.com/blog/archives/</loc>
-    <lastmod>2015-07-31T15:17:31+08:00</lastmod>
+    <lastmod>2015-07-31T15:25:11+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://www.superqq.com/</loc>
-    <lastmod>2015-07-31T15:17:31+08:00</lastmod>
+    <lastmod>2015-07-31T15:25:11+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://www.superqq.com/about/</loc>
-    <lastmod>2015-07-31T15:17:31+08:00</lastmod>
+    <lastmod>2015-07-31T15:25:11+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://www.superqq.com/ios/</loc>
-    <lastmod>2015-07-31T15:17:31+08:00</lastmod>
+    <lastmod>2015-07-31T15:25:11+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
