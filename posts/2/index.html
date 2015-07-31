@@ -89,202 +89,6 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/24/nsfilemanagerwen-jian-cao-zuo-de-shi-ge-xiao-gong-neng/">NSFileManager文件操作的十个小功能</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-24T00:14:03+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:14 am</span></time>
-        
-         
-          | <a href="/blog/2015/07/24/nsfilemanagerwen-jian-cao-zuo-de-shi-ge-xiao-gong-neng/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>NSFileManager是一个单列类，也是一个文件管理器。可以通过NSFileManager创建文件夹、创建文件、写文件、读文件内容等等基本功能。</p>
-
-<p>下面将介绍NSFileManager文件操作的十个小功能。我们在Documents里面进行举例，首先是获取Documents的路径。这个在<a href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-%28sandbox/">iOS开发之沙盒机制（SandBox)</a>已经详细讲解过了。获取Documents路径方法如下：</p>
-
-<pre><code>- (NSString *)getDocumentsPath
-{
-    //获取Documents路径
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *path = [paths objectAtIndex:0];
-    NSLog(@"path:%@", path);
-    return path;
-}
-</code></pre>
-
-<h3>创建文件夹</h3>
-
-<pre><code>-(void)createDirectory{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *iOSDirectory = [documentsPath stringByAppendingPathComponent:@"iOS"];
-    BOOL isSuccess = [fileManager createDirectoryAtPath:iOSDirectory withIntermediateDirectories:YES attributes:nil error:nil];
-    if (isSuccess) {
-        NSLog(@"success");
-    } else {
-        NSLog(@"fail");
-    }
-}
-</code></pre>
-
-<h3>创建文件</h3>
-
-<pre><code>-(void)createFile{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    BOOL isSuccess = [fileManager createFileAtPath:iOSPath contents:nil attributes:nil];
-    if (isSuccess) {
-        NSLog(@"success");
-    } else {
-        NSLog(@"fail");
-    }
-}
-</code></pre>
-
-<h3>写文件</h3>
-
-<pre><code>-(void)writeFile{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    NSString *content = @"我要写数据啦";
-    BOOL isSuccess = [content writeToFile:iOSPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    if (isSuccess) {
-        NSLog(@"write success");
-    } else {
-        NSLog(@"write fail");
-    }
-}
-</code></pre>
-
-<h3>读取文件内容</h3>
-
-<pre><code>-(void)readFileContent{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    NSString *content = [NSString stringWithContentsOfFile:iOSPath encoding:NSUTF8StringEncoding error:nil];
-    NSLog(@"read success: %@",content);
-}
-</code></pre>
-
-<h3>判断文件是否存在</h3>
-
-<pre><code>- (BOOL)isSxistAtPath:(NSString *)filePath{
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL isExist = [fileManager fileExistsAtPath:filePath];
-    return isExist;
-}
-</code></pre>
-
-<h3>计算文件大小</h3>
-
-<pre><code>- (unsigned long long)fileSizeAtPath:(NSString *)filePath{
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL isExist = [fileManager fileExistsAtPath:filePath];
-    if (isExist){
-        unsigned long long fileSize = [[fileManager attributesOfItemAtPath:filePath error:nil] fileSize];
-        return fileSize;
-    } else {
-        NSLog(@"file is not exist");
-        return 0;
-    }
-}
-</code></pre>
-
-<h3>计算整个文件夹中所有文件大小</h3>
-
-<pre><code>- (unsigned long long)folderSizeAtPath:(NSString*)folderPath{
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL isExist = [fileManager fileExistsAtPath:folderPath];
-    if (isExist){
-        NSEnumerator *childFileEnumerator = [[fileManager subpathsAtPath:folderPath] objectEnumerator];
-        unsigned long long folderSize = 0;
-        NSString *fileName = @"";
-        while ((fileName = [childFileEnumerator nextObject]) != nil){
-            NSString* fileAbsolutePath = [folderPath stringByAppendingPathComponent:fileName];
-            folderSize += [self fileSizeAtPath:fileAbsolutePath];
-        }
-        return folderSize / (1024.0 * 1024.0);
-    } else {
-        NSLog(@"file is not exist");
-        return 0;
-    }
-}
-</code></pre>
-
-<h3>删除文件</h3>
-
-<pre><code>-(void)deleteFile{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    BOOL isSuccess = [fileManager removeItemAtPath:iOSPath error:nil];
-    if (isSuccess) {
-        NSLog(@"delete success");
-    }else{
-        NSLog(@"delete fail");
-    }
-}
-</code></pre>
-
-<h3>移动文件</h3>
-
-<pre><code>- (void)moveFileName
-{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *filePath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    NSString *moveToPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    BOOL isSuccess = [fileManager moveItemAtPath:filePath toPath:moveToPath error:nil];
-    if (isSuccess) {
-        NSLog(@"rename success");
-    }else{
-        NSLog(@"rename fail");
-    }
-}
-</code></pre>
-
-<h3>重命名</h3>
-
-<pre><code>- (void)renameFileName
-{
-    //通过移动该文件对文件重命名
-    NSString *documentsPath =[self getDocumentsPath];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *filePath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    NSString *moveToPath = [documentsPath stringByAppendingPathComponent:@"rename.txt"];
-    BOOL isSuccess = [fileManager moveItemAtPath:filePath toPath:moveToPath error:nil];
-    if (isSuccess) {
-        NSLog(@"rename success");
-    }else{
-        NSLog(@"rename fail");
-    }
-}
-</code></pre>
-
-<p>以上文件操作代码都在<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a>，可以直接通过git拉下来进行测试。关于NSFileManager的用法还有很多，一起接续探索吧！</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
       <h1 class="entry-title"><a href="/blog/2015/07/23/ru-he-cha-kan-zhen-ji-de-sha-he-(tu-wen-jiao-cheng-)/">如何查看真机的沙盒（图文教程）</a></h1>
     
     
@@ -295,10 +99,6 @@
 
 
 <time class='entry-date' datetime='2015-07-23T00:29:31+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>12:29 am</span></time>
-        
-         
-          | <a href="/blog/2015/07/23/ru-he-cha-kan-zhen-ji-de-sha-he-(tu-wen-jiao-cheng-)/#comments">Comments</a>
-         
       </p>
     
   </header>
@@ -384,10 +184,6 @@
 
 
 <time class='entry-date' datetime='2015-07-22T13:11:49+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>1:11 pm</span></time>
-        
-         
-          | <a href="/blog/2015/07/22/kuai-kuai-kuai-!27ge-ti-sheng-xiao-lu-de-ioskai-yuan-ku-tui-jian/#comments">Comments</a>
-         
       </p>
     
   </header>
@@ -670,10 +466,6 @@
 
 
 <time class='entry-date' datetime='2015-07-22T01:02:41+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>1:02 am</span></time>
-        
-         
-          | <a href="/blog/2015/07/22/ioskai-fa-zhi-huo-qu-sha-he-lu-jing/#comments">Comments</a>
-         
       </p>
     
   </header>
@@ -776,10 +568,6 @@ NSLog(@"tmp：%@", tmp);
 
 
 <time class='entry-date' datetime='2015-07-21T00:16:31+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>12:16 am</span></time>
-        
-         
-          | <a href="/blog/2015/07/21/bao-cuo-:process-launch-failed-failed-to-get-the-task-for-process-1285(jie-jue-fang-an-)/#comments">Comments</a>
-         
       </p>
     
   </header>
@@ -836,10 +624,6 @@ process launch failed: failed to get the task for process 1285
 
 
 <time class='entry-date' datetime='2015-07-20T00:36:13+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:36 am</span></time>
-        
-         
-          | <a href="/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-(sandbox/#comments">Comments</a>
-         
       </p>
     
   </header>
@@ -915,10 +699,6 @@ process launch failed: failed to get the task for process 1285
 
 
 <time class='entry-date' datetime='2015-07-19T10:19:17+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:19 am</span></time>
-        
-         
-          | <a href="/blog/2015/07/19/cheng-xu-yuan-tou-tiao-:cheng-xu-yuan-guan-xin-de-,cai-shi-tou-tiao-!/#comments">Comments</a>
-         
       </p>
     
   </header>
@@ -990,10 +770,6 @@ process launch failed: failed to get the task for process 1285
 
 
 <time class='entry-date' datetime='2015-07-18T23:15:26+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:15 pm</span></time>
-        
-         
-          | <a href="/blog/2015/07/18/ios/#comments">Comments</a>
-         
       </p>
     
   </header>
@@ -1051,11 +827,11 @@ Objective-C 没有消失，但是现在用一个慢慢失去关注的语言来�
 
 <p><strong>林翔宇</strong>
 - <a href="http://linxiangyu.org">http://linxiangyu.org</a>
-- <a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#111;&#x3a;&#108;&#x69;&#x6e;&#120;&#x69;&#97;&#x6e;&#103;&#x79;&#x75;&#x40;&#x6e;&#x75;&#112;&#116;&#101;&#x72;&#x2e;&#111;&#114;&#x67;">&#x6c;&#105;&#x6e;&#120;&#x69;&#x61;&#x6e;&#103;&#x79;&#117;&#64;&#110;&#x75;&#x70;&#x74;&#101;&#114;&#46;&#x6f;&#x72;&#x67;</a>
+- <a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#111;&#x3a;&#108;&#x69;&#110;&#120;&#x69;&#x61;&#x6e;&#103;&#x79;&#117;&#64;&#x6e;&#x75;&#112;&#x74;&#x65;&#x72;&#46;&#111;&#114;&#103;">&#108;&#x69;&#110;&#120;&#105;&#x61;&#x6e;&#x67;&#x79;&#117;&#x40;&#x6e;&#117;&#112;&#116;&#x65;&#x72;&#46;&#111;&#x72;&#103;</a>
 - <a href="http://github.com/oa414">http://github.com/oa414</a></p>
 
 <p><strong>庞博</strong>
-- <a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#111;&#58;&#x62;&#x6f;&#112;&#97;&#x6e;&#x67;&#64;&#x73;&#x6f;&#x68;&#x75;&#45;&#105;&#x6e;&#x63;&#x2e;&#99;&#111;&#x6d;">&#98;&#111;&#x70;&#97;&#x6e;&#x67;&#x40;&#115;&#111;&#104;&#x75;&#x2d;&#x69;&#110;&#x63;&#46;&#x63;&#111;&#109;</a>
+- <a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#98;&#111;&#x70;&#97;&#110;&#x67;&#64;&#115;&#111;&#x68;&#117;&#45;&#x69;&#x6e;&#x63;&#x2e;&#x63;&#x6f;&#109;">&#x62;&#x6f;&#x70;&#97;&#110;&#103;&#x40;&#x73;&#x6f;&#x68;&#x75;&#45;&#x69;&#110;&#x63;&#x2e;&#99;&#111;&#x6d;</a>
 - <a href="https://github.com/heistings">https://github.com/heistings</a></p>
 
 <p>翻译已得到原作者许可，并且会在更加完善后申请合并到原文仓库。</p>
@@ -1231,10 +1007,6 @@ Objective-C 没有消失，但是现在用一个慢慢失去关注的语言来�
 
 
 <time class='entry-date' datetime='2015-07-17T23:16:16+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:16 pm</span></time>
-        
-         
-          | <a href="/blog/2015/07/17/wo-zhe-ge-zhan-chang-shi-zen-yao-lian-cheng-de/#comments">Comments</a>
-         
       </p>
     
   </header>
@@ -1299,10 +1071,6 @@ Objective-C 没有消失，但是现在用一个慢慢失去关注的语言来�
 
 
 <time class='entry-date' datetime='2015-07-16T23:07:57+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:07 pm</span></time>
-        
-         
-          | <a href="/blog/2015/07/16/nsstringde-ba-tiao-shi-yong-ji-qiao/#comments">Comments</a>
-         
       </p>
     
   </header>
@@ -1434,6 +1202,48 @@ NSLog(@"text:%@",text);
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/16/cheng-xu-yuan-:xuan-dui-fang-xiang-chi-xu-nu-li/">程序员：选对方向持续努力</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-16T22:24:25+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:24 pm</span></time>
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天下班的时候，乘电梯的空打开了一篇文章：一个人，2年时间，做了一个价值1亿美金的网站。文章写得很精彩，非常吸引我。不一会电梯就到了，我依然抱着手机边走边看。</p>
+
+<p>到了我的小电动车旁边（公司离家不远，经常骑电动车上班），文章还没有看完。我就坐在电动车上，依然爱不释手的看着。边看边想：创始人真是太厉害了。</p>
+
+<p>能够吸引我的文章不少，能够这么吸引我的文章不多。建议大家抽时间也看看这篇文章，或许能激发出你的灵感，成就一番事业也说不定。</p>
+
+<h2>方向正确持续努力</h2>
+
+<p>文章里说的网站是：<strong>viralnova.com</strong> 只有创始人一个是全职员工，其他两位是兼职的。网站成立大概两年时间，每天有200万独立访问用户，月入十万美金。世界排名376位。</p>
+
+<p>看到这样的数据真的令人振奋，如果我有一个这样的网站，那就不用上班啦。这也不是没有可能。在国内也有个人做网站比较厉害的，比如说：<strong>卢松松</strong> 国内独立博客大牛。估计每个月也能赚不少钱吧。</p>
+
+<p>不能只看到他们的成绩，更要了解他们背后两年如一日、六年如一日的坚持和努力。有想法的人也许很多，能够坚持将想法付出行动的人就不多了。所以成功者总是少数。选对方向持续努力也许就是成功不二法则。</p>
+
+<p>作为一名程序员你的方向是什么呢？我们都应该这样问一下自己，不能每天漫无目的的坚持。马云不是说了嘛：梦想还是要有的，万一实现了呢。</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -1468,10 +1278,6 @@ NSLog(@"text:%@",text);
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/07/31/123/">123</a>
-      </li>
-    
-      <li class="post">
         <a href="/blog/2015/07/31/aktabbarcontroller-similar-to-wechat-library/">AKTabBarController：类似微信的第三方库</a>
       </li>
     
@@ -1485,6 +1291,10 @@ NSLog(@"text:%@",text);
     
       <li class="post">
         <a href="/blog/2015/07/28/swift-alamofire/">著名的AFNetworking网络基础库Swift版Alamofire</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/28/four-create-uiimage-method/">五种创建UIImage的类方法</a>
       </li>
     
   </ul>

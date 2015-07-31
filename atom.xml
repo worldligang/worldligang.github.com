@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-07-31T15:25:11+08:00</updated>
+  <updated>2015-07-31T15:31:51+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,15 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[123]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/31/123/"/>
-    <updated>2015-07-31T15:24:11+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/31/123</id>
-    <content type="html"><![CDATA[
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[AKTabBarController：类似微信的第三方库]]></title>
@@ -1722,11 +1713,11 @@ Objective-C 没有消失，但是现在用一个慢慢失去关注的语言来�
 
 <p><strong>林翔宇</strong>
 - <a href="http://linxiangyu.org">http://linxiangyu.org</a>
-- <a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#111;&#x3a;&#108;&#x69;&#x6e;&#120;&#x69;&#97;&#x6e;&#103;&#x79;&#x75;&#x40;&#x6e;&#x75;&#112;&#116;&#101;&#x72;&#x2e;&#111;&#114;&#x67;">&#x6c;&#105;&#x6e;&#120;&#x69;&#x61;&#x6e;&#103;&#x79;&#117;&#64;&#110;&#x75;&#x70;&#x74;&#101;&#114;&#46;&#x6f;&#x72;&#x67;</a>
+- <a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#111;&#x3a;&#108;&#x69;&#110;&#120;&#x69;&#x61;&#x6e;&#103;&#x79;&#117;&#64;&#x6e;&#x75;&#112;&#x74;&#x65;&#x72;&#46;&#111;&#114;&#103;">&#108;&#x69;&#110;&#120;&#105;&#x61;&#x6e;&#x67;&#x79;&#117;&#x40;&#x6e;&#117;&#112;&#116;&#x65;&#x72;&#46;&#111;&#x72;&#103;</a>
 - <a href="http://github.com/oa414">http://github.com/oa414</a></p>
 
 <p><strong>庞博</strong>
-- <a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#111;&#58;&#x62;&#x6f;&#112;&#97;&#x6e;&#x67;&#64;&#x73;&#x6f;&#x68;&#x75;&#45;&#105;&#x6e;&#x63;&#x2e;&#99;&#111;&#x6d;">&#98;&#111;&#x70;&#97;&#x6e;&#x67;&#x40;&#115;&#111;&#104;&#x75;&#x2d;&#x69;&#110;&#x63;&#46;&#x63;&#111;&#109;</a>
+- <a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#98;&#111;&#x70;&#97;&#110;&#x67;&#64;&#115;&#111;&#x68;&#117;&#45;&#x69;&#x6e;&#x63;&#x2e;&#x63;&#x6f;&#109;">&#x62;&#x6f;&#x70;&#97;&#110;&#103;&#x40;&#x73;&#x6f;&#x68;&#x75;&#45;&#x69;&#110;&#x63;&#x2e;&#99;&#111;&#x6d;</a>
 - <a href="https://github.com/heistings">https://github.com/heistings</a></p>
 
 <p>翻译已得到原作者许可，并且会在更加完善后申请合并到原文仓库。</p>
@@ -2052,6 +2043,29 @@ NSLog(@"text:%@",text);
 </code></pre>
 
 <p>代码已经更新，demo下载地址：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[程序员：选对方向持续努力]]></title>
+    <link href="http://www.superqq.com/blog/2015/07/16/cheng-xu-yuan-:xuan-dui-fang-xiang-chi-xu-nu-li/"/>
+    <updated>2015-07-16T22:24:25+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/07/16/cheng-xu-yuan-:xuan-dui-fang-xiang-chi-xu-nu-li</id>
+    <content type="html"><![CDATA[<p>今天下班的时候，乘电梯的空打开了一篇文章：一个人，2年时间，做了一个价值1亿美金的网站。文章写得很精彩，非常吸引我。不一会电梯就到了，我依然抱着手机边走边看。</p>
+
+<p>到了我的小电动车旁边（公司离家不远，经常骑电动车上班），文章还没有看完。我就坐在电动车上，依然爱不释手的看着。边看边想：创始人真是太厉害了。</p>
+
+<p>能够吸引我的文章不少，能够这么吸引我的文章不多。建议大家抽时间也看看这篇文章，或许能激发出你的灵感，成就一番事业也说不定。</p>
+
+<h2>方向正确持续努力</h2>
+
+<p>文章里说的网站是：<strong>viralnova.com</strong> 只有创始人一个是全职员工，其他两位是兼职的。网站成立大概两年时间，每天有200万独立访问用户，月入十万美金。世界排名376位。</p>
+
+<p>看到这样的数据真的令人振奋，如果我有一个这样的网站，那就不用上班啦。这也不是没有可能。在国内也有个人做网站比较厉害的，比如说：<strong>卢松松</strong> 国内独立博客大牛。估计每个月也能赚不少钱吧。</p>
+
+<p>不能只看到他们的成绩，更要了解他们背后两年如一日、六年如一日的坚持和努力。有想法的人也许很多，能够坚持将想法付出行动的人就不多了。所以成功者总是少数。选对方向持续努力也许就是成功不二法则。</p>
+
+<p>作为一名程序员你的方向是什么呢？我们都应该这样问一下自己，不能每天漫无目的的坚持。马云不是说了嘛：梦想还是要有的，万一实现了呢。</p>
 ]]></content>
   </entry>
   
