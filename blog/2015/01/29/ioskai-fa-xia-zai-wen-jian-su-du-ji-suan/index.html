@@ -105,65 +105,10 @@
   </header>
 
 
-<div class="entry-content"><p>当我们写下载界面的时候，需要向用户展示每秒下载多少KB，这个时候就需要计算速度。如下：</p>
-
-<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlykfVEtYcoETGMzCaNgWWfvvjjxmJYIj9ibjNHHmn7f1oOTgEbcTstj44G2EjdqRjeMxSqdJfVaAibPA/640" /></a></p>
-
-<p>我用的是AFNetworking来做下载的，我们拿AFHTTPRequestOperation来举列，AFHTTPRequestOperation中有个方法：</p>
-
-<pre><code>- (void)setDownloadProgressBlock:(void (^)(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead))block
-</code></pre>
-
-<p>这个方法读取导数据之后通过block回调。计算速度就是在这个block里面完成的。</p>
-
-<p>需要定义一个下载对象：DownTask。DownTask需要有的属性：totalRead（一秒读取的数据）、speed（速度）、date（记录上一秒计算之后的时间）。注意：这里的一秒不是严格意义上的一秒，有可能大于一秒，我们计算的是平均速度，所以不会误差太大。</p>
-
-<pre><code>        //计算一秒中的速度
-        downTask.totalRead += bytesRead;
-
-        //获取当前时间
-        NSDate *currentDate = [NSDate date];
-
-        //当前时间和上一秒时间做对比，大于等于一秒就去计算
-        if ([currentDate timeIntervalSinceDate:downTask.date] &gt;= 1) {
-            //时间差
-            double time = [currentDate timeIntervalSinceDate:downTask.date];
-
-            //计算速度
-            long long speed = downTask.total/time;
-
-            //把速度转成KB或M
-            downTask.speed = [downTask formatByteCount:speed];
-
-            //维护变量，将计算过的清零
-            downTask.totalRead = 0.0;
-
-            //维护变量，记录这次计算的时间
-
-            downTask.date = currentDate;
-</code></pre>
-
-<p>其中， downTask.speed = [downTask formatByteCount:speed];是用来将字节转化成我们需要的KB或M。用到的是：NSByteCountFormatter，具体实现如下：</p>
-
-<pre><code>- (NSString*)formatByteCount:(long long)size
-{
-    return [NSByteCountFormatter stringFromByteCount:size countStyle:NSByteCountFormatterCountStyleFile];
-}
-</code></pre>
-
-<p>这个方法是放在下载对象DownTask里面的。</p>
-
-<p>以上就是我计算下载速度的方法。希望能给你带来帮助。</p>
-
-<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-</div>
 <!--广告位-->
 <script type="text/javascript">
-    var cpro_id="u2238843";
-    (window["cproStyleApi"] = window["cproStyleApi"] || {})[cpro_id]={at:"3",rsi0:"336",rsi1:"280",pat:"17",tn:"baiduCustNativeAD",rss1:"#FFFFFF",conBW:"1",adp:"1",ptt:"0",titFF:"",titFS:"14",rss2:"#000000",titSU:"0"}
+    /*刚刚在线700*350 创建于 2015-07-31*/
+    var cpro_id = "u2238872";
 </script>
 <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
 <!--广告链接结束-->

@@ -105,44 +105,10 @@
   </header>
 
 
-<div class="entry-content"><p>NSSortDescriptor可以实现按照对象的属性进行排序。比如我们有一个对象（LGPeople）。LGPeople有两个属性分别是名字（name）和年龄（age）。现在我们要按照LGPeople的年龄（age）来进行排序。</p>
-
-<p>代码如下：</p>
-
-<pre><code>    //按年龄排序
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"_age" ascending:NO];
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
-    [arrayPeople sortUsingDescriptors:sortDescriptors];
-</code></pre>
-
-<p>这样是按照年龄的降序进行排序。如果想升序的话将NO改为YES即可。如果是按照名字进行排序的话也很简单：</p>
-
-<pre><code>    //按姓名排序
-    NSSortDescriptor *sortDescriptorName = [[NSSortDescriptor alloc] initWithKey:@"_name" ascending:NO];
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptorName, nil];
-    [arrayPeople sortUsingDescriptors:sortDescriptors];
-</code></pre>
-
-<p>也许我们还有一种需求：先按照年龄排序，再按名字进行排序。代码如下：</p>
-
-<pre><code>    //按年龄和名字排序
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"_age" ascending:NO];
-    NSSortDescriptor *sortDescriptorName = [[NSSortDescriptor alloc] initWithKey:@"_name" ascending:NO];
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, sortDescriptorName, nil];
-    [_mutArrVideo sortUsingDescriptors:sortDescriptors];
-</code></pre>
-
-<p>这样相同年龄的情况下，就会按照名字进行排序。当然还可以设置两个以上的排序条件。</p>
-
-<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-</div>
 <!--广告位-->
 <script type="text/javascript">
-    var cpro_id="u2238843";
-    (window["cproStyleApi"] = window["cproStyleApi"] || {})[cpro_id]={at:"3",rsi0:"336",rsi1:"280",pat:"17",tn:"baiduCustNativeAD",rss1:"#FFFFFF",conBW:"1",adp:"1",ptt:"0",titFF:"",titFS:"14",rss2:"#000000",titSU:"0"}
+    /*刚刚在线700*350 创建于 2015-07-31*/
+    var cpro_id = "u2238872";
 </script>
 <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
 <!--广告链接结束-->

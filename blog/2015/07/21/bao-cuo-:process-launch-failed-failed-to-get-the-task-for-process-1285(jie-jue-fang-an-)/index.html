@@ -105,40 +105,10 @@
   </header>
 
 
-<div class="entry-content"><h2>你遇到的问题别人也遇到过</h2>
-
-<p>初接触iOS开发的童鞋估计会被真机调试搞的稀里糊涂的。在模拟器上运行什么问题没有，真机调试就会碰到各种各样的问题。</p>
-
-<p>不用担心。记住：你碰到的问题别人肯定都已经碰到过了。我们不是有百度和谷歌嘛，把你的问题描述出来，一定有解决方案的。还可以在<a href="http://zhannei.superqq.com/">刚刚在线站内搜索</a>里搜索，说不定也能帮你解决不少问题呢。</p>
-
-<p>我会经常把自己开发过程中碰到的调试问题，一一总结出来。一来是帮助自己在下一次碰到同样问题时，可以游刃有余。二来是帮助大家再碰到类似问题的时候，有一个参考的作用。</p>
-
-<h2>failed to get the task for process 1285</h2>
-
-<p>这一次碰到的问题是这样的：模拟器上运行正常。我在iPhone 6上运行，程序编译正常，但是跑起来之后，大概一两秒的时间，就闪退（代码是没有问题的）。这个时候，Xcode6.4弹出这样的提示：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/fixbug12850.jpg" alt="fixbug1285" /></p>
-
-<pre><code>Could not launch “iOSStrongDemo”
-process launch failed: failed to get the task for process 1285
-</code></pre>
-
-<h2>错误分析</h2>
-
-<p>我看了一下Build Settings里的Code Signing配置，发现Provisioning Profile选择的是XC Ad Hoc: *。如下图所示：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/fixbug.jpg" alt="fixbug" /></p>
-
-<p>Ad Hoc是用来实现发布前的用户测试的，也就是通过Ad Hoc将未发布的App给其他人提前使用。显然这是不对的，我们是要真机调试。</p>
-
-<h2>解决方案</h2>
-
-<p>解决方法很简单，将Provisioning Profile换成用开发证书创建的Provisioning Profile即可。</p>
-</div>
 <!--广告位-->
 <script type="text/javascript">
-    var cpro_id="u2238843";
-    (window["cproStyleApi"] = window["cproStyleApi"] || {})[cpro_id]={at:"3",rsi0:"336",rsi1:"280",pat:"17",tn:"baiduCustNativeAD",rss1:"#FFFFFF",conBW:"1",adp:"1",ptt:"0",titFF:"",titFS:"14",rss2:"#000000",titSU:"0"}
+    /*刚刚在线700*350 创建于 2015-07-31*/
+    var cpro_id = "u2238872";
 </script>
 <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
 <!--广告链接结束-->
