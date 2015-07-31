@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-01T00:20:50+08:00</updated>
+  <updated>2015-08-01T00:27:13+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -14,11 +14,11 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Octopress-add-duoshuo-comment-system]]></title>
+    <title type="html"><![CDATA[为刚刚在线（Octopress）添加多说评论系统]]></title>
     <link href="http://www.superqq.com/blog/2015/08/01/octopress-add-duoshuo-comment-system/"/>
     <updated>2015-08-01T00:13:41+08:00</updated>
     <id>http://www.superqq.com/blog/2015/08/01/octopress-add-duoshuo-comment-system</id>
-    <content type="html"><![CDATA[<blockquote><p>今天是八一建军节，中国人民解放军建军纪念日。心里不由自主地升起一番爱国之情。</p></blockquote>
+    <content type="html"><![CDATA[<p>今天是八一建军节，中国人民解放军建军纪念日。心里不由自主地升起一番爱国之情。</p>
 
 <p>我的网站<a href="http://www.superqq.com/">刚刚在线</a>去年九月份正式上线的，马上快一周年啦！作为一个技术型的博客网站，<a href="http://www.superqq.com/">刚刚在线</a>成长速度还是蛮快的。</p>
 
@@ -70,7 +70,7 @@ duoshuo_short_name: superqq
     &lt;div id="comments" aria-live="polite"&gt;&lt;!-- Duoshuo Comment BEGIN --&gt;
 </code></pre>
 
-<div class="ds-thread" data-title="Octopress-add-duoshuo-comment-system"></div>
+<div class="ds-thread" data-title="为刚刚在线（Octopress）添加多说评论系统"></div>
 
 
 <script type="text/javascript">
@@ -97,7 +97,7 @@ duoshuo_short_name: superqq
 <p>创建一个source/_includes/post/duoshuo.html，里面实现代码如下：</p>
 
 <pre><code>&lt;!-- Duoshuo Comment BEGIN --&gt;
-&lt;div class="ds-thread" data-title="Octopress-add-duoshuo-comment-system"&gt;&lt;/div&gt;
+&lt;div class="ds-thread" data-title="为刚刚在线（Octopress）添加多说评论系统"&gt;&lt;/div&gt;
 &lt;script type="text/javascript"&gt;
   var duoshuoQuery = {short_name:"superqq"};
   (function() {
@@ -1831,11 +1831,11 @@ Objective-C 没有消失，但是现在用一个慢慢失去关注的语言来�
 
 <p><strong>林翔宇</strong>
 - <a href="http://linxiangyu.org">http://linxiangyu.org</a>
-- <a href="&#x6d;&#97;&#105;&#108;&#x74;&#x6f;&#58;&#x6c;&#x69;&#110;&#x78;&#x69;&#x61;&#x6e;&#x67;&#x79;&#117;&#x40;&#x6e;&#x75;&#112;&#x74;&#x65;&#114;&#46;&#x6f;&#x72;&#x67;">&#108;&#105;&#x6e;&#x78;&#105;&#x61;&#110;&#103;&#x79;&#117;&#x40;&#110;&#117;&#x70;&#116;&#x65;&#114;&#x2e;&#111;&#114;&#103;</a>
+- <a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#108;&#105;&#x6e;&#x78;&#105;&#97;&#x6e;&#103;&#x79;&#117;&#64;&#110;&#117;&#112;&#x74;&#101;&#x72;&#46;&#111;&#x72;&#x67;">&#108;&#x69;&#110;&#x78;&#105;&#x61;&#x6e;&#x67;&#121;&#117;&#x40;&#110;&#x75;&#112;&#x74;&#x65;&#114;&#x2e;&#111;&#114;&#x67;</a>
 - <a href="http://github.com/oa414">http://github.com/oa414</a></p>
 
 <p><strong>庞博</strong>
-- <a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#111;&#x3a;&#98;&#x6f;&#112;&#x61;&#x6e;&#x67;&#64;&#115;&#x6f;&#104;&#117;&#45;&#x69;&#x6e;&#99;&#x2e;&#99;&#111;&#x6d;">&#x62;&#x6f;&#x70;&#x61;&#x6e;&#x67;&#x40;&#x73;&#111;&#104;&#117;&#x2d;&#x69;&#x6e;&#x63;&#46;&#x63;&#x6f;&#109;</a>
+- <a href="&#x6d;&#97;&#x69;&#108;&#116;&#x6f;&#x3a;&#98;&#111;&#112;&#x61;&#x6e;&#103;&#64;&#115;&#111;&#x68;&#x75;&#45;&#x69;&#x6e;&#99;&#46;&#x63;&#x6f;&#x6d;">&#x62;&#111;&#112;&#x61;&#x6e;&#x67;&#64;&#x73;&#x6f;&#104;&#117;&#45;&#x69;&#110;&#99;&#46;&#x63;&#x6f;&#109;</a>
 - <a href="https://github.com/heistings">https://github.com/heistings</a></p>
 
 <p>翻译已得到原作者许可，并且会在更加完善后申请合并到原文仓库。</p>
