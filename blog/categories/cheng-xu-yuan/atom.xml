@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 程序员 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/cheng-xu-yuan/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-01T01:29:13+08:00</updated>
+  <updated>2015-08-01T01:30:30+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -39,6 +39,23 @@
 <p>估计iOS开发者用火狐浏览器的人肯定不少，这个错乱问题一直在这里的话，肯定会给访客留下不好的印象。所以得尽早解决这个问题。</p>
 
 <p>既然找不到解决错乱的方法，就把友言给替换掉吧。百度搜了一下，发现国内的还有多说，评论功能还是挺不错的。我也看到很多网站在用多说。</p>
+
+<h2>把友言替换成多说</h2>
+
+<p>说换就换，多说（ **<a href="http://duoshuo.com/**">http://duoshuo.com/**</a> ）接入流程也不复杂。网上有很多教程，我简单说一下我是如何操作的。</p>
+
+<h3>1.获取站点的short_name</h3>
+
+<p>到多说的官网注册账号，并且添加你的站点。<code>short_name</code>就是添加站点的时候的多说域名框里填写的。具体流程可以登录多说官网：**<a href="http://duoshuo.com/**">http://duoshuo.com/**</a></p>
+
+<h3>2.配置_config.yml</h3>
+
+<p>在 <code>_config.yml</code> 中添加</p>
+
+<pre><code># duoshuo comments
+duoshuo_comments: true
+duoshuo_short_name: superqq
+</code></pre>
 ]]></content>
   </entry>
   
