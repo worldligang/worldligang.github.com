@@ -81,6 +81,114 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/07/09/shi-yong-uidatadetectortypeszi-dong-jian-ce-dian-hua-,-wang-zhi-he-you-xiang/">使用UIDataDetectorTypes自动检测电话、网址和邮箱</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-09T23:43:39+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:43 pm</span></time>
+        
+        
+          | <a href="/blog/2015/07/09/shi-yong-uidatadetectortypeszi-dong-jian-ce-dian-hua-,-wang-zhi-he-you-xiang/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>支付宝发布最新版本9.0，再一次引发一场撕逼大战。微信说支付宝抄袭了它，支付宝说微信一直都在抄袭自己。在我看来，微信和支付宝都抄袭了对方。对于大佬们的抄袭，我们也是司空见惯了。</p>
+
+<p>支付宝这一次更新，真是赚足了眼球，估计这也是支付宝的推广策略。就是要造势，造势有利于品牌推广。传播速度可想而知，似乎一夜之间都在谈论支付宝和微信。</p>
+
+<p>至于支付宝和微信谁能打过谁，我们拭目以待。</p>
+
+<p>上一篇文章<a href="http://www.superqq.com/blog/2015/07/08/uiwebviewyong-fa-xiang-jie/">UIWebView用法详解及代码分享</a>里面提到：</p>
+
+<pre><code>webView.dataDetectorTypes = UIDataDetectorTypePhoneNumber;//自动检测网页上的电话号码，单击可以拨打
+</code></pre>
+
+<p>接下来我们来简单讲一下，使用UIDataDetectorTypes自动检测电话、网址和邮箱。我们先来看看UIDataDetectorTypes有哪些枚举值。</p>
+
+<h2>UIDataDetectorTypes的枚举值</h2>
+
+<pre><code>typedef NS_OPTIONS(NSUInteger, UIDataDetectorTypes) {
+    UIDataDetectorTypePhoneNumber   = 1 &lt;&lt; 0,          // Phone number detection
+    UIDataDetectorTypeLink          = 1 &lt;&lt; 1,          // URL detection    
+#if __IPHONE_4_0 &lt;= __IPHONE_OS_VERSION_MAX_ALLOWED
+    UIDataDetectorTypeAddress       = 1 &lt;&lt; 2,          // Street address detection
+    UIDataDetectorTypeCalendarEvent = 1 &lt;&lt; 3,          // Event detection
+#endif    
+
+    UIDataDetectorTypeNone          = 0,               // No detection at all
+    UIDataDetectorTypeAll           = NSUIntegerMax    // All types
+};
+</code></pre>
+
+<p>NS_OPTIONS一般用来定义位移相关操作的枚举值。UIDataDetectorTypeAddress，UIDataDetectorTypeCalendarEvent不在我们考虑的范围了。</p>
+
+<p>UIWebView有dataDetectorTypes属性，UITextView也有dataDetectorTypes属性。我们来UITextView来举例。</p>
+
+<h2>创建UITextView</h2>
+
+<pre><code>UITextView *textView = [[UITextView alloc] initWithFrame:self.view.bounds];
+textView.font = [UIFont systemFontOfSize:20];
+textView.editable = NO;
+textView.text = @"\r\n我的手机号不是： 13888888888 \r\n\r\n"
+"我的博客刚刚在线网址： www.xxxxxx.com \r\n\r\n"
+"我的邮箱： worldligang@163.com \r\n\r\n";
+[self.view addSubview:textView];
+</code></pre>
+
+<p>运行起来看一下：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/UIDataDetectorTypes1.jpeg" alt="UIDataDetectorTypes1" /></p>
+
+<p>可以看出来就是一个简单的文本，电话号码，网址和邮箱都没有检测出来。下面我们来看看dataDetectorTypes作用。</p>
+
+<h2>UIDataDetectorTypePhoneNumber检测电话</h2>
+
+<pre><code>textView.dataDetectorTypes = UIDataDetectorTypePhoneNumber;
+</code></pre>
+
+<p>设置textView.dataDetectorTypes的属性，即可检测文本中的电话。效果如下所示：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/UIDataDetectorTypes2.jpeg" alt="UIDataDetectorTypes2" /></p>
+
+<h2>UIDataDetectorTypeLink检测网址和邮箱</h2>
+
+<pre><code>textView.dataDetectorTypes = UIDataDetectorTypeLink;
+</code></pre>
+
+<p>UIDataDetectorTypeLink检测网址和邮箱的。点击网址会跳转到相应的网页，点击邮箱可以调用系统的发邮件。</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/UIDataDetectorTypes3.jpeg" alt="UIDataDetectorTypes3" /></p>
+
+<h2>UIDataDetectorTypeAll检测电话、网址和邮箱</h2>
+
+<pre><code>textView.dataDetectorTypes = UIDataDetectorTypeAll;
+</code></pre>
+
+<p>UIDataDetectorTypeAll可以检测检测电话、网址和邮箱。效果如下：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/UIDataDetectorTypes4.jpeg" alt="UIDataDetectorTypes4" /></p>
+
+<p>专门写了一个iOSStrongDemo以后都在这个iOSStrongDemo里面更新内容。下载地址：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/07/08/uiwebviewyong-fa-xiang-jie/">UIWebView用法详解及代码分享</a></h1>
     
     
@@ -1231,86 +1339,6 @@ if(!_cacheInfo) {
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/30/wei-you-jian-chi-fang-neng-cheng-gong/">唯有坚持方能成功</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-30T00:44:54+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:44 am</span></time>
-        
-        
-          | <a href="/blog/2015/06/30/wei-you-jian-chi-fang-neng-cheng-gong/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/jianchi.jpg" alt="2" /></p>
-
-<p>或许这不是一篇心灵鸡汤，因为心灵鸡汤不是我的擅长;或许这就是一篇心灵鸡汤，希望能点燃你的斗志。</p>
-
-<h2>坚持才有希望</h2>
-
-<p>我常说一句话：不是因为有了希望才坚持，而是坚持了才有希望。我也一直用这句话来告诫自己。只要持续努力，才有成功的可能。</p>
-
-<p>以前，我认为如果谁能给我机会，我将会怎样怎样。我就一直等啊等，等啊等，两年三年后，好像发现没人会给我机会，反而错过很多本应该能抓住的机会。</p>
-
-<p>现在，我改变了这种想法。我要用自己的努力，自己的坚持，来获取更多的机会，更多的可能。</p>
-
-<h2>iOS开发开通原创功能</h2>
-
-<p>就在昨天20:11微信团队邀请我开通微信原创功能。对于我来说，这是一个值得纪念的时刻，这也是对我的努力的一种肯定。特给大家分享一下：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/yuanchuang.png" alt="2" /></p>
-
-<p>随着iOS开发微信微信公众号订阅的用户越来越多，让我觉得责任越来越重。</p>
-
-<p>正在看文章的你，可能是一位技术大牛，有时候我发的文章很基础，你会觉得文章水平太低，你想阅读到更多先进的技术；也可能你是一位iOS新人，渴望阅读一些iOS进阶的文章；还可能你是一位大学生，或者是你已经上班，想转行做iOS开发，你想阅读一些如何入门的文章。</p>
-
-<p>这些我都知道。我也在努力去改变，去写一些真正能够帮助到大家的文章。我甚至发说说，问我的朋友，如何提高写作水平？</p>
-
-<p>后来，我发现我错了。iOS开发分享的是技术文章，不是华丽的文字。</p>
-
-<p>我希望能从我的手里写出更多优秀的文章。这对于我来说，真的是一个很大的挑战。我相信，只要我坚持，我就能为大家提供更多优质的文章。</p>
-
-<h2>iOS入门：坚持做一个项目</h2>
-
-<p>有人在微信里问我，iOS开发如何入门。我给大家讲一个，我身边的真实案例。</p>
-
-<p>我有一个朋友，我们叫他A吧。A刚来上海工作，是做Java的，在一家房地产公司。工作相对来说比较稳定，偶尔也加加班，这对程序员来说是常态。</p>
-
-<p>后来，A想学iOS开发。A是一个行动力很强的人，立马花了一万多买了一个MacBook。开始iOS学习之旅。</p>
-
-<p>A的学习方法很简单，网上下载了一些iOS入门视频。他就跟着视频里讲的，做一个新浪微博客户端。</p>
-
-<p>连续写了一个多月，终于，把新浪微博做出来。做到过程中，他遇到一些开发上的问题。就问问身边的朋友，或者百度一下，google一下。</p>
-
-<p>在解决问题的过程中，很熟练地掌握了iOS开发。过完年来了，立马换了一家公司做iOS开发的。薪资比他做Java工作要高一些。</p>
-
-<p>所以，如果你在问iOS开发如何入门，请你认认真真的写一个项目。遇到问题，一定要想办法解决它，解决问题就是学习最好的方法。</p>
-
-<h2>欢迎投稿</h2>
-
-<p>订阅iOS开发的用户不乏有一些大牛，希望你们能把自己的技术分享出来。分享既是快乐，分享既是成长。</p>
-
-<p>投稿邮箱：<strong>worldligang@163.com</strong></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/5">&larr; Older</a>
@@ -1349,6 +1377,10 @@ if(!_cacheInfo) {
       </li>
     
       <li class="post">
+        <a href="/blog/2015/08/01/first-watch-movie/">《大圣归来》和《捉妖记》第一次购票看电影</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/07/31/aktabbarcontroller-similar-to-wechat-library/">AKTabBarController：类似微信的第三方库</a>
       </li>
     
@@ -1358,10 +1390,6 @@ if(!_cacheInfo) {
     
       <li class="post">
         <a href="/blog/2015/07/29/uiimage-geometric-zoom/">iOS开发之UIImage等比缩放</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/28/swift-alamofire/">著名的AFNetworking网络基础库Swift版Alamofire</a>
       </li>
     
   </ul>
