@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>《大圣归来》和《捉妖记》第一次购票看电影 - 刚刚在线</title>
+  <title>自定义导航按钮UIBarButtonItem - 刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="这个周六一起到电影院看了两场电影，分别是《大圣归来》和《捉妖记》。两部电影拍的都不错，好像也是最近比较热播的两部电影。">
-  <meta name="keywords" content="大圣归来, 捉妖记, 电影, iOS开发, 刚刚在线">
+  <meta name="description" content="基本上每个iOSAPP里面都有导航，比如微信、QQ、支付宝。导航可以很方便地帮助我们管理视图控制器（UIViewController）。导航的重要性不言而喻，基本上是每一位iOS初学者都要接触到的问题。">
+  <meta name="keywords" content="导航, UIBarButtonItem, 自定义导航, iOS开发, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/blog/2015/08/01/first-watch-movie">
+  <link rel="canonical" href="http://www.superqq.com/blog/2015/08/02/custom-navigation-button-uibarbuttonitem">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -78,7 +78,7 @@
   
   <header>
     
-      <h1 class="entry-title">《大圣归来》和《捉妖记》第一次购票看电影</h1>
+      <h1 class="entry-title">自定义导航按钮UIBarButtonItem</h1>
     
     
       <p class="meta">
@@ -87,7 +87,7 @@
 
 
 
-<time class='entry-date' datetime='2015-08-01T00:03:54+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>12:03 am</span></time>
+<time class='entry-date' datetime='2015-08-02T00:13:14+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>12:13 am</span></time>
         
         
           | <a href="#comments">Comments</a>
@@ -97,25 +97,119 @@
   </header>
 
 
-<div class="entry-content"><p>这个周末，你看电影了吗？</p>
+<div class="entry-content"><p>基本上每个iOS APP里面都有导航，比如微信、QQ、支付宝。导航可以很方便地帮助我们管理视图控制器（UIViewController）。导航的重要性不言而喻，基本上是每一位iOS初学者都要接触到的问题。</p>
 
-<p>说来惭愧，我很少去电影院看电影。第一次是妹妹买票送给我看的，看的是《撒娇的女人最好命》。第二次是公司领导请我们一起看的，看的是《煎饼侠》。</p>
+<p>iOS系统导航栏中有<code>leftBarButtonItem</code>和<code>rightBarButtonItem</code>，我们可以根据自己的需求来自定义这两个<code>UIBarButtonItem</code>。</p>
 
-<p>说实话，电影院里看电影就是跟手机上看感觉不一样。在电影院里，很多人坐在一起看电影有氛围，还是大屏幕带来的视觉感。而手机还是显得比较low。</p>
+<h2>四种创建方法</h2>
 
-<h2>第一次购票看电影</h2>
+<p>系统提供了四种创建的方法：</p>
 
-<p>这个周六和老婆一起到电影院看了两场电影，分别是《大圣归来》和《捉妖记》。两部电影拍的都不错，好像也是最近比较热播的两部电影。</p>
+<pre><code>- (instancetype)initWithBarButtonSystemItem:(UIBarButtonSystemItem)systemItem target:(id)target action:(SEL)action;
 
-<p>截至7月30日，《大圣归来》票房突破7.2亿元，打破《功夫熊猫2》保持4年的动画票房纪录，“登顶”中国动画电影票房总冠军。</p>
 
-<p>电影《捉妖记》上映17天，票房破17亿，再创华语票房新记录！此前《捉妖记》票房突破十五亿大关，超越《复仇者联盟2》成为内地影史票房第三高的影片。</p>
+- (instancetype)initWithImage:(UIImage *)image style:(UIBarButtonItemStyle)style target:(id)target action:(SEL)action;
 
-<p>既然是热播电影，肯定会有它火的原因在里面。我不是个电影迷，所以我也无法为大家推荐好的电影。</p>
 
-<p>这是我第一次自己购票看电影还是不便宜的，花了我近两百元。我以前一直以为电影票就10元一张呢，搞不好还给你打个折。看来都是我想多了。</p>
+- (instancetype)initWithTitle:(NSString *)title style:(UIBarButtonItemStyle)style target:(id)target action:(SEL)action;
 
-<p>这一次亲自购票经历，让我发现一个比较优惠的APP，叫猫眼电影，以后买电影票可以在这上面买。票价相对较便宜，我对比了一下，比其他几个知名app都要便宜。</p>
+- (instancetype)initWithBarButtonSystemItem:(UIBarButtonSystemItem)systemItem target:(id)target action:(SEL)action;
+
+- (instancetype)initWithCustomView:(UIView *)customView;
+</code></pre>
+
+<h3>通过系统UIBarButtonSystemItem创建</h3>
+
+<p>自定义<code>rightBarButtonItem</code>，代码如下：</p>
+
+<pre><code>self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(right:)];
+</code></pre>
+
+<p>UIBarButtonSystemItem有以下样式可以供选择：</p>
+
+<pre><code>typedef NS_ENUM(NSInteger, UIBarButtonSystemItem) {
+    UIBarButtonSystemItemDone,
+    UIBarButtonSystemItemCancel,
+    UIBarButtonSystemItemEdit,  
+    UIBarButtonSystemItemSave,  
+    UIBarButtonSystemItemAdd,
+    UIBarButtonSystemItemFlexibleSpace,
+    UIBarButtonSystemItemFixedSpace,
+    UIBarButtonSystemItemCompose,
+    UIBarButtonSystemItemReply,
+    UIBarButtonSystemItemAction,
+    UIBarButtonSystemItemOrganize,
+    UIBarButtonSystemItemBookmarks,
+    UIBarButtonSystemItemSearch,
+    UIBarButtonSystemItemRefresh,
+    UIBarButtonSystemItemStop,
+    UIBarButtonSystemItemCamera,
+    UIBarButtonSystemItemTrash,
+    UIBarButtonSystemItemPlay,
+    UIBarButtonSystemItemPause,
+    UIBarButtonSystemItemRewind,
+    UIBarButtonSystemItemFastForward,
+#if __IPHONE_3_0 &lt;= __IPHONE_OS_VERSION_MAX_ALLOWED
+    UIBarButtonSystemItemUndo,
+    UIBarButtonSystemItemRedo,
+#endif
+#if __IPHONE_4_0 &lt;= __IPHONE_OS_VERSION_MAX_ALLOWED
+    UIBarButtonSystemItemPageCurl,
+#endif
+};
+</code></pre>
+
+<p>最后别忘了实现<code>right:</code>方法：</p>
+
+<pre><code>- (void)right:(id)sender
+{
+    NSLog(@"rightBarButtonItem");
+}
+</code></pre>
+
+<h3>自定义文字的UIBarButtonItem</h3>
+
+<p>在文章<a href="http://www.superqq.com/blog/2015/07/30/six-tips-on-navigation-bar/">关于导航栏的六个小技巧</a>的第五个技巧里面有自定义<code>rightBarButtonItem</code></p>
+
+<pre><code>self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"back" style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
+</code></pre>
+
+<p>UIBarButtonItemStyle有以下三种选择：</p>
+
+<pre><code>typedef NS_ENUM(NSInteger, UIBarButtonItemStyle) {
+    UIBarButtonItemStylePlain,
+    UIBarButtonItemStyleBordered NS_ENUM_DEPRECATED_IOS(2_0, 8_0, "Use UIBarButtonItemStylePlain when minimum deployment target is iOS7 or later"),
+    UIBarButtonItemStyleDone,
+};
+</code></pre>
+
+<p>实现<code>back:</code>方法：</p>
+
+<pre><code>- (void)back:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+</code></pre>
+
+<h3>自定义照片的UIBarButtonItem</h3>
+
+<pre><code>self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"test"] style:UIBarButtonItemStylePlain target:self action:@selector(right:)];
+</code></pre>
+
+<h3>自定义UIView的UIBarButtonItem</h3>
+
+<p>自定义<code>UIView</code>，然后通过<code>initWithCustomView:</code>方法来创建<code>UIBarButtonItem</code>。</p>
+
+<pre><code>UIView *testView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 60)];
+self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:testView];
+</code></pre>
+
+<p>看到有朋友在后台提问：</p>
+
+<pre><code>刚哥，我现在即需要改那个导航原生的返回图片，也要改返回文字，应该怎么改呢，求指教。
+</code></pre>
+
+<p>其实，这个就可以用<code>initWithCustomView:</code>来解决，自定义<code>UIView</code>你可以放<code>UIImageView</code>和<code>UILabel</code>。可以自定义<code>UIView</code>，那么想怎么定义都是可以的。</p>
 </div>
 <!--广告位-->
 <script type="text/javascript">
@@ -138,18 +232,18 @@
 
 
 
-<time class='entry-date' datetime='2015-08-01T00:03:54+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>12:03 am</span></time>
+<time class='entry-date' datetime='2015-08-02T00:13:14+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>12:13 am</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/cheng-xu-yuan/'>程序员</a>
+    <a class='category' href='/blog/categories/ioskai-fa/'>ios开发</a>
   
 </span>
 
 
       <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
-<br>原文链接：<a href="http://www.superqq.com/blog/2015/08/01/first-watch-movie/">http://www.superqq.com/blog/2015/08/01/first-watch-movie/</a> <!-- 添加这一行代码 -->
+<br>原文链接：<a href="http://www.superqq.com/blog/2015/08/02/custom-navigation-button-uibarbuttonitem/">http://www.superqq.com/blog/2015/08/02/custom-navigation-button-uibarbuttonitem/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -170,10 +264,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/07/31/aktabbarcontroller-similar-to-wechat-library/" title="Previous Post: AKTabBarController：类似微信的第三方库">&laquo; AKTabBarController：类似微信的第三方库</a>
+        <a class="basic-alignment left" href="/blog/2015/08/02/first-watch-movie/" title="Previous Post: 《大圣归来》和《捉妖记》第一次购票看电影">&laquo; 《大圣归来》和《捉妖记》第一次购票看电影</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/08/01/octopress-add-duoshuo/" title="Next Post: 为刚刚在线（Octopress）添加多说评论系统">为刚刚在线（Octopress）添加多说评论系统 &ra/categories.htmlquo;</a>
       
     </p>
   </footer>
@@ -183,7 +275,7 @@
   <section>
     <h1>Comments</h1>
     <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
-<div class="ds-thread" data-title="《大圣归来》和《捉妖记》第一次购票看电影"></div>
+<div class="ds-thread" data-title="自定义导航按钮UIBarButtonItem"></div>
 <script type="text/javascript">
   var duoshuoQuery = {short_name:"superqq"};
   (function() {
@@ -225,11 +317,15 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/08/01/octopress-add-duoshuo/">为刚刚在线（Octopress）添加多说评论系统</a>
+        <a href="/blog/2015/08/02/custom-navigation-button-uibarbuttonitem/">自定义导航按钮UIBarButtonItem</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/08/01/first-watch-movie/">《大圣归来》和《捉妖记》第一次购票看电影</a>
+        <a href="/blog/2015/08/02/first-watch-movie/">《大圣归来》和《捉妖记》第一次购票看电影</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/01/octopress-add-duoshuo/">为刚刚在线（Octopress）添加多说评论系统</a>
       </li>
     
       <li class="post">
@@ -238,10 +334,6 @@
     
       <li class="post">
         <a href="/blog/2015/07/30/six-tips-on-navigation-bar/">关于导航栏的六个小技巧</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/29/uiimage-geometric-zoom/">iOS开发之UIImage等比缩放</a>
       </li>
     
   </ul>

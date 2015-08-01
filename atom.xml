@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-01T23:06:08+08:00</updated>
+  <updated>2015-08-01T23:15:16+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,154 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[自定义导航按钮UIBarButtonItem]]></title>
+    <link href="http://www.superqq.com/blog/2015/08/02/custom-navigation-button-uibarbuttonitem/"/>
+    <updated>2015-08-02T00:13:14+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/08/02/custom-navigation-button-uibarbuttonitem</id>
+    <content type="html"><![CDATA[<p>基本上每个iOS APP里面都有导航，比如微信、QQ、支付宝。导航可以很方便地帮助我们管理视图控制器（UIViewController）。导航的重要性不言而喻，基本上是每一位iOS初学者都要接触到的问题。</p>
+
+<p>iOS系统导航栏中有<code>leftBarButtonItem</code>和<code>rightBarButtonItem</code>，我们可以根据自己的需求来自定义这两个<code>UIBarButtonItem</code>。</p>
+
+<h2>四种创建方法</h2>
+
+<p>系统提供了四种创建的方法：</p>
+
+<pre><code>- (instancetype)initWithBarButtonSystemItem:(UIBarButtonSystemItem)systemItem target:(id)target action:(SEL)action;
+
+
+- (instancetype)initWithImage:(UIImage *)image style:(UIBarButtonItemStyle)style target:(id)target action:(SEL)action;
+
+
+- (instancetype)initWithTitle:(NSString *)title style:(UIBarButtonItemStyle)style target:(id)target action:(SEL)action;
+
+- (instancetype)initWithBarButtonSystemItem:(UIBarButtonSystemItem)systemItem target:(id)target action:(SEL)action;
+
+- (instancetype)initWithCustomView:(UIView *)customView;
+</code></pre>
+
+<h3>通过系统UIBarButtonSystemItem创建</h3>
+
+<p>自定义<code>rightBarButtonItem</code>，代码如下：</p>
+
+<pre><code>self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(right:)];
+</code></pre>
+
+<p>UIBarButtonSystemItem有以下样式可以供选择：</p>
+
+<pre><code>typedef NS_ENUM(NSInteger, UIBarButtonSystemItem) {
+    UIBarButtonSystemItemDone,
+    UIBarButtonSystemItemCancel,
+    UIBarButtonSystemItemEdit,  
+    UIBarButtonSystemItemSave,  
+    UIBarButtonSystemItemAdd,
+    UIBarButtonSystemItemFlexibleSpace,
+    UIBarButtonSystemItemFixedSpace,
+    UIBarButtonSystemItemCompose,
+    UIBarButtonSystemItemReply,
+    UIBarButtonSystemItemAction,
+    UIBarButtonSystemItemOrganize,
+    UIBarButtonSystemItemBookmarks,
+    UIBarButtonSystemItemSearch,
+    UIBarButtonSystemItemRefresh,
+    UIBarButtonSystemItemStop,
+    UIBarButtonSystemItemCamera,
+    UIBarButtonSystemItemTrash,
+    UIBarButtonSystemItemPlay,
+    UIBarButtonSystemItemPause,
+    UIBarButtonSystemItemRewind,
+    UIBarButtonSystemItemFastForward,
+#if __IPHONE_3_0 &lt;= __IPHONE_OS_VERSION_MAX_ALLOWED
+    UIBarButtonSystemItemUndo,
+    UIBarButtonSystemItemRedo,
+#endif
+#if __IPHONE_4_0 &lt;= __IPHONE_OS_VERSION_MAX_ALLOWED
+    UIBarButtonSystemItemPageCurl,
+#endif
+};
+</code></pre>
+
+<p>最后别忘了实现<code>right:</code>方法：</p>
+
+<pre><code>- (void)right:(id)sender
+{
+    NSLog(@"rightBarButtonItem");
+}
+</code></pre>
+
+<h3>自定义文字的UIBarButtonItem</h3>
+
+<p>在文章<a href="http://www.superqq.com/blog/2015/07/30/six-tips-on-navigation-bar/">关于导航栏的六个小技巧</a>的第五个技巧里面有自定义<code>rightBarButtonItem</code></p>
+
+<pre><code>self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"back" style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
+</code></pre>
+
+<p>UIBarButtonItemStyle有以下三种选择：</p>
+
+<pre><code>typedef NS_ENUM(NSInteger, UIBarButtonItemStyle) {
+    UIBarButtonItemStylePlain,
+    UIBarButtonItemStyleBordered NS_ENUM_DEPRECATED_IOS(2_0, 8_0, "Use UIBarButtonItemStylePlain when minimum deployment target is iOS7 or later"),
+    UIBarButtonItemStyleDone,
+};
+</code></pre>
+
+<p>实现<code>back:</code>方法：</p>
+
+<pre><code>- (void)back:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+</code></pre>
+
+<h3>自定义照片的UIBarButtonItem</h3>
+
+<pre><code>self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"test"] style:UIBarButtonItemStylePlain target:self action:@selector(right:)];
+</code></pre>
+
+<h3>自定义UIView的UIBarButtonItem</h3>
+
+<p>自定义<code>UIView</code>，然后通过<code>initWithCustomView:</code>方法来创建<code>UIBarButtonItem</code>。</p>
+
+<pre><code>UIView *testView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 60)];
+self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:testView];
+</code></pre>
+
+<p>看到有朋友在后台提问：</p>
+
+<pre><code>刚哥，我现在即需要改那个导航原生的返回图片，也要改返回文字，应该怎么改呢，求指教。
+</code></pre>
+
+<p>其实，这个就可以用<code>initWithCustomView:</code>来解决，自定义<code>UIView</code>你可以放<code>UIImageView</code>和<code>UILabel</code>。可以自定义<code>UIView</code>，那么想怎么定义都是可以的。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[《大圣归来》和《捉妖记》第一次购票看电影]]></title>
+    <link href="http://www.superqq.com/blog/2015/08/02/first-watch-movie/"/>
+    <updated>2015-08-02T00:03:54+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/08/02/first-watch-movie</id>
+    <content type="html"><![CDATA[<p>这个周末，你看电影了吗？</p>
+
+<p>说来惭愧，我很少去电影院看电影。第一次是妹妹买票送给我看的，看的是《撒娇的女人最好命》。第二次是公司领导请我们一起看的，看的是《煎饼侠》。</p>
+
+<p>说实话，电影院里看电影就是跟手机上看感觉不一样。在电影院里，很多人坐在一起看电影有氛围，还是大屏幕带来的视觉感。而手机还是显得比较low。</p>
+
+<h2>第一次购票看电影</h2>
+
+<p>这个周六和老婆一起到电影院看了两场电影，分别是《大圣归来》和《捉妖记》。两部电影拍的都不错，好像也是最近比较热播的两部电影。</p>
+
+<p>截至7月30日，《大圣归来》票房突破7.2亿元，打破《功夫熊猫2》保持4年的动画票房纪录，“登顶”中国动画电影票房总冠军。</p>
+
+<p>电影《捉妖记》上映17天，票房破17亿，再创华语票房新记录！此前《捉妖记》票房突破十五亿大关，超越《复仇者联盟2》成为内地影史票房第三高的影片。</p>
+
+<p>既然是热播电影，肯定会有它火的原因在里面。我不是个电影迷，所以我也无法为大家推荐好的电影。</p>
+
+<p>这是我第一次自己购票看电影还是不便宜的，花了我近两百元。我以前一直以为电影票就10元一张呢，搞不好还给你打个折。看来都是我想多了。</p>
+
+<p>这一次亲自购票经历，让我发现一个比较优惠的APP，叫猫眼电影，以后买电影票可以在这上面买。票价相对较便宜，我对比了一下，比其他几个知名app都要便宜。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[为刚刚在线（Octopress）添加多说评论系统]]></title>
@@ -68,33 +216,6 @@ duoshuo_short_name: superqq
 <h2>网站有评论必回复噢</h2>
 
 <p>既然网站评论已经成功接入，大家以后有什么问题，或者需要交流的可以直接在网站上评论。虽然，每天有很多少要做，但是我依然会抽出时间来看看大家提的评论，一起探讨，一起成长。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[《大圣归来》和《捉妖记》第一次购票看电影]]></title>
-    <link href="http://www.superqq.com/blog/2015/08/01/first-watch-movie/"/>
-    <updated>2015-08-01T00:03:54+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/08/01/first-watch-movie</id>
-    <content type="html"><![CDATA[<p>这个周末，你看电影了吗？</p>
-
-<p>说来惭愧，我很少去电影院看电影。第一次是妹妹买票送给我看的，看的是《撒娇的女人最好命》。第二次是公司领导请我们一起看的，看的是《煎饼侠》。</p>
-
-<p>说实话，电影院里看电影就是跟手机上看感觉不一样。在电影院里，很多人坐在一起看电影有氛围，还是大屏幕带来的视觉感。而手机还是显得比较low。</p>
-
-<h2>第一次购票看电影</h2>
-
-<p>这个周六和老婆一起到电影院看了两场电影，分别是《大圣归来》和《捉妖记》。两部电影拍的都不错，好像也是最近比较热播的两部电影。</p>
-
-<p>截至7月30日，《大圣归来》票房突破7.2亿元，打破《功夫熊猫2》保持4年的动画票房纪录，“登顶”中国动画电影票房总冠军。</p>
-
-<p>电影《捉妖记》上映17天，票房破17亿，再创华语票房新记录！此前《捉妖记》票房突破十五亿大关，超越《复仇者联盟2》成为内地影史票房第三高的影片。</p>
-
-<p>既然是热播电影，肯定会有它火的原因在里面。我不是个电影迷，所以我也无法为大家推荐好的电影。</p>
-
-<p>这是我第一次自己购票看电影还是不便宜的，花了我近两百元。我以前一直以为电影票就10元一张呢，搞不好还给你打个折。看来都是我想多了。</p>
-
-<p>这一次亲自购票经历，让我发现一个比较优惠的APP，叫猫眼电影，以后买电影票可以在这上面买。票价相对较便宜，我对比了一下，比其他几个知名app都要便宜。</p>
 ]]></content>
   </entry>
   
@@ -1798,11 +1919,11 @@ Objective-C 没有消失，但是现在用一个慢慢失去关注的语言来�
 
 <p><strong>林翔宇</strong>
 - <a href="http://linxiangyu.org">http://linxiangyu.org</a>
-- <a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#108;&#105;&#110;&#x78;&#x69;&#97;&#x6e;&#103;&#x79;&#x75;&#x40;&#110;&#x75;&#x70;&#x74;&#101;&#x72;&#x2e;&#111;&#114;&#x67;">&#x6c;&#x69;&#110;&#120;&#x69;&#x61;&#110;&#103;&#x79;&#117;&#64;&#x6e;&#117;&#x70;&#x74;&#101;&#x72;&#x2e;&#x6f;&#114;&#x67;</a>
+- <a href="&#x6d;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#108;&#x69;&#x6e;&#x78;&#x69;&#97;&#110;&#103;&#x79;&#x75;&#x40;&#110;&#x75;&#x70;&#x74;&#101;&#114;&#46;&#111;&#114;&#103;">&#x6c;&#x69;&#x6e;&#120;&#x69;&#x61;&#x6e;&#103;&#121;&#117;&#64;&#x6e;&#117;&#x70;&#x74;&#101;&#114;&#x2e;&#x6f;&#x72;&#103;</a>
 - <a href="http://github.com/oa414">http://github.com/oa414</a></p>
 
 <p><strong>庞博</strong>
-- <a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#111;&#58;&#98;&#111;&#x70;&#x61;&#x6e;&#x67;&#64;&#x73;&#111;&#104;&#x75;&#x2d;&#105;&#110;&#x63;&#x2e;&#x63;&#111;&#x6d;">&#98;&#x6f;&#x70;&#x61;&#110;&#103;&#64;&#x73;&#x6f;&#104;&#x75;&#45;&#x69;&#x6e;&#x63;&#46;&#x63;&#x6f;&#109;</a>
+- <a href="&#x6d;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#98;&#111;&#x70;&#x61;&#x6e;&#103;&#x40;&#115;&#111;&#104;&#117;&#45;&#x69;&#x6e;&#x63;&#x2e;&#99;&#111;&#x6d;">&#98;&#111;&#x70;&#97;&#110;&#103;&#x40;&#115;&#x6f;&#104;&#117;&#45;&#105;&#110;&#x63;&#x2e;&#99;&#x6f;&#x6d;</a>
 - <a href="https://github.com/heistings">https://github.com/heistings</a></p>
 
 <p>翻译已得到原作者许可，并且会在更加完善后申请合并到原文仓库。</p>
@@ -1956,51 +2077,6 @@ Objective-C 没有消失，但是现在用一个慢慢失去关注的语言来�
 <p>同时这样也能提高一致性，以及提升可读性。</p>
 
 <p>原文 <a href="https://github.com/objc-zen/objc-zen-book">https://github.com/objc-zen/objc-zen-book</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[我这个站长是怎么炼成的]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/17/wo-zhe-ge-zhan-chang-shi-zen-yao-lian-cheng-de/"/>
-    <updated>2015-07-17T23:16:16+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/17/wo-zhe-ge-zhan-chang-shi-zen-yao-lian-cheng-de</id>
-    <content type="html"><![CDATA[<p>我是一个喜欢折腾的人，不喜欢就这么平平淡淡度过，但是想改变也不是那么容易的。现在的我已经成了一个彻头彻尾的程序员、白领，也许有人会羡慕这样的生活。但我却厌倦了，这并不是我所想要的人生。</p>
-
-<h2>想改变没那么简单</h2>
-
-<p>曾几何时，我也想有一份稳定的工作，就像现在一样。但是当我真正身处其中时，这样的生活、这样的工作显得是那么的廉价，让我没有一丝珍惜的意愿。</p>
-
-<p>所以我想改变，这个想法从来没有停止过。</p>
-
-<p>我一直是做iOS开发，平时没事总想倒腾个什么出来。做什么呢？想法很多，但很少付出行动，有的行动了，效果也一般，所以每次都不了了之。</p>
-
-<h2>swift论坛起落</h2>
-
-<p>2014年6月，苹果在WWDC大会上发布了swift语言。公司同事讨论激烈，有人提议做个论坛出来，肯定可以火起来的。</p>
-
-<p>这一次说干就干。刚好我有服务器。光有服务器也不行，还需要有域名。我查了一下跟swift相关的域名，很多都被注册了，看来中国人真是够多的，抢注的这么快。最后我注册了<a href="http://www.iswifting.com/">www.iswifting.com</a></p>
-
-<p>很快网站就被搭建起来了，这算是我踏入站长行列的第一步。</p>
-
-<p>我非常认真地对待它，经常找一些优秀的文章。我也学着推广，在别的论坛里，QQ群里。每天也有一些人访问，注册会员也有几百人了。</p>
-
-<p>尽管这样，我也看不到网站的前途在哪。刚好赶上服务器到期，我就放弃了这个论坛。虽然这个论坛没给我带来什么盈利，但是这次的站长经历着实让我过了一把瘾。</p>
-
-<p>前段时间，我再次启用了这个域名<a href="http://www.iswifting.com/">www.iswifting.com</a>，做一个<a href="http://www.iswifting.com/">swift开发</a>，以后还会在这里分享一些关于swift的优秀文章。算是对上一个论坛的延续吧。</p>
-
-<h2>刚刚在线正式上线</h2>
-
-<p>论坛没了，又开始每天漫无目的的逛游。无意间我发现一个iOS开发的人叫唐巧，也许你也听说过。他有一个个人博客网站做的不错，<a href="http://blog.devtang.com/">唐巧的技术博客</a>，里面都是他自己写的iOS开发技术文章和一些琐事。</p>
-
-<p>看一个网站好不好就看他的访问量多少，排名如何。我那个时候查的时候，他的博客就有上千UV。在中国排名也不错，有得公司官网可能就没有他的排名高。</p>
-
-<p>虽然我的技术不如巧哥那么厉害，但是我也想在茫茫互联网中找到自己的一席之地。所以我也想做一个类似的网站。名字我都想好了，叫<a href="http://www.superqq.com/">刚刚在线</a>，刚好我手里有域名：www.superqq.com。这个域名还不错吧，偷偷的告诉你，我以前还做过域名的生意，赚了点儿小钱而已。</p>
-
-<p>做个网站应该没什么难的吧，但是对于没做过网站的我来说，还真是个问题。我告诉自己不能退缩，要找方法。刚好公司有个同事之前弄过网站。</p>
-
-<p>在公司同事的帮助下，很快我们用octopress把网站搭建起来了。而且这一切都是免费的，所以再也不会存在关闭的问题啦。我非常激动的在我的网站上发了一篇文章：<a href="http://www.superqq.com/blog/2014/09/26/ios/">刚刚在线正式上线</a> 。</p>
-
-<p>我再一次踏入站长行列。这一次或许我能走的更远。</p>
 ]]></content>
   </entry>
   

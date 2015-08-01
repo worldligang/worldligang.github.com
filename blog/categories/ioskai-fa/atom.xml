@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-01T23:06:08+08:00</updated>
+  <updated>2015-08-01T23:15:16+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,127 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[自定义导航按钮UIBarButtonItem]]></title>
+    <link href="http://www.superqq.com/blog/2015/08/02/custom-navigation-button-uibarbuttonitem/"/>
+    <updated>2015-08-02T00:13:14+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/08/02/custom-navigation-button-uibarbuttonitem</id>
+    <content type="html"><![CDATA[<p>基本上每个iOS APP里面都有导航，比如微信、QQ、支付宝。导航可以很方便地帮助我们管理视图控制器（UIViewController）。导航的重要性不言而喻，基本上是每一位iOS初学者都要接触到的问题。</p>
+
+<p>iOS系统导航栏中有<code>leftBarButtonItem</code>和<code>rightBarButtonItem</code>，我们可以根据自己的需求来自定义这两个<code>UIBarButtonItem</code>。</p>
+
+<h2>四种创建方法</h2>
+
+<p>系统提供了四种创建的方法：</p>
+
+<pre><code>- (instancetype)initWithBarButtonSystemItem:(UIBarButtonSystemItem)systemItem target:(id)target action:(SEL)action;
+
+
+- (instancetype)initWithImage:(UIImage *)image style:(UIBarButtonItemStyle)style target:(id)target action:(SEL)action;
+
+
+- (instancetype)initWithTitle:(NSString *)title style:(UIBarButtonItemStyle)style target:(id)target action:(SEL)action;
+
+- (instancetype)initWithBarButtonSystemItem:(UIBarButtonSystemItem)systemItem target:(id)target action:(SEL)action;
+
+- (instancetype)initWithCustomView:(UIView *)customView;
+</code></pre>
+
+<h3>通过系统UIBarButtonSystemItem创建</h3>
+
+<p>自定义<code>rightBarButtonItem</code>，代码如下：</p>
+
+<pre><code>self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(right:)];
+</code></pre>
+
+<p>UIBarButtonSystemItem有以下样式可以供选择：</p>
+
+<pre><code>typedef NS_ENUM(NSInteger, UIBarButtonSystemItem) {
+    UIBarButtonSystemItemDone,
+    UIBarButtonSystemItemCancel,
+    UIBarButtonSystemItemEdit,  
+    UIBarButtonSystemItemSave,  
+    UIBarButtonSystemItemAdd,
+    UIBarButtonSystemItemFlexibleSpace,
+    UIBarButtonSystemItemFixedSpace,
+    UIBarButtonSystemItemCompose,
+    UIBarButtonSystemItemReply,
+    UIBarButtonSystemItemAction,
+    UIBarButtonSystemItemOrganize,
+    UIBarButtonSystemItemBookmarks,
+    UIBarButtonSystemItemSearch,
+    UIBarButtonSystemItemRefresh,
+    UIBarButtonSystemItemStop,
+    UIBarButtonSystemItemCamera,
+    UIBarButtonSystemItemTrash,
+    UIBarButtonSystemItemPlay,
+    UIBarButtonSystemItemPause,
+    UIBarButtonSystemItemRewind,
+    UIBarButtonSystemItemFastForward,
+#if __IPHONE_3_0 &lt;= __IPHONE_OS_VERSION_MAX_ALLOWED
+    UIBarButtonSystemItemUndo,
+    UIBarButtonSystemItemRedo,
+#endif
+#if __IPHONE_4_0 &lt;= __IPHONE_OS_VERSION_MAX_ALLOWED
+    UIBarButtonSystemItemPageCurl,
+#endif
+};
+</code></pre>
+
+<p>最后别忘了实现<code>right:</code>方法：</p>
+
+<pre><code>- (void)right:(id)sender
+{
+    NSLog(@"rightBarButtonItem");
+}
+</code></pre>
+
+<h3>自定义文字的UIBarButtonItem</h3>
+
+<p>在文章<a href="http://www.superqq.com/blog/2015/07/30/six-tips-on-navigation-bar/">关于导航栏的六个小技巧</a>的第五个技巧里面有自定义<code>rightBarButtonItem</code></p>
+
+<pre><code>self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"back" style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
+</code></pre>
+
+<p>UIBarButtonItemStyle有以下三种选择：</p>
+
+<pre><code>typedef NS_ENUM(NSInteger, UIBarButtonItemStyle) {
+    UIBarButtonItemStylePlain,
+    UIBarButtonItemStyleBordered NS_ENUM_DEPRECATED_IOS(2_0, 8_0, "Use UIBarButtonItemStylePlain when minimum deployment target is iOS7 or later"),
+    UIBarButtonItemStyleDone,
+};
+</code></pre>
+
+<p>实现<code>back:</code>方法：</p>
+
+<pre><code>- (void)back:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+</code></pre>
+
+<h3>自定义照片的UIBarButtonItem</h3>
+
+<pre><code>self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"test"] style:UIBarButtonItemStylePlain target:self action:@selector(right:)];
+</code></pre>
+
+<h3>自定义UIView的UIBarButtonItem</h3>
+
+<p>自定义<code>UIView</code>，然后通过<code>initWithCustomView:</code>方法来创建<code>UIBarButtonItem</code>。</p>
+
+<pre><code>UIView *testView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 60)];
+self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:testView];
+</code></pre>
+
+<p>看到有朋友在后台提问：</p>
+
+<pre><code>刚哥，我现在即需要改那个导航原生的返回图片，也要改返回文字，应该怎么改呢，求指教。
+</code></pre>
+
+<p>其实，这个就可以用<code>initWithCustomView:</code>来解决，自定义<code>UIView</code>你可以放<code>UIImageView</code>和<code>UILabel</code>。可以自定义<code>UIView</code>，那么想怎么定义都是可以的。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[AKTabBarController：类似微信的第三方库]]></title>
@@ -376,58 +497,6 @@ UIImage *image =[UIImage imageWithData:data];
 </code></pre>
 
 <p>以上四种方法都是<code>UIImage</code>的类方法，使用<code>UIImage</code>的初始化方法也是可以创建<code>UIImage</code>对象的大家可以进<code>UIImage</code>详细了解一下。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS开发之layoutSubviews的作用和调用机制]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/27/ioskai-fa-zhi-layoutsubviewsde-zuo-yong-he-diao-yong-ji-zhi/"/>
-    <updated>2015-07-27T13:57:27+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/27/ioskai-fa-zhi-layoutsubviewsde-zuo-yong-he-diao-yong-ji-zhi</id>
-    <content type="html"><![CDATA[<p>在UIView里面有一个方法<code>layoutSubviews</code>，这个方法具体作用是什么呢？</p>
-
-<pre><code>- (void)layoutSubviews;    // override point. called by layoutIfNeeded automatically. As of iOS 6.0, when constraints-based layout is used the base implementation applies the constraints-based layout, otherwise it does nothing.
-</code></pre>
-
-<h2>官方文档解释</h2>
-
-<p>我们先来看看苹果官方文档的解释：</p>
-
-<pre><code>The default implementation of this method does nothing on iOS 5.1 and earlier. Otherwise, the default implementation uses any constraints you have set to determine the size and position of any subviews.
-
-Subclasses can override this method as needed to perform more precise layout of their subviews. You should override this method only if the autoresizing and constraint-based behaviors of the subviews do not offer the behavior you want. You can use your implementation to set the frame rectangles of your subviews directly.
-
-You should not call this method directly. If you want to force a layout update, call the setNeedsLayout method instead to do so prior to the next drawing update. If you want to update the layout of your views immediately, call the layoutIfNeeded method.
-</code></pre>
-
-<p>最后一段说，不要直接调用此方法。如果你想强制更新布局，你可以调用<code>setNeedsLayout</code>方法；如果你想立即数显你的<code>views</code>，你需要调用<code>layoutIfNeeded</code>方法。</p>
-
-<h2>layoutSubviews作用</h2>
-
-<p><code>layoutSubviews</code>是对<code>subviews</code>重新布局。比如，我们想更新子视图的位置的时候，可以通过调用<code>layoutSubviews</code>方法，既可以实现对子视图重新布局。</p>
-
-<p><code>layoutSubviews</code>默认是不做任何事情的，用到的时候，需要在自雷进行重写。</p>
-
-<h2>layoutSubviews以下情况会被调用</h2>
-
-<p>苹果官方文档已经强调，不能直接调用<code>layoutSubviews</code>对子视图进行重新布局。那么，<code>layoutSubviews</code>什么情况下会被调用呢？通过百度搜索，发现以下几种情况<code>layoutSubviews</code>会被调用。</p>
-
-<ol>
-<li>直接调用<code>setLayoutSubviews</code>。（这个在上面苹果官方文档里有说明）</li>
-<li><code>addSubview</code>的时候。</li>
-<li>当<code>view</code>的<code>frame</code>发生改变的时候。</li>
-<li>滑动<code>UIScrollView</code>的时候。</li>
-<li>旋转<code>Screen</code>会触发父<code>UIView</code>上的<code>layoutSubviews</code>事件。</li>
-<li>改变一个<code>UIView</code>大小的时候也会触发父<code>UIView</code>上的<code>layoutSubviews</code>事件。</li>
-</ol>
-
-
-<p>我简单测试了一下，上面基本都会被调用。 注意：</p>
-
-<pre><code>当view的fram的值为0的时候，`addSubview`也不会调用`layoutSubviews`的。
-</code></pre>
-
-<p><code>layoutSubviews</code>方法在对自雷视图进行布局的时候非常方便。可以自己动手，深入理解<code>layoutSubviews</code>的调用机制。</p>
 ]]></content>
   </entry>
   
