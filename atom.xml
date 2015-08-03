@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-03T21:58:47+08:00</updated>
+  <updated>2015-08-03T22:11:05+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,72 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[iOS开发之保存照片到系统相册（Photo Album）]]></title>
-    <link href="http://www.superqq.com/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-(photo-album)/"/>
-    <updated>2015-08-03T21:43:34+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-(photo-album)</id>
-    <content type="html"><![CDATA[<p>保存照片到系统相册这个功能很多社交类的APP都有的，今天我们简单讲解一下，如何将图片保存到系统相册（Photo Album）。</p>
-
-<h2>创建UIImageView</h2>
-
-<p>创建<code>UIImageView</code>是为了将照片展示出来，我们是要把<code>UIImage</code>保存到系统相册（Photo Album）:</p>
-
-<pre><code>#define SCREEN [UIScreen mainScreen].bounds.size
-
-self.image = [UIImage imageNamed:@"iOSDevTip"];
-UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake((SCREEN.width - 300) / 2, 70, 300, 150)];
-imageView.image = self.image;
-[self.view addSubview:imageView];
-</code></pre>
-
-<h2>创建UIButton</h2>
-
-<p>创建<code>UIButton</code>并绑定<code>actionClick:</code>事件:</p>
-
-<pre><code>UIButton *button = [[UIButton alloc] init];
-button.frame = CGRectMake( 100, 300, SCREEN.width - 200, 40);
-[button addTarget:self action:@selector(actionClick:) forControlEvents:UIControlEventTouchUpInside];
-[button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-[button setBackgroundColor:[UIColor orangeColor]];
-[button setTitle:@"SavePhoto" forState:UIControlStateNormal];
-[self.view addSubview:button];
-
-
-- (void)actionClick:(UIButton *)button
-{
-
-}
-</code></pre>
-
-<h2>保存照片到系统相册（Photo Album）</h2>
-
-<p>在<code>actionClick:</code>方法里调用：</p>
-
-<pre><code>UIImageWriteToSavedPhotosAlbum(self.image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
-</code></pre>
-
-<p>这个时候，我们想知道保存是否成功，所以需要制定毁掉方法</p>
-
-<pre><code>// 指定回调方法
-- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
-{
-    if(!error){
-        NSLog(@"save success");
-    }else{
-        NSLog(@"save failed");
-    }
-}
-</code></pre>
-
-<p>在这个方法里，我们就知道照片是否保存成功。然后，根据需求来刷新UI线程。用户第一次使用APP的时候，点击<code>SavePhoto</code>按钮的时候，系统会询问权限：</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/46869740F32868C1F9769ED5FED1C7D0.png" alt="photo" /></p>
-
-<p>Demo地址:<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a> 下一篇文章，将会讲如何创建自己的相册并保存照片。</p>
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[自定义导航按钮UIBarButtonItem]]></title>
@@ -1925,6 +1859,224 @@ process launch failed: failed to get the task for process 1285
 
 
 <p>如果你符合上述条件，请加入我们吧！</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[禅与Objective-C编程艺术(译)]]></title>
+    <link href="http://www.superqq.com/blog/2015/07/18/ios/"/>
+    <updated>2015-07-18T23:15:26+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/07/18/ios</id>
+    <content type="html"><![CDATA[<p>禅与 Objective-C 编程艺术 （Zen and the Art of the Objective-C Craftsmanship 中文翻译）</p>
+
+<p>原文 <a href="https://github.com/objc-zen/objc-zen-book">https://github.com/objc-zen/objc-zen-book</a></p>
+
+<p><img src="https://github.com/objc-zen/objc-zen-book/raw/master/images/zen-logo-thumb.png" alt="" /></p>
+
+<h1>前言</h1>
+
+<p>我们在 2013 年 11 月份开始写这本书，最初的目标是提供一份如何编写干净漂亮的 Objective-C 代码的指南：现在虽然有很多指南，但是它们都是有一些问题的。我们不想介绍一些死板的规定，我们想提供一个在开发者们之间写更一致的代码的途径。随时间的推移，这本书开始转向介绍如何设计和构建优秀的代码。</p>
+
+<p>这本书的观点是代码不仅是可以编译的，同时应该是 “有效” 的。好的代码有一些特性：简明，自我解释，优秀的组织，良好的文档，良好的命名，优秀的设计以及可以被久经考验。
+本书的一个理念是是代码的清晰性优先于性能，同时阐述为什么应该这么做。
+虽然所有的代码都是 Objective-C 写的，但是一些主题是通用的，并且独立于编程语言。</p>
+
+<h2>Swift</h2>
+
+<p>在 2014 年 6 月 6 日，苹果发布了面向 iOS 和 Mac 开发的新语言： Swift。
+这个新语言与 Objective-C 截然不同。所以，我们改变了写这本书的计划。我们决定发布这本书当前的状态，而不是继续书写我们原来计划写下去的主题。
+Objective-C 没有消失，但是现在用一个慢慢失去关注的语言来继续写这本书并不是一个明智的选择。</p>
+
+<h2>贡献给社区</h2>
+
+<p>我们将这本书免费发布并且贡献给社区，因为我们希望提供给读者一些有价值的内容。如果你能学到至少一条最佳实践，我们的目的就达到了。</p>
+
+<p>我们已经非常用心地打磨了这些文字，但是仍然可能有一些拼写或者其他错误。我们非常希望读者给我们一个反馈或者建议，以来改善本书。所以如果有什么问题的话，请联系我们。我们非常欢迎各种 pull-request。</p>
+
+<h2>作者</h2>
+
+<p><strong>Luca Bernardi</strong></p>
+
+<ul>
+<li><a href="http://lucabernardi.com">http://lucabernardi.com</a></li>
+<li>@luka_bernardi</li>
+<li><a href="http://github.com/lukabernardi">http://github.com/lukabernardi</a></li>
+</ul>
+
+
+<p><strong>Alberto De Bortoli</strong></p>
+
+<ul>
+<li><a href="http://albertodebortoli.com">http://albertodebortoli.com</a></li>
+<li>@albertodebo</li>
+<li><a href="http://github.com/albertodebortoli">http://github.com/albertodebortoli</a></li>
+</ul>
+
+
+<h2>关于中文翻译</h2>
+
+<p>译者</p>
+
+<p><strong>林翔宇</strong>
+- <a href="http://linxiangyu.org">http://linxiangyu.org</a>
+- <a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#111;&#58;&#108;&#x69;&#110;&#120;&#x69;&#x61;&#110;&#103;&#121;&#117;&#64;&#x6e;&#x75;&#112;&#x74;&#101;&#114;&#46;&#111;&#114;&#103;">&#108;&#x69;&#x6e;&#x78;&#105;&#x61;&#110;&#103;&#x79;&#x75;&#64;&#110;&#x75;&#112;&#116;&#101;&#x72;&#46;&#111;&#x72;&#103;</a>
+- <a href="http://github.com/oa414">http://github.com/oa414</a></p>
+
+<p><strong>庞博</strong>
+- <a href="&#109;&#97;&#105;&#x6c;&#116;&#111;&#58;&#98;&#x6f;&#112;&#97;&#110;&#x67;&#64;&#115;&#111;&#104;&#117;&#x2d;&#x69;&#110;&#x63;&#46;&#x63;&#x6f;&#109;">&#98;&#111;&#x70;&#x61;&#110;&#x67;&#x40;&#x73;&#111;&#104;&#x75;&#45;&#105;&#110;&#99;&#x2e;&#99;&#x6f;&#x6d;</a>
+- <a href="https://github.com/heistings">https://github.com/heistings</a></p>
+
+<p>翻译已得到原作者许可，并且会在更加完善后申请合并到原文仓库。</p>
+
+<p><strong>部分译文表达可能存在不妥之处，非常欢迎各种修订建议和校队。 请直接 fork 本仓库，在 README.md 文件中修改，并申请 pull request 到 <a href="https://github.com/oa414/objc-zen-book-cn/">https://github.com/oa414/objc-zen-book-cn/</a>。</strong></p>
+
+<h1>条件语句</h1>
+
+<p>为了避免错误，条件语句体应该总是被大括号包围，即使可以不这样做（比如，条件语句体只有一行内容）。可能的错误是：多加了第二行，并且误以为它是 if 语句体里面的。此外，更危险的是，如果把 if 语句体里的一行注释掉了，之后的一行代码会成为 if 语句里的代码。</p>
+
+<p><strong>推荐:</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if (!error) {
+</span><span class='line'>    return success;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>不推荐:</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if (!error)
+</span><span class='line'>    return success;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或者</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if (!error) return success;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在 2014年2月 苹果的 SSL/TLS 实现里面发现了知名的 <a href="https://gotofail.com/">goto fail</a> 错误。</p>
+
+<p>代码在这里：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>static OSStatus
+</span><span class='line'>SSLVerifySignedServerKeyExchange(SSLContext *ctx, bool isRsa, SSLBuffer signedParams,
+</span><span class='line'>                                 uint8_t *signature, UInt16 signatureLen)
+</span><span class='line'>{
+</span><span class='line'>  OSStatus        err;
+</span><span class='line'>  ...
+</span><span class='line'>
+</span><span class='line'>  if ((err = SSLHashSHA1.update(&hashCtx, &serverRandom)) != 0)
+</span><span class='line'>    goto fail;
+</span><span class='line'>  if ((err = SSLHashSHA1.update(&hashCtx, &signedParams)) != 0)
+</span><span class='line'>    goto fail;
+</span><span class='line'>    goto fail;
+</span><span class='line'>  if ((err = SSLHashSHA1.final(&hashCtx, &hashOut)) != 0)
+</span><span class='line'>    goto fail;
+</span><span class='line'>  ...
+</span><span class='line'>
+</span><span class='line'>fail:
+</span><span class='line'>  SSLFreeBuffer(&signedHashes);
+</span><span class='line'>  SSLFreeBuffer(&hashCtx);
+</span><span class='line'>  return err;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>显而易见，这里有没有括号包围的2行连续的 <code>goto fail;</code> 。我们当然不希望写出上面的代码导致错误。</p>
+
+<p>此外，在其他条件语句里面也应该按照这种风格统一，这样更便于检查。</p>
+
+<h2>尤达表达式</h2>
+
+<p>不要使用尤达表达式。尤达表达式是指，拿一个常量去和变量比较而不是拿变量去和常量比较。它就像是在表达 “蓝色是不是天空的颜色” 或者 “高个是不是这个男人的属性” 而不是  “天空是不是蓝的” 或者 “这个男人是不是高个子的”</p>
+
+<p><img src="./images/yoda.png" alt="Yoda" /></p>
+
+<p>（译者注：名字起源于星球大战中尤达大师的讲话方式，总是用倒装的语序）</p>
+
+<p><strong>推荐:</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if ([myValue isEqual:@42]) { ...</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>不推荐:</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if ([@42 isEqual:myValue]) { ...</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>nil 和 BOOL 检查</h2>
+
+<p>类似于 Yoda 表达式，nil 检查的方式也是存在争议的。一些 notous 库像这样检查对象是否为 nil：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if (nil == myValue) { ...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或许有人会提出这是错的，因为在 nil 作为一个常量的情况下，这样做就像 Yoda 表达式了。 但是一些程序员这么做的原因是为了避免调试的困难，看下面的代码：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if (myValue == nil) { ...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果程序员敲错成这样：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if (myValue = nil) { ...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这是合法的语句，但是即使你是一个丰富经验的程序员，即使盯着眼睛瞧上好多遍也很难调试出错误。但是如果把 nil 放在左边，因为它不能被赋值，所以就不会发生这样的错误。 如果程序员这样做，他/她就可以轻松检查出可能的原因，比一遍遍检查敲下的代码要好很多。</p>
+
+<p>为了避免这些奇怪的问题，可以用感叹号来作为运算符。因为 nil 是 解释到 NO，所以没必要在条件语句里面把它和其他值比较。同时，不要直接把它和 <code>YES</code> 比较，因为 <code>YES</code> 的定义是 1， 而 <code>BOOL</code> 是 8 bit的，实际上是 char 类型。</p>
+
+<p><strong>推荐:</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if (someObject) { ...
+</span><span class='line'>if (![someObject boolValue]) { ...
+</span><span class='line'>if (!someObject) { ...</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>不推荐:</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if (someObject == YES) { ... // Wrong
+</span><span class='line'>if (myRawValue == YES) { ... // Never do this.
+</span><span class='line'>if ([someObject boolValue] == NO) { ...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>同时这样也能提高一致性，以及提升可读性。</p>
+
+<p>原文 <a href="https://github.com/objc-zen/objc-zen-book">https://github.com/objc-zen/objc-zen-book</a></p>
 ]]></content>
   </entry>
   
