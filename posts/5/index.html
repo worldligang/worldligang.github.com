@@ -81,6 +81,182 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/07/02/egocacheru-he-jian-ce-huan-cun-shi-jian-guo-qi/">EGOCache如何检测缓存时间过期</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-02T00:38:14+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>12:38 am</span></time>
+        
+        
+          | <a href="/blog/2015/07/02/egocacheru-he-jian-ce-huan-cun-shi-jian-guo-qi/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>子曰:学而不思则罔,思而不学则殆。</p></blockquote>
+
+<p>在上一篇文章中：<a href="http://www.superqq.com/blog/2015/07/01/egocachehuan-cun-kuang-jia-xiang-xi-jiang-jie/">EGOCache缓存框架详细讲解</a> 提到<strong>EGOCache</strong>可以设定缓存过期时间，默认是1天。查看了一下EGOCache源码，设置默认时间：</p>
+
+<pre><code>    [self setDefaultTimeoutInterval:86400];
+
+    //86400 = 24 * 60 * 60 刚好是一天时间。
+</code></pre>
+
+<p>EGOCache为什么要提供设定缓存过期时间呢？或者说设定缓存过期时间有什么好处呢？我觉得最大的好处就是可以定时清除缓存。可以设置某一项的缓存时间，很方便管理缓存。</p>
+
+<p>那么问题来了：</p>
+
+<ol>
+<li>EGOCache是怎么检测缓存过期时间的呢？</li>
+<li>检测到时间过期之后，什么时候触发删除缓存项的？</li>
+</ol>
+
+
+<p>带着这两个问题，我们来继续分析。</p>
+
+<h2>你会怎么实现</h2>
+
+<p>记得在公司里，老板经常会举这样的例子：</p>
+
+<pre><code>某某同志，刚来我们公司的时候，遇到问题就知道抱怨。从来不知道去思考怎么解决，只知道把问题抛给领导。工作半年下来，成长了很多。现在碰到问题，不仅把问题抛出来，而且还提供了自己的解决方案...
+</code></pre>
+
+<p>类似的例子，相信大家都听过。同样，既然前面我们提出这两个问题，我们也先来思考一下，如果我们来做该怎么解决？</p>
+
+<p>如果让我来写的话，我脑海里初步实现方法有几个：</p>
+
+<ol>
+<li>通过定时器来轮询，每隔一段时间检测一次。</li>
+<li>写一个while循环来检测。</li>
+<li>每次去读取缓存项的时候，判断缓存时间有没有过期。没过期，就返回读取的缓存项；否则，返回nil。</li>
+</ol>
+
+
+<p>当然，还有一些方法，不一一例举了。仔细想想，这些方法弊端很容易显露出来。</p>
+
+<ol>
+<li>为了小小的缓存时间，就用定时器轮询，显然是资源浪费</li>
+<li>跟方法1差不多。</li>
+<li>每次读取的时候判断是否过期，如果一直不读取，app的缓存会越来越大，也不可取。</li>
+</ol>
+
+
+<p>这些方法都被排除了，还有好的方法吗？继续往下看：</p>
+
+<h2>EGOCache是怎么实现的？</h2>
+
+<p>仔细查看EGOCache源码，发现在initWithCacheDirectory:方法里，每次初始化EGOCache实例对象的时，会遍历一遍plist文件中所有已存在的缓存项，拿每个缓存项的时间和当前时间作比较，缓存项过期时间早于当前时间，则删除对应缓存文件，并删除 plist 文件中对应 key 的记录。</p>
+
+<p>具体实现代码如下：</p>
+
+<h3>读取缓存项信息</h3>
+
+<pre><code>_cacheInfo = [[NSDictionary dictionaryWithContentsOfFile:cachePathForKey(_directory, @"EGOCache.plist")] mutableCopy];
+
+if(!_cacheInfo) {
+    _cacheInfo = [[NSMutableDictionary alloc] init];
+}
+</code></pre>
+
+<h3>获取当前时间的NSTimeInterval</h3>
+
+<pre><code>NSTimeInterval now = [[NSDate date] timeIntervalSinceReferenceDate];
+</code></pre>
+
+<h3>声明removedKeys保存过期的缓存项对应的key</h3>
+
+<pre><code>NSMutableArray* removedKeys = [[NSMutableArray alloc] init];
+</code></pre>
+
+<h3>遍历缓存项信息并判断缓存时间</h3>
+
+<pre><code>for(NSString* key in _cacheInfo) {
+    //判断缓存项过期时间是否早于当前时间
+    if([_cacheInfo[key] timeIntervalSinceReferenceDate] &lt;= now) {
+        //如果缓存项过期时间早于当前时间，移除缓存项
+        [[NSFileManager defaultManager] removeItemAtPath:cachePathForKey(_directory, key) error:NULL];
+        //把过期的缓存项对于的key保存到removedKeys里面
+        [removedKeys addObject:key];
+    }
+}
+</code></pre>
+
+<h3>删除过期缓存项对于的key</h3>
+
+<pre><code>[_cacheInfo removeObjectsForKeys:removedKeys];
+</code></pre>
+
+<p>看到这些，是不是觉得人家思路特牛叉，反正，我是觉得这个作者不简单。到这一步就解决了吗？</p>
+
+<h2>EGOCache还做了什么？</h2>
+
+<p>细心的童鞋会发现：<strong>EGOCache是个<a href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">单列类</a></strong>，也就是说整个程序应用周期只初始化一次。</p>
+
+<pre><code>+ (instancetype)globalCache {
+    static id instance;
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&amp;onceToken, ^{
+        instance = [[[self class] alloc] init];
+    });
+
+    return instance;
+}
+</code></pre>
+
+<p>每次初始化的时候去判断了缓存项是否过期，这样做非常正确。思考一个场景：</p>
+
+<ol>
+<li>用户打开app，EGOCache被初始化，并判断了缓存项是否过期。</li>
+<li>如果刚好有一些缓存项在EGOCache被初始化之后过期。这个时候我们依然可以读到这个缓存项。这就不对了。</li>
+</ol>
+
+
+<p>继续分析EGOCache源码发现，EGOCache在读取一个缓存项的时候，先判断缓存项是否存在，然后读取缓存项（注意：是读取EGOCache初始化的时候没有过期的缓存项，并没有说现在没有过期），最后去判断读取到的缓存项跟当前时间相比是否过期.</p>
+
+<p>具体实现如下：</p>
+
+<pre><code>- (BOOL)hasCacheForKey:(NSString*)key {
+    //读取EGOCache初始化的时候没有过期的缓存项
+    NSDate* date = [self dateForKey:key];
+    if(date == nil) return NO;
+    //判断读取到的缓存项当前是否过期
+    if([date timeIntervalSinceReferenceDate] &lt; CFAbsoluteTimeGetCurrent()) return NO;
+
+    return [[NSFileManager defaultManager] fileExistsAtPath:cachePathForKey(_directory, key)];
+}
+
+- (NSDate*)dateForKey:(NSString*)key {
+    __block NSDate* date = nil;
+
+    dispatch_sync(_frozenCacheInfoQueue, ^{
+        date = (self.frozenCacheInfo)[key];
+    });
+
+    return date;
+}
+</code></pre>
+
+<p>EGOCache检测缓存时间过期的思路值得学习，以后遇到类似场景，完全可以借鉴。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/07/01/egocachehuan-cun-kuang-jia-xiang-xi-jiang-jie/">EGOCache缓存框架详细讲解</a></h1>
     
     
@@ -788,7 +964,7 @@ iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</
 
 <p><strong>你的博客将比简历更有价值</strong>。你在各大招聘网站写简历不如你有一个有价值的博客。</p>
 
-<p>把技术分享出来，不仅帮助新人，更是提高自己，这是一种双赢。如果你写了技术文章没有好的地方可以发布，可以投稿给我：<a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#119;&#111;&#x72;&#108;&#x64;&#x6c;&#105;&#x67;&#x61;&#110;&#103;&#64;&#49;&#54;&#x33;&#x2e;&#x63;&#111;&#x6d;">&#x77;&#x6f;&#114;&#108;&#x64;&#108;&#x69;&#x67;&#x61;&#110;&#103;&#64;&#49;&#54;&#51;&#46;&#99;&#x6f;&#109;</a> 我将发布在我的公众号iOS开发（<strong>iOSDevTip</strong>）上，直接分享给上万名iOS开发者。</p>
+<p>把技术分享出来，不仅帮助新人，更是提高自己，这是一种双赢。如果你写了技术文章没有好的地方可以发布，可以投稿给我：<a href="&#x6d;&#97;&#105;&#x6c;&#116;&#111;&#x3a;&#119;&#111;&#x72;&#108;&#x64;&#x6c;&#x69;&#x67;&#97;&#x6e;&#103;&#x40;&#49;&#54;&#x33;&#46;&#x63;&#111;&#x6d;">&#x77;&#x6f;&#114;&#108;&#100;&#x6c;&#105;&#103;&#x61;&#110;&#103;&#64;&#49;&#54;&#x33;&#46;&#x63;&#x6f;&#x6d;</a> 我将发布在我的公众号iOS开发（<strong>iOSDevTip</strong>）上，直接分享给上万名iOS开发者。</p>
 
 <h3>看github开源项目</h3>
 
@@ -1165,133 +1341,6 @@ undoStack = [[NSMutableArray alloc] init];
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-19T06:31:19+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>6:31 am</span></time>
-        
-        
-          | <a href="/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>备忘录模式</strong>是捕获和具体化当前对象的内部状态。换句话说，就是在某个地方存储个东西。稍后，在不违反封装的情况下能够恢复这个具体化的状态；就是说，一些私有数据被私下存储下来了。</p>
-
-<h3>如何使用备忘录模式</h3>
-
-<p>添加下面两个方法到 ViewController.m 文件：</p>
-
-<pre><code>- (void)saveCurrentState
-{
-    // 当用户退出应用之后再重新打开，他想要跟他之前退出时一样的状态
-    // 退出应用，这个时候我们需要做的是把当前显示的专辑存储下来
-    // 因为只有一小片信息，我们可用 NSUserDefaults 来存储信息
-    [[NSUserDefaults standardUserDefaults] setInteger:currentAlbumIndex forKey:@“currentAlbumIndex”];
-}
-
-- (void)loadPreviousState
-{
-    currentAlbumIndex = [[NSUserDefaults standardUserDefaults] integerForKey@“currentAlbumIndex”];
-    [self showDataForAlbumAtIndex:currentAlbumIndex];
-}
-</code></pre>
-
-<p>saveCurrentState 存储当前专辑的索引到 NSUserDefaults ─ NSUserDefaults 是一个标准数据存储，iOS 用来专门存放程序设置和数据。</p>
-
-<p>loadPreviousState 加载这之前存储的专辑索引。这不是备忘录模式的全部，不过你已经达到目的了。</p>
-
-<p>现在，在 ViewController.m 里，滚动视图初始化之前，在 viewDidLoad 里添加下面一行：</p>
-
-<pre><code>[self loadPreviousState];
-</code></pre>
-
-<p>当程序启动的时候加载上一次存储的状态。但是你在哪里存储程序的当前状态呢？你需要使用通知来做这样的事情。当程序进入后台时，iOS 会发送一个 UIApplicationDidEnterBackgroundNotification 通知。你可利用这个通知调用 saveCurrentState。就这么方便？</p>
-
-<p>在 viewDidLoad: 最后面添加下面一行</p>
-
-<pre><code>[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(saveCurrentState) name:UIApplicationDidEnterBackgroundNotification object:nil];
-</code></pre>
-
-<p>现在，当你的 app 进入后台运行后，ViewController 会自动调用 saveCurrentState 存储当前的状态。</p>
-
-<p>现在，添加下面代码：</p>
-
-<pre><code>- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-</code></pre>
-
-<p>这里是确保当 ViewController 被释放时，移除类的 <a href="http://www.superqq.com/blog/2015/06/05/ios-kvogai-shu-yu-shi-jian/">Observer</a>。</p>
-
-<p>构建和运行你的 app，点击到一个专辑，用 Command+Shift+H（如果你使用的是模拟器的话） 将程序在后台运行，然后关掉 app。重启 app，检查之前选择的专辑是不是居中显示：</p>
-
-<p><img src="http://cdn3.raywenderlich.com/wp-content/uploads/2013/09/2013-09-02_10-51-27-214x320.png" alt="1" /></p>
-
-<p>专辑数据看起来是对的，但是正确的专辑封面确没有居中，哪出问题了？</p>
-
-<p>这就是可选方法 initialViewIndexForHorizontalScroller 的用处！因为这个方法没有被委托执行，ViewController 在这种情况下总是会显示默认的第一个专辑封面。</p>
-
-<p>修复这个问题，在 ViewController.m 中添加如下代码：</p>
-
-<pre><code>- (NSInteger)initialViewIndexForHorizontalScroller:(HorizontalScroller *)scroller
-{
-    return currentAlbumIndex;
-}
-</code></pre>
-
-<p>现在 HorizontalScroller 的第一个视图总是会被设置成 currentAlbumIndex 索引的图片。这种方法能够确保你的 app 有一个非常棒的用户体验，并且它是可恢复的。</p>
-
-<p>重新运行你的 app，滚动专辑封面，关闭 app，然后重启确保问题已经得到解决：</p>
-
-<p><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2013/09/2013-09-02_10-56-59-214x320.png" alt="2" /></p>
-
-<p>如果你查看 PersistencyManger 的初始化方法，你会注意到专辑的数据是一种硬编码，PersistencyManger 每次创建，数据也会重复创建一次。有没有一种更好的方法当专辑列表被创建的时候就存储它们呢。那么如何把专辑数据存储到文件里呢？</p>
-
-<p>一种选择就是循环访问 Album 的属性，然后把它存储在一个 plist 文件里，当需要它们的时候重新创建一个 Album 的实例。这不是最好的选择，这需要你在每一个类里根据不同的数据或属性写特定的代码。例子，如果稍后你需要一个电影的类，里面有一些不同的属性，存储和加载这些数据你就需要写一些新的代码。</p>
-
-<p>此外，你不能在每一个类的实例里存储私有变量，因为他们是不可访问的外部类。这就是为什么苹果要创建归档 (Archiving) 机制。</p>
-
-<p><strong>设计模式系列文章</strong>：</p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/">iOS 设计模式系列：Facade – 外观模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/">iOS 设计模式系列：Observer – 观察者模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/">iOS 设计模式系列：Archiving – 归档模式</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/6">&larr; Older</a>
@@ -1326,6 +1375,10 @@ var cpro_id="u2238881";
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-(photo-album)/">iOS开发之保存照片到系统相册（Photo Album）</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/08/02/custom-navigation-button-uibarbuttonitem/">自定义导航按钮UIBarButtonItem</a>
       </li>
     
@@ -1339,10 +1392,6 @@ var cpro_id="u2238881";
     
       <li class="post">
         <a href="/blog/2015/07/31/aktabbarcontroller-similar-to-wechat-library/">AKTabBarController：类似微信的第三方库</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/30/six-tips-on-navigation-bar/">关于导航栏的六个小技巧</a>
       </li>
     
   </ul>
