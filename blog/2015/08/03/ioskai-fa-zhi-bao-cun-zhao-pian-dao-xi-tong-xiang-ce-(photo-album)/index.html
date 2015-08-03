@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>单例模式的两种写法 - 刚刚在线</title>
+  <title>iOS开发之保存照片到系统相册（Photo Album） - 刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="单例模式的两种写法">
-  <meta name="keywords" content="gcd, dispatch, 单例, 单例模式, dispatch_once, allocWithZone, sharedManager, iOS开发, cocoapods, 个人博客, 刚刚在线">
+  <meta name="description" content="保存照片到系统相册这个功能很多社交类的APP都有的，今天我们简单讲解一下，如何将图片保存到系统相册（Photo Album）。">
+  <meta name="keywords" content="保存照片, 系统相册, Photo Album, iOS开发, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/blog/2015/03/21/dan-li-mo-shi-de-xie-fa">
+  <link rel="canonical" href="http://www.superqq.com/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-(photo-album)">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -78,7 +78,7 @@
   
   <header>
     
-      <h1 class="entry-title">单例模式的两种写法</h1>
+      <h1 class="entry-title">iOS开发之保存照片到系统相册（Photo Album）</h1>
     
     
       <p class="meta">
@@ -87,7 +87,7 @@
 
 
 
-<time class='entry-date' datetime='2015-03-21T17:39:16+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>5:39 pm</span></time>
+<time class='entry-date' datetime='2015-08-03T21:43:34+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:43 pm</span></time>
         
         
           | <a href="#comments">Comments</a>
@@ -97,51 +97,64 @@
   </header>
 
 
-<div class="entry-content"><p>单例模式是iOS开发中最常用的设计模式，iOS的单例模式有两种官方写法，如下：</p>
+<div class="entry-content"><p>保存照片到系统相册这个功能很多社交类的APP都有的，今天我们简单讲解一下，如何将图片保存到系统相册（Photo Album）。</p>
 
-<h3>1，常用写法</h3>
+<h2>创建UIImageView</h2>
 
-<pre><code>#import "LGManagerCenter.h"
+<p>创建<code>UIImageView</code>是为了将照片展示出来，我们是要把<code>UIImage</code>保存到系统相册（Photo Album）:</p>
 
-static LGManagerCenter *managerCenter;
+<pre><code>#define SCREEN [UIScreen mainScreen].bounds.size
 
-@implementation LGManagerCenter
+self.image = [UIImage imageNamed:@"iOSDevTip"];
+UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake((SCREEN.width - 300) / 2, 70, 300, 150)];
+imageView.image = self.image;
+[self.view addSubview:imageView];
+</code></pre>
 
-+(LGManagerCenter *)sharedManager{
-    if(!managerCenter)
-        managerCenter=[[self allocWithZone:NULL] init];
-    return  managerCenter;
+<h2>创建UIButton</h2>
+
+<p>创建<code>UIButton</code>并绑定<code>actionClick:</code>事件:</p>
+
+<pre><code>UIButton *button = [[UIButton alloc] init];
+button.frame = CGRectMake( 100, 300, SCREEN.width - 200, 40);
+[button addTarget:self action:@selector(actionClick:) forControlEvents:UIControlEventTouchUpInside];
+[button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+[button setBackgroundColor:[UIColor orangeColor]];
+[button setTitle:@"SavePhoto" forState:UIControlStateNormal];
+[self.view addSubview:button];
+
+
+- (void)actionClick:(UIButton *)button
+{
+
 }
-
-@end
 </code></pre>
 
-<h3>2,用GCD创建单例类</h3>
+<h2>保存照片到系统相册（Photo Album）</h2>
 
-<pre><code>#import "LGManagerCenter.h"
+<p>在<code>actionClick:</code>方法里调用：</p>
 
+<pre><code>UIImageWriteToSavedPhotosAlbum(self.image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+</code></pre>
 
-@implementation LGManagerCenter
+<p>这个时候，我们想知道保存是否成功，所以需要制定毁掉方法</p>
 
-
-+(LGManagerCenter *)sharedManager{
-    static dispatch_once_t predicate;
-    static LGManagerCenter * managerCenter;
-    dispatch_once(&amp;predicate, ^{
-        managerCenter=[[LGManagerCenter alloc] init];
-    });
-    return managerCenter;
+<pre><code>// 指定回调方法
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
+{
+    if(!error){
+        NSLog(@"save success");
+    }else{
+        NSLog(@"save failed");
+    }
 }
-
-@end
 </code></pre>
 
-<p>其中dispatch_once函数只执行一次。</p>
+<p>在这个方法里，我们就知道照片是否保存成功。然后，根据需求来刷新UI线程。用户第一次使用APP的时候，点击<code>SavePhoto</code>按钮的时候，系统会询问权限：</p>
 
-<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/46869740F32868C1F9769ED5FED1C7D0.png" alt="photo" /></p>
 
-<pre><code>iOSDevTip
-</code></pre>
+<p>Demo地址:<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a> 下一篇文章，将会讲如何创建自己的相册并保存照片。</p>
 </div>
 <!--广告位-->
 <script type="text/javascript">
@@ -164,7 +177,7 @@ static LGManagerCenter *managerCenter;
 
 
 
-<time class='entry-date' datetime='2015-03-21T17:39:16+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>5:39 pm</span></time>
+<time class='entry-date' datetime='2015-08-03T21:43:34+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:43 pm</span></time>
       
 
 <span class="categories">
@@ -175,7 +188,7 @@ static LGManagerCenter *managerCenter;
 
 
       <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
-<br>原文链接：<a href="http://www.superqq.com/blog/2015/03/21/dan-li-mo-shi-de-xie-fa/">http://www.superqq.com/blog/2015/03/21/dan-li-mo-shi-de-xie-fa/</a> <!-- 添加这一行代码 -->
+<br>原文链接：<a href="http://www.superqq.com/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-(photo-album)/">http://www.superqq.com/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-(photo-album)/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -196,10 +209,8 @@ static LGManagerCenter *managerCenter;
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/03/13/xi-tong-ti-gong-de-dispatchfang-fa/" title="Previous Post: 系统提供的dispatch方法">&laquo; 系统提供的dispatch方法</a>
+        <a class="basic-alignment left" href="/blog/2015/08/02/custom-navigation-button-uibarbuttonitem/" title="Previous Post: 自定义导航按钮UIBarButtonItem">&laquo; 自定义导航按钮UIBarButtonItem</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/03/24/zi-ji-dong-shou-chuang-jian-%5B%3F%5D-ge-dui-lie-lgqueue/" title="Next Post: 自己动手实现一个队列LGQueue">自己动手实现一个队列LGQueue &ra/categories.htmlquo;</a>
       
     </p>
   </footer>
@@ -209,7 +220,7 @@ static LGManagerCenter *managerCenter;
   <section>
     <h1>Comments</h1>
     <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
-<div class="ds-thread" data-title="单例模式的两种写法"></div>
+<div class="ds-thread" data-title="iOS开发之保存照片到系统相册（Photo Album）"></div>
 <script type="text/javascript">
   var duoshuoQuery = {short_name:"superqq"};
   (function() {
