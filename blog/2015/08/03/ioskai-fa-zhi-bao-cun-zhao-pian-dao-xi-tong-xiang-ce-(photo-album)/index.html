@@ -137,7 +137,7 @@ button.frame = CGRectMake( 100, 300, SCREEN.width - 200, 40);
 <pre><code>UIImageWriteToSavedPhotosAlbum(self.image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
 </code></pre>
 
-<p>这个时候，我们想知道保存是否成功，所以需要制定毁掉方法</p>
+<p>这个时候，我们想知道保存是否成功，所以需要制定回调方法</p>
 
 <pre><code>// 指定回调方法
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
