@@ -6,13 +6,13 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>iOS开发之保存照片到系统相册（Photo Album） - 刚刚在线</title>
+  <title>iOS开发之保存照片到自己创建的相簿 - 刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="保存照片到系统相册这个功能很多社交类的APP都有的，今天我们简单讲解一下，如何将图片保存到系统相册（Photo Album）。">
+  <meta name="description" content="保存照片还可以用ALAssetsLibrary，ALAssetsLibrary提供了我们对iOS设备中的相片、视频的访问，是连接应用程序和相册之间访问的一个桥梁。接下来，我们来详细讲解一下关于系统相册权限获取、保存照片、创建自己的相簿等等功能。">
   <meta name="keywords" content="保存照片, 系统相册, Photo Album, iOS开发, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-(photo-album)">
+  <link rel="canonical" href="http://www.superqq.com/blog/2015/08/04/save-photo-to-own-album">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -78,7 +78,7 @@
   
   <header>
     
-      <h1 class="entry-title">iOS开发之保存照片到系统相册（Photo Album）</h1>
+      <h1 class="entry-title">iOS开发之保存照片到自己创建的相簿</h1>
     
     
       <p class="meta">
@@ -87,7 +87,7 @@
 
 
 
-<time class='entry-date' datetime='2015-08-03T21:43:34+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:43 pm</span></time>
+<time class='entry-date' datetime='2015-08-04T22:41:08+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:41 pm</span></time>
         
         
           | <a href="#comments">Comments</a>
@@ -97,64 +97,222 @@
   </header>
 
 
-<div class="entry-content"><p>保存照片到系统相册这个功能很多社交类的APP都有的，今天我们简单讲解一下，如何将图片保存到系统相册（Photo Album）。</p>
+<div class="entry-content"><p>在<a href="http://www.superqq.com/">刚刚在线</a>上一篇文章<a href="http://www.superqq.com/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-%28photo-album%29/">iOS开发之保存照片到系统相册（Photo Album）</a>，我们讲到了如何保持照片系统相册。还有其他保存的方法吗？</p>
 
-<h2>创建UIImageView</h2>
+<p>保存照片还可以用<code>ALAssetsLibrary</code>，<code>ALAssetsLibrary</code>提供了我们对iOS设备中的相片、视频的访问，是连接应用程序和相册之间访问的一个桥梁。</p>
 
-<p>创建<code>UIImageView</code>是为了将照片展示出来，我们是要把<code>UIImage</code>保存到系统相册（Photo Album）:</p>
+<p>接下来，我们来详细讲解一下关于系统相册权限获取、保存照片、创建自己的相簿等等功能。</p>
 
-<pre><code>#define SCREEN [UIScreen mainScreen].bounds.size
+<h2>创建自己的相簿</h2>
 
-self.image = [UIImage imageNamed:@"iOSDevTip"];
-UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake((SCREEN.width - 300) / 2, 70, 300, 150)];
-imageView.image = self.image;
-[self.view addSubview:imageView];
+<p>这也是一种比较创建的作法，创建自己的相簿，然后把照片或者视频保存到自己的相簿中。相关代码如下：</p>
+
+<pre><code>  ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+[library addAssetsGroupAlbumWithName:@"test" resultBlock:^(ALAssetsGroup *group) {
+
+    //创建相簿成功
+
+} failureBlock:^(NSError *error) {
+    //失败
+}];
 </code></pre>
 
-<h2>创建UIButton</h2>
+<h2>保存照片</h2>
 
-<p>创建<code>UIButton</code>并绑定<code>actionClick:</code>事件:</p>
+<p>这个方法也是将照片保存到系统相簿里面，不是保存到自己创建的相簿里面。代码如下：</p>
 
-<pre><code>UIButton *button = [[UIButton alloc] init];
-button.frame = CGRectMake( 100, 300, SCREEN.width - 200, 40);
-[button addTarget:self action:@selector(actionClick:) forControlEvents:UIControlEventTouchUpInside];
-[button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-[button setBackgroundColor:[UIColor orangeColor]];
-[button setTitle:@"SavePhoto" forState:UIControlStateNormal];
-[self.view addSubview:button];
-
-
-- (void)actionClick:(UIButton *)button
-{
-
-}
-</code></pre>
-
-<h2>保存照片到系统相册（Photo Album）</h2>
-
-<p>在<code>actionClick:</code>方法里调用：</p>
-
-<pre><code>UIImageWriteToSavedPhotosAlbum(self.image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
-</code></pre>
-
-<p>这个时候，我们想知道保存是否成功，所以需要制定毁掉方法</p>
-
-<pre><code>// 指定回调方法
-- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
-{
-    if(!error){
-        NSLog(@"save success");
+<pre><code> ALAssetsLibrary *library = [[ALAssetsLibrary alloc]init];
+[library writeImageToSavedPhotosAlbum:image.CGImage orientation:(ALAssetOrientation)image.imageOrientation completionBlock:^(NSURL *asSetUrl,NSError *error){
+    if (error) {
+       //失败
     }else{
-        NSLog(@"save failed");
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"存储成功"
+                                                       message:nil
+                                                      delegate:nil
+                                             cancelButtonTitle:@"确定"
+                                             otherButtonTitles:nil, nil];
+        [alert show];
+
     }
+}];
+</code></pre>
+
+<h2>获取权限</h2>
+
+<p>在保存照片之前，如果用户关闭相册权限，这个时候是保存失败的。如果你不做任何处理，用户是不会知道自己保存失败了。所以，我们可以在保存照片之前，做出相应的提示。如何获取这个权限呢？一般有两种方法：</p>
+
+<ol>
+<li><p>创建相簿失败</p></li>
+<li><p>保存照片失败</p></li>
+</ol>
+
+
+<p>在上面两个方法<strong>创建自己的相簿</strong>和<strong>保存照片</strong>的失败结果里，我们可以弹出获取照片权限失败的提示。我们拿第一个创建相簿失败来举例：</p>
+
+<pre><code>ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+[library addAssetsGroupAlbumWithName:@"test" resultBlock:^(ALAssetsGroup *group)    {
+
+      //创建相簿成功
+
+} failureBlock:^(NSError *error) {
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"存储失败"
+                                                       message:@"请打开 设置-隐私-照片 来进行设置"
+                                                      delegate:nil
+                                             cancelButtonTitle:@"确定"
+                                             otherButtonTitles:nil, nil];
+    [alert show];
+}];
+</code></pre>
+
+<p>在保存照片失败的结果里，我们也可以弹出相应的提示，让用户打开应用程序的相册权限。</p>
+
+<h2>保存照片到自己的相簿</h2>
+
+<p>下面这段代码是在大谷歌里面找到的，亲自测试过是可以用的，整理如下：</p>
+
+<pre><code>#pragma mark - 创建相册
+- (void)createAlbum
+{
+    ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
+    NSMutableArray *groups=[[NSMutableArray alloc]init];
+    ALAssetsLibraryGroupsEnumerationResultsBlock listGroupBlock = ^(ALAssetsGroup *group, BOOL *stop)
+    {
+        if (group)
+        {
+            [groups addObject:group];
+        }
+
+        else
+        {
+            BOOL haveHDRGroup = NO;
+
+            for (ALAssetsGroup *gp in groups)
+            {
+                NSString *name =[gp valueForProperty:ALAssetsGroupPropertyName];
+
+                if ([name isEqualToString:@"iOSDevTip"])
+                {
+                    haveHDRGroup = YES;
+                }
+            }
+
+            if (!haveHDRGroup)
+            {
+                //do add a group named "XXXX"
+                [assetsLibrary addAssetsGroupAlbumWithName:@"iOSDevTip"
+                                               resultBlock:^(ALAssetsGroup *group)
+                 {
+                     [groups addObject:group];
+
+                 }
+                                              failureBlock:nil];
+                haveHDRGroup = YES;
+            }
+        }
+
+    };
+    //创建相簿
+    [assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupAlbum usingBlock:listGroupBlock failureBlock:nil];
+
+    [self saveToAlbumWithMetadata:nil imageData:UIImagePNGRepresentation(self.image) customAlbumName:@"iOSDevTip" completionBlock:^
+     {
+         //这里可以创建添加成功的方法
+
+     }
+                     failureBlock:^(NSError *error)
+     {
+         //处理添加失败的方法显示alert让它回到主线程执行，不然那个框框死活不肯弹出来
+         dispatch_async(dispatch_get_main_queue(), ^{
+
+             //添加失败一般是由用户不允许应用访问相册造成的，这边可以取出这种情况加以判断一下
+             if([error.localizedDescription rangeOfString:@"User denied access"].location != NSNotFound ||[error.localizedDescription rangeOfString:@"用户拒绝访问"].location!=NSNotFound){
+                 UIAlertView *alert=[[UIAlertView alloc]initWithTitle:error.localizedDescription message:error.localizedFailureReason delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", nil) otherButtonTitles: nil];
+
+                 [alert show];
+             }
+         });
+     }];
+}
+
+- (void)saveToAlbumWithMetadata:(NSDictionary *)metadata
+                      imageData:(NSData *)imageData
+                customAlbumName:(NSString *)customAlbumName
+                completionBlock:(void (^)(void))completionBlock
+                   failureBlock:(void (^)(NSError *error))failureBlock
+{
+
+    ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
+    __weak ALAssetsLibrary *weakSelf = assetsLibrary;
+    void (^AddAsset)(ALAssetsLibrary *, NSURL *) = ^(ALAssetsLibrary *assetsLibrary, NSURL *assetURL) {
+        [assetsLibrary assetForURL:assetURL resultBlock:^(ALAsset *asset) {
+            [assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
+
+                if ([[group valueForProperty:ALAssetsGroupPropertyName] isEqualToString:customAlbumName]) {
+                    [group addAsset:asset];
+                    if (completionBlock) {
+                        completionBlock();
+                    }
+                }
+            } failureBlock:^(NSError *error) {
+                if (failureBlock) {
+                    failureBlock(error);
+                }
+            }];
+        } failureBlock:^(NSError *error) {
+            if (failureBlock) {
+                failureBlock(error);
+            }
+        }];
+    };
+    [assetsLibrary writeImageDataToSavedPhotosAlbum:imageData metadata:metadata completionBlock:^(NSURL *assetURL, NSError *error) {
+        if (customAlbumName) {
+            [assetsLibrary addAssetsGroupAlbumWithName:customAlbumName resultBlock:^(ALAssetsGroup *group) {
+                if (group) {
+                    [weakSelf assetForURL:assetURL resultBlock:^(ALAsset *asset) {
+                        [group addAsset:asset];
+                        if (completionBlock) {
+                            completionBlock();
+                        }
+                    } failureBlock:^(NSError *error) {
+                        if (failureBlock) {
+                            failureBlock(error);
+                        }
+                    }];
+                } else {
+                    AddAsset(weakSelf, assetURL);
+                }
+            } failureBlock:^(NSError *error) {
+                AddAsset(weakSelf, assetURL);
+            }];
+        } else {
+            if (completionBlock) {
+                completionBlock();
+            }
+        }
+    }];
 }
 </code></pre>
 
-<p>在这个方法里，我们就知道照片是否保存成功。然后，根据需求来刷新UI线程。用户第一次使用APP的时候，点击<code>SavePhoto</code>按钮的时候，系统会询问权限：</p>
+<h2>ALAssetsLibrary+CustomPhotoAlbum保存照片</h2>
 
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/46869740F32868C1F9769ED5FED1C7D0.png" alt="photo" /></p>
+<p><code>github</code>上有一个项目<a href="https://github.com/Kjuly/ALAssetsLibrary-CustomPhotoAlbum">ALAssetsLibrary+CustomPhotoAlbum</a>，讲保存照片做了很好的封装。使用之前记得先导入头文件：</p>
 
-<p>Demo地址:<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a> 下一篇文章，将会讲如何创建自己的相册并保存照片。</p>
+<pre><code>#import "ALAssetsLibrary+CustomPhotoAlbum.h"
+</code></pre>
+
+<p>保存照片到自己的相簿，直接调用：</p>
+
+<pre><code>ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+[library saveImage:self.image toAlbum:@"gang" completion:^(NSURL *assetURL, NSError *error) {
+    if (!error) {
+
+    }
+} failure:^(NSError *error) {
+
+}];
+</code></pre>
+
+<p><code>ALAssetsLibrary+CustomPhotoAlbum</code>对保存视频的封装也是非常好的。我现在项目中用的也是这个第三方来保存照片和视频。因为不错，所以推荐给大家使用。</p>
 </div>
 <!--广告位-->
 <script type="text/javascript">
@@ -177,7 +335,7 @@ button.frame = CGRectMake( 100, 300, SCREEN.width - 200, 40);
 
 
 
-<time class='entry-date' datetime='2015-08-03T21:43:34+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:43 pm</span></time>
+<time class='entry-date' datetime='2015-08-04T22:41:08+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:41 pm</span></time>
       
 
 <span class="categories">
@@ -188,7 +346,7 @@ button.frame = CGRectMake( 100, 300, SCREEN.width - 200, 40);
 
 
       <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
-<br>原文链接：<a href="http://www.superqq.com/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-(photo-album)/">http://www.superqq.com/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-(photo-album)/</a> <!-- 添加这一行代码 -->
+<br>原文链接：<a href="http://www.superqq.com/blog/2015/08/04/save-photo-to-own-album/">http://www.superqq.com/blog/2015/08/04/save-photo-to-own-album/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -209,10 +367,8 @@ button.frame = CGRectMake( 100, 300, SCREEN.width - 200, 40);
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/08/02/custom-navigation-button-uibarbuttonitem/" title="Previous Post: 自定义导航按钮UIBarButtonItem">&laquo; 自定义导航按钮UIBarButtonItem</a>
+        <a class="basic-alignment left" href="/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-(photo-album)/" title="Previous Post: iOS开发之保存照片到系统相册（Photo Album）">&laquo; iOS开发之保存照片到系统相册（Photo Album）</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/08/04/save-photo-to-own-album/" title="Next Post: iOS开发之保存照片到自己创建的相簿">iOS开发之保存照片到自己创建的相簿 &ra/categories.htmlquo;</a>
       
     </p>
   </footer>
@@ -222,7 +378,7 @@ button.frame = CGRectMake( 100, 300, SCREEN.width - 200, 40);
   <section>
     <h1>Comments</h1>
     <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
-<div class="ds-thread" data-title="iOS开发之保存照片到系统相册（Photo Album）"></div>
+<div class="ds-thread" data-title="iOS开发之保存照片到自己创建的相簿"></div>
 <script type="text/javascript">
   var duoshuoQuery = {short_name:"superqq"};
   (function() {

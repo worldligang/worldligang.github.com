@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-04T12:26:36+08:00</updated>
+  <updated>2015-08-04T22:44:01+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,230 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发之保存照片到自己创建的相簿]]></title>
+    <link href="http://www.superqq.com/blog/2015/08/04/save-photo-to-own-album/"/>
+    <updated>2015-08-04T22:41:08+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/08/04/save-photo-to-own-album</id>
+    <content type="html"><![CDATA[<p>在<a href="http://www.superqq.com/">刚刚在线</a>上一篇文章<a href="http://www.superqq.com/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-%28photo-album%29/">iOS开发之保存照片到系统相册（Photo Album）</a>，我们讲到了如何保持照片系统相册。还有其他保存的方法吗？</p>
+
+<p>保存照片还可以用<code>ALAssetsLibrary</code>，<code>ALAssetsLibrary</code>提供了我们对iOS设备中的相片、视频的访问，是连接应用程序和相册之间访问的一个桥梁。</p>
+
+<p>接下来，我们来详细讲解一下关于系统相册权限获取、保存照片、创建自己的相簿等等功能。</p>
+
+<h2>创建自己的相簿</h2>
+
+<p>这也是一种比较创建的作法，创建自己的相簿，然后把照片或者视频保存到自己的相簿中。相关代码如下：</p>
+
+<pre><code>  ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+[library addAssetsGroupAlbumWithName:@"test" resultBlock:^(ALAssetsGroup *group) {
+
+    //创建相簿成功
+
+} failureBlock:^(NSError *error) {
+    //失败
+}];
+</code></pre>
+
+<h2>保存照片</h2>
+
+<p>这个方法也是将照片保存到系统相簿里面，不是保存到自己创建的相簿里面。代码如下：</p>
+
+<pre><code> ALAssetsLibrary *library = [[ALAssetsLibrary alloc]init];
+[library writeImageToSavedPhotosAlbum:image.CGImage orientation:(ALAssetOrientation)image.imageOrientation completionBlock:^(NSURL *asSetUrl,NSError *error){
+    if (error) {
+       //失败
+    }else{
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"存储成功"
+                                                       message:nil
+                                                      delegate:nil
+                                             cancelButtonTitle:@"确定"
+                                             otherButtonTitles:nil, nil];
+        [alert show];
+
+    }
+}];
+</code></pre>
+
+<h2>获取权限</h2>
+
+<p>在保存照片之前，如果用户关闭相册权限，这个时候是保存失败的。如果你不做任何处理，用户是不会知道自己保存失败了。所以，我们可以在保存照片之前，做出相应的提示。如何获取这个权限呢？一般有两种方法：</p>
+
+<ol>
+<li><p>创建相簿失败</p></li>
+<li><p>保存照片失败</p></li>
+</ol>
+
+
+<p>在上面两个方法<strong>创建自己的相簿</strong>和<strong>保存照片</strong>的失败结果里，我们可以弹出获取照片权限失败的提示。我们拿第一个创建相簿失败来举例：</p>
+
+<pre><code>ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+[library addAssetsGroupAlbumWithName:@"test" resultBlock:^(ALAssetsGroup *group)    {
+
+      //创建相簿成功
+
+} failureBlock:^(NSError *error) {
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"存储失败"
+                                                       message:@"请打开 设置-隐私-照片 来进行设置"
+                                                      delegate:nil
+                                             cancelButtonTitle:@"确定"
+                                             otherButtonTitles:nil, nil];
+    [alert show];
+}];
+</code></pre>
+
+<p>在保存照片失败的结果里，我们也可以弹出相应的提示，让用户打开应用程序的相册权限。</p>
+
+<h2>保存照片到自己的相簿</h2>
+
+<p>下面这段代码是在大谷歌里面找到的，亲自测试过是可以用的，整理如下：</p>
+
+<pre><code>#pragma mark - 创建相册
+- (void)createAlbum
+{
+    ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
+    NSMutableArray *groups=[[NSMutableArray alloc]init];
+    ALAssetsLibraryGroupsEnumerationResultsBlock listGroupBlock = ^(ALAssetsGroup *group, BOOL *stop)
+    {
+        if (group)
+        {
+            [groups addObject:group];
+        }
+
+        else
+        {
+            BOOL haveHDRGroup = NO;
+
+            for (ALAssetsGroup *gp in groups)
+            {
+                NSString *name =[gp valueForProperty:ALAssetsGroupPropertyName];
+
+                if ([name isEqualToString:@"iOSDevTip"])
+                {
+                    haveHDRGroup = YES;
+                }
+            }
+
+            if (!haveHDRGroup)
+            {
+                //do add a group named "XXXX"
+                [assetsLibrary addAssetsGroupAlbumWithName:@"iOSDevTip"
+                                               resultBlock:^(ALAssetsGroup *group)
+                 {
+                     [groups addObject:group];
+
+                 }
+                                              failureBlock:nil];
+                haveHDRGroup = YES;
+            }
+        }
+
+    };
+    //创建相簿
+    [assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupAlbum usingBlock:listGroupBlock failureBlock:nil];
+
+    [self saveToAlbumWithMetadata:nil imageData:UIImagePNGRepresentation(self.image) customAlbumName:@"iOSDevTip" completionBlock:^
+     {
+         //这里可以创建添加成功的方法
+
+     }
+                     failureBlock:^(NSError *error)
+     {
+         //处理添加失败的方法显示alert让它回到主线程执行，不然那个框框死活不肯弹出来
+         dispatch_async(dispatch_get_main_queue(), ^{
+
+             //添加失败一般是由用户不允许应用访问相册造成的，这边可以取出这种情况加以判断一下
+             if([error.localizedDescription rangeOfString:@"User denied access"].location != NSNotFound ||[error.localizedDescription rangeOfString:@"用户拒绝访问"].location!=NSNotFound){
+                 UIAlertView *alert=[[UIAlertView alloc]initWithTitle:error.localizedDescription message:error.localizedFailureReason delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", nil) otherButtonTitles: nil];
+
+                 [alert show];
+             }
+         });
+     }];
+}
+
+- (void)saveToAlbumWithMetadata:(NSDictionary *)metadata
+                      imageData:(NSData *)imageData
+                customAlbumName:(NSString *)customAlbumName
+                completionBlock:(void (^)(void))completionBlock
+                   failureBlock:(void (^)(NSError *error))failureBlock
+{
+
+    ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
+    __weak ALAssetsLibrary *weakSelf = assetsLibrary;
+    void (^AddAsset)(ALAssetsLibrary *, NSURL *) = ^(ALAssetsLibrary *assetsLibrary, NSURL *assetURL) {
+        [assetsLibrary assetForURL:assetURL resultBlock:^(ALAsset *asset) {
+            [assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
+
+                if ([[group valueForProperty:ALAssetsGroupPropertyName] isEqualToString:customAlbumName]) {
+                    [group addAsset:asset];
+                    if (completionBlock) {
+                        completionBlock();
+                    }
+                }
+            } failureBlock:^(NSError *error) {
+                if (failureBlock) {
+                    failureBlock(error);
+                }
+            }];
+        } failureBlock:^(NSError *error) {
+            if (failureBlock) {
+                failureBlock(error);
+            }
+        }];
+    };
+    [assetsLibrary writeImageDataToSavedPhotosAlbum:imageData metadata:metadata completionBlock:^(NSURL *assetURL, NSError *error) {
+        if (customAlbumName) {
+            [assetsLibrary addAssetsGroupAlbumWithName:customAlbumName resultBlock:^(ALAssetsGroup *group) {
+                if (group) {
+                    [weakSelf assetForURL:assetURL resultBlock:^(ALAsset *asset) {
+                        [group addAsset:asset];
+                        if (completionBlock) {
+                            completionBlock();
+                        }
+                    } failureBlock:^(NSError *error) {
+                        if (failureBlock) {
+                            failureBlock(error);
+                        }
+                    }];
+                } else {
+                    AddAsset(weakSelf, assetURL);
+                }
+            } failureBlock:^(NSError *error) {
+                AddAsset(weakSelf, assetURL);
+            }];
+        } else {
+            if (completionBlock) {
+                completionBlock();
+            }
+        }
+    }];
+}
+</code></pre>
+
+<h2>ALAssetsLibrary+CustomPhotoAlbum保存照片</h2>
+
+<p><code>github</code>上有一个项目<a href="https://github.com/Kjuly/ALAssetsLibrary-CustomPhotoAlbum">ALAssetsLibrary+CustomPhotoAlbum</a>，讲保存照片做了很好的封装。使用之前记得先导入头文件：</p>
+
+<pre><code>#import "ALAssetsLibrary+CustomPhotoAlbum.h"
+</code></pre>
+
+<p>保存照片到自己的相簿，直接调用：</p>
+
+<pre><code>ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+[library saveImage:self.image toAlbum:@"gang" completion:^(NSURL *assetURL, NSError *error) {
+    if (!error) {
+
+    }
+} failure:^(NSError *error) {
+
+}];
+</code></pre>
+
+<p><code>ALAssetsLibrary+CustomPhotoAlbum</code>对保存视频的封装也是非常好的。我现在项目中用的也是这个第三方来保存照片和视频。因为不错，所以推荐给大家使用。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS开发之保存照片到系统相册（Photo Album）]]></title>
@@ -58,7 +282,7 @@ button.frame = CGRectMake( 100, 300, SCREEN.width - 200, 40);
 <pre><code>UIImageWriteToSavedPhotosAlbum(self.image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
 </code></pre>
 
-<p>这个时候，我们想知道保存是否成功，所以需要制定回调方法</p>
+<p>这个时候，我们想知道保存是否成功，所以需要制定毁掉方法</p>
 
 <pre><code>// 指定回调方法
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
@@ -365,128 +589,6 @@ _tabBarController = [[AKTabBarController alloc] initWithTabBarHeight:50 position
 </code></pre>
 
 <p>以上是六个关于导航栏的小技巧。更多iOS开发相关的技术，请关注我的微信公众号iOS开发：<strong>iOSDevTip</strong></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS开发之UIImage等比缩放]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/29/uiimage-geometric-zoom/"/>
-    <updated>2015-07-29T00:01:15+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/29/uiimage-geometric-zoom</id>
-    <content type="html"><![CDATA[<h2>评论功能真不错</h2>
-
-<p>评论开通后，果然有很多人吐槽。谢谢大家的支持和关爱，如果有做的不到的地方，还请海涵。毕竟我一个人的力量是有限的，我会尽自己最大的努力大家准备一些干货。</p>
-
-<p>有些内容可能都是比较基础的，记住：不积跬步无以至千里，不积小流无以成江海。我想这个道理大家都懂，在为大家准备文章的过程中，对我来说也是一次学习成长。</p>
-
-<p>大家可以继续吐槽！微信的评论就是一个沟通的渠道，也是一篇文章的延续。你也可以在评论中写一些你对iOS开发的见解，说不定就会对他人有帮助。</p>
-
-<p>很高兴，已经有好几位iOS开发的朋友答应以后会写文章投稿给我。在这里，我再强调一下：如果你有好的技术文章一定要投稿给我噢！投稿邮箱：</p>
-
-<pre><code>worldligang@163.com
-</code></pre>
-
-<p>前面讲了<a href="http://www.superqq.com/blog/2015/07/26/jie-qu-uiimagezhi-ding-da-xiao-qu-yu/">截取UIImage指定大小区域</a>，很方便的截取<code>UIImage</code>。今天要和大家分享的是<code>UIImage</code>的缩放。</p>
-
-<p>两种缩放:</p>
-
-<ol>
-<li>缩放到指定大小，也就是指定的<code>size</code>.</li>
-<li>等比缩放。</li>
-</ol>
-
-
-<h2>缩放到指定大小</h2>
-
-<pre><code>- (UIImage*)imageCompressWithSimple:(UIImage*)image scaledToSize:(CGSize)size
-{
-    UIGraphicsBeginImageContext(size);
-    [image drawInRect:CGRectMake(0,0,size.width,size.height)];
-    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return newImage;
-}
-</code></pre>
-
-<h2>等比缩放</h2>
-
-<h3>通过缩放系数</h3>
-
-<pre><code>- (UIImage*)imageCompressWithSimple:(UIImage*)image scale:(float)scale
-{
-    CGSize size = image.size;
-    CGFloat width = size.width;
-    CGFloat height = size.height;
-    CGFloat scaledWidth = width * scale;
-    CGFloat scaledHeight = height * scale;
-    UIGraphicsBeginImageContext(size); // this will crop
-    [image drawInRect:CGRectMake(0,0,scaledWidth,scaledHeight)];
-    UIImage* newImage= UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return newImage;
-}
-</code></pre>
-
-<p><code>scale</code>是缩放系数  。</p>
-
-<h3>通过计算得到缩放系数</h3>
-
-<pre><code>- (UIImage*)imageByScalingAndCroppingForSize:(CGSize)targetSize
-{
-
-    UIImage *sourceImage = [UIImage imageNamed:@"test.jpg"];
-    UIImage *newImage = nil;
-    CGSize imageSize = sourceImage.size;
-    CGFloat width = imageSize.width;
-    CGFloat height = imageSize.height;
-    CGFloat targetWidth = targetSize.width;
-    CGFloat targetHeight = targetSize.height;
-    CGFloat scaleFactor = 0.0;
-    CGFloat scaledWidth = targetWidth;
-    CGFloat scaledHeight = targetHeight;
-    CGPoint thumbnailPoint = CGPointMake(0.0,0.0);
-
-    if (CGSizeEqualToSize(imageSize, targetSize) == NO)
-    {
-        CGFloat widthFactor = targetWidth / width;
-        CGFloat heightFactor = targetHeight / height;
-        if (widthFactor &gt; heightFactor)
-            scaleFactor = widthFactor; // scale to fit height
-        else
-            scaleFactor = heightFactor; // scale to fit width
-
-        scaledWidth= width * scaleFactor;
-        scaledHeight = height * scaleFactor;
-        // center the image
-        if (widthFactor &gt; heightFactor)
-        {
-            thumbnailPoint.y = (targetHeight - scaledHeight) * 0.5;
-        }
-        else if (widthFactor &lt; heightFactor)
-        {
-            thumbnailPoint.x = (targetWidth - scaledWidth) * 0.5;
-        }
-    }
-
-    UIGraphicsBeginImageContext(targetSize); // this will crop
-    CGRect thumbnailRect = CGRectZero;
-    thumbnailRect.origin = thumbnailPoint;
-    thumbnailRect.size.width= scaledWidth;
-    thumbnailRect.size.height = scaledHeight;
-    [sourceImage drawInRect:thumbnailRect];
-    newImage = UIGraphicsGetImageFromCurrentImageContext();
-
-    if(newImage == nil)
-        NSLog(@"could not scale image");
-    //pop the context to get back to the default
-    UIGraphicsEndImageContext();
-
-    return newImage;
-
-}
-</code></pre>
-
-<p>很久之前写了一篇文章<a href="http://www.superqq.com/blog/2015/01/22/jie-jue-mwphotobrowserzhong-de-sdwebimagejia-zai-da-tu-dao-zhi-de-nei-cun-jing-gao-wen-ti/">解决MWPhotoBrowser中的SDWebImage加载大图导致的内存警告问题</a>。这个我记得当时从服务器拿到的照片大概有10几M的样子，加载出来会导致内存警告。所以我当时通过修改SDWebImage源码，就是把下载下来的照片进行缩放，内存就降下来了。一般情况下应该不会加载这么大的照片的，用户要是知道，早把你的APP给删掉了。</p>
 ]]></content>
   </entry>
   

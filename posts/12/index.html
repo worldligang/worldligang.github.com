@@ -81,6 +81,130 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/11/11/jie-du-afnetworkingzhong-demode-mvc/">解读AFNetworking中Demo的MVC</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-11-11T11:00:21+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:00 am</span></time>
+        
+        
+          | <a href="/blog/2014/11/11/jie-du-afnetworkingzhong-demode-mvc/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Demo的下载地址：<a href=""></a><a href="https://github.com/AFNetworking/AFNetworking.git"target="_blank"title="AFNetworking下载">AFNetworking下载</a></p>
+
+<p>打开Demo：</p>
+
+<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlylDJt3FABXaQmFVO4Hqm1zNzeQGY2kKVSJ9CtQR7HWcsKelE6nuLauFQMdWtO2L90ccabibh5v1yeg/640"></p>
+
+<p>现实的功能，就是一个简易的微博timeline界面：</p>
+
+<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlylDJt3FABXaQmFVO4Hqm1zNW4svNoeQPlAsBHJ40YJeiaUib7ia5Hdgo9Yf5YBee5zZ1lDbXphGCHibCQ/640"></p>
+
+<p>项目预览：</p>
+
+<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlylDJt3FABXaQmFVO4Hqm1zNFUp9X2kpra3gqd98Qh4Yn1RhnHsIKcI46TP97BVKbvJicpvYoUd5tuA/640"></p>
+
+<p>用到的第三方：AFNetworking 和 UIKit+AFNetworking</p>
+
+<p>功能：用户图像（先显示默认图，在加载图片），用户发的内容，下拉刷新。</p>
+
+<p><div class="entry-content"><h3>C层：</h3></p>
+
+<p>发一个请求：（告诉M 要做什么）</p>
+
+<pre><code>- (void)reload:(__unusedid)sender {
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+
+    NSURLSessionTask *task = [PostglobalTimelinePostsWithBlock:^(NSArray *posts, NSError *error) {
+        if (!error) {
+
+             self.posts = posts;
+            [self.tableViewreloadData];
+        }
+    }];
+
+    [UIAlertViewshowAlertViewForTaskWithErrorOnCompletion:task delegate:nil];
+    [self.refreshControlsetRefreshingWithStateOfTask:task];
+}
+</code></pre>
+
+<p>M 做完之手，产生多个post对象，放到self.post数组里面。C拿到M给的post对象，去更新V</p>
+
+<pre><code>cell.post = [self.postsobjectAtIndex:(NSUInteger)indexPath.row];
+</code></pre>
+
+<p><div class="entry-content"><h3>M层：</h3></p>
+
+<p>M 收到C的请求：去请求数据，解析，转换成post对象，然后通过block返回给C</p>
+
+<pre><code>+ (NSURLSessionDataTask *)globalTimelinePostsWithBlock:(void (^)(NSArray *posts, NSError *error))block {
+    return [[AFAppDotNetAPIClientsharedClient] GET:@"stream/0/posts/stream/global"parameters:nilsuccess:^(NSURLSessionDataTask * __unused task, id JSON) {
+        NSArray *postsFromResponse = [JSON valueForKeyPath:@"data"];
+        NSMutableArray *mutablePosts = [NSMutableArrayarrayWithCapacity:[postsFromResponse count]];
+        for (NSDictionary *attributes in postsFromResponse) {
+            Post *post = [[Postalloc] initWithAttributes:attributes];
+            [mutablePosts addObject:post];
+        }
+
+        if (block) {
+            block([NSArrayarrayWithArray:mutablePosts], nil);
+        }
+    } failure:^(NSURLSessionDataTask *__unused task, NSError *error) {
+        if (block) {
+            block([NSArrayarray], error);
+        }
+    }];
+}
+</code></pre>
+
+<p><div class="entry-content"><h3>V层：</h3></p>
+
+<p>V：拿到C给的数据，来展示出来，这一步就是更新UI</p>
+
+<pre><code>- (void)setPost:(Post *)post {
+    _post = post;
+
+    self.textLabel.text = _post.user.username;
+    self.detailTextLabel.text = _post.text;
+    [self.imageViewsetImageWithURL:_post.user.avatarImageURLplaceholderImage:[UIImageimageNamed:@"profile-image-placeholder"]];
+
+    [selfsetNeedsLayout];
+}
+</code></pre>
+
+<p>其中 ：</p>
+
+<pre><code>    [self.imageViewsetImageWithURL:_post.user.avatarImageURLplaceholderImage:[UIImageimageNamed:@"profile-image-placeholder"]];
+</code></pre>
+
+<p>这句代码是对UIImageView的扩展，在UIKit+AFNetworking可以直接使用，非常方便。</p>
+
+<p>我的微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/11/10/qian-xi-mvche-shuo-mei-de-guo-cheng/">浅析MVC和说媒的过程</a></h1>
     
     
@@ -973,6 +1097,10 @@ var cpro_id="u2238881";
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/08/04/save-photo-to-own-album/">iOS开发之保存照片到自己创建的相簿</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-(photo-album)/">iOS开发之保存照片到系统相册（Photo Album）</a>
       </li>
     
@@ -986,10 +1114,6 @@ var cpro_id="u2238881";
     
       <li class="post">
         <a href="/blog/2015/08/01/octopress-add-duoshuo/">为刚刚在线（Octopress）添加多说评论系统</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/31/aktabbarcontroller-similar-to-wechat-library/">AKTabBarController：类似微信的第三方库</a>
       </li>
     
   </ul>
