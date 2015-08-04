@@ -47,7 +47,7 @@ description: 保存照片到系统相册这个功能很多社交类的APP都有�
 
 	UIImageWriteToSavedPhotosAlbum(self.image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
    
-这个时候，我们想知道保存是否成功，所以需要制定毁掉方法   
+这个时候，我们想知道保存是否成功，所以需要制定回调方法   
     
 	// 指定回调方法
 	- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
