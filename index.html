@@ -81,6 +81,76 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/08/05/multiple-uiimage-merged/">多个UIImage合并成一个UIImage</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-05T17:43:53+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:43 pm</span></time>
+        
+        
+          | <a href="/blog/2015/08/05/multiple-uiimage-merged/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>写了两篇关于照片保存的文章：</p>
+
+<ol>
+<li><a href="http://www.superqq.com/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-%28photo-album%29/">iOS开发之保存照片到系统相册（Photo Album）</a></li>
+<li><a href="http://www.superqq.com/blog/2015/08/04/save-photo-to-own-album/">iOS开发之保存照片到自己创建的相簿</a></li>
+</ol>
+
+
+<p>介绍了如何将图片保存到系统相册，也可以将照片保存到自己的相簿。里面还介绍了一个第三方<code>ALAssetsLibrary+CustomPhotoAlbum</code>保存照片的方法。</p>
+
+<p>本篇文章将会介绍如何将多个<code>UIImage</code>合并成一个<code>UIImage</code>。听起来似乎有点晕晕乎乎的，这个可以合并吗？答案是肯定的。我们拿两个<code>UIImage</code>来举例。</p>
+
+<h2>创建两个UIImage</h2>
+
+<pre><code>UIImage *image1 = [UIImage imageNamed:@"iOSDevTip"];
+UIImage *image2 = [UIImage imageNamed:@"CodePush"];
+</code></pre>
+
+<p>创建<code>UIImage</code>的方法有很多种，我们就简单的通过<code>imageNamed:</code>方法来创建。</p>
+
+<h2>合并之后的size</h2>
+
+<pre><code>CGSize size = CGSizeMake(image1.size.width + image2.size.width, image1.size.height);
+</code></pre>
+
+<p>合并两个<code>UIImage</code>，需要计算合并之后的<code>size</code>。假设这两个<code>UIImage</code>的高度是是相同的，把他们的宽度相加，得到合并之后的<code>UIImage</code>的<code>size</code>。</p>
+
+<h2>合并方法</h2>
+
+<p>有了<code>UIImage</code>和<code>size</code>接下来就是把两个<code>UIImage</code>合并，方法如下：</p>
+
+<pre><code> UIGraphicsBeginImageContext(size);
+[image1 drawInRect:CGRectMake(0, 0, image1.size.width, size.height)];
+[image2 drawInRect:CGRectMake(image1.size.width, 0, image2.size.width, size.height)];
+UIImage *togetherImage = UIGraphicsGetImageFromCurrentImageContext();
+UIGraphicsEndImageContext();
+</code></pre>
+
+<p>通过上述的代码，就可以实现两个<code>UIImage</code>的合并。Demo地址:<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a> 这个小功能还挺有用的。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/08/04/save-photo-to-own-album/">iOS开发之保存照片到自己创建的相簿</a></h1>
     
     
@@ -387,7 +457,7 @@ button.frame = CGRectMake( 100, 300, SCREEN.width - 200, 40);
 <pre><code>UIImageWriteToSavedPhotosAlbum(self.image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
 </code></pre>
 
-<p>这个时候，我们想知道保存是否成功，所以需要制定毁掉方法</p>
+<p>这个时候，我们想知道保存是否成功，所以需要制定回调方法</p>
 
 <pre><code>// 指定回调方法
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
@@ -1376,105 +1446,6 @@ iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/28/four-create-uiimage-method/">五种创建UIImage的类方法</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-28T01:08:30+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:08 am</span></time>
-        
-        
-          | <a href="/blog/2015/07/28/four-create-uiimage-method/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>iOS开发已开通评论功能</h3>
-
-<p>皇天不负有心人，iOS开发的评论功能已经被邀请开通啦。这几天一直想着，微信团队大概在月底的时候会邀请我开通评论功能。果然不出我所料。这是我收到的消息：</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/weixincomment.png" alt="weixincomment.png" /></p>
-
-<p>至此，iOS开发的原创、赞赏、评论三个功能都齐啦，这也是对我辛苦努力的一种肯定。前方的路依然很漫长，我们一起努力，让iOS开发变得更好。</p>
-
-<p>既然评论功能已经开通，大家也别闲着啦！今天的文章大家一起尽情的吐槽吧！</p>
-
-<p><code>UIImage</code>有五个类方法，用来创建<code>UIImage</code>的。下面介绍一下每个类方法的作用和创建实例。</p>
-
-<h3>1.使用类方法<code>imageNamed:</code>创建</h3>
-
-<pre><code>+ (UIImage *)imageNamed:(NSString *)name;      // load from main bundle      
-</code></pre>
-
-<p><code>name</code>是照片名称。创建UIImage对象，代码如下：</p>
-
-<pre><code>UIImage *image = [UIImage imageNamed:@"ganggang"];   
-</code></pre>
-
-<p>使用<code>imageNamed:</code>初始化的时候，会先检查缓存中是否存在<code>ganggang</code>的照片，如不存在，图片首先会被缓存起来，然后才返回要加载的图片对象；如果存在，直接返回要加载的照片对象。</p>
-
-<h3>2.使用类方法<code>imageWithContentsOfFile:</code>创建</h3>
-
-<pre><code>+ (UIImage *)imageWithContentsOfFile:(NSString *)path;
-</code></pre>
-
-<p><code>path</code>是需要加载照片的路径，如何获取照片的路径请点击<a href="http://www.superqq.com/blog/2015/07/22/ioskai-fa-zhi-huo-qu-sha-he-lu-jing/">iOS开发之获取沙盒路径</a>。实现代码如下：</p>
-
-<pre><code>UIImage *image = [UIImage imageWithContentsOfFile:path];   
-</code></pre>
-
-<p>使用<code>imageWithContentsOfFile:</code>创建<code>UIImage</code>的时候，是直接从磁盘上加载。当收到内存警告时，<code>UIImage</code>对象会被释放，下一次绘图的时候，需要重新加载。</p>
-
-<h3>3.使用类方法<code>imageWithData:</code>创建</h3>
-
-<pre><code>+ (UIImage *)imageWithData:(NSData *)data;
-</code></pre>
-
-<p><code>data</code>是照片数据，一般是请求返回的，然后通过<code>imageWithData:</code>创建<code>UIImage</code>。实现代码如下所示：</p>
-
-<pre><code>NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://www.superqq.com/images/getqrcode.jpg"]];
-UIImage *image =[UIImage imageWithData:data]; 
-</code></pre>
-
-<h3>4.使用类方法<code>imageWithCGImage:</code>创建</h3>
-
-<pre><code>+ (UIImage *)imageWithCGImage:(CGImageRef)cgImage;
-</code></pre>
-
-<p><code>cgImage</code>是定义在QuartzCore框架中的一个结构体指针。这个结构用来创建像素位图，可以通过操作存储的像素位来编辑图片。</p>
-
-<pre><code>UIImage *image = [UIImage imageWithCGImage:cgImage];   
-</code></pre>
-
-<h3>5.使用类方法<code>imageWithCIImage:</code>创建</h3>
-
-<pre><code>+ (UIImage *)imageWithCIImage:(CIImage *)ciImage NS_AVAILABLE_IOS(5_0);
-</code></pre>
-
-<p><code>CIImage</code>是<code>CoreImage</code>框架中最基本代表图像的对象，在<code>CIImage</code>被<code>CIContext</code>渲染出来之前，他是依赖于滤镜链的，滤镜是不会更改<code>CIImage</code>中的图像数据。</p>
-
-<pre><code> UIImage *image = [UIImage imageWithCGImage:ciImage];   
-</code></pre>
-
-<p>以上四种方法都是<code>UIImage</code>的类方法，使用<code>UIImage</code>的初始化方法也是可以创建<code>UIImage</code>对象的大家可以进<code>UIImage</code>详细了解一下。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -1507,6 +1478,10 @@ var cpro_id="u2238881";
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/08/05/multiple-uiimage-merged/">多个UIImage合并成一个UIImage</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/08/04/save-photo-to-own-album/">iOS开发之保存照片到自己创建的相簿</a>
       </li>
     
@@ -1520,10 +1495,6 @@ var cpro_id="u2238881";
     
       <li class="post">
         <a href="/blog/2015/08/02/first-watch-movie/">《大圣归来》和《捉妖记》第一次购票看电影</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/01/octopress-add-duoshuo/">为刚刚在线（Octopress）添加多说评论系统</a>
       </li>
     
   </ul>

@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-04T22:44:01+08:00</updated>
+  <updated>2015-08-05T17:45:51+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,53 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[多个UIImage合并成一个UIImage]]></title>
+    <link href="http://www.superqq.com/blog/2015/08/05/multiple-uiimage-merged/"/>
+    <updated>2015-08-05T17:43:53+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/08/05/multiple-uiimage-merged</id>
+    <content type="html"><![CDATA[<p>写了两篇关于照片保存的文章：</p>
+
+<ol>
+<li><a href="http://www.superqq.com/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-%28photo-album%29/">iOS开发之保存照片到系统相册（Photo Album）</a></li>
+<li><a href="http://www.superqq.com/blog/2015/08/04/save-photo-to-own-album/">iOS开发之保存照片到自己创建的相簿</a></li>
+</ol>
+
+
+<p>介绍了如何将图片保存到系统相册，也可以将照片保存到自己的相簿。里面还介绍了一个第三方<code>ALAssetsLibrary+CustomPhotoAlbum</code>保存照片的方法。</p>
+
+<p>本篇文章将会介绍如何将多个<code>UIImage</code>合并成一个<code>UIImage</code>。听起来似乎有点晕晕乎乎的，这个可以合并吗？答案是肯定的。我们拿两个<code>UIImage</code>来举例。</p>
+
+<h2>创建两个UIImage</h2>
+
+<pre><code>UIImage *image1 = [UIImage imageNamed:@"iOSDevTip"];
+UIImage *image2 = [UIImage imageNamed:@"CodePush"];
+</code></pre>
+
+<p>创建<code>UIImage</code>的方法有很多种，我们就简单的通过<code>imageNamed:</code>方法来创建。</p>
+
+<h2>合并之后的size</h2>
+
+<pre><code>CGSize size = CGSizeMake(image1.size.width + image2.size.width, image1.size.height);
+</code></pre>
+
+<p>合并两个<code>UIImage</code>，需要计算合并之后的<code>size</code>。假设这两个<code>UIImage</code>的高度是是相同的，把他们的宽度相加，得到合并之后的<code>UIImage</code>的<code>size</code>。</p>
+
+<h2>合并方法</h2>
+
+<p>有了<code>UIImage</code>和<code>size</code>接下来就是把两个<code>UIImage</code>合并，方法如下：</p>
+
+<pre><code> UIGraphicsBeginImageContext(size);
+[image1 drawInRect:CGRectMake(0, 0, image1.size.width, size.height)];
+[image2 drawInRect:CGRectMake(image1.size.width, 0, image2.size.width, size.height)];
+UIImage *togetherImage = UIGraphicsGetImageFromCurrentImageContext();
+UIGraphicsEndImageContext();
+</code></pre>
+
+<p>通过上述的代码，就可以实现两个<code>UIImage</code>的合并。Demo地址:<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a> 这个小功能还挺有用的。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS开发之保存照片到自己创建的相簿]]></title>
@@ -282,7 +329,7 @@ button.frame = CGRectMake( 100, 300, SCREEN.width - 200, 40);
 <pre><code>UIImageWriteToSavedPhotosAlbum(self.image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
 </code></pre>
 
-<p>这个时候，我们想知道保存是否成功，所以需要制定毁掉方法</p>
+<p>这个时候，我们想知道保存是否成功，所以需要制定回调方法</p>
 
 <pre><code>// 指定回调方法
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
@@ -2041,62 +2088,6 @@ process launch failed: failed to get the task for process 1285
 <h2>解决方案</h2>
 
 <p>解决方法很简单，将Provisioning Profile换成用开发证书创建的Provisioning Profile即可。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS开发之沙盒机制（SandBox)]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-(sandbox/"/>
-    <updated>2015-07-20T00:36:13+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-(sandbox</id>
-    <content type="html"><![CDATA[<p>iOS APP可以在自己的沙盒里读写文件，但是，不可以访问其他APP的沙盒。每一个APP都是一个信息孤岛，相互是不可以进行通信的，唯独可以通过<a href="http://www.superqq.com/blog/2015/07/14/xcode6-dot-4zhu-ce-url-schemebu-zou-xiang-jie/">URL Scheme</a>。沙盒里面的文件可以是照片、声音文件、文本、属性列表等。</p>
-
-<h2>沙盒机制简介</h2>
-
-<p><strong>沙盒简述：</strong></p>
-
-<ol>
-<li>每一个APP都有一个存储空间，就是沙盒。</li>
-<li>APP之间不能相互通信。</li>
-<li>沙盒根目录结构：Documents、Library、temp。</li>
-</ol>
-
-
-<p>简述一下Documents、Library、tmp的区别：</p>
-
-<ol>
-<li><strong>Documents：</strong>用于存储用户数据，iTunes备份和恢复的时候会包括此目录，所以，苹果建议将程序中建立的或在程序中浏览到的文件数据保存在该目录下。</li>
-<li><strong>Library：</strong>包含两个子目录：Caches 和 Preferences。Caches用来存放用户需要换成的文件。Preferences是APP的偏好设置，可以通过NSUserDefaults来读取和设置。</li>
-<li><strong>tmp：</strong> 用于存放临时文件，这个可以放一些当APP退出后不再需要的文件。</li>
-</ol>
-
-
-<h2>打开模拟器沙盒方法</h2>
-
-<p><strong>方法一：前往文件夹打开</strong></p>
-
-<pre><code>/Users/ligang/Library/Application Support/iPhone Simulator/ 
-</code></pre>
-
-<p>直接在Finder->前往->前往文件夹，输入上面的内容即可。记住将ligang换成你的电脑用户名。</p>
-
-<p><strong>方法二：通过Finder一步步查找</strong></p>
-
-<p>模拟器上的APP的沙盒实在用户目录下的资源库里面，但是资源库是隐藏文件夹。所以查看沙盒之前，现将隐藏文件夹显示出来。显示隐藏文件的命令：</p>
-
-<pre><code>defaults write com.apple.finder AppleShowAllFiles -bool true
-</code></pre>
-
-<p>用心的童鞋会发现，隐藏隐藏文件的命令：</p>
-
-<pre><code>defaults write com.apple.finder AppleShowAllFiles -bool false
-</code></pre>
-
-<p>查找步骤请看图：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/sandbox.jpg" alt="sandbox" /></p>
-
-<p>关于沙盒机制（SandBox)的介绍大概就是这样，以后面试的时候万一碰到你就可以这么回答。</p>
 ]]></content>
   </entry>
   

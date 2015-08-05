@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-04T22:44:01+08:00</updated>
+  <updated>2015-08-05T17:45:51+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,53 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[多个UIImage合并成一个UIImage]]></title>
+    <link href="http://www.superqq.com/blog/2015/08/05/multiple-uiimage-merged/"/>
+    <updated>2015-08-05T17:43:53+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/08/05/multiple-uiimage-merged</id>
+    <content type="html"><![CDATA[<p>写了两篇关于照片保存的文章：</p>
+
+<ol>
+<li><a href="http://www.superqq.com/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-%28photo-album%29/">iOS开发之保存照片到系统相册（Photo Album）</a></li>
+<li><a href="http://www.superqq.com/blog/2015/08/04/save-photo-to-own-album/">iOS开发之保存照片到自己创建的相簿</a></li>
+</ol>
+
+
+<p>介绍了如何将图片保存到系统相册，也可以将照片保存到自己的相簿。里面还介绍了一个第三方<code>ALAssetsLibrary+CustomPhotoAlbum</code>保存照片的方法。</p>
+
+<p>本篇文章将会介绍如何将多个<code>UIImage</code>合并成一个<code>UIImage</code>。听起来似乎有点晕晕乎乎的，这个可以合并吗？答案是肯定的。我们拿两个<code>UIImage</code>来举例。</p>
+
+<h2>创建两个UIImage</h2>
+
+<pre><code>UIImage *image1 = [UIImage imageNamed:@"iOSDevTip"];
+UIImage *image2 = [UIImage imageNamed:@"CodePush"];
+</code></pre>
+
+<p>创建<code>UIImage</code>的方法有很多种，我们就简单的通过<code>imageNamed:</code>方法来创建。</p>
+
+<h2>合并之后的size</h2>
+
+<pre><code>CGSize size = CGSizeMake(image1.size.width + image2.size.width, image1.size.height);
+</code></pre>
+
+<p>合并两个<code>UIImage</code>，需要计算合并之后的<code>size</code>。假设这两个<code>UIImage</code>的高度是是相同的，把他们的宽度相加，得到合并之后的<code>UIImage</code>的<code>size</code>。</p>
+
+<h2>合并方法</h2>
+
+<p>有了<code>UIImage</code>和<code>size</code>接下来就是把两个<code>UIImage</code>合并，方法如下：</p>
+
+<pre><code> UIGraphicsBeginImageContext(size);
+[image1 drawInRect:CGRectMake(0, 0, image1.size.width, size.height)];
+[image2 drawInRect:CGRectMake(image1.size.width, 0, image2.size.width, size.height)];
+UIImage *togetherImage = UIGraphicsGetImageFromCurrentImageContext();
+UIGraphicsEndImageContext();
+</code></pre>
+
+<p>通过上述的代码，就可以实现两个<code>UIImage</code>的合并。Demo地址:<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a> 这个小功能还挺有用的。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS开发之保存照片到自己创建的相簿]]></title>
@@ -282,7 +329,7 @@ button.frame = CGRectMake( 100, 300, SCREEN.width - 200, 40);
 <pre><code>UIImageWriteToSavedPhotosAlbum(self.image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
 </code></pre>
 
-<p>这个时候，我们想知道保存是否成功，所以需要制定毁掉方法</p>
+<p>这个时候，我们想知道保存是否成功，所以需要制定回调方法</p>
 
 <pre><code>// 指定回调方法
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
@@ -514,81 +561,6 @@ _tabBarController = [[AKTabBarController alloc] initWithTabBarHeight:50 position
 <p><img src="https://github.com/alikaragoz/AKTabBarController/raw/master/Screenshots/iphone-portrait.png" alt="1" /></p>
 
 <p>这里只是简单的讲解一下。大家闲的时候，如果有兴趣的话，可以自己动手来熟练关于<code>AKTabBarController</code>更多的功能。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[关于导航栏的六个小技巧]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/30/six-tips-on-navigation-bar/"/>
-    <updated>2015-07-30T00:13:43+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/30/six-tips-on-navigation-bar</id>
-    <content type="html"><![CDATA[<p><code>UINavigationBar</code>和<code>UINavigationItem</code>是iOS开发中常用的控件。今天给大家介绍一下六个关于导航栏的小技巧。</p>
-
-<h2>1.设置导航栏标题</h2>
-
-<pre><code>self.title = @"iOS开发：iOSDevTip";
-</code></pre>
-
-<h2>2.设置导航栏样式</h2>
-
-<p>设置方法：</p>
-
-<pre><code>[self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
-</code></pre>
-
-<p><code>UIBarStyle</code>的样式：</p>
-
-<pre><code>typedef NS_ENUM(NSInteger, UIBarStyle) {
-    UIBarStyleDefault          = 0,
-    UIBarStyleBlack            = 1,
-
-    UIBarStyleBlackOpaque      = 1, // Deprecated. Use UIBarStyleBlack
-    UIBarStyleBlackTranslucent = 2, // Deprecated. Use UIBarStyleBlack and set the translucent property to YES
-};
-</code></pre>
-
-<p><code>UIBarStyleDefault</code>是默认样式，<code>UIBarStyleBlack</code>是黑色不透明。<code>UIBarStyleBlackOpaque</code>和<code>UIBarStyleBlackTranslucent</code>这两个已经废弃了。</p>
-
-<p>如果想设置导航栏透明，可以加上下面这句代码：</p>
-
-<pre><code>self.navigationController.navigationBar.translucent = YES;
-</code></pre>
-
-<h2>3.修改返回按钮title</h2>
-
-<pre><code>self.navigationItem.title = @"test";
-</code></pre>
-
-<h2>4.隐藏返回按钮title</h2>
-
-<p>比较笨的方法是：</p>
-
-<pre><code>self.navigationItem.title = @"";
-</code></pre>
-
-<p>还可以这样设置：</p>
-
-<pre><code>[[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
-</code></pre>
-
-<h2>5.设置leftBarButtonItem</h2>
-
-<pre><code>self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"back" style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
-
-- (void)back:(id)sender
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-</code></pre>
-
-<h2>6.左滑返回手势失效了怎么办</h2>
-
-<p>如果按上一步设置<code>leftBarButtonItem</code>之后，左滑返回手势就会失效。设置一下<code>UIGestureRecognizerDelegate</code>代理即可：</p>
-
-<pre><code>self.navigationController.interactivePopGestureRecognizer.delegate = self;
-</code></pre>
-
-<p>以上是六个关于导航栏的小技巧。更多iOS开发相关的技术，请关注我的微信公众号iOS开发：<strong>iOSDevTip</strong></p>
 ]]></content>
   </entry>
   

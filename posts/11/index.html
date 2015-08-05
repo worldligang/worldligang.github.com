@@ -81,6 +81,128 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/12/13/ioskai-fa-da-zhong-dian-ping-urlqian-ming-sheng-cheng-gui-ze-he-sha-1bian-ma/">iOS开发大众点评URL签名生成规则和SHA-1编码</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-12-13T13:52:29+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>1:52 pm</span></time>
+        
+        
+          | <a href="/blog/2014/12/13/ioskai-fa-da-zhong-dian-ping-urlqian-ming-sheng-cheng-gui-ze-he-sha-1bian-ma/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p></br>
+URL签名生成规则</p>
+
+<p>所有<a href="http://www.superqq.com/blog/2014/12/13/ioskai-fa-da-zhong-dian-ping-urlqian-ming-sheng-cheng-gui-ze-he-sha-1bian-ma/">大众点评API</a>的有效访问URL包括以下三个部分：
+1. 资源访问路径，如/v1/deal/find_deals;
+2. 请求参数：即API对应所需的参数名和参数值param=value，多个请求参数间用&amp;连接
+   如deal_id=1-85462&amp;appkey=00000；
+3. 签名串，由签名算法生成</p>
+
+<p>签名算法如下：
+1. 对除appkey以外的所有请求参数进行字典升序排列；
+2. 将以上排序后的参数表进行字符串连接，如key1value1key2value2key3value3&hellip;keyNvalueN；
+3. 将app key作为前缀，将app secret作为后缀，对该字符串进行SHA-1计算，并转换成16进制编码；
+4. 转换为全大写形式后即获得签名串</p>
+
+<p>签名串获得后，将其作为sign参数附加到对应的URL中，即可正常访问API。</p>
+
+<pre><code>注意：请保证HTTP请求数据编码务必为UTF-8格式，URL也务必为UTF-8编码格式。
+</code></pre>
+
+<p>具体调用示例请参见<a href="https://github.com/dianping/dianping-open-sdk"target="_blank"title="刚刚在线"><a href="https://github.com/dianping/dianping-open-sdk">https://github.com/dianping/dianping-open-sdk</a></a></p>
+
+<pre><code>+ (NSDictionary *)parseQueryString:(NSString *)query {
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:6];
+    NSArray *pairs = [query componentsSeparatedByString:@"&amp;"];
+
+    for (NSString *pair in pairs) {
+        NSArray *elements = [pair componentsSeparatedByString:@"="];
+
+        if ([elements count] &lt;= 1) {
+            return nil;
+        }
+
+        NSString *key = [[elements objectAtIndex:0] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *val = [[elements objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
+        [dict setObject:val forKey:key];
+    }
+    return dict;
+}
+
+
+
++ (NSString *)serializeURL:(NSString *)baseURL params:(NSDictionary *)params
+{
+    NSURL* parsedURL = [NSURL URLWithString:[baseURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSMutableDictionary *paramsDic = [NSMutableDictionary dictionaryWithDictionary:[self parseQueryString:[parsedURL query]]];
+    if (params) {
+        [paramsDic setValuesForKeysWithDictionary:params];
+    }
+
+    NSMutableString *signString = [NSMutableString stringWithString:DIANPING_APP_KEY];
+    NSMutableString *paramsString = [NSMutableString stringWithFormat:@"appkey=%@", DIANPING_APP_KEY];
+    NSArray *sortedKeys = [[paramsDic allKeys] sortedArrayUsingSelector: @selector(compare:)];
+    for (NSString *key in sortedKeys) {
+        [signString appendFormat:@"%@%@", key, [paramsDic objectForKey:key]];
+        [paramsString appendFormat:@"&amp;%@=%@", key, [paramsDic objectForKey:key]];
+    }
+    [signString appendString:DIANPING_APP_Secret];
+    unsigned char digest[CC_SHA1_DIGEST_LENGTH];
+    NSData *stringBytes = [signString dataUsingEncoding: NSUTF8StringEncoding];
+    if (CC_SHA1([stringBytes bytes], (long)[stringBytes length], digest)) {
+        /* SHA-1 hash has been calculated and stored in 'digest'. */
+        NSMutableString *digestString = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH];
+        for (int i=0; i&lt;CC_SHA1_DIGEST_LENGTH; i++) {
+            unsigned char aChar = digest[i];
+            [digestString appendFormat:@"%02X", aChar];
+        }
+        [paramsString appendFormat:@"&amp;sign=%@", [digestString uppercaseString]];
+        return [NSString stringWithFormat:@"%@://%@%@?%@", [parsedURL scheme], [parsedURL host], [parsedURL path], [paramsString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    } else {
+        return nil;
+    }
+}
+</code></pre>
+
+<p>直接调用这个方法即可签名成功，+ (NSString <em>)serializeURL:(NSString </em>)baseURL params:(NSDictionary *)params</p>
+
+<pre><code>NSString *url = [LGClient serializeURL:string params:nil];
+
+//string是大众点评的需要请求的接口
+</code></pre>
+
+<p>这个url就可以用来请求大众点评数据了</p>
+
+<p>我的微信公众号：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p>我也会将大家分享的方法发到iOS开发微信公众账号：iOSDevTip 里面，分享给更多iOS开发者。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/12/11/nsmutableurlrequesthe-nsurlconnectionyong-postfang-shi-shang-chuan-zhao-pian/">NSMutableURLRequest和NSURLConnection用Post方式上传照片</a></h1>
     
     
@@ -1445,121 +1567,6 @@ Integrating client project
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/11/13/zhong-wen-ios-slash-mac-kai-fa-bo-ke-lie-biao/">中文 iOS/Mac 开发博客列表</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-11-13T09:16:45+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:16 am</span></time>
-        
-        
-          | <a href="/blog/2014/11/13/zhong-wen-ios-slash-mac-kai-fa-bo-ke-lie-biao/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p></br>
-本博客列表会不断更新维护，如果有推荐的博客，请直接在本文下面评论。(排名不分先后)</p>
-
-<h2></br></h2>
-
-<p><a href="http://onevcat.com"target="_blank"title="OneV's Den">OneV&rsquo;s Den</a></p>
-
-<p>嗨，我是王巍 (@onevcat)，一名来自中国的 iOS / Unity 开发者。现居日本，就职于 LINE。正在修行，探求创意之源。
-<a href="http://swifter.tips/"target="_blank"title="Swifter.tips">Swifter.tips</a> - 我维护的 Swift 使用技巧分享网站，每周三更新，欢迎访问</p>
-
-<h2></br></h2>
-
-<p><a href="http://www.superqq.com"target="_blank"title="刚刚在线">刚刚在线</a></p>
-
-<p>Blogger, iOS开发, 创业者, 屌丝青年。iOS开发工程师，曾开发今日·天下通，二维码商城等项目。iOS学习交流群：303868520 我的微信公众账号: iOSDevTip</p>
-
-<h2></br></h2>
-
-<p><a href="http://beyondvincent.com"target="_blank"title="破船之家">破船之家</a></p>
-
-<p>程序猿砌墙于云南昆明!长期扎根移动软件开发!爱跑步爱打篮球爱运动!命中无大富大贵之面相!愿健康与平淡相随一生!</p>
-
-<h2></br></h2>
-
-<p><a href="http://nshipster.cn"target="_blank"title="NSHipster">NSHipster</a></p>
-
-<p>NSHipster 关注被忽略的 Objective-C、Swift 和 Cocoa 特性。每周更新。</p>
-
-<h2></br></h2>
-
-<p><a href="http://blog.devtang.com"target="_blank"title="唐巧的技术博客">唐巧的技术博客</a></p>
-
-<p>Blogger, InfoQ编辑, iOS开发, 创业者。Java开发工程师，曾开发网易微博后台。iOS开发工程师，曾开发有道云笔记、粉笔网、猿题库。</p>
-
-<h2></br></h2>
-
-<p><a href="http://blog.xcodev.com"target="_blank"title="Xcode Dev">Xcode Dev</a></p>
-
-<p>谌启亮，资深iOS开发工程师，参与过20多个项目的研发，从苹果还未开放官方SDK(非官方Toolchain)开发做起，6年iOS应用开发经验, 精通界面开发及iOS设备用户体验。喜欢学习一些新的知识并分享自己所学。就职于腾讯。</p>
-
-<h2></br></h2>
-
-<p><a href="http://blog.t-xx.me/blog/archives"target="_blank"title="txx's blog">txx&rsquo;s blog</a></p>
-
-<h2></br></h2>
-
-<p><a href="http://xiangwangfeng.com"target="_blank"title="阿毛的蛋疼地">阿毛的蛋疼地</a></p>
-
-<p>阿毛，杭州猪场全职iOS开发一枚，早年学C#,C++未成，与2011年改投OC怀抱。</p>
-
-<h2></br></h2>
-
-<p><a href="http://nonomori.farbox.com"target="_blank"title="Nonomori">Nonomori</a></p>
-
-<h2></br></h2>
-
-<p><a href="http://adad184.com"target="_blank"title="里脊串的开发随笔">里脊串的开发随笔</a></p>
-
-<p>86年生于长沙, 曾于深圳工作, 现已回长沙.</p>
-
-<h2></br></h2>
-
-<p><a href="http://ivoryxiong.org"target="_blank"title="煲仔饭">煲仔饭</a></p>
-
-<p>byr土著，码农一枚，朋友们都习惯叫&#8221;雕&#8221;【不要问为什么:(】，爱好不多，仅有的兴趣现在也成为了职业&hellip;在网易有道打过杂，也在人人网写过代码，目前在深圳折腾无觅阅读。</p>
-
-<h2></br></h2>
-
-<p><a href="http://www.hotobear.com"target="_blank"title="不掏蜂窝的熊">不掏蜂窝的熊</a></p>
-
-<p>我是不掏蜂窝的熊iOS开发，接触过越狱开发，对iOS程序逆向工程有一定了解。其实我只是一只普通的程序猿而已。一直以为自己是巨蟹座，结果某天发现自己是狮子时，已经没有当狮子的潜质了</p>
-
-<h2></br></h2>
-
-<p>参考唐巧的github：<a href="https://github.com/tangqiaoboy/iOSBlogCN"target="_blank"title="中文 iOS/Mac 开发博客列表">中文 iOS/Mac 开发博客列表</a><br/>
-</br>
-<a href="http://www.superqq.com/blog/2014/11/13/zhong-wen-ios-slash-mac-kai-fa-bo-ke-lie-biao/"target="_blank"title="刚刚在线">转载请注明来自：刚刚在线</a></p>
-
-<h2></br></h2>
-
-<p>我的微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/12">&larr; Older</a>
@@ -1594,6 +1601,10 @@ var cpro_id="u2238881";
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/08/05/multiple-uiimage-merged/">多个UIImage合并成一个UIImage</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/08/04/save-photo-to-own-album/">iOS开发之保存照片到自己创建的相簿</a>
       </li>
     
@@ -1607,10 +1618,6 @@ var cpro_id="u2238881";
     
       <li class="post">
         <a href="/blog/2015/08/02/first-watch-movie/">《大圣归来》和《捉妖记》第一次购票看电影</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/01/octopress-add-duoshuo/">为刚刚在线（Octopress）添加多说评论系统</a>
       </li>
     
   </ul>

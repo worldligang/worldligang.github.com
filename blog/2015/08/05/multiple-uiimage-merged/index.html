@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>从app跳到设置界面 - 刚刚在线</title>
+  <title>多个UIImage合并成一个UIImage - 刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="看到这张我不由得说一句：又长胖了！好吧，闲话就絮叨这里。今天给大家分享一个小功能：从app跳到设置界面。">
-  <meta name="keywords" content="从app跳到设置界面, app跳设置界面, 设置界面, app, 刚刚在线">
+  <meta name="description" content="本篇文章将会介绍如何将多个UIImage合并成一个UIImage。听起来似乎有点晕晕乎乎的，这个可以合并吗？答案是肯定的。我们拿两个UIImage来举例。">
+  <meta name="keywords" content="UIImage合并, UIImage, Photo Album, iOS开发, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/blog/2015/07/13/cong-apptiao-dao-she-zhi-jie-mian">
+  <link rel="canonical" href="http://www.superqq.com/blog/2015/08/05/multiple-uiimage-merged">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -78,7 +78,7 @@
   
   <header>
     
-      <h1 class="entry-title">从app跳到设置界面</h1>
+      <h1 class="entry-title">多个UIImage合并成一个UIImage</h1>
     
     
       <p class="meta">
@@ -87,7 +87,7 @@
 
 
 
-<time class='entry-date' datetime='2015-07-13T23:50:45+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:50 pm</span></time>
+<time class='entry-date' datetime='2015-08-05T17:43:53+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:43 pm</span></time>
         
         
           | <a href="#comments">Comments</a>
@@ -97,51 +97,45 @@
   </header>
 
 
-<div class="entry-content"><p>这次去郑州主要是参加大学同学的婚礼。匆匆而来，匆匆而回。时间安排的好紧，还没有来得及多看两眼我的大好中原。</p>
-
-<p>来参加婚礼的还有其他几位同学，有的真是多年不见。见面之后相互虚寒一番，一起讨论讨论各自的近况。时间飞逝，让这样的相遇变得非常珍贵。</p>
-
-<p>这次的婚礼，别有一番风味。</p>
-
-<h2>第一次在教堂里参加婚礼</h2>
-
-<p>我的这位同学，他是一位虔诚的基督徒，他们的婚礼也理所当然的在教堂举行。教堂是一个神圣庄严的地方，虽然我不是一名基督徒，但是我依然怀有一颗虔诚的心。</p>
-
-<p>婚礼还是相当热闹的。有牧师为他们证婚，真的是很幸福。新娘也感动的眼泪都留下来了。</p>
-
-<p>婚礼结束之后，抽空拉着另外一个同学，加上新郎，我们三兄弟合了一张影。这张照片可以发给大家欣赏一下：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/hunli.png" alt="1" /></p>
-
-<p>看到这张我不由得说一句：又长胖了！好吧，闲话就絮叨这里。今天给大家分享一个小功能：从app跳到设置界面。</p>
-
-<h2>从app跳到设置界面</h2>
-
-<p>直接上代码：</p>
-
-<pre><code> NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
- if ([[UIApplication sharedApplication] canOpenURL:url]) {
-     [[UIApplication sharedApplication] openURL:url];
- }
-</code></pre>
-
-<p>上面这段代码要在iOS 8以上的系统使用。一般做智能家居app的，需要到设置界面连接wifi，但是苹果没有提供这样的接口。所以可以退而求其次，跳到系统的设置界面。</p>
-
-<p>想测试的童鞋请下载demo：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
-
-<h2>回复关键词获取相应文章</h2>
-
-<p>公众号iOS开发：<strong>iOSDevTip</strong>，已经发展一年多的时间，已经积累了很多优秀的文章。也许能帮到一些小忙。</p>
-
-<p>我告诉大家，如何找到这些优秀的文章：</p>
+<div class="entry-content"><p>写了两篇关于照片保存的文章：</p>
 
 <ol>
-<li>查看历史消息</li>
-<li>关键词回复，先回复“m”，获取目录。目录里面详细讲解了，哪些关键词对应哪些文章。</li>
+<li><a href="http://www.superqq.com/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-%28photo-album%29/">iOS开发之保存照片到系统相册（Photo Album）</a></li>
+<li><a href="http://www.superqq.com/blog/2015/08/04/save-photo-to-own-album/">iOS开发之保存照片到自己创建的相簿</a></li>
 </ol>
 
 
-<p>有什么不懂得可以随时联系我，直接在后台回复就可以，也可以加我的微信：<strong>chinaligang</strong></p>
+<p>介绍了如何将图片保存到系统相册，也可以将照片保存到自己的相簿。里面还介绍了一个第三方<code>ALAssetsLibrary+CustomPhotoAlbum</code>保存照片的方法。</p>
+
+<p>本篇文章将会介绍如何将多个<code>UIImage</code>合并成一个<code>UIImage</code>。听起来似乎有点晕晕乎乎的，这个可以合并吗？答案是肯定的。我们拿两个<code>UIImage</code>来举例。</p>
+
+<h2>创建两个UIImage</h2>
+
+<pre><code>UIImage *image1 = [UIImage imageNamed:@"iOSDevTip"];
+UIImage *image2 = [UIImage imageNamed:@"CodePush"];
+</code></pre>
+
+<p>创建<code>UIImage</code>的方法有很多种，我们就简单的通过<code>imageNamed:</code>方法来创建。</p>
+
+<h2>合并之后的size</h2>
+
+<pre><code>CGSize size = CGSizeMake(image1.size.width + image2.size.width, image1.size.height);
+</code></pre>
+
+<p>合并两个<code>UIImage</code>，需要计算合并之后的<code>size</code>。假设这两个<code>UIImage</code>的高度是是相同的，把他们的宽度相加，得到合并之后的<code>UIImage</code>的<code>size</code>。</p>
+
+<h2>合并方法</h2>
+
+<p>有了<code>UIImage</code>和<code>size</code>接下来就是把两个<code>UIImage</code>合并，方法如下：</p>
+
+<pre><code> UIGraphicsBeginImageContext(size);
+[image1 drawInRect:CGRectMake(0, 0, image1.size.width, size.height)];
+[image2 drawInRect:CGRectMake(image1.size.width, 0, image2.size.width, size.height)];
+UIImage *togetherImage = UIGraphicsGetImageFromCurrentImageContext();
+UIGraphicsEndImageContext();
+</code></pre>
+
+<p>通过上述的代码，就可以实现两个<code>UIImage</code>的合并。Demo地址:<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a> 这个小功能还挺有用的。</p>
 </div>
 <!--广告位-->
 <script type="text/javascript">
@@ -164,7 +158,7 @@
 
 
 
-<time class='entry-date' datetime='2015-07-13T23:50:45+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:50 pm</span></time>
+<time class='entry-date' datetime='2015-08-05T17:43:53+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:43 pm</span></time>
       
 
 <span class="categories">
@@ -175,7 +169,7 @@
 
 
       <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
-<br>原文链接：<a href="http://www.superqq.com/blog/2015/07/13/cong-apptiao-dao-she-zhi-jie-mian/">http://www.superqq.com/blog/2015/07/13/cong-apptiao-dao-she-zhi-jie-mian/</a> <!-- 添加这一行代码 -->
+<br>原文链接：<a href="http://www.superqq.com/blog/2015/08/05/multiple-uiimage-merged/">http://www.superqq.com/blog/2015/08/05/multiple-uiimage-merged/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -196,10 +190,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/07/13/iosti-jiao-hou-shen-qing-jia-ji-shen-he/" title="Previous Post: iOS提交后申请加急审核">&laquo; iOS提交后申请加急审核</a>
+        <a class="basic-alignment left" href="/blog/2015/08/04/save-photo-to-own-album/" title="Previous Post: iOS开发之保存照片到自己创建的相簿">&laquo; iOS开发之保存照片到自己创建的相簿</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/07/14/xcode6-dot-4zhu-ce-url-schemebu-zou-xiang-jie/" title="Next Post: Xcode6.4注册URL Scheme步骤详解">Xcode6.4注册URL Scheme步骤详解 &ra/categories.htmlquo;</a>
       
     </p>
   </footer>
@@ -209,7 +201,7 @@
   <section>
     <h1>Comments</h1>
     <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
-<div class="ds-thread" data-title="从app跳到设置界面"></div>
+<div class="ds-thread" data-title="多个UIImage合并成一个UIImage"></div>
 <script type="text/javascript">
   var duoshuoQuery = {short_name:"superqq"};
   (function() {
