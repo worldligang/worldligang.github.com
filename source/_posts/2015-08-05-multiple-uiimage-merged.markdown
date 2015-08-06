@@ -42,4 +42,4 @@ description: 本篇文章将会介绍如何将多个UIImage合并成一个UIImag
     UIImage *togetherImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
 
-通过上述的代码，就可以实现两个`UIImage`的合并。Demo地址:[iOSStrongDemo](https://github.com/worldligang/iOSStrongDemo) 这个小功能还挺有用的。
+通过上述的代码，就可以实现两个`UIImage`的合并。` 这个小功能还挺有用的。
