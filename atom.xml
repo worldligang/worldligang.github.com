@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-06T13:46:14+08:00</updated>
+  <updated>2015-08-06T21:41:46+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,93 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[UITextView实现placeholder的猥琐做法]]></title>
+    <link href="http://www.superqq.com/blog/2015/08/06/uitextview-placeholder-practice/"/>
+    <updated>2015-08-06T21:37:38+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/08/06/uitextview-placeholder-practice</id>
+    <content type="html"><![CDATA[<p>我经常写一些<a href="http://www.superqq.com/">iOS开发</a>的小技巧，为了在自己需要的时候能用得上，也希望能对正在看文章的你一些帮助，亦或是引发一些思考。</p>
+
+<p>如果你觉得文章对你有帮助，请多多分享。你身边一定有很多做iOS开发的朋友，希望你能把我的iOS开发：<strong>iOSDevTip</strong>推荐给你的朋友。不甚感激！</p>
+
+<p>我们都知道iOS开发中的<code>UITextField</code>有个<code>placeholder</code>属性，<code>placeholder</code>可以很方便引导用户输入。但是<code>UITextView</code>却没有<code>placeholder</code>属性。</p>
+
+<h2>猥琐法分析</h2>
+
+<p>如何让<code>UITextView</code>也有<code>placeholder</code>功能呢？今天给各位分享一个比较猥琐的做法。思路大概是这样的：</p>
+
+<ol>
+<li>把<code>UITextView</code>的<code>text</code>当<code>placeholder</code>使用。</li>
+<li>在开始编辑的代理方法里清除<code>placeholder</code>。</li>
+<li>在结束编辑的代理方法里在设置<code>placeholder</code>。</li>
+</ol>
+
+
+<h2>实现方法</h2>
+
+<h3>创建UITextView</h3>
+
+<pre><code>UITextView *textViewPlaceholder = [[UITextView alloc] initWithFrame:CGRectMake(20, 70, SCREEN.width - 40, 100)];
+textViewPlaceholder.backgroundColor = [UIColor whiteColor];
+textViewPlaceholder.text = @"关注微信公众号iOS开发：iOSDevTip";
+textViewPlaceholder.textColor = [UIColor grayColor];
+textViewPlaceholder.delegate = self;
+[self.view addSubview:textViewPlaceholder];
+</code></pre>
+
+<p>初始化<code>UITextView</code>，给<code>UITextView</code>的<code>text</code>赋值，并且给<code>UITextView</code>的<code>textColor</code>属性设置成灰色，让其看起来更像<code>placeholder</code>。</p>
+
+<p>别忘了设置<code>UITextView</code>的代理，因为后面我们要用到<code>UITextView</code>的两个代理方法。</p>
+
+<h3>开始编辑的代理方法</h3>
+
+<pre><code>- (void)textViewDidBeginEditing:(UITextView *)textView {
+
+    if ([textView.text isEqualToString:@"关注微信公众号iOS开发：iOSDevTip"]) {
+        textView.text = @"";
+        textView.textColor = [UIColor blackColor];
+    }
+}
+</code></pre>
+
+<p>在开始编辑的代理方法里面，判断如果是<code>UITextView</code>的<code>text</code>的值是<code>placeholder</code>，那么，就清空<code>text</code>，并且把<code>textColor</code>设置成真正的内容颜色，假设是黑色。</p>
+
+<h3>结束编辑的代理方法</h3>
+
+<pre><code>- (void)textViewDidEndEditing:(UITextView *)textView {
+    if (textView.text.length&lt;1) {
+        textView.text = @"关注微信公众号iOS开发：iOSDevTip";
+        textView.textColor = [UIColor grayColor];
+    }
+}
+</code></pre>
+
+<p>在结束编辑的代理方法里，判断如果<code>UITextView</code>的<code>text</code>值为空，那么，就要把需要设置的<code>placeholder</code>赋值给<code>UITextView</code>的<code>text</code>，并且将<code>textColor</code>属性设置成灰色。</p>
+
+<h2>添加轻击手势</h2>
+
+<pre><code>UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
+tapGesture.numberOfTapsRequired = 1; //点击次数
+tapGesture.numberOfTouchesRequired = 1; //点击手指数
+[self.view addGestureRecognizer:tapGesture];
+
+//轻击手势触发方法
+-(void)tapGesture:(UITapGestureRecognizer *)sender
+{
+    [self.view endEditing:YES];
+}
+</code></pre>
+
+<p>至此，就很猥琐的实现了<code>placeholder</code>功能。为了方便测试，我加了一个手势。作用是用键盘消失，这样可以测试结束编辑的时候<code>placeholder</code>会不会显示。demo地址：Demo地址:<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
+
+<p>添加手势的方法很简单，关于iOS开发中的手势汇总，你可以看这篇文章<a href="http://www.superqq.com/blog/2015/01/14/ioskai-fa-zhi-shou-shi-shi-bie-hui-zong/">iOS开发之手势识别汇总</a>。</p>
+
+<p>我看了网上一些实现<code>UITextView</code>的<code>placeholder</code>功能的更猥琐的做法，在<code>UITextView</code>上面盖一个<code>UILabel</code>，然后在<code>UITextView</code>的代理方法里控制<code>UILabel</code>的值。还有用两个<code>UITextView</code>实现的。</p>
+
+<p>在这里，我只是抛砖引玉，如果你有更好的实现方法欢迎投稿给我：<strong>worldligang@163.com</strong>，下一篇文章，我将会封装一个带有<code>placeholder</code>属性的<code>UITextView</code>，敬请期待！</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[多个UIImage合并成一个UIImage]]></title>
@@ -56,7 +143,7 @@ UIImage *togetherImage = UIGraphicsGetImageFromCurrentImageContext();
 UIGraphicsEndImageContext();
 </code></pre>
 
-<p>通过上述的代码，就可以实现两个<code>UIImage</code>的合并。Demo地址:<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a> 这个小功能还挺有用的。</p>
+<p>通过上述的代码，就可以实现两个<code>UIImage</code>的合并。` 这个小功能还挺有用的。</p>
 ]]></content>
   </entry>
   
@@ -2051,43 +2138,6 @@ NSLog(@"tmp：%@", tmp);
 </code></pre>
 
 <p>以上是iOS开发中获取沙盒路径的方法，也许还有更好的获取方法等待我们去发现。后面我们还会讲到关于在沙盒里进行读写文件操作。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[报错：failed to Get the Task for Process 1285（解决方案）]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/21/bao-cuo-:process-launch-failed-failed-to-get-the-task-for-process-1285(jie-jue-fang-an-)/"/>
-    <updated>2015-07-21T00:16:31+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/21/bao-cuo-:process-launch-failed-failed-to-get-the-task-for-process-1285(jie-jue-fang-an-)</id>
-    <content type="html"><![CDATA[<h2>你遇到的问题别人也遇到过</h2>
-
-<p>初接触iOS开发的童鞋估计会被真机调试搞的稀里糊涂的。在模拟器上运行什么问题没有，真机调试就会碰到各种各样的问题。</p>
-
-<p>不用担心。记住：你碰到的问题别人肯定都已经碰到过了。我们不是有百度和谷歌嘛，把你的问题描述出来，一定有解决方案的。还可以在<a href="http://zhannei.superqq.com/">刚刚在线站内搜索</a>里搜索，说不定也能帮你解决不少问题呢。</p>
-
-<p>我会经常把自己开发过程中碰到的调试问题，一一总结出来。一来是帮助自己在下一次碰到同样问题时，可以游刃有余。二来是帮助大家再碰到类似问题的时候，有一个参考的作用。</p>
-
-<h2>failed to get the task for process 1285</h2>
-
-<p>这一次碰到的问题是这样的：模拟器上运行正常。我在iPhone 6上运行，程序编译正常，但是跑起来之后，大概一两秒的时间，就闪退（代码是没有问题的）。这个时候，Xcode6.4弹出这样的提示：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/fixbug12850.jpg" alt="fixbug1285" /></p>
-
-<pre><code>Could not launch “iOSStrongDemo”
-process launch failed: failed to get the task for process 1285
-</code></pre>
-
-<h2>错误分析</h2>
-
-<p>我看了一下Build Settings里的Code Signing配置，发现Provisioning Profile选择的是XC Ad Hoc: *。如下图所示：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/fixbug.jpg" alt="fixbug" /></p>
-
-<p>Ad Hoc是用来实现发布前的用户测试的，也就是通过Ad Hoc将未发布的App给其他人提前使用。显然这是不对的，我们是要真机调试。</p>
-
-<h2>解决方案</h2>
-
-<p>解决方法很简单，将Provisioning Profile换成用开发证书创建的Provisioning Profile即可。</p>
 ]]></content>
   </entry>
   

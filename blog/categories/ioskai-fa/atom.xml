@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-06T13:46:14+08:00</updated>
+  <updated>2015-08-06T21:41:46+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,93 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[UITextView实现placeholder的猥琐做法]]></title>
+    <link href="http://www.superqq.com/blog/2015/08/06/uitextview-placeholder-practice/"/>
+    <updated>2015-08-06T21:37:38+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/08/06/uitextview-placeholder-practice</id>
+    <content type="html"><![CDATA[<p>我经常写一些<a href="http://www.superqq.com/">iOS开发</a>的小技巧，为了在自己需要的时候能用得上，也希望能对正在看文章的你一些帮助，亦或是引发一些思考。</p>
+
+<p>如果你觉得文章对你有帮助，请多多分享。你身边一定有很多做iOS开发的朋友，希望你能把我的iOS开发：<strong>iOSDevTip</strong>推荐给你的朋友。不甚感激！</p>
+
+<p>我们都知道iOS开发中的<code>UITextField</code>有个<code>placeholder</code>属性，<code>placeholder</code>可以很方便引导用户输入。但是<code>UITextView</code>却没有<code>placeholder</code>属性。</p>
+
+<h2>猥琐法分析</h2>
+
+<p>如何让<code>UITextView</code>也有<code>placeholder</code>功能呢？今天给各位分享一个比较猥琐的做法。思路大概是这样的：</p>
+
+<ol>
+<li>把<code>UITextView</code>的<code>text</code>当<code>placeholder</code>使用。</li>
+<li>在开始编辑的代理方法里清除<code>placeholder</code>。</li>
+<li>在结束编辑的代理方法里在设置<code>placeholder</code>。</li>
+</ol>
+
+
+<h2>实现方法</h2>
+
+<h3>创建UITextView</h3>
+
+<pre><code>UITextView *textViewPlaceholder = [[UITextView alloc] initWithFrame:CGRectMake(20, 70, SCREEN.width - 40, 100)];
+textViewPlaceholder.backgroundColor = [UIColor whiteColor];
+textViewPlaceholder.text = @"关注微信公众号iOS开发：iOSDevTip";
+textViewPlaceholder.textColor = [UIColor grayColor];
+textViewPlaceholder.delegate = self;
+[self.view addSubview:textViewPlaceholder];
+</code></pre>
+
+<p>初始化<code>UITextView</code>，给<code>UITextView</code>的<code>text</code>赋值，并且给<code>UITextView</code>的<code>textColor</code>属性设置成灰色，让其看起来更像<code>placeholder</code>。</p>
+
+<p>别忘了设置<code>UITextView</code>的代理，因为后面我们要用到<code>UITextView</code>的两个代理方法。</p>
+
+<h3>开始编辑的代理方法</h3>
+
+<pre><code>- (void)textViewDidBeginEditing:(UITextView *)textView {
+
+    if ([textView.text isEqualToString:@"关注微信公众号iOS开发：iOSDevTip"]) {
+        textView.text = @"";
+        textView.textColor = [UIColor blackColor];
+    }
+}
+</code></pre>
+
+<p>在开始编辑的代理方法里面，判断如果是<code>UITextView</code>的<code>text</code>的值是<code>placeholder</code>，那么，就清空<code>text</code>，并且把<code>textColor</code>设置成真正的内容颜色，假设是黑色。</p>
+
+<h3>结束编辑的代理方法</h3>
+
+<pre><code>- (void)textViewDidEndEditing:(UITextView *)textView {
+    if (textView.text.length&lt;1) {
+        textView.text = @"关注微信公众号iOS开发：iOSDevTip";
+        textView.textColor = [UIColor grayColor];
+    }
+}
+</code></pre>
+
+<p>在结束编辑的代理方法里，判断如果<code>UITextView</code>的<code>text</code>值为空，那么，就要把需要设置的<code>placeholder</code>赋值给<code>UITextView</code>的<code>text</code>，并且将<code>textColor</code>属性设置成灰色。</p>
+
+<h2>添加轻击手势</h2>
+
+<pre><code>UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
+tapGesture.numberOfTapsRequired = 1; //点击次数
+tapGesture.numberOfTouchesRequired = 1; //点击手指数
+[self.view addGestureRecognizer:tapGesture];
+
+//轻击手势触发方法
+-(void)tapGesture:(UITapGestureRecognizer *)sender
+{
+    [self.view endEditing:YES];
+}
+</code></pre>
+
+<p>至此，就很猥琐的实现了<code>placeholder</code>功能。为了方便测试，我加了一个手势。作用是用键盘消失，这样可以测试结束编辑的时候<code>placeholder</code>会不会显示。demo地址：Demo地址:<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
+
+<p>添加手势的方法很简单，关于iOS开发中的手势汇总，你可以看这篇文章<a href="http://www.superqq.com/blog/2015/01/14/ioskai-fa-zhi-shou-shi-shi-bie-hui-zong/">iOS开发之手势识别汇总</a>。</p>
+
+<p>我看了网上一些实现<code>UITextView</code>的<code>placeholder</code>功能的更猥琐的做法，在<code>UITextView</code>上面盖一个<code>UILabel</code>，然后在<code>UITextView</code>的代理方法里控制<code>UILabel</code>的值。还有用两个<code>UITextView</code>实现的。</p>
+
+<p>在这里，我只是抛砖引玉，如果你有更好的实现方法欢迎投稿给我：<strong>worldligang@163.com</strong>，下一篇文章，我将会封装一个带有<code>placeholder</code>属性的<code>UITextView</code>，敬请期待！</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[多个UIImage合并成一个UIImage]]></title>
@@ -56,7 +143,7 @@ UIImage *togetherImage = UIGraphicsGetImageFromCurrentImageContext();
 UIGraphicsEndImageContext();
 </code></pre>
 
-<p>通过上述的代码，就可以实现两个<code>UIImage</code>的合并。Demo地址:<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a> 这个小功能还挺有用的。</p>
+<p>通过上述的代码，就可以实现两个<code>UIImage</code>的合并。` 这个小功能还挺有用的。</p>
 ]]></content>
   </entry>
   
@@ -468,99 +555,6 @@ self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustom
 </code></pre>
 
 <p>其实，这个就可以用<code>initWithCustomView:</code>来解决，自定义<code>UIView</code>你可以放<code>UIImageView</code>和<code>UILabel</code>。可以自定义<code>UIView</code>，那么想怎么定义都是可以的。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[AKTabBarController：类似微信的第三方库]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/31/aktabbarcontroller-similar-to-wechat-library/"/>
-    <updated>2015-07-31T00:28:53+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/31/aktabbarcontroller-similar-to-wechat-library</id>
-    <content type="html"><![CDATA[<p>自从有了评论之后，就可以很方便的和大家交流。以前都是我一个人默默的发文章，看不出大家对文章的看法。评论开通之后，就可以很快速的获取大家对文章的看法。</p>
-
-<p>有人会指出文章里有错误的地方，真的很感激他们，非常的认真；有人会对文章说出自己的见解，加深自己的印象，同时，也能帮助到其他的朋友；有人也会在评论里，提出一些问题，但是鉴于评论的字数限制，只能简单的回答一下。</p>
-
-<p>在昨天的文章评论里面，有一个朋友提出了一个问题，关于微信导航栏的。</p>
-
-<h2>问题分析和解答</h2>
-
-<p><strong>问：</strong></p>
-
-<pre><code>自定义导航栏怎么写？就像微信那样，tabBar的四个界面切换导航栏都不变化
-</code></pre>
-
-<p><strong>答：</strong></p>
-
-<pre><code>github上搜索AKTabBarController
-</code></pre>
-
-<p>其实，这位朋友的问题不是关于自定义导航栏，我觉得他可能是想问微信底部的<code>TabBar</code>和导航结合使用是如何实现的。</p>
-
-<p>记得之前在github看到过有一个类似微信的框架（算不上框架，我们就这么简单的叫一下）。就是<a href="https://github.com/alikaragoz/AKTabBarController">AKTabBarController</a>。</p>
-
-<p><code>AKTabBarController</code>是一个非常不错的第三方。在github上有663个<code>star</code>，使用方法也不是很复杂，下面我们简单的看一下。</p>
-
-<h2>如何导入到项目中</h2>
-
-<p><code>AKTabBarController</code>是支持<a href="http://www.superqq.com/blog/2014/10/16/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/">CocoaPods</a>导入的。想理解CocoaPods的请点击：<a href="http://www.superqq.com/blog/2014/10/16/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/">CocoaPods安装和使用教程</a>。在你的Podfile文件中加入：</p>
-
-<pre><code>platform :ios
-
-pod 'AKTabBarController'
-</code></pre>
-
-<p>添加成功之后，在终端执行：</p>
-
-<pre><code>pod install 
-</code></pre>
-
-<h2>如何使用AKTabBarController</h2>
-
-<p>安装成功之后，在你想用的地方导入头文件：</p>
-
-<pre><code>#import "AKTabBarController.h"
-</code></pre>
-
-<p>然后，创建<code>tabBar</code></p>
-
-<pre><code>// Create and initialize the height of the tab bar to 50px.
-_tabBarController = [[AKTabBarController alloc] initWithTabBarHeight:50];
-
-// Create and initialize with specific height and position atop the view controller
-_tabBarController = [[AKTabBarController alloc] initWithTabBarHeight:50 position:AKTabBarPositionTop];
-
-// Adding the view controllers to manage.
-[_tabBarController setViewControllers:@[[[FirstViewController alloc] init], [[SecondViewController alloc] init], [[ThirdViewController alloc] init], [[FourthViewController alloc] init]]]];  
-</code></pre>
-
-<p>关于更多AKTabBarController的用法，请访问：**<a href="https://github.com/alikaragoz/AKTabBarController**">https://github.com/alikaragoz/AKTabBarController**</a></p>
-
-<h2>功能简介</h2>
-
-<pre><code>• 自适应竖屏和横屏模式，tab 上的图标会根据竖屏和横屏模式自动缩放大小以适应tab的高度。
-
-• 自定义 tab bar 的高度；
-
-• 当进入下个视图时，可以自动隐藏tab bar；
-
-• 可以只显示图片，而不显示文字；并且当 tab bar 的高度太小时，可以自动缩放图片以及隐藏文字；
-
-• 只需要一张图片来表示 tab 被选择和非选择模式。即tab 被选中时的高光是用CoreGraphics绘制的，不需要额外的图片。
-
-• 选择不同 tab 时的动画切换效果用的是淡入淡出（cross fade）的效果. 
-
-• 支持预渲染图像
-
-• 支持设置tabBar字体。
-</code></pre>
-
-<h2>实际效果</h2>
-
-<p>最终实现的效果如下所示：</p>
-
-<p><img src="https://github.com/alikaragoz/AKTabBarController/raw/master/Screenshots/iphone-portrait.png" alt="1" /></p>
-
-<p>这里只是简单的讲解一下。大家闲的时候，如果有兴趣的话，可以自己动手来熟练关于<code>AKTabBarController</code>更多的功能。</p>
 ]]></content>
   </entry>
   
