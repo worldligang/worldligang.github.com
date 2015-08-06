@@ -81,6 +81,149 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/01/05/pushtalk/">PushTalk</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-05T17:20:23+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:20 pm</span></time>
+        
+        
+          | <a href="/blog/2015/01/05/pushtalk/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p> <a href="https://github.com/good-life/PushTalk"target="_blank"title="源代码">源代码</a></p>
+
+<h1>推聊概述 PushTalk Overview</h1>
+
+<p>推聊是一个基于极光推送的Android手机聊天系统。支持群聊与点对点聊天。当前包括Android客户端与Java服务器端。3分钟就可以整套系统跑起来。</p>
+
+<p><img src="https://github.com/downloads/good-life/PushTalk/pushtalk_architecture_2.png" alt="" /></p>
+
+<h3>项目官方网站</h3>
+
+<p><a href="http://github.com/good-life/pushtalk">http://github.com/good-life/pushtalk</a></p>
+
+<h3>功能与特点</h3>
+
+<h5>功能列表</h5>
+
+<ul>
+<li>频道里群聊</li>
+<li>与其他用户点对点聊天</li>
+<li>聊天支持文字、表情、URL等</li>
+<li>注册用户（不需要密码）</li>
+<li>创建频道、加入频道</li>
+<li>我的最近聊天、我的频道</li>
+<li>聊天记录缓存（在服务器端）</li>
+<li>客户端选择聊天服务器、添加聊天服务器</li>
+</ul>
+
+
+<h5>特点</h5>
+
+<ul>
+<li>简单到极致的 http 聊天服务器：一个 jar 包跑起来</li>
+<li>轻量级客户端：聊天界面使用 Webview 的方式</li>
+<li>下行消息推送基于 <a href="http://jpush.cn/">JPush</a>（一个免费的第三方 Android Push 服务），上行消息采用 http 请求的方式实现</li>
+</ul>
+
+
+<h3>聊天服务器</h3>
+
+<p>推聊的服务器端使用 Java 语言编写，基于最简单实用的开源框架。</p>
+
+<ul>
+<li>http 服务器使用 <a href="http://www.eclipse.org/jetty/">Jetty</a>：轻量级的 Java Servlet 容器。</li>
+<li>数据库使用 <a href="http://http://www.h2database.com/">H2</a>： 轻量级的 Java 内存/文件数据库。</li>
+<li>页面模板使用 <a href="http://freemarker.sourceforge.net/">Freemarker</a>：轻量级的 Java 页面模板引擎。</li>
+<li>打包时集成为一个整体 jar 包（包含所有的依赖包）</li>
+</ul>
+
+
+<p>要运行推聊服务器端，请在 github项目界面相关版本下载 dist/ 目录下的 pushtalk-server jar 文件。</p>
+
+<p>要打包 server-java，请在项目该目录下执行 mvn package 命令。</p>
+
+<p>使用如下命令运行服务器：</p>
+
+<pre><code>java -Dfile.encoding=UTF-8 -jar pushtalk-server-with-dependencies.jar
+</code></pre>
+
+<p><code>注：实际的文件名后边一般会加上一个版本号。</code></p>
+
+<p>上述命令运行后：</p>
+
+<ul>
+<li>一个 http server 启动了，监听端口为 10010</li>
+<li>浏览器里输入 <a href="http://localhost:10010">http://localhost:10010</a> 则可以访问到界面</li>
+<li>要正确地运行服务器，需要通过客户端访问</li>
+</ul>
+
+
+<p>推聊服务器默认使用 <code>10010</code> 端口。可以在上述命令后指定使用另外的端口。比如以下命令指定使用 <code>10011</code> 来启动推聊聊天服务器：</p>
+
+<pre><code>java -Dfile.encoding=UTF-8 -jar pushtalk-server-with-dependencies.jar 10011
+</code></pre>
+
+<h3>Android 客户端</h3>
+
+<p><img src="https://github.com/downloads/good-life/PushTalk/pushtalk_client.png" alt="" /></p>
+
+<p>客户端运行，请在 github 文件下载页 <a href="https://github.com/good-life/PushTalk/downloads/">https://github.com/good-life/PushTalk/downloads/</a> 下载 Android apk 安装到 Android 手机即可。</p>
+
+<p>你也可以自己编译 <code>/client-android</code> 项目之后安装到手机。</p>
+
+<p>客户端默认内置官方聊天服务器地址。也可以直接在客户端添加新的服务器，选择新的聊天服务器。</p>
+
+<p>如果你有服务器资源，可以长期运行，欢迎你架设推聊聊天服务器，请添加到以下的页面。经过测试没有问题，会被选择预置到客户端代码里：</p>
+
+<p><a href="https://github.com/good-life/PushTalk/wiki/PushTalk-Third-Party-Servers">https://github.com/good-life/PushTalk/wiki/PushTalk-Third-Party-Servers</a></p>
+
+<h3>开发者支持</h3>
+
+<p>欢迎广大开发者加入本开源项目，大家一起来不断地丰满、完善推聊。</p>
+
+<p>本人是因为兴趣业余时间来开发推聊，考虑到 IM 占用的时间太多，所以请谅解，不提供任何 IM 的沟通方式。希望大家以如下的方式交流：</p>
+
+<ul>
+<li>Email:  <a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#112;&#x75;&#115;&#104;&#116;&#x61;&#108;&#107;&#46;&#111;&#114;&#x67;&#x40;&#x67;&#x6d;&#97;&#105;&#108;&#x2e;&#x63;&#111;&#109;">&#112;&#x75;&#x73;&#x68;&#116;&#97;&#108;&#107;&#x2e;&#x6f;&#x72;&#103;&#x40;&#103;&#x6d;&#x61;&#105;&#x6c;&#x2e;&#99;&#111;&#109;</a></li>
+<li>项目Wiki: <a href="https://github.com/good-life/PushTalk/wiki">https://github.com/good-life/PushTalk/wiki</a></li>
+<li>项目Bug: <a href="https://github.com/good-life/PushTalk/issues">https://github.com/good-life/PushTalk/issues</a></li>
+<li>PushTalk频道：<code>pushtalk</code>, <code>报告bug</code>, <code>新功能讨论</code> 等</li>
+</ul>
+
+
+<p>代码提交方式：请先提交Bug修复，把 diff 以文件方式发邮件给我。合作多次后，我可以把你加入到本项目贡献者里来，你就可以随时自由地提交代码了。</p>
+
+<p>你也可以自由地 fork 本项目，自己去发布新的版本。</p>
+
+<p>推聊使用的开源协议：<a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/01/05/pnchart/">PNChart</a></h1>
     
     
@@ -1808,92 +1951,6 @@ $ pod install
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/12/27/ioskai-fa-zhong-de-gcdduo-xian-cheng-tips/">iOS开发中的gcd多线程tips</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-12-27T16:48:27+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>4:48 pm</span></time>
-        
-        
-          | <a href="/blog/2014/12/27/ioskai-fa-zhong-de-gcdduo-xian-cheng-tips/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>本篇文章会持续更新：</p>
-
-<p><div class="entry-content"><h4>我们经常用到的：</h3></p>
-
-<pre><code>dispatch_async(dispatch_get_global_queue(0, 0), ^{  
-    // 处理耗时操作的代码块 
-
-    //通知主线程刷新  
-    dispatch_async(dispatch_get_main_queue(), ^{  
-        //回调或者说是通知主线程刷新  
-    });  
-
-});  
-</code></pre>
-
-<p>其中main_queue是系统默认的串行队列，global_queue是系统默认的并行队列。</p>
-
-<p><div class="entry-content"><h5>什么是串行队列（Serial）？</h3></p>
-
-<p>创建任意个数的串行队列，每个队列依次执行添加的任务，一个队列同一时刻只能执行一个任务（串行），但是各个队列之间不影响，可以并发执行。每个队列中的任务运行在一个由各自串行队列维护的独立线程上，一个队列中只有一个线程。</p>
-
-<p><div class="entry-content"><h5>什么是并行队列（Concurrent）？</h3></p>
-
-<p>并行队列是不允许自己创建的，系统中存在三个不同优先级的并行队列。并行队列依旧按照任务添加的顺序启动任务，但是，后一个任务无须等待前一个任务执行完毕，而是启动第一个任务后，立即启动下一个任务。至于同一时刻允许同时运行多少个任务有系统决定。任务各自运行在并行队列为他们提供的独立线程上，并行队列中同时运行多少个任务，就必须维护多少个线程。</p>
-
-<p>gcd中还有一个概念叫做主调度队列</p>
-
-<p><div class="entry-content"><h5>主调度队列（main dispatch queue）</h3>
-主调度队列中的任务运行在应用程序主线程上，所以，如果你要修改应用程序的界面，他是唯一的选择。</p>
-
-<p>如下：</p>
-
-<pre><code> dispatch_async(dispatch_get_main_queue(), ^{
-
-        //跟新界面的操作
-
-    });
-</code></pre>
-
-<p><div class="entry-content"><h4>只执行一次：</h3></p>
-
-<pre><code>static dispatch_once_t onceToken;  
-dispatch_once(&amp;onceToken, ^{  
-    // 这里写的代码只会被执行一次
-}); 
-</code></pre>
-
-<p>如果你收集有实用的关于gcd的用法，欢迎分享给我，直接在文章下面评论即可</p>
-
-<p>我的微信公众号：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-
-<p>转载请注明：<a href="http://www.superqq.com/blog/2014/12/27/ioskai-fa-zhong-de-gcdduo-xian-cheng-tips/">iOS开发中的gcd多线程tips</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/11">&larr; Older</a>
@@ -1928,6 +1985,10 @@ var cpro_id="u2238881";
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/08/07/implement-uitextview-placeholder/">实现placeholder属性的UITextView</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/08/06/uitextview-placeholder-practice/">UITextView实现placeholder的猥琐做法</a>
       </li>
     
@@ -1941,10 +2002,6 @@ var cpro_id="u2238881";
     
       <li class="post">
         <a href="/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-(photo-album)/">iOS开发之保存照片到系统相册（Photo Album）</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/02/custom-navigation-button-uibarbuttonitem/">自定义导航按钮UIBarButtonItem</a>
       </li>
     
   </ul>
