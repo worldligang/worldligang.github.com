@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-09T13:28:22+08:00</updated>
+  <updated>2015-08-10T00:40:27+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,70 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[CoreMotion框架中加速度计使用简明教程]]></title>
+    <link href="http://www.superqq.com/blog/2015/08/10/coremotion-framework-use-accelerometer/"/>
+    <updated>2015-08-10T00:37:33+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/08/10/coremotion-framework-use-accelerometer</id>
+    <content type="html"><![CDATA[<h2>前言</h2>
+
+<p>之前有人通过iPhone的加速度计做出一个手机防盗APP，而且正是通过这个防盗APP拿到天使投资。从此以后华丽转身，公司发展的有声有色。虽然这个项目最后不怎么样，但是，确实是一个不错的想法。</p>
+
+<p>也许你不知道，每一台iPhone都内置的有加速度计。这样当用户操作手机的的时候，比如旋转手机，内置的加速度计就会做出反应。</p>
+
+<p>在iOS4之前加速度计是由<code>UIAccelerometer</code>来采集数据的，现在都是用<code>CoreMotion</code>来处理。两种使用都比较简单，相对来说<code>UIAccelerometer</code>更简单一些。本文将分享两者的用法。</p>
+
+<h2>加速度计原理</h2>
+
+<p><img src="http://images.90159.com/08/Accelerometer.png" alt="Accelerometer.png" /></p>
+
+<p>来自网络</p>
+
+<p>iPhone的加速度计有三个轴，分别是x轴、y轴、z轴，如上图所示。这是一个三维立体空间，可以捕获用户每一个角度的操作。通过这三个轴可以计算iPhone倾斜的角度，从而计算出加速度。</p>
+
+<h2>UIAccelerometer使用</h2>
+
+<p><code>UIAccelerometer</code>的使用比较简单，需要实现<code>UIAccelerometerDelegate</code>的代理方法，具体代码如下：</p>
+
+<pre><code>UIAccelerometer *accelerometer = [UIAccelerometer sharedAccelerometer];
+accelerometer.delegate = self;
+accelerometer.updateInterval = 0.1;
+</code></pre>
+
+<p>实现<code>UIAccelerometerDelegate</code>代理方法：</p>
+
+<pre><code>- (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration NS_DEPRECATED_IOS(2_0, 5_0)
+{
+    NSLog(@"x -&gt; %f y - &gt; %f z -&gt; %f",accelerometer.x,accelerometer.y,accelerometer.z);
+}
+</code></pre>
+
+<h2>CoreMotion加速度计</h2>
+
+<p>首先需要引入<code>#import &lt;CoreMotion/CoreMotion.h&gt;</code>，直接通过<code>block</code>回调，然后处理三个轴的数据。代码如下：</p>
+
+<pre><code>CMMotionManager *motionManager = [[CMMotionManager alloc] init];
+NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+//加速计
+if (motionManager.accelerometerAvailable) {
+    motionManager.accelerometerUpdateInterval = 0.1;
+    [motionManager startAccelerometerUpdatesToQueue:queue withHandler:^(CMAccelerometerData *accelerometerData,NSError *error){
+        if (error) {
+            [motionManager stopAccelerometerUpdates];
+            NSLog(@"error");
+        }else{
+            NSLog(@"x -&gt; %f y - &gt; %f z -&gt; %f",accelerometerData.acceleration.x,accelerometerData.acceleration.y,accelerometerData.acceleration.z);
+        }
+    }];
+}else{
+    NSLog(@"This device has no accelerometer");
+}
+</code></pre>
+
+<p>以上就是关于<code>UIAccelerometer</code>和<code>CoreMotion</code>的使用，加速度计确实是iPhone手机的亮点功能。具体用途，需要我们发散思维，说不定哪一天你也有一个很牛的创意。屌丝逆袭也许就在下一刻。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[一次对MKMapView的性能优化]]></title>
@@ -3887,179 +3951,6 @@ imgView.image = image;
 <p>希望以上的知识梳理能帮助大家更好的掌握沙盒机制以及文件操作。我会持续分享更多关于iOS开发相关的技术文章。</p>
 
 <p>swift推出这么久，不知道你有没有开始用swift写项目。推荐给你一个swift学习网站:<a href="http://www.iswifting.com/">swift开发</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NSFileManager文件操作的十个小功能]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/24/nsfilemanagerwen-jian-cao-zuo-de-shi-ge-xiao-gong-neng/"/>
-    <updated>2015-07-24T00:14:03+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/24/nsfilemanagerwen-jian-cao-zuo-de-shi-ge-xiao-gong-neng</id>
-    <content type="html"><![CDATA[<p>NSFileManager是一个单列类，也是一个文件管理器。可以通过NSFileManager创建文件夹、创建文件、写文件、读文件内容等等基本功能。</p>
-
-<p>下面将介绍NSFileManager文件操作的十个小功能。我们在Documents里面进行举例，首先是获取Documents的路径。这个在<a href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-%28sandbox/">iOS开发之沙盒机制（SandBox)</a>已经详细讲解过了。获取Documents路径方法如下：</p>
-
-<pre><code>- (NSString *)getDocumentsPath
-{
-    //获取Documents路径
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *path = [paths objectAtIndex:0];
-    NSLog(@"path:%@", path);
-    return path;
-}
-</code></pre>
-
-<h3>创建文件夹</h3>
-
-<pre><code>-(void)createDirectory{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *iOSDirectory = [documentsPath stringByAppendingPathComponent:@"iOS"];
-    BOOL isSuccess = [fileManager createDirectoryAtPath:iOSDirectory withIntermediateDirectories:YES attributes:nil error:nil];
-    if (isSuccess) {
-        NSLog(@"success");
-    } else {
-        NSLog(@"fail");
-    }
-}
-</code></pre>
-
-<h3>创建文件</h3>
-
-<pre><code>-(void)createFile{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    BOOL isSuccess = [fileManager createFileAtPath:iOSPath contents:nil attributes:nil];
-    if (isSuccess) {
-        NSLog(@"success");
-    } else {
-        NSLog(@"fail");
-    }
-}
-</code></pre>
-
-<h3>写文件</h3>
-
-<pre><code>-(void)writeFile{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    NSString *content = @"我要写数据啦";
-    BOOL isSuccess = [content writeToFile:iOSPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    if (isSuccess) {
-        NSLog(@"write success");
-    } else {
-        NSLog(@"write fail");
-    }
-}
-</code></pre>
-
-<h3>读取文件内容</h3>
-
-<pre><code>-(void)readFileContent{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    NSString *content = [NSString stringWithContentsOfFile:iOSPath encoding:NSUTF8StringEncoding error:nil];
-    NSLog(@"read success: %@",content);
-}
-</code></pre>
-
-<h3>判断文件是否存在</h3>
-
-<pre><code>- (BOOL)isSxistAtPath:(NSString *)filePath{
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL isExist = [fileManager fileExistsAtPath:filePath];
-    return isExist;
-}
-</code></pre>
-
-<h3>计算文件大小</h3>
-
-<pre><code>- (unsigned long long)fileSizeAtPath:(NSString *)filePath{
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL isExist = [fileManager fileExistsAtPath:filePath];
-    if (isExist){
-        unsigned long long fileSize = [[fileManager attributesOfItemAtPath:filePath error:nil] fileSize];
-        return fileSize;
-    } else {
-        NSLog(@"file is not exist");
-        return 0;
-    }
-}
-</code></pre>
-
-<h3>计算整个文件夹中所有文件大小</h3>
-
-<pre><code>- (unsigned long long)folderSizeAtPath:(NSString*)folderPath{
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL isExist = [fileManager fileExistsAtPath:folderPath];
-    if (isExist){
-        NSEnumerator *childFileEnumerator = [[fileManager subpathsAtPath:folderPath] objectEnumerator];
-        unsigned long long folderSize = 0;
-        NSString *fileName = @"";
-        while ((fileName = [childFileEnumerator nextObject]) != nil){
-            NSString* fileAbsolutePath = [folderPath stringByAppendingPathComponent:fileName];
-            folderSize += [self fileSizeAtPath:fileAbsolutePath];
-        }
-        return folderSize / (1024.0 * 1024.0);
-    } else {
-        NSLog(@"file is not exist");
-        return 0;
-    }
-}
-</code></pre>
-
-<h3>删除文件</h3>
-
-<pre><code>-(void)deleteFile{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    BOOL isSuccess = [fileManager removeItemAtPath:iOSPath error:nil];
-    if (isSuccess) {
-        NSLog(@"delete success");
-    }else{
-        NSLog(@"delete fail");
-    }
-}
-</code></pre>
-
-<h3>移动文件</h3>
-
-<pre><code>- (void)moveFileName
-{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *filePath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    NSString *moveToPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    BOOL isSuccess = [fileManager moveItemAtPath:filePath toPath:moveToPath error:nil];
-    if (isSuccess) {
-        NSLog(@"rename success");
-    }else{
-        NSLog(@"rename fail");
-    }
-}
-</code></pre>
-
-<h3>重命名</h3>
-
-<pre><code>- (void)renameFileName
-{
-    //通过移动该文件对文件重命名
-    NSString *documentsPath =[self getDocumentsPath];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *filePath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    NSString *moveToPath = [documentsPath stringByAppendingPathComponent:@"rename.txt"];
-    BOOL isSuccess = [fileManager moveItemAtPath:filePath toPath:moveToPath error:nil];
-    if (isSuccess) {
-        NSLog(@"rename success");
-    }else{
-        NSLog(@"rename fail");
-    }
-}
-</code></pre>
-
-<p>以上文件操作代码都在<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a>，可以直接通过git拉下来进行测试。关于NSFileManager的用法还有很多，一起接续探索吧！</p>
 ]]></content>
   </entry>
   

@@ -81,6 +81,93 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/08/10/coremotion-framework-use-accelerometer/">CoreMotion框架中加速度计使用简明教程</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-10T00:37:33+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:37 am</span></time>
+        
+        
+          | <a href="/blog/2015/08/10/coremotion-framework-use-accelerometer/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>前言</h2>
+
+<p>之前有人通过iPhone的加速度计做出一个手机防盗APP，而且正是通过这个防盗APP拿到天使投资。从此以后华丽转身，公司发展的有声有色。虽然这个项目最后不怎么样，但是，确实是一个不错的想法。</p>
+
+<p>也许你不知道，每一台iPhone都内置的有加速度计。这样当用户操作手机的的时候，比如旋转手机，内置的加速度计就会做出反应。</p>
+
+<p>在iOS4之前加速度计是由<code>UIAccelerometer</code>来采集数据的，现在都是用<code>CoreMotion</code>来处理。两种使用都比较简单，相对来说<code>UIAccelerometer</code>更简单一些。本文将分享两者的用法。</p>
+
+<h2>加速度计原理</h2>
+
+<p><img src="http://images.90159.com/08/Accelerometer.png" alt="Accelerometer.png" /></p>
+
+<p>来自网络</p>
+
+<p>iPhone的加速度计有三个轴，分别是x轴、y轴、z轴，如上图所示。这是一个三维立体空间，可以捕获用户每一个角度的操作。通过这三个轴可以计算iPhone倾斜的角度，从而计算出加速度。</p>
+
+<h2>UIAccelerometer使用</h2>
+
+<p><code>UIAccelerometer</code>的使用比较简单，需要实现<code>UIAccelerometerDelegate</code>的代理方法，具体代码如下：</p>
+
+<pre><code>UIAccelerometer *accelerometer = [UIAccelerometer sharedAccelerometer];
+accelerometer.delegate = self;
+accelerometer.updateInterval = 0.1;
+</code></pre>
+
+<p>实现<code>UIAccelerometerDelegate</code>代理方法：</p>
+
+<pre><code>- (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration NS_DEPRECATED_IOS(2_0, 5_0)
+{
+    NSLog(@"x -&gt; %f y - &gt; %f z -&gt; %f",accelerometer.x,accelerometer.y,accelerometer.z);
+}
+</code></pre>
+
+<h2>CoreMotion加速度计</h2>
+
+<p>首先需要引入<code>#import &lt;CoreMotion/CoreMotion.h&gt;</code>，直接通过<code>block</code>回调，然后处理三个轴的数据。代码如下：</p>
+
+<pre><code>CMMotionManager *motionManager = [[CMMotionManager alloc] init];
+NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+//加速计
+if (motionManager.accelerometerAvailable) {
+    motionManager.accelerometerUpdateInterval = 0.1;
+    [motionManager startAccelerometerUpdatesToQueue:queue withHandler:^(CMAccelerometerData *accelerometerData,NSError *error){
+        if (error) {
+            [motionManager stopAccelerometerUpdates];
+            NSLog(@"error");
+        }else{
+            NSLog(@"x -&gt; %f y - &gt; %f z -&gt; %f",accelerometerData.acceleration.x,accelerometerData.acceleration.y,accelerometerData.acceleration.z);
+        }
+    }];
+}else{
+    NSLog(@"This device has no accelerometer");
+}
+</code></pre>
+
+<p>以上就是关于<code>UIAccelerometer</code>和<code>CoreMotion</code>的使用，加速度计确实是iPhone手机的亮点功能。具体用途，需要我们发散思维，说不定哪一天你也有一个很牛的创意。屌丝逆袭也许就在下一刻。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/08/09/performance-optimization-of-mkmapview/">一次对MKMapView的性能优化</a></h1>
     
     
@@ -3189,87 +3276,6 @@ self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustom
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/01/octopress-add-duoshuo/">为刚刚在线（Octopress）添加多说评论系统</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-08-01T01:04:31+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>1:04 am</span></time>
-        
-        
-          | <a href="/blog/2015/08/01/octopress-add-duoshuo/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>今天是八一建军节，中国人民解放军建军纪念日。心里不由自主地升起一份爱国之情。</p></blockquote>
-
-<p>我的网站<a href="http://www.superqq.com/">刚刚在线</a>去年九月份正式上线的，马上快一周年啦！作为一个技术型的博客网站，<a href="http://www.superqq.com/">刚刚在线</a>成长速度还是蛮快的。</p>
-
-<h2>刚刚在线排名</h2>
-
-<p>特别是最近一段时间，我一直在关注<a href="http://www.superqq.com/">刚刚在线</a>的排名，每天的进步速度非常快。这也是我持续更新的结果，百度对持续更新的网站是非常友好的。</p>
-
-<p>我用Alexa的插件看了一下<a href="http://www.superqq.com/">刚刚在线</a>的排名，全球排名：<strong>240334</strong> ， 中国区排名：<strong>14665</strong> 。我特意截了一张图给大家看一看：</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/superqqalexa.jpg" alt="superqqalexa.jpg" /></p>
-
-<p>路漫漫其修远兮，吾将上下而求索。要想取得更好的成就，仍需努力！<a href="http://www.superqq.com/">刚刚在线</a>一直有一个问题困惑着我。就是在火狐浏览器中，文章底部评论模块会出现错乱。</p>
-
-<h2>火狐评论版块错乱修复</h2>
-
-<p><a href="http://www.superqq.com/">刚刚在线</a>的评论模块用的是友言。也挺奇怪的，在其他浏览器中就好好的，唯独在火狐浏览器了会出现错乱。我知道这个问题的存在，已有一些访客反应过这个问题。但是，我一直没有找到原因。</p>
-
-<p>估计iOS开发者用火狐浏览器的人肯定不少，这个错乱问题一直在这里的话，肯定会给访客留下不好的印象。所以得尽早解决这个问题。</p>
-
-<p>既然找不到解决错乱的方法，就把友言给替换掉吧。百度搜了一下，发现国内的还有多说，评论功能还是挺不错的。我也看到很多网站在用多说。</p>
-
-<h2>把友言替换成多说</h2>
-
-<p>说换就换，多说（ **<a href="http://duoshuo.com/**">http://duoshuo.com/**</a> ）接入流程也不复杂。网上有很多教程，我简单说一下我是如何操作的。</p>
-
-<h3>1.获取站点的short_name</h3>
-
-<p>到多说的官网注册账号，并且添加你的站点。<code>short_name</code>就是添加站点的时候的多说域名框里填写的。添加站点流程如下：</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/duoshuozhuce.jpg" alt="duoshuozhuce.jpg" /></p>
-
-<h3>2.配置_config.yml</h3>
-
-<p>在 <code>_config.yml</code> 中添加</p>
-
-<pre><code># duoshuo comments
-duoshuo_comments: true
-duoshuo_short_name: superqq
-</code></pre>
-
-<p>具体配置方法请看点击<a href="http://blog.csdn.net/iosdevtip/article/details/47179709"> 为 Octopress 添加多说评论系统 </a></p>
-
-<p>ok，经过上面五小步就可以实现接入多说评论版块啦。迫不及待地想看看问题有没有解决，下过如何？赶紧部署上去，我简单的测试了一下。你可以点击<a href="http://www.superqq.com/">刚刚在线</a>，看看实现效果：</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/duoshuocomment.jpg" alt="duoshuocomment.jpg" /></p>
-
-<h2>网站有评论必回复噢</h2>
-
-<p>既然网站评论已经成功接入，大家以后有什么问题，或者需要交流的可以直接在网站上评论。虽然，每天有很多少要做，但是我依然会抽出时间来看看大家提的评论，一起探讨，一起成长。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -3303,6 +3309,10 @@ duoshuo_short_name: superqq
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/08/10/coremotion-framework-use-accelerometer/">CoreMotion框架中加速度计使用简明教程</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/08/09/performance-optimization-of-mkmapview/">一次对MKMapView的性能优化</a>
       </li>
     
@@ -3316,10 +3326,6 @@ duoshuo_short_name: superqq
     
       <li class="post">
         <a href="/blog/2015/08/06/uitextview-placeholder-practice/">UITextView实现placeholder的猥琐做法</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/05/multiple-uiimage-merged/">多个UIImage合并成一个UIImage</a>
       </li>
     
   </ul>
