@@ -81,6 +81,276 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/08/09/performance-optimization-of-mkmapview/">performance-optimization-of-MKMapView</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-09T13:18:21+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:18 pm</span></time>
+        
+        
+          | <a href="/blog/2015/08/09/performance-optimization-of-mkmapview/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>前言</h2>
+
+<p>最近做的项目主要是LBS这块 主打成员定位功能 我们的UI设计是这样的</p>
+
+<p><img src="http://7xkkjz.com1.z0.glb.clouddn.com/MK-1.png" alt="Pic-MK-1" /></p>
+
+<p>乍一看上去是挺好挺美观的 不同的人会显示不同的头像 可是当人扎堆的时候 问题就来了</p>
+
+<p><img src="http://7xkkjz.com1.z0.glb.clouddn.com/MK-2.png" alt="Pic-MK-2" /></p>
+
+<p>当人多的时候(例如上图所示) 地图滑动起来就能感觉到明显顿卡 那种不流畅感能折磨死人 所以 自然我们要解决这个问题(等等 先不要吐槽为什么不用地图聚合 因为这已经是地图放到最大了 聚合不适合这次的问题讨论)</p>
+
+<h2>分析</h2>
+
+<p>首先看下我是怎么实现这个annotationView的 由于这个annotationsView是异形的(也就是无法通过设置圆角直接得到) 而且里面的图片还因用户而异 所以解决方案就是使用layer.mask来进行遮罩 代码如下</p>
+
+<pre><code>@implementation MMAnnotationView
+
+- (instancetype)initWithAnnotation:(id&lt;MKAnnotation&gt;)annotation reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
+    if ( self )
+    {
+        self.frame = CGRectMake(0, 0, TRACK_ANNOTATION_SIZE.width, TRACK_ANNOTATION_SIZE.height);
+        self.centerOffset = CGPointMake(0, -(TRACK_ANNOTATION_SIZE.height-3)/2);
+        self.canShowCallout = NO;
+
+        self.avatarView = [[UIImageView alloc] initWithFrame:self.bounds];
+        [self addSubview:self.avatarView];
+        self.avatarView.contentMode = UIViewContentModeScaleAspectFill;
+
+        CAShapeLayer *shapelayer = [CAShapeLayer layer];
+        shapelayer.frame = self.bounds;
+        shapelayer.path = self.framePath.CGPath;
+        self.avatarView.layer.mask = shapelayer;
+
+        self.layer.shadowPath = self.framePath.CGPath;
+        self.layer.shadowRadius = 1.0f;
+        self.layer.shadowColor = [UIColor colorWithHex:0x666666FF].CGColor;
+        self.layer.shadowOpacity = 1.0f;
+        self.layer.shadowOffset = CGSizeMake(0, 0);
+        self.layer.masksToBounds = NO;
+    }
+    return self;
+}
+
+//mask路径
+- (UIBezierPath *)framePath
+{
+    if ( !_framePath )
+    {
+        CGFloat arrowWidth = 14;
+
+        CGMutablePathRef path = CGPathCreateMutable();
+
+        CGRect rectangle = CGRectInset(CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetWidth(self.bounds)), 3,3);
+
+        CGPoint p[3] = {
+        {CGRectGetMidX(self.bounds)-arrowWidth/2, CGRectGetWidth(self.bounds)-6},
+        {CGRectGetMidX(self.bounds)+arrowWidth/2, CGRectGetWidth(self.bounds)-6},
+        {CGRectGetMidX(self.bounds), CGRectGetHeight(self.bounds)-4}
+        };
+
+        CGPathAddRoundedRect(path, NULL, rectangle, 5, 5);
+        CGPathAddLines(path, NULL, p, 3);
+
+        CGPathCloseSubpath(path);
+
+        _framePath = [UIBezierPath bezierPathWithCGPath:path];
+
+        CGPathRelease(path);
+    }
+
+    return _framePath;
+}
+</code></pre>
+
+<p>我用代码生成了形状路径 并以此生成了layer的mask和shadowPath
+使用时 只要直接用SDWebImage设置头像就行了</p>
+
+<pre><code>[annotationView.avatarView sd_setImageWithURL:[NSURL URLWithString:avatarURL] placeholderImage:placeHolderImage];
+</code></pre>
+
+<p>接下来用工具分析一下问题出来哪 分析性能当然是选择Instrments(用法在这里就不做介绍了) 打开Core Animation 然后运行程序 滑动地图 可以看到性能分析如下</p>
+
+<p><img src="http://7xkkjz.com1.z0.glb.clouddn.com/MK-3.jpg" alt="Pic-MK-3" /></p>
+
+<p>原来平均帧数只有不到30帧 这离我们的目标60帧差得实在太远</p>
+
+<p>再使用Debug Option来深入分析一下</p>
+
+<p><img src="http://7xkkjz.com1.z0.glb.clouddn.com/MK-4.png" alt="Pic-MK-4" /></p>
+
+<p>由于MKMapView的原因 这里我们主要关心这几个选项</p>
+
+<ul>
+<li>Color Blended Layers</li>
+<li>Color Misaligned Images</li>
+<li>Color Offscreen-Rendered Yellow</li>
+</ul>
+
+
+<p>分别打开这几个选项 结果如下</p>
+
+<p><img src="http://7xkkjz.com1.z0.glb.clouddn.com/MK-5.png" alt="Pic-MK-5" /></p>
+
+<p>可以看到</p>
+
+<ul>
+<li>Color Blended Layers没有问题 不过这也是正常的 由于使用了mask 没有透明的地方</li>
+<li>Color Misaligned Images除了默认头像外全中 这是因为服务器上的图片大小跟显示的大小不一致 导致缩放 而默认头像则是一致的 所以没问题</li>
+<li>Color Offscreen-Rendered Yellow全中 由于使用了mask 导致大量的离屏渲染 这也是性能下降的主要原因</li>
+</ul>
+
+
+<h2>解决</h2>
+
+<p>问题的原因找到了 那么接下来该如何解决呢?</p>
+
+<ul>
+<li>首先mask是肯定不能用了</li>
+<li><p>其次下载下来的图片我们要预处理成实际大小
+那么 直接把下载下来的图片合成为我们要显示的最终结果不就ok了吗? 试试看</p>
+
+<pre><code>  - (void)loadAnnotationImageWithURL:(NSString*)url imageView:(UIImageView*)imageView
+  {
+      //将合成后的图片缓存起来
+      NSString *annoImageURL = url;
+      NSString *annoImageCacheURL = [annoImageURL stringByAppendingString:@"cache"];
+
+      UIImage *cacheImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:annoImageCacheURL];
+      if ( cacheImage )
+      {
+          //LLLog(@"hit cache");
+          imageView.image = cacheImage;
+      }
+      else
+      {
+          //LLLog(@"no cache");
+          [imageView sd_setImageWithURL:[NSURL URLWithString:annoImageURL]
+          placeholderImage:placeHolderImage
+          completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+          if (!error)
+          {
+              UIImage *annoImage = [image annotationImage];
+              imageView.image = annoImage;
+
+              [[SDImageCache sharedImageCache] storeImage:annoImage forKey:annoImageCacheURL];
+              }
+          }];
+      }
+  }
+
+  @implementation UIImage (LJC)
+  - (UIImage*) annotationImage
+  {
+      static UIView *snapshotView = nil;
+      static UIImageView *imageView = nil;
+
+      if ( !snapshotView )
+      {
+          snapshotView = [UIView new];
+          snapshotView.frame = CGRectMake(0, 0, TRACK_ANNOTATION_SIZE.width, TRACK_ANNOTATION_SIZE.height);
+
+          imageView = [UIImageView new];
+          [snapshotView addSubview:imageView];
+          imageView.clipsToBounds = YES;
+          imageView.frame = snapshotView.bounds;
+          imageView.contentMode = UIViewContentModeScaleAspectFill;
+
+          CGFloat arrowWidth = 14;
+
+          CGMutablePathRef path = CGPathCreateMutable();
+
+          CGRect rectangle = CGRectInset(CGRectMake(0, 0, CGRectGetWidth(imageView.bounds), CGRectGetWidth(imageView.bounds)), 3,3);
+
+          CGPoint p[3] = {
+              {CGRectGetMidX(imageView.bounds)-arrowWidth/2, CGRectGetWidth(imageView.bounds)-6},
+              {CGRectGetMidX(imageView.bounds)+arrowWidth/2, CGRectGetWidth(imageView.bounds)-6},
+              {CGRectGetMidX(imageView.bounds), CGRectGetHeight(imageView.bounds)-4}
+          };
+
+          CGPathAddRoundedRect(path, NULL, rectangle, 5, 5);
+          CGPathAddLines(path, NULL, p, 3);
+
+          CGPathCloseSubpath(path);
+
+          CAShapeLayer *shapelayer = [CAShapeLayer layer];
+          shapelayer.frame = imageView.bounds;
+          shapelayer.path = path;
+
+          imageView.layer.mask = shapelayer;
+
+          snapshotView.layer.shadowPath = path;
+          snapshotView.layer.shadowRadius = 1.0f;
+          snapshotView.layer.shadowColor = [UIColor colorWithHex:0x666666FF].CGColor;
+          snapshotView.layer.shadowOpacity = 1.0f;
+          snapshotView.layer.shadowOffset = CGSizeMake(0, 0);
+
+          CGPathRelease(path);
+      }
+
+      imageView.image = self;
+
+      UIGraphicsBeginImageContextWithOptions(TRACK_ANNOTATION_SIZE, NO, 0);
+
+      [snapshotView.layer renderInContext:UIGraphicsGetCurrentContext()];
+
+      UIImage *copied = UIGraphicsGetImageFromCurrentImageContext();
+      UIGraphicsEndImageContext();
+
+      return copied;
+  }
+  @end
+</code></pre></li>
+</ul>
+
+
+<p>然后使用的时候 只要简单的如下调用就OK了</p>
+
+<pre><code>[self loadAnnotationImageWithURL:avatarURL imageView:annotationView.avatarView];
+</code></pre>
+
+<p>看看修改之后的Instruments表现如何</p>
+
+<p><img src="http://7xkkjz.com1.z0.glb.clouddn.com/MK-6.png" alt="Pic-MK-6" /></p>
+
+<ul>
+<li>Color Blended Layers全中 这也是无可避免的 因为显示的就是一张带透明度的图 但是由于地图的特殊性(头像的位置变化间隔较长 所以不会经常引发合成 也没有动画) 所以这里也不是问题</li>
+<li>Color Misaligned Images没问题了 因为头像已被缩放成了相同大小</li>
+<li>Color Offscreen-Rendered Yellow没问题了 因为只是简单的显示了一张图片 而并没有需要离屏渲染的东西了</li>
+</ul>
+
+
+<p>再来看下帧数情况</p>
+
+<p><img src="http://7xkkjz.com1.z0.glb.clouddn.com/MK-7.jpg" alt="Pic-MK-7" /></p>
+
+<p>Oh-Yeah~ 不光帧数达到了我们的目标60帧(由于还有业务逻辑线程在后台跑 所以没有那么的稳定) 就连平均运行耗时都下降了不少 就算地图上再多显示几十个人 也不成问题了</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/08/08/interview-ios-question-answer/">《招聘一个靠谱的iOS》面试题参考答案（上）</a></h1>
     
     
@@ -3000,122 +3270,6 @@ duoshuo_short_name: superqq
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/31/aktabbarcontroller-similar-to-wechat-library/">AKTabBarController：类似微信的第三方库</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-31T00:28:53+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>12:28 am</span></time>
-        
-        
-          | <a href="/blog/2015/07/31/aktabbarcontroller-similar-to-wechat-library/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>自从有了评论之后，就可以很方便的和大家交流。以前都是我一个人默默的发文章，看不出大家对文章的看法。评论开通之后，就可以很快速的获取大家对文章的看法。</p>
-
-<p>有人会指出文章里有错误的地方，真的很感激他们，非常的认真；有人会对文章说出自己的见解，加深自己的印象，同时，也能帮助到其他的朋友；有人也会在评论里，提出一些问题，但是鉴于评论的字数限制，只能简单的回答一下。</p>
-
-<p>在昨天的文章评论里面，有一个朋友提出了一个问题，关于微信导航栏的。</p>
-
-<h2>问题分析和解答</h2>
-
-<p><strong>问：</strong></p>
-
-<pre><code>自定义导航栏怎么写？就像微信那样，tabBar的四个界面切换导航栏都不变化
-</code></pre>
-
-<p><strong>答：</strong></p>
-
-<pre><code>github上搜索AKTabBarController
-</code></pre>
-
-<p>其实，这位朋友的问题不是关于自定义导航栏，我觉得他可能是想问微信底部的<code>TabBar</code>和导航结合使用是如何实现的。</p>
-
-<p>记得之前在github看到过有一个类似微信的框架（算不上框架，我们就这么简单的叫一下）。就是<a href="https://github.com/alikaragoz/AKTabBarController">AKTabBarController</a>。</p>
-
-<p><code>AKTabBarController</code>是一个非常不错的第三方。在github上有663个<code>star</code>，使用方法也不是很复杂，下面我们简单的看一下。</p>
-
-<h2>如何导入到项目中</h2>
-
-<p><code>AKTabBarController</code>是支持<a href="http://www.superqq.com/blog/2014/10/16/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/">CocoaPods</a>导入的。想理解CocoaPods的请点击：<a href="http://www.superqq.com/blog/2014/10/16/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/">CocoaPods安装和使用教程</a>。在你的Podfile文件中加入：</p>
-
-<pre><code>platform :ios
-
-pod 'AKTabBarController'
-</code></pre>
-
-<p>添加成功之后，在终端执行：</p>
-
-<pre><code>pod install 
-</code></pre>
-
-<h2>如何使用AKTabBarController</h2>
-
-<p>安装成功之后，在你想用的地方导入头文件：</p>
-
-<pre><code>#import "AKTabBarController.h"
-</code></pre>
-
-<p>然后，创建<code>tabBar</code></p>
-
-<pre><code>// Create and initialize the height of the tab bar to 50px.
-_tabBarController = [[AKTabBarController alloc] initWithTabBarHeight:50];
-
-// Create and initialize with specific height and position atop the view controller
-_tabBarController = [[AKTabBarController alloc] initWithTabBarHeight:50 position:AKTabBarPositionTop];
-
-// Adding the view controllers to manage.
-[_tabBarController setViewControllers:@[[[FirstViewController alloc] init], [[SecondViewController alloc] init], [[ThirdViewController alloc] init], [[FourthViewController alloc] init]]]];  
-</code></pre>
-
-<p>关于更多AKTabBarController的用法，请访问：**<a href="https://github.com/alikaragoz/AKTabBarController**">https://github.com/alikaragoz/AKTabBarController**</a></p>
-
-<h2>功能简介</h2>
-
-<pre><code>• 自适应竖屏和横屏模式，tab 上的图标会根据竖屏和横屏模式自动缩放大小以适应tab的高度。
-
-• 自定义 tab bar 的高度；
-
-• 当进入下个视图时，可以自动隐藏tab bar；
-
-• 可以只显示图片，而不显示文字；并且当 tab bar 的高度太小时，可以自动缩放图片以及隐藏文字；
-
-• 只需要一张图片来表示 tab 被选择和非选择模式。即tab 被选中时的高光是用CoreGraphics绘制的，不需要额外的图片。
-
-• 选择不同 tab 时的动画切换效果用的是淡入淡出（cross fade）的效果. 
-
-• 支持预渲染图像
-
-• 支持设置tabBar字体。
-</code></pre>
-
-<h2>实际效果</h2>
-
-<p>最终实现的效果如下所示：</p>
-
-<p><img src="https://github.com/alikaragoz/AKTabBarController/raw/master/Screenshots/iphone-portrait.png" alt="1" /></p>
-
-<p>这里只是简单的讲解一下。大家闲的时候，如果有兴趣的话，可以自己动手来熟练关于<code>AKTabBarController</code>更多的功能。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -3149,6 +3303,10 @@ _tabBarController = [[AKTabBarController alloc] initWithTabBarHeight:50 position
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/08/09/performance-optimization-of-mkmapview/">performance-optimization-of-MKMapView</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/08/08/interview-ios-question-answer/">《招聘一个靠谱的iOS》面试题参考答案（上）</a>
       </li>
     
@@ -3162,10 +3320,6 @@ _tabBarController = [[AKTabBarController alloc] initWithTabBarHeight:50 position
     
       <li class="post">
         <a href="/blog/2015/08/05/multiple-uiimage-merged/">多个UIImage合并成一个UIImage</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/04/save-photo-to-own-album/">iOS开发之保存照片到自己创建的相簿</a>
       </li>
     
   </ul>
