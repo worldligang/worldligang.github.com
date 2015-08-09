@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 推荐 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/tui-jian/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-09T13:21:41+08:00</updated>
+  <updated>2015-08-09T13:28:22+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[performance-optimization-of-MKMapView]]></title>
+    <title type="html"><![CDATA[一次对MKMapView的性能优化]]></title>
     <link href="http://www.superqq.com/blog/2015/08/09/performance-optimization-of-mkmapview/"/>
     <updated>2015-08-09T13:18:21+08:00</updated>
     <id>http://www.superqq.com/blog/2015/08/09/performance-optimization-of-mkmapview</id>
@@ -1988,11 +1988,11 @@ Objective-C 没有消失，但是现在用一个慢慢失去关注的语言来�
 
 <p><strong>林翔宇</strong>
 - <a href="http://linxiangyu.org">http://linxiangyu.org</a>
-- <a href="&#109;&#97;&#105;&#x6c;&#x74;&#x6f;&#58;&#x6c;&#105;&#x6e;&#x78;&#x69;&#x61;&#110;&#103;&#x79;&#x75;&#x40;&#x6e;&#x75;&#x70;&#x74;&#101;&#x72;&#46;&#x6f;&#114;&#x67;">&#x6c;&#x69;&#110;&#x78;&#x69;&#97;&#110;&#x67;&#121;&#x75;&#64;&#110;&#117;&#112;&#116;&#101;&#114;&#46;&#x6f;&#x72;&#103;</a>
+- <a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#58;&#108;&#105;&#110;&#x78;&#105;&#97;&#x6e;&#x67;&#121;&#x75;&#x40;&#110;&#x75;&#112;&#116;&#101;&#114;&#x2e;&#x6f;&#114;&#x67;">&#x6c;&#105;&#x6e;&#x78;&#x69;&#x61;&#110;&#x67;&#x79;&#117;&#x40;&#x6e;&#117;&#112;&#x74;&#101;&#x72;&#46;&#x6f;&#114;&#103;</a>
 - <a href="http://github.com/oa414">http://github.com/oa414</a></p>
 
 <p><strong>庞博</strong>
-- <a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#58;&#x62;&#x6f;&#x70;&#97;&#110;&#x67;&#x40;&#115;&#111;&#x68;&#x75;&#45;&#105;&#x6e;&#99;&#x2e;&#x63;&#111;&#x6d;">&#x62;&#x6f;&#112;&#x61;&#x6e;&#x67;&#64;&#115;&#111;&#x68;&#x75;&#45;&#105;&#110;&#x63;&#46;&#x63;&#x6f;&#x6d;</a>
+- <a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#x6f;&#58;&#x62;&#x6f;&#112;&#97;&#x6e;&#x67;&#x40;&#115;&#x6f;&#x68;&#x75;&#45;&#x69;&#110;&#x63;&#x2e;&#99;&#111;&#109;">&#x62;&#x6f;&#x70;&#x61;&#x6e;&#103;&#64;&#x73;&#x6f;&#104;&#117;&#x2d;&#x69;&#x6e;&#x63;&#x2e;&#99;&#x6f;&#109;</a>
 - <a href="https://github.com/heistings">https://github.com/heistings</a></p>
 
 <p>翻译已得到原作者许可，并且会在更加完善后申请合并到原文仓库。</p>
