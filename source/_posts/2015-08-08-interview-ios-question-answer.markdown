@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "《招聘一个靠谱的iOS》面试题参考答案（上）"
+title: 《招聘一个靠谱的iOS》面试题参考答案（上）
 date: 2015-08-08 00:16:38 +0800
 comments: true
 categories: 推荐
@@ -61,21 +61,22 @@ description: 《招聘一个靠谱的iOS》面试题参考答案（上）最近�
 
  4. enum建议使用 `NS_ENUM` 和 `NS_OPTIONS` 宏来定义枚举类型，参见官方的 [Adopting Modern Objective-C](https://developer.apple.com/library/ios/releasenotes/ObjectiveC/ModernizationObjC/AdoptingModernObjective-C/AdoptingModernObjective-C.html) 一文：
 
-    ```objective-c
-//定义一个枚举
+
+	//定义一个枚举
 	typedef NS_ENUM(NSInteger, CYLSex) {
 	    CYLSexMan,
 	    CYLSexWoman
 	};
-```
+
+
  2. age属性的类型：应避免使用基本类型，建议使Foundation数据类型，对应关系如下：
  
- ```Objective-C
+
 	int -> NSInteger
 	unsigned -> NSUInteger
 	float -> CGFloat
 	动画时间 -> NSTimeInterval
-```
+
 同时考虑到age的特点，应使用NSUInteger，而非int。
 这样做的是基于64-bit 适配考虑，详情可参考出题者的博文[《64-bit Tips》](http://blog.sunnyxx.com/2014/12/20/64-bit-tips/)。
 
@@ -95,14 +96,15 @@ description: 《招聘一个靠谱的iOS》面试题参考答案（上）最近�
   > 如果方法表示让对象执行一个动作，使用动词打头来命名，注意不要使用`do`，`does`这种多余的关键字，动词本身的暗示就足够了。
  11. `-(id)initUserModelWithUserName: (NSString*)name withAge:(int)age;`方法中不要用`with`来连接两个参数:`withAge:`应当换为`age:`，`age:`已经足以清晰说明参数的作用，也不建议用`andAge:`：通常情况下，即使有类似`withA:withB:`的命名需求，也通常是使用`withA:andB:`这种命名，用来表示方法执行了两个相对独立的操作（*从设计上来说，这时候也可以拆分成两个独立的方法*），它不应该用作阐明有多个参数，比如下面的：
 
-  ```objective-c
-//错误，不要使用"and"来连接参数
-- (int)runModalForDirectory:(NSString *)path andFile:(NSString *)name andTypes:(NSArray *)fileTypes;
-//错误，不要使用"and"来阐明有多个参数
-- (instancetype)initWithName:(CGFloat)width andAge:(CGFloat)height;
-//正确，使用"and"来表示两个相对独立的操作
-- (BOOL)openFile:(NSString *)fullPath withApplication:(NSString *)appName andDeactivate:(BOOL)flag;
-```
+
+
+	//错误，不要使用"and"来连接参数
+	- (int)runModalForDirectory:(NSString *)path andFile:(NSString *)name andTypes:(NSArray *)fileTypes;
+	//错误，不要使用"and"来阐明有多个参数
+	- (instancetype)initWithName:(CGFloat)width andAge:(CGFloat)height;
+	//正确，使用"and"来表示两个相对独立的操作
+	- (BOOL)openFile:(NSString *)fullPath withApplication:(NSString *)appName andDeactivate:(BOOL)flag;
+
 
  12. 由于字符串值可能会改变，所以要把相关属性的“内存管理语义”声明为copy。(原因在下文有详细论述：***用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？***)
  2. “性别”(sex）属性的：该类中只给出了一种“初始化方法” (initializer)用于设置“姓名”(Name)和“年龄”(Age)的初始值，那如何对“性别”(Sex）初始化？
@@ -111,8 +113,7 @@ description: 《招聘一个靠谱的iOS》面试题参考答案（上）最近�
 
  
 
- 
- ```Objective-C
+
 
     // .m文件
     // http://weibo.com/luohanchenyilong/
@@ -138,7 +139,7 @@ description: 《招聘一个靠谱的iOS》面试题参考答案（上）最近�
     }
 
     @end
-```
+
 
 
 
@@ -152,7 +153,7 @@ description: 《招聘一个靠谱的iOS》面试题参考答案（上）最近�
 
 
  
- ```Objective-C
+
 
 
 	// .h文件
@@ -176,7 +177,7 @@ description: 《招聘一个靠谱的iOS》面试题参考答案（上）最近�
 	+ (instancetype)userWithName:(NSString *)name age:(NSUInteger)age sex:(CYLSex)sex;
 
 	@end
-```
+
 
 
  .h中暴露 designated 初始化方法，是为了方便子类化 （想了解更多，请戳--》 [***《禅与 Objective-C 编程艺术 （Zen and the Art of the Objective-C Craftsmanship 中文翻译）》***](http://is.gd/OQ49zk)。）
@@ -258,33 +259,32 @@ copy此特质所表达的所属关系与strong类似。然而设置方法并不�
 
  
  
-```Objective-C
-// .h文件
-// http://weibo.com/luohanchenyilong/
-// https://github.com/ChenYilong
-// 下面的代码就会发生崩溃
+	
+	// .h文件
+	// http://weibo.com/luohanchenyilong/
+	// https://github.com/ChenYilong
+	// 下面的代码就会发生崩溃
+	
+	@property (nonatomic, copy) NSMutableArray *mutableArray;
 
-@property (nonatomic, copy) NSMutableArray *mutableArray;
-```
 
+	
+	// .m文件
+	// http://weibo.com/luohanchenyilong/
+	// https://github.com/ChenYilong
+	// 下面的代码就会发生崩溃
+	
+	NSMutableArray *array = [NSMutableArray arrayWithObjects:@1,@2,nil];
+	self.mutableArray = array;
+	[self.mutableArray removeObjectAtIndex:0];
 
-```Objective-C
-// .m文件
-// http://weibo.com/luohanchenyilong/
-// https://github.com/ChenYilong
-// 下面的代码就会发生崩溃
-
-NSMutableArray *array = [NSMutableArray arrayWithObjects:@1,@2,nil];
-self.mutableArray = array;
-[self.mutableArray removeObjectAtIndex:0];
-```
 
 接下来就会奔溃：
 
  
-```Objective-C
- -[__NSArrayI removeObjectAtIndex:]: unrecognized selector sent to instance 0x7fcd1bc30460
-```
+
+ 	-[__NSArrayI removeObjectAtIndex:]: unrecognized selector sent to instance 0x7fcd1bc30460
+
 
 
 
@@ -314,9 +314,9 @@ atomic属性通常都不会有性能瓶颈。
  1. 需声明该类遵从NSCopying协议
  2. 实现NSCopying协议。该协议只有一个方法: 
 
- ```Objective-C
-- (id)copyWithZone: (NSZone*) zone
-```
+
+	- (id)copyWithZone: (NSZone*) zone
+
 注意：一提到让自己的类用 copy 修饰符，我们总是想覆写copy方法，其实真正需要实现的却是“copyWithZone”方法。
 
 以第一题的代码为例：
@@ -346,15 +346,15 @@ atomic属性通常都不会有性能瓶颈。
 然后实现协议中规定的方法：
 
  
-```Objective-C
-- (id)copyWithZone:(NSZone *)zone {
-	CYLUser *copy = [[[self copy] allocWithZone:zone] 
-		             initWithName:_name
- 							      age:_age
-						          sex:_sex];
-	return copy;
-}
-```
+
+	- (id)copyWithZone:(NSZone *)zone {
+		CYLUser *copy = [[[self copy] allocWithZone:zone] 
+			             initWithName:_name
+	 							      age:_age
+							          sex:_sex];
+		return copy;
+	}
+
 但在实际的项目中，不可能这么简单，遇到更复杂一点，比如类对象中的数据结构可能并未在初始化方法中设置好，需要另行设置。举个例子，假如CYLUser中含有一个数组，与其他CYLUser对象建立或解除朋友关系的那些方法都需要操作这个数组。那么在这种情况下，你得把这个包含朋友对象的数组也一并拷贝过来。下面列出了实现此功能所需的全部代码:
 
 	// .h文件
@@ -590,16 +590,16 @@ atomic属性通常都不会有性能瓶颈。
 
 
  
-```Objective-C
-// 使用伪代码模拟：runtime如何实现weak属性
-// http://weibo.com/luohanchenyilong/
-// https://github.com/ChenYilong
 
- id obj1;
- objc_initWeak(&obj1, obj);
-/*obj引用计数变为0，变量作用域结束*/
- objc_destroyWeak(&obj1);
-```
+	// 使用伪代码模拟：runtime如何实现weak属性
+	// http://weibo.com/luohanchenyilong/
+	// https://github.com/ChenYilong
+	
+	 id obj1;
+	 objc_initWeak(&obj1, obj);
+	/*obj引用计数变为0，变量作用域结束*/
+	 objc_destroyWeak(&obj1);
+
 
 下面对用到的两个方法`objc_initWeak`和`objc_destroyWeak`做下解释：
 
@@ -613,10 +613,10 @@ atomic属性通常都不会有性能瓶颈。
 
 
  
-```Objective-C
-obj1 = 0；
-obj_storeWeak(&obj1, obj);
-```
+
+	obj1 = 0；
+	obj_storeWeak(&obj1, obj);
+
 
 也就是说：
 
@@ -633,17 +633,17 @@ obj_storeWeak(&obj1, obj);
 
 
 
-```Objective-C
-// 使用伪代码模拟：runtime如何实现weak属性
-// http://weibo.com/luohanchenyilong/
-// https://github.com/ChenYilong
 
-id obj1;
-obj1 = 0;
-objc_storeWeak(&obj1, obj);
-/* ... obj的引用计数变为0，被置nil ... */
-objc_storeWeak(&obj1, 0);
-```
+	// 使用伪代码模拟：runtime如何实现weak属性
+	// http://weibo.com/luohanchenyilong/
+	// https://github.com/ChenYilong
+	
+	id obj1;
+	obj1 = 0;
+	objc_storeWeak(&obj1, obj);
+	/* ... obj的引用计数变为0，被置nil ... */
+	objc_storeWeak(&obj1, 0);
+
 
 
 `objc_storeWeak`函数把第二个参数--赋值对象（obj）的内存地址作为键值，将第一个参数--weak修饰的属性变量（obj1）的内存地址注册到 weak 表中。如果第二个参数（obj）为0（nil），那么把变量（obj1）的地址从weak表中删除，在后面的相关一题会详解。
@@ -671,16 +671,16 @@ objc_storeWeak(&obj1, 0);
 
  2. 在属性所指的对象遭到摧毁时，属性值也会清空(nil out)。做到这点，同样要借助runtime：
  
- ```Objective-C
-//要销毁的目标对象
-id objectToBeDeallocated;
-//可以理解为一个“事件”：当上面的目标对象销毁时，同时要发生的“事件”。
-id objectWeWantToBeReleasedWhenThatHappens;
-objc_setAssociatedObject(objectToBeDeallocted,
-                         someUniqueKey,
-                         objectWeWantToBeReleasedWhenThatHappens,
-                         OBJC_ASSOCIATION_RETAIN);
-```
+
+	//要销毁的目标对象
+	id objectToBeDeallocated;
+	//可以理解为一个“事件”：当上面的目标对象销毁时，同时要发生的“事件”。
+	id objectWeWantToBeReleasedWhenThatHappens;
+	objc_setAssociatedObject(objectToBeDeallocted,
+	                         someUniqueKey,
+	                         objectWeWantToBeReleasedWhenThatHappens,
+	                         OBJC_ASSOCIATION_RETAIN);
+
 
 知道了思路，我们就开始实现`cyl_runAtDealloc`方法，实现过程分两部分：
 
@@ -909,23 +909,23 @@ stringCopy的值也不会因此改变，但是如果不使用copy，stringCopy�
 如果使用了属性的话，那么编译器就会自动编写访问属性所需的方法，此过程叫做“自动合成”( auto synthesis)。需要强调的是，这个过程由编译器在编译期执行，所以编辑器里看不到这些“合成方法” (synthesized method)的源代码。除了生成方法代码之外，编译器还要自动向类中添加适当类型的实例变量，并且在属性名前面加下划线，以此作为实例变量的名字。
 
  
-```Objective-C
-@interface CYLPerson : NSObject 
-@property NSString *firstName; 
-@property NSString *lastName; 
-@end
-```
+
+	@interface CYLPerson : NSObject 
+	@property NSString *firstName; 
+	@property NSString *lastName; 
+	@end
+
 
 
 在上例中，会生成两个实例变量，其名称分别为
 `_firstName`与`_lastName`。也可以在类的实现代码里通过`@synthesize`语法来指定实例变量的名字:
  
-```Objective-C
-@implementation CYLPerson 
-@synthesize firstName = _myFirstName; 
-@synthesize lastName = _myLastName; 
-@end 
-```
+
+	@implementation CYLPerson 
+	@synthesize firstName = _myFirstName; 
+	@synthesize lastName = _myLastName; 
+	@end 
+
 
 
 
@@ -972,12 +972,12 @@ stringCopy的值也不会因此改变，但是如果不使用copy，stringCopy�
 
 可以在类的实现代码里通过`@synthesize`语法来指定实例变量的名字:
  
-```Objective-C
-@implementation CYLPerson 
-@synthesize firstName = _myFirstName; 
-@synthesize lastName = _myLastName; 
-@end 
-```
+
+	@implementation CYLPerson 
+	@synthesize firstName = _myFirstName; 
+	@synthesize lastName = _myLastName; 
+	@end 
+
 
 
 
@@ -1039,9 +1039,9 @@ stringCopy的值也不会因此改变，但是如果不使用copy，stringCopy�
  1. 如果一个方法返回值是一个对象，那么发送给nil的消息将返回0(nil)。例如：  
 
  
- ```Objective-C
-Person * motherInlaw = [[aPerson spouse] mother];
-```
+
+	Person * motherInlaw = [[aPerson spouse] mother];
+
 
 
  如果spouse对象为nil，那么发送给nil的消息mother也将返回nil。
@@ -1059,27 +1059,27 @@ Person * motherInlaw = [[aPerson spouse] mother];
 
 
  
-```Objective-C
 
-// runtime.h（类在runtime中的定义）
-// http://weibo.com/luohanchenyilong/
-// https://github.com/ChenYilong
 
-struct objc_class {
-  Class isa OBJC_ISA_AVAILABILITY; //isa指针指向Meta Class，因为Objc的类的本身也是一个Object，为了处理这个关系，runtime就创造了Meta Class，当给类发送[NSObject alloc]这样消息时，实际上是把这个消息发给了Class Object
-  #if !__OBJC2__
-  Class super_class OBJC2_UNAVAILABLE; // 父类
-  const char *name OBJC2_UNAVAILABLE; // 类名
-  long version OBJC2_UNAVAILABLE; // 类的版本信息，默认为0
-  long info OBJC2_UNAVAILABLE; // 类信息，供运行期使用的一些位标识
-  long instance_size OBJC2_UNAVAILABLE; // 该类的实例变量大小
-  struct objc_ivar_list *ivars OBJC2_UNAVAILABLE; // 该类的成员变量链表
-  struct objc_method_list **methodLists OBJC2_UNAVAILABLE; // 方法定义的链表
-  struct objc_cache *cache OBJC2_UNAVAILABLE; // 方法缓存，对象接到一个消息会根据isa指针查找消息对象，这时会在method Lists中遍历，如果cache了，常用的方法调用时就能够提高调用的效率。
-  struct objc_protocol_list *protocols OBJC2_UNAVAILABLE; // 协议链表
-  #endif
-  } OBJC2_UNAVAILABLE;
-```
+	// runtime.h（类在runtime中的定义）
+	// http://weibo.com/luohanchenyilong/
+	// https://github.com/ChenYilong
+	
+	struct objc_class {
+	  Class isa OBJC_ISA_AVAILABILITY; //isa指针指向Meta Class，因为Objc的类的本身也是一个Object，为了处理这个关系，runtime就创造了Meta Class，当给类发送[NSObject alloc]这样消息时，实际上是把这个消息发给了Class Object
+	  #if !__OBJC2__
+	  Class super_class OBJC2_UNAVAILABLE; // 父类
+	  const char *name OBJC2_UNAVAILABLE; // 类名
+	  long version OBJC2_UNAVAILABLE; // 类的版本信息，默认为0
+	  long info OBJC2_UNAVAILABLE; // 类信息，供运行期使用的一些位标识
+	  long instance_size OBJC2_UNAVAILABLE; // 该类的实例变量大小
+	  struct objc_ivar_list *ivars OBJC2_UNAVAILABLE; // 该类的成员变量链表
+	  struct objc_method_list **methodLists OBJC2_UNAVAILABLE; // 方法定义的链表
+	  struct objc_cache *cache OBJC2_UNAVAILABLE; // 方法缓存，对象接到一个消息会根据isa指针查找消息对象，这时会在method Lists中遍历，如果cache了，常用的方法调用时就能够提高调用的效率。
+	  struct objc_protocol_list *protocols OBJC2_UNAVAILABLE; // 协议链表
+	  #endif
+	  } OBJC2_UNAVAILABLE;
+
 
 objc在向一个对象发送消息时，runtime库会根据对象的isa指针找到该对象实际所属的类，然后在该类中的方法列表以及其父类方法列表中寻找方法运行，然后在发送消息的时候，objc_msgSend方法不会返回值，所谓的返回内容都是具体调用时执行的。
 那么，回到本题，如果向一个nil对象发送消息，首先在寻找对象的isa指针时就是0地址返回了，所以不会出现任何错误。
@@ -1089,9 +1089,9 @@ objc在向一个对象发送消息时，runtime库会根据对象的isa指针找
 具体原因同上题：该方法编译之后就是`objc_msgSend()`函数调用.如果我没有记错的大概是这样的：
 
  
-```Objective-C
-((void ()(id, SEL))(void )objc_msgSend)((id)obj, sel_registerName("foo"));
-```
+
+	((void ()(id, SEL))(void )objc_msgSend)((id)obj, sel_registerName("foo"));
+
 也就是说：
 
 >  [obj foo];在objc动态编译时，会被转意为：`objc_msgSend(obj, @selector(foo));`。
@@ -1250,33 +1250,33 @@ objc Runtime开源代码对- (Class)class方法的实现:
 
 
  
-```Objective-C
-// 在MRC下，使用runtime Associate方法关联的对象，不需要在主对象dealloc的时候释放
-// http://weibo.com/luohanchenyilong/ (微博@iOS程序犭袁)
-// https://github.com/ChenYilong
-// 摘自2011年版本的Apple API 官方文档 - Associative References 
 
-static char overviewKey;
- 
-NSArray *array =
-    [[NSArray alloc] initWithObjects:@"One", @"Two", @"Three", nil];
-// For the purposes of illustration, use initWithFormat: to ensure
-// the string can be deallocated
-NSString *overview =
-    [[NSString alloc] initWithFormat:@"%@", @"First three numbers"];
- 
-objc_setAssociatedObject (
-    array,
-    &overviewKey,
-    overview,
-    OBJC_ASSOCIATION_RETAIN
-);
- 
-[overview release];
-// (1) overview valid
-[array release];
-// (2) overview invalid
-```
+	// 在MRC下，使用runtime Associate方法关联的对象，不需要在主对象dealloc的时候释放
+	// http://weibo.com/luohanchenyilong/ (微博@iOS程序犭袁)
+	// https://github.com/ChenYilong
+	// 摘自2011年版本的Apple API 官方文档 - Associative References 
+	
+	static char overviewKey;
+	 
+	NSArray *array =
+	    [[NSArray alloc] initWithObjects:@"One", @"Two", @"Three", nil];
+	// For the purposes of illustration, use initWithFormat: to ensure
+	// the string can be deallocated
+	NSString *overview =
+	    [[NSString alloc] initWithFormat:@"%@", @"First three numbers"];
+	 
+	objc_setAssociatedObject (
+	    array,
+	    &overviewKey,
+	    overview,
+	    OBJC_ASSOCIATION_RETAIN
+	);
+	 
+	[overview release];
+	// (1) overview valid
+	[array release];
+	// (2) overview invalid
+
 文档指出 
 
 > At point 1, the string `overview` is still valid because the `OBJC_ASSOCIATION_RETAIN` policy specifies that the array retains the associated object. When the array is deallocated, however (at point 2), `overview` is released and so in this case also deallocated.
