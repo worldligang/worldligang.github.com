@@ -81,707 +81,6 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/03/13/xi-tong-ti-gong-de-dispatchfang-fa/">系统提供的dispatch方法</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-03-13T17:41:11+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:41 pm</span></time>
-        
-        
-          | <a href="/blog/2015/03/13/xi-tong-ti-gong-de-dispatchfang-fa/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>为了方便地使用GCD，苹果提供了一些方法方便我们将block放在主线程或后台线程执行，或者延后执行。使用的例子如下所示：</p>
-
-<pre><code> //  后台执行：
- dispatch_async(dispatch_get_global_queue(0, 0), ^{
-      // something
- });
-
- // 主线程执行：
- dispatch_async(dispatch_get_main_queue(), ^{
-      // something
- });
-
- // 一次性执行：
- static dispatch_once_t onceToken;
- dispatch_once(&amp;onceToken, ^{
-     // code to be executed once
- });
-
- // 延迟2秒执行：
- double delayInSeconds = 2.0;
- dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
- dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-     // code to be executed on the main queue after delay
- });
-</code></pre>
-
-<p>dispatch_queue_t也可以自己定义，如要自定义queue，可以用dispatch_queue_create方法，示例如下：</p>
-
-<pre><code> // 自定义dispatch_queue_t
- dispatch_queue_t urls_queue = dispatch_queue_create("blog.devtang.com", NULL);
- dispatch_async(urls_queue, ^{  
-　 　// your code 
- });
- dispatch_release(urls_queue);
-</code></pre>
-
-<p>另外，GCD还有一些高级用法，例如让后台两个线程并行执行，然后等两个线程都结束后，再汇总执行结果。这个可以用dispatch_group_t、dispatch_group_async、dispatch_group_notify来实现，示例如下：</p>
-
-<pre><code> // 合并汇总结果
- dispatch_group_t group = dispatch_group_create();
- dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
-      // 并行执行的线程一
- });
- dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
-      // 并行执行的线程二
- });
- dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
-      // 汇总结果
- });
-</code></pre>
-
-<p>文章来自唐巧《iOS开发进阶》</p>
-
-<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/01/29/ioskai-fa-xia-zai-wen-jian-su-du-ji-suan/">iOS开发下载文件速度计算</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-01-29T10:40:38+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:40 am</span></time>
-        
-        
-          | <a href="/blog/2015/01/29/ioskai-fa-xia-zai-wen-jian-su-du-ji-suan/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>当我们写下载界面的时候，需要向用户展示每秒下载多少KB，这个时候就需要计算速度。如下：</p>
-
-<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlykfVEtYcoETGMzCaNgWWfvvjjxmJYIj9ibjNHHmn7f1oOTgEbcTstj44G2EjdqRjeMxSqdJfVaAibPA/640" /></a></p>
-
-<p>我用的是AFNetworking来做下载的，我们拿AFHTTPRequestOperation来举列，AFHTTPRequestOperation中有个方法：</p>
-
-<pre><code>- (void)setDownloadProgressBlock:(void (^)(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead))block
-</code></pre>
-
-<p>这个方法读取导数据之后通过block回调。计算速度就是在这个block里面完成的。</p>
-
-<p>需要定义一个下载对象：DownTask。DownTask需要有的属性：totalRead（一秒读取的数据）、speed（速度）、date（记录上一秒计算之后的时间）。注意：这里的一秒不是严格意义上的一秒，有可能大于一秒，我们计算的是平均速度，所以不会误差太大。</p>
-
-<pre><code>        //计算一秒中的速度
-        downTask.totalRead += bytesRead;
-
-        //获取当前时间
-        NSDate *currentDate = [NSDate date];
-
-        //当前时间和上一秒时间做对比，大于等于一秒就去计算
-        if ([currentDate timeIntervalSinceDate:downTask.date] &gt;= 1) {
-            //时间差
-            double time = [currentDate timeIntervalSinceDate:downTask.date];
-
-            //计算速度
-            long long speed = downTask.total/time;
-
-            //把速度转成KB或M
-            downTask.speed = [downTask formatByteCount:speed];
-
-            //维护变量，将计算过的清零
-            downTask.totalRead = 0.0;
-
-            //维护变量，记录这次计算的时间
-
-            downTask.date = currentDate;
-</code></pre>
-
-<p>其中， downTask.speed = [downTask formatByteCount:speed];是用来将字节转化成我们需要的KB或M。用到的是：NSByteCountFormatter，具体实现如下：</p>
-
-<pre><code>- (NSString*)formatByteCount:(long long)size
-{
-    return [NSByteCountFormatter stringFromByteCount:size countStyle:NSByteCountFormatterCountStyleFile];
-}
-</code></pre>
-
-<p>这个方法是放在下载对象DownTask里面的。</p>
-
-<p>以上就是我计算下载速度的方法。希望能给你带来帮助。</p>
-
-<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/01/22/jie-jue-mwphotobrowserzhong-de-sdwebimagejia-zai-da-tu-dao-zhi-de-nei-cun-jing-gao-wen-ti/">解决MWPhotoBrowser中的SDWebImage加载大图导致的内存警告问题</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-01-22T11:23:21+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:23 am</span></time>
-        
-        
-          | <a href="/blog/2015/01/22/jie-jue-mwphotobrowserzhong-de-sdwebimagejia-zai-da-tu-dao-zhi-de-nei-cun-jing-gao-wen-ti/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>MWPhotoBrowser是一个非常不错的照片浏览器，在github的star接近3000个，<a href="https://github.com/mwaterfall/MWPhotoBrowser.git"target="_blank"title="进入官网">MWPhotoBrowser下载</a></p>
-
-<p>MWPhotoBrowser来加载小图1M以下的都应该不会有内存警告的问题。如果遇到大图，3M、4M、5M的大图，很有可能导致内存警告。最近我就遇到这个问题，很是头疼。来回滑动查看照片内存飙到100M以上：</p>
-
-<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlykHge8gs1dCibkoTYXiatCCTMGicKA3aLRCFW6HzgMFvlzGiagwGrEN6hSw6Lt8y13WuFZORDic4hWbRsg/640" /></a></p>
-
-<p>网上查了很多资料，都没有解决问题。</p>
-
-<p>我们来看一下MWPhotoBrowser，其实MWPhotoBrowser用的是SDWebImage来下载图片的。<a href=" https://github.com/rs/SDWebImage.git"target="_blank"title="进入官网">SDWebImage下载</a></p>
-
-<p>在github看到SDWebImage的介绍，后面说到：</p>
-
-<pre><code>Future Enhancements
-
-    LRU memory cache cleanup instead of reset on memory warning
-</code></pre>
-
-<p>看到这个真是欲哭无泪啊。</p>
-
-<p>再去看看SDWebImage的，有个人提问了：</p>
-
-<pre><code>How to disable "memory cache"?  I don't want memory cache,  it used a lot of memory and got memory waring easily,  disk is enough for me...
-</code></pre>
-
-<p>有人回答：</p>
-
-<pre><code>There is no way to disable the memory cache. But the cache is designed to flush itself when you get a memory warning, so you shouldn't need to worry it.
-</code></pre>
-
-<p>说的是SDWebImage遇到内存警告会自动释放内存，但是这还是解决不了问题，加载大图的时候，内存会突然蹦到100多M，在4s及以下的手机上跑，再就挂了。</p>
-
-<p>还是没有解决内存警告的问题。怎么办呢？</p>
-
-<p>我是这么解决的：</p>
-
-<p>SDWebImage有一个SDWebImageDownloaderOperation类来执行下载操作的。里面有个下载完成的方法：</p>
-
-<pre><code>- (void)connectionDidFinishLoading:(NSURLConnection *)aConnection {
-   SDWebImageDownloaderCompletedBlock completionBlock = self.completedBlock;
-   @synchronized(self) {
-       CFRunLoopStop(CFRunLoopGetCurrent());
-       self.thread = nil;
-       self.connection = nil;
-       [[NSNotificationCenter defaultCenter] postNotificationName:SDWebImageDownloadStopNotification object:nil];
-   }
-
-   if (![[NSURLCache sharedURLCache] cachedResponseForRequest:_request]) {
-       responseFromCached = NO;
-   }
-
-   if (completionBlock)
-   {
-       if (self.options &amp; SDWebImageDownloaderIgnoreCachedResponse &amp;&amp; responseFromCached) {
-           completionBlock(nil, nil, nil, YES);
-       }
-       else {
-           UIImage *image = [UIImage sd_imageWithData:self.imageData];
-           NSString *key = [[SDWebImageManager sharedManager] cacheKeyForURL:self.request.URL];
-           image = [self scaledImageForKey:key image:image];
-
-           // Do not force decoding animated GIFs
-           if (!image.images) {
-               image = [UIImage decodedImageWithImage:image];
-           }
-           if (CGSizeEqualToSize(image.size, CGSizeZero)) {
-               completionBlock(nil, nil, [NSError errorWithDomain:@"SDWebImageErrorDomain" code:0 userInfo:@{NSLocalizedDescriptionKey : @"Downloaded image has 0 pixels"}], YES);
-           }
-           else {
-               completionBlock(image, self.imageData, nil, YES);
-           }
-       }
-   }
-   self.completionBlock = nil;
-   [self done];
-}
-</code></pre>
-
-<p>其中，UIImage *image = [UIImage sd_imageWithData:self.imageData];就是将data转换成image。</p>
-
-<p>再看看sd_imageWithData:这个方法：</p>
-
-<pre><code>+ (UIImage *)sd_imageWithData:(NSData *)data {
-   UIImage *image;
-   NSString *imageContentType = [NSData sd_contentTypeForImageData:data];
-   if ([imageContentType isEqualToString:@"image/gif"]) {
-       image = [UIImage sd_animatedGIFWithData:data];
-   }
-#ifdef SD_WEBP
-   else if ([imageContentType isEqualToString:@"image/webp"])
-   {
-       image = [UIImage sd_imageWithWebPData:data];
-   }
-#endif
-   else {
-       image = [[UIImage alloc] initWithData:data];
-       UIImageOrientation orientation = [self sd_imageOrientationFromImageData:data];
-       if (orientation != UIImageOrientationUp) {
-           image = [UIImage imageWithCGImage:image.CGImage
-                                       scale:image.scale
-                                 orientation:orientation];
-       }
-   }
-
-
-   return image;
-}
-</code></pre>
-
-<p>这个方法在UIImage+MultiFormat里面，是UIImage的一个类别处理。这句话很重要image = [[UIImage alloc] initWithData:data]; SDWebImage把下载下来的data直接转成image，然后没做等比缩放直接存起来使用。所以，我们只需要在这边做处理即可：</p>
-
-<p>UIImage+MultiFormat添加一个方法：</p>
-
-<pre><code>+(UIImage *)compressImageWith:(UIImage *)image
-{
-   float imageWidth = image.size.width;
-   float imageHeight = image.size.height;
-   float width = 640;
-   float height = image.size.height/(image.size.width/width);
-
-   float widthScale = imageWidth /width;
-   float heightScale = imageHeight /height;
-
-   // 创建一个bitmap的context
-   // 并把它设置成为当前正在使用的context
-   UIGraphicsBeginImageContext(CGSizeMake(width, height));
-
-   if (widthScale &gt; heightScale) {
-       [image drawInRect:CGRectMake(0, 0, imageWidth /heightScale , height)];
-   }
-   else {
-       [image drawInRect:CGRectMake(0, 0, width , imageHeight /widthScale)];
-   }
-
-   // 从当前context中创建一个改变大小后的图片
-   UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-   // 使当前的context出堆栈
-   UIGraphicsEndImageContext();
-
-   return newImage;
-
-}
-</code></pre>
-
-<p>然后在：image = [[UIImage alloc] initWithData:data];下面调用以下：</p>
-
-<pre><code>if (data.length/1024 &gt; 1024) {
-           image = [self compressImageWith:image];
-       }
-</code></pre>
-
-<p>当data大于1M的时候做压缩处理。革命尚未成功，还需要一步处理。在SDWebImageDownloaderOperation的connectionDidFinishLoading方法里面的：</p>
-
-<pre><code>  UIImage *image = [UIImage sd_imageWithData:self.imageData];
-
-  //将等比压缩过的image在赋在转成data赋给self.imageData
-  NSData *data = UIImageJPEGRepresentation(image, 1);
-  self.imageData =  [NSMutableData dataWithData:data];
-</code></pre>
-
-<p>大工告成，我们来看一下效果吧：</p>
-
-<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlykHge8gs1dCibkoTYXiatCCTMekY5MbfNibjW49ibygpHP440kOuxIVngeEXZLnYCUlSfIhW61x7T6OHQ/640" /></a>
-​</p>
-
-<p>果然问题得以解决。</p>
-
-<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/01/19/ioskai-fa-zhi-uisearchbarchu-tan/">iOS开发之UISearchBar初探</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-01-19T09:56:52+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:56 am</span></time>
-        
-        
-          | <a href="/blog/2015/01/19/ioskai-fa-zhi-uisearchbarchu-tan/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>UISearchBar也是iOS开发常用控件之一，点进去看看里面的属性barStyle、text、placeholder等等。但是这些属性显然不足矣满足我们的开发需求。比如：修改placeholder的颜色、修改UISearchBar上面的UITextfield的背景颜色、修改UITextfield上面的照片等等。</p>
-
-<p>为了实现上述的需求，最好写一个UISearchBar的子类就叫LSSearchBar吧</p>
-
-<p>LSSearchBar.h如下：</p>
-
-<pre><code>#import &lt;UIKit/UIKit.h&gt;
-
-@interface LSSearchBar : UISearchBar
-
-@end
-</code></pre>
-
-<p>LSSearchBar.m如下：</p>
-
-<pre><code>#import "LSSearchBar.h"
-
-@implementation LSSearchBar
-
-- (void)layoutSubviews {
-
-    [super layoutSubviews];
-
-    //通过遍历self.subviews找到searchField
-    UITextField *searchField;
-    NSUInteger numViews = [self.subviews count];
-    for(int i = 0; i &lt; numViews; i++) {
-        if([[self.subviews objectAtIndex:i] isKindOfClass:[UITextField class]]) {
-            searchField = [self.subviews objectAtIndex:i];
-        }
-    }
-
-    //如果上述方法找不到searchField，那就试试下面的方法吧
-
-    if (searchField ==  nil) {
-        NSArray *arraySub = [self subviews];
-        UIView *viewSelf = [arraySub objectAtIndex:0];
-        NSArray *arrayView = [viewSelf subviews];
-        for(int i = 0; i &lt; arrayView.count; i++) {
-            if([[arrayView objectAtIndex:i] isKindOfClass:[UITextField class]]) {
-                searchField = [arrayView objectAtIndex:i];
-            }
-        }
-    }
-
-
-    if(!(searchField == nil)) {
-        //设置颜色
-        searchField.textColor = [UIColor whiteColor];
-
-        //设置背景颜色
-        [searchField setBackground: [UIImage imageNamed:@"searchbar"] ];
-        [searchField setBorderStyle:UITextBorderStyleNone];
-
-        //设置placeholder的颜色
-        [searchField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
-
-        //设置searchField上的照片
-        UIImage *image = [UIImage imageNamed:@"search"];
-        UIImageView *iView = [[UIImageView alloc] initWithImage:image];
-        iView.frame = CGRectMake(0, 0, 15, 15);
-        searchField.leftView = iView;
-    }
-
-}
-
-@end
-</code></pre>
-
-<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/01/15/objective-cxiang-guan-categoryde-shou-ji/">Objective-C相关Category的收集</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-01-15T10:38:25+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:38 am</span></time>
-        
-        
-          | <a href="/blog/2015/01/15/objective-cxiang-guan-categoryde-shou-ji/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-
-<p>Categories是给你得不到源码的classes增加功能的一种方法。 <a href="http://cocoacats.com"target="_blank"title="iOS开发">这个页面</a> 收集一些相关的Category，并且持续更新，你可以订阅关注。作者是Fille Åström，是@ IMGNRY的联合创始人和开发者。</p>
-
-<p>感谢大家的反馈，如果你有任何想法、抱怨或者建议，可以给我发送邮件（fille@imgnry.com），也可以在<a href="twitter.com/bobmoff"target="_blank"title="iOS开发">推特</a>或者App.net上给我发信息（@bobmoff）。</p>
-
-<p>参考阅读：
-苹果官方文档：<a href="https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/CustomizingExistingClasses/CustomizingExistingClasses.html"target="_blank"title="iOS开发">Customizing Existing Classes </a></p>
-
-<p><a href="https://github.com/Julioacarrettoni/UIImageView_FaceAwareFill"target="_blank"title="iOS开发">UIImageView+FaceAwareFill</a></p>
-
-<p>这个类别使用了Aspect Fill内容模式，可以自动根据图像内容进行调整，当检测到人脸时，它会以脸部中心替代掉以图片的几何中心。
-测试环境：Xcode 5.0，iOS 6.0以上</p>
-
-<p><a href="https://github.com/bendytree/Objective-C-RegEx-Categories"target="_blank"title="iOS开发">NSRegularEx+ObjCRegex</a></p>
-
-<p>Objective-C-RegEx-Categories是NSRegularExpression的一个延展，它可以把Object-C中的很多正则表达式合并成一个，简化了代码。
-这个库没有任何依赖性，适用于iOS 4+和OS X 10.7+。</p>
-
-<p><a href="https://github.com/nicklockwood/AutoCoding"target="_blank"title="iOS开发">NSObject+AutoCoding</a></p>
-
-<p>AutoCoding是一个NSObject的类目，提供了对NSCoding 和NSCopying的自动支持。
-兼容ARC和non-ARC编译目标
-支持iOS 7.0/Mac OS 10.9 (Xcode 5.0, Apple LLVM compiler 5.0)</p>
-
-<p><a href="https://gist.github.com/alvesjtiago/8123006"target="_blank"title="iOS开发">NSInvocation+SimpleCreation</a></p>
-
-<p>创建invocations的简单方法</p>
-
-<p><a href="https://github.com/shaahin/SHPersian"target="_blank"title="iOS开发">NSString+SHPersian</a></p>
-
-<p>SHPersian是一个针对使用波斯语和阿拉伯语的iOS开发者提供的工具，包含了一个在Persian iOS app中为文本添加自定义外观的必需的类。</p>
-
-<p><a href="https://github.com/mergesort/UILabel-ContentSize"target="_blank"title="iOS开发">UILabel+ContentSize</a></p>
-
-<p>在UILabel内计算内容的大小。</p>
-
-<p><a href="https://github.com/RuiAAPeres/UIViewController-Swizzled"target="_blank"title="iOS开发">UIViewController+Swizzled</a></p>
-
-<p>记录UIViewController层次：包括你在视图控制器的名字，还有你进入层次的展示。</p>
-
-<p><a href="https://gist.github.com/maciekish/7772693"target="_blank"title="iOS开发">NSObject+Association</a></p>
-
-<p>你是不是一直希望将&#8221;userInfo&#8221;显示到UIAlertView上呢？通过Association这个category可以将任意的对象赋值给其它任意对象(从iOS3.1和mac os 10.6到最新的系统版本。)</p>
-
-<p><a href="https://gist.github.com/maciekish/6268142"target="_blank"title="iOS开发">NSHTTPCookieStorage+FreezeDry</a></p>
-
-<p>app重启时，清除UIWebView cookies。</p>
-
-<p><a href="https://github.com/erica/uidevice-extension"target="_blank"title="iOS开发">UIDevice+Hardware</a></p>
-
-<p>检测硬件设备的版本。</p>
-
-<p><a href="https://gist.github.com/aegzorz/6068741"target="_blank"title="iOS开发">NSObject+LogDealloc</a></p>
-
-<p>是一个NSObject category，对于内存泄露的跟踪非常有用</p>
-
-<p><a href="https://github.com/krzysztofzablocki/SFObservers"target="_blank"title="iOS开发">NSObject+SFObservers</a></p>
-
-<p>是对NSNotificationCenter and KVO的一个扩展，它能够自动移除观察者。</p>
-
-<p><a href="https://gist.github.com/maciekish/6052297"target="_blank"title="iOS开发">UIApplication+NetworkActivity</a></p>
-
-<p>UIApplication+NetworkActivity跟踪你最近进行过的网络操作，并管理NetworkActivityIndicator。</p>
-
-<p><a href="https://gist.github.com/aegzorz/5974444"target="_blank"title="iOS开发">UIView+Recursion</a></p>
-
-<p>以递归的方式遍历(查找)subview</p>
-
-<p><a href="https://gist.github.com/bobmoff/5967220"target="_blank"title="iOS开发">UIView+RoundedCorners</a></p>
-
-<p>使用图层蒙版为视图添加圆角</p>
-
-<p><a href="https://gist.github.com/bobmoff/5967180"target="_blank"title="iOS开发">UIView+Stacker</a></p>
-
-<p>Stack subviews是按照索引进行垂直排序的。主要用于——使用xib时，以及需要进行view布局时(显示/隐藏)——当基于外部数据。不过不能用于autolayout。.</p>
-
-<p><a href="https://github.com/carlbrown/RegexOnNSString"target="_blank"title="iOS开发">NSString+PDRegex</a></p>
-
-<p>简化正则表达式的使用</p>
-
-<p><a href="https://gist.github.com/maciekish/5947238"target="_blank"title="iOS开发">MKMapView+MoveLogo</a></p>
-
-<p>这个类目允许你移动MKMapView logo，即使你放其他东西在mapview上它仍能保持可见。如果隐藏了logo，那将不能通过App Store审核。已经在iOS 5-iOS 7上进行了测试。</p>
-
-<p><a href="https://github.com/azu/NSDate-Escort"target="_blank"title="iOS开发">NSDate+Escort</a></p>
-
-<p>NSDate-Escort是一个NSDate实用库，兼容NSDate-Extensions API</p>
-
-<p><a href="https://gist.github.com/danielphillips/1005520"target="_blank"title="iOS开发">UILabel+DynamicSizeMe</a></p>
-
-<p>调整UILabel来根据内容改变其框架</p>
-
-<p><a href="https://github.com/scalessec/Toast"target="_blank"title="iOS开发">UIView+Toast</a></p>
-
-<p>适用于iOS上的Android风格toas通知。</p>
-
-<p><a href="https://github.com/Nyx0uf/NYXImagesKit"target="_blank"title="iOS开发">UIImage+NYXImagesKit</a></p>
-
-<p>NYXImagesKit是一个重组了多个有用的UIImage categories的iOS项目，可对图像/图片进行多个处理，比如筛选、模糊、优化、蒙版、调整大小、旋转以及保存等等。同时还提供了一个UIImageView子类从URL异步加载图片，并在下载完毕时展示图片。</p>
-
-<p><a href="https://github.com/martinjuhasz/MJPopupViewController"target="_blank"title="iOS开发">UIViewController+MJPopup</a></p>
-
-<p>MJPopupViewController是一个 UIViewController Category，用于使用不同的过渡效果来把ViewController作为弹出视图进行展示。</p>
-
-<p>  <a href="https://github.com/mattgemmell/MGImageUtilities"target="_blank"title="iOS开发">UIImage+MGImageUtilities</a></p>
-
-<p>MGImageUtilities展示两个UIImage category：UIImage+ProportionalFill和UIImage+Tint。你可以通过UIImage+ProportionalFill调整任意图片的尺寸，可以使用UIImage+Tint来为图片着色。</p>
-
-<p><a href="https://github.com/Cocoanetics/DTFoundation"target="_blank"title="iOS开发">MultipleObjects+DTFoundation</a></p>
-
-<p>DTFoundation集合了实用方法和category的扩展，逐渐演变成一个文档齐全的工具集，记录和测试代码以加快开发。</p>
-
-<p><a href="https://github.com/rs/SDWebImage"target="_blank"title="iOS开发">UIImageView+WebCache</a></p>
-
-<p>SDWebImage提供一个UIImageView类别，以支持加载管理源自网络的远程图片。具有异步加载、缓存管理、同一个URL下载次数控制和优化等特征。简单易用。</p>
-
-<p> <a href="https://github.com/bennyguitar/Colours"target="_blank"title="iOS开发">UIColor+Colours</a></p>
-
-<p>100组漂亮的预制的色彩和配色方案可以让你的iOS/OS X开发更轻松。</p>
-
-<p> <a href="https://github.com/ProjectDent/UIImage-PDFColoredImage"target="_blank"title="iOS开发">UIImage+PDFColoredImage</a></p>
-
-<p>UIImage-PDFColoredImage是一个UIImage扩展，可以把黑色的PDF image转换成任意尺寸任意颜色的UIImage，只需一行代码，简单易用。</p>
-
-<p><a href="https://github.com/k06a/NSData-AsyncCacher"target="_blank"title="iOS开发">NSData+AsyncCacher</a></p>
-
-<p>NSData-AsyncCacher是NSData的一个category，用于从url和block中异步加载数据。请求数据使用NSCache缓存，可以多次请求。</p>
-
-<p> <a href="https://github.com/billymeltdown/nsdate-helper"target="_blank"title="iOS开发">NSDate+Helper</a></p>
-
-<p>通过一些便捷函数扩展了Cocoa的NSDate</p>
-
-<p> <a href="https://github.com/supermarin/ObjectiveSugar"target="_blank"title="iOS开发">MultipleObjects+ObjectiveSugar</a></p>
-
-<p>Objective-C additions for humans. Ruby style.</p>
-
-<p><a href="https://github.com/Kjuly/MKMapView-ZoomLevel"target="_blank"title="iOS开发">MKMapView+ZoomLevel</a></p>
-
-<p>在MapView中设置缩放比例。</p>
-
-<p> <a href="https://gist.github.com/Abeansits/5848341"target="_blank"title="iOS开发">NSString+Extensions</a></p>
-
-<p>一个针对NSStrings的category，它能将string转换为SHA1，NSNumber。检测string是否为空、是否包含某个子字符串，以及替换掉NSDictionary中的子字符串。</p>
-
-<p><a href="https://github.com/nicklockwood/ViewUtils"target="_blank"title="iOS开发">UIView+Utils</a></p>
-
-<p>ViewUtils是一个category methods的集合，这些方法是UIView的扩展，包含了许多方便的属性和方法，其中许多都是我们希望苹果内置的。</p>
-
-<p> <a href="https://github.com/kevinlawler/NSDate-TimeAgo"target="_blank"title="iOS开发">NSDate+TimeAgo</a></p>
-
-<p>让NSDate报告时间，比如&#8221;A moment ago&#8221;, &ldquo;30 seconds ago&rdquo;, &ldquo;5 minutes ago&rdquo;, &ldquo;Yesterday&rdquo;, &ldquo;Last month&rdquo;, &ldquo;2 years ago&#8221;以及其他。</p>
-
-<p> <a href="https://github.com/alexdrone/ios-fontawesome"target="_blank"title="iOS开发">NSString+FontAwesome</a></p>
-
-<p>FontAwesome+iOS是一个开源形象字体库，通过扩展 NSString 让你在app中轻松使用 FontAwesome 字体。
-官方网站：<a href="http://fortawesome.github.io/Font-Awesome/">http://fortawesome.github.io/Font-Awesome/</a></p>
-
-<p> <a href="https://gist.github.com/aegzorz/5797393"target="_blank"title="iOS开发">NSArray+FirstObject</a></p>
-
-<p>从数组中获得第一个对象，或者从空数组中返回零</p>
-
-<p>  <a href="https://github.com/djmadcat/NSObject-AutoDescription"target="_blank"title="iOS开发">NSObject+AutoDescription</a></p>
-
-<p>能够简单地为任何类描述日志(从 NSObject派生出来)</p>
-
-<p>  <a href="https://gist.github.com/aegzorz/5797337"target="_blank"title="iOS开发">CGRect+Additions</a></p>
-
-<p>处理CGRects的一些函数。</p>
-
-<p> <a href="https://gist.github.com/bobmoff/5276954"target="_blank"title="iOS开发">UIView+ModifyFrame</a></p>
-
-<p>简单实用的UIView类目使修改框架不那么变态。</p>
-
-<p><a href="https://gist.github.com/dsibilly/1038500"target="_blank"title="iOS开发">NSString+UsefulShit</a></p>
-
-<p>Objective-C category 示范</p>
-
-<p><strong>更多源代码：</strong></p>
-
-<p><a href="http://www.superqq.com/blog/2015/01/07/paperfold-for-ios/">PaperFold-for-iOS</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/01/07/dkcirclebutton/">DKCircleButton</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/01/07/twittercover/">TwitterCover</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/01/07/hackernews/">HackerNews</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/01/06/gpuimage/">GPUImage</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
       <h1 class="entry-title"><a href="/blog/2015/01/14/ioskai-fa-zhi-shou-shi-shi-bie-hui-zong/">iOS开发之手势识别汇总</a></h1>
     
     
@@ -1356,6 +655,1897 @@ UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds]
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/01/06/gpuimage/">GPUImage</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-06T14:26:10+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:26 pm</span></time>
+        
+        
+          | <a href="/blog/2015/01/06/gpuimage/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p> <a href="https://github.com/BradLarson/GPUImage.git"target="_blank"title="源代码">源代码</a></p>
+
+<h1>GPUImage</h1>
+
+<div style="float: right"><img src="http://sunsetlakesoftware.com/sites/default/files/GPUImageLogo.png" /></div>
+
+
+<p><a href="https://zenodo.org/record/10416#.U5YGaF773Md"><img src="https://zenodo.org/badge/doi/10.5281/zenodo.10416.png" /></a></p>
+
+<p>Brad Larson</p>
+
+<p><a href="http://www.sunsetlakesoftware.com">http://www.sunsetlakesoftware.com</a></p>
+
+<p><a href="http://twitter.com/bradlarson">@bradlarson</a></p>
+
+<p><a href="&#109;&#x61;&#x69;&#108;&#116;&#111;&#58;&#x63;&#x6f;&#110;&#x74;&#x61;&#x63;&#116;&#x40;&#x73;&#x75;&#110;&#x73;&#101;&#x74;&#x6c;&#97;&#107;&#101;&#x73;&#x6f;&#x66;&#116;&#119;&#97;&#114;&#101;&#x2e;&#99;&#111;&#x6d;">&#x63;&#x6f;&#x6e;&#x74;&#97;&#99;&#116;&#64;&#115;&#x75;&#x6e;&#115;&#x65;&#x74;&#x6c;&#97;&#107;&#x65;&#115;&#x6f;&#x66;&#x74;&#x77;&#x61;&#x72;&#101;&#x2e;&#x63;&#111;&#109;</a></p>
+
+<h2>Overview</h2>
+
+<p>The GPUImage framework is a BSD-licensed iOS library that lets you apply GPU-accelerated filters and other effects to images, live camera video, and movies. In comparison to Core Image (part of iOS 5.0), GPUImage allows you to write your own custom filters, supports deployment to iOS 4.0, and has a simpler interface. However, it currently lacks some of the more advanced features of Core Image, such as facial detection.</p>
+
+<p>For massively parallel operations like processing images or live video frames, GPUs have some significant performance advantages over CPUs. On an iPhone 4, a simple image filter can be over 100 times faster to perform on the GPU than an equivalent CPU-based filter.</p>
+
+<p>However, running custom filters on the GPU requires a lot of code to set up and maintain an OpenGL ES 2.0 rendering target for these filters. I created a sample project to do this:</p>
+
+<p><a href="http://www.sunsetlakesoftware.com/2010/10/22/gpu-accelerated-video-processing-mac-and-ios">http://www.sunsetlakesoftware.com/2010/10/22/gpu-accelerated-video-processing-mac-and-ios</a></p>
+
+<p>and found that there was a lot of boilerplate code I had to write in its creation. Therefore, I put together this framework that encapsulates a lot of the common tasks you&rsquo;ll encounter when processing images and video and made it so that you don&rsquo;t need to care about the OpenGL ES 2.0 underpinnings.</p>
+
+<p>This framework compares favorably to Core Image when handling video, taking only 2.5 ms on an iPhone 4 to upload a frame from the camera, apply a gamma filter, and display, versus 106 ms for the same operation using Core Image. CPU-based processing takes 460 ms, making GPUImage 40X faster than Core Image for this operation on this hardware, and 184X faster than CPU-bound processing. On an iPhone 4S, GPUImage is only 4X faster than Core Image for this case, and 102X faster than CPU-bound processing. However, for more complex operations like Gaussian blurs at larger radii, Core Image currently outpaces GPUImage.</p>
+
+<h2>License</h2>
+
+<p>BSD-style, with the full license available with the framework in License.txt.</p>
+
+<h2>Technical requirements</h2>
+
+<ul>
+<li>OpenGL ES 2.0: Applications using this will not run on the original iPhone, iPhone 3G, and 1st and 2nd generation iPod touches</li>
+<li>iOS 4.1 as a deployment target (4.0 didn&rsquo;t have some extensions needed for movie reading). iOS 4.3 is needed as a deployment target if you wish to show live video previews when taking a still photo.</li>
+<li>iOS 5.0 SDK to build</li>
+<li>Devices must have a camera to use camera-related functionality (obviously)</li>
+<li>The framework uses automatic reference counting (ARC), but should support projects using both ARC and manual reference counting if added as a subproject as explained below. For manual reference counting applications targeting iOS 4.x, you&rsquo;ll need add -fobjc-arc to the Other Linker Flags for your application project.</li>
+</ul>
+
+
+<h2>General architecture</h2>
+
+<p>GPUImage uses OpenGL ES 2.0 shaders to perform image and video manipulation much faster than could be done in CPU-bound routines. However, it hides the complexity of interacting with the OpenGL ES API in a simplified Objective-C interface. This interface lets you define input sources for images and video, attach filters in a chain, and send the resulting processed image or video to the screen, to a UIImage, or to a movie on disk.</p>
+
+<p>Images or frames of video are uploaded from source objects, which are subclasses of GPUImageOutput. These include GPUImageVideoCamera (for live video from an iOS camera), GPUImageStillCamera (for taking photos with the camera), GPUImagePicture (for still images), and GPUImageMovie (for movies). Source objects upload still image frames to OpenGL ES as textures, then hand those textures off to the next objects in the processing chain.</p>
+
+<p>Filters and other subsequent elements in the chain conform to the GPUImageInput protocol, which lets them take in the supplied or processed texture from the previous link in the chain and do something with it. Objects one step further down the chain are considered targets, and processing can be branched by adding multiple targets to a single output or filter.</p>
+
+<p>For example, an application that takes in live video from the camera, converts that video to a sepia tone, then displays the video onscreen would set up a chain looking something like the following:</p>
+
+<pre><code>GPUImageVideoCamera -&gt; GPUImageSepiaFilter -&gt; GPUImageView
+</code></pre>
+
+<h2>Adding the static library to your iOS project</h2>
+
+<p>Note: if you want to use this in a Swift project, you need to use the steps in the &ldquo;Adding this as a framework&rdquo; section instead of the following. Swift needs modules for third-party code.</p>
+
+<p>Once you have the latest source code for the framework, it&rsquo;s fairly straightforward to add it to your application. Start by dragging the GPUImage.xcodeproj file into your application&rsquo;s Xcode project to embed the framework in your project. Next, go to your application&rsquo;s target and add GPUImage as a Target Dependency. Finally, you&rsquo;ll want to drag the libGPUImage.a library from the GPUImage framework&rsquo;s Products folder to the Link Binary With Libraries build phase in your application&rsquo;s target.</p>
+
+<p>GPUImage needs a few other frameworks to be linked into your application, so you&rsquo;ll need to add the following as linked libraries in your application target:</p>
+
+<ul>
+<li>CoreMedia</li>
+<li>CoreVideo</li>
+<li>OpenGLES</li>
+<li>AVFoundation</li>
+<li>QuartzCore</li>
+</ul>
+
+
+<p>You&rsquo;ll also need to find the framework headers, so within your project&rsquo;s build settings set the Header Search Paths to the relative path from your application to the framework/ subdirectory within the GPUImage source directory. Make this header search path recursive.</p>
+
+<p>To use the GPUImage classes within your application, simply include the core framework header using the following:</p>
+
+<pre><code>#import "GPUImage.h"
+</code></pre>
+
+<p>As a note: if you run into the error &ldquo;Unknown class GPUImageView in Interface Builder&rdquo; or the like when trying to build an interface with Interface Builder, you may need to add -ObjC to your Other Linker Flags in your project&rsquo;s build settings.</p>
+
+<p>Also, if you need to deploy this to iOS 4.x, it appears that the current version of Xcode (4.3) requires that you weak-link the Core Video framework in your final application or you see crashes with the message &ldquo;Symbol not found: _CVOpenGLESTextureCacheCreate&rdquo; when you create an archive for upload to the App Store or for ad hoc distribution. To do this, go to your project&rsquo;s Build Phases tab, expand the Link Binary With Libraries group, and find CoreVideo.framework in the list. Change the setting for it in the far right of the list from Required to Optional.</p>
+
+<p>Additionally, this is an ARC-enabled framework, so if you want to use this within a manual reference counted application targeting iOS 4.x, you&rsquo;ll need to add -fobjc-arc to your Other Linker Flags as well.</p>
+
+<h3>Building a static library at the command line</h3>
+
+<p>If you don&rsquo;t want to include the project as a dependency in your application&rsquo;s Xcode project, you can build a universal static library for the iOS Simulator or device. To do this, run <code>build.sh</code> at the command line. The resulting library and header files will be located at <code>build/Release-iphone</code>. You may also change the version of the iOS SDK by changing the <code>IOSSDK_VER</code> variable in <code>build.sh</code> (all available versions can be found using <code>xcodebuild -showsdks</code>).</p>
+
+<h2>Adding this as a framework (module) to your Mac or iOS project</h2>
+
+<p>Xcode 6 and iOS 8 support the use of full frameworks, as does the Mac, which simplifies the process of adding this to your application. To add this to your application, I recommend dragging the .xcodeproj project file into your application&rsquo;s project (as you would in the static library target).</p>
+
+<p>For your application, go to its target build settings and choose the Build Phases tab. Under the Target Dependencies grouping, add GPUImageFramework on iOS (not GPUImage, which builds the static library) or GPUImage on the Mac. Under the Link Binary With Libraries section, add GPUImage.framework.</p>
+
+<p>This should cause GPUImage to build as a framework. Under Xcode 6, this will also build as a module, which will allow you to use this in Swift projects. When set up as above, you should just need to use</p>
+
+<pre><code>import GPUImage
+</code></pre>
+
+<p>to pull it in.</p>
+
+<p>You then need to add a new Copy Files build phase, set the Destination to Frameworks, and add the GPUImage.framework build product to that. This will allow the framework to be bundled with your application (otherwise, you&rsquo;ll see cryptic &ldquo;dyld: Library not loaded: @rpath/GPUImage.framework/GPUImage&rdquo; errors on execution).</p>
+
+<h3>Documentation</h3>
+
+<p>Documentation is generated from header comments using appledoc. To build the documentation, switch to the &ldquo;Documentation&rdquo; scheme in Xcode. You should ensure that &ldquo;APPLEDOC_PATH&rdquo; (a User-Defined build setting) points to an appledoc binary, available on <a href="https://github.com/tomaz/appledoc">Github</a> or through <a href="https://github.com/mxcl/homebrew">Homebrew</a>. It will also build and install a .docset file, which you can view with your favorite documentation tool.</p>
+
+<h2>Performing common tasks</h2>
+
+<h3>Filtering live video</h3>
+
+<p>To filter live video from an iOS device&rsquo;s camera, you can use code like the following:</p>
+
+<pre><code>GPUImageVideoCamera *videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset640x480 cameraPosition:AVCaptureDevicePositionBack];
+videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
+
+GPUImageFilter *customFilter = [[GPUImageFilter alloc] initWithFragmentShaderFromFile:@"CustomShader"];
+GPUImageView *filteredVideoView = [[GPUImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, viewWidth, viewHeight)];
+
+// Add the view somewhere so it's visible
+
+[videoCamera addTarget:customFilter];
+[customFilter addTarget:filteredVideoView];
+
+[videoCamera startCameraCapture];
+</code></pre>
+
+<p>This sets up a video source coming from the iOS device&rsquo;s back-facing camera, using a preset that tries to capture at 640x480. This video is captured with the interface being in portrait mode, where the landscape-left-mounted camera needs to have its video frames rotated before display. A custom filter, using code from the file CustomShader.fsh, is then set as the target for the video frames from the camera. These filtered video frames are finally displayed onscreen with the help of a UIView subclass that can present the filtered OpenGL ES texture that results from this pipeline.</p>
+
+<p>The fill mode of the GPUImageView can be altered by setting its fillMode property, so that if the aspect ratio of the source video is different from that of the view, the video will either be stretched, centered with black bars, or zoomed to fill.</p>
+
+<p>For blending filters and others that take in more than one image, you can create multiple outputs and add a single filter as a target for both of these outputs. The order with which the outputs are added as targets will affect the order in which the input images are blended or otherwise processed.</p>
+
+<p>Also, if you wish to enable microphone audio capture for recording to a movie, you&rsquo;ll need to set the audioEncodingTarget of the camera to be your movie writer, like for the following:</p>
+
+<pre><code>videoCamera.audioEncodingTarget = movieWriter;
+</code></pre>
+
+<h3>Capturing and filtering a still photo</h3>
+
+<p>To capture and filter still photos, you can use a process similar to the one for filtering video. Instead of a GPUImageVideoCamera, you use a GPUImageStillCamera:</p>
+
+<pre><code>stillCamera = [[GPUImageStillCamera alloc] init];
+stillCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
+
+filter = [[GPUImageGammaFilter alloc] init];
+[stillCamera addTarget:filter];
+GPUImageView *filterView = (GPUImageView *)self.view;
+[filter addTarget:filterView];
+
+[stillCamera startCameraCapture];
+</code></pre>
+
+<p>This will give you a live, filtered feed of the still camera&rsquo;s preview video. Note that this preview video is only provided on iOS 4.3 and higher, so you may need to set that as your deployment target if you wish to have this functionality.</p>
+
+<p>Once you want to capture a photo, you use a callback block like the following:</p>
+
+<pre><code>[stillCamera capturePhotoProcessedUpToFilter:filter withCompletionHandler:^(UIImage *processedImage, NSError *error){
+    NSData *dataForJPEGFile = UIImageJPEGRepresentation(processedImage, 0.8);
+
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+
+    NSError *error2 = nil;
+    if (![dataForJPEGFile writeToFile:[documentsDirectory stringByAppendingPathComponent:@"FilteredPhoto.jpg"] options:NSAtomicWrite error:&amp;error2])
+    {
+        return;
+    }
+}];
+</code></pre>
+
+<p>The above code captures a full-size photo processed by the same filter chain used in the preview view and saves that photo to disk as a JPEG in the application&rsquo;s documents directory.</p>
+
+<p>Note that the framework currently can&rsquo;t handle images larger than 2048 pixels wide or high on older devices (those before the iPhone 4S, iPad 2, or Retina iPad) due to texture size limitations. This means that the iPhone 4, whose camera outputs still photos larger than this, won&rsquo;t be able to capture photos like this. A tiling mechanism is being implemented to work around this. All other devices should be able to capture and filter photos using this method.</p>
+
+<h3>Processing a still image</h3>
+
+<p>There are a couple of ways to process a still image and create a result. The first way you can do this is by creating a still image source object and manually creating a filter chain:</p>
+
+<pre><code>UIImage *inputImage = [UIImage imageNamed:@"Lambeau.jpg"];
+
+GPUImagePicture *stillImageSource = [[GPUImagePicture alloc] initWithImage:inputImage];
+GPUImageSepiaFilter *stillImageFilter = [[GPUImageSepiaFilter alloc] init];
+
+[stillImageSource addTarget:stillImageFilter];
+[stillImageFilter useNextFrameForImageCapture];
+[stillImageSource processImage];
+
+UIImage *currentFilteredVideoFrame = [stillImageFilter imageFromCurrentFramebuffer];
+</code></pre>
+
+<p>Note that for a manual capture of an image from a filter, you need to set -useNextFrameForImageCapture in order to tell the filter that you&rsquo;ll be needing to capture from it later. By default, GPUImage reuses framebuffers within filters to conserve memory, so if you need to hold on to a filter&rsquo;s framebuffer for manual image capture, you need to let it know ahead of time.</p>
+
+<p>For single filters that you wish to apply to an image, you can simply do the following:</p>
+
+<pre><code>GPUImageSepiaFilter *stillImageFilter2 = [[GPUImageSepiaFilter alloc] init];
+UIImage *quickFilteredImage = [stillImageFilter2 imageByFilteringImage:inputImage];
+</code></pre>
+
+<h3>Writing a custom filter</h3>
+
+<p>One significant advantage of this framework over Core Image on iOS (as of iOS 5.0) is the ability to write your own custom image and video processing filters. These filters are supplied as OpenGL ES 2.0 fragment shaders, written in the C-like OpenGL Shading Language.</p>
+
+<p>A custom filter is initialized with code like</p>
+
+<pre><code>GPUImageFilter *customFilter = [[GPUImageFilter alloc] initWithFragmentShaderFromFile:@"CustomShader"];
+</code></pre>
+
+<p>where the extension used for the fragment shader is .fsh. Additionally, you can use the -initWithFragmentShaderFromString: initializer to provide the fragment shader as a string, if you would not like to ship your fragment shaders in your application bundle.</p>
+
+<p>Fragment shaders perform their calculations for each pixel to be rendered at that filter stage. They do this using the OpenGL Shading Language (GLSL), a C-like language with additions specific to 2-D and 3-D graphics. An example of a fragment shader is the following sepia-tone filter:</p>
+
+<pre><code>varying highp vec2 textureCoordinate;
+
+uniform sampler2D inputImageTexture;
+
+void main()
+{
+    lowp vec4 textureColor = texture2D(inputImageTexture, textureCoordinate);
+    lowp vec4 outputColor;
+    outputColor.r = (textureColor.r * 0.393) + (textureColor.g * 0.769) + (textureColor.b * 0.189);
+    outputColor.g = (textureColor.r * 0.349) + (textureColor.g * 0.686) + (textureColor.b * 0.168);    
+    outputColor.b = (textureColor.r * 0.272) + (textureColor.g * 0.534) + (textureColor.b * 0.131);
+    outputColor.a = 1.0;
+
+    gl_FragColor = outputColor;
+}
+</code></pre>
+
+<p>For an image filter to be usable within the GPUImage framework, the first two lines that take in the textureCoordinate varying (for the current coordinate within the texture, normalized to 1.0) and the inputImageTexture uniform (for the actual input image frame texture) are required.</p>
+
+<p>The remainder of the shader grabs the color of the pixel at this location in the passed-in texture, manipulates it in such a way as to produce a sepia tone, and writes that pixel color out to be used in the next stage of the processing pipeline.</p>
+
+<p>One thing to note when adding fragment shaders to your Xcode project is that Xcode thinks they are source code files. To work around this, you&rsquo;ll need to manually move your shader from the Compile Sources build phase to the Copy Bundle Resources one in order to get the shader to be included in your application bundle.</p>
+
+<h3>Filtering and re-encoding a movie</h3>
+
+<p>Movies can be loaded into the framework via the GPUImageMovie class, filtered, and then written out using a GPUImageMovieWriter. GPUImageMovieWriter is also fast enough to record video in realtime from an iPhone 4&rsquo;s camera at 640x480, so a direct filtered video source can be fed into it. Currently, GPUImageMovieWriter is fast enough to record live 720p video at up to 20 FPS on the iPhone 4, and both 720p and 1080p video at 30 FPS on the iPhone 4S (as well as on the new iPad).</p>
+
+<p>The following is an example of how you would load a sample movie, pass it through a pixellation filter, then record the result to disk as a 480 x 640 h.264 movie:</p>
+
+<pre><code>movieFile = [[GPUImageMovie alloc] initWithURL:sampleURL];
+pixellateFilter = [[GPUImagePixellateFilter alloc] init];
+
+[movieFile addTarget:pixellateFilter];
+
+NSString *pathToMovie = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Movie.m4v"];
+unlink([pathToMovie UTF8String]);
+NSURL *movieURL = [NSURL fileURLWithPath:pathToMovie];
+
+movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:movieURL size:CGSizeMake(480.0, 640.0)];
+[pixellateFilter addTarget:movieWriter];
+
+movieWriter.shouldPassthroughAudio = YES;
+movieFile.audioEncodingTarget = movieWriter;
+[movieFile enableSynchronizedEncodingUsingMovieWriter:movieWriter];
+
+[movieWriter startRecording];
+[movieFile startProcessing];
+</code></pre>
+
+<p>Once recording is finished, you need to remove the movie recorder from the filter chain and close off the recording using code like the following:</p>
+
+<pre><code>[pixellateFilter removeTarget:movieWriter];
+[movieWriter finishRecording];
+</code></pre>
+
+<p>A movie won&rsquo;t be usable until it has been finished off, so if this is interrupted before this point, the recording will be lost.</p>
+
+<h3>Interacting with OpenGL ES</h3>
+
+<p>GPUImage can both export and import textures from OpenGL ES through the use of its GPUImageTextureOutput and GPUImageTextureInput classes, respectively. This lets you record a movie from an OpenGL ES scene that is rendered to a framebuffer object with a bound texture, or filter video or images and then feed them into OpenGL ES as a texture to be displayed in the scene.</p>
+
+<p>The one caution with this approach is that the textures used in these processes must be shared between GPUImage&rsquo;s OpenGL ES context and any other context via a share group or something similar.</p>
+
+<h2>Built-in filters</h2>
+
+<p>There are currently 125 built-in filters, divided into the following categories:</p>
+
+<h3>Color adjustments</h3>
+
+<ul>
+<li><p><strong>GPUImageBrightnessFilter</strong>: Adjusts the brightness of the image</p>
+
+<ul>
+<li><em>brightness</em>: The adjusted brightness (-1.0 - 1.0, with 0.0 as the default)</li>
+</ul>
+</li>
+<li><p><strong>GPUImageExposureFilter</strong>: Adjusts the exposure of the image</p>
+
+<ul>
+<li><em>exposure</em>: The adjusted exposure (-10.0 - 10.0, with 0.0 as the default)</li>
+</ul>
+</li>
+<li><p><strong>GPUImageContrastFilter</strong>: Adjusts the contrast of the image</p>
+
+<ul>
+<li><em>contrast</em>: The adjusted contrast (0.0 - 4.0, with 1.0 as the default)</li>
+</ul>
+</li>
+<li><p><strong>GPUImageSaturationFilter</strong>: Adjusts the saturation of an image</p>
+
+<ul>
+<li><em>saturation</em>: The degree of saturation or desaturation to apply to the image (0.0 - 2.0, with 1.0 as the default)</li>
+</ul>
+</li>
+<li><p><strong>GPUImageGammaFilter</strong>: Adjusts the gamma of an image</p>
+
+<ul>
+<li><em>gamma</em>: The gamma adjustment to apply (0.0 - 3.0, with 1.0 as the default)</li>
+</ul>
+</li>
+<li><p><strong>GPUImageLevelsFilter</strong>: Photoshop-like levels adjustment. The min, max, minOut and maxOut parameters are floats in the range [0, 1]. If you have parameters from Photoshop in the range [0, 255] you must first convert them to be [0, 1]. The gamma/mid parameter is a float >= 0. This matches the value from Photoshop. If you want to apply levels to RGB as well as individual channels you need to use this filter twice - first for the individual channels and then for all channels.</p></li>
+<li><p><strong>GPUImageColorMatrixFilter</strong>: Transforms the colors of an image by applying a matrix to them</p>
+
+<ul>
+<li><em>colorMatrix</em>: A 4x4 matrix used to transform each color in an image</li>
+<li><em>intensity</em>: The degree to which the new transformed color replaces the original color for each pixel</li>
+</ul>
+</li>
+<li><p><strong>GPUImageRGBFilter</strong>: Adjusts the individual RGB channels of an image</p>
+
+<ul>
+<li><em>red</em>: Normalized values by which each color channel is multiplied. The range is from 0.0 up, with 1.0 as the default.</li>
+<li><em>green</em>:</li>
+<li><em>blue</em>:</li>
+</ul>
+</li>
+<li><p><strong>GPUImageHueFilter</strong>: Adjusts the hue of an image</p>
+
+<ul>
+<li><em>hue</em>: The hue angle, in degrees. 90 degrees by default</li>
+</ul>
+</li>
+<li><p><strong>GPUImageToneCurveFilter</strong>: Adjusts the colors of an image based on spline curves for each color channel.</p>
+
+<ul>
+<li><em>redControlPoints</em>:</li>
+<li><em>greenControlPoints</em>:</li>
+<li><em>blueControlPoints</em>:</li>
+<li><em>rgbCompositeControlPoints</em>: The tone curve takes in a series of control points that define the spline curve for each color component, or for all three in the composite. These are stored as NSValue-wrapped CGPoints in an NSArray, with normalized X and Y coordinates from 0 - 1. The defaults are (0,0), (0.5,0.5), (1,1).</li>
+</ul>
+</li>
+<li><p><strong>GPUImageHighlightShadowFilter</strong>: Adjusts the shadows and highlights of an image</p>
+
+<ul>
+<li><em>shadows</em>: Increase to lighten shadows, from 0.0 to 1.0, with 0.0 as the default.</li>
+<li><em>highlights</em>: Decrease to darken highlights, from 0.0 to 1.0, with 1.0 as the default.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageLookupFilter</strong>: Uses an RGB color lookup image to remap the colors in an image. First, use your favourite photo editing application to apply a filter to lookup.png from GPUImage/framework/Resources. For this to work properly each pixel color must not depend on other pixels (e.g. blur will not work). If you need a more complex filter you can create as many lookup tables as required. Once ready, use your new lookup.png file as a second input for GPUImageLookupFilter.</p></li>
+<li><p><strong>GPUImageAmatorkaFilter</strong>: A photo filter based on a Photoshop action by Amatorka: <a href="http://amatorka.deviantart.com/art/Amatorka-Action-2-121069631">http://amatorka.deviantart.com/art/Amatorka-Action-2-121069631</a> . If you want to use this effect you have to add lookup_amatorka.png from the GPUImage Resources folder to your application bundle.</p></li>
+<li><p><strong>GPUImageMissEtikateFilter</strong>: A photo filter based on a Photoshop action by Miss Etikate: <a href="http://miss-etikate.deviantart.com/art/Photoshop-Action-15-120151961">http://miss-etikate.deviantart.com/art/Photoshop-Action-15-120151961</a> . If you want to use this effect you have to add lookup_miss_etikate.png from the GPUImage Resources folder to your application bundle.</p></li>
+<li><p><strong>GPUImageSoftEleganceFilter</strong>: Another lookup-based color remapping filter. If you want to use this effect you have to add lookup_soft_elegance_1.png and lookup_soft_elegance_2.png from the GPUImage Resources folder to your application bundle.</p></li>
+<li><p><strong>GPUImageColorInvertFilter</strong>: Inverts the colors of an image</p></li>
+<li><p><strong>GPUImageGrayscaleFilter</strong>: Converts an image to grayscale (a slightly faster implementation of the saturation filter, without the ability to vary the color contribution)</p></li>
+<li><p><strong>GPUImageMonochromeFilter</strong>: Converts the image to a single-color version, based on the luminance of each pixel</p>
+
+<ul>
+<li><em>intensity</em>: The degree to which the specific color replaces the normal image color (0.0 - 1.0, with 1.0 as the default)</li>
+<li><em>color</em>: The color to use as the basis for the effect, with (0.6, 0.45, 0.3, 1.0) as the default.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageFalseColorFilter</strong>: Uses the luminance of the image to mix between two user-specified colors</p>
+
+<ul>
+<li><em>firstColor</em>: The first and second colors specify what colors replace the dark and light areas of the image, respectively. The defaults are (0.0, 0.0, 0.5) amd (1.0, 0.0, 0.0).</li>
+<li><em>secondColor</em>:</li>
+</ul>
+</li>
+<li><p><strong>GPUImageHazeFilter</strong>: Used to add or remove haze (similar to a UV filter)</p>
+
+<ul>
+<li><em>distance</em>: Strength of the color applied. Default 0. Values between -.3 and .3 are best.</li>
+<li><em>slope</em>: Amount of color change. Default 0. Values between -.3 and .3 are best.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageSepiaFilter</strong>: Simple sepia tone filter</p>
+
+<ul>
+<li><em>intensity</em>: The degree to which the sepia tone replaces the normal image color (0.0 - 1.0, with 1.0 as the default)</li>
+</ul>
+</li>
+<li><p><strong>GPUImageOpacityFilter</strong>: Adjusts the alpha channel of the incoming image</p>
+
+<ul>
+<li><em>opacity</em>: The value to multiply the incoming alpha channel for each pixel by (0.0 - 1.0, with 1.0 as the default)</li>
+</ul>
+</li>
+<li><p><strong>GPUImageSolidColorGenerator</strong>: This outputs a generated image with a solid color. You need to define the image size using -forceProcessingAtSize:</p>
+
+<ul>
+<li><em>color</em>: The color, in a four component format, that is used to fill the image.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageLuminanceThresholdFilter</strong>: Pixels with a luminance above the threshold will appear white, and those below will be black</p>
+
+<ul>
+<li><em>threshold</em>: The luminance threshold, from 0.0 to 1.0, with a default of 0.5</li>
+</ul>
+</li>
+<li><p><strong>GPUImageAdaptiveThresholdFilter</strong>: Determines the local luminance around a pixel, then turns the pixel black if it is below that local luminance and white if above. This can be useful for picking out text under varying lighting conditions.</p>
+
+<ul>
+<li><em>blurRadiusInPixels</em>: A multiplier for the background averaging blur radius in pixels, with a default of 4.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageAverageLuminanceThresholdFilter</strong>: This applies a thresholding operation where the threshold is continually adjusted based on the average luminance of the scene.</p>
+
+<ul>
+<li><em>thresholdMultiplier</em>: This is a factor that the average luminance will be multiplied by in order to arrive at the final threshold to use. By default, this is 1.0.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageHistogramFilter</strong>: This analyzes the incoming image and creates an output histogram with the frequency at which each color value occurs. The output of this filter is a 3-pixel-high, 256-pixel-wide image with the center (vertical) pixels containing pixels that correspond to the frequency at which various color values occurred. Each color value occupies one of the 256 width positions, from 0 on the left to 255 on the right. This histogram can be generated for individual color channels (kGPUImageHistogramRed, kGPUImageHistogramGreen, kGPUImageHistogramBlue), the luminance of the image (kGPUImageHistogramLuminance), or for all three color channels at once (kGPUImageHistogramRGB).</p>
+
+<ul>
+<li><em>downsamplingFactor</em>: Rather than sampling every pixel, this dictates what fraction of the image is sampled. By default, this is 16 with a minimum of 1. This is needed to keep from saturating the histogram, which can only record 256 pixels for each color value before it becomes overloaded.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageHistogramGenerator</strong>: This is a special filter, in that it&rsquo;s primarily intended to work with the GPUImageHistogramFilter. It generates an output representation of the color histograms generated by GPUImageHistogramFilter, but it could be repurposed to display other kinds of values. It takes in an image and looks at the center (vertical) pixels. It then plots the numerical values of the RGB components in separate colored graphs in an output texture. You may need to force a size for this filter in order to make its output visible.</p></li>
+<li><p><strong>GPUImageAverageColor</strong>: This processes an input image and determines the average color of the scene, by averaging the RGBA components for each pixel in the image. A reduction process is used to progressively downsample the source image on the GPU, followed by a short averaging calculation on the CPU. The output from this filter is meaningless, but you need to set the colorAverageProcessingFinishedBlock property to a block that takes in four color components and a frame time and does something with them.</p></li>
+<li><p><strong>GPUImageLuminosity</strong>: Like the GPUImageAverageColor, this reduces an image to its average luminosity. You need to set the luminosityProcessingFinishedBlock to handle the output of this filter, which just returns a luminosity value and a frame time.</p></li>
+<li><p><strong>GPUImageChromaKeyFilter</strong>: For a given color in the image, sets the alpha channel to 0. This is similar to the GPUImageChromaKeyBlendFilter, only instead of blending in a second image for a matching color this doesn&rsquo;t take in a second image and just turns a given color transparent.</p>
+
+<ul>
+<li><em>thresholdSensitivity</em>: How close a color match needs to exist to the target color to be replaced (default of 0.4)</li>
+<li><em>smoothing</em>: How smoothly to blend for the color match (default of 0.1)</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>Image processing</h3>
+
+<ul>
+<li><p><strong>GPUImageTransformFilter</strong>: This applies an arbitrary 2-D or 3-D transformation to an image</p>
+
+<ul>
+<li><em>affineTransform</em>: This takes in a CGAffineTransform to adjust an image in 2-D</li>
+<li><em>transform3D</em>: This takes in a CATransform3D to manipulate an image in 3-D</li>
+<li><em>ignoreAspectRatio</em>: By default, the aspect ratio of the transformed image is maintained, but this can be set to YES to make the transformation independent of aspect ratio</li>
+</ul>
+</li>
+<li><p><strong>GPUImageCropFilter</strong>: This crops an image to a specific region, then passes only that region on to the next stage in the filter</p>
+
+<ul>
+<li><em>cropRegion</em>: A rectangular area to crop out of the image, normalized to coordinates from 0.0 - 1.0. The (0.0, 0.0) position is in the upper left of the image.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageLanczosResamplingFilter</strong>: This lets you up- or downsample an image using Lanczos resampling, which results in noticeably better quality than the standard linear or trilinear interpolation. Simply use -forceProcessingAtSize: to set the target output resolution for the filter, and the image will be resampled for that new size.</p></li>
+<li><p><strong>GPUImageSharpenFilter</strong>: Sharpens the image</p>
+
+<ul>
+<li><em>sharpness</em>: The sharpness adjustment to apply (-4.0 - 4.0, with 0.0 as the default)</li>
+</ul>
+</li>
+<li><p><strong>GPUImageUnsharpMaskFilter</strong>: Applies an unsharp mask</p>
+
+<ul>
+<li><em>blurRadiusInPixels</em>: The blur radius of the underlying Gaussian blur. The default is 4.0.</li>
+<li><em>intensity</em>: The strength of the sharpening, from 0.0 on up, with a default of 1.0</li>
+</ul>
+</li>
+<li><p><strong>GPUImageGaussianBlurFilter</strong>: A hardware-optimized, variable-radius Gaussian blur</p>
+
+<ul>
+<li><em>texelSpacingMultiplier</em>: A multiplier for the spacing between texels, ranging from 0.0 on up, with a default of 1.0. Adjusting this may slightly increase the blur strength, but will introduce artifacts in the result. Highly recommend using other parameters first, before touching this one.</li>
+<li><em>blurRadiusInPixels</em>: A radius in pixels to use for the blur, with a default of 2.0. This adjusts the sigma variable in the Gaussian distribution function.</li>
+<li><em>blurRadiusAsFractionOfImageWidth</em>:</li>
+<li><em>blurRadiusAsFractionOfImageHeight</em>: Setting these properties will allow the blur radius to scale with the size of the image</li>
+<li><em>blurPasses</em>: The number of times to sequentially blur the incoming image. The more passes, the slower the filter.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageBoxBlurFilter</strong>: A hardware-optimized, variable-radius box blur</p>
+
+<ul>
+<li><em>texelSpacingMultiplier</em>: A multiplier for the spacing between texels, ranging from 0.0 on up, with a default of 1.0. Adjusting this may slightly increase the blur strength, but will introduce artifacts in the result. Highly recommend using other parameters first, before touching this one.</li>
+<li><em>blurRadiusInPixels</em>: A radius in pixels to use for the blur, with a default of 2.0. This adjusts the sigma variable in the Gaussian distribution function.</li>
+<li><em>blurRadiusAsFractionOfImageWidth</em>:</li>
+<li><em>blurRadiusAsFractionOfImageHeight</em>: Setting these properties will allow the blur radius to scale with the size of the image</li>
+<li><em>blurPasses</em>: The number of times to sequentially blur the incoming image. The more passes, the slower the filter.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageSingleComponentGaussianBlurFilter</strong>: A modification of the GPUImageGaussianBlurFilter that operates only on the red component</p>
+
+<ul>
+<li><em>texelSpacingMultiplier</em>: A multiplier for the spacing between texels, ranging from 0.0 on up, with a default of 1.0. Adjusting this may slightly increase the blur strength, but will introduce artifacts in the result. Highly recommend using other parameters first, before touching this one.</li>
+<li><em>blurRadiusInPixels</em>: A radius in pixels to use for the blur, with a default of 2.0. This adjusts the sigma variable in the Gaussian distribution function.</li>
+<li><em>blurRadiusAsFractionOfImageWidth</em>:</li>
+<li><em>blurRadiusAsFractionOfImageHeight</em>: Setting these properties will allow the blur radius to scale with the size of the image</li>
+<li><em>blurPasses</em>: The number of times to sequentially blur the incoming image. The more passes, the slower the filter.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageGaussianSelectiveBlurFilter</strong>: A Gaussian blur that preserves focus within a circular region</p>
+
+<ul>
+<li><em>blurRadiusInPixels</em>: A radius in pixels to use for the blur, with a default of 5.0. This adjusts the sigma variable in the Gaussian distribution function.</li>
+<li><em>excludeCircleRadius</em>: The radius of the circular area being excluded from the blur</li>
+<li><em>excludeCirclePoint</em>: The center of the circular area being excluded from the blur</li>
+<li><em>excludeBlurSize</em>: The size of the area between the blurred portion and the clear circle</li>
+<li><em>aspectRatio</em>: The aspect ratio of the image, used to adjust the circularity of the in-focus region. By default, this matches the image aspect ratio, but you can override this value.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageGaussianBlurPositionFilter</strong>: The inverse of the GPUImageGaussianSelectiveBlurFilter, applying the blur only within a certain circle</p>
+
+<ul>
+<li><em>blurSize</em>: A multiplier for the size of the blur, ranging from 0.0 on up, with a default of 1.0</li>
+<li><em>blurCenter</em>: Center for the blur, defaults to 0.5, 0.5</li>
+<li><em>blurRadius</em>: Radius for the blur, defaults to 1.0</li>
+</ul>
+</li>
+<li><p><strong>GPUImageiOSBlurFilter</strong>: An attempt to replicate the background blur used on iOS 7 in places like the control center.</p>
+
+<ul>
+<li><em>blurRadiusInPixels</em>: A radius in pixels to use for the blur, with a default of 12.0. This adjusts the sigma variable in the Gaussian distribution function.</li>
+<li><em>saturation</em>: Saturation ranges from 0.0 (fully desaturated) to 2.0 (max saturation), with 0.8 as the normal level</li>
+<li><em>downsampling</em>: The degree to which to downsample, then upsample the incoming image to minimize computations within the Gaussian blur, with a default of 4.0.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageMedianFilter</strong>: Takes the median value of the three color components, over a 3x3 area</p></li>
+<li><p><strong>GPUImageBilateralFilter</strong>: A bilateral blur, which tries to blur similar color values while preserving sharp edges</p>
+
+<ul>
+<li><em>texelSpacingMultiplier</em>: A multiplier for the spacing between texel reads, ranging from 0.0 on up, with a default of 4.0</li>
+<li><em>distanceNormalizationFactor</em>: A normalization factor for the distance between central color and sample color, with a default of 8.0.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageTiltShiftFilter</strong>: A simulated tilt shift lens effect</p>
+
+<ul>
+<li><em>blurRadiusInPixels</em>: The radius of the underlying blur, in pixels. This is 7.0 by default.</li>
+<li><em>topFocusLevel</em>: The normalized location of the top of the in-focus area in the image, this value should be lower than bottomFocusLevel, default 0.4</li>
+<li><em>bottomFocusLevel</em>: The normalized location of the bottom of the in-focus area in the image, this value should be higher than topFocusLevel, default 0.6</li>
+<li><em>focusFallOffRate</em>: The rate at which the image gets blurry away from the in-focus region, default 0.2</li>
+</ul>
+</li>
+<li><p><strong>GPUImage3x3ConvolutionFilter</strong>: Runs a 3x3 convolution kernel against the image</p>
+
+<ul>
+<li><em>convolutionKernel</em>: The convolution kernel is a 3x3 matrix of values to apply to the pixel and its 8 surrounding pixels. The matrix is specified in row-major order, with the top left pixel being one.one and the bottom right three.three. If the values in the matrix don&rsquo;t add up to 1.0, the image could be brightened or darkened.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageSobelEdgeDetectionFilter</strong>: Sobel edge detection, with edges highlighted in white</p>
+
+<ul>
+<li><em>texelWidth</em>:</li>
+<li><em>texelHeight</em>: These parameters affect the visibility of the detected edges</li>
+<li><em>edgeStrength</em>: Adjusts the dynamic range of the filter. Higher values lead to stronger edges, but can saturate the intensity colorspace. Default is 1.0.</li>
+</ul>
+</li>
+<li><p><strong>GPUImagePrewittEdgeDetectionFilter</strong>: Prewitt edge detection, with edges highlighted in white</p>
+
+<ul>
+<li><em>texelWidth</em>:</li>
+<li><em>texelHeight</em>: These parameters affect the visibility of the detected edges</li>
+<li><em>edgeStrength</em>: Adjusts the dynamic range of the filter. Higher values lead to stronger edges, but can saturate the intensity colorspace. Default is 1.0.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageThresholdEdgeDetectionFilter</strong>: Performs Sobel edge detection, but applies a threshold instead of giving gradual strength values</p>
+
+<ul>
+<li><em>texelWidth</em>:</li>
+<li><em>texelHeight</em>: These parameters affect the visibility of the detected edges</li>
+<li><em>edgeStrength</em>: Adjusts the dynamic range of the filter. Higher values lead to stronger edges, but can saturate the intensity colorspace. Default is 1.0.</li>
+<li><em>threshold</em>: Any edge above this threshold will be black, and anything below white. Ranges from 0.0 to 1.0, with 0.8 as the default</li>
+</ul>
+</li>
+<li><p><strong>GPUImageCannyEdgeDetectionFilter</strong>: This uses the full Canny process to highlight one-pixel-wide edges</p>
+
+<ul>
+<li><em>texelWidth</em>:</li>
+<li><em>texelHeight</em>: These parameters affect the visibility of the detected edges</li>
+<li><em>blurRadiusInPixels</em>: The underlying blur radius for the Gaussian blur. Default is 2.0.</li>
+<li><em>blurTexelSpacingMultiplier</em>: The underlying blur texel spacing multiplier. Default is 1.0.</li>
+<li><em>upperThreshold</em>: Any edge with a gradient magnitude above this threshold will pass and show up in the final result. Default is 0.4.</li>
+<li><em>lowerThreshold</em>: Any edge with a gradient magnitude below this threshold will fail and be removed from the final result. Default is 0.1.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageHarrisCornerDetectionFilter</strong>: Runs the Harris corner detection algorithm on an input image, and produces an image with those corner points as white pixels and everything else black. The cornersDetectedBlock can be set, and you will be provided with a list of corners (in normalized 0..1 X, Y coordinates) within that callback for whatever additional operations you want to perform.</p>
+
+<ul>
+<li><em>blurRadiusInPixels</em>: The radius of the underlying Gaussian blur. The default is 2.0.</li>
+<li><em>sensitivity</em>: An internal scaling factor applied to adjust the dynamic range of the cornerness maps generated in the filter. The default is 5.0.</li>
+<li><em>threshold</em>: The threshold at which a point is detected as a corner. This can vary significantly based on the size, lighting conditions, and iOS device camera type, so it might take a little experimentation to get right for your cases. Default is 0.20.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageNobleCornerDetectionFilter</strong>: Runs the Noble variant on the Harris corner detector. It behaves as described above for the Harris detector.</p>
+
+<ul>
+<li><em>blurRadiusInPixels</em>: The radius of the underlying Gaussian blur. The default is 2.0.</li>
+<li><em>sensitivity</em>: An internal scaling factor applied to adjust the dynamic range of the cornerness maps generated in the filter. The default is 5.0.</li>
+<li><em>threshold</em>: The threshold at which a point is detected as a corner. This can vary significantly based on the size, lighting conditions, and iOS device camera type, so it might take a little experimentation to get right for your cases. Default is 0.2.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageShiTomasiCornerDetectionFilter</strong>: Runs the Shi-Tomasi feature detector. It behaves as described above for the Harris detector.</p>
+
+<ul>
+<li><em>blurRadiusInPixels</em>: The radius of the underlying Gaussian blur. The default is 2.0.</li>
+<li><em>sensitivity</em>: An internal scaling factor applied to adjust the dynamic range of the cornerness maps generated in the filter. The default is 1.5.</li>
+<li><em>threshold</em>: The threshold at which a point is detected as a corner. This can vary significantly based on the size, lighting conditions, and iOS device camera type, so it might take a little experimentation to get right for your cases. Default is 0.2.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageNonMaximumSuppressionFilter</strong>: Currently used only as part of the Harris corner detection filter, this will sample a 1-pixel box around each pixel and determine if the center pixel&rsquo;s red channel is the maximum in that area. If it is, it stays. If not, it is set to 0 for all color components.</p></li>
+<li><p><strong>GPUImageXYDerivativeFilter</strong>: An internal component within the Harris corner detection filter, this calculates the squared difference between the pixels to the left and right of this one, the squared difference of the pixels above and below this one, and the product of those two differences.</p></li>
+<li><p><strong>GPUImageCrosshairGenerator</strong>: This draws a series of crosshairs on an image, most often used for identifying machine vision features. It does not take in a standard image like other filters, but a series of points in its -renderCrosshairsFromArray:count: method, which does the actual drawing. You will need to force this filter to render at the particular output size you need.</p>
+
+<ul>
+<li><em>crosshairWidth</em>: The width, in pixels, of the crosshairs to be drawn onscreen.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageDilationFilter</strong>: This performs an image dilation operation, where the maximum intensity of the red channel in a rectangular neighborhood is used for the intensity of this pixel. The radius of the rectangular area to sample over is specified on initialization, with a range of 1-4 pixels. This is intended for use with grayscale images, and it expands bright regions.</p></li>
+<li><p><strong>GPUImageRGBDilationFilter</strong>: This is the same as the GPUImageDilationFilter, except that this acts on all color channels, not just the red channel.</p></li>
+<li><p><strong>GPUImageErosionFilter</strong>: This performs an image erosion operation, where the minimum intensity of the red channel in a rectangular neighborhood is used for the intensity of this pixel. The radius of the rectangular area to sample over is specified on initialization, with a range of 1-4 pixels. This is intended for use with grayscale images, and it expands dark regions.</p></li>
+<li><p><strong>GPUImageRGBErosionFilter</strong>: This is the same as the GPUImageErosionFilter, except that this acts on all color channels, not just the red channel.</p></li>
+<li><p><strong>GPUImageOpeningFilter</strong>: This performs an erosion on the red channel of an image, followed by a dilation of the same radius. The radius is set on initialization, with a range of 1-4 pixels. This filters out smaller bright regions.</p></li>
+<li><p><strong>GPUImageRGBOpeningFilter</strong>: This is the same as the GPUImageOpeningFilter, except that this acts on all color channels, not just the red channel.</p></li>
+<li><p><strong>GPUImageClosingFilter</strong>: This performs a dilation on the red channel of an image, followed by an erosion of the same radius. The radius is set on initialization, with a range of 1-4 pixels. This filters out smaller dark regions.</p></li>
+<li><p><strong>GPUImageRGBClosingFilter</strong>: This is the same as the GPUImageClosingFilter, except that this acts on all color channels, not just the red channel.</p></li>
+<li><p><strong>GPUImageLocalBinaryPatternFilter</strong>: This performs a comparison of intensity of the red channel of the 8 surrounding pixels and that of the central one, encoding the comparison results in a bit string that becomes this pixel intensity. The least-significant bit is the top-right comparison, going counterclockwise to end at the right comparison as the most significant bit.</p></li>
+<li><p><strong>GPUImageLowPassFilter</strong>: This applies a low pass filter to incoming video frames. This basically accumulates a weighted rolling average of previous frames with the current ones as they come in. This can be used to denoise video, add motion blur, or be used to create a high pass filter.</p>
+
+<ul>
+<li><em>filterStrength</em>: This controls the degree by which the previous accumulated frames are blended with the current one. This ranges from 0.0 to 1.0, with a default of 0.5.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageHighPassFilter</strong>: This applies a high pass filter to incoming video frames. This is the inverse of the low pass filter, showing the difference between the current frame and the weighted rolling average of previous ones. This is most useful for motion detection.</p>
+
+<ul>
+<li><em>filterStrength</em>: This controls the degree by which the previous accumulated frames are blended and then subtracted from the current one. This ranges from 0.0 to 1.0, with a default of 0.5.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageMotionDetector</strong>: This is a motion detector based on a high-pass filter. You set the motionDetectionBlock and on every incoming frame it will give you the centroid of any detected movement in the scene (in normalized X,Y coordinates) as well as an intensity of motion for the scene.</p>
+
+<ul>
+<li><em>lowPassFilterStrength</em>: This controls the strength of the low pass filter used behind the scenes to establish the baseline that incoming frames are compared with. This ranges from 0.0 to 1.0, with a default of 0.5.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageHoughTransformLineDetector</strong>: Detects lines in the image using a Hough transform into parallel coordinate space. This approach is based entirely on the PC lines process developed by the Graph@FIT research group at the Brno University of Technology and described in their publications: M. Dubská, J. Havel, and A. Herout. Real-Time Detection of Lines using Parallel Coordinates and OpenGL. Proceedings of SCCG 2011, Bratislava, SK, p. 7 (<a href="http://medusa.fit.vutbr.cz/public/data/papers/2011-SCCG-Dubska-Real-Time-Line-Detection-Using-PC-and-OpenGL.pdf">http://medusa.fit.vutbr.cz/public/data/papers/2011-SCCG-Dubska-Real-Time-Line-Detection-Using-PC-and-OpenGL.pdf</a>) and M. Dubská, J. Havel, and A. Herout. PClines — Line detection using parallel coordinates. 2011 IEEE Conference on Computer Vision and Pattern Recognition (CVPR), p. 1489- 1494 (<a href="http://medusa.fit.vutbr.cz/public/data/papers/2011-CVPR-Dubska-PClines.pdf">http://medusa.fit.vutbr.cz/public/data/papers/2011-CVPR-Dubska-PClines.pdf</a>).</p>
+
+<ul>
+<li><em>edgeThreshold</em>: A threshold value for which a point is detected as belonging to an edge for determining lines. Default is 0.9.</li>
+<li><em>lineDetectionThreshold</em>: A threshold value for which a local maximum is detected as belonging to a line in parallel coordinate space. Default is 0.20.</li>
+<li><em>linesDetectedBlock</em>: This block is called on the detection of lines, usually on every processed frame. A C array containing normalized slopes and intercepts in m, b pairs (y=mx+b) is passed in, along with a count of the number of lines detected and the current timestamp of the video frame.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageLineGenerator</strong>: A helper class that generates lines which can overlay the scene. The color of these lines can be adjusted using -setLineColorRed:green:blue:</p>
+
+<ul>
+<li><em>lineWidth</em>: The width of the lines, in pixels, with a default of 1.0.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageMotionBlurFilter</strong>: Applies a directional motion blur to an image</p>
+
+<ul>
+<li><em>blurSize</em>: A multiplier for the blur size, ranging from 0.0 on up, with a default of 1.0</li>
+<li><em>blurAngle</em>: The angular direction of the blur, in degrees. 0 degrees by default.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageZoomBlurFilter</strong>: Applies a directional motion blur to an image</p>
+
+<ul>
+<li><em>blurSize</em>: A multiplier for the blur size, ranging from 0.0 on up, with a default of 1.0</li>
+<li><em>blurCenter</em>: The normalized center of the blur. (0.5, 0.5) by default</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>Blending modes</h3>
+
+<ul>
+<li><p><strong>GPUImageChromaKeyBlendFilter</strong>: Selectively replaces a color in the first image with the second image</p>
+
+<ul>
+<li><em>thresholdSensitivity</em>: How close a color match needs to exist to the target color to be replaced (default of 0.4)</li>
+<li><em>smoothing</em>: How smoothly to blend for the color match (default of 0.1)</li>
+</ul>
+</li>
+<li><p><strong>GPUImageDissolveBlendFilter</strong>: Applies a dissolve blend of two images</p>
+
+<ul>
+<li><em>mix</em>: The degree with which the second image overrides the first (0.0 - 1.0, with 0.5 as the default)</li>
+</ul>
+</li>
+<li><p><strong>GPUImageMultiplyBlendFilter</strong>: Applies a multiply blend of two images</p></li>
+<li><p><strong>GPUImageAddBlendFilter</strong>: Applies an additive blend of two images</p></li>
+<li><p><strong>GPUImageSubtractBlendFilter</strong>: Applies a subtractive blend of two images</p></li>
+<li><p><strong>GPUImageDivideBlendFilter</strong>: Applies a division blend of two images</p></li>
+<li><p><strong>GPUImageOverlayBlendFilter</strong>: Applies an overlay blend of two images</p></li>
+<li><p><strong>GPUImageDarkenBlendFilter</strong>: Blends two images by taking the minimum value of each color component between the images</p></li>
+<li><p><strong>GPUImageLightenBlendFilter</strong>: Blends two images by taking the maximum value of each color component between the images</p></li>
+<li><p><strong>GPUImageColorBurnBlendFilter</strong>: Applies a color burn blend of two images</p></li>
+<li><p><strong>GPUImageColorDodgeBlendFilter</strong>: Applies a color dodge blend of two images</p></li>
+<li><p><strong>GPUImageScreenBlendFilter</strong>: Applies a screen blend of two images</p></li>
+<li><p><strong>GPUImageExclusionBlendFilter</strong>: Applies an exclusion blend of two images</p></li>
+<li><p><strong>GPUImageDifferenceBlendFilter</strong>: Applies a difference blend of two images</p></li>
+<li><p><strong>GPUImageHardLightBlendFilter</strong>: Applies a hard light blend of two images</p></li>
+<li><p><strong>GPUImageSoftLightBlendFilter</strong>: Applies a soft light blend of two images</p></li>
+<li><p><strong>GPUImageAlphaBlendFilter</strong>: Blends the second image over the first, based on the second&rsquo;s alpha channel</p>
+
+<ul>
+<li><em>mix</em>: The degree with which the second image overrides the first (0.0 - 1.0, with 1.0 as the default)</li>
+</ul>
+</li>
+<li><p><strong>GPUImageSourceOverBlendFilter</strong>: Applies a source over blend of two images</p></li>
+<li><p><strong>GPUImageColorBurnBlendFilter</strong>: Applies a color burn blend of two images</p></li>
+<li><p><strong>GPUImageColorDodgeBlendFilter</strong>: Applies a color dodge blend of two images</p></li>
+<li><p><strong>GPUImageNormalBlendFilter</strong>: Applies a normal blend of two images</p></li>
+<li><p><strong>GPUImageColorBlendFilter</strong>: Applies a color blend of two images</p></li>
+<li><p><strong>GPUImageHueBlendFilter</strong>: Applies a hue blend of two images</p></li>
+<li><p><strong>GPUImageSaturationBlendFilter</strong>: Applies a saturation blend of two images</p></li>
+<li><p><strong>GPUImageLuminosityBlendFilter</strong>: Applies a luminosity blend of two images</p></li>
+<li><p><strong>GPUImageLinearBurnBlendFilter</strong>: Applies a linear burn blend of two images</p></li>
+<li><p><strong>GPUImagePoissonBlendFilter</strong>: Applies a Poisson blend of two images</p>
+
+<ul>
+<li><em>mix</em>: Mix ranges from 0.0 (only image 1) to 1.0 (only image 2 gradients), with 1.0 as the normal level</li>
+<li><em>numIterations</em>: The number of times to propagate the gradients. Crank this up to 100 or even 1000 if you want to get anywhere near convergence.  Yes, this will be slow.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageMaskFilter</strong>: Masks one image using another</p></li>
+</ul>
+
+
+<h3>Visual effects</h3>
+
+<ul>
+<li><p><strong>GPUImagePixellateFilter</strong>: Applies a pixellation effect on an image or video</p>
+
+<ul>
+<li><em>fractionalWidthOfAPixel</em>: How large the pixels are, as a fraction of the width and height of the image (0.0 - 1.0, default 0.05)</li>
+</ul>
+</li>
+<li><p><strong>GPUImagePolarPixellateFilter</strong>: Applies a pixellation effect on an image or video, based on polar coordinates instead of Cartesian ones</p>
+
+<ul>
+<li><em>center</em>: The center about which to apply the pixellation, defaulting to (0.5, 0.5)</li>
+<li><em>pixelSize</em>: The fractional pixel size, split into width and height components. The default is (0.05, 0.05)</li>
+</ul>
+</li>
+<li><p><strong>GPUImagePolkaDotFilter</strong>: Breaks an image up into colored dots within a regular grid</p>
+
+<ul>
+<li><em>fractionalWidthOfAPixel</em>: How large the dots are, as a fraction of the width and height of the image (0.0 - 1.0, default 0.05)</li>
+<li><em>dotScaling</em>: What fraction of each grid space is taken up by a dot, from 0.0 to 1.0 with a default of 0.9.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageHalftoneFilter</strong>: Applies a halftone effect to an image, like news print</p>
+
+<ul>
+<li><em>fractionalWidthOfAPixel</em>: How large the halftone dots are, as a fraction of the width and height of the image (0.0 - 1.0, default 0.05)</li>
+</ul>
+</li>
+<li><p><strong>GPUImageCrosshatchFilter</strong>: This converts an image into a black-and-white crosshatch pattern</p>
+
+<ul>
+<li><em>crossHatchSpacing</em>: The fractional width of the image to use as the spacing for the crosshatch. The default is 0.03.</li>
+<li><em>lineWidth</em>: A relative width for the crosshatch lines. The default is 0.003.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageSketchFilter</strong>: Converts video to look like a sketch. This is just the Sobel edge detection filter with the colors inverted</p>
+
+<ul>
+<li><em>texelWidth</em>:</li>
+<li><em>texelHeight</em>: These parameters affect the visibility of the detected edges</li>
+<li><em>edgeStrength</em>: Adjusts the dynamic range of the filter. Higher values lead to stronger edges, but can saturate the intensity colorspace. Default is 1.0.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageThresholdSketchFilter</strong>: Same as the sketch filter, only the edges are thresholded instead of being grayscale</p>
+
+<ul>
+<li><em>texelWidth</em>:</li>
+<li><em>texelHeight</em>: These parameters affect the visibility of the detected edges</li>
+<li><em>edgeStrength</em>: Adjusts the dynamic range of the filter. Higher values lead to stronger edges, but can saturate the intensity colorspace. Default is 1.0.</li>
+<li><em>threshold</em>: Any edge above this threshold will be black, and anything below white. Ranges from 0.0 to 1.0, with 0.8 as the default</li>
+</ul>
+</li>
+<li><p><strong>GPUImageToonFilter</strong>: This uses Sobel edge detection to place a black border around objects, and then it quantizes the colors present in the image to give a cartoon-like quality to the image.</p>
+
+<ul>
+<li><em>texelWidth</em>:</li>
+<li><em>texelHeight</em>: These parameters affect the visibility of the detected edges</li>
+<li><em>threshold</em>: The sensitivity of the edge detection, with lower values being more sensitive. Ranges from 0.0 to 1.0, with 0.2 as the default</li>
+<li><em>quantizationLevels</em>: The number of color levels to represent in the final image. Default is 10.0</li>
+</ul>
+</li>
+<li><p><strong>GPUImageSmoothToonFilter</strong>: This uses a similar process as the GPUImageToonFilter, only it precedes the toon effect with a Gaussian blur to smooth out noise.</p>
+
+<ul>
+<li><em>texelWidth</em>:</li>
+<li><em>texelHeight</em>: These parameters affect the visibility of the detected edges</li>
+<li><em>blurRadiusInPixels</em>: The radius of the underlying Gaussian blur. The default is 2.0.</li>
+<li><em>threshold</em>: The sensitivity of the edge detection, with lower values being more sensitive. Ranges from 0.0 to 1.0, with 0.2 as the default</li>
+<li><em>quantizationLevels</em>: The number of color levels to represent in the final image. Default is 10.0</li>
+</ul>
+</li>
+<li><p><strong>GPUImageEmbossFilter</strong>: Applies an embossing effect on the image</p>
+
+<ul>
+<li><em>intensity</em>: The strength of the embossing, from  0.0 to 4.0, with 1.0 as the normal level</li>
+</ul>
+</li>
+<li><p><strong>GPUImagePosterizeFilter</strong>: This reduces the color dynamic range into the number of steps specified, leading to a cartoon-like simple shading of the image.</p>
+
+<ul>
+<li><em>colorLevels</em>: The number of color levels to reduce the image space to. This ranges from 1 to 256, with a default of 10.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageSwirlFilter</strong>: Creates a swirl distortion on the image</p>
+
+<ul>
+<li><em>radius</em>: The radius from the center to apply the distortion, with a default of 0.5</li>
+<li><em>center</em>: The center of the image (in normalized coordinates from 0 - 1.0) about which to twist, with a default of (0.5, 0.5)</li>
+<li><em>angle</em>: The amount of twist to apply to the image, with a default of 1.0</li>
+</ul>
+</li>
+<li><p><strong>GPUImageBulgeDistortionFilter</strong>: Creates a bulge distortion on the image</p>
+
+<ul>
+<li><em>radius</em>: The radius from the center to apply the distortion, with a default of 0.25</li>
+<li><em>center</em>: The center of the image (in normalized coordinates from 0 - 1.0) about which to distort, with a default of (0.5, 0.5)</li>
+<li><em>scale</em>: The amount of distortion to apply, from -1.0 to 1.0, with a default of 0.5</li>
+</ul>
+</li>
+<li><p><strong>GPUImagePinchDistortionFilter</strong>: Creates a pinch distortion of the image</p>
+
+<ul>
+<li><em>radius</em>: The radius from the center to apply the distortion, with a default of 1.0</li>
+<li><em>center</em>: The center of the image (in normalized coordinates from 0 - 1.0) about which to distort, with a default of (0.5, 0.5)</li>
+<li><em>scale</em>: The amount of distortion to apply, from -2.0 to 2.0, with a default of 1.0</li>
+</ul>
+</li>
+<li><p><strong>GPUImageStretchDistortionFilter</strong>: Creates a stretch distortion of the image</p>
+
+<ul>
+<li><em>center</em>: The center of the image (in normalized coordinates from 0 - 1.0) about which to distort, with a default of (0.5, 0.5)</li>
+</ul>
+</li>
+<li><p><strong>GPUImageSphereRefractionFilter</strong>: Simulates the refraction through a glass sphere</p>
+
+<ul>
+<li><em>center</em>: The center about which to apply the distortion, with a default of (0.5, 0.5)</li>
+<li><em>radius</em>: The radius of the distortion, ranging from 0.0 to 1.0, with a default of 0.25</li>
+<li><em>refractiveIndex</em>: The index of refraction for the sphere, with a default of 0.71</li>
+</ul>
+</li>
+<li><p><strong>GPUImageGlassSphereFilter</strong>: Same as the GPUImageSphereRefractionFilter, only the image is not inverted and there&rsquo;s a little bit of frosting at the edges of the glass</p>
+
+<ul>
+<li><em>center</em>: The center about which to apply the distortion, with a default of (0.5, 0.5)</li>
+<li><em>radius</em>: The radius of the distortion, ranging from 0.0 to 1.0, with a default of 0.25</li>
+<li><em>refractiveIndex</em>: The index of refraction for the sphere, with a default of 0.71</li>
+</ul>
+</li>
+<li><p><strong>GPUImageVignetteFilter</strong>: Performs a vignetting effect, fading out the image at the edges</p>
+
+<ul>
+<li><em>x</em>:</li>
+<li><em>y</em>: The directional intensity of the vignetting, with a default of x = 0.75, y = 0.5</li>
+</ul>
+</li>
+<li><p><strong>GPUImageKuwaharaFilter</strong>: Kuwahara image abstraction, drawn from the work of Kyprianidis, et. al. in their publication &ldquo;Anisotropic Kuwahara Filtering on the GPU&rdquo; within the GPU Pro collection. This produces an oil-painting-like image, but it is extremely computationally expensive, so it can take seconds to render a frame on an iPad 2. This might be best used for still images.</p>
+
+<ul>
+<li><em>radius</em>: In integer specifying the number of pixels out from the center pixel to test when applying the filter, with a default of 4. A higher value creates a more abstracted image, but at the cost of much greater processing time.</li>
+</ul>
+</li>
+<li><p><strong>GPUImageKuwaharaRadius3Filter</strong>: A modified version of the Kuwahara filter, optimized to work over just a radius of three pixels</p></li>
+<li><p><strong>GPUImagePerlinNoiseFilter</strong>: Generates an image full of Perlin noise</p>
+
+<ul>
+<li><em>colorStart</em>:</li>
+<li><em>colorFinish</em>: The color range for the noise being generated</li>
+<li><em>scale</em>: The scaling of the noise being generated</li>
+</ul>
+</li>
+<li><p><strong>GPUImageCGAColorspaceFilter</strong>: Simulates the colorspace of a CGA monitor</p></li>
+<li><p><strong>GPUImageMosaicFilter</strong>: This filter takes an input tileset, the tiles must ascend in luminance. It looks at the input image and replaces each display tile with an input tile according to the luminance of that tile.  The idea was to replicate the ASCII video filters seen in other apps, but the tileset can be anything.</p>
+
+<ul>
+<li><em>inputTileSize</em>:</li>
+<li><em>numTiles</em>:</li>
+<li><em>displayTileSize</em>:</li>
+<li><em>colorOn</em>:</li>
+</ul>
+</li>
+<li><p><strong>GPUImageJFAVoronoiFilter</strong>: Generates a Voronoi map, for use in a later stage.</p>
+
+<ul>
+<li><em>sizeInPixels</em>: Size of the individual elements</li>
+</ul>
+</li>
+<li><p><strong>GPUImageVoronoiConsumerFilter</strong>: Takes in the Voronoi map, and uses that to filter an incoming image.</p>
+
+<ul>
+<li><em>sizeInPixels</em>: Size of the individual elements</li>
+</ul>
+</li>
+</ul>
+
+
+<p>You can also easily write your own custom filters using the C-like OpenGL Shading Language, as described above.</p>
+
+<h2>Sample applications</h2>
+
+<p>Several sample applications are bundled with the framework source. Most are compatible with both iPhone and iPad-class devices. They attempt to show off various aspects of the framework and should be used as the best examples of the API while the framework is under development. These include:</p>
+
+<h3>SimpleImageFilter</h3>
+
+<p>A bundled JPEG image is loaded into the application at launch, a filter is applied to it, and the result rendered to the screen. Additionally, this sample shows two ways of taking in an image, filtering it, and saving it to disk.</p>
+
+<h3>SimpleVideoFilter</h3>
+
+<p>A pixellate filter is applied to a live video stream, with a UISlider control that lets you adjust the pixel size on the live video.</p>
+
+<h3>SimpleVideoFileFilter</h3>
+
+<p>A movie file is loaded from disk, an unsharp mask filter is applied to it, and the filtered result is re-encoded as another movie.</p>
+
+<h3>MultiViewFilterExample</h3>
+
+<p>From a single camera feed, four views are populated with realtime filters applied to camera. One is just the straight camera video, one is a preprogrammed sepia tone, and two are custom filters based on shader programs.</p>
+
+<h3>FilterShowcase</h3>
+
+<p>This demonstrates every filter supplied with GPUImage.</p>
+
+<h3>BenchmarkSuite</h3>
+
+<p>This is used to test the performance of the overall framework by testing it against CPU-bound routines and Core Image. Benchmarks involving still images and video are run against all three, with results displayed in-application.</p>
+
+<h3>CubeExample</h3>
+
+<p>This demonstrates the ability of GPUImage to interact with OpenGL ES rendering. Frames are captured from the camera, a sepia filter applied to them, and then they are fed into a texture to be applied to the face of a cube you can rotate with your finger. This cube in turn is rendered to a texture-backed framebuffer object, and that texture is fed back into GPUImage to have a pixellation filter applied to it before rendering to screen.</p>
+
+<p>In other words, the path of this application is camera -> sepia tone filter -> cube -> pixellation filter -> display.</p>
+
+<h3>ColorObjectTracking</h3>
+
+<p>A version of my ColorTracking example from <a href="http://www.sunsetlakesoftware.com/2010/10/22/gpu-accelerated-video-processing-mac-and-ios">http://www.sunsetlakesoftware.com/2010/10/22/gpu-accelerated-video-processing-mac-and-ios</a> ported across to use GPUImage, this application uses color in a scene to track objects from a live camera feed. The four views you can switch between include the raw camera feed, the camera feed with pixels matching the color threshold in white, the processed video where positions are encoded as colors within the pixels passing the threshold test, and finally the live video feed with a dot that tracks the selected color. Tapping the screen changes the color to track to match the color of the pixels under your finger. Tapping and dragging on the screen makes the color threshold more or less forgiving. This is most obvious on the second, color thresholding view.</p>
+
+<p>Currently, all processing for the color averaging in the last step is done on the CPU, so this is part is extremely slow.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/01/06/pop/">Pop</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-06T13:52:18+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:52 pm</span></time>
+        
+        
+          | <a href="/blog/2015/01/06/pop/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p> <a href="https://github.com/facebook/pop.git"target="_blank"title="源代码">源代码</a></p>
+
+<p><img src="https://github.com/facebook/pop/blob/master/Images/pop.gif?raw=true" alt="pop" /></p>
+
+<p>Pop is an extensible animation engine for iOS and OS X. In addition to basic static animations, it supports spring and decay dynamic animations, making it useful for building realistic, physics-based interactions. The API allows quick integration with existing Objective-C codebases and enables the animation of any property on any object. It&rsquo;s a mature and well-tested framework that drives all the animations and transitions in <a href="http://www.facebook.com/paper">Paper</a>.</p>
+
+<p><a href="https://travis-ci.org/facebook/pop"><img src="https://travis-ci.org/facebook/pop.svg" alt="Build Status" /></a></p>
+
+<h2>Installation</h2>
+
+<p>Pop is available on <a href="http://cocoapods.org">CocoaPods</a>. Just add the following to your project Podfile:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">pod</span> <span class="s1">&#39;pop&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 1.0&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Alternatively, you can add the project to your workspace and adopt the provided configuration files or manually copy the files under the pop subdirectory into your project. If installing manually, ensure the C++ standard library is also linked by including <code>-lc++</code> to your project linker flags.</p>
+
+<h2>Usage</h2>
+
+<p>Pop adopts the Core Animation explicit animation programming model. Use by including the following import:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &lt;POP/POP.h&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Start, Stop &amp; Update</h3>
+
+<p>To start an animation, add it to the object you wish to animate:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">POPSpringAnimation</span> <span class="o">*</span><span class="n">anim</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPSpringAnimation</span> <span class="n">animation</span><span class="p">];</span>
+</span><span class='line'><span class="p">...</span>
+</span><span class='line'><span class="p">[</span><span class="n">layer</span> <span class="nl">pop_addAnimation</span><span class="p">:</span><span class="n">anim</span> <span class="nl">forKey</span><span class="p">:</span><span class="s">@&quot;myKey&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To stop an animation, remove it from the object referencing the key specified on start:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">layer</span> <span class="nl">pop_removeAnimationForKey</span><span class="p">:</span><span class="s">@&quot;myKey&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The key can also be used to query for the existence of an animation. Updating the toValue of a running animation can provide the most seamless way to change course:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">anim</span> <span class="o">=</span> <span class="p">[</span><span class="n">layer</span> <span class="nl">pop_animationForKey</span><span class="p">:</span><span class="s">@&quot;myKey&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">anim</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="cm">/* update to value to new destination */</span>
+</span><span class='line'>  <span class="n">anim</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="l">@(</span><span class="mf">42.0</span><span class="l">)</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>  <span class="cm">/* create and start a new animation */</span>
+</span><span class='line'>  <span class="p">....</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>While a layer was used in the above examples, the Pop interface is implemented as a category addition on NSObject. Any NSObject or subclass can be animated.</p>
+
+<h3>Types</h3>
+
+<p>There are four concrete animation types: spring, decay, basic and custom.</p>
+
+<p>Spring animations can be used to give objects a delightful bounce. In this example, we use a spring animation to animate a layer&rsquo;s bounds from its current value to (0, 0, 400, 400):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">POPSpringAnimation</span> <span class="o">*</span><span class="n">anim</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPSpringAnimation</span> <span class="nl">animationWithPropertyNamed</span><span class="p">:</span><span class="n">kPOPLayerBounds</span><span class="p">];</span>
+</span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGRect</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">400</span><span class="p">)];</span>
+</span><span class='line'><span class="p">[</span><span class="n">layer</span> <span class="nl">pop_addAnimation</span><span class="p">:</span><span class="n">anim</span> <span class="nl">forKey</span><span class="p">:</span><span class="s">@&quot;size&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Decay animations can be used to gradually slow an object to a halt. In this example, we decay a layer&rsquo;s positionX from it&rsquo;s current value and velocity 1000pts per second:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">POPDecayAnimation</span> <span class="o">*</span><span class="n">anim</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPDecayAnimation</span> <span class="nl">animationWithPropertyNamed</span><span class="p">:</span><span class="n">kPOPLayerPositionX</span><span class="p">];</span>
+</span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">velocity</span> <span class="o">=</span> <span class="l">@(</span><span class="mf">1000.</span><span class="l">)</span><span class="p">;</span>
+</span><span class='line'><span class="p">[</span><span class="n">layer</span> <span class="nl">pop_addAnimation</span><span class="p">:</span><span class="n">anim</span> <span class="nl">forKey</span><span class="p">:</span><span class="s">@&quot;slide&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Basic animations can be used to interpolate values over a specified time period. To use an ease-in ease-out animation to animate a view&rsquo;s alpha from 0.0 to 1.0 over the default duration:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">POPBasicAnimation</span> <span class="o">*</span><span class="n">anim</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPBasicAnimation</span> <span class="nl">animationWithPropertyNamed</span><span class="p">:</span><span class="n">kPOPViewAlpha</span><span class="p">];</span>
+</span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">timingFunction</span> <span class="o">=</span> <span class="p">[</span><span class="bp">CAMediaTimingFunction</span> <span class="nl">functionWithName</span><span class="p">:</span><span class="n">kCAMediaTimingFunctionEaseInEaseOut</span><span class="p">];</span>
+</span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">fromValue</span> <span class="o">=</span> <span class="l">@(</span><span class="mf">0.0</span><span class="l">)</span><span class="p">;</span>
+</span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="l">@(</span><span class="mf">1.0</span><span class="l">)</span><span class="p">;</span>
+</span><span class='line'><span class="p">[</span><span class="n">view</span> <span class="nl">pop_addAnimation</span><span class="p">:</span><span class="n">anim</span> <span class="nl">forKey</span><span class="p">:</span><span class="s">@&quot;fade&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>POPCustomAnimation</code> makes creating custom animations and transitions easier by handling CADisplayLink and associated time-step management. See header for more details.</p>
+
+<h3>Properties</h3>
+
+<p>The property animated is specified by the <code>POPAnimatableProperty</code> class. In this example we create a spring animation and explicitly set the animatable property corresponding to <code>-[CALayer bounds]</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">POPSpringAnimation</span> <span class="o">*</span><span class="n">anim</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPSpringAnimation</span> <span class="n">animation</span><span class="p">];</span>
+</span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">property</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPAnimatableProperty</span> <span class="nl">propertyWithName</span><span class="p">:</span><span class="n">kPOPLayerBounds</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The framework provides many common layer and view animatable properties out of box. You can animate a custom property by creating a new instance of the class. In this example, we declare a custom volume property:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">prop</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPAnimatableProperty</span> <span class="nl">propertyWithName</span><span class="p">:</span><span class="s">@&quot;com.foo.radio.volume&quot;</span> <span class="nl">initializer</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">POPMutableAnimatableProperty</span> <span class="o">*</span><span class="n">prop</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// read value</span>
+</span><span class='line'>  <span class="n">prop</span><span class="p">.</span><span class="n">readBlock</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">obj</span><span class="p">,</span> <span class="n">CGFloat</span> <span class="n">values</span><span class="p">[])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">obj</span> <span class="n">volume</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>  <span class="c1">// write value</span>
+</span><span class='line'>  <span class="n">prop</span><span class="p">.</span><span class="n">writeBlock</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">obj</span><span class="p">,</span> <span class="k">const</span> <span class="n">CGFloat</span> <span class="n">values</span><span class="p">[])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">obj</span> <span class="nl">setVolume</span><span class="p">:</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]];</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>  <span class="c1">// dynamics threshold</span>
+</span><span class='line'>  <span class="n">prop</span><span class="p">.</span><span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">;</span>
+</span><span class='line'><span class="p">}];</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">property</span> <span class="o">=</span> <span class="n">prop</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For a complete listing of provided animatable properties, as well more information on declaring custom properties see <code>POPAnimatableProperty.h</code>.</p>
+
+<h3>Debugging</h3>
+
+<p>Here are a few tips when debugging. Pop obeys the Simulator&rsquo;s Toggle Slow Animations setting. Try enabling it to slow down animations and more easily observe interactions.</p>
+
+<p>Consider naming your animations. This will allow you to more easily identify them when referencing them, either via logging or in the debugger:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">@&quot;springOpen&quot;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Each animation comes with an associated tracer. The tracer allows you to record all animation-related events, in a fast and efficient manner, allowing you to query and analyze them after animation completion. The below example starts the tracer and configures it to log all events on animation completion:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">POPAnimationTracer</span> <span class="o">*</span><span class="n">tracer</span> <span class="o">=</span> <span class="n">anim</span><span class="p">.</span><span class="n">tracer</span><span class="p">;</span>
+</span><span class='line'><span class="n">tracer</span><span class="p">.</span><span class="n">shouldLogAndResetOnCompletion</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'><span class="p">[</span><span class="n">tracer</span> <span class="n">start</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>See <code>POPAnimationTracer.h</code> for more details.</p>
+
+<h2>Testing</h2>
+
+<p>Pop has extensive unit test coverage. To install test dependencies, navigate to the root pop directory and type:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>pod install
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Assuming CocoaPods is installed, this will include the necessary OCMock dependency to the unit test targets.</p>
+
+<h2>Resources</h2>
+
+<p>A collection of links to external resources that may prove valuable:</p>
+
+<ul>
+<li><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/CoreAnimation_guide/Introduction/Introduction.html">Apple – Core Animation Programming Guide</a></li>
+<li><a href="http://tapity.com/tutorial-getting-started-with-pop/">Tapity Tutorial – Getting Started with Pop</a></li>
+<li><a href="http://codeplease.io/playing-with-pop-ii/">Codeplease – Bridging the gesture to animation gap</a></li>
+<li><a href="http://codeplease.io/playing-with-pop-iii/">Codeplease – Playing with Pop (iii)</a></li>
+<li><a href="http://codeplease.io/playing-with-pop-v/">Codeplease – Adding a custom animatable property</a></li>
+<li><a href="https://github.com/matthewcheok/POP-MCAnimate">POP-MCAnimate – Concise syntax for the Pop animation framework</a></li>
+<li><a href="https://github.com/facebook/tweaks">Tweaks – Easily adjust parameters for iOS apps in development</a></li>
+<li><a href="http://facebook.github.io/rebound/">Rebound – Spring Animations for Android</a></li>
+</ul>
+
+
+<h2>Contributing</h2>
+
+<p>See the CONTRIBUTING file for how to help out.</p>
+
+<h2>License</h2>
+
+<p>Pop is released under a BSD License. See LICENSE file for details.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/01/06/vvdocumenter-xcode/">VVDocumenter-Xcode</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-06T13:44:56+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:44 pm</span></time>
+        
+        
+          | <a href="/blog/2015/01/06/vvdocumenter-xcode/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p> <a href="https://github.com/worldligang/VVDocumenter-Xcode.git"target="_blank"title="源代码">源代码</a></p>
+
+<h1>VVDocumenter-Xcode <a href="https://travis-ci.org/onevcat/VVDocumenter-Xcode"><img src="https://api.travis-ci.org/onevcat/VVDocumenter-Xcode.svg" alt="Build Status" /></a> <a href="https://flattr.com/submit/auto?user_id=onevcat&url=https%3A%2F%2Fgithub.com%2Fonevcat%2FVVDocumenter-Xcode" target="_blank"><img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0"></a></h1>
+
+<hr />
+
+<h2>What is this?</h2>
+
+<p>Writing document is so important for developing, but it is really painful with Xcode. Think about how much time you are wasting in pressing &lsquo;*&rsquo; or &lsquo;/&rsquo;, and typing the parameters again and again. Now, you can find the method (or any code) you want to document to, and type in <code>///</code>, the document will be generated for you and all params and return will be extracted into a Javadoc style, which is compatible with <a href="https://github.com/tomaz/appledoc">appledoc</a>, <a href="http://www.stack.nl/~dimitri/doxygen/">Doxygen</a> and <a href="https://developer.apple.com/library/mac/documentation/DeveloperTools/Conceptual/HeaderDoc/intro/intro.html">HeaderDoc</a>. You can just fill the inline placeholder tokens to finish your document.</p>
+
+<p>Here is an image which can show what it exactly does.</p>
+
+<p><img src="https://raw.github.com/onevcat/VVDocumenter-Xcode/master/ScreenShot.gif" alt="Screenshot" /></p>
+
+<blockquote><p>By the way, it also supports <a href="https://developer.apple.com/swift/">Swift</a> now. Cheers!</p></blockquote>
+
+<p><img src="https://raw.github.com/onevcat/VVDocumenter-Xcode/master/vvdocumenter-swift.gif" alt="Screenshot" /></p>
+
+<h2>How to install and use?</h2>
+
+<p><del>The best way of installing is by <a href="http://alcatraz.io">Alcatraz</a>. Install Alcatraz followed by the instruction, restart your Xcode and press <code>⇧⌘9</code>. You can find <code>VVDocumenter-Xcode</code> in the list and click the icon on left to install.</del> Some users reported the setting panel <a href="https://github.com/supermarin/Alcatraz/issues/196">can not be opened</a> if installing from Alcatraz, so I suggest to build the plugin yourself until this issue get fixed.</p>
+
+<p>If you do not like the Alcatraz way, you can also clone the repo. Then build the <code>VVDocumenter-Xcode</code> target in the Xcode project and the plug-in will automatically be installed in <code>~/Library/Application Support/Developer/Shared/Xcode/Plug-ins</code>. Relaunch Xcode and type in <code>///</code> above any code you want to write a document to.</p>
+
+<p>If you want to use other text beside of <code>///</code> to trigger the document insertion, you can find a setting panel by clicking <code>VVDocument</code> in the Window menu of Xcode. You can also find some other useful options there, including setting using spaces instead of tab in the panel or changing the format of generated documentation.</p>
+
+<h2>Xcode version?</h2>
+
+<p>This plug-in is supported in Xcode 5 and 6 (current beta). From Xcode 5, Apple added a UUID-verification to all plugins to ensure the stability when Xcode gets updated. The value of <code>DVTPlugInCompatibilityUUIDs</code> in project plist should contains current UUID of Xcode version, or the plugin does not work. Once you update your Xcode, the plugin might be disabled and you should check the newest version and built it again.</p>
+
+<p>The default deployment target is 10.8. If you want to use it in a earlier OS version, you should change OS X Deployment Target (in project info setting) to your system version.</p>
+
+<h2>Swift Support</h2>
+
+<p>Yes, this plugin supports documentation for Swift now. Check <a href="http://nshipster.com/swift-documentation/">this post</a> from @mattt to see how to write the documentation for swift. By using <code>VVDocumenter-Xcode</code>, you can just type <code>///</code> to make the magic happen.</p>
+
+<h2>Limitations and Future</h2>
+
+<p>The plugin is using simulation of keyboard event to insert the doc comments for you. So it is depending the keyboard shortcut of Xcode. These two kinds of operation are being used:</p>
+
+<ul>
+<li>Delete to Beginning of the Line (⌘⌫)</li>
+<li>Paste (⌘V)</li>
+</ul>
+
+
+<p>If you have modified these two shortcuts in your Xcode, the newset version of the plugin would not work correctly. Instead, you can use a earlier version such as <a href="https://github.com/onevcat/VVDocumenter-Xcode/tree/03c4169ff79b618b9fd3db93dd96652a522ad3e0">this one(commit 03c4169ff7)</a>. Be causion you may suffer an <a href="https://github.com/onevcat/VVDocumenter-Xcode/issues/3">undo and redo issue </a>.</p>
+
+<p><code>VVDocumenter-Xcode</code> is now using regular expression to extract things needed, which is not the best way to do such thing. A better approach could be using the AST, and I also have a plan to do it later if I have some more time :)</p>
+
+<h2>License</h2>
+
+<p>VVDocumenter is published under MIT License</p>
+
+<pre><code>Copyright (c) 2014 Wei Wang (@onevcat)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
+Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/01/05/pushtalk/">PushTalk</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-05T17:20:23+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:20 pm</span></time>
+        
+        
+          | <a href="/blog/2015/01/05/pushtalk/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p> <a href="https://github.com/good-life/PushTalk"target="_blank"title="源代码">源代码</a></p>
+
+<h1>推聊概述 PushTalk Overview</h1>
+
+<p>推聊是一个基于极光推送的Android手机聊天系统。支持群聊与点对点聊天。当前包括Android客户端与Java服务器端。3分钟就可以整套系统跑起来。</p>
+
+<p><img src="https://github.com/downloads/good-life/PushTalk/pushtalk_architecture_2.png" alt="" /></p>
+
+<h3>项目官方网站</h3>
+
+<p><a href="http://github.com/good-life/pushtalk">http://github.com/good-life/pushtalk</a></p>
+
+<h3>功能与特点</h3>
+
+<h5>功能列表</h5>
+
+<ul>
+<li>频道里群聊</li>
+<li>与其他用户点对点聊天</li>
+<li>聊天支持文字、表情、URL等</li>
+<li>注册用户（不需要密码）</li>
+<li>创建频道、加入频道</li>
+<li>我的最近聊天、我的频道</li>
+<li>聊天记录缓存（在服务器端）</li>
+<li>客户端选择聊天服务器、添加聊天服务器</li>
+</ul>
+
+
+<h5>特点</h5>
+
+<ul>
+<li>简单到极致的 http 聊天服务器：一个 jar 包跑起来</li>
+<li>轻量级客户端：聊天界面使用 Webview 的方式</li>
+<li>下行消息推送基于 <a href="http://jpush.cn/">JPush</a>（一个免费的第三方 Android Push 服务），上行消息采用 http 请求的方式实现</li>
+</ul>
+
+
+<h3>聊天服务器</h3>
+
+<p>推聊的服务器端使用 Java 语言编写，基于最简单实用的开源框架。</p>
+
+<ul>
+<li>http 服务器使用 <a href="http://www.eclipse.org/jetty/">Jetty</a>：轻量级的 Java Servlet 容器。</li>
+<li>数据库使用 <a href="http://http://www.h2database.com/">H2</a>： 轻量级的 Java 内存/文件数据库。</li>
+<li>页面模板使用 <a href="http://freemarker.sourceforge.net/">Freemarker</a>：轻量级的 Java 页面模板引擎。</li>
+<li>打包时集成为一个整体 jar 包（包含所有的依赖包）</li>
+</ul>
+
+
+<p>要运行推聊服务器端，请在 github项目界面相关版本下载 dist/ 目录下的 pushtalk-server jar 文件。</p>
+
+<p>要打包 server-java，请在项目该目录下执行 mvn package 命令。</p>
+
+<p>使用如下命令运行服务器：</p>
+
+<pre><code>java -Dfile.encoding=UTF-8 -jar pushtalk-server-with-dependencies.jar
+</code></pre>
+
+<p><code>注：实际的文件名后边一般会加上一个版本号。</code></p>
+
+<p>上述命令运行后：</p>
+
+<ul>
+<li>一个 http server 启动了，监听端口为 10010</li>
+<li>浏览器里输入 <a href="http://localhost:10010">http://localhost:10010</a> 则可以访问到界面</li>
+<li>要正确地运行服务器，需要通过客户端访问</li>
+</ul>
+
+
+<p>推聊服务器默认使用 <code>10010</code> 端口。可以在上述命令后指定使用另外的端口。比如以下命令指定使用 <code>10011</code> 来启动推聊聊天服务器：</p>
+
+<pre><code>java -Dfile.encoding=UTF-8 -jar pushtalk-server-with-dependencies.jar 10011
+</code></pre>
+
+<h3>Android 客户端</h3>
+
+<p><img src="https://github.com/downloads/good-life/PushTalk/pushtalk_client.png" alt="" /></p>
+
+<p>客户端运行，请在 github 文件下载页 <a href="https://github.com/good-life/PushTalk/downloads/">https://github.com/good-life/PushTalk/downloads/</a> 下载 Android apk 安装到 Android 手机即可。</p>
+
+<p>你也可以自己编译 <code>/client-android</code> 项目之后安装到手机。</p>
+
+<p>客户端默认内置官方聊天服务器地址。也可以直接在客户端添加新的服务器，选择新的聊天服务器。</p>
+
+<p>如果你有服务器资源，可以长期运行，欢迎你架设推聊聊天服务器，请添加到以下的页面。经过测试没有问题，会被选择预置到客户端代码里：</p>
+
+<p><a href="https://github.com/good-life/PushTalk/wiki/PushTalk-Third-Party-Servers">https://github.com/good-life/PushTalk/wiki/PushTalk-Third-Party-Servers</a></p>
+
+<h3>开发者支持</h3>
+
+<p>欢迎广大开发者加入本开源项目，大家一起来不断地丰满、完善推聊。</p>
+
+<p>本人是因为兴趣业余时间来开发推聊，考虑到 IM 占用的时间太多，所以请谅解，不提供任何 IM 的沟通方式。希望大家以如下的方式交流：</p>
+
+<ul>
+<li>Email:  <a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#x70;&#x75;&#x73;&#x68;&#x74;&#97;&#x6c;&#107;&#46;&#x6f;&#x72;&#103;&#x40;&#103;&#109;&#97;&#105;&#108;&#x2e;&#99;&#111;&#x6d;">&#x70;&#117;&#x73;&#x68;&#x74;&#97;&#108;&#107;&#46;&#x6f;&#x72;&#103;&#x40;&#103;&#109;&#97;&#105;&#108;&#x2e;&#99;&#111;&#x6d;</a></li>
+<li>项目Wiki: <a href="https://github.com/good-life/PushTalk/wiki">https://github.com/good-life/PushTalk/wiki</a></li>
+<li>项目Bug: <a href="https://github.com/good-life/PushTalk/issues">https://github.com/good-life/PushTalk/issues</a></li>
+<li>PushTalk频道：<code>pushtalk</code>, <code>报告bug</code>, <code>新功能讨论</code> 等</li>
+</ul>
+
+
+<p>代码提交方式：请先提交Bug修复，把 diff 以文件方式发邮件给我。合作多次后，我可以把你加入到本项目贡献者里来，你就可以随时自由地提交代码了。</p>
+
+<p>你也可以自由地 fork 本项目，自己去发布新的版本。</p>
+
+<p>推聊使用的开源协议：<a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/01/05/pnchart/">PNChart</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-05T17:16:07+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:16 pm</span></time>
+        
+        
+          | <a href="/blog/2015/01/05/pnchart/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p> <a href="https://github.com/kevinzhow/PNChart"target="_blank"title="源代码">源代码</a></p>
+
+<h1>PNChart</h1>
+
+<p><a href="https://travis-ci.org/kevinzhow/PNChart"><img src="https://travis-ci.org/kevinzhow/PNChart.png?branch=master" alt="Build Status" /></a></p>
+
+<p>You can also find swift version at here <a href="https://github.com/kevinzhow/PNChart-Swift">https://github.com/kevinzhow/PNChart-Swift</a></p>
+
+<p>A simple and beautiful chart lib with <strong>animation</strong> used in <a href="https://itunes.apple.com/us/app/piner/id637706410">Piner</a> and <a href="https://itunes.apple.com/us/app/coinsman/id772163893">CoinsMan</a> for iOS</p>
+
+<p><a href="https://dl.dropboxusercontent.com/u/1599662/pnchart.gif"><img src="https://dl.dropboxusercontent.com/u/1599662/pnchart.gif" alt="" /></a></p>
+
+<h2>Requirements</h2>
+
+<p>PNChart works on iOS 6.0 and later version and is compatible with ARC projects. It depends on the following Apple frameworks, which should already be included with most Xcode templates:</p>
+
+<ul>
+<li>Foundation.framework</li>
+<li>UIKit.framework</li>
+<li>CoreGraphics.framework</li>
+<li>QuartzCore.framework</li>
+</ul>
+
+
+<p>You will need LLVM 3.0 or later in order to build PNChart.</p>
+
+<h2>Usage</h2>
+
+<h3>Cocoapods</h3>
+
+<p><a href="http://cocoapods.org">CocoaPods</a> is the recommended way to add PNChart to your project.</p>
+
+<ol>
+<li>Add a pod entry for PNChart to your Podfile <code>pod 'PNChart', '~&gt; 0.6.0'</code></li>
+<li>Install the pod(s) by running <code>pod install</code>.</li>
+<li>Include PNChart wherever you need it with <code>#import "PNChart.h"</code>.</li>
+</ol>
+
+
+<h3>Copy the PNChart folder to your project</h3>
+
+<p><a href="https://dl.dropboxusercontent.com/u/1599662/line.png"><img src="https://dl.dropboxusercontent.com/u/1599662/line.png" alt="" /></a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &quot;PNChart.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//For Line Chart</span>
+</span><span class='line'><span class="n">PNLineChart</span> <span class="o">*</span> <span class="n">lineChart</span> <span class="o">=</span> <span class="p">[[</span><span class="n">PNLineChart</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">135.0</span><span class="p">,</span> <span class="n">SCREEN_WIDTH</span><span class="p">,</span> <span class="mf">200.0</span><span class="p">)];</span>
+</span><span class='line'><span class="p">[</span><span class="n">lineChart</span> <span class="nl">setXLabels</span><span class="p">:</span><span class="l">@[</span><span class="s">@&quot;SEP 1&quot;</span><span class="p">,</span><span class="s">@&quot;SEP 2&quot;</span><span class="p">,</span><span class="s">@&quot;SEP 3&quot;</span><span class="p">,</span><span class="s">@&quot;SEP 4&quot;</span><span class="p">,</span><span class="s">@&quot;SEP 5&quot;</span><span class="l">]</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Line Chart No.1</span>
+</span><span class='line'><span class="bp">NSArray</span> <span class="o">*</span> <span class="n">data01Array</span> <span class="o">=</span> <span class="l">@[</span><span class="mf">@60.1</span><span class="p">,</span> <span class="mf">@160.1</span><span class="p">,</span> <span class="mf">@126.4</span><span class="p">,</span> <span class="mf">@262.2</span><span class="p">,</span> <span class="mf">@186.2</span><span class="l">]</span><span class="p">;</span>
+</span><span class='line'><span class="n">PNLineChartData</span> <span class="o">*</span><span class="n">data01</span> <span class="o">=</span> <span class="p">[</span><span class="n">PNLineChartData</span> <span class="n">new</span><span class="p">];</span>
+</span><span class='line'><span class="n">data01</span><span class="p">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">PNFreshGreen</span><span class="p">;</span>
+</span><span class='line'><span class="n">data01</span><span class="p">.</span><span class="n">itemCount</span> <span class="o">=</span> <span class="n">lineChart</span><span class="p">.</span><span class="n">xLabels</span><span class="p">.</span><span class="n">count</span><span class="p">;</span>
+</span><span class='line'><span class="n">data01</span><span class="p">.</span><span class="n">getData</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="bp">NSUInteger</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">CGFloat</span> <span class="n">yValue</span> <span class="o">=</span> <span class="p">[</span><span class="n">data01Array</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="n">floatValue</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="n">PNLineChartDataItem</span> <span class="nl">dataItemWithY</span><span class="p">:</span><span class="n">yValue</span><span class="p">];</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="c1">// Line Chart No.2</span>
+</span><span class='line'><span class="bp">NSArray</span> <span class="o">*</span> <span class="n">data02Array</span> <span class="o">=</span> <span class="l">@[</span><span class="mf">@20.1</span><span class="p">,</span> <span class="mf">@180.1</span><span class="p">,</span> <span class="mf">@26.4</span><span class="p">,</span> <span class="mf">@202.2</span><span class="p">,</span> <span class="mf">@126.2</span><span class="l">]</span><span class="p">;</span>
+</span><span class='line'><span class="n">PNLineChartData</span> <span class="o">*</span><span class="n">data02</span> <span class="o">=</span> <span class="p">[</span><span class="n">PNLineChartData</span> <span class="n">new</span><span class="p">];</span>
+</span><span class='line'><span class="n">data02</span><span class="p">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">PNTwitterColor</span><span class="p">;</span>
+</span><span class='line'><span class="n">data02</span><span class="p">.</span><span class="n">itemCount</span> <span class="o">=</span> <span class="n">lineChart</span><span class="p">.</span><span class="n">xLabels</span><span class="p">.</span><span class="n">count</span><span class="p">;</span>
+</span><span class='line'><span class="n">data02</span><span class="p">.</span><span class="n">getData</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="bp">NSUInteger</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">CGFloat</span> <span class="n">yValue</span> <span class="o">=</span> <span class="p">[</span><span class="n">data02Array</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="n">floatValue</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="n">PNLineChartDataItem</span> <span class="nl">dataItemWithY</span><span class="p">:</span><span class="n">yValue</span><span class="p">];</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">lineChart</span><span class="p">.</span><span class="n">chartData</span> <span class="o">=</span> <span class="l">@[</span><span class="n">data01</span><span class="p">,</span> <span class="n">data02</span><span class="l">]</span><span class="p">;</span>
+</span><span class='line'><span class="p">[</span><span class="n">lineChart</span> <span class="n">strokeChart</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a href="https://dl.dropboxusercontent.com/u/1599662/bar.png"><img src="https://dl.dropboxusercontent.com/u/1599662/bar.png" alt="" /></a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &quot;PNChart.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//For BarC hart</span>
+</span><span class='line'><span class="n">PNBarChart</span> <span class="o">*</span> <span class="n">barChart</span> <span class="o">=</span> <span class="p">[[</span><span class="n">PNBarChart</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">135.0</span><span class="p">,</span> <span class="n">SCREEN_WIDTH</span><span class="p">,</span> <span class="mf">200.0</span><span class="p">)];</span>
+</span><span class='line'><span class="p">[</span><span class="n">barChart</span> <span class="nl">setXLabels</span><span class="p">:</span><span class="l">@[</span><span class="s">@&quot;SEP 1&quot;</span><span class="p">,</span><span class="s">@&quot;SEP 2&quot;</span><span class="p">,</span><span class="s">@&quot;SEP 3&quot;</span><span class="p">,</span><span class="s">@&quot;SEP 4&quot;</span><span class="p">,</span><span class="s">@&quot;SEP 5&quot;</span><span class="l">]</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">barChart</span> <span class="nl">setYValues</span><span class="p">:</span><span class="l">@[</span><span class="mi">@1</span><span class="p">,</span>  <span class="mi">@10</span><span class="p">,</span> <span class="mi">@2</span><span class="p">,</span> <span class="mi">@6</span><span class="p">,</span> <span class="mi">@3</span><span class="l">]</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">barChart</span> <span class="n">strokeChart</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a href="https://dl.dropboxusercontent.com/u/1599662/circle.png"><img src="https://dl.dropboxusercontent.com/u/1599662/circle.png" alt="" /></a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &quot;PNChart.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//For Circle Chart</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">PNCircleChart</span> <span class="o">*</span> <span class="n">circleChart</span> <span class="o">=</span> <span class="p">[[</span><span class="n">PNCircleChart</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">80.0</span><span class="p">,</span> <span class="n">SCREEN_WIDTH</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">)</span> <span class="nl">andTotal</span><span class="p">:[</span><span class="bp">NSNumber</span> <span class="nl">numberWithInt</span><span class="p">:</span><span class="mi">100</span><span class="p">]</span> <span class="nl">andCurrent</span><span class="p">:[</span><span class="bp">NSNumber</span> <span class="nl">numberWithInt</span><span class="p">:</span><span class="mi">60</span><span class="p">]</span> <span class="nl">andClockwise</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
+</span><span class='line'><span class="n">circleChart</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">clearColor</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">circleChart</span> <span class="nl">setStrokeColor</span><span class="p">:</span><span class="n">PNGreen</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">circleChart</span> <span class="n">strokeChart</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a href="https://dl.dropboxusercontent.com/u/1599662/pie.png"><img src="https://dl.dropboxusercontent.com/u/1599662/pie.png" alt="" /></a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp"># import &quot;PNChart.h&quot;</span>
+</span><span class='line'><span class="c1">//For Pie Chart</span>
+</span><span class='line'><span class="bp">NSArray</span> <span class="o">*</span><span class="n">items</span> <span class="o">=</span> <span class="l">@[</span><span class="p">[</span><span class="n">PNPieChartDataItem</span> <span class="nl">dataItemWithValue</span><span class="p">:</span><span class="mi">10</span> <span class="nl">color</span><span class="p">:</span><span class="n">PNRed</span><span class="p">],</span>
+</span><span class='line'>                           <span class="p">[</span><span class="n">PNPieChartDataItem</span> <span class="nl">dataItemWithValue</span><span class="p">:</span><span class="mi">20</span> <span class="nl">color</span><span class="p">:</span><span class="n">PNBlue</span> <span class="nl">description</span><span class="p">:</span><span class="s">@&quot;WWDC&quot;</span><span class="p">],</span>
+</span><span class='line'>                           <span class="p">[</span><span class="n">PNPieChartDataItem</span> <span class="nl">dataItemWithValue</span><span class="p">:</span><span class="mi">40</span> <span class="nl">color</span><span class="p">:</span><span class="n">PNGreen</span> <span class="nl">description</span><span class="p">:</span><span class="s">@&quot;GOOL I/O&quot;</span><span class="p">],</span>
+</span><span class='line'>                           <span class="l">]</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">PNPieChart</span> <span class="o">*</span><span class="n">pieChart</span> <span class="o">=</span> <span class="p">[[</span><span class="n">PNPieChart</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mf">40.0</span><span class="p">,</span> <span class="mf">155.0</span><span class="p">,</span> <span class="mf">240.0</span><span class="p">,</span> <span class="mf">240.0</span><span class="p">)</span> <span class="nl">items</span><span class="p">:</span><span class="n">items</span><span class="p">];</span>
+</span><span class='line'><span class="n">pieChart</span><span class="p">.</span><span class="n">descriptionTextColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">];</span>
+</span><span class='line'><span class="n">pieChart</span><span class="p">.</span><span class="n">descriptionTextFont</span>  <span class="o">=</span> <span class="p">[</span><span class="bp">UIFont</span> <span class="nl">fontWithName</span><span class="p">:</span><span class="s">@&quot;Avenir-Medium&quot;</span> <span class="nl">size</span><span class="p">:</span><span class="mf">14.0</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">pieChart</span> <span class="n">strokeChart</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a href="https://dl.dropboxusercontent.com/u/1599662/scatter.png"><img src="https://dl.dropboxusercontent.com/u/1599662/scatter.png" alt="" /></a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp"># import &quot;PNChart.h&quot;</span>
+</span><span class='line'><span class="c1">//For Scatter Chart</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">PNScatterChart</span> <span class="o">*</span><span class="n">scatterChart</span> <span class="o">=</span> <span class="p">[[</span><span class="n">PNScatterChart</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="n">SCREEN_WIDTH</span> <span class="o">/</span><span class="mf">6.0</span> <span class="o">-</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">135</span><span class="p">,</span> <span class="mi">280</span><span class="p">,</span> <span class="mi">200</span><span class="p">)];</span>
+</span><span class='line'><span class="p">[</span><span class="n">scatterChart</span> <span class="nl">setAxisXWithMinimumValue</span><span class="p">:</span><span class="mi">20</span> <span class="nl">andMaxValue</span><span class="p">:</span><span class="mi">100</span> <span class="nl">toTicks</span><span class="p">:</span><span class="mi">6</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">scatterChart</span> <span class="nl">setAxisYWithMinimumValue</span><span class="p">:</span><span class="mi">30</span> <span class="nl">andMaxValue</span><span class="p">:</span><span class="mi">50</span> <span class="nl">toTicks</span><span class="p">:</span><span class="mi">5</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="bp">NSArray</span> <span class="o">*</span> <span class="n">data01Array</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span> <span class="n">randomSetOfObjects</span><span class="p">];</span>
+</span><span class='line'><span class="n">PNScatterChartData</span> <span class="o">*</span><span class="n">data01</span> <span class="o">=</span> <span class="p">[</span><span class="n">PNScatterChartData</span> <span class="n">new</span><span class="p">];</span>
+</span><span class='line'><span class="n">data01</span><span class="p">.</span><span class="n">strokeColor</span> <span class="o">=</span> <span class="n">PNGreen</span><span class="p">;</span>
+</span><span class='line'><span class="n">data01</span><span class="p">.</span><span class="n">fillColor</span> <span class="o">=</span> <span class="n">PNFreshGreen</span><span class="p">;</span>
+</span><span class='line'><span class="n">data01</span><span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</span><span class='line'><span class="n">data01</span><span class="p">.</span><span class="n">itemCount</span> <span class="o">=</span> <span class="p">[[</span><span class="n">data01Array</span> <span class="nl">objectAtIndex</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="n">count</span><span class="p">];</span>
+</span><span class='line'><span class="n">data01</span><span class="p">.</span><span class="n">inflexionPointStyle</span> <span class="o">=</span> <span class="n">PNScatterChartPointStyleCircle</span><span class="p">;</span>
+</span><span class='line'><span class="k">__block</span> <span class="bp">NSMutableArray</span> <span class="o">*</span><span class="n">XAr1</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableArray</span> <span class="nl">arrayWithArray</span><span class="p">:[</span><span class="n">data01Array</span> <span class="nl">objectAtIndex</span><span class="p">:</span><span class="mi">0</span><span class="p">]];</span>
+</span><span class='line'><span class="k">__block</span> <span class="bp">NSMutableArray</span> <span class="o">*</span><span class="n">YAr1</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableArray</span> <span class="nl">arrayWithArray</span><span class="p">:[</span><span class="n">data01Array</span> <span class="nl">objectAtIndex</span><span class="p">:</span><span class="mi">1</span><span class="p">]];</span>
+</span><span class='line'><span class="n">data01</span><span class="p">.</span><span class="n">getData</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="bp">NSUInteger</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">CGFloat</span> <span class="n">xValue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">XAr1</span> <span class="nl">objectAtIndex</span><span class="p">:</span><span class="n">index</span><span class="p">]</span> <span class="n">floatValue</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">CGFloat</span> <span class="n">yValue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">YAr1</span> <span class="nl">objectAtIndex</span><span class="p">:</span><span class="n">index</span><span class="p">]</span> <span class="n">floatValue</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="n">PNScatterChartDataItem</span> <span class="nl">dataItemWithX</span><span class="p">:</span><span class="n">xValue</span> <span class="nl">AndWithY</span><span class="p">:</span><span class="n">yValue</span><span class="p">];</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">[</span><span class="n">scatterChart</span> <span class="n">setup</span><span class="p">];</span>
+</span><span class='line'><span class="nb">self</span><span class="p">.</span><span class="n">scatterChart</span><span class="p">.</span><span class="n">chartData</span> <span class="o">=</span> <span class="l">@[</span><span class="n">data01</span><span class="l">]</span><span class="p">;</span>
+</span><span class='line'><span class="cm">/***</span>
+</span><span class='line'><span class="cm">this is for drawing line to compare</span>
+</span><span class='line'><span class="cm">CGPoint start = CGPointMake(20, 35);</span>
+</span><span class='line'><span class="cm">CGPoint end = CGPointMake(80, 45);</span>
+</span><span class='line'><span class="cm">[scatterChart drawLineFromPoint:start ToPoint:end WithLineWith:2 AndWithColor:PNBlack];</span>
+</span><span class='line'><span class="cm">***/</span>
+</span><span class='line'><span class="n">scatterChart</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Update Value</h4>
+
+<p>Now it&rsquo;s easy to update value in real time</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">if</span> <span class="p">([</span><span class="nb">self</span><span class="p">.</span><span class="n">title</span> <span class="nl">isEqualToString</span><span class="p">:</span><span class="s">@&quot;Line Chart&quot;</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// Line Chart #1</span>
+</span><span class='line'>    <span class="bp">NSArray</span> <span class="o">*</span> <span class="n">data01Array</span> <span class="o">=</span> <span class="l">@[@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">300</span><span class="l">)</span><span class="p">,</span> <span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">300</span><span class="l">)</span><span class="p">,</span> <span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">300</span><span class="l">)</span><span class="p">,</span> <span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">300</span><span class="l">)</span><span class="p">,</span> <span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">300</span><span class="l">)</span><span class="p">,</span> <span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">300</span><span class="l">)</span><span class="p">,</span> <span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">300</span><span class="l">)]</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">PNLineChartData</span> <span class="o">*</span><span class="n">data01</span> <span class="o">=</span> <span class="p">[</span><span class="n">PNLineChartData</span> <span class="n">new</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">data01</span><span class="p">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">PNFreshGreen</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">data01</span><span class="p">.</span><span class="n">itemCount</span> <span class="o">=</span> <span class="n">data01Array</span><span class="p">.</span><span class="n">count</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">data01</span><span class="p">.</span><span class="n">inflexionPointStyle</span> <span class="o">=</span> <span class="n">PNLineChartPointStyleTriangle</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">data01</span><span class="p">.</span><span class="n">getData</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="bp">NSUInteger</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">CGFloat</span> <span class="n">yValue</span> <span class="o">=</span> <span class="p">[</span><span class="n">data01Array</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="n">floatValue</span><span class="p">];</span>
+</span><span class='line'>        <span class="k">return</span> <span class="p">[</span><span class="n">PNLineChartDataItem</span> <span class="nl">dataItemWithY</span><span class="p">:</span><span class="n">yValue</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// Line Chart #2</span>
+</span><span class='line'>    <span class="bp">NSArray</span> <span class="o">*</span> <span class="n">data02Array</span> <span class="o">=</span> <span class="l">@[@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">300</span><span class="l">)</span><span class="p">,</span> <span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">300</span><span class="l">)</span><span class="p">,</span> <span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">300</span><span class="l">)</span><span class="p">,</span> <span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">300</span><span class="l">)</span><span class="p">,</span> <span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">300</span><span class="l">)</span><span class="p">,</span> <span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">300</span><span class="l">)</span><span class="p">,</span> <span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">300</span><span class="l">)]</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">PNLineChartData</span> <span class="o">*</span><span class="n">data02</span> <span class="o">=</span> <span class="p">[</span><span class="n">PNLineChartData</span> <span class="n">new</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">data02</span><span class="p">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">PNTwitterColor</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">data02</span><span class="p">.</span><span class="n">itemCount</span> <span class="o">=</span> <span class="n">data02Array</span><span class="p">.</span><span class="n">count</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">data02</span><span class="p">.</span><span class="n">inflexionPointStyle</span> <span class="o">=</span> <span class="n">PNLineChartPointStyleSquare</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">data02</span><span class="p">.</span><span class="n">getData</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="bp">NSUInteger</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">CGFloat</span> <span class="n">yValue</span> <span class="o">=</span> <span class="p">[</span><span class="n">data02Array</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="n">floatValue</span><span class="p">];</span>
+</span><span class='line'>        <span class="k">return</span> <span class="p">[</span><span class="n">PNLineChartDataItem</span> <span class="nl">dataItemWithY</span><span class="p">:</span><span class="n">yValue</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">lineChart</span> <span class="nl">setXLabels</span><span class="p">:</span><span class="l">@[</span><span class="s">@&quot;DEC 1&quot;</span><span class="p">,</span><span class="s">@&quot;DEC 2&quot;</span><span class="p">,</span><span class="s">@&quot;DEC 3&quot;</span><span class="p">,</span><span class="s">@&quot;DEC 4&quot;</span><span class="p">,</span><span class="s">@&quot;DEC 5&quot;</span><span class="p">,</span><span class="s">@&quot;DEC 6&quot;</span><span class="p">,</span><span class="s">@&quot;DEC 7&quot;</span><span class="l">]</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">lineChart</span> <span class="nl">updateChartData</span><span class="p">:</span><span class="l">@[</span><span class="n">data01</span><span class="p">,</span> <span class="n">data02</span><span class="l">]</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">else</span> <span class="k">if</span> <span class="p">([</span><span class="nb">self</span><span class="p">.</span><span class="n">title</span> <span class="nl">isEqualToString</span><span class="p">:</span><span class="s">@&quot;Bar Chart&quot;</span><span class="p">])</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">barChart</span> <span class="nl">setXLabels</span><span class="p">:</span><span class="l">@[</span><span class="s">@&quot;Jan 1&quot;</span><span class="p">,</span><span class="s">@&quot;Jan 2&quot;</span><span class="p">,</span><span class="s">@&quot;Jan 3&quot;</span><span class="p">,</span><span class="s">@&quot;Jan 4&quot;</span><span class="p">,</span><span class="s">@&quot;Jan 5&quot;</span><span class="p">,</span><span class="s">@&quot;Jan 6&quot;</span><span class="p">,</span><span class="s">@&quot;Jan 7&quot;</span><span class="l">]</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">barChart</span> <span class="nl">updateChartData</span><span class="p">:</span><span class="l">@[@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">30</span><span class="l">)</span><span class="p">,</span><span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">30</span><span class="l">)</span><span class="p">,</span><span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">30</span><span class="l">)</span><span class="p">,</span><span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">30</span><span class="l">)</span><span class="p">,</span><span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">30</span><span class="l">)</span><span class="p">,</span><span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">30</span><span class="l">)</span><span class="p">,</span><span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">30</span><span class="l">)]</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">else</span> <span class="k">if</span> <span class="p">([</span><span class="nb">self</span><span class="p">.</span><span class="n">title</span> <span class="nl">isEqualToString</span><span class="p">:</span><span class="s">@&quot;Circle Chart&quot;</span><span class="p">])</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">circleChart</span> <span class="nl">updateChartByCurrent</span><span class="p">:</span><span class="l">@(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">100</span><span class="l">)</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Callback</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &quot;PNChart.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//For LineChart</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">lineChart</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">//For DelegateMethod</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">userClickedOnLineKeyPoint:</span><span class="p">(</span><span class="bp">CGPoint</span><span class="p">)</span><span class="nv">point</span> <span class="nf">lineIndex:</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nv">lineIndex</span> <span class="nf">pointIndex:</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nv">pointIndex</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Click Key on line %f, %f line index is %d and point index is %d&quot;</span><span class="p">,</span><span class="n">point</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">point</span><span class="p">.</span><span class="n">y</span><span class="p">,(</span><span class="kt">int</span><span class="p">)</span><span class="n">lineIndex</span><span class="p">,</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">pointIndex</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">userClickedOnLinePoint:</span><span class="p">(</span><span class="bp">CGPoint</span><span class="p">)</span><span class="nv">point</span> <span class="nf">lineIndex:</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nv">lineIndex</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Click on line %f, %f, line index is %d&quot;</span><span class="p">,</span><span class="n">point</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">point</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">lineIndex</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>License</h2>
+
+<p>This code is distributed under the terms and conditions of the <a href="LICENSE">MIT license</a>.</p>
+
+<h2>SpecialThanks</h2>
+
+<p><a href="http://twitter.com/lexrus">@lexrus</a>  CocoaPods Spec</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/posts/10">&larr; Older</a>
@@ -1369,55 +2559,47 @@ UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds]
 <aside class="sidebar">
   
     <section>
-<h1>热门推荐</h1>
-  <!--广告位-->
-<script type="text/javascript">
-    /*250*250 创建于 2015-08-08*/
-    var cpro_id = "u2252717";
-</script>
-<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
-<!--广告链接结束-->
   <h1>微信扫一扫，代码写的好</h1>
         <br/>
         <br/><strong>东半球最好的iOS开发公众号</strong> 
         <br/>
-        <br/><img width="220px" src="http://images.90159.com/icon/iOSDevTip.jpg" />
+        <br/><img width="220px" src="http://www.superqq.com/images/getqrcode.jpg" />
         <br/>
         <br/><strong>东半球最好的程序猿公众号</strong>
         <br/>
-        <br/><img width="220px" src="http://images.90159.com/icon/codepush.jpg" />
+        <br/><img width="220px" src="http://www.superqq.com/images/CodePush.jpg" />
         </p>
+<!--广告位-->
+<script type="text/javascript">
+var cpro_id="u2238881";
+(window["cproStyleApi"] = window["cproStyleApi"] || {})[cpro_id]={at:"3",rsi0:"250",rsi1:"250",pat:"17",tn:"baiduCustNativeAD",rss1:"#FFFFFF",conBW:"1",adp:"1",ptt:"0",titFF:"%E5%BE%AE%E8%BD%AF%E9%9B%85%E9%BB%91",titFS:"14",rss2:"#000000",titSU:"0"}
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+<!--广告链接结束-->
   <h1>最新文章</h1>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/08/10/coremotion-framework-use-accelerometer/">CoreMotion框架中加速度计使用简明教程</a>
+        <a href="/blog/2015/08/05/multiple-uiimage-merged/">多个UIImage合并成一个UIImage</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/08/09/performance-optimization-of-mkmapview/">一次对MKMapView的性能优化</a>
+        <a href="/blog/2015/08/04/save-photo-to-own-album/">iOS开发之保存照片到自己创建的相簿</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/08/08/interview-ios-question-answer/">《招聘一个靠谱的iOS》面试题参考答案（上）</a>
+        <a href="/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-(photo-album)/">iOS开发之保存照片到系统相册（Photo Album）</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/08/07/implement-uitextview-placeholder/">实现placeholder属性的UITextView</a>
+        <a href="/blog/2015/08/02/custom-navigation-button-uibarbuttonitem/">自定义导航按钮UIBarButtonItem</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/08/06/uitextview-placeholder-practice/">UITextView实现placeholder的猥琐做法</a>
+        <a href="/blog/2015/08/02/first-watch-movie/">《大圣归来》和《捉妖记》第一次购票看电影</a>
       </li>
     
   </ul>
-  <!--广告位-->
-<script type="text/javascript">
-    /*刚刚在线250*350 创建于 2015-07-31*/
-    var cpro_id = "u2238366";
-</script>
-<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
-<!--广告链接结束-->
 </section>
 </section>
 <section>
@@ -1531,7 +2713,15 @@ Copyright &copy; 2015 - 李刚
 
 <script language="javascript" type="text/javascript" src="http://js.users.51.la/17443209.js"></script>
 <noscript><a href="http://www.51.la/?17443209" target="_blank"><img alt="&#x6211;&#x8981;&#x5566;&#x514D;&#x8D39;&#x7EDF;&#x8BA1;" src="http://img.users.51.la/17443209.asp" style="border:none" /></a></noscript>
-</footer>
+<!--广告位-->
+<dic class="flashnews">
+    <script type="text/javascript">
+        /*960*60 创建于 2015-06-05*/
+        var cpro_id = "u2140429";
+        </script>
+    <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+    </div>
+<!--广告链接结束--></footer>
   
 
 
