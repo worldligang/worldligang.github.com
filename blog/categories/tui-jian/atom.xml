@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 推荐 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/tui-jian/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-10T17:32:04+08:00</updated>
+  <updated>2015-08-11T00:42:42+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,156 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[彩色TabBar切换动画实现]]></title>
+    <link href="http://www.superqq.com/blog/2015/08/11/color-tabbar-switch-animation/"/>
+    <updated>2015-08-11T00:38:31+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/08/11/color-tabbar-switch-animation</id>
+    <content type="html"><![CDATA[<p>无意间看到一个彩色TabBar切换的设计图，感觉很不错，有空就把他实现了。
+环境信息
+Mac OS X 10.10.4
+Xcode 6.4
+iOS 8.4
+效果图：</p>
+
+<p><img src="http://images.90159.com/08/1.1TabBar-1.gif" alt="1.1TabBar-1.gif" /></p>
+
+<p>源码下载地址：
+<a href="https://github.com/saitjr/TColorfulTabBar.git">https://github.com/saitjr/TColorfulTabBar.git</a></p>
+
+<h2>一、实现分析</h2>
+
+<p>看到这个彩色切换效果的时候，我第一个反应就是在TabBar上有一个彩色的View，然后每个色块的显示都是通过mask来显示的。最终，我的具体实现也是根据这个思路来的。</p>
+
+<h4>1. 设计思想</h4>
+
+<p>为了减少侵入性（耦合），我采取的是继承UITabBar来实现，所以要集成的时候，只需要将系统的TabBar换成我写的TColorfulTabBar就可以了。</p>
+
+<p><img src="http://images.90159.com/08/1.2TabBar-2.png" alt="1.2TabBar-2.png" /></p>
+
+<h4>2. 视图层级图</h4>
+
+<h2>二、效果实现</h2>
+
+<h4>1. 添加彩色视图colorfulView</h4>
+
+<p>TColorfulTabBar.m</p>
+
+<pre><code>- (void)setupColorView {
+
+    // 初始化彩色视图，并将它加在tabbar上
+    UIView *colorView = [[UIView alloc] initWithFrame:self.bounds];
+    [self addSubview:colorView];
+    self.colorfulView = colorView;
+
+    // 彩色视图的五种颜色，这是一个UIColor数组，
+    NSArray *colors = self.itemColors;
+    CGFloat itemWidth = self.bounds.size.width / self.itemCount;
+
+    for (int i = 0; i &lt; self.itemCount; i ++) {
+
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(itemWidth * i, 0, itemWidth, self.bounds.size.height)]; 
+        view.backgroundColor = colors[i]; 
+        [self.colorfulView addSubview:view]; 
+    } 
+}
+</code></pre>
+
+<h4>2. 添加彩色视图的遮罩colorfulMaskView</h4>
+
+<p>之所以这里的遮罩使用的是UIView而不是CAShapeLayer或者CALayer，原因如下：</p>
+
+<ul>
+<li>遮罩是矩形，没必要使用路径，所以不用CAShapeLayer</li>
+<li>通过设计图可以看到，在位移动画之前，有一个遮罩单向变宽（向左或向右）的效果。如果使用CALayer，那么改变bounds的时候，是双向改变，想要单向就必须加锚点，太麻烦</li>
+<li>如果使用UIView，那么向右变宽只需要x不变，width变长就行；向左变宽只需要x-value，width+value就行，要方便的多</li>
+<li>最后一点就是在做动画的时候，Layer要用到CABaseAnimation，然而UIView使用UIView的Animation就行</li>
+</ul>
+
+
+<p>在设置遮罩的时候，将colorfulMaskView的layer设置为colorfulView的mask就可以了。
+代码实现如下：
+TColorfulTabBar.m</p>
+
+<pre><code>- (void)setupMaskLayer {
+
+    // 获取每个item的宽度
+    CGFloat itemWidth = self.bounds.size.width / self.itemCount;
+
+    // 初始化colorMaskView，并将colorMaskView的layer设置成彩色视图的遮罩
+    UIView *colorMaskView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, itemWidth, self.bounds.size.height)];
+    colorMaskView.backgroundColor = [UIColor blackColor];
+    self.colorfulMaskView = colorMaskView;
+    self.colorfulView.layer.mask = self.colorfulMaskView.layer;
+}
+</code></pre>
+
+<h4>3. 设置代理，获取当前点击的下标</h4>
+
+<p>UITabBar并没有获取点击下标的接口，但是UITabBarDelegate有，这个协议默认被UITabBarController遵守。为了降低耦合性，采用UITabBar自己获取下标，所以，需要UITabBar自己实现自己的delegate。
+<strong>值得注意的是，不能在UITabBar的初始化方法中去设置self.delegate = self，因为即使设置了，也会被UITabBarController覆盖。最终解决方案是当UITabBar加载到父视图上是，在修改delegate为self。</strong></p>
+
+<pre><code>- (void)didMoveToSuperview {
+    [super didMoveToSuperview];
+    self.delegate = self;
+}
+</code></pre>
+
+<p>因为每次的移动位置与方向都和上次的下标与这次的下标有关，所以需要使用到属性来记录这两个下标的值。
+    - (void)tabBar:(UITabBar <em>)tabBar didSelectItem:(UITabBarItem </em>)item {</p>
+
+<pre><code>    NSInteger index = [self.items indexOfObject:item];
+    self.fromeIndex = self.toIndex;
+    self.toIndex = index;
+    // 拿到下标以后执行动画
+    [self animation];
+}
+</code></pre>
+
+<h4>4. 移动遮罩，显示不同的色块</h4>
+
+<p>在做动画的时候，需要考虑到效果的平滑性。整个动画有两个动画组成，一个是宽度放大的动画，一个是缩小到原来大小和位移动画。整个动画是EaseInOut的效果，所以拆开来看，就应该第一个动画EaseIn，第二个动画EaseOut。
+一图胜千言：</p>
+
+<p><img src="http://images.90159.com/08/1.3TabBar-3.png" alt="1.3TabBar-3.png" /></p>
+
+<pre><code>- (void)animation {
+
+    CGFloat itemWidth = self.bounds.size.width / self.itemCount;
+    // 为了效果看起来更平滑，所以根据两次下标的差值来计算需要放大的距离
+    CGFloat extraWidth = ABS(self.toIndex - self.fromeIndex) * itemWidth / 4;
+
+    // 放大的大小
+    CGRect scaleFrame = CGRectMake(self.colorfulMaskView.x, 0, itemWidth + extraWidth, self.bounds.size.height);
+    // 最终大的大小与位置
+    CGRect toFrame = CGRectMake(self.toIndex * itemWidth, 0, itemWidth, self.bounds.size.height);
+
+    // 如果是向左移动，那修改x轴的坐标
+    if (self.fromeIndex &gt; self.toIndex) {
+
+        scaleFrame = CGRectMake(self.colorfulMaskView.x - extraWidth, 0, itemWidth + extraWidth, self.bounds.size.height);
+    }
+
+    // 两个动画加起来是一个EaseInOut的效果，所以第一个动画就应该是EaseIn，第二个动画是EaseOut
+    // 先进行放大
+    [UIView animateWithDuration:ANIMATION_DURATION delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+
+        self.colorfulMaskView.frame = scaleFrame;
+    } completion:^(BOOL finished) {
+
+        // 再进行缩小和位移
+        [UIView animateWithDuration:ANIMATION_DURATION delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+
+            self.colorfulMaskView.frame = toFrame;
+        } completion:NULL];
+    }];
+}
+</code></pre>
+
+<p>原文:<a href="http://www.brighttj.com/ios/ios-colorful-tabbar-implement.html">彩色TabBar切换动画实现</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[CoreMotion框架中加速度计使用简明教程]]></title>
@@ -378,19 +528,21 @@ typedef NS_ENUM(NSInteger, CYLSex) {
 <ol>
 <li><p>enum建议使用 <code>NS_ENUM</code> 和 <code>NS_OPTIONS</code> 宏来定义枚举类型，参见官方的 <a href="https://developer.apple.com/library/ios/releasenotes/ObjectiveC/ModernizationObjC/AdoptingModernObjective-C/AdoptingModernObjective-C.html">Adopting Modern Objective-C</a> 一文：</p>
 
-<p>//定义一个枚举
+<pre><code class="objective-c">//定义一个枚举
 typedef NS_ENUM(NSInteger, CYLSex) {
     CYLSexMan,
     CYLSexWoman
-};</p></li>
-<li><p>age属性的类型：应避免使用基本类型，建议使Foundation数据类型，对应关系如下：</p>
-
-<p>int -> NSInteger
-unsigned -> NSUInteger
-float -> CGFloat
-动画时间 -> NSTimeInterval</p></li>
+};
+</code></pre></li>
+<li>age属性的类型：应避免使用基本类型，建议使Foundation数据类型，对应关系如下：</li>
 </ol>
 
+
+<pre><code class="`Objective-C">    int -&gt; NSInteger
+    unsigned -&gt; NSUInteger
+    float -&gt; CGFloat
+    动画时间 -&gt; NSTimeInterval
+</code></pre>
 
 <p>同时考虑到age的特点，应使用NSUInteger，而非int。
 这样做的是基于64-bit 适配考虑，详情可参考出题者的博文<a href="http://blog.sunnyxx.com/2014/12/20/64-bit-tips/">《64-bit Tips》</a>。</p>
@@ -406,7 +558,7 @@ float -> CGFloat
 <p> （如果抛开命名规范，假设该类真的是MVVM模式里的 ViewModel ，那么UserModel这个类可能对应的是用户注册页面，如果有特殊的业务需求，比如：login对应的应当是注册并登录的一个Button，出现login方法也可能是合理的。）</p>
 
 <ol>
-<li> doLogIn方法命名不规范：添加了多余的动词前缀。
+<li>doLogIn方法命名不规范：添加了多余的动词前缀。
 请牢记：</li>
 </ol>
 
@@ -414,7 +566,7 @@ float -> CGFloat
 <blockquote><p>如果方法表示让对象执行一个动作，使用动词打头来命名，注意不要使用<code>do</code>，<code>does</code>这种多余的关键字，动词本身的暗示就足够了。
  11. <code>-(id)initUserModelWithUserName: (NSString*)name withAge:(int)age;</code>方法中不要用<code>with</code>来连接两个参数:<code>withAge:</code>应当换为<code>age:</code>，<code>age:</code>已经足以清晰说明参数的作用，也不建议用<code>andAge:</code>：通常情况下，即使有类似<code>withA:withB:</code>的命名需求，也通常是使用<code>withA:andB:</code>这种命名，用来表示方法执行了两个相对独立的操作（<em>从设计上来说，这时候也可以拆分成两个独立的方法</em>），它不应该用作阐明有多个参数，比如下面的：</p></blockquote>
 
-<pre><code>//错误，不要使用"and"来连接参数
+<pre><code class="``objective-c">//错误，不要使用"and"来连接参数
 - (int)runModalForDirectory:(NSString *)path andFile:(NSString *)name andTypes:(NSArray *)fileTypes;
 //错误，不要使用"and"来阐明有多个参数
 - (instancetype)initWithName:(CGFloat)width andAge:(CGFloat)height;
@@ -423,64 +575,67 @@ float -> CGFloat
 </code></pre>
 
 <ol>
-<li> 由于字符串值可能会改变，所以要把相关属性的“内存管理语义”声明为copy。(原因在下文有详细论述：<strong><em>用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？</em></strong>)</li>
+<li>由于字符串值可能会改变，所以要把相关属性的“内存管理语义”声明为copy。(原因在下文有详细论述：<strong><em>用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？</em></strong>)</li>
 <li>“性别”(sex）属性的：该类中只给出了一种“初始化方法” (initializer)用于设置“姓名”(Name)和“年龄”(Age)的初始值，那如何对“性别”(Sex）初始化？</li>
 </ol>
 
 
 <p> Objective-C 有 designated 和 secondary 初始化方法的观念。 designated 初始化方法是提供所有的参数，secondary 初始化方法是一个或多个，并且提供一个或者更多的默认参数来调用 designated 初始化方法的初始化方法。举例说明：</p>
 
-<pre><code>// .m文件
-// http://weibo.com/luohanchenyilong/
-// https://github.com/ChenYilong
-//
+<pre><code class="`Objective-C">
+    // .m文件
+    // http://weibo.com/luohanchenyilong/
+    // https://github.com/ChenYilong
+    //
 
-@implementation CYLUser
+    @implementation CYLUser
 
-- (instancetype)initWithName:(NSString *)name
-                         age:(NSUInteger)age
-                         sex:(CYLSex)sex {
-    if(self = [super init]) {
-        _name = [name copy];
-        _age = age;
-        _sex = sex;
+    - (instancetype)initWithName:(NSString *)name
+                             age:(NSUInteger)age
+                             sex:(CYLSex)sex {
+        if(self = [super init]) {
+            _name = [name copy];
+            _age = age;
+            _sex = sex;
+        }
+        return self;
     }
-    return self;
-}
 
-- (instancetype)initWithName:(NSString *)name
-                         age:(NSUInteger)age {
-    return [self initWithName:name age:age sex:nil];
-}
+    - (instancetype)initWithName:(NSString *)name
+                             age:(NSUInteger)age {
+        return [self initWithName:name age:age sex:nil];
+    }
 
-@end
+    @end
 </code></pre>
 
 <p> 上面的代码中initWithName:age:sex: 就是 designated 初始化方法，另外的是 secondary 初始化方法。因为仅仅是调用类实现的 designated 初始化方法。</p>
 
 <p>  因为出题者没有给出.m文件，所以有两种猜测：1：本来打算只设计一个designated 初始化方法，但漏掉了“性别”(sex）属性。那么最终的修改代码就是上文给出的第一种修改方法。2：不打算初始时初始化“性别”(sex）属性，打算后期再修改，如果是这种情况，那么应该把“性别”(sex）属性设为readwrite属性，最终给出的修改代码应该是：</p>
 
-<pre><code>// .h文件
-// http://weibo.com/luohanchenyilong/
-// https://github.com/ChenYilong
-// 第二种修改方法（基于第一种修改方法的基础上）
+<pre><code class="`Objective-C">
 
-typedef NS_ENUM(NSInteger, CYLSex) {
-    CYLSexMan,
-    CYLSexWoman
-};
+    // .h文件
+    // http://weibo.com/luohanchenyilong/
+    // https://github.com/ChenYilong
+    // 第二种修改方法（基于第一种修改方法的基础上）
 
-@interface CYLUser : NSObject&lt;NSCopying&gt;
+    typedef NS_ENUM(NSInteger, CYLSex) {
+        CYLSexMan,
+        CYLSexWoman
+    };
 
-@property (nonatomic, copy, readonly) NSString *name;
-@property (nonatomic, assign, readonly) NSUInteger age;
-@property (nonatomic, assign, readwrite) CYLSex sex;
+    @interface CYLUser : NSObject&lt;NSCopying&gt;
 
-- (instancetype)initWithName:(NSString *)name age:(NSUInteger)age sex:(CYLSex)sex;
-- (instancetype)initWithName:(NSString *)name age:(NSUInteger)age;
-+ (instancetype)userWithName:(NSString *)name age:(NSUInteger)age sex:(CYLSex)sex;
+    @property (nonatomic, copy, readonly) NSString *name;
+    @property (nonatomic, assign, readonly) NSUInteger age;
+    @property (nonatomic, assign, readwrite) CYLSex sex;
 
-@end
+    - (instancetype)initWithName:(NSString *)name age:(NSUInteger)age sex:(CYLSex)sex;
+    - (instancetype)initWithName:(NSString *)name age:(NSUInteger)age;
+    + (instancetype)userWithName:(NSString *)name age:(NSUInteger)age sex:(CYLSex)sex;
+
+    @end
 </code></pre>
 
 <p> .h中暴露 designated 初始化方法，是为了方便子类化 （想了解更多，请戳&ndash;》 <a href="http://is.gd/OQ49zk"><strong><em>《禅与 Objective-C 编程艺术 （Zen and the Art of the Objective-C Craftsmanship 中文翻译）》</em></strong></a>。）</p>
@@ -514,7 +669,7 @@ typedef NS_ENUM(NSInteger, CYLSex) {
 <li><p><code>-(id)initUserModelWithUserName: (NSString*)name withAge:(int)age;</code>方法中方法名与参数之间多了空格。而且<code>-</code> 与<code>(id)</code>之间少了空格。</p></li>
 <li><p><code>-(id)initUserModelWithUserName: (NSString*)name withAge:(int)age;</code>方法中方法名与参数之间多了空格：<code>(NSString*)name</code>前多了空格。</p></li>
 <li><p><code>-(id)initUserModelWithUserName: (NSString*)name withAge:(int)age;</code>方法中<code>(NSString*)name</code>,应为<code>(NSString *)name</code>，少了空格。</p></li>
-<li> doLogIn方法命名不清晰：笔者猜测是login的意思，应该是粗心手误造成的。</li>
+<li>doLogIn方法命名不清晰：笔者猜测是login的意思，应该是粗心手误造成的。</li>
 <li>第二个@property中assign和nonatomic调换位置。</li>
 </ol>
 
@@ -570,16 +725,15 @@ copy此特质所表达的所属关系与strong类似。然而设置方法并不�
 
 <p>比如下面的代码就会发生崩溃</p>
 
-<pre><code>// .h文件
+<pre><code class="Objective-C">// .h文件
 // http://weibo.com/luohanchenyilong/
 // https://github.com/ChenYilong
 // 下面的代码就会发生崩溃
 
 @property (nonatomic, copy) NSMutableArray *mutableArray;
+</code></pre>
 
-
-
-// .m文件
+<pre><code class="Objective-C">// .m文件
 // http://weibo.com/luohanchenyilong/
 // https://github.com/ChenYilong
 // 下面的代码就会发生崩溃
@@ -591,7 +745,7 @@ self.mutableArray = array;
 
 <p>接下来就会奔溃：</p>
 
-<pre><code>-[__NSArrayI removeObjectAtIndex:]: unrecognized selector sent to instance 0x7fcd1bc30460
+<pre><code class="Objective-C"> -[__NSArrayI removeObjectAtIndex:]: unrecognized selector sent to instance 0x7fcd1bc30460
 </code></pre>
 
 <p>第2条原因，如下：</p>
@@ -615,14 +769,12 @@ atomic属性通常都不会有性能瓶颈。</p>
 
 <ol>
 <li>需声明该类遵从NSCopying协议</li>
-<li><p>实现NSCopying协议。该协议只有一个方法:</p>
-
-<ul>
-<li>(id)copyWithZone: (NSZone*) zone</li>
-</ul>
-</li>
+<li>实现NSCopying协议。该协议只有一个方法:</li>
 </ol>
 
+
+<pre><code class="`Objective-C">- (id)copyWithZone: (NSZone*) zone
+</code></pre>
 
 <p>注意：一提到让自己的类用 copy 修饰符，我们总是想覆写copy方法，其实真正需要实现的却是“copyWithZone”方法。</p>
 
@@ -652,7 +804,7 @@ typedef NS_ENUM(NSInteger, CYLSex) {
 
 <p>然后实现协议中规定的方法：</p>
 
-<pre><code>- (id)copyWithZone:(NSZone *)zone {
+<pre><code class="Objective-C">- (id)copyWithZone:(NSZone *)zone {
     CYLUser *copy = [[[self copy] allocWithZone:zone] 
                      initWithName:_name
                                   age:_age
@@ -859,8 +1011,8 @@ typedef NS_ENUM(NSInteger, CYLSex) {
 <ol>
 <li>在protocol中使用property只会生成setter和getter方法声明,我们使用属性的目的,是希望遵守我协议的对象能实现该属性</li>
 <li><p>category 使用 @property 也是只会生成setter和getter方法的声明,如果我们真的需要给category增加属性的实现,需要借助于运行时的两个函数：</p></li>
-<li><p> <code>objc_setAssociatedObject</code></p></li>
-<li> <code>objc_getAssociatedObject</code></li>
+<li><p><code>objc_setAssociatedObject</code></p></li>
+<li><code>objc_getAssociatedObject</code></li>
 </ol>
 
 
@@ -889,7 +1041,7 @@ typedef NS_ENUM(NSInteger, CYLSex) {
 
 <p>下面我们将基于<code>objc_storeWeak(&amp;a, b)</code>函数，使用伪代码模拟“runtime如何实现weak属性”：</p>
 
-<pre><code>// 使用伪代码模拟：runtime如何实现weak属性
+<pre><code class="Objective-C">// 使用伪代码模拟：runtime如何实现weak属性
 // http://weibo.com/luohanchenyilong/
 // https://github.com/ChenYilong
 
@@ -908,7 +1060,7 @@ typedef NS_ENUM(NSInteger, CYLSex) {
 
 <p><code>objc_initWeak</code>函数的实现是这样的：在将“附有weak修饰符的变量（obj1）”初始化为0（nil）后，会将“赋值对象”（obj）作为参数，调用<code>objc_storeWeak</code>函数。</p>
 
-<pre><code>obj1 = 0；
+<pre><code class="Objective-C">obj1 = 0；
 obj_storeWeak(&amp;obj1, obj);
 </code></pre>
 
@@ -922,7 +1074,7 @@ obj_storeWeak(&amp;obj1, obj);
 
 <p>前面的源代码与下列源代码相同。</p>
 
-<pre><code>// 使用伪代码模拟：runtime如何实现weak属性
+<pre><code class="Objective-C">// 使用伪代码模拟：runtime如何实现weak属性
 // http://weibo.com/luohanchenyilong/
 // https://github.com/ChenYilong
 
@@ -957,18 +1109,19 @@ objc_storeWeak(&amp;obj1, 0);
 
 <pre><code>objc_setAssociatedObject(self, "object", object, OBJC_ASSOCIATION_ASSIGN);
 </code></pre></li>
-<li><p>在属性所指的对象遭到摧毁时，属性值也会清空(nil out)。做到这点，同样要借助runtime：</p>
+<li><p>在属性所指的对象遭到摧毁时，属性值也会清空(nil out)。做到这点，同样要借助runtime：</p></li>
+</ol>
 
-<p>//要销毁的目标对象
+
+<pre><code class="`Objective-C">//要销毁的目标对象
 id objectToBeDeallocated;
 //可以理解为一个“事件”：当上面的目标对象销毁时，同时要发生的“事件”。
 id objectWeWantToBeReleasedWhenThatHappens;
 objc_setAssociatedObject(objectToBeDeallocted,
                          someUniqueKey,
                          objectWeWantToBeReleasedWhenThatHappens,
-                         OBJC_ASSOCIATION_RETAIN);</p></li>
-</ol>
-
+                         OBJC_ASSOCIATION_RETAIN);
+</code></pre>
 
 <p>知道了思路，我们就开始实现<code>cyl_runAtDealloc</code>方法，实现过程分两部分：</p>
 
@@ -1211,7 +1364,7 @@ NSString *stringCopy = [string copy];
 
 <p>如果使用了属性的话，那么编译器就会自动编写访问属性所需的方法，此过程叫做“自动合成”( auto synthesis)。需要强调的是，这个过程由编译器在编译期执行，所以编辑器里看不到这些“合成方法” (synthesized method)的源代码。除了生成方法代码之外，编译器还要自动向类中添加适当类型的实例变量，并且在属性名前面加下划线，以此作为实例变量的名字。</p>
 
-<pre><code>@interface CYLPerson : NSObject 
+<pre><code class="Objective-C">@interface CYLPerson : NSObject 
 @property NSString *firstName; 
 @property NSString *lastName; 
 @end
@@ -1220,7 +1373,7 @@ NSString *stringCopy = [string copy];
 <p>在上例中，会生成两个实例变量，其名称分别为
 <code>_firstName</code>与<code>_lastName</code>。也可以在类的实现代码里通过<code>@synthesize</code>语法来指定实例变量的名字:</p>
 
-<pre><code>@implementation CYLPerson 
+<pre><code class="Objective-C">@implementation CYLPerson 
 @synthesize firstName = _myFirstName; 
 @synthesize lastName = _myLastName; 
 @end 
@@ -1273,7 +1426,7 @@ NSString *stringCopy = [string copy];
 
 <p>可以在类的实现代码里通过<code>@synthesize</code>语法来指定实例变量的名字:</p>
 
-<pre><code>@implementation CYLPerson 
+<pre><code class="Objective-C">@implementation CYLPerson 
 @synthesize firstName = _myFirstName; 
 @synthesize lastName = _myLastName; 
 @end 
@@ -1339,11 +1492,12 @@ NSString *stringCopy = [string copy];
 <p>在Objective-C中向nil发送消息是完全有效的——只是在运行时不会有任何作用:</p>
 
 <ol>
-<li><p>如果一个方法返回值是一个对象，那么发送给nil的消息将返回0(nil)。例如：</p>
-
-<p>Person * motherInlaw = [[aPerson spouse] mother];</p></li>
+<li>如果一个方法返回值是一个对象，那么发送给nil的消息将返回0(nil)。例如：</li>
 </ol>
 
+
+<pre><code class="`Objective-C">Person * motherInlaw = [[aPerson spouse] mother];
+</code></pre>
 
 <p> 如果spouse对象为nil，那么发送给nil的消息mother也将返回nil。
  2. 如果方法返回值为指针类型，其指针大小为小于或者等于sizeof(void*)，float，double，long double 或者long long的整型标量，发送给nil的消息将返回0。
@@ -1356,7 +1510,8 @@ NSString *stringCopy = [string copy];
 
 <p>那么，为了方便理解这个内容，还是贴一个objc的源代码：</p>
 
-<pre><code>// runtime.h（类在runtime中的定义）
+<pre><code class="Objective-C">
+// runtime.h（类在runtime中的定义）
 // http://weibo.com/luohanchenyilong/
 // https://github.com/ChenYilong
 
@@ -1383,7 +1538,7 @@ struct objc_class {
 
 <p>具体原因同上题：该方法编译之后就是<code>objc_msgSend()</code>函数调用.如果我没有记错的大概是这样的：</p>
 
-<pre><code>((void ()(id, SEL))(void )objc_msgSend)((id)obj, sel_registerName("foo"));
+<pre><code class="Objective-C">((void ()(id, SEL))(void )objc_msgSend)((id)obj, sel_registerName("foo"));
 </code></pre>
 
 <p>也就是说：</p>
@@ -1427,9 +1582,9 @@ struct objc_class {
 <ul>
 <li>所有父类的成员变量和自己的成员变量都会存放在该对象所对应的存储空间中.</li>
 <li><p>每一个对象内部都有一个isa指针,指向他的类对象,类对象中存放着本对象的</p></li>
-<li><p> 对象方法列表（对象能够接收的消息列表，保存在它所对应的类对象中）</p></li>
-<li> 成员变量的列表,</li>
-<li> 属性列表,</li>
+<li><p>对象方法列表（对象能够接收的消息列表，保存在它所对应的类对象中）</p></li>
+<li>成员变量的列表,</li>
+<li>属性列表,</li>
 </ul>
 
 
@@ -1551,7 +1706,7 @@ NSLog((NSString *)&amp;__NSConstantStringImpl__var_folders_gm_0jk35cwn1d3326x006
 
 <p><a href="https://web.archive.org/web/20120818164935/http://developer.apple.com/library/ios/#/web/20120820002100/http://developer.apple.com/library/ios/documentation/cocoa/conceptual/objectivec/Chapters/ocAssociativeReferences.html"> <strong><em>2011年版本的Apple API 官方文档 - Associative References</em></strong>  </a> 一节中有一个MRC环境下的例子：</p>
 
-<pre><code>// 在MRC下，使用runtime Associate方法关联的对象，不需要在主对象dealloc的时候释放
+<pre><code class="Objective-C">// 在MRC下，使用runtime Associate方法关联的对象，不需要在主对象dealloc的时候释放
 // http://weibo.com/luohanchenyilong/ (微博@iOS程序犭袁)
 // https://github.com/ChenYilong
 // 摘自2011年版本的Apple API 官方文档 - Associative References 
@@ -1987,186 +2142,6 @@ runtime部分主要参考<a href="https://developer.apple.com/library/mac/docume
 
 
 <p>文章来源：<a href="https://medium.com/app-coder-io/27-ios-open-source-libraries-to-skyrocket-your-development-301b67d3124c" target="_blank" title=“Medium”>Medium</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[禅与Objective-C编程艺术(译)]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/18/ios/"/>
-    <updated>2015-07-18T23:15:26+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/18/ios</id>
-    <content type="html"><![CDATA[<p>禅与 Objective-C 编程艺术 （Zen and the Art of the Objective-C Craftsmanship 中文翻译）</p>
-
-<p>原文 <a href="https://github.com/objc-zen/objc-zen-book">https://github.com/objc-zen/objc-zen-book</a></p>
-
-<p><img src="https://github.com/objc-zen/objc-zen-book/raw/master/images/zen-logo-thumb.png" alt="" /></p>
-
-<h1>前言</h1>
-
-<p>我们在 2013 年 11 月份开始写这本书，最初的目标是提供一份如何编写干净漂亮的 Objective-C 代码的指南：现在虽然有很多指南，但是它们都是有一些问题的。我们不想介绍一些死板的规定，我们想提供一个在开发者们之间写更一致的代码的途径。随时间的推移，这本书开始转向介绍如何设计和构建优秀的代码。</p>
-
-<p>这本书的观点是代码不仅是可以编译的，同时应该是 “有效” 的。好的代码有一些特性：简明，自我解释，优秀的组织，良好的文档，良好的命名，优秀的设计以及可以被久经考验。
-本书的一个理念是是代码的清晰性优先于性能，同时阐述为什么应该这么做。
-虽然所有的代码都是 Objective-C 写的，但是一些主题是通用的，并且独立于编程语言。</p>
-
-<h2>Swift</h2>
-
-<p>在 2014 年 6 月 6 日，苹果发布了面向 iOS 和 Mac 开发的新语言： Swift。
-这个新语言与 Objective-C 截然不同。所以，我们改变了写这本书的计划。我们决定发布这本书当前的状态，而不是继续书写我们原来计划写下去的主题。
-Objective-C 没有消失，但是现在用一个慢慢失去关注的语言来继续写这本书并不是一个明智的选择。</p>
-
-<h2>贡献给社区</h2>
-
-<p>我们将这本书免费发布并且贡献给社区，因为我们希望提供给读者一些有价值的内容。如果你能学到至少一条最佳实践，我们的目的就达到了。</p>
-
-<p>我们已经非常用心地打磨了这些文字，但是仍然可能有一些拼写或者其他错误。我们非常希望读者给我们一个反馈或者建议，以来改善本书。所以如果有什么问题的话，请联系我们。我们非常欢迎各种 pull-request。</p>
-
-<h2>作者</h2>
-
-<p><strong>Luca Bernardi</strong></p>
-
-<ul>
-<li><a href="http://lucabernardi.com">http://lucabernardi.com</a></li>
-<li>@luka_bernardi</li>
-<li><a href="http://github.com/lukabernardi">http://github.com/lukabernardi</a></li>
-</ul>
-
-
-<p><strong>Alberto De Bortoli</strong></p>
-
-<ul>
-<li><a href="http://albertodebortoli.com">http://albertodebortoli.com</a></li>
-<li>@albertodebo</li>
-<li><a href="http://github.com/albertodebortoli">http://github.com/albertodebortoli</a></li>
-</ul>
-
-
-<h2>关于中文翻译</h2>
-
-<p>译者</p>
-
-<p><strong>林翔宇</strong>
-- <a href="http://linxiangyu.org">http://linxiangyu.org</a>
-- <a href="&#109;&#x61;&#105;&#108;&#116;&#111;&#x3a;&#108;&#105;&#110;&#120;&#105;&#97;&#110;&#103;&#x79;&#117;&#64;&#x6e;&#117;&#x70;&#x74;&#x65;&#x72;&#46;&#x6f;&#x72;&#103;">&#108;&#x69;&#110;&#120;&#105;&#97;&#110;&#103;&#121;&#x75;&#x40;&#110;&#117;&#x70;&#116;&#101;&#114;&#x2e;&#x6f;&#114;&#x67;</a>
-- <a href="http://github.com/oa414">http://github.com/oa414</a></p>
-
-<p><strong>庞博</strong>
-- <a href="&#x6d;&#97;&#105;&#108;&#116;&#111;&#58;&#x62;&#x6f;&#x70;&#x61;&#x6e;&#x67;&#x40;&#x73;&#x6f;&#x68;&#117;&#x2d;&#x69;&#x6e;&#x63;&#x2e;&#99;&#111;&#x6d;">&#98;&#x6f;&#112;&#97;&#110;&#x67;&#x40;&#115;&#111;&#x68;&#117;&#45;&#105;&#110;&#x63;&#46;&#x63;&#111;&#x6d;</a>
-- <a href="https://github.com/heistings">https://github.com/heistings</a></p>
-
-<p>翻译已得到原作者许可，并且会在更加完善后申请合并到原文仓库。</p>
-
-<p><strong>部分译文表达可能存在不妥之处，非常欢迎各种修订建议和校队。 请直接 fork 本仓库，在 README.md 文件中修改，并申请 pull request 到 <a href="https://github.com/oa414/objc-zen-book-cn/">https://github.com/oa414/objc-zen-book-cn/</a>。</strong></p>
-
-<h1>条件语句</h1>
-
-<p>为了避免错误，条件语句体应该总是被大括号包围，即使可以不这样做（比如，条件语句体只有一行内容）。可能的错误是：多加了第二行，并且误以为它是 if 语句体里面的。此外，更危险的是，如果把 if 语句体里的一行注释掉了，之后的一行代码会成为 if 语句里的代码。</p>
-
-<p><strong>推荐:</strong></p>
-
-<pre><code>if (!error) {
-    return success;
-}
-</code></pre>
-
-<p><strong>不推荐:</strong></p>
-
-<pre><code>if (!error)
-    return success;
-</code></pre>
-
-<p>或者</p>
-
-<pre><code>if (!error) return success;
-</code></pre>
-
-<p>在 2014年2月 苹果的 SSL/TLS 实现里面发现了知名的 <a href="https://gotofail.com/">goto fail</a> 错误。</p>
-
-<p>代码在这里：</p>
-
-<pre><code>    static OSStatus
-    SSLVerifySignedServerKeyExchange(SSLContext *ctx, bool isRsa, SSLBuffer signedParams,
-                                     uint8_t *signature, UInt16 signatureLen)
-    {
-      OSStatus        err;
-      ...
-
-      if ((err = SSLHashSHA1.update(&amp;hashCtx, &amp;serverRandom)) != 0)
-        goto fail;
-      if ((err = SSLHashSHA1.update(&amp;hashCtx, &amp;signedParams)) != 0)
-        goto fail;
-        goto fail;
-      if ((err = SSLHashSHA1.final(&amp;hashCtx, &amp;hashOut)) != 0)
-        goto fail;
-      ...
-
-    fail:
-      SSLFreeBuffer(&amp;signedHashes);
-      SSLFreeBuffer(&amp;hashCtx);
-      return err;
-    }
-</code></pre>
-
-<p>显而易见，这里有没有括号包围的2行连续的 <code>goto fail;</code> 。我们当然不希望写出上面的代码导致错误。</p>
-
-<p>此外，在其他条件语句里面也应该按照这种风格统一，这样更便于检查。</p>
-
-<h2>尤达表达式</h2>
-
-<p>不要使用尤达表达式。尤达表达式是指，拿一个常量去和变量比较而不是拿变量去和常量比较。它就像是在表达 “蓝色是不是天空的颜色” 或者 “高个是不是这个男人的属性” 而不是  “天空是不是蓝的” 或者 “这个男人是不是高个子的”</p>
-
-<p><img src="./images/yoda.png" alt="Yoda" /></p>
-
-<p>（译者注：名字起源于星球大战中尤达大师的讲话方式，总是用倒装的语序）</p>
-
-<p><strong>推荐:</strong></p>
-
-<pre><code>if ([myValue isEqual:@42]) { ...
-</code></pre>
-
-<p><strong>不推荐:</strong></p>
-
-<pre><code>if ([@42 isEqual:myValue]) { ...
-</code></pre>
-
-<h2>nil 和 BOOL 检查</h2>
-
-<p>类似于 Yoda 表达式，nil 检查的方式也是存在争议的。一些 notous 库像这样检查对象是否为 nil：</p>
-
-<pre><code>if (nil == myValue) { ...
-</code></pre>
-
-<p>或许有人会提出这是错的，因为在 nil 作为一个常量的情况下，这样做就像 Yoda 表达式了。 但是一些程序员这么做的原因是为了避免调试的困难，看下面的代码：</p>
-
-<pre><code>if (myValue == nil) { ...
-</code></pre>
-
-<p>如果程序员敲错成这样：</p>
-
-<pre><code>if (myValue = nil) { ...
-</code></pre>
-
-<p>这是合法的语句，但是即使你是一个丰富经验的程序员，即使盯着眼睛瞧上好多遍也很难调试出错误。但是如果把 nil 放在左边，因为它不能被赋值，所以就不会发生这样的错误。 如果程序员这样做，他/她就可以轻松检查出可能的原因，比一遍遍检查敲下的代码要好很多。</p>
-
-<p>为了避免这些奇怪的问题，可以用感叹号来作为运算符。因为 nil 是 解释到 NO，所以没必要在条件语句里面把它和其他值比较。同时，不要直接把它和 <code>YES</code> 比较，因为 <code>YES</code> 的定义是 1， 而 <code>BOOL</code> 是 8 bit的，实际上是 char 类型。</p>
-
-<p><strong>推荐:</strong></p>
-
-<pre><code>if (someObject) { ...
-if (![someObject boolValue]) { ...
-if (!someObject) { ...
-</code></pre>
-
-<p><strong>不推荐:</strong></p>
-
-<pre><code>if (someObject == YES) { ... // Wrong
-if (myRawValue == YES) { ... // Never do this.
-if ([someObject boolValue] == NO) { ...
-</code></pre>
-
-<p>同时这样也能提高一致性，以及提升可读性。</p>
-
-<p>原文 <a href="https://github.com/objc-zen/objc-zen-book">https://github.com/objc-zen/objc-zen-book</a></p>
 ]]></content>
   </entry>
   

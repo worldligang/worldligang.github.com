@@ -1,0 +1,505 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+      <meta name="baidu-site-verification" content="X93tJz3pCq" />
+  <title>彩色TabBar切换动画实现 - 刚刚在线</title>
+  <meta name="author" content="李刚">
+  <meta name="uyan_auth" content="d1112891bb" />
+  <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
+      
+  
+  <meta name="description" content="看到这个彩色切换效果的时候，我第一个反应就是在TabBar上有一个彩色的View，然后每个色块的显示都是通过mask来显示的。最终，我的具体实现也是根据这个思路来的。">
+  <meta name="keywords" content="TabBar, 动画, 切换动画, iOS开发, 刚刚在线">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.superqq.com/blog/2015/08/11/color-tabbar-switch-animation">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="http://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">刚刚在线</a></h1>
+  
+    <h2>分享iOS开发技术经验的自媒体网站</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://zhannei.superqq.com" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.superqq.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">首页</a></li>
+  <li><a href="/blog/archives">全部文章</a></li>
+  <li><a href="/blog/categories/ioskai-fa/">iOS开发</a></li>
+  <li><a href="/blog/categories/swiftkai-fa">swift开发</a></li>
+  <li><a href="/blog/categories/cheng-xu-yuan/">程序员</a></li>
+  <li><a href="/blog/categories/yuan-dai-ma/">源代码</a></li>
+  <li><a href="/blog/categories/sdkfu-wu/">sdk服务</a></li>
+  <li><a href="/blog/categories/tui-jian/">推荐</a></li>
+  <li><a href="/about">赞助作者</a></li>
+  <li><a href="http://www.90159.com/" target="_blank" title=头条>头条</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">彩色TabBar切换动画实现</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-11T00:38:31+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:38 am</span></time>
+        
+        
+          | <a href="#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>无意间看到一个彩色TabBar切换的设计图，感觉很不错，有空就把他实现了。
+环境信息
+Mac OS X 10.10.4
+Xcode 6.4
+iOS 8.4
+效果图：</p>
+
+<p><img src="http://images.90159.com/08/1.1TabBar-1.gif" alt="1.1TabBar-1.gif" /></p>
+
+<p>源码下载地址：
+<a href="https://github.com/saitjr/TColorfulTabBar.git">https://github.com/saitjr/TColorfulTabBar.git</a></p>
+
+<h2>一、实现分析</h2>
+
+<p>看到这个彩色切换效果的时候，我第一个反应就是在TabBar上有一个彩色的View，然后每个色块的显示都是通过mask来显示的。最终，我的具体实现也是根据这个思路来的。</p>
+
+<h4>1. 设计思想</h4>
+
+<p>为了减少侵入性（耦合），我采取的是继承UITabBar来实现，所以要集成的时候，只需要将系统的TabBar换成我写的TColorfulTabBar就可以了。</p>
+
+<p><img src="http://images.90159.com/08/1.2TabBar-2.png" alt="1.2TabBar-2.png" /></p>
+
+<h4>2. 视图层级图</h4>
+
+<h2>二、效果实现</h2>
+
+<h4>1. 添加彩色视图colorfulView</h4>
+
+<p>TColorfulTabBar.m</p>
+
+<pre><code>- (void)setupColorView {
+
+    // 初始化彩色视图，并将它加在tabbar上
+    UIView *colorView = [[UIView alloc] initWithFrame:self.bounds];
+    [self addSubview:colorView];
+    self.colorfulView = colorView;
+
+    // 彩色视图的五种颜色，这是一个UIColor数组，
+    NSArray *colors = self.itemColors;
+    CGFloat itemWidth = self.bounds.size.width / self.itemCount;
+
+    for (int i = 0; i &lt; self.itemCount; i ++) {
+
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(itemWidth * i, 0, itemWidth, self.bounds.size.height)]; 
+        view.backgroundColor = colors[i]; 
+        [self.colorfulView addSubview:view]; 
+    } 
+}
+</code></pre>
+
+<h4>2. 添加彩色视图的遮罩colorfulMaskView</h4>
+
+<p>之所以这里的遮罩使用的是UIView而不是CAShapeLayer或者CALayer，原因如下：</p>
+
+<ul>
+<li>遮罩是矩形，没必要使用路径，所以不用CAShapeLayer</li>
+<li>通过设计图可以看到，在位移动画之前，有一个遮罩单向变宽（向左或向右）的效果。如果使用CALayer，那么改变bounds的时候，是双向改变，想要单向就必须加锚点，太麻烦</li>
+<li>如果使用UIView，那么向右变宽只需要x不变，width变长就行；向左变宽只需要x-value，width+value就行，要方便的多</li>
+<li>最后一点就是在做动画的时候，Layer要用到CABaseAnimation，然而UIView使用UIView的Animation就行</li>
+</ul>
+
+
+<p>在设置遮罩的时候，将colorfulMaskView的layer设置为colorfulView的mask就可以了。
+代码实现如下：
+TColorfulTabBar.m</p>
+
+<pre><code>- (void)setupMaskLayer {
+
+    // 获取每个item的宽度
+    CGFloat itemWidth = self.bounds.size.width / self.itemCount;
+
+    // 初始化colorMaskView，并将colorMaskView的layer设置成彩色视图的遮罩
+    UIView *colorMaskView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, itemWidth, self.bounds.size.height)];
+    colorMaskView.backgroundColor = [UIColor blackColor];
+    self.colorfulMaskView = colorMaskView;
+    self.colorfulView.layer.mask = self.colorfulMaskView.layer;
+}
+</code></pre>
+
+<h4>3. 设置代理，获取当前点击的下标</h4>
+
+<p>UITabBar并没有获取点击下标的接口，但是UITabBarDelegate有，这个协议默认被UITabBarController遵守。为了降低耦合性，采用UITabBar自己获取下标，所以，需要UITabBar自己实现自己的delegate。
+<strong>值得注意的是，不能在UITabBar的初始化方法中去设置self.delegate = self，因为即使设置了，也会被UITabBarController覆盖。最终解决方案是当UITabBar加载到父视图上是，在修改delegate为self。</strong></p>
+
+<pre><code>- (void)didMoveToSuperview {
+    [super didMoveToSuperview];
+    self.delegate = self;
+}
+</code></pre>
+
+<p>因为每次的移动位置与方向都和上次的下标与这次的下标有关，所以需要使用到属性来记录这两个下标的值。
+    - (void)tabBar:(UITabBar <em>)tabBar didSelectItem:(UITabBarItem </em>)item {</p>
+
+<pre><code>    NSInteger index = [self.items indexOfObject:item];
+    self.fromeIndex = self.toIndex;
+    self.toIndex = index;
+    // 拿到下标以后执行动画
+    [self animation];
+}
+</code></pre>
+
+<h4>4. 移动遮罩，显示不同的色块</h4>
+
+<p>在做动画的时候，需要考虑到效果的平滑性。整个动画有两个动画组成，一个是宽度放大的动画，一个是缩小到原来大小和位移动画。整个动画是EaseInOut的效果，所以拆开来看，就应该第一个动画EaseIn，第二个动画EaseOut。
+一图胜千言：</p>
+
+<p><img src="http://images.90159.com/08/1.3TabBar-3.png" alt="1.3TabBar-3.png" /></p>
+
+<pre><code>- (void)animation {
+
+    CGFloat itemWidth = self.bounds.size.width / self.itemCount;
+    // 为了效果看起来更平滑，所以根据两次下标的差值来计算需要放大的距离
+    CGFloat extraWidth = ABS(self.toIndex - self.fromeIndex) * itemWidth / 4;
+
+    // 放大的大小
+    CGRect scaleFrame = CGRectMake(self.colorfulMaskView.x, 0, itemWidth + extraWidth, self.bounds.size.height);
+    // 最终大的大小与位置
+    CGRect toFrame = CGRectMake(self.toIndex * itemWidth, 0, itemWidth, self.bounds.size.height);
+
+    // 如果是向左移动，那修改x轴的坐标
+    if (self.fromeIndex &gt; self.toIndex) {
+
+        scaleFrame = CGRectMake(self.colorfulMaskView.x - extraWidth, 0, itemWidth + extraWidth, self.bounds.size.height);
+    }
+
+    // 两个动画加起来是一个EaseInOut的效果，所以第一个动画就应该是EaseIn，第二个动画是EaseOut
+    // 先进行放大
+    [UIView animateWithDuration:ANIMATION_DURATION delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+
+        self.colorfulMaskView.frame = scaleFrame;
+    } completion:^(BOOL finished) {
+
+        // 再进行缩小和位移
+        [UIView animateWithDuration:ANIMATION_DURATION delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+
+            self.colorfulMaskView.frame = toFrame;
+        } completion:NULL];
+    }];
+}
+</code></pre>
+
+<p>原文:<a href="http://www.brighttj.com/ios/ios-colorful-tabbar-implement.html">彩色TabBar切换动画实现</a></p>
+</div>
+<!--广告位-->
+<script type="text/javascript">
+    /*刚刚在线700*350 创建于 2015-07-31*/
+    var cpro_id = "u2238872";
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+<!--广告链接结束-->
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">李刚</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-11T00:38:31+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:38 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/tui-jian/'>推荐</a>
+  
+</span>
+
+
+      <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
+<br>原文链接：<a href="http://www.superqq.com/blog/2015/08/11/color-tabbar-switch-animation/">http://www.superqq.com/blog/2015/08/11/color-tabbar-switch-animation/</a> <!-- 添加这一行代码 -->
+    </p>
+    
+      <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+    <span class="jiathis_txt">分享到：</span>
+    <a class="jiathis_button_tools_1"></a>
+    <a class="jiathis_button_tools_2"></a>
+    <a class="jiathis_button_tools_3"></a>
+    <a class="jiathis_button_tools_4"></a>
+    <a href="http://www.jiathis.com/share?uid=1983651" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+    <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+    var jiathis_config = {data_track_clickback:'true'};
+    </script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1401863435807252" charset="utf-8"></script>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/10/coremotion-framework-use-accelerometer/" title="Previous Post: CoreMotion框架中加速度计使用简明教程">&laquo; CoreMotion框架中加速度计使用简明教程</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-title="彩色TabBar切换动画实现"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"superqq"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END -->
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>热门推荐</h1>
+  <!--广告位-->
+<script type="text/javascript">
+    /*250*250 创建于 2015-08-08*/
+    var cpro_id = "u2252717";
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+<!--广告链接结束-->
+  <h1>微信扫一扫，代码写的好</h1>
+        <br/>
+        <br/><strong>东半球最好的iOS开发公众号</strong> 
+        <br/>
+        <br/><img width="220px" src="http://images.90159.com/icon/iOSDevTip.jpg" />
+        <br/>
+        <br/><strong>东半球最好的程序猿公众号</strong>
+        <br/>
+        <br/><img width="220px" src="http://images.90159.com/icon/codepush.jpg" />
+        </p>
+  <h1>最新文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/08/11/color-tabbar-switch-animation/">彩色TabBar切换动画实现</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/10/coremotion-framework-use-accelerometer/">CoreMotion框架中加速度计使用简明教程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/09/performance-optimization-of-mkmapview/">一次对MKMapView的性能优化</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/08/interview-ios-question-answer/">《招聘一个靠谱的iOS》面试题参考答案（上）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/07/implement-uitextview-placeholder/">实现placeholder属性的UITextView</a>
+      </li>
+    
+  </ul>
+  <!--广告位-->
+<script type="text/javascript">
+    /*刚刚在线250*350 创建于 2015-07-31*/
+    var cpro_id = "u2238366";
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+<!--广告链接结束-->
+</section>
+</section>
+<section>
+    <h1>About Me</h1>
+    <br/>
+    <p> 李刚：百度百家专栏作者，刚刚在线站长，iOS工程师非著名自媒体人，微信公众号iOS开发：iOSDevTip运营者<br/>
+    <br/><strong>出师未捷名已落</strong>
+    <br/>
+    <br/>新浪微博: <a href='http://weibo.com/ligangnc' target='_blank'>李刚移动</a>
+    <br/>
+    <br/>个人微信: <strong>chinaligang</strong> 欢迎调戏
+    <br/>
+    <br/>iOS群: <strong>218822587</strong>
+  <br/>
+</section>
+
+   
+ <section>
+    <h1>友情链接</h1>
+    <ul>
+    
+       <li>
+           <a href="http://www.superqq.com" target="_blank" title=“刚刚在线”>刚刚在线</a>
+       </li>
+       <li>
+           <a href="http://www.90159.com" target="_blank" title=“程序员头条”>程序员头条</a>
+       </li>
+       <li>
+           <a href="http://www.iswifting.com" target="_blank" title=“swift开发”>swift开发</a>
+       </li>
+       <li>
+           <a href="http://www.aswifter.com/" target="_blank" title="APP开发者">APP开发者</a>
+       </li>
+        <li>
+           <a href="http://www.boxingjiaoyu.com/" target="_blank" title="程序员聚合平台">程序员聚合平台</a>
+       </li>
+      <li>
+           <a href="http://www.mobile-open.com/" target="_blank" title="阳和移动开发">阳和移动开发</a>
+       </li>
+       <li>
+           <a href="http://www.jq-school.com/" target="_blank" title="jquery教程">jquery教程</a>
+       </li>
+        <li>
+           <a href="http://www.admin10000.com/" target="_blank" title="WEB开发者">WEB开发者</a>
+       </li>
+       <li>
+           <a href="http://www.aichengxu.com/" target="_blank" title="爱程序网">爱程序网</a>
+       </li>
+       <li>
+           <a href="http://www.lai18.com" target="_blank" title="IT技术文章">IT技术文章</a>
+       </li>
+       <li>
+           <a href="http://www.cftea.com/" target="_blank" title="千一网络">千一网络</a>
+       </li>
+        <li>
+           <a href="http://www.bmob.cn/" target="_blank" title="Bmob">Bmob移动后端云</a>
+       </li>
+       <li>
+           <a href="http://www.leichunfeng.com" target="_blank" title="雷纯锋的技术博客">雷纯锋的技术博客</a>
+       </li>
+       <li>
+           <a href="http://cuiqingcai.com/" target="_blank" title="静觅">静觅</a>
+       </li>
+       <li>
+           <a href="http://letsswift.com/" target="_blank" title="一起Swift">一起Swift</a>
+       </li>
+       <li>
+           <a href="http://www.swiftv.cn/" target="_blank" title="SwiftV课堂">SwiftV课堂</a>
+       </li>
+        <li>
+            <a href="http://blog.csdn.net/iosdevtip" target="_blank" title="刚刚在线">CSDN</a>
+        </li>
+        <li>
+            <a href="http://user.qzone.qq.com/1606535851" target="_blank" title="刚刚在线">QQ空间</a>
+        </li>
+        <li>
+            <br/><strong>交换友链：</strong>欢迎各大程序员站点交换友情链接，如需交换，请添加好本站链接后发送邮件至下方邮箱。
+            <br/>
+            <br/><strong>格式：</strong>（ 友链文字：“ 刚刚在线 ”，链接：“ http://www.superqq.com/ ” ）
+            <br/>
+            <br/><strong>邮箱：</strong>worldligang@163.com
+            <br/>
+        </li>
+    </ul>
+<br/>
+<h1>热门推荐</h1>
+<!--广告位-->
+<script type="text/javascript">
+var cpro_id="u2240614";
+(window["cproStyleApi"] = window["cproStyleApi"] || {})[cpro_id]={at:"3",rsi0:"250",rsi1:"350",pat:"6",tn:"baiduCustNativeAD",rss1:"#FFFFFF",conBW:"1",adp:"1",ptt:"0",titFF:"%E5%BE%AE%E8%BD%AF%E9%9B%85%E9%BB%91",titFS:"14",rss2:"#000000",titSU:"0",ptbg:"90",piw:"0",pih:"0",ptp:"0"}
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+<!--广告链接结束-->
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+Copyright &copy; 2015 - 李刚 
+<span class="credit">Powered by <a href="http://octopress.org" target="_blank">Octopress</a></span>
+ <span class="credit">, 感谢 <a href="http://gitcafe.com/signup?invited_by=tangqiaoboy" target="_blank">GitCafe</a> 为本站提供存储空间</span>
+
+</p>
+
+<script language="javascript" type="text/javascript" src="http://js.users.51.la/17443209.js"></script>
+<noscript><a href="http://www.51.la/?17443209" target="_blank"><img alt="&#x6211;&#x8981;&#x5566;&#x514D;&#x8D39;&#x7EDF;&#x8BA1;" src="http://img.users.51.la/17443209.asp" style="border:none" /></a></noscript>
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
