@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 推荐 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/tui-jian/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-10T16:50:06+08:00</updated>
+  <updated>2015-08-10T17:32:04+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -378,21 +378,19 @@ typedef NS_ENUM(NSInteger, CYLSex) {
 <ol>
 <li><p>enum建议使用 <code>NS_ENUM</code> 和 <code>NS_OPTIONS</code> 宏来定义枚举类型，参见官方的 <a href="https://developer.apple.com/library/ios/releasenotes/ObjectiveC/ModernizationObjC/AdoptingModernObjective-C/AdoptingModernObjective-C.html">Adopting Modern Objective-C</a> 一文：</p>
 
-<pre><code class="objective-c">//定义一个枚举
+<p>//定义一个枚举
 typedef NS_ENUM(NSInteger, CYLSex) {
     CYLSexMan,
     CYLSexWoman
-};
-</code></pre></li>
-<li>age属性的类型：应避免使用基本类型，建议使Foundation数据类型，对应关系如下：</li>
+};</p></li>
+<li><p>age属性的类型：应避免使用基本类型，建议使Foundation数据类型，对应关系如下：</p>
+
+<p>int -> NSInteger
+unsigned -> NSUInteger
+float -> CGFloat
+动画时间 -> NSTimeInterval</p></li>
 </ol>
 
-
-<pre><code class="`Objective-C">    int -&gt; NSInteger
-    unsigned -&gt; NSUInteger
-    float -&gt; CGFloat
-    动画时间 -&gt; NSTimeInterval
-</code></pre>
 
 <p>同时考虑到age的特点，应使用NSUInteger，而非int。
 这样做的是基于64-bit 适配考虑，详情可参考出题者的博文<a href="http://blog.sunnyxx.com/2014/12/20/64-bit-tips/">《64-bit Tips》</a>。</p>
@@ -416,7 +414,7 @@ typedef NS_ENUM(NSInteger, CYLSex) {
 <blockquote><p>如果方法表示让对象执行一个动作，使用动词打头来命名，注意不要使用<code>do</code>，<code>does</code>这种多余的关键字，动词本身的暗示就足够了。
  11. <code>-(id)initUserModelWithUserName: (NSString*)name withAge:(int)age;</code>方法中不要用<code>with</code>来连接两个参数:<code>withAge:</code>应当换为<code>age:</code>，<code>age:</code>已经足以清晰说明参数的作用，也不建议用<code>andAge:</code>：通常情况下，即使有类似<code>withA:withB:</code>的命名需求，也通常是使用<code>withA:andB:</code>这种命名，用来表示方法执行了两个相对独立的操作（<em>从设计上来说，这时候也可以拆分成两个独立的方法</em>），它不应该用作阐明有多个参数，比如下面的：</p></blockquote>
 
-<pre><code class="``objective-c">//错误，不要使用"and"来连接参数
+<pre><code>//错误，不要使用"and"来连接参数
 - (int)runModalForDirectory:(NSString *)path andFile:(NSString *)name andTypes:(NSArray *)fileTypes;
 //错误，不要使用"and"来阐明有多个参数
 - (instancetype)initWithName:(CGFloat)width andAge:(CGFloat)height;
@@ -432,60 +430,57 @@ typedef NS_ENUM(NSInteger, CYLSex) {
 
 <p> Objective-C 有 designated 和 secondary 初始化方法的观念。 designated 初始化方法是提供所有的参数，secondary 初始化方法是一个或多个，并且提供一个或者更多的默认参数来调用 designated 初始化方法的初始化方法。举例说明：</p>
 
-<pre><code class="`Objective-C">
-    // .m文件
-    // http://weibo.com/luohanchenyilong/
-    // https://github.com/ChenYilong
-    //
+<pre><code>// .m文件
+// http://weibo.com/luohanchenyilong/
+// https://github.com/ChenYilong
+//
 
-    @implementation CYLUser
+@implementation CYLUser
 
-    - (instancetype)initWithName:(NSString *)name
-                             age:(NSUInteger)age
-                             sex:(CYLSex)sex {
-        if(self = [super init]) {
-            _name = [name copy];
-            _age = age;
-            _sex = sex;
-        }
-        return self;
+- (instancetype)initWithName:(NSString *)name
+                         age:(NSUInteger)age
+                         sex:(CYLSex)sex {
+    if(self = [super init]) {
+        _name = [name copy];
+        _age = age;
+        _sex = sex;
     }
+    return self;
+}
 
-    - (instancetype)initWithName:(NSString *)name
-                             age:(NSUInteger)age {
-        return [self initWithName:name age:age sex:nil];
-    }
+- (instancetype)initWithName:(NSString *)name
+                         age:(NSUInteger)age {
+    return [self initWithName:name age:age sex:nil];
+}
 
-    @end
+@end
 </code></pre>
 
 <p> 上面的代码中initWithName:age:sex: 就是 designated 初始化方法，另外的是 secondary 初始化方法。因为仅仅是调用类实现的 designated 初始化方法。</p>
 
 <p>  因为出题者没有给出.m文件，所以有两种猜测：1：本来打算只设计一个designated 初始化方法，但漏掉了“性别”(sex）属性。那么最终的修改代码就是上文给出的第一种修改方法。2：不打算初始时初始化“性别”(sex）属性，打算后期再修改，如果是这种情况，那么应该把“性别”(sex）属性设为readwrite属性，最终给出的修改代码应该是：</p>
 
-<pre><code class="`Objective-C">
+<pre><code>// .h文件
+// http://weibo.com/luohanchenyilong/
+// https://github.com/ChenYilong
+// 第二种修改方法（基于第一种修改方法的基础上）
 
-    // .h文件
-    // http://weibo.com/luohanchenyilong/
-    // https://github.com/ChenYilong
-    // 第二种修改方法（基于第一种修改方法的基础上）
+typedef NS_ENUM(NSInteger, CYLSex) {
+    CYLSexMan,
+    CYLSexWoman
+};
 
-    typedef NS_ENUM(NSInteger, CYLSex) {
-        CYLSexMan,
-        CYLSexWoman
-    };
+@interface CYLUser : NSObject&lt;NSCopying&gt;
 
-    @interface CYLUser : NSObject&lt;NSCopying&gt;
+@property (nonatomic, copy, readonly) NSString *name;
+@property (nonatomic, assign, readonly) NSUInteger age;
+@property (nonatomic, assign, readwrite) CYLSex sex;
 
-    @property (nonatomic, copy, readonly) NSString *name;
-    @property (nonatomic, assign, readonly) NSUInteger age;
-    @property (nonatomic, assign, readwrite) CYLSex sex;
+- (instancetype)initWithName:(NSString *)name age:(NSUInteger)age sex:(CYLSex)sex;
+- (instancetype)initWithName:(NSString *)name age:(NSUInteger)age;
++ (instancetype)userWithName:(NSString *)name age:(NSUInteger)age sex:(CYLSex)sex;
 
-    - (instancetype)initWithName:(NSString *)name age:(NSUInteger)age sex:(CYLSex)sex;
-    - (instancetype)initWithName:(NSString *)name age:(NSUInteger)age;
-    + (instancetype)userWithName:(NSString *)name age:(NSUInteger)age sex:(CYLSex)sex;
-
-    @end
+@end
 </code></pre>
 
 <p> .h中暴露 designated 初始化方法，是为了方便子类化 （想了解更多，请戳&ndash;》 <a href="http://is.gd/OQ49zk"><strong><em>《禅与 Objective-C 编程艺术 （Zen and the Art of the Objective-C Craftsmanship 中文翻译）》</em></strong></a>。）</p>
@@ -575,15 +570,16 @@ copy此特质所表达的所属关系与strong类似。然而设置方法并不�
 
 <p>比如下面的代码就会发生崩溃</p>
 
-<pre><code class="Objective-C">// .h文件
+<pre><code>// .h文件
 // http://weibo.com/luohanchenyilong/
 // https://github.com/ChenYilong
 // 下面的代码就会发生崩溃
 
 @property (nonatomic, copy) NSMutableArray *mutableArray;
-</code></pre>
 
-<pre><code class="Objective-C">// .m文件
+
+
+// .m文件
 // http://weibo.com/luohanchenyilong/
 // https://github.com/ChenYilong
 // 下面的代码就会发生崩溃
@@ -595,7 +591,7 @@ self.mutableArray = array;
 
 <p>接下来就会奔溃：</p>
 
-<pre><code class="Objective-C"> -[__NSArrayI removeObjectAtIndex:]: unrecognized selector sent to instance 0x7fcd1bc30460
+<pre><code>-[__NSArrayI removeObjectAtIndex:]: unrecognized selector sent to instance 0x7fcd1bc30460
 </code></pre>
 
 <p>第2条原因，如下：</p>
@@ -619,12 +615,14 @@ atomic属性通常都不会有性能瓶颈。</p>
 
 <ol>
 <li>需声明该类遵从NSCopying协议</li>
-<li>实现NSCopying协议。该协议只有一个方法:</li>
+<li><p>实现NSCopying协议。该协议只有一个方法:</p>
+
+<ul>
+<li>(id)copyWithZone: (NSZone*) zone</li>
+</ul>
+</li>
 </ol>
 
-
-<pre><code class="`Objective-C">- (id)copyWithZone: (NSZone*) zone
-</code></pre>
 
 <p>注意：一提到让自己的类用 copy 修饰符，我们总是想覆写copy方法，其实真正需要实现的却是“copyWithZone”方法。</p>
 
@@ -654,7 +652,7 @@ typedef NS_ENUM(NSInteger, CYLSex) {
 
 <p>然后实现协议中规定的方法：</p>
 
-<pre><code class="Objective-C">- (id)copyWithZone:(NSZone *)zone {
+<pre><code>- (id)copyWithZone:(NSZone *)zone {
     CYLUser *copy = [[[self copy] allocWithZone:zone] 
                      initWithName:_name
                                   age:_age
@@ -891,7 +889,7 @@ typedef NS_ENUM(NSInteger, CYLSex) {
 
 <p>下面我们将基于<code>objc_storeWeak(&amp;a, b)</code>函数，使用伪代码模拟“runtime如何实现weak属性”：</p>
 
-<pre><code class="Objective-C">// 使用伪代码模拟：runtime如何实现weak属性
+<pre><code>// 使用伪代码模拟：runtime如何实现weak属性
 // http://weibo.com/luohanchenyilong/
 // https://github.com/ChenYilong
 
@@ -910,7 +908,7 @@ typedef NS_ENUM(NSInteger, CYLSex) {
 
 <p><code>objc_initWeak</code>函数的实现是这样的：在将“附有weak修饰符的变量（obj1）”初始化为0（nil）后，会将“赋值对象”（obj）作为参数，调用<code>objc_storeWeak</code>函数。</p>
 
-<pre><code class="Objective-C">obj1 = 0；
+<pre><code>obj1 = 0；
 obj_storeWeak(&amp;obj1, obj);
 </code></pre>
 
@@ -924,7 +922,7 @@ obj_storeWeak(&amp;obj1, obj);
 
 <p>前面的源代码与下列源代码相同。</p>
 
-<pre><code class="Objective-C">// 使用伪代码模拟：runtime如何实现weak属性
+<pre><code>// 使用伪代码模拟：runtime如何实现weak属性
 // http://weibo.com/luohanchenyilong/
 // https://github.com/ChenYilong
 
@@ -959,19 +957,18 @@ objc_storeWeak(&amp;obj1, 0);
 
 <pre><code>objc_setAssociatedObject(self, "object", object, OBJC_ASSOCIATION_ASSIGN);
 </code></pre></li>
-<li><p>在属性所指的对象遭到摧毁时，属性值也会清空(nil out)。做到这点，同样要借助runtime：</p></li>
-</ol>
+<li><p>在属性所指的对象遭到摧毁时，属性值也会清空(nil out)。做到这点，同样要借助runtime：</p>
 
-
-<pre><code class="`Objective-C">//要销毁的目标对象
+<p>//要销毁的目标对象
 id objectToBeDeallocated;
 //可以理解为一个“事件”：当上面的目标对象销毁时，同时要发生的“事件”。
 id objectWeWantToBeReleasedWhenThatHappens;
 objc_setAssociatedObject(objectToBeDeallocted,
                          someUniqueKey,
                          objectWeWantToBeReleasedWhenThatHappens,
-                         OBJC_ASSOCIATION_RETAIN);
-</code></pre>
+                         OBJC_ASSOCIATION_RETAIN);</p></li>
+</ol>
+
 
 <p>知道了思路，我们就开始实现<code>cyl_runAtDealloc</code>方法，实现过程分两部分：</p>
 
@@ -1214,7 +1211,7 @@ NSString *stringCopy = [string copy];
 
 <p>如果使用了属性的话，那么编译器就会自动编写访问属性所需的方法，此过程叫做“自动合成”( auto synthesis)。需要强调的是，这个过程由编译器在编译期执行，所以编辑器里看不到这些“合成方法” (synthesized method)的源代码。除了生成方法代码之外，编译器还要自动向类中添加适当类型的实例变量，并且在属性名前面加下划线，以此作为实例变量的名字。</p>
 
-<pre><code class="Objective-C">@interface CYLPerson : NSObject 
+<pre><code>@interface CYLPerson : NSObject 
 @property NSString *firstName; 
 @property NSString *lastName; 
 @end
@@ -1223,7 +1220,7 @@ NSString *stringCopy = [string copy];
 <p>在上例中，会生成两个实例变量，其名称分别为
 <code>_firstName</code>与<code>_lastName</code>。也可以在类的实现代码里通过<code>@synthesize</code>语法来指定实例变量的名字:</p>
 
-<pre><code class="Objective-C">@implementation CYLPerson 
+<pre><code>@implementation CYLPerson 
 @synthesize firstName = _myFirstName; 
 @synthesize lastName = _myLastName; 
 @end 
@@ -1276,7 +1273,7 @@ NSString *stringCopy = [string copy];
 
 <p>可以在类的实现代码里通过<code>@synthesize</code>语法来指定实例变量的名字:</p>
 
-<pre><code class="Objective-C">@implementation CYLPerson 
+<pre><code>@implementation CYLPerson 
 @synthesize firstName = _myFirstName; 
 @synthesize lastName = _myLastName; 
 @end 
@@ -1342,12 +1339,11 @@ NSString *stringCopy = [string copy];
 <p>在Objective-C中向nil发送消息是完全有效的——只是在运行时不会有任何作用:</p>
 
 <ol>
-<li>如果一个方法返回值是一个对象，那么发送给nil的消息将返回0(nil)。例如：</li>
+<li><p>如果一个方法返回值是一个对象，那么发送给nil的消息将返回0(nil)。例如：</p>
+
+<p>Person * motherInlaw = [[aPerson spouse] mother];</p></li>
 </ol>
 
-
-<pre><code class="`Objective-C">Person * motherInlaw = [[aPerson spouse] mother];
-</code></pre>
 
 <p> 如果spouse对象为nil，那么发送给nil的消息mother也将返回nil。
  2. 如果方法返回值为指针类型，其指针大小为小于或者等于sizeof(void*)，float，double，long double 或者long long的整型标量，发送给nil的消息将返回0。
@@ -1360,8 +1356,7 @@ NSString *stringCopy = [string copy];
 
 <p>那么，为了方便理解这个内容，还是贴一个objc的源代码：</p>
 
-<pre><code class="Objective-C">
-// runtime.h（类在runtime中的定义）
+<pre><code>// runtime.h（类在runtime中的定义）
 // http://weibo.com/luohanchenyilong/
 // https://github.com/ChenYilong
 
@@ -1388,7 +1383,7 @@ struct objc_class {
 
 <p>具体原因同上题：该方法编译之后就是<code>objc_msgSend()</code>函数调用.如果我没有记错的大概是这样的：</p>
 
-<pre><code class="Objective-C">((void ()(id, SEL))(void )objc_msgSend)((id)obj, sel_registerName("foo"));
+<pre><code>((void ()(id, SEL))(void )objc_msgSend)((id)obj, sel_registerName("foo"));
 </code></pre>
 
 <p>也就是说：</p>
@@ -1556,7 +1551,7 @@ NSLog((NSString *)&amp;__NSConstantStringImpl__var_folders_gm_0jk35cwn1d3326x006
 
 <p><a href="https://web.archive.org/web/20120818164935/http://developer.apple.com/library/ios/#/web/20120820002100/http://developer.apple.com/library/ios/documentation/cocoa/conceptual/objectivec/Chapters/ocAssociativeReferences.html"> <strong><em>2011年版本的Apple API 官方文档 - Associative References</em></strong>  </a> 一节中有一个MRC环境下的例子：</p>
 
-<pre><code class="Objective-C">// 在MRC下，使用runtime Associate方法关联的对象，不需要在主对象dealloc的时候释放
+<pre><code>// 在MRC下，使用runtime Associate方法关联的对象，不需要在主对象dealloc的时候释放
 // http://weibo.com/luohanchenyilong/ (微博@iOS程序犭袁)
 // https://github.com/ChenYilong
 // 摘自2011年版本的Apple API 官方文档 - Associative References 
@@ -2052,11 +2047,11 @@ Objective-C 没有消失，但是现在用一个慢慢失去关注的语言来�
 
 <p><strong>林翔宇</strong>
 - <a href="http://linxiangyu.org">http://linxiangyu.org</a>
-- <a href="&#x6d;&#x61;&#105;&#108;&#116;&#x6f;&#58;&#108;&#105;&#110;&#120;&#x69;&#97;&#x6e;&#x67;&#x79;&#117;&#64;&#110;&#117;&#x70;&#x74;&#101;&#114;&#x2e;&#111;&#x72;&#x67;">&#x6c;&#105;&#x6e;&#120;&#x69;&#97;&#110;&#x67;&#x79;&#117;&#x40;&#x6e;&#117;&#x70;&#116;&#x65;&#114;&#x2e;&#111;&#114;&#x67;</a>
+- <a href="&#109;&#x61;&#105;&#108;&#116;&#111;&#x3a;&#108;&#105;&#110;&#120;&#105;&#97;&#110;&#103;&#x79;&#117;&#64;&#x6e;&#117;&#x70;&#x74;&#x65;&#x72;&#46;&#x6f;&#x72;&#103;">&#108;&#x69;&#110;&#120;&#105;&#97;&#110;&#103;&#121;&#x75;&#x40;&#110;&#117;&#x70;&#116;&#101;&#114;&#x2e;&#x6f;&#114;&#x67;</a>
 - <a href="http://github.com/oa414">http://github.com/oa414</a></p>
 
 <p><strong>庞博</strong>
-- <a href="&#x6d;&#97;&#x69;&#108;&#116;&#x6f;&#x3a;&#x62;&#111;&#112;&#97;&#110;&#103;&#64;&#x73;&#111;&#x68;&#117;&#x2d;&#x69;&#x6e;&#99;&#46;&#99;&#111;&#x6d;">&#x62;&#x6f;&#x70;&#x61;&#110;&#103;&#64;&#x73;&#111;&#104;&#117;&#x2d;&#x69;&#x6e;&#99;&#x2e;&#x63;&#111;&#109;</a>
+- <a href="&#x6d;&#97;&#105;&#108;&#116;&#111;&#58;&#x62;&#x6f;&#x70;&#x61;&#x6e;&#x67;&#x40;&#x73;&#x6f;&#x68;&#117;&#x2d;&#x69;&#x6e;&#x63;&#x2e;&#99;&#111;&#x6d;">&#98;&#x6f;&#112;&#97;&#110;&#x67;&#x40;&#115;&#111;&#x68;&#117;&#45;&#105;&#110;&#x63;&#46;&#x63;&#111;&#x6d;</a>
 - <a href="https://github.com/heistings">https://github.com/heistings</a></p>
 
 <p>翻译已得到原作者许可，并且会在更加完善后申请合并到原文仓库。</p>

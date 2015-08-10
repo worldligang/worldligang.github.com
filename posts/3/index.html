@@ -81,6 +81,743 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/07/24/nsfilemanagerwen-jian-cao-zuo-de-shi-ge-xiao-gong-neng/">NSFileManager文件操作的十个小功能</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-24T00:14:03+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:14 am</span></time>
+        
+        
+          | <a href="/blog/2015/07/24/nsfilemanagerwen-jian-cao-zuo-de-shi-ge-xiao-gong-neng/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>NSFileManager是一个单列类，也是一个文件管理器。可以通过NSFileManager创建文件夹、创建文件、写文件、读文件内容等等基本功能。</p>
+
+<p>下面将介绍NSFileManager文件操作的十个小功能。我们在Documents里面进行举例，首先是获取Documents的路径。这个在<a href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-%28sandbox/">iOS开发之沙盒机制（SandBox)</a>已经详细讲解过了。获取Documents路径方法如下：</p>
+
+<pre><code>- (NSString *)getDocumentsPath
+{
+    //获取Documents路径
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *path = [paths objectAtIndex:0];
+    NSLog(@"path:%@", path);
+    return path;
+}
+</code></pre>
+
+<h3>创建文件夹</h3>
+
+<pre><code>-(void)createDirectory{
+    NSString *documentsPath =[self getDocumentsPath];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *iOSDirectory = [documentsPath stringByAppendingPathComponent:@"iOS"];
+    BOOL isSuccess = [fileManager createDirectoryAtPath:iOSDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+    if (isSuccess) {
+        NSLog(@"success");
+    } else {
+        NSLog(@"fail");
+    }
+}
+</code></pre>
+
+<h3>创建文件</h3>
+
+<pre><code>-(void)createFile{
+    NSString *documentsPath =[self getDocumentsPath];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
+    BOOL isSuccess = [fileManager createFileAtPath:iOSPath contents:nil attributes:nil];
+    if (isSuccess) {
+        NSLog(@"success");
+    } else {
+        NSLog(@"fail");
+    }
+}
+</code></pre>
+
+<h3>写文件</h3>
+
+<pre><code>-(void)writeFile{
+    NSString *documentsPath =[self getDocumentsPath];
+    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
+    NSString *content = @"我要写数据啦";
+    BOOL isSuccess = [content writeToFile:iOSPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    if (isSuccess) {
+        NSLog(@"write success");
+    } else {
+        NSLog(@"write fail");
+    }
+}
+</code></pre>
+
+<h3>读取文件内容</h3>
+
+<pre><code>-(void)readFileContent{
+    NSString *documentsPath =[self getDocumentsPath];
+    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
+    NSString *content = [NSString stringWithContentsOfFile:iOSPath encoding:NSUTF8StringEncoding error:nil];
+    NSLog(@"read success: %@",content);
+}
+</code></pre>
+
+<h3>判断文件是否存在</h3>
+
+<pre><code>- (BOOL)isSxistAtPath:(NSString *)filePath{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL isExist = [fileManager fileExistsAtPath:filePath];
+    return isExist;
+}
+</code></pre>
+
+<h3>计算文件大小</h3>
+
+<pre><code>- (unsigned long long)fileSizeAtPath:(NSString *)filePath{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL isExist = [fileManager fileExistsAtPath:filePath];
+    if (isExist){
+        unsigned long long fileSize = [[fileManager attributesOfItemAtPath:filePath error:nil] fileSize];
+        return fileSize;
+    } else {
+        NSLog(@"file is not exist");
+        return 0;
+    }
+}
+</code></pre>
+
+<h3>计算整个文件夹中所有文件大小</h3>
+
+<pre><code>- (unsigned long long)folderSizeAtPath:(NSString*)folderPath{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL isExist = [fileManager fileExistsAtPath:folderPath];
+    if (isExist){
+        NSEnumerator *childFileEnumerator = [[fileManager subpathsAtPath:folderPath] objectEnumerator];
+        unsigned long long folderSize = 0;
+        NSString *fileName = @"";
+        while ((fileName = [childFileEnumerator nextObject]) != nil){
+            NSString* fileAbsolutePath = [folderPath stringByAppendingPathComponent:fileName];
+            folderSize += [self fileSizeAtPath:fileAbsolutePath];
+        }
+        return folderSize / (1024.0 * 1024.0);
+    } else {
+        NSLog(@"file is not exist");
+        return 0;
+    }
+}
+</code></pre>
+
+<h3>删除文件</h3>
+
+<pre><code>-(void)deleteFile{
+    NSString *documentsPath =[self getDocumentsPath];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
+    BOOL isSuccess = [fileManager removeItemAtPath:iOSPath error:nil];
+    if (isSuccess) {
+        NSLog(@"delete success");
+    }else{
+        NSLog(@"delete fail");
+    }
+}
+</code></pre>
+
+<h3>移动文件</h3>
+
+<pre><code>- (void)moveFileName
+{
+    NSString *documentsPath =[self getDocumentsPath];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *filePath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
+    NSString *moveToPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
+    BOOL isSuccess = [fileManager moveItemAtPath:filePath toPath:moveToPath error:nil];
+    if (isSuccess) {
+        NSLog(@"rename success");
+    }else{
+        NSLog(@"rename fail");
+    }
+}
+</code></pre>
+
+<h3>重命名</h3>
+
+<pre><code>- (void)renameFileName
+{
+    //通过移动该文件对文件重命名
+    NSString *documentsPath =[self getDocumentsPath];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *filePath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
+    NSString *moveToPath = [documentsPath stringByAppendingPathComponent:@"rename.txt"];
+    BOOL isSuccess = [fileManager moveItemAtPath:filePath toPath:moveToPath error:nil];
+    if (isSuccess) {
+        NSLog(@"rename success");
+    }else{
+        NSLog(@"rename fail");
+    }
+}
+</code></pre>
+
+<p>以上文件操作代码都在<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a>，可以直接通过git拉下来进行测试。关于NSFileManager的用法还有很多，一起接续探索吧！</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/23/ru-he-cha-kan-zhen-ji-de-sha-he-(tu-wen-jiao-cheng-)/">如何查看真机的沙盒（图文教程）</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-23T00:29:31+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>12:29 am</span></time>
+        
+        
+          | <a href="/blog/2015/07/23/ru-he-cha-kan-zhen-ji-de-sha-he-(tu-wen-jiao-cheng-)/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在<a href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-%28sandbox/">iOS开发之沙盒机制（SandBox)</a>，我们了解到如何查看模拟器的沙盒内容。直接在Finder->前往->前往文件夹里输入：</p>
+
+<pre><code>/Users/ligang/Library/Application Support/iPhone Simulator/ 
+</code></pre>
+
+<p>这样就可以查看模拟器的沙盒内容。在平时开发中，我们应该大部分用的是真机测试。如果需要在沙盒里操作文件，那么我们可以通过观察真机沙盒的内容，来确定文件操作是否正确。</p>
+
+<p>如果你已经知道如何查看真机的沙盒，请看看其他的文章吧，在这里<a href="zhannei.superqq.com">刚刚在线站内搜索</a>可以搜索到更多iOS开发相关的文章。接下来，通过图文的方式详细讲解如何查看真机沙盒。有兴趣的同学可以继续往下看。</p>
+
+<h2>查看真机沙盒教程</h2>
+
+<h3>打开Devices</h3>
+
+<p>在xcode的上部导航栏里，选择window -> Devices</p>
+
+<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/realsandbox1.jpg" alt="realsandbox1.jpg" /></p>
+
+<h3>找到目标APP</h3>
+
+<p>我们拿<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a>举例。界面如下图所示：</p>
+
+<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/realsandbox2.jpg" alt="realsandbox2.jpg" /></p>
+
+<h3>浏览沙盒目录结构</h3>
+
+<h4>双击iOSStrongDemo</h4>
+
+<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/realsandbox3.jpg" alt="realsandbox3.jpg" /></p>
+
+<h4>点击Show Container</h4>
+
+<p>设置图标单击之后，如图所示：</p>
+
+<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/realsandbox4.jpg" alt="realsandbox4.jpg" /></p>
+
+<p>这样我们只能看到沙盒的目录结构。看不到实体文件。那么，我们下一步就是找到这个沙盒。</p>
+
+<h3>Download Container保存到桌面</h3>
+
+<p>如上图所示，有一个Download Container，选择之后，保存到桌面。</p>
+
+<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/realsandbox5.jpg" alt="realsandbox5.jpg" /></p>
+
+<h3>右键显示包内容</h3>
+
+<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/realsandbox6.jpg" alt="realsandbox6.jpg" /></p>
+
+<h3>查看沙盒目录</h3>
+
+<p>AppDataInfo.plist是APP的配置文件：</p>
+
+<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/realsandbox7.jpg" alt="realsandbox7.jpg" /></p>
+
+<h3>打开AppData</h3>
+
+<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/realsandbox8.jpg" alt="realsandbox8.jpg" /></p>
+
+<p>这就是APP的沙盒，在这里我们可以对文件进行增删查改操作。更多内容以后继续慢慢分享。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/22/kuai-kuai-kuai-!27ge-ti-sheng-xiao-lu-de-ioskai-yuan-ku-tui-jian/">快快快！27个提升效率的iOS开源库推荐</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-22T13:11:49+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>1:11 pm</span></time>
+        
+        
+          | <a href="/blog/2015/07/22/kuai-kuai-kuai-!27ge-ti-sheng-xiao-lu-de-ioskai-yuan-ku-tui-jian/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>CSDN移动将持续为您优选移动开发的精华内容，共同探讨移动开发的技术热点话题，涵盖移动应用、开发工具、移动游戏及引擎、智能硬件、物联网等方方面面。如果您想投稿、参与内容翻译工作，或寻求近匠报道，请发送邮件至tangxy#csdn.net（请把#改成@）。</p></blockquote>
+
+<p>我热爱开源，更喜爱那些花费宝贵的业余时间来创造奇迹的开发者们，感谢他们将自己辛苦劳动的成果无偿分享给大家。开源作者和贡献者们，你们太了不起了，感谢你们所付出的一切。</p>
+
+<p>鉴于我是收集不全会死星人，这里我根据个人喜好选取了一些iOS的开源库。这些项目的顺序完全随机，每个都棒到爆。绝大多数支持CocoaPods，所以将它们添加到你的Xcode项目中只是小事一桩。</p>
+
+<p>在本文末尾你可以找到一个长文慎入版本——一个只包含题目与项目链接的简单列表。如果你觉得这篇文章有用的话，请把它分享给其他做iOS开发的小伙伴们，好酒也怕巷子深。</p>
+
+<h3>1. <a href="https://github.com/dzenbot/DZNEmptyDataSet" target="_blank" title=“DZNEmptyDataSet”>DZNEmptyDataSet</a></h3>
+
+<p>DZNEmptyDataSet算是一个很标准的iOS内建方式，适合用来处理空的table view和collection view。默认情况下，如果你的table view为空，屏幕就为空，这样一来用户体验并不理想。</p>
+
+<p><img src="http://img.ptcms.csdn.net/article/201507/21/55adfe02a4a2f_middle.jpg" alt="1" /></p>
+
+<p>使用这个库，你只需遵守一些协议，iOS就会自动将collection view处理完善，并将用户消息以合适美观的方式显示出来。每个iOS项目都可以自动处理，不用再一一费神。</p>
+
+<h3>2. <a href="https://github.com/jivesoftware/PDTSimpleCalendar" target="_blank" title=“PDTSimpleCalendar”>PDTSimpleCalendar</a></h3>
+
+<p>你的应用需要一个简单美观且正常运行的日历组件吗？现在有了——PDTSimpleCalendar也许可以算是iOS最棒的日历组件了。你可以在各个方面对它进行定制，无论是运行逻辑还是外观方面。</p>
+
+<p><img src="http://img.ptcms.csdn.net/article/201507/21/55adff269e028_middle.jpg" alt="2" /></p>
+
+<h3>3. <a href="https://github.com/magicalpanda/MagicalRecord" target="_blank" title=“MagicalRecord”>MagicalRecord</a></h3>
+
+<p>他们都说：Core Data简洁易用。他们又说：很棒很好用噢。哈？真的吗，苹果？添加到各个项目中的大量样板数据完全不符合简洁而易用的标准。更别提添加、移除和更新那一大堆的entities、保存context、按不同环境创建不同的Core Data堆栈等等。当然，我很喜欢Core Data，但是苹果真的可以把它更好地简化一下——使用MagicalRecord方式。</p>
+
+<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0130e5bb0_middle.jpg" alt="3" /></p>
+
+<p>MagicalRecord就像是给Core Data提供了一层外包装，隐藏掉所有不相关的东西。如果你曾经使用过active record模式（比如Ruby on Rails），你就知道了。倾情推荐，在应用中使用Core Data的童鞋们可一定要试试。</p>
+
+<h3>4. <a href="https://github.com/ViccAlexander/Chameleon" target="_blank" title=“Chameleon”>Chameleon</a></h3>
+
+<p>如果你已经看到这里了，我猜你更有可能是个程序猿，而不是设计狮。这里有个东东很适合你。</p>
+
+<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae02035ca71_middle.jpg" alt="4" /></p>
+
+<p>Chameleon是一个iOS的色彩框架。它运用现代化flat color将UIColor扩展地非常美观。我们还可以通过它运用自定义颜色创建调色板。它还有很多功用，请浏览readme。如果你想要应用美观的话，一定要把这个库加到项目里。</p>
+
+<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0212f22c6_middle.jpg" alt="4-1" /></p>
+
+<h3>5. <a href="https://github.com/Alamofire/Alamofire" target="_blank" title=“Alamofire”>Alamofire</a></h3>
+
+<p>Alamofire是一个简洁的网络库，用Swift语言编写。你是否曾经使用过AFNetworking呢？Alamofire是它的小弟。更年轻更时尚，当然（AFNetworking是用Objective-C编写的）。</p>
+
+<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae024c07d47_middle.jpg" alt="5" /></p>
+
+<p>如果你需要进行网络的相关工作，诸如下载、上传与获取JSONs等等的话，Alamofire正是你所需要的。GitHub上8000人次推荐，一定不会错。</p>
+
+<h3>6. <a href="https://github.com/raulriera/TextFieldEffects" target="_blank" title=“TextFieldEffects”>TextFieldEffects</a></h3>
+
+<p>你不觉得标准的UITextField有些枯燥么？我也这样想——来认识一下TextFieldEffects吧！废话不多说，只要看几个例子：</p>
+
+<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae048484702.jpg" alt="6" /></p>
+
+<p>是啊，都是些简单的dropin控制器。你甚至可以在storyboard中使用IBDesignables。</p>
+
+<p>不幸地是：这个库不支持CocoaPods（如果你来自未来，而这一情况什么时候会改变的话，一定要在Twitter上告诉我），但是它支持Carthage。你只管从GitHub上下载项目，把它放入你的workspace就行了。</p>
+
+<h3>7. <a href="https://github.com/BradLarson/GPUImage" target="_blank" title=“GPUImage”>GPUImage</a></h3>
+
+<p>你曾经写过照相机应用吗？如果没有的话，很快你一定会遇到这个库的。</p>
+
+<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae04fe94fc8.jpg" alt="7" /></p>
+
+<p>GPUImage为我们提供了一个GPU加速的照相机效果（同时支持照片与视频），而且处理速度飞快。在App Store中，使用这个库的应用数以百计。我有一个应用也用到了GPUImage。 它在GitHub上获得了8869个star，而且还在增长。</p>
+
+<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae053f548d5_middle.jpg" alt="7-1" /></p>
+
+<h3>8. <a href="https://github.com/nicklockwood/iRate" target="_blank" title=“iRate”>iRate</a></h3>
+
+<p>想要在App Store中获得更多评论的最佳方式是什么？想要回答这个问题，我缺乏切实数据，但如果必须猜一下的话，我会建议问问用户。也许这样做有点老套——大多开发者现在都有创建定制的应用内置alert。</p>
+
+<p>但是如果你没有时间，或者不想从头实现的话，最好用一下iRata。这个就是iRata——一个小型库——你可以把它放入项目中，把问卷调查什么的都忘记吧，iRate会在恰当的时候为你解决这个问题。</p>
+
+<h3>9. <a href="https://github.com/nihalahmed/GameCenterManager" target="_blank" title=“GameCenterManager”>GameCenterManager</a></h3>
+
+<p>无论你喜不喜欢单例模式，管理一个GameCenter都比我们已知的其他相反模式要好很多。（你的游戏只有一个GameCenter，对吗？）</p>
+
+<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae05bd3f99e_middle.jpg" alt="9" /></p>
+
+<p>说实话，在iOS上管理GameCenter vanilla并不算难，但是有了这个库会更简单也更快。好上加好不是更好么。</p>
+
+<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae05c9cba37_middle.jpg" alt="9-1" /></p>
+
+<p>我在我一个游戏中用到了这个，体验很好。</p>
+
+<h3>10. <a href="https://github.com/pkluz/PKRevealController" target="_blank" title=“PKRevealController 2”>PKRevealController 2</a></h3>
+
+<p>这个要注意，真的很棒！是我最喜爱的iOS控件之一。PKRevealController是一个可以滑动的侧边栏菜单（可向左、向右或者同时向两侧），只需手指轻轻一点（或者按一下按钮，但是这样滑动时不够炫酷）。</p>
+
+<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae067bd3b6b.jpg" alt="2" /></p>
+
+<p>我试过一些可以提供这类控制的其他库，而PKRevealController是最棒的。安装简便，高度定制且对手势识别良好。可以当做一个标准控件用在iOS SDK中。</p>
+
+<h3>11. <a href="https://github.com/slackhq/SlackTextViewController" target="_blank" title=“SlackTextViewController”>SlackTextViewController</a></h3>
+
+<p>你曾经用过Slack iOS应用吗？如果你在较大的软件公司工作，也许会用过。对那些没用过的人呢？—?Slack令人激动。用到Slack的应用也是这样，尤其是用作极佳、定制的文本输入控制时。这时你有了一个现成可用在应用中的代码。</p>
+
+<p>自适应文本区域？试一下。</p>
+
+<p>手势识别、自动填充、多媒体合并？试一下。</p>
+
+<p>快速drop-in解决方案？试一下。</p>
+
+<p>其他还想要什么？</p>
+
+<h3>12. <a href="https://github.com/romaonthego/RETableViewManager" target="_blank" title=“RETableViewManager”>RETableViewManager</a></h3>
+
+<p>RETableViewManager可以帮助你进行动态创建与管理table views。它给我们提供了预定义cells（bool类型、文本、日期等等——请看下面的截图），但是你还可以创建自定义views，并与默认视图一同使用。</p>
+
+<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0702088ab_middle.jpg" alt="12" /></p>
+
+<p>左侧截图显得非常古板！在storyboard中没有这个库的时候，你能做的就是这些了，但是有时候代码比可视化编辑器要好。</p>
+
+<h3>13. <a href="https://github.com/nickoneill/PermissionScope" target="_blank" title=“PermissionScope”>PermissionScope</a></h3>
+
+<p>用这个库可以在询问用户前，就告知用户所需的系统权限，为用户带来更好的体验。接受度更高—>更多活跃用户->更高的留存率->数据更好->下载率更高。墙裂推荐pod。</p>
+
+<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0733b6110_middle.jpg" alt="13" /></p>
+
+<h3>14. <a href="https://github.com/TransitApp/SVProgressHUD" target="_blank" title=“SVProgressHUD”>SVProgressHUD</a></h3>
+
+<p>这张图片在正常加载，无需等待太久或者刷新页面。这正是SVProgressHUD在你的应用中的表现。如果你需要定制化的等待提示器，这个就是了（也许是最好的）。</p>
+
+<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae077d15432.jpg" alt="14" /></p>
+
+<h3>15. <a href="https://github.com/PrideChung/FontAwesomeKit" target="_blank" title=“FontAwesomeKit”>FontAwesomeKit</a></h3>
+
+<p>Font Awesome很棒，有了它你可以很容易地给项目加字体，使用方式繁多。</p>
+
+<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae07a34b492_middle.jpg" alt="15" /></p>
+
+<h3>16. <a href="https://github.com/SnapKit/SnapKit" target="_blank" title=“SnapKit”>SnapKit</a></h3>
+
+<p>喜欢自动布局吗？当然喜欢！至少在storyboard中创建时会喜欢。 在代码中纯手工创建约束灰常痛苦，但幸运的是我们有了SnapKit，在board中用上它，你可以简单直观地编写约束了。</p>
+
+<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae07ebf3c2c_middle.jpg" alt="16" /></p>
+
+<h3>17. <a href="https://github.com/MortimerGoro/MGSwipeTableCell" target="_blank" title=“MGSwipeTableCell”>MGSwipeTableCell</a></h3>
+
+<p>这是另一个常见于很多应用中的UI组件，苹果应该考虑在标准的iOS SDK中加入一些类似的内容。Swipeable表格cell是这个pod的最佳描述，也是最好的。</p>
+
+<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0953304a9.jpg" alt="17" /></p>
+
+<p>这只是其中三个动画类型，还有更多变化，请查看readme。</p>
+
+<h3>18. <a href="https://github.com/Quick/Quick" target="_blank" title=“Quick”>Quick</a></h3>
+
+<p>用于Swift中的单元测试（也可用于Objective-C），与Xcode整合在一起。如果你是Objective-C的粉丝，我建议用Specta代替这个，但是对Swift使用者来说，Quick是最佳选择。</p>
+
+<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0a6012068_middle.jpg" alt="18" /></p>
+
+<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0a767198e_middle.jpg" alt="181" /></p>
+
+<h3>19. <a href="https://github.com/saturngod/IAPHelper" target="_blank" title=“IAPHelper”>IAPHelper</a></h3>
+
+<p>应用内付费给我们提供了很多样本代码，而这个库丢掉了那些代码，将金钱交易相关的大多通用任务做了简单的封装。</p>
+
+<h3>20. <a href="https://github.com/ReactiveCocoa/ReactiveCocoa" target="_blank" title=“ReactiveCocoa”>ReactiveCocoa</a></h3>
+
+<p>好吧，这是个小怪物。</p>
+
+<p>ReactiveCocoa并不像列表中其他库一样，它不是小型的drop-in项目。ReactiveCocoa给我们带来了一个迥异的编程风格与结构，它是基于信号与数据流的。首先你需要忘掉已知的一切，才能理解它的工作方式。很有难度，但是价值不斐。</p>
+
+<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0acf1f0dc_middle.jpg" alt="20" /></p>
+
+<p>在这里教ReactiveCocoa有点不合适，但是如果你感兴趣的话，我会提供一些好源：</p>
+
+<ul>
+<li><a href="http://www.teehanlax.com/blog/getting-started-with-reactivecocoa/" target="_blank" title=“Getting Started with ReactiveCocoa”>Getting Started with ReactiveCocoa</a></li>
+<li><a href="http://nshipster.com/reactivecocoa/" target="_blank" title=“Mattt Thompson：Reactive​Cocoa”>Mattt Thompson：Reactive​Cocoa</a></li>
+<li><a href="http://www.raywenderlich.com/62699/reactivecocoa-tutorial-pt1" target="_blank" title=“ReactiveCocoa Tutorial – The Definitive Introduction: Part 1/2”>ReactiveCocoa Tutorial – The Definitive Introduction: Part &frac12;</a></li>
+</ul>
+
+
+<p>注意：对我们iOS开发社区的朋友来说，这会是一个稍微有些技术含量的活儿。</p>
+
+<h3>21. <a href="https://github.com/SwiftyJSON/SwiftyJSON" target="_blank" title=“SwiftyJSON”>SwiftyJSON</a></h3>
+
+<p>使Swift的JSON解析变得简单。</p>
+
+<h3>22. <a href="https://github.com/MengTo/Spring" target="_blank" title=“Spring”>Spring</a></h3>
+
+<p>使动画在简单性、可链接性与声明性方面有所提高。</p>
+
+<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0dfe58b6c_middle.jpg" alt="22" /></p>
+
+<h3>23. <a href="https://github.com/ArtSabintsev/FontBlaster" target="_blank" title=“FontBlaster”>FontBlaster</a></h3>
+
+<p>载入定制字体时更简单。</p>
+
+<h3>24. <a href="https://github.com/JanC/TAPromotee" target="_blank" title=“TAPromotee”>TAPromotee</a></h3>
+
+<p>交叉推广应用是你可以免费实现的最佳市场推广策略之一。使用这个库做起来非常简单，不用都不可能——将TAPromotee加入你的podfile中，免费配置与享受更多下载吧。</p>
+
+<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0e81d6464_middle.jpg" alt="24" /></p>
+
+<h3>25. <a href="https://github.com/contentful-labs/Concorde" target="_blank" title=“Concorde”>Concorde</a></h3>
+
+<p>你在应用中载入了一堆jpeg吗？有了Concorde，你可以用更好的方式来解决，这是一个很大的进步。</p>
+
+<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae11e47390e.jpg" alt="25" /></p>
+
+<h3>26. <a href="https://github.com/kishikawakatsumi/KeychainAccess" target="_blank" title=“KeychainAccess”>KeychainAccess</a></h3>
+
+<p>管理Keychain接入的小助手。</p>
+
+<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0f198a4dc_middle.jpg" alt="26" /></p>
+
+<h3>27. <a href="https://github.com/danielgindi/ios-charts" target="_blank" title=“iOS-charts”>iOS-charts</a></h3>
+
+<p>最后一个，但绝不是最不重要的——iOS图表库！非常有用而且美观，这里我无需赘言。向下看，你就知道用它可以做什么了。</p>
+
+<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0f6715aec_middle.jpg" alt="27" /></p>
+
+<p>没错，一切都变成了drop-in组件了（也许是“code-in组件）。</p>
+
+<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0f7ec6743_middle.jpg" alt="271" /></p>
+
+<p>不幸的是，它还不支持CocoaPods，所以你得手动把它拽到你的Xcode workspace里面去。</p>
+
+<p>超长慎入列表：</p>
+
+<ol>
+<li><a href="https://github.com/dzenbot/DZNEmptyDataSet" target="_blank" title=“DZNEmptyDataSet”>DZNEmptyDataSet</a>（UI，空表格视图解算器）</li>
+<li><a href="https://github.com/jivesoftware/PDTSimpleCalendar" target="_blank" title=“PDTSimpleCalendar”>PDTSimpleCalendar</a>（UI，drop-in日历组件）</li>
+<li><a href="https://github.com/magicalpanda/MagicalRecord" target="_blank" title=“MagicalRecord”>MagicalRecord</a>（实施活跃记录模式的Core Data助手）</li>
+<li><a href="https://github.com/ViccAlexander/Chameleon" target="_blank" title=“Chameleon”>Chameleon</a>（UI，色彩框架）</li>
+<li><a href="https://github.com/Alamofire/Alamofire" target="_blank" title=“Alamofire”>Alamofire</a>（Swift 网络）</li>
+<li><a href="https://github.com/raulriera/TextFieldEffects" target="_blank" title=“TextFieldEffects”>TextFieldEffects</a> （UI，自定义外观的文本区域）</li>
+<li><a href="https://github.com/BradLarson/GPUImage" target="_blank" title=“GPUImage”>GPUImage</a>（快速图片处理）</li>
+<li><a href="https://github.com/nicklockwood/iRate" target="_blank" title=“iRate”>iRate</a>（获取用户评价）</li>
+<li><a href="https://github.com/nihalahmed/GameCenterManager" target="_blank" title=“GameCenterManager”>GameCenterManager</a>（快速管理游戏中心）</li>
+<li><a href="https://github.com/pkluz/PKRevealController" target="_blank" title=“PKRevealController 2”>PKRevealController 2</a>（UI，滑动侧边栏菜单）</li>
+<li><a href="https://github.com/slackhq/SlackTextViewController" target="_blank" title=“SlackTextViewController”>SlackTextViewController</a>（UI，高度可定制的自定义文本区域）</li>
+<li><a href="https://github.com/romaonthego/RETableViewManager" target="_blank" title=“RETableViewManager”>RETableViewManager</a>（自动以代码创建表格视图）</li>
+<li><a href="https://github.com/nickoneill/PermissionScope" target="_blank" title=“PermissionScope”>PermissionScope</a>（UI，预询问用户系统权限的友好体验）</li>
+<li><a href="https://github.com/TransitApp/SVProgressHUD" target="_blank" title=“SVProgressHUD”>SVProgressHUD</a> （UI，自定义等待进度条）</li>
+<li><a href="https://github.com/PrideChung/FontAwesomeKit" target="_blank" title=“FontAwesomeKit”>FontAwesomeKit</a> （快速添加Awesome字体）</li>
+<li><a href="https://github.com/SnapKit/SnapKit" target="_blank" title=“SnapKit”>SnapKit</a>（在代码中快速自动布局）</li>
+<li><a href="https://github.com/MortimerGoro/MGSwipeTableCell" target="_blank" title=“MGSwipeTableCell”>MGSwipeTableCell</a> （UI，可滑动的表格视图cell）</li>
+<li><a href="https://github.com/Quick/Quick" target="_blank" title=“Quick”>Quick</a>（Swift单元测试框架）</li>
+<li><a href="https://github.com/saturngod/IAPHelper" target="_blank" title=“IAPHelper”>IAPHelper</a>（应用内购买助手封装）</li>
+<li><a href="https://github.com/ReactiveCocoa/ReactiveCocoa" target="_blank" title=“ReactiveCocoa”>ReactiveCocoa</a>（FRP框架）</li>
+<li><a href="https://github.com/SwiftyJSON/SwiftyJSON" target="_blank" title=“SwiftyJSON”>SwiftyJSON</a>（Swift JSON库）</li>
+<li><a href="https://github.com/MengTo/Spring" target="_blank" title=“Spring”>Spring</a>（动画框架）</li>
+<li><a href="https://github.com/ArtSabintsev/FontBlaster" target="_blank" title=“FontBlaster”>FontBlaster</a>（在应用中快速载入个性化字体）</li>
+<li><a href="https://github.com/JanC/TAPromotee" target="_blank" title=“TAPromotee”>TAPromotee</a>（使用drop-in视图交叉推广应用）</li>
+<li><a href="https://github.com/contentful-labs/Concorde" target="_blank" title=“Concorde”>Concorde</a>（下载解码渐进式jpeg）</li>
+<li><a href="https://github.com/kishikawakatsumi/KeychainAccess" target="_blank" title=“KeychainAccess”>KeychainAccess</a>（简便管理keychain）</li>
+<li><a href="https://github.com/danielgindi/ios-charts" target="_blank" title=“iOS-charts”>iOS-charts</a>（美观的图表库）</li>
+</ol>
+
+
+<p>文章来源：<a href="https://medium.com/app-coder-io/27-ios-open-source-libraries-to-skyrocket-your-development-301b67d3124c" target="_blank" title=“Medium”>Medium</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/22/ioskai-fa-zhi-huo-qu-sha-he-lu-jing/">iOS开发之获取沙盒路径</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-22T01:02:41+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>1:02 am</span></time>
+        
+        
+          | <a href="/blog/2015/07/22/ioskai-fa-zhi-huo-qu-sha-he-lu-jing/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-%28sandbox/">iOS开发之沙盒机制（SandBox)</a>详细讲解了沙盒的一些机制。在开发中，我们需要对沙盒进行操作，所以我们需要获取到沙盒路径。</p>
+
+<p>沙盒里的文件夹包括Documents、Library、tmp。这三个文件夹的作用请点击<a href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-%28sandbox/">这里</a>。接下来我们来讲解如何获取Documents、Library、tmp的路径。</p>
+
+<h3>获取沙盒根目录</h3>
+
+<p>获取沙盒根目录，直接调用NSHomeDirectory()：</p>
+
+<pre><code>//获取沙盒根目录
+NSString *directory = NSHomeDirectory();
+NSLog(@"directory:%@", directory);
+</code></pre>
+
+<p>控制台输出：</p>
+
+<pre><code>2015-07-22 00:40:16.185 iOSStrongDemo[1605:555658] directory:/var/mobile/Containers/Data/Application/F9418815-51A9-4A0A-A76C-6FD37C400928
+</code></pre>
+
+<p>这个是真机的路径，大家有时间的话可以看看模拟器的根目录路径。</p>
+
+<h3>获取Documents路径</h3>
+
+<p>获取Documents路径如下：</p>
+
+<pre><code>//获取Documents路径
+NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+NSString *path = [paths objectAtIndex:0];
+NSLog(@"path:%@", path);
+</code></pre>
+
+<p>控制台输出：</p>
+
+<pre><code>2015-07-22 00:41:41.397 iOSStrongDemo[1613:556159] path:/var/mobile/Containers/Data/Application/A62B886B-A8F0-4215-B59D-1F505C3997BD/Documents
+</code></pre>
+
+<p>获取Documents文件夹目录,第一个参数是说明获取Doucments文件夹目录，第二个参数说明是在当前应用沙盒中获取。</p>
+
+<h3>获取Library路径</h3>
+
+<pre><code>//获取Library路径
+NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+NSString *path = [paths objectAtIndex:0];
+NSLog(@"path：%@", path);
+</code></pre>
+
+<p>控制台输出：</p>
+
+<pre><code>2015-07-22 00:43:15.803 iOSStrongDemo[1619:556638] /var/mobile/Containers/Data/Application/17300507-4643-4DE7-BC68-E13DB19C8D98/Library
+</code></pre>
+
+<h3>获取Caches路径</h3>
+
+<pre><code>//获取Caches路径
+NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+NSString *path = [paths objectAtIndex:0];
+NSLog(@"path：%@", path);
+</code></pre>
+
+<p>控制台输出：</p>
+
+<pre><code>2015-07-22 00:44:31.383 iOSStrongDemo[1626:557083] path：/var/mobile/Containers/Data/Application/1E945B52-E29D-4041-A489-1AA1B11BB960/Library/Caches
+</code></pre>
+
+<h3>获取tmp路径</h3>
+
+<pre><code>NSString *tmp = NSTemporaryDirectory();
+NSLog(@"tmp：%@", tmp);
+</code></pre>
+
+<p>控制台输出：</p>
+
+<pre><code>2015-07-22 00:46:07.846 iOSStrongDemo[1632:557537] tmp：/private/var/mobile/Containers/Data/Application/4BE02307-1CC5-47E8-BEA8-CEBB7ED5A402/tmp/
+</code></pre>
+
+<p>以上是iOS开发中获取沙盒路径的方法，也许还有更好的获取方法等待我们去发现。后面我们还会讲到关于在沙盒里进行读写文件操作。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/21/bao-cuo-:process-launch-failed-failed-to-get-the-task-for-process-1285(jie-jue-fang-an-)/">报错：failed to Get the Task for Process 1285（解决方案）</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-21T00:16:31+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>12:16 am</span></time>
+        
+        
+          | <a href="/blog/2015/07/21/bao-cuo-:process-launch-failed-failed-to-get-the-task-for-process-1285(jie-jue-fang-an-)/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>你遇到的问题别人也遇到过</h2>
+
+<p>初接触iOS开发的童鞋估计会被真机调试搞的稀里糊涂的。在模拟器上运行什么问题没有，真机调试就会碰到各种各样的问题。</p>
+
+<p>不用担心。记住：你碰到的问题别人肯定都已经碰到过了。我们不是有百度和谷歌嘛，把你的问题描述出来，一定有解决方案的。还可以在<a href="http://zhannei.superqq.com/">刚刚在线站内搜索</a>里搜索，说不定也能帮你解决不少问题呢。</p>
+
+<p>我会经常把自己开发过程中碰到的调试问题，一一总结出来。一来是帮助自己在下一次碰到同样问题时，可以游刃有余。二来是帮助大家再碰到类似问题的时候，有一个参考的作用。</p>
+
+<h2>failed to get the task for process 1285</h2>
+
+<p>这一次碰到的问题是这样的：模拟器上运行正常。我在iPhone 6上运行，程序编译正常，但是跑起来之后，大概一两秒的时间，就闪退（代码是没有问题的）。这个时候，Xcode6.4弹出这样的提示：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/fixbug12850.jpg" alt="fixbug1285" /></p>
+
+<pre><code>Could not launch “iOSStrongDemo”
+process launch failed: failed to get the task for process 1285
+</code></pre>
+
+<h2>错误分析</h2>
+
+<p>我看了一下Build Settings里的Code Signing配置，发现Provisioning Profile选择的是XC Ad Hoc: *。如下图所示：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/fixbug.jpg" alt="fixbug" /></p>
+
+<p>Ad Hoc是用来实现发布前的用户测试的，也就是通过Ad Hoc将未发布的App给其他人提前使用。显然这是不对的，我们是要真机调试。</p>
+
+<h2>解决方案</h2>
+
+<p>解决方法很简单，将Provisioning Profile换成用开发证书创建的Provisioning Profile即可。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-(sandbox/">iOS开发之沙盒机制（SandBox)</a></h1>
     
     
@@ -306,11 +1043,11 @@ Objective-C 没有消失，但是现在用一个慢慢失去关注的语言来�
 
 <p><strong>林翔宇</strong>
 - <a href="http://linxiangyu.org">http://linxiangyu.org</a>
-- <a href="&#x6d;&#x61;&#x69;&#108;&#116;&#x6f;&#58;&#x6c;&#105;&#110;&#x78;&#105;&#x61;&#x6e;&#x67;&#121;&#117;&#64;&#110;&#117;&#x70;&#116;&#101;&#x72;&#x2e;&#111;&#114;&#x67;">&#x6c;&#105;&#x6e;&#120;&#105;&#97;&#110;&#103;&#x79;&#x75;&#64;&#110;&#x75;&#x70;&#116;&#x65;&#114;&#x2e;&#x6f;&#x72;&#x67;</a>
+- <a href="&#x6d;&#97;&#105;&#108;&#116;&#x6f;&#58;&#108;&#105;&#x6e;&#120;&#x69;&#x61;&#110;&#103;&#x79;&#x75;&#64;&#x6e;&#117;&#112;&#x74;&#x65;&#x72;&#x2e;&#x6f;&#114;&#x67;">&#x6c;&#x69;&#x6e;&#120;&#x69;&#x61;&#110;&#x67;&#x79;&#117;&#x40;&#x6e;&#x75;&#x70;&#x74;&#101;&#x72;&#x2e;&#111;&#114;&#x67;</a>
 - <a href="http://github.com/oa414">http://github.com/oa414</a></p>
 
 <p><strong>庞博</strong>
-- <a href="&#x6d;&#x61;&#105;&#108;&#116;&#111;&#x3a;&#98;&#111;&#112;&#x61;&#x6e;&#x67;&#x40;&#x73;&#x6f;&#104;&#x75;&#45;&#x69;&#x6e;&#99;&#46;&#x63;&#111;&#x6d;">&#x62;&#111;&#x70;&#97;&#x6e;&#103;&#64;&#115;&#111;&#104;&#117;&#x2d;&#105;&#110;&#x63;&#46;&#x63;&#111;&#x6d;</a>
+- <a href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#98;&#111;&#112;&#97;&#x6e;&#x67;&#64;&#115;&#111;&#x68;&#117;&#x2d;&#x69;&#x6e;&#x63;&#x2e;&#x63;&#111;&#x6d;">&#98;&#x6f;&#x70;&#x61;&#110;&#103;&#x40;&#x73;&#111;&#x68;&#x75;&#x2d;&#x69;&#110;&#x63;&#x2e;&#x63;&#111;&#109;</a>
 - <a href="https://github.com/heistings">https://github.com/heistings</a></p>
 
 <p>翻译已得到原作者许可，并且会在更加完善后申请合并到原文仓库。</p>
@@ -689,518 +1426,6 @@ NSLog(@"text:%@",text);
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/16/cheng-xu-yuan-:xuan-dui-fang-xiang-chi-xu-nu-li/">程序员：选对方向持续努力</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-16T22:24:25+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:24 pm</span></time>
-        
-        
-          | <a href="/blog/2015/07/16/cheng-xu-yuan-:xuan-dui-fang-xiang-chi-xu-nu-li/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>今天下班的时候，乘电梯的空打开了一篇文章：一个人，2年时间，做了一个价值1亿美金的网站。文章写得很精彩，非常吸引我。不一会电梯就到了，我依然抱着手机边走边看。</p>
-
-<p>到了我的小电动车旁边（公司离家不远，经常骑电动车上班），文章还没有看完。我就坐在电动车上，依然爱不释手的看着。边看边想：创始人真是太厉害了。</p>
-
-<p>能够吸引我的文章不少，能够这么吸引我的文章不多。建议大家抽时间也看看这篇文章，或许能激发出你的灵感，成就一番事业也说不定。</p>
-
-<h2>方向正确持续努力</h2>
-
-<p>文章里说的网站是：<strong>viralnova.com</strong> 只有创始人一个是全职员工，其他两位是兼职的。网站成立大概两年时间，每天有200万独立访问用户，月入十万美金。世界排名376位。</p>
-
-<p>看到这样的数据真的令人振奋，如果我有一个这样的网站，那就不用上班啦。这也不是没有可能。在国内也有个人做网站比较厉害的，比如说：<strong>卢松松</strong> 国内独立博客大牛。估计每个月也能赚不少钱吧。</p>
-
-<p>不能只看到他们的成绩，更要了解他们背后两年如一日、六年如一日的坚持和努力。有想法的人也许很多，能够坚持将想法付出行动的人就不多了。所以成功者总是少数。选对方向持续努力也许就是成功不二法则。</p>
-
-<p>作为一名程序员你的方向是什么呢？我们都应该这样问一下自己，不能每天漫无目的的坚持。马云不是说了嘛：梦想还是要有的，万一实现了呢。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/15/tong-guo-url-schemechuan-di-can-shu/">通过URL Scheme传递参数</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-15T22:50:21+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:50 pm</span></time>
-        
-        
-          | <a href="/blog/2015/07/15/tong-guo-url-schemechuan-di-can-shu/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>有这么一个段子特别火：实体店终于翻身了，他们用铁一样的事实告诉淘宝和京东，互联网+再牛逼也干不过实体店。你再便宜，你有试衣间吗？百年修得同船渡，千年修得优衣库。众里寻他千百度，三里屯优衣库。最美的不是下雨天，而是和你在试衣间。</p>
-
-<p>优衣库火了，你的朋友圈有没有被优衣库刷屏呀？据说还有视频传出来，各种版本的。有人竟然从我要视频，我是给还是不给呢？不知道优衣库的童鞋，赶紧百度一下吧！</p>
-
-<h2>这会是优衣库的炒作吗？</h2>
-
-<p>优衣库事件让优衣库狠狠的火了一把。不禁发问：这会是优衣库的炒作吗？不得而知。事件一经各大媒体报道出来之后，优衣库立刻发出声明。此事和我们没有半毛钱关系。</p>
-
-<p>如果这真是一次炒作。那么优衣库的营销未免太低俗了，这将会大大降低优衣库在消费者心里的地位。以后来优衣库的人可能不是买衣服而是约炮。</p>
-
-<p>如果这不是一次炒作。那么，这段视频上传的目的是什么呢？是男女主角想借此出名吗？可能性不是特别高，借此出名有什么好的呢！真正的目的也许只有当事人心里最清楚。</p>
-
-<p>我问了北京的朋友，是否知道优衣库事件。朋友说，何止知道，天天从那里路过。现在有很多人在那里合影呢，三里屯优衣库俨然成了一个景点。</p>
-
-<p><strong>热点总是一时的，借此炒作的人或许已达成目的。</strong>作为一名iOS开发程序员，我们只能继续写代码，改变世界。</p>
-
-<p>上一篇文章讲到：<a href="http://www.superqq.com/blog/2015/07/14/xcode6-dot-4zhu-ce-url-schemebu-zou-xiang-jie/">Xcode6.4注册URL Scheme步骤详解</a>，这一篇继续来看看URL Scheme传递参数。</p>
-
-<h2>通过注册的URL Scheme向目标APP传递参数</h2>
-
-<p>通过URL Scheme启动APP很简单就可以做到，但有时候我们想在启动APP的时候传递一些参数，这个时候我们就可以通过URL Scheme自定义URL来传递参数了。</p>
-
-<p>昨天我们在AppDelegate调用了UIApplicationDelegate的代理方法：</p>
-
-<pre><code>- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL*)url
-{
-    // 接受传过来的参数
-    NSString *text = [[url host] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"打开啦"
-                                           message:text
-                                          delegate:nil
-                                 cancelButtonTitle:@"OK"
-                                 otherButtonTitles:nil];
-    [alertView show];
-    return YES;
-}
-</code></pre>
-
-<p>我们来看看苹果给这个方法的注释：</p>
-
-<pre><code>- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url;  // Will be deprecated at some point, please replace with application:openURL:sourceApplication:annotation:
-</code></pre>
-
-<p>这个方法在未来将被废弃，可以用application:openURL:sourceApplication:annotation:来代替。</p>
-
-<h2>URL传参格式</h2>
-
-<p>昨天我们在<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a>注册的URL Scheme还记得是什么吗？你应该还有印象的就是iOS开发的ID：<strong>iOSDevTip</strong>。</p>
-
-<p>假设我们想要传递两个参数分别是名字name和手机号phone，格式如下：</p>
-
-<pre><code>iOSDevTip://?name=ligang&amp;phone=13888888888
-</code></pre>
-
-<p>有没有似曾相识的感觉。我们用get方式请求一个接口是不是就是这样的。</p>
-
-<h2>被启动的APP处理传过来的参数</h2>
-
-<pre><code>- (BOOL)application:(UIApplication *)application
-        openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication
-         annotation:(id)annotation
-{
-    NSLog(@"sourceApplication: %@", sourceApplication);
-    NSLog(@"URL scheme:%@", [url scheme]);
-    NSLog(@"URL query: %@", [url query]);
-
-    // 接受传过来的参数
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"打开啦"
-                                                        message:[url query]
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-    [alertView show];
-
-    return YES;
-}
-</code></pre>
-
-<p>当APP被启动是，会调用代理方法application:openURL:sourceApplication:annotation:。参数URL就是启动APP的URL，参数sourceApplication就是来源APP的Bundle ID。</p>
-
-<p>我们依然通过Safari来测试，在Safari的地址栏中输入：iOSDevTip://?name=ligang&amp;phone=13888888888</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/scheme1.png" alt="scheme1" /></p>
-
-<p>即可打开APP,看看参数是否传递过来：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/scheme2.png" alt="scheme2" /></p>
-
-<p>最后我们看一下打印：</p>
-
-<pre><code>2015-07-15 22:38:25.655 iOSStrongDemo[9983:2894855] sourceApplication: com.apple.mobilesafari
-2015-07-15 22:38:28.664 iOSStrongDemo[9983:2894855] URL scheme:iosdevtip
-2015-07-15 22:38:28.665 iOSStrongDemo[9983:2894855] URL query: name=ligang&amp;phone=13888888888
-</code></pre>
-
-<p>sourceApplication打印出来是com.apple.mobilesafari，从这里可以看出来，是从Safari启动我们的APP的。</p>
-
-<p>我们虽然自定义了URL Scheme，但是我们不能阻止别人通过自定义的URL Scheme来打开我们的应用。怎么解决呢？</p>
-
-<p>我们可以指定相应的sourceApplication，也就是相应的Bundle ID，通过Bundle ID来决定是否可以打开我们的APP：</p>
-
-<pre><code>- (BOOL)application:(UIApplication *)application
-        openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication
-         annotation:(id)annotation
-{
-    NSLog(@"sourceApplication: %@", sourceApplication);
-    NSLog(@"URL scheme:%@", [url scheme]);
-    NSLog(@"URL query: %@", [url query]);
-
-    if ([sourceApplication isEqualToString:@"com.3Sixty.CallCustomURL"]){
-        // 接受传过来的参数
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"打开啦"
-                                                            message:[url query]
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-        [alertView show];
-
-        return YES;
-    }else{
-        return NO;
-    }
-
-}
-</code></pre>
-
-<p>这样我们就可以通过Bundle ID来决定是否允许打开我们的APP，demo下载地址：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/14/xcode6-dot-4zhu-ce-url-schemebu-zou-xiang-jie/">Xcode6.4注册URL Scheme步骤详解</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-14T23:34:16+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:34 pm</span></time>
-        
-        
-          | <a href="/blog/2015/07/14/xcode6-dot-4zhu-ce-url-schemebu-zou-xiang-jie/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>好消息：微信团队邀请我的iOS开发（id：<strong>iOSDevTip</strong>）微信公众号开通赞赏功能，以后我就可以光明正大的通过文章要饭啦。你的赞赏就是我最大的动力。</p>
-
-<p>这是今天下午15：30收到的邀请：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/zanshang.png" alt="zanshang1" /></p>
-
-<h2>微信赞赏功能</h2>
-
-<p>为什么推出赞赏功能？微信公众号自2012年推出以来，一直成爆发式的增长。微信推出赞赏功能最重要的目的就是为了鼓励原创，鼓励创新。</p>
-
-<p>之前，原创功能、赞赏功能和评论功能是一起邀请开通的。现在微信团队分三次邀请。现在我的iOS开发公众号，已经被邀请开通了原创和赞赏功能，下一步争取开通评论功能。</p>
-
-<p>如果开通评论功能，我就可以更方便的和大家交流。一经邀请，我会第一时间告诉大家的。好消息，大家也知道啦。接下来继续回到正题，我们来谈谈iOS中的URL Scheme。</p>
-
-<h2>URL Scheme的作用</h2>
-
-<p>我们都知道苹果手机中的APP都有一个沙盒，APP就是一个信息孤岛，相互是不可以进行通信的。但是iOS的APP可以注册自己的URL Scheme，URL Scheme是为方便app之间互相调用而设计的。我们可以通过系统的OpenURL来打开该app，并可以传递一些参数。</p>
-
-<p>例如：你在Safari里输入www.alipay.com，就可以直接打开你的支付宝app，前提是你的手机装了<a href="http://www.superqq.com/blog/2015/07/10/zhi-fu-bao-he-wei-xin-zai-chao-xi-shang-shui-geng-sheng-%5B%3F%5D-chou/">支付宝</a>。如果你没有装支付宝，应该显示的是支付宝下载界面，点击会跳到AppStore的支付宝下载界面。</p>
-
-<p>URL Scheme必须能唯一标识一个APP，如果你设置的URL Scheme与别的APP的URL Scheme冲突时，你的APP不一定会被启动起来。因为当你的APP在安装的时候，系统里面已经注册了你的URL Scheme。</p>
-
-<p>一般情况下，是会调用先安装的app。但是iOS的系统app的URL Scheme肯定是最高的。所以我们定义URL Scheme的时候，尽量避开系统app已经定义过的URL Scheme。</p>
-
-<h2>注册URL Scheme</h2>
-
-<h3>1.在info.plist里添加URL types</h3>
-
-<p>每一个项目里面都会有一个info.plist配置文件。找到info.plist，右键选择Add Row，然后选择URL types。如图所示：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url1.jpg" alt="url1" /></p>
-
-<h3>2.添加URL Schemes</h3>
-
-<p>添加完URL types，点击展开。右键选择Add Row，添加URL Schemes：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url2.jpg" alt="url2" /></p>
-
-<h3>3.设置URL Schemes</h3>
-
-<p>设置URL Schemes为iOSDevTip</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url3.jpg" alt="url3" /></p>
-
-<h3>4.设置URL Identifier</h3>
-
-<p>URL Identifier是自定义的 URL scheme 的名字，一般采用反转域名的方法保证该名字的唯一性，比如 com.iOSStrongDemo.www</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url4.jpg" alt="url4" /></p>
-
-<h2>添加成功启动提示</h2>
-
-<p>为了方便测试，我们在AppDelegate里面添加一个UIAlertView，当app被成功打开时，会提出提示：</p>
-
-<pre><code>- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL*)url
-{
-    // 接受传过来的参数
-    NSString *text = [[url host] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"打开啦"
-                                           message:text
-                                          delegate:nil
-                                 cancelButtonTitle:@"OK"
-                                 otherButtonTitles:nil];
-    [alertView show];
-    return YES;
-}
-</code></pre>
-
-<h2>Safari启动自定义的URL Schemes APP</h2>
-
-<p>既然已经配置好URL Schemes，那么我们可以来款速测试一下，我们设置的URL Schemes是否有效。打开Safari，在地址栏里输入：iOSDevTip://</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url6.png" alt="url6" /></p>
-
-<p>果然成功打开：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url5.png" alt="url5" /></p>
-
-<p>也可以在地址栏中输入：iOSDevTip://com.iOSStrongDemo.www。也是可以打开注册了URL Schemes的APP的。</p>
-
-<h2>通过另一个APP启动注册了URL Schemes的APP</h2>
-
-<pre><code> NSString *url = @"iOSDevTip://";
-//    NSString *url = @"iOSDevTip://com.iOSStrongDemo.www";
-if ([[UIApplication sharedApplication]
-     canOpenURL:[NSURL URLWithString:url]])
-{
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
-}
-else
-{
-    NSLog(@"can not open URL scheme iOSDevTip");
-}
-</code></pre>
-
-<p>打开注册iOSDevTip的APP格式为: URL Scheme://URL identifier，直接调用URL Scheme也可打开程序, URL identifier是可选的。</p>
-
-<p>注册URL Scheme就是这么简单。下一篇会分享如何通过URL Scheme传递参数。demo下载地址：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/13/cong-apptiao-dao-she-zhi-jie-mian/">从app跳到设置界面</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-13T23:50:45+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:50 pm</span></time>
-        
-        
-          | <a href="/blog/2015/07/13/cong-apptiao-dao-she-zhi-jie-mian/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>这次去郑州主要是参加大学同学的婚礼。匆匆而来，匆匆而回。时间安排的好紧，还没有来得及多看两眼我的大好中原。</p>
-
-<p>来参加婚礼的还有其他几位同学，有的真是多年不见。见面之后相互虚寒一番，一起讨论讨论各自的近况。时间飞逝，让这样的相遇变得非常珍贵。</p>
-
-<p>这次的婚礼，别有一番风味。</p>
-
-<h2>第一次在教堂里参加婚礼</h2>
-
-<p>我的这位同学，他是一位虔诚的基督徒，他们的婚礼也理所当然的在教堂举行。教堂是一个神圣庄严的地方，虽然我不是一名基督徒，但是我依然怀有一颗虔诚的心。</p>
-
-<p>婚礼还是相当热闹的。有牧师为他们证婚，真的是很幸福。新娘也感动的眼泪都留下来了。</p>
-
-<p>婚礼结束之后，抽空拉着另外一个同学，加上新郎，我们三兄弟合了一张影。这张照片可以发给大家欣赏一下：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/hunli.png" alt="1" /></p>
-
-<p>看到这张我不由得说一句：又长胖了！好吧，闲话就絮叨这里。今天给大家分享一个小功能：从app跳到设置界面。</p>
-
-<h2>从app跳到设置界面</h2>
-
-<p>直接上代码：</p>
-
-<pre><code> NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
- if ([[UIApplication sharedApplication] canOpenURL:url]) {
-     [[UIApplication sharedApplication] openURL:url];
- }
-</code></pre>
-
-<p>上面这段代码要在iOS 8以上的系统使用。一般做智能家居app的，需要到设置界面连接wifi，但是苹果没有提供这样的接口。所以可以退而求其次，跳到系统的设置界面。</p>
-
-<p>想测试的童鞋请下载demo：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
-
-<h2>回复关键词获取相应文章</h2>
-
-<p>公众号iOS开发：<strong>iOSDevTip</strong>，已经发展一年多的时间，已经积累了很多优秀的文章。也许能帮到一些小忙。</p>
-
-<p>我告诉大家，如何找到这些优秀的文章：</p>
-
-<ol>
-<li>查看历史消息</li>
-<li>关键词回复，先回复“m”，获取目录。目录里面详细讲解了，哪些关键词对应哪些文章。</li>
-</ol>
-
-
-<p>有什么不懂得可以随时联系我，直接在后台回复就可以，也可以加我的微信：<strong>chinaligang</strong></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/13/iosti-jiao-hou-shen-qing-jia-ji-shen-he/">iOS提交后申请加急审核</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-13T23:14:17+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:14 pm</span></time>
-        
-        
-          | <a href="/blog/2015/07/13/iosti-jiao-hou-shen-qing-jia-ji-shen-he/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>之前只是听过加急审核这回事，一直也没有用到过。昨天用了下果然很给力。昨天晚上将近8点（北京时间）提交应用，今天早上上班看了下已经通过了审核，而且可以在AppStore里下载到。</p>
-
-<p>话说加急的原因比较悲催，年前一直在做老版本的更新（一直在改别人代码的bug），临过年一周多的时候说不改了，做新版本的。心里终于舒服些，开始
-自己写新版本。2月7号上班到2月18号一直在做新版本。就在经理天天催，老板经常问进度的时候，实施那边说xxx那边20号要验收，验收不过要打官司
-了……</p>
-
-<p>然后开始悲催的继续找到以前别人的代码改bug，十几个，虽说难度不是很大，但是很不爽~</p>
-
-<p>18号加班改完，19号给测试人员测试。然后我继续开始新版本。结果测试那一天了没消息，LZ很2的去找到测试去问测试完了吗？然后测试MM笑着和
-我说，呀，忘了和你说了，没问题了。
-括弧当时时间为下午6点左右，LZ当天正常下班时间是6点十几分。然后开始回来今天提交。话说提交速度那叫一个慢！没办法，启用米国VPN，速度快了很
-多，看着进度条一点一点往前走，慢慢走，慢慢走……n久后走到头。然后上面文字提示说已经提交完毕，但是进度条又回到了初始位置是怎么回事
-？！愤怒了！去iTunes connect里刷新状态提示等待提交
- = =！</p>
-
-<p>好吧，重新提交 &ndash;> 然后卡那不动了 ~~ 这米国vpn也不好用啊还是库克那服务器的原因啊。。。。</p>
-
-<p>唉，取消提交然后用Application Loader提交，打包、选择、上传，速度很慢但是一切还算是顺利。在忽上忽下、“动荡不定”的网速中终于提交成功。iTunes connect里刷新状态为等待审核。OK，终于提交了。</p>
-
-<p>竟然扯了这么多~</p>
-
-<p>下面进入正题。提交完成后进入加急审核页面。</p>
-
-<p>链接：<a href="https://developer.apple.com/appstore/contact/appreviewteam/index.html">https://developer.apple.com/appstore/contact/appreviewteam/index.html</a></p>
-
-<p>在i would like to里选择加急审核</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/jiaji1.png" alt="1" /></p>
-
-<p>然后填写相关信息。</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/jiaji2.png" alt="2" /></p>
-
-<p>App Information里填写应用名称，ID填写9位数字ID。</p>
-
-<p>继续</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/jiaji3.png" alt="3" /></p>
-
-<p>选择原因，然后填写理由。</p>
-
-<p>这里要注意的是理由一般是用户安全问题或者崩溃问题成功率会高一些（LZ写的是崩溃，不要说我是赶时间，苹果会不同意，以前版本确实有崩溃问题，只不过不多~ 这里我不多说了，你们懂的）</p>
-
-<p>还有一点要注意的是，如果是崩溃问题，你最好写上操作步骤，让审核员去重现这个问题。</p>
-
-<p>PS. 如果遇到非常时期或者人品不好遇到心情不好的审核员，请自行另行处理~</p>
-
-<p>就到这里了，继续搬砖去了~</p>
-
-<p>2014.5.10补充：</p>
-
-<p>之前听别人说一年只有两次加急的机会。一直没有尝试过，所以也没法证明是否是真的。</p>
-
-<p>昨天晚上（周五晚）由于销售要在周一的时候开始做大量推广，所以今年的第三次加急审核又开始了……</p>
-
-<p>今天早上起床后还在担心应该是没有通过，但是AppStore查看了下，已经通过了审核。</p>
-
-<p>说明之前一年只有两次加急审核的机会是不正确的。至于一年到底有多少次加急审核的机会，官方没有看到相关的说明，也不能确定次数是多少。</p>
-
-<p>如果有看到相关文档或说明的童鞋，希望能和大家分享下~</p>
-
-<p>2014.5.14补充：</p>
-
-<p>第四次加急，从提交到通过大概过了两天的时间。</p>
-
-<p>2015.6.2补充：</p>
-
-<p>加急审核说明是可以写中文的。这里感谢 @第七只蚂蚁 提供宝贵的信息。</p>
-
-<p>原文来自：<a href="http://blog.csdn.net/showhilllee/article/details/19541493">iOS提交后申请加急审核</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/4">&larr; Older</a>
@@ -1214,47 +1439,55 @@ else
 <aside class="sidebar">
   
     <section>
+<h1>热门推荐</h1>
+  <!--广告位-->
+<script type="text/javascript">
+    /*250*250 创建于 2015-08-08*/
+    var cpro_id = "u2252717";
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+<!--广告链接结束-->
   <h1>微信扫一扫，代码写的好</h1>
         <br/>
         <br/><strong>东半球最好的iOS开发公众号</strong> 
         <br/>
-        <br/><img width="220px" src="http://www.superqq.com/images/getqrcode.jpg" />
+        <br/><img width="220px" src="http://images.90159.com/icon/iOSDevTip.jpg" />
         <br/>
         <br/><strong>东半球最好的程序猿公众号</strong>
         <br/>
-        <br/><img width="220px" src="http://www.superqq.com/images/CodePush.jpg" />
+        <br/><img width="220px" src="http://images.90159.com/icon/codepush.jpg" />
         </p>
-<!--广告位-->
-<script type="text/javascript">
-var cpro_id="u2238881";
-(window["cproStyleApi"] = window["cproStyleApi"] || {})[cpro_id]={at:"3",rsi0:"250",rsi1:"250",pat:"17",tn:"baiduCustNativeAD",rss1:"#FFFFFF",conBW:"1",adp:"1",ptt:"0",titFF:"%E5%BE%AE%E8%BD%AF%E9%9B%85%E9%BB%91",titFS:"14",rss2:"#000000",titSU:"0"}
-</script>
-<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
-<!--广告链接结束-->
   <h1>最新文章</h1>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/08/05/multiple-uiimage-merged/">多个UIImage合并成一个UIImage</a>
+        <a href="/blog/2015/08/10/coremotion-framework-use-accelerometer/">CoreMotion框架中加速度计使用简明教程</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/08/04/save-photo-to-own-album/">iOS开发之保存照片到自己创建的相簿</a>
+        <a href="/blog/2015/08/09/performance-optimization-of-mkmapview/">一次对MKMapView的性能优化</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-(photo-album)/">iOS开发之保存照片到系统相册（Photo Album）</a>
+        <a href="/blog/2015/08/08/interview-ios-question-answer/">《招聘一个靠谱的iOS》面试题参考答案（上）</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/08/02/custom-navigation-button-uibarbuttonitem/">自定义导航按钮UIBarButtonItem</a>
+        <a href="/blog/2015/08/07/implement-uitextview-placeholder/">实现placeholder属性的UITextView</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/08/02/first-watch-movie/">《大圣归来》和《捉妖记》第一次购票看电影</a>
+        <a href="/blog/2015/08/06/uitextview-placeholder-practice/">UITextView实现placeholder的猥琐做法</a>
       </li>
     
   </ul>
+  <!--广告位-->
+<script type="text/javascript">
+    /*刚刚在线250*350 创建于 2015-07-31*/
+    var cpro_id = "u2238366";
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+<!--广告链接结束-->
 </section>
 </section>
 <section>
@@ -1290,6 +1523,9 @@ var cpro_id="u2238881";
        </li>
         <li>
            <a href="http://www.boxingjiaoyu.com/" target="_blank" title="程序员聚合平台">程序员聚合平台</a>
+       </li>
+       <li>
+           <a href="http://gank.io/" target="_blank" title="干货集中营">干货集中营</a>
        </li>
       <li>
            <a href="http://www.mobile-open.com/" target="_blank" title="阳和移动开发">阳和移动开发</a>
@@ -1368,15 +1604,7 @@ Copyright &copy; 2015 - 李刚
 
 <script language="javascript" type="text/javascript" src="http://js.users.51.la/17443209.js"></script>
 <noscript><a href="http://www.51.la/?17443209" target="_blank"><img alt="&#x6211;&#x8981;&#x5566;&#x514D;&#x8D39;&#x7EDF;&#x8BA1;" src="http://img.users.51.la/17443209.asp" style="border:none" /></a></noscript>
-<!--广告位-->
-<dic class="flashnews">
-    <script type="text/javascript">
-        /*960*60 创建于 2015-06-05*/
-        var cpro_id = "u2140429";
-        </script>
-    <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
-    </div>
-<!--广告链接结束--></footer>
+</footer>
   
 
 

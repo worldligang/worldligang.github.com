@@ -1,0 +1,422 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+      <meta name="baidu-site-verification" content="X93tJz3pCq" />
+  <title>CoreMotion框架中加速度计使用简明教程 - 刚刚在线</title>
+  <meta name="author" content="李刚">
+  <meta name="uyan_auth" content="d1112891bb" />
+  <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
+      
+  
+  <meta name="description" content="在iOS4之前加速度计是由UIAccelerometer来采集数据的，现在都是用CoreMotion来处理。两种使用都比较简单，相对来说UIAccelerometer更简单一些。本文将分享两者的用法。">
+  <meta name="keywords" content="UIAccelerometer, 加速度计, CoreMotion, iOS开发, 刚刚在线">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.superqq.com/blog/2015/08/10/coremotion-framework-use-accelerometer">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="http://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">刚刚在线</a></h1>
+  
+    <h2>分享iOS开发技术经验的自媒体网站</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://zhannei.superqq.com" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.superqq.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">首页</a></li>
+  <li><a href="/blog/archives">全部文章</a></li>
+  <li><a href="/blog/categories/ioskai-fa/">iOS开发</a></li>
+  <li><a href="/blog/categories/swiftkai-fa">swift开发</a></li>
+  <li><a href="/blog/categories/cheng-xu-yuan/">程序员</a></li>
+  <li><a href="/blog/categories/yuan-dai-ma/">源代码</a></li>
+  <li><a href="/blog/categories/sdkfu-wu/">sdk服务</a></li>
+  <li><a href="/blog/categories/tui-jian/">推荐</a></li>
+  <li><a href="/about">赞助作者</a></li>
+  <li><a href="http://www.90159.com/" target="_blank" title=头条>头条</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">CoreMotion框架中加速度计使用简明教程</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-10T00:37:33+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:37 am</span></time>
+        
+        
+          | <a href="#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>前言</h2>
+
+<p>之前有人通过iPhone的加速度计做出一个手机防盗APP，而且正是通过这个防盗APP拿到天使投资。从此以后华丽转身，公司发展的有声有色。虽然这个项目最后不怎么样，但是，确实是一个不错的想法。</p>
+
+<p>也许你不知道，每一台iPhone都内置的有加速度计。这样当用户操作手机的的时候，比如旋转手机，内置的加速度计就会做出反应。</p>
+
+<p>在iOS4之前加速度计是由<code>UIAccelerometer</code>来采集数据的，现在都是用<code>CoreMotion</code>来处理。两种使用都比较简单，相对来说<code>UIAccelerometer</code>更简单一些。本文将分享两者的用法。</p>
+
+<h2>加速度计原理</h2>
+
+<p><img src="http://images.90159.com/08/Accelerometer.png" alt="Accelerometer.png" /></p>
+
+<p>来自网络</p>
+
+<p>iPhone的加速度计有三个轴，分别是x轴、y轴、z轴，如上图所示。这是一个三维立体空间，可以捕获用户每一个角度的操作。通过这三个轴可以计算iPhone倾斜的角度，从而计算出加速度。</p>
+
+<h2>UIAccelerometer使用</h2>
+
+<p><code>UIAccelerometer</code>的使用比较简单，需要实现<code>UIAccelerometerDelegate</code>的代理方法，具体代码如下：</p>
+
+<pre><code>UIAccelerometer *accelerometer = [UIAccelerometer sharedAccelerometer];
+accelerometer.delegate = self;
+accelerometer.updateInterval = 0.1;
+</code></pre>
+
+<p>实现<code>UIAccelerometerDelegate</code>代理方法：</p>
+
+<pre><code>- (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration NS_DEPRECATED_IOS(2_0, 5_0)
+{
+    NSLog(@"x -&gt; %f y - &gt; %f z -&gt; %f",accelerometer.x,accelerometer.y,accelerometer.z);
+}
+</code></pre>
+
+<h2>CoreMotion加速度计</h2>
+
+<p>首先需要引入<code>#import &lt;CoreMotion/CoreMotion.h&gt;</code>，直接通过<code>block</code>回调，然后处理三个轴的数据。代码如下：</p>
+
+<pre><code>CMMotionManager *motionManager = [[CMMotionManager alloc] init];
+NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+//加速计
+if (motionManager.accelerometerAvailable) {
+    motionManager.accelerometerUpdateInterval = 0.1;
+    [motionManager startAccelerometerUpdatesToQueue:queue withHandler:^(CMAccelerometerData *accelerometerData,NSError *error){
+        if (error) {
+            [motionManager stopAccelerometerUpdates];
+            NSLog(@"error");
+        }else{
+            NSLog(@"x -&gt; %f y - &gt; %f z -&gt; %f",accelerometerData.acceleration.x,accelerometerData.acceleration.y,accelerometerData.acceleration.z);
+        }
+    }];
+}else{
+    NSLog(@"This device has no accelerometer");
+}
+</code></pre>
+
+<p>以上就是关于<code>UIAccelerometer</code>和<code>CoreMotion</code>的使用，加速度计确实是iPhone手机的亮点功能。具体用途，需要我们发散思维，说不定哪一天你也有一个很牛的创意。屌丝逆袭也许就在下一刻。</p>
+</div>
+<!--广告位-->
+<script type="text/javascript">
+    /*刚刚在线700*350 创建于 2015-07-31*/
+    var cpro_id = "u2238872";
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+<!--广告链接结束-->
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">李刚</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-10T00:37:33+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:37 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/tui-jian/'>推荐</a>
+  
+</span>
+
+
+      <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
+<br>原文链接：<a href="http://www.superqq.com/blog/2015/08/10/coremotion-framework-use-accelerometer/">http://www.superqq.com/blog/2015/08/10/coremotion-framework-use-accelerometer/</a> <!-- 添加这一行代码 -->
+    </p>
+    
+      <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+    <span class="jiathis_txt">分享到：</span>
+    <a class="jiathis_button_tools_1"></a>
+    <a class="jiathis_button_tools_2"></a>
+    <a class="jiathis_button_tools_3"></a>
+    <a class="jiathis_button_tools_4"></a>
+    <a href="http://www.jiathis.com/share?uid=1983651" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+    <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+    var jiathis_config = {data_track_clickback:'true'};
+    </script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1401863435807252" charset="utf-8"></script>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/09/performance-optimization-of-mkmapview/" title="Previous Post: 一次对MKMapView的性能优化">&laquo; 一次对MKMapView的性能优化</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-title="CoreMotion框架中加速度计使用简明教程"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"superqq"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END -->
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>热门推荐</h1>
+  <!--广告位-->
+<script type="text/javascript">
+    /*250*250 创建于 2015-08-08*/
+    var cpro_id = "u2252717";
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+<!--广告链接结束-->
+  <h1>微信扫一扫，代码写的好</h1>
+        <br/>
+        <br/><strong>东半球最好的iOS开发公众号</strong> 
+        <br/>
+        <br/><img width="220px" src="http://images.90159.com/icon/iOSDevTip.jpg" />
+        <br/>
+        <br/><strong>东半球最好的程序猿公众号</strong>
+        <br/>
+        <br/><img width="220px" src="http://images.90159.com/icon/codepush.jpg" />
+        </p>
+  <h1>最新文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/08/10/coremotion-framework-use-accelerometer/">CoreMotion框架中加速度计使用简明教程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/09/performance-optimization-of-mkmapview/">一次对MKMapView的性能优化</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/08/interview-ios-question-answer/">《招聘一个靠谱的iOS》面试题参考答案（上）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/07/implement-uitextview-placeholder/">实现placeholder属性的UITextView</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/06/uitextview-placeholder-practice/">UITextView实现placeholder的猥琐做法</a>
+      </li>
+    
+  </ul>
+  <!--广告位-->
+<script type="text/javascript">
+    /*刚刚在线250*350 创建于 2015-07-31*/
+    var cpro_id = "u2238366";
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+<!--广告链接结束-->
+</section>
+</section>
+<section>
+    <h1>About Me</h1>
+    <br/>
+    <p> 李刚：百度百家专栏作者，刚刚在线站长，iOS工程师非著名自媒体人，微信公众号iOS开发：iOSDevTip运营者<br/>
+    <br/><strong>出师未捷名已落</strong>
+    <br/>
+    <br/>新浪微博: <a href='http://weibo.com/ligangnc' target='_blank'>李刚移动</a>
+    <br/>
+    <br/>个人微信: <strong>chinaligang</strong> 欢迎调戏
+    <br/>
+    <br/>iOS群: <strong>218822587</strong>
+  <br/>
+</section>
+
+   
+ <section>
+    <h1>友情链接</h1>
+    <ul>
+    
+       <li>
+           <a href="http://www.superqq.com" target="_blank" title=“刚刚在线”>刚刚在线</a>
+       </li>
+       <li>
+           <a href="http://www.90159.com" target="_blank" title=“程序员头条”>程序员头条</a>
+       </li>
+       <li>
+           <a href="http://www.iswifting.com" target="_blank" title=“swift开发”>swift开发</a>
+       </li>
+       <li>
+           <a href="http://www.aswifter.com/" target="_blank" title="APP开发者">APP开发者</a>
+       </li>
+        <li>
+           <a href="http://www.boxingjiaoyu.com/" target="_blank" title="程序员聚合平台">程序员聚合平台</a>
+       </li>
+       <li>
+           <a href="http://gank.io/" target="_blank" title="干货集中营">干货集中营</a>
+       </li>
+      <li>
+           <a href="http://www.mobile-open.com/" target="_blank" title="阳和移动开发">阳和移动开发</a>
+       </li>
+       <li>
+           <a href="http://www.jq-school.com/" target="_blank" title="jquery教程">jquery教程</a>
+       </li>
+        <li>
+           <a href="http://www.admin10000.com/" target="_blank" title="WEB开发者">WEB开发者</a>
+       </li>
+       <li>
+           <a href="http://www.aichengxu.com/" target="_blank" title="爱程序网">爱程序网</a>
+       </li>
+       <li>
+           <a href="http://www.lai18.com" target="_blank" title="IT技术文章">IT技术文章</a>
+       </li>
+       <li>
+           <a href="http://www.cftea.com/" target="_blank" title="千一网络">千一网络</a>
+       </li>
+        <li>
+           <a href="http://www.bmob.cn/" target="_blank" title="Bmob">Bmob移动后端云</a>
+       </li>
+       <li>
+           <a href="http://www.leichunfeng.com" target="_blank" title="雷纯锋的技术博客">雷纯锋的技术博客</a>
+       </li>
+       <li>
+           <a href="http://cuiqingcai.com/" target="_blank" title="静觅">静觅</a>
+       </li>
+       <li>
+           <a href="http://letsswift.com/" target="_blank" title="一起Swift">一起Swift</a>
+       </li>
+       <li>
+           <a href="http://www.swiftv.cn/" target="_blank" title="SwiftV课堂">SwiftV课堂</a>
+       </li>
+        <li>
+            <a href="http://blog.csdn.net/iosdevtip" target="_blank" title="刚刚在线">CSDN</a>
+        </li>
+        <li>
+            <a href="http://user.qzone.qq.com/1606535851" target="_blank" title="刚刚在线">QQ空间</a>
+        </li>
+        <li>
+            <br/><strong>交换友链：</strong>欢迎各大程序员站点交换友情链接，如需交换，请添加好本站链接后发送邮件至下方邮箱。
+            <br/>
+            <br/><strong>格式：</strong>（ 友链文字：“ 刚刚在线 ”，链接：“ http://www.superqq.com/ ” ）
+            <br/>
+            <br/><strong>邮箱：</strong>worldligang@163.com
+            <br/>
+        </li>
+    </ul>
+<br/>
+<h1>热门推荐</h1>
+<!--广告位-->
+<script type="text/javascript">
+var cpro_id="u2240614";
+(window["cproStyleApi"] = window["cproStyleApi"] || {})[cpro_id]={at:"3",rsi0:"250",rsi1:"350",pat:"6",tn:"baiduCustNativeAD",rss1:"#FFFFFF",conBW:"1",adp:"1",ptt:"0",titFF:"%E5%BE%AE%E8%BD%AF%E9%9B%85%E9%BB%91",titFS:"14",rss2:"#000000",titSU:"0",ptbg:"90",piw:"0",pih:"0",ptp:"0"}
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+<!--广告链接结束-->
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+Copyright &copy; 2015 - 李刚 
+<span class="credit">Powered by <a href="http://octopress.org" target="_blank">Octopress</a></span>
+ <span class="credit">, 感谢 <a href="http://gitcafe.com/signup?invited_by=tangqiaoboy" target="_blank">GitCafe</a> 为本站提供存储空间</span>
+
+</p>
+
+<script language="javascript" type="text/javascript" src="http://js.users.51.la/17443209.js"></script>
+<noscript><a href="http://www.51.la/?17443209" target="_blank"><img alt="&#x6211;&#x8981;&#x5566;&#x514D;&#x8D39;&#x7EDF;&#x8BA1;" src="http://img.users.51.la/17443209.asp" style="border:none" /></a></noscript>
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

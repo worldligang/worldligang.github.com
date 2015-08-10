@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-06T13:46:14+08:00</updated>
+  <updated>2015-08-10T17:32:04+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,1918 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[CoreMotion框架中加速度计使用简明教程]]></title>
+    <link href="http://www.superqq.com/blog/2015/08/10/coremotion-framework-use-accelerometer/"/>
+    <updated>2015-08-10T00:37:33+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/08/10/coremotion-framework-use-accelerometer</id>
+    <content type="html"><![CDATA[<h2>前言</h2>
+
+<p>之前有人通过iPhone的加速度计做出一个手机防盗APP，而且正是通过这个防盗APP拿到天使投资。从此以后华丽转身，公司发展的有声有色。虽然这个项目最后不怎么样，但是，确实是一个不错的想法。</p>
+
+<p>也许你不知道，每一台iPhone都内置的有加速度计。这样当用户操作手机的的时候，比如旋转手机，内置的加速度计就会做出反应。</p>
+
+<p>在iOS4之前加速度计是由<code>UIAccelerometer</code>来采集数据的，现在都是用<code>CoreMotion</code>来处理。两种使用都比较简单，相对来说<code>UIAccelerometer</code>更简单一些。本文将分享两者的用法。</p>
+
+<h2>加速度计原理</h2>
+
+<p><img src="http://images.90159.com/08/Accelerometer.png" alt="Accelerometer.png" /></p>
+
+<p>来自网络</p>
+
+<p>iPhone的加速度计有三个轴，分别是x轴、y轴、z轴，如上图所示。这是一个三维立体空间，可以捕获用户每一个角度的操作。通过这三个轴可以计算iPhone倾斜的角度，从而计算出加速度。</p>
+
+<h2>UIAccelerometer使用</h2>
+
+<p><code>UIAccelerometer</code>的使用比较简单，需要实现<code>UIAccelerometerDelegate</code>的代理方法，具体代码如下：</p>
+
+<pre><code>UIAccelerometer *accelerometer = [UIAccelerometer sharedAccelerometer];
+accelerometer.delegate = self;
+accelerometer.updateInterval = 0.1;
+</code></pre>
+
+<p>实现<code>UIAccelerometerDelegate</code>代理方法：</p>
+
+<pre><code>- (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration NS_DEPRECATED_IOS(2_0, 5_0)
+{
+    NSLog(@"x -&gt; %f y - &gt; %f z -&gt; %f",accelerometer.x,accelerometer.y,accelerometer.z);
+}
+</code></pre>
+
+<h2>CoreMotion加速度计</h2>
+
+<p>首先需要引入<code>#import &lt;CoreMotion/CoreMotion.h&gt;</code>，直接通过<code>block</code>回调，然后处理三个轴的数据。代码如下：</p>
+
+<pre><code>CMMotionManager *motionManager = [[CMMotionManager alloc] init];
+NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+//加速计
+if (motionManager.accelerometerAvailable) {
+    motionManager.accelerometerUpdateInterval = 0.1;
+    [motionManager startAccelerometerUpdatesToQueue:queue withHandler:^(CMAccelerometerData *accelerometerData,NSError *error){
+        if (error) {
+            [motionManager stopAccelerometerUpdates];
+            NSLog(@"error");
+        }else{
+            NSLog(@"x -&gt; %f y - &gt; %f z -&gt; %f",accelerometerData.acceleration.x,accelerometerData.acceleration.y,accelerometerData.acceleration.z);
+        }
+    }];
+}else{
+    NSLog(@"This device has no accelerometer");
+}
+</code></pre>
+
+<p>以上就是关于<code>UIAccelerometer</code>和<code>CoreMotion</code>的使用，加速度计确实是iPhone手机的亮点功能。具体用途，需要我们发散思维，说不定哪一天你也有一个很牛的创意。屌丝逆袭也许就在下一刻。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[一次对MKMapView的性能优化]]></title>
+    <link href="http://www.superqq.com/blog/2015/08/09/performance-optimization-of-mkmapview/"/>
+    <updated>2015-08-09T13:18:21+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/08/09/performance-optimization-of-mkmapview</id>
+    <content type="html"><![CDATA[<h2>前言</h2>
+
+<p>最近做的项目主要是LBS这块 主打成员定位功能 我们的UI设计是这样的</p>
+
+<p><img src="http://7xkkjz.com1.z0.glb.clouddn.com/MK-1.png" alt="Pic-MK-1" /></p>
+
+<p>乍一看上去是挺好挺美观的 不同的人会显示不同的头像 可是当人扎堆的时候 问题就来了</p>
+
+<p><img src="http://7xkkjz.com1.z0.glb.clouddn.com/MK-2.png" alt="Pic-MK-2" /></p>
+
+<p>当人多的时候(例如上图所示) 地图滑动起来就能感觉到明显顿卡 那种不流畅感能折磨死人 所以 自然我们要解决这个问题(等等 先不要吐槽为什么不用地图聚合 因为这已经是地图放到最大了 聚合不适合这次的问题讨论)</p>
+
+<h2>分析</h2>
+
+<p>首先看下我是怎么实现这个annotationView的 由于这个annotationsView是异形的(也就是无法通过设置圆角直接得到) 而且里面的图片还因用户而异 所以解决方案就是使用layer.mask来进行遮罩 代码如下</p>
+
+<pre><code>@implementation MMAnnotationView
+
+- (instancetype)initWithAnnotation:(id&lt;MKAnnotation&gt;)annotation reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
+    if ( self )
+    {
+        self.frame = CGRectMake(0, 0, TRACK_ANNOTATION_SIZE.width, TRACK_ANNOTATION_SIZE.height);
+        self.centerOffset = CGPointMake(0, -(TRACK_ANNOTATION_SIZE.height-3)/2);
+        self.canShowCallout = NO;
+
+        self.avatarView = [[UIImageView alloc] initWithFrame:self.bounds];
+        [self addSubview:self.avatarView];
+        self.avatarView.contentMode = UIViewContentModeScaleAspectFill;
+
+        CAShapeLayer *shapelayer = [CAShapeLayer layer];
+        shapelayer.frame = self.bounds;
+        shapelayer.path = self.framePath.CGPath;
+        self.avatarView.layer.mask = shapelayer;
+
+        self.layer.shadowPath = self.framePath.CGPath;
+        self.layer.shadowRadius = 1.0f;
+        self.layer.shadowColor = [UIColor colorWithHex:0x666666FF].CGColor;
+        self.layer.shadowOpacity = 1.0f;
+        self.layer.shadowOffset = CGSizeMake(0, 0);
+        self.layer.masksToBounds = NO;
+    }
+    return self;
+}
+
+//mask路径
+- (UIBezierPath *)framePath
+{
+    if ( !_framePath )
+    {
+        CGFloat arrowWidth = 14;
+
+        CGMutablePathRef path = CGPathCreateMutable();
+
+        CGRect rectangle = CGRectInset(CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetWidth(self.bounds)), 3,3);
+
+        CGPoint p[3] = {
+        {CGRectGetMidX(self.bounds)-arrowWidth/2, CGRectGetWidth(self.bounds)-6},
+        {CGRectGetMidX(self.bounds)+arrowWidth/2, CGRectGetWidth(self.bounds)-6},
+        {CGRectGetMidX(self.bounds), CGRectGetHeight(self.bounds)-4}
+        };
+
+        CGPathAddRoundedRect(path, NULL, rectangle, 5, 5);
+        CGPathAddLines(path, NULL, p, 3);
+
+        CGPathCloseSubpath(path);
+
+        _framePath = [UIBezierPath bezierPathWithCGPath:path];
+
+        CGPathRelease(path);
+    }
+
+    return _framePath;
+}
+</code></pre>
+
+<p>我用代码生成了形状路径 并以此生成了layer的mask和shadowPath
+使用时 只要直接用SDWebImage设置头像就行了</p>
+
+<pre><code>[annotationView.avatarView sd_setImageWithURL:[NSURL URLWithString:avatarURL] placeholderImage:placeHolderImage];
+</code></pre>
+
+<p>接下来用工具分析一下问题出来哪 分析性能当然是选择Instrments(用法在这里就不做介绍了) 打开Core Animation 然后运行程序 滑动地图 可以看到性能分析如下</p>
+
+<p><img src="http://7xkkjz.com1.z0.glb.clouddn.com/MK-3.jpg" alt="Pic-MK-3" /></p>
+
+<p>原来平均帧数只有不到30帧 这离我们的目标60帧差得实在太远</p>
+
+<p>再使用Debug Option来深入分析一下</p>
+
+<p><img src="http://7xkkjz.com1.z0.glb.clouddn.com/MK-4.png" alt="Pic-MK-4" /></p>
+
+<p>由于MKMapView的原因 这里我们主要关心这几个选项</p>
+
+<ul>
+<li>Color Blended Layers</li>
+<li>Color Misaligned Images</li>
+<li>Color Offscreen-Rendered Yellow</li>
+</ul>
+
+
+<p>分别打开这几个选项 结果如下</p>
+
+<p><img src="http://7xkkjz.com1.z0.glb.clouddn.com/MK-5.png" alt="Pic-MK-5" /></p>
+
+<p>可以看到</p>
+
+<ul>
+<li>Color Blended Layers没有问题 不过这也是正常的 由于使用了mask 没有透明的地方</li>
+<li>Color Misaligned Images除了默认头像外全中 这是因为服务器上的图片大小跟显示的大小不一致 导致缩放 而默认头像则是一致的 所以没问题</li>
+<li>Color Offscreen-Rendered Yellow全中 由于使用了mask 导致大量的离屏渲染 这也是性能下降的主要原因</li>
+</ul>
+
+
+<h2>解决</h2>
+
+<p>问题的原因找到了 那么接下来该如何解决呢?</p>
+
+<ul>
+<li>首先mask是肯定不能用了</li>
+<li><p>其次下载下来的图片我们要预处理成实际大小
+那么 直接把下载下来的图片合成为我们要显示的最终结果不就ok了吗? 试试看</p>
+
+<pre><code>  - (void)loadAnnotationImageWithURL:(NSString*)url imageView:(UIImageView*)imageView
+  {
+      //将合成后的图片缓存起来
+      NSString *annoImageURL = url;
+      NSString *annoImageCacheURL = [annoImageURL stringByAppendingString:@"cache"];
+
+      UIImage *cacheImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:annoImageCacheURL];
+      if ( cacheImage )
+      {
+          //LLLog(@"hit cache");
+          imageView.image = cacheImage;
+      }
+      else
+      {
+          //LLLog(@"no cache");
+          [imageView sd_setImageWithURL:[NSURL URLWithString:annoImageURL]
+          placeholderImage:placeHolderImage
+          completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+          if (!error)
+          {
+              UIImage *annoImage = [image annotationImage];
+              imageView.image = annoImage;
+
+              [[SDImageCache sharedImageCache] storeImage:annoImage forKey:annoImageCacheURL];
+              }
+          }];
+      }
+  }
+
+  @implementation UIImage (LJC)
+  - (UIImage*) annotationImage
+  {
+      static UIView *snapshotView = nil;
+      static UIImageView *imageView = nil;
+
+      if ( !snapshotView )
+      {
+          snapshotView = [UIView new];
+          snapshotView.frame = CGRectMake(0, 0, TRACK_ANNOTATION_SIZE.width, TRACK_ANNOTATION_SIZE.height);
+
+          imageView = [UIImageView new];
+          [snapshotView addSubview:imageView];
+          imageView.clipsToBounds = YES;
+          imageView.frame = snapshotView.bounds;
+          imageView.contentMode = UIViewContentModeScaleAspectFill;
+
+          CGFloat arrowWidth = 14;
+
+          CGMutablePathRef path = CGPathCreateMutable();
+
+          CGRect rectangle = CGRectInset(CGRectMake(0, 0, CGRectGetWidth(imageView.bounds), CGRectGetWidth(imageView.bounds)), 3,3);
+
+          CGPoint p[3] = {
+              {CGRectGetMidX(imageView.bounds)-arrowWidth/2, CGRectGetWidth(imageView.bounds)-6},
+              {CGRectGetMidX(imageView.bounds)+arrowWidth/2, CGRectGetWidth(imageView.bounds)-6},
+              {CGRectGetMidX(imageView.bounds), CGRectGetHeight(imageView.bounds)-4}
+          };
+
+          CGPathAddRoundedRect(path, NULL, rectangle, 5, 5);
+          CGPathAddLines(path, NULL, p, 3);
+
+          CGPathCloseSubpath(path);
+
+          CAShapeLayer *shapelayer = [CAShapeLayer layer];
+          shapelayer.frame = imageView.bounds;
+          shapelayer.path = path;
+
+          imageView.layer.mask = shapelayer;
+
+          snapshotView.layer.shadowPath = path;
+          snapshotView.layer.shadowRadius = 1.0f;
+          snapshotView.layer.shadowColor = [UIColor colorWithHex:0x666666FF].CGColor;
+          snapshotView.layer.shadowOpacity = 1.0f;
+          snapshotView.layer.shadowOffset = CGSizeMake(0, 0);
+
+          CGPathRelease(path);
+      }
+
+      imageView.image = self;
+
+      UIGraphicsBeginImageContextWithOptions(TRACK_ANNOTATION_SIZE, NO, 0);
+
+      [snapshotView.layer renderInContext:UIGraphicsGetCurrentContext()];
+
+      UIImage *copied = UIGraphicsGetImageFromCurrentImageContext();
+      UIGraphicsEndImageContext();
+
+      return copied;
+  }
+  @end
+</code></pre></li>
+</ul>
+
+
+<p>然后使用的时候 只要简单的如下调用就OK了</p>
+
+<pre><code>[self loadAnnotationImageWithURL:avatarURL imageView:annotationView.avatarView];
+</code></pre>
+
+<p>看看修改之后的Instruments表现如何</p>
+
+<p><img src="http://7xkkjz.com1.z0.glb.clouddn.com/MK-6.png" alt="Pic-MK-6" /></p>
+
+<ul>
+<li>Color Blended Layers全中 这也是无可避免的 因为显示的就是一张带透明度的图 但是由于地图的特殊性(头像的位置变化间隔较长 所以不会经常引发合成 也没有动画) 所以这里也不是问题</li>
+<li>Color Misaligned Images没问题了 因为头像已被缩放成了相同大小</li>
+<li>Color Offscreen-Rendered Yellow没问题了 因为只是简单的显示了一张图片 而并没有需要离屏渲染的东西了</li>
+</ul>
+
+
+<p>再来看下帧数情况</p>
+
+<p><img src="http://7xkkjz.com1.z0.glb.clouddn.com/MK-7.jpg" alt="Pic-MK-7" /></p>
+
+<p>Oh-Yeah~ 不光帧数达到了我们的目标60帧(由于还有业务逻辑线程在后台跑 所以没有那么的稳定) 就连平均运行耗时都下降了不少 就算地图上再多显示几十个人 也不成问题了</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[《招聘一个靠谱的iOS》面试题参考答案（上）]]></title>
+    <link href="http://www.superqq.com/blog/2015/08/08/interview-ios-question-answer/"/>
+    <updated>2015-08-08T00:16:38+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/08/08/interview-ios-question-answer</id>
+    <content type="html"><![CDATA[<blockquote><p>推荐理由：最近比较🔥的关于iOS开发面试题的文章。简单喵了一眼，感觉很不错，作者sunnyxx也是个大牛。特此推荐！</p></blockquote>
+
+<p><a href="http://blog.sunnyxx.com/2015/07/04/ios-interview/">《招聘一个靠谱的 iOS》</a>—参考答案（上）</p>
+
+<p>说明：面试题来源是<a href="http://weibo.com/u/1364395395">微博@我就叫Sunny怎么了</a>的这篇博文：<a href="http://blog.sunnyxx.com/2015/07/04/ios-interview/">《招聘一个靠谱的 iOS》</a>，其中共55题，除第一题为纠错题外，其他54道均为简答题。</p>
+
+<p>出题者简介： 孙源（sunnyxx），目前就职于百度，负责百度知道 iOS 客户端的开发工作，对技术喜欢刨根问底和总结最佳实践，热爱分享和开源，维护一个叫 forkingdog 的开源小组。</p>
+
+<p>答案为<a href="http://weibo.com/luohanchenyilong/">微博@iOS程序犭袁</a>整理，未经出题者校对，如有纰漏，请向<a href="http://weibo.com/luohanchenyilong/">微博@iOS程序犭袁</a>指正。</p>
+
+<hr />
+
+<h3>1. 风格纠错题</h3>
+
+<p><img src="http://i.imgur.com/O7Zev94.png" alt="enter image description here" />
+修改完的代码：</p>
+
+<p>修改方法有很多种，现给出一种做示例：</p>
+
+<pre><code>// .h文件
+// http://weibo.com/luohanchenyilong/
+// https://github.com/ChenYilong
+// 修改完的代码，这是第一种修改方法，后面会给出第二种修改方法
+
+typedef NS_ENUM(NSInteger, CYLSex) {
+    CYLSexMan,
+    CYLSexWoman
+};
+
+@interface CYLUser : NSObject&lt;NSCopying&gt;
+
+@property (nonatomic, copy, readonly) NSString *name;
+@property (nonatomic, assign, readonly) NSUInteger age;
+@property (nonatomic, assign, readonly) CYLSex sex;
+
+- (instancetype)initWithName:(NSString *)name age:(NSUInteger)age sex:(CYLSex)sex;
++ (instancetype)userWithName:(NSString *)name age:(NSUInteger)age sex:(CYLSex)sex;
+
+@end
+</code></pre>
+
+<p>下面对具体修改的地方，分两部分做下介绍：<strong><em>硬伤部分</em></strong>和<strong><em>优化部分</em></strong>
+。因为<strong><em>硬伤部分</em></strong>没什么技术含量，为了节省大家时间，放在后面讲，大神请直接看<strong><em>优化部分</em></strong>。</p>
+
+<h4><strong><em>优化部分</em></strong></h4>
+
+<ol>
+<li><p>enum建议使用 <code>NS_ENUM</code> 和 <code>NS_OPTIONS</code> 宏来定义枚举类型，参见官方的 <a href="https://developer.apple.com/library/ios/releasenotes/ObjectiveC/ModernizationObjC/AdoptingModernObjective-C/AdoptingModernObjective-C.html">Adopting Modern Objective-C</a> 一文：</p>
+
+<p>//定义一个枚举
+typedef NS_ENUM(NSInteger, CYLSex) {
+    CYLSexMan,
+    CYLSexWoman
+};</p></li>
+<li><p>age属性的类型：应避免使用基本类型，建议使Foundation数据类型，对应关系如下：</p>
+
+<p>int -> NSInteger
+unsigned -> NSUInteger
+float -> CGFloat
+动画时间 -> NSTimeInterval</p></li>
+</ol>
+
+
+<p>同时考虑到age的特点，应使用NSUInteger，而非int。
+这样做的是基于64-bit 适配考虑，详情可参考出题者的博文<a href="http://blog.sunnyxx.com/2014/12/20/64-bit-tips/">《64-bit Tips》</a>。</p>
+
+<ol>
+<li>如果工程项目非常庞大，需要拆分成不同的模块，可以在类、typedef宏命名的时候使用前缀。</li>
+<li>doLogIn方法不应写在该类中：虽然<code>LogIn</code>的命名不太清晰，但笔者猜测是login的意思，而登录操作属于业务逻辑，观察类名 UserModel ，以及属性的命名方式，该类应该是一个 Model 而不是一个“ MVVM 模式下的 ViewModel ”：</li>
+</ol>
+
+
+<blockquote><p>无论是MVC模式还是MVVM模式，业务逻辑都不应当写在Model里。</p></blockquote>
+
+<p> （如果抛开命名规范，假设该类真的是MVVM模式里的 ViewModel ，那么UserModel这个类可能对应的是用户注册页面，如果有特殊的业务需求，比如：login对应的应当是注册并登录的一个Button，出现login方法也可能是合理的。）</p>
+
+<ol>
+<li> doLogIn方法命名不规范：添加了多余的动词前缀。
+请牢记：</li>
+</ol>
+
+
+<blockquote><p>如果方法表示让对象执行一个动作，使用动词打头来命名，注意不要使用<code>do</code>，<code>does</code>这种多余的关键字，动词本身的暗示就足够了。
+ 11. <code>-(id)initUserModelWithUserName: (NSString*)name withAge:(int)age;</code>方法中不要用<code>with</code>来连接两个参数:<code>withAge:</code>应当换为<code>age:</code>，<code>age:</code>已经足以清晰说明参数的作用，也不建议用<code>andAge:</code>：通常情况下，即使有类似<code>withA:withB:</code>的命名需求，也通常是使用<code>withA:andB:</code>这种命名，用来表示方法执行了两个相对独立的操作（<em>从设计上来说，这时候也可以拆分成两个独立的方法</em>），它不应该用作阐明有多个参数，比如下面的：</p></blockquote>
+
+<pre><code>//错误，不要使用"and"来连接参数
+- (int)runModalForDirectory:(NSString *)path andFile:(NSString *)name andTypes:(NSArray *)fileTypes;
+//错误，不要使用"and"来阐明有多个参数
+- (instancetype)initWithName:(CGFloat)width andAge:(CGFloat)height;
+//正确，使用"and"来表示两个相对独立的操作
+- (BOOL)openFile:(NSString *)fullPath withApplication:(NSString *)appName andDeactivate:(BOOL)flag;
+</code></pre>
+
+<ol>
+<li> 由于字符串值可能会改变，所以要把相关属性的“内存管理语义”声明为copy。(原因在下文有详细论述：<strong><em>用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？</em></strong>)</li>
+<li>“性别”(sex）属性的：该类中只给出了一种“初始化方法” (initializer)用于设置“姓名”(Name)和“年龄”(Age)的初始值，那如何对“性别”(Sex）初始化？</li>
+</ol>
+
+
+<p> Objective-C 有 designated 和 secondary 初始化方法的观念。 designated 初始化方法是提供所有的参数，secondary 初始化方法是一个或多个，并且提供一个或者更多的默认参数来调用 designated 初始化方法的初始化方法。举例说明：</p>
+
+<pre><code>// .m文件
+// http://weibo.com/luohanchenyilong/
+// https://github.com/ChenYilong
+//
+
+@implementation CYLUser
+
+- (instancetype)initWithName:(NSString *)name
+                         age:(NSUInteger)age
+                         sex:(CYLSex)sex {
+    if(self = [super init]) {
+        _name = [name copy];
+        _age = age;
+        _sex = sex;
+    }
+    return self;
+}
+
+- (instancetype)initWithName:(NSString *)name
+                         age:(NSUInteger)age {
+    return [self initWithName:name age:age sex:nil];
+}
+
+@end
+</code></pre>
+
+<p> 上面的代码中initWithName:age:sex: 就是 designated 初始化方法，另外的是 secondary 初始化方法。因为仅仅是调用类实现的 designated 初始化方法。</p>
+
+<p>  因为出题者没有给出.m文件，所以有两种猜测：1：本来打算只设计一个designated 初始化方法，但漏掉了“性别”(sex）属性。那么最终的修改代码就是上文给出的第一种修改方法。2：不打算初始时初始化“性别”(sex）属性，打算后期再修改，如果是这种情况，那么应该把“性别”(sex）属性设为readwrite属性，最终给出的修改代码应该是：</p>
+
+<pre><code>// .h文件
+// http://weibo.com/luohanchenyilong/
+// https://github.com/ChenYilong
+// 第二种修改方法（基于第一种修改方法的基础上）
+
+typedef NS_ENUM(NSInteger, CYLSex) {
+    CYLSexMan,
+    CYLSexWoman
+};
+
+@interface CYLUser : NSObject&lt;NSCopying&gt;
+
+@property (nonatomic, copy, readonly) NSString *name;
+@property (nonatomic, assign, readonly) NSUInteger age;
+@property (nonatomic, assign, readwrite) CYLSex sex;
+
+- (instancetype)initWithName:(NSString *)name age:(NSUInteger)age sex:(CYLSex)sex;
+- (instancetype)initWithName:(NSString *)name age:(NSUInteger)age;
++ (instancetype)userWithName:(NSString *)name age:(NSUInteger)age sex:(CYLSex)sex;
+
+@end
+</code></pre>
+
+<p> .h中暴露 designated 初始化方法，是为了方便子类化 （想了解更多，请戳&ndash;》 <a href="http://is.gd/OQ49zk"><strong><em>《禅与 Objective-C 编程艺术 （Zen and the Art of the Objective-C Craftsmanship 中文翻译）》</em></strong></a>。）</p>
+
+<ol>
+<li>按照接口设计的惯例，如果设计了“初始化方法” (initializer)，也应当搭配一个快捷构造方法。而快捷构造方法的返回值，建议为instancetype，为保持一致性，init方法和快捷构造方法的返回类型最好都用instancetype。</li>
+<li><p>如果基于第一种修改方法：既然该类中已经有一个“初始化方法” (initializer)，用于设置“姓名”(Name)、“年龄”(Age)和“性别”(Sex）的初始值:
+那么在设计对应@property时就应该尽量使用不可变的对象：其三个属性都应该设为“只读”。用初始化方法设置好属性值之后，就不能再改变了。在本例中，仍需声明属性的“内存管理语义”。于是可以把属性的定义改成这样</p>
+
+<pre><code>  @property (nonatomic, copy, readonly) NSString *name;
+  @property (nonatomic, assign, readonly) NSUInter age;
+  @property (nonatomic, assign, readonly) CYLSex sex;
+由于是只读属性，所以编译器不会为其创建对应的“设置方法”，即便如此，我们还是要写上这些属性的语义，以此表明初始化方法在设置这些属性值时所用的方式。要是不写明语义的话，该类的调用者就不知道初始化方法里会拷贝这些属性，他们有可能会在调用初始化方法之前自行拷贝属性值。这种操作多余而且低效。
+</code></pre></li>
+<li><code>initUserModelWithUserName</code>如果改为<code>initWithName</code>会更加简洁，而且足够清晰。</li>
+<li><code>UserModel</code>如果改为<code>User</code>会更加简洁，而且足够清晰。</li>
+<li><code>UserSex</code>如果改为<code>Sex</code>会更加简洁，而且足够清晰。</li>
+</ol>
+
+
+<h4><strong><em>硬伤部分</em></strong></h4>
+
+<ol>
+<li>在-和(void)之间应该有一个空格</li>
+<li>enum中驼峰命名法和下划线命名法混用错误：枚举类型的命名规则和函数的命名规则相同：命名时使用驼峰命名法，勿使用下划线命名法。</li>
+<li>enum左括号前加一个空格，或者将左括号换到下一行</li>
+<li>enum右括号后加一个空格</li>
+<li><code>UserModel :NSObject</code> 应为<code>UserModel : NSObject</code>，也就是<code>:</code>右侧少了一个空格。</li>
+<li>@interface与@property属性声明中间应当间隔一行。</li>
+<li>两个方法定义之间不需要换行，有时为了区分方法的功能也可间隔一行，但示例代码中间隔了两行。</li>
+<li><p><code>-(id)initUserModelWithUserName: (NSString*)name withAge:(int)age;</code>方法中方法名与参数之间多了空格。而且<code>-</code> 与<code>(id)</code>之间少了空格。</p></li>
+<li><p><code>-(id)initUserModelWithUserName: (NSString*)name withAge:(int)age;</code>方法中方法名与参数之间多了空格：<code>(NSString*)name</code>前多了空格。</p></li>
+<li><p><code>-(id)initUserModelWithUserName: (NSString*)name withAge:(int)age;</code>方法中<code>(NSString*)name</code>,应为<code>(NSString *)name</code>，少了空格。</p></li>
+<li> doLogIn方法命名不清晰：笔者猜测是login的意思，应该是粗心手误造成的。</li>
+<li>第二个@property中assign和nonatomic调换位置。</li>
+</ol>
+
+
+<h3>2. 什么情况使用 weak 关键字，相比 assign 有什么不同？</h3>
+
+<p>什么情况使用 weak 关键字？</p>
+
+<ol>
+<li><p>在ARC中,在有可能出现循环引用的时候,往往要通过让其中一端使用weak来解决,比如:delegate代理属性</p></li>
+<li><p>自身已经对它进行一次强引用,没有必要再强引用一次,此时也会使用weak,自定义IBOutlet控件属性一般也使用weak；当然，也可以使用strong。在下文也有论述：<strong><em>《IBOutlet连出来的视图属性为什么可以被设置成weak?》</em></strong></p></li>
+</ol>
+
+
+<p>不同点：</p>
+
+<ol>
+<li><p><code>weak</code> 此特质表明该属性定义了一种“非拥有关系” (nonowning relationship)。为这种属性设置新值时，设置方法既不保留新值，也不释放旧值。此特质同assign类似，
+然而在属性所指的对象遭到摧毁时，属性值也会清空(nil out)。
+而 <code>assign</code> 的“设置方法”只会执行针对“纯量类型” (scalar type，例如 CGFloat 或
+NSlnteger 等)的简单赋值操作。</p></li>
+<li><p>assigin 可以用非OC对象,而weak必须用于OC对象</p></li>
+</ol>
+
+
+<h3>3. 怎么用 copy 关键字？</h3>
+
+<p>用途：</p>
+
+<ol>
+<li>NSString、NSArray、NSDictionary 等等经常使用copy关键字，是因为他们有对应的可变类型：NSMutableString、NSMutableArray、NSMutableDictionary；</li>
+<li>block也经常使用copy关键字，具体原因见<a href="https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/WorkingwithBlocks/WorkingwithBlocks.html#//apple_ref/doc/uid/TP40011210-CH8-SW12">官方文档：<strong><em>Objects Use Properties to Keep Track of Blocks</em></strong></a>：</li>
+</ol>
+
+
+<p> block使用copy是从MRC遗留下来的“传统”,在MRC中,方法内部的block是在栈区的,使用copy可以把它放到堆区.在ARC中写不写都行：对于block使用copy还是strong效果是一样的，但写上copy也无伤大雅，还能时刻提醒我们：编译器自动对block进行了copy操作。</p>
+
+<p> <img src="http://i.imgur.com/VlVKl8L.png" alt="enter image description here" /></p>
+
+<p>下面做下解释：
+copy此特质所表达的所属关系与strong类似。然而设置方法并不保留新值，而是将其“拷贝” (copy)。
+当属性类型为NSString时，经常用此特质来保护其封装性，因为传递给设置方法的新值有可能指向一个NSMutableString类的实例。这个类是NSString的子类，表示一种可修改其值的字符串，此时若是不拷贝字符串，那么设置完属性之后，字符串的值就可能会在对象不知情的情况下遭人更改。所以，这时就要拷贝一份“不可变” (immutable)的字符串，确保对象中的字符串值不会无意间变动。只要实现属性所用的对象是“可变的” (mutable)，就应该在设置新属性值时拷贝一份。</p>
+
+<blockquote><p>用@property声明 NSString、NSArray、NSDictionary 经常使用copy关键字，是因为他们有对应的可变类型：NSMutableString、NSMutableArray、NSMutableDictionary，他们之间可能进行赋值操作，为确保对象中的字符串值不会无意间变动，应该在设置新属性值时拷贝一份。</p></blockquote>
+
+<p>该问题在下文中也有论述：<strong><em>用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？如果改用strong关键字，可能造成什么问题？</em></strong></p>
+
+<h3>4. 这个写法会出什么问题： <code>@property (copy) NSMutableArray *array;</code></h3>
+
+<p>两个问题：1、添加,删除,修改数组内的元素的时候,程序会因为找不到对应的方法而崩溃.因为copy就是复制一个不可变NSArray的对象；2、使用了atomic属性会严重影响性能 ；</p>
+
+<p>第1条的相关原因在下文中有论述<strong><em>《用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？如果改用strong关键字，可能造成什么问题？》</em></strong> 以及上文<strong><em>《怎么用 copy 关键字？》</em></strong>也有论述。</p>
+
+<p>比如下面的代码就会发生崩溃</p>
+
+<pre><code>// .h文件
+// http://weibo.com/luohanchenyilong/
+// https://github.com/ChenYilong
+// 下面的代码就会发生崩溃
+
+@property (nonatomic, copy) NSMutableArray *mutableArray;
+
+
+
+// .m文件
+// http://weibo.com/luohanchenyilong/
+// https://github.com/ChenYilong
+// 下面的代码就会发生崩溃
+
+NSMutableArray *array = [NSMutableArray arrayWithObjects:@1,@2,nil];
+self.mutableArray = array;
+[self.mutableArray removeObjectAtIndex:0];
+</code></pre>
+
+<p>接下来就会奔溃：</p>
+
+<pre><code>-[__NSArrayI removeObjectAtIndex:]: unrecognized selector sent to instance 0x7fcd1bc30460
+</code></pre>
+
+<p>第2条原因，如下：</p>
+
+<blockquote><p>该属性使用了同步锁，会在创建时生成一些额外的代码用于帮助编写多线程程序，这会带来性能问题，通过声明nonatomic可以节省这些虽然很小但是不必要额外开销。</p></blockquote>
+
+<p>在默认情况下，由编译器所合成的方法会通过锁定机制确保其原子性(atomicity)。如果属性具备nonatomic特质，则不使用同步锁。请注意，尽管没有名为“atomic”的特质(如果某属性不具备nonatomic特质，那它就是“原子的”(atomic))。</p>
+
+<p>在iOS开发中，你会发现，几乎所有属性都声明为nonatomic。</p>
+
+<p>一般情况下并不要求属性必须是“原子的”，因为这并不能保证“线程安全” ( thread safety)，若要实现“线程安全”的操作，还需采用更为深层的锁定机制才行。例如，一个线程在连续多次读取某属性值的过程中有别的线程在同时改写该值，那么即便将属性声明为atomic，也还是会读到不同的属性值。</p>
+
+<p>因此，开发iOS程序时一般都会使用nonatomic属性。但是在开发Mac OS X程序时，使用
+atomic属性通常都不会有性能瓶颈。</p>
+
+<h3>5. 如何让自己的类用 copy 修饰符？如何重写带 copy 关键字的 setter？</h3>
+
+<blockquote><p>若想令自己所写的对象具有拷贝功能，则需实现NSCopying协议。如果自定义的对象分为可变版本与不可变版本，那么就要同时实现NSCopyiog与NSMutableCopying协议。</p></blockquote>
+
+<p>具体步骤：</p>
+
+<ol>
+<li>需声明该类遵从NSCopying协议</li>
+<li><p>实现NSCopying协议。该协议只有一个方法:</p>
+
+<ul>
+<li>(id)copyWithZone: (NSZone*) zone</li>
+</ul>
+</li>
+</ol>
+
+
+<p>注意：一提到让自己的类用 copy 修饰符，我们总是想覆写copy方法，其实真正需要实现的却是“copyWithZone”方法。</p>
+
+<p>以第一题的代码为例：</p>
+
+<pre><code>// .h文件
+// http://weibo.com/luohanchenyilong/
+// https://github.com/ChenYilong
+// 修改完的代码
+
+typedef NS_ENUM(NSInteger, CYLSex) {
+    CYLSexMan,
+    CYLSexWoman
+};
+
+@interface CYLUser : NSObject&lt;NSCopying&gt;
+
+@property (nonatomic, copy, readonly) NSString *name;
+@property (nonatomic, assign, readonly) NSUInteger age;
+@property (nonatomic, assign, readonly) CYLSex sex;
+
+- (instancetype)initWithName:(NSString *)name age:(NSUInteger)age sex:(CYLSex)sex;
++ (instancetype)userWithName:(NSString *)name age:(NSUInteger)age sex:(CYLSex)sex;
+
+@end
+</code></pre>
+
+<p>然后实现协议中规定的方法：</p>
+
+<pre><code>- (id)copyWithZone:(NSZone *)zone {
+    CYLUser *copy = [[[self copy] allocWithZone:zone] 
+                     initWithName:_name
+                                  age:_age
+                                  sex:_sex];
+    return copy;
+}
+</code></pre>
+
+<p>但在实际的项目中，不可能这么简单，遇到更复杂一点，比如类对象中的数据结构可能并未在初始化方法中设置好，需要另行设置。举个例子，假如CYLUser中含有一个数组，与其他CYLUser对象建立或解除朋友关系的那些方法都需要操作这个数组。那么在这种情况下，你得把这个包含朋友对象的数组也一并拷贝过来。下面列出了实现此功能所需的全部代码:</p>
+
+<pre><code>// .h文件
+// http://weibo.com/luohanchenyilong/
+// https://github.com/ChenYilong
+// 以第一题《风格纠错题》里的代码为例
+
+typedef NS_ENUM(NSInteger, CYLSex) {
+    CYLSexMan,
+    CYLSexWoman
+};
+
+@interface CYLUser : NSObject&lt;NSCopying&gt;
+
+@property (nonatomic, copy, readonly) NSString *name;
+@property (nonatomic, assign, readonly) NSUInteger age;
+@property (nonatomic, assign, readonly) CYLSex sex;
+
+- (instancetype)initWithName:(NSString *)name age:(NSUInteger)age sex:(CYLSex)sex;
++ (instancetype)userWithName:(NSString *)name age:(NSUInteger)age sex:(CYLSex)sex;
+- (void)addFriend:(CYLUser *)user;
+- (void)removeFriend:(CYLUser *)user;
+
+@end
+</code></pre>
+
+<p>// .m文件</p>
+
+<pre><code>// .m文件
+// http://weibo.com/luohanchenyilong/
+// https://github.com/ChenYilong
+// 
+
+@implementation CYLUser {
+    NSMutableSet *_friends;
+}
+
+- (void)setName:(NSString *)name {
+    _name = [name copy];
+}
+
+- (instancetype)initWithName:(NSString *)name 
+                             age:(NSUInteger)age 
+                             sex:(CYLSex)sex {
+     if(self = [super init]) {
+        _name = [name copy];
+        _age = age;
+        _sex = sex;
+        _friends = [[NSMutableSet alloc] init];
+     }
+     return self;
+}
+
+- (void)addFriend:(CYLUser *)user {
+    [_friends addObject:user];
+}
+
+- (void)removeFriend:(CYLUser *)user {
+    [_friends removeObject:person];
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    CYLUser *copy = [[[self copy] allocWithZone:zone] 
+                     initWithName:_name
+                                  age:_age
+                                  sex:_sex];
+    copy-&gt;_friends = [_friends mutableCopy];
+    return copy;
+}
+
+- (id)deepCopy {
+    CYLUser *copy = [[[self copy] allocWithZone:zone] 
+                     initWithName:_name
+                                  age:_age
+                                  sex:_sex];
+    copy-&gt;_friends = [[NSMutableSet alloc] initWithSet:_friends 
+                                             copyItems:YES];
+    return copy;
+}
+
+@end
+</code></pre>
+
+<p>以上做法能满足基本的需求，但是也有缺陷：</p>
+
+<blockquote><p>如果你所写的对象需要深拷贝，那么可考虑新增一个专门执行深拷贝的方法。</p></blockquote>
+
+<p>【注：深浅拷贝的概念，在下文中有介绍，详见下文的：<strong><em>用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？如果改用strong关键字，可能造成什么问题？</em></strong>】</p>
+
+<p>在例子中，存放朋友对象的set是用“copyWithZooe:”方法来拷贝的，这种浅拷贝方式不会逐个复制set中的元素。若需要深拷贝的话，则可像下面这样，编写一个专供深拷贝所用的方法:</p>
+
+<pre><code>- (id)deepCopy {
+    CYLUser *copy = [[[self copy] allocWithZone:zone] 
+                     initWithName:_name
+                                  age:_age
+                                  sex:_sex];
+    copy-&gt;_friends = [[NSMutableSet alloc] initWithSet:_friends 
+                                             copyItems:YES];
+    return copy;
+}
+</code></pre>
+
+<p>至于<strong><em>如何重写带 copy 关键字的 setter</em></strong>这个问题，</p>
+
+<p>如果抛开本例来回答的话，如下：</p>
+
+<pre><code>- (void)setName:(NSString *)name {
+    _name = [name copy];
+}
+</code></pre>
+
+<p>如果单单就上文的代码而言，我们不需要也不能重写name的 setter ：由于是name是只读属性，所以编译器不会为其创建对应的“设置方法”，用初始化方法设置好属性值之后，就不能再改变了。（ 在本例中，之所以还要声明属性的“内存管理语义”&ndash;copy，是因为：如果不写copy，该类的调用者就不知道初始化方法里会拷贝这些属性，他们有可能会在调用初始化方法之前自行拷贝属性值。这种操作多余而低效。）。</p>
+
+<p>那如何确保name被copy？在初始化方法(initializer)中做：</p>
+
+<pre><code>- (instancetype)initWithName:(NSString *)name 
+                             age:(NSUInteger)age 
+                             sex:(CYLSex)sex {
+     if(self = [super init]) {
+        _name = [name copy];
+        _age = age;
+        _sex = sex;
+        _friends = [[NSMutableSet alloc] init];
+     }
+     return self;
+}
+</code></pre>
+
+<h3>6. @property 的本质是什么？ivar、getter、setter 是如何生成并添加到这个类中的</h3>
+
+<p><strong>@property 的本质是什么？</strong></p>
+
+<blockquote><p>@property = ivar + getter + setter;</p></blockquote>
+
+<p>下面解释下：</p>
+
+<blockquote><p>“属性” (property)有两大概念：ivar（实例变量）、存取方法（access method ＝ getter + setter）。</p></blockquote>
+
+<p>“属性” (property)作为 Objective-C 的一项特性，主要的作用就在于封装对象中的数据。 Objective-C 对象通常会把其所需要的数据保存为各种实例变量。实例变量一般通过“存取方法”(access method)来访问。其中，“获取方法” (getter)用于读取变量值，而“设置方法” (setter)用于写入变量值。这个概念已经定型，并且经由“属性”这一特性而成为<code>Objective-C 2.0</code>的一部分。
+而在正规的 Objective-C 编码风格中，存取方法有着严格的命名规范。
+正因为有了这种严格的命名规范，所以 Objective-C 这门语言才能根据名称自动创建出存取方法。其实也可以把属性当做一种关键字，其表示:</p>
+
+<blockquote><p>编译器会自动写出一套存取方法，用以访问给定类型中具有给定名称的变量。
+所以你也可以这么说：</p>
+
+<p>@property = getter + setter;</p></blockquote>
+
+<p>例如下面这个类：</p>
+
+<pre><code>@interface Person : NSObject 
+@property NSString *firstName; 
+@property NSString *lastName; 
+@end 
+</code></pre>
+
+<p>上述代码写出来的类与下面这种写法等效：</p>
+
+<pre><code>@interface Person : NSObject 
+- (NSString *)firstName; 
+- (void)setFirstName:(NSString *)firstName; 
+- (NSString *)lastName; 
+- (void)setLastName:(NSString *)lastName; 
+@end 
+</code></pre>
+
+<p><strong>ivar、getter、setter 是如何生成并添加到这个类中的?</strong></p>
+
+<blockquote><p>“自动合成”( autosynthesis)</p></blockquote>
+
+<p>完成属性定义后，编译器会自动编写访问这些属性所需的方法，此过程叫做“自动合成”( autosynthesis)。需要强调的是，这个过程由编译
+器在编译期执行，所以编辑器里看不到这些“合成方法”(synthesized method)的源代码。除了生成方法代码 getter、setter 之外，编译器还要自动向类中添加适当类型的实例变量，并且在属性名前面加下划线，以此作为实例变量的名字。在前例中，会生成两个实例变量，其名称分别为
+<code>_firstName</code>与<code>_lastName</code>。也可以在类的实现代码里通过
+@synthesize语法来指定实例变量的名字.</p>
+
+<pre><code>@implementation Person 
+@synthesize firstName = _myFirstName; 
+@synthesize lastName = myLastName; 
+@end 
+</code></pre>
+
+<p>我为了搞清属性是怎么实现的,曾经反编译过相关的代码,他大致生成了五个东西</p>
+
+<ol>
+<li><code>OBJC_IVAR_$类名$属性名称</code> ：该属性的“偏移量” (offset)，这个偏移量是“硬编码” (hardcode)，表示该变量距离存放对象的内存区域的起始地址有多远。</li>
+<li>setter与getter方法对应的实现函数</li>
+<li><code>ivar_list</code> ：成员变量列表</li>
+<li><code>method_list</code> ：方法列表</li>
+<li><code>prop_list</code> ：属性列表</li>
+</ol>
+
+
+<p>也就是说我们每次在增加一个属性,系统都会在<code>ivar_list</code>中添加一个成员变量的描述,在<code>method_list</code>中增加setter与getter方法的描述,在属性列表中增加一个属性的描述,然后计算该属性在对象中的偏移量,然后给出setter与getter方法对应的实现,在setter方法中从偏移量的位置开始赋值,在getter方法中从偏移量开始取值,为了能够读取正确字节数,系统对象偏移量的指针类型进行了类型强转.</p>
+
+<h3>7. @protocol 和 category 中如何使用 @property</h3>
+
+<ol>
+<li>在protocol中使用property只会生成setter和getter方法声明,我们使用属性的目的,是希望遵守我协议的对象能实现该属性</li>
+<li><p>category 使用 @property 也是只会生成setter和getter方法的声明,如果我们真的需要给category增加属性的实现,需要借助于运行时的两个函数：</p></li>
+<li><p> <code>objc_setAssociatedObject</code></p></li>
+<li> <code>objc_getAssociatedObject</code></li>
+</ol>
+
+
+<h3>8. runtime 如何实现 weak 属性</h3>
+
+<p>要实现weak属性，首先要搞清楚weak属性的特点：</p>
+
+<blockquote><p>weak 此特质表明该属性定义了一种“非拥有关系” (nonowning relationship)。为这种属性设置新值时，设置方法既不保留新值，也不释放旧值。此特质同assign类似， 然而在属性所指的对象遭到摧毁时，属性值也会清空(nil out)。</p></blockquote>
+
+<p>那么runtime如何实现weak变量的自动置nil？</p>
+
+<blockquote><p>runtime 对注册的类， 会进行布局，对于 weak 对象会放入一个 hash 表中。 用 weak 指向的对象内存地址作为 key，当此对象的引用计数为0的时候会 dealloc，假如 weak 指向的对象内存地址是a，那么就会以a为键， 在这个 weak 表中搜索，找到所有以a为键的 weak 对象，从而设置为 nil。</p></blockquote>
+
+<p>我们可以设计一个函数（伪代码）来表示上述机制：</p>
+
+<p><code>objc_storeWeak(&amp;a, b)</code>函数：</p>
+
+<p><code>objc_storeWeak</code>函数把第二个参数&ndash;赋值对象（b）的内存地址作为键值key，将第一个参数&ndash;weak修饰的属性变量（a）的内存地址（&amp;a）作为value，注册到 weak 表中。如果第二个参数（b）为0（nil），那么把变量（a）的内存地址（&amp;a）从weak表中删除，</p>
+
+<p>你可以把<code>objc_storeWeak(&amp;a, b)</code>理解为：<code>objc_storeWeak(value, key)</code>，并且当key变nil，将value置nil。</p>
+
+<p>在b非nil时，a和b指向同一个内存地址，在b变nil时，a变nil。此时向a发送消息不会崩溃：在Objective-C中向nil发送消息是安全的。</p>
+
+<p>而如果a是由assign修饰的，则：
+在b非nil时，a和b指向同一个内存地址，在b变nil时，a还是指向该内存地址，变野指针。此时向a发送消息极易崩溃。</p>
+
+<p>下面我们将基于<code>objc_storeWeak(&amp;a, b)</code>函数，使用伪代码模拟“runtime如何实现weak属性”：</p>
+
+<pre><code>// 使用伪代码模拟：runtime如何实现weak属性
+// http://weibo.com/luohanchenyilong/
+// https://github.com/ChenYilong
+
+ id obj1;
+ objc_initWeak(&amp;obj1, obj);
+/*obj引用计数变为0，变量作用域结束*/
+ objc_destroyWeak(&amp;obj1);
+</code></pre>
+
+<p>下面对用到的两个方法<code>objc_initWeak</code>和<code>objc_destroyWeak</code>做下解释：</p>
+
+<p>总体说来，作用是：
+通过<code>objc_initWeak</code>函数初始化“附有weak修饰符的变量（obj1）”，在变量作用域结束时通过<code>objc_destoryWeak</code>函数释放该变量（obj1）。</p>
+
+<p>下面分别介绍下方法的内部实现：</p>
+
+<p><code>objc_initWeak</code>函数的实现是这样的：在将“附有weak修饰符的变量（obj1）”初始化为0（nil）后，会将“赋值对象”（obj）作为参数，调用<code>objc_storeWeak</code>函数。</p>
+
+<pre><code>obj1 = 0；
+obj_storeWeak(&amp;obj1, obj);
+</code></pre>
+
+<p>也就是说：</p>
+
+<blockquote><p> weak 修饰的指针默认值是 nil （在Objective-C中向nil发送消息是安全的）</p></blockquote>
+
+<p>然后<code>obj_destroyWeak</code>函数将0（nil）作为参数，调用<code>objc_storeWeak</code>函数。</p>
+
+<p><code>objc_storeWeak(&amp;obj1, 0);</code></p>
+
+<p>前面的源代码与下列源代码相同。</p>
+
+<pre><code>// 使用伪代码模拟：runtime如何实现weak属性
+// http://weibo.com/luohanchenyilong/
+// https://github.com/ChenYilong
+
+id obj1;
+obj1 = 0;
+objc_storeWeak(&amp;obj1, obj);
+/* ... obj的引用计数变为0，被置nil ... */
+objc_storeWeak(&amp;obj1, 0);
+</code></pre>
+
+<p><code>objc_storeWeak</code>函数把第二个参数&ndash;赋值对象（obj）的内存地址作为键值，将第一个参数&ndash;weak修饰的属性变量（obj1）的内存地址注册到 weak 表中。如果第二个参数（obj）为0（nil），那么把变量（obj1）的地址从weak表中删除，在后面的相关一题会详解。</p>
+
+<p>使用伪代码是为了方便理解，下面我们“真枪实弹”地实现下：</p>
+
+<blockquote><p>如何让不使用weak修饰的@property，拥有weak的效果。</p></blockquote>
+
+<p>我们从setter方法入手：</p>
+
+<pre><code>- (void)setObject:(NSObject *)object
+{
+    objc_setAssociatedObject(self, "object", object, OBJC_ASSOCIATION_ASSIGN);
+    [object cyl_runAtDealloc:^{
+        _object = nil;
+    }];
+}
+</code></pre>
+
+<p>也就是有两个步骤：</p>
+
+<ol>
+<li><p>在setter方法中做如下设置：</p>
+
+<pre><code>objc_setAssociatedObject(self, "object", object, OBJC_ASSOCIATION_ASSIGN);
+</code></pre></li>
+<li><p>在属性所指的对象遭到摧毁时，属性值也会清空(nil out)。做到这点，同样要借助runtime：</p>
+
+<p>//要销毁的目标对象
+id objectToBeDeallocated;
+//可以理解为一个“事件”：当上面的目标对象销毁时，同时要发生的“事件”。
+id objectWeWantToBeReleasedWhenThatHappens;
+objc_setAssociatedObject(objectToBeDeallocted,
+                         someUniqueKey,
+                         objectWeWantToBeReleasedWhenThatHappens,
+                         OBJC_ASSOCIATION_RETAIN);</p></li>
+</ol>
+
+
+<p>知道了思路，我们就开始实现<code>cyl_runAtDealloc</code>方法，实现过程分两部分：</p>
+
+<p>第一部分：创建一个类，可以理解为一个“事件”：当目标对象销毁时，同时要发生的“事件”。借助block执行“事件”。</p>
+
+<pre><code>// .h文件
+// http://weibo.com/luohanchenyilong/
+// https://github.com/ChenYilong
+// 这个类，可以理解为一个“事件”：当目标对象销毁时，同时要发生的“事件”。借助block执行“事件”。
+
+typedef void (^voidBlock)(void);
+
+@interface CYLBlockExecutor : NSObject 
+
+- (id)initWithBlock:(voidBlock)block;
+
+@end
+
+
+// .m文件
+// http://weibo.com/luohanchenyilong/
+// https://github.com/ChenYilong
+// 这个类，可以理解为一个“事件”：当目标对象销毁时，同时要发生的“事件”。借助block执行“事件”。
+
+#import "CYLBlockExecutor.h"
+
+@interface CYLBlockExecutor() {
+    voidBlock _block;
+}
+@implementation CYLBlockExecutor
+
+- (id)initWithBlock:(voidBlock)aBlock
+{
+    self = [super init];
+
+    if (self) {
+        _block = [aBlock copy];
+    }
+
+    return self;
+}
+
+- (void)dealloc
+{
+    _block ? _block() : nil;
+}
+
+@end
+</code></pre>
+
+<p>第二部分：核心代码：利用runtime实现<code>cyl_runAtDealloc</code>方法</p>
+
+<pre><code>// CYLNSObject+RunAtDealloc.h文件
+// http://weibo.com/luohanchenyilong/
+// https://github.com/ChenYilong
+// 利用runtime实现cyl_runAtDealloc方法
+
+#import "CYLBlockExecutor.h"
+
+const void *runAtDeallocBlockKey = &amp;runAtDeallocBlockKey;
+
+@interface NSObject (CYLRunAtDealloc)
+
+- (void)cyl_runAtDealloc:(voidBlock)block;
+
+@end
+
+
+// CYLNSObject+RunAtDealloc.m文件
+// http://weibo.com/luohanchenyilong/
+// https://github.com/ChenYilong
+// 利用runtime实现cyl_runAtDealloc方法
+
+#import "CYLNSObject+RunAtDealloc.h"
+#import "CYLBlockExecutor.h"
+
+@implementation NSObject (CYLRunAtDealloc)
+
+- (void)cyl_runAtDealloc:(voidBlock)block
+{
+    if (block) {
+        CYLBlockExecutor *executor = [[CYLBlockExecutor alloc] initWithBlock:block];
+
+        objc_setAssociatedObject(self,
+                                 runAtDeallocBlockKey,
+                                 executor,
+                                 OBJC_ASSOCIATION_RETAIN);
+    }
+}
+
+@end
+</code></pre>
+
+<p>使用方法：
+导入</p>
+
+<pre><code>#import "CYLNSObject+RunAtDealloc.h"
+</code></pre>
+
+<p>然后就可以使用了：</p>
+
+<pre><code>    NSObject *foo = [[NSObject alloc] init];
+
+    [foo cyl_runAtDealloc:^{
+        NSLog(@"正在释放foo!");
+    }];
+</code></pre>
+
+<p>如果对<code>cyl_runAtDealloc</code>的实现原理有兴趣，可以看下这篇博文 <a href="http://stackoverflow.com/a/31560217/3395008"><strong><em>Fun With the Objective-C Runtime: Run Code at Deallocation of Any Object</em></strong></a></p>
+
+<h3>9. @property中有哪些属性关键字？/ @property 后面可以有哪些修饰符？</h3>
+
+<p>属性可以拥有的特质分为四类:</p>
+
+<ol>
+<li><p>原子性&mdash;<code>nonatomic</code>特质</p>
+
+<p>在默认情况下，由编译器合成的方法会通过锁定机制确保其原子性(atomicity)。如果属性具备nonatomic特质，则不使用同步锁。请注意，尽管没有名为“atomic”的特质(如果某属性不具备nonatomic特质，那它就是“原子的” ( atomic) )，但是仍然可以在属性特质中写明这一点，编译器不会报错。若是自己定义存取方法，那么就应该遵从与属性特质相符的原子性。</p></li>
+<li><p>读/写权限&mdash;<code>readwrite(读写)</code>、<code>readooly (只读)</code></p></li>
+<li>内存管理语义&mdash;<code>assign</code>、<code>strong</code>、 <code>weak</code>、<code>unsafe_unretained</code>、<code>copy</code></li>
+<li>方法名&mdash;<code>getter=&lt;name&gt;</code> 、<code>setter=&lt;name&gt;</code></li>
+</ol>
+
+
+<p>  <code>getter=&lt;name&gt;</code>的样式：</p>
+
+<pre><code>    @property (nonatomic, getter=isOn) BOOL on;
+</code></pre>
+
+<p>（ <code>setter=&lt;name&gt;</code>这种不常用，也不推荐使用。故不在这里给出写法。）
+ 3. 不常用的：<code>nonnull</code>,<code>null_resettable</code>,<code>nullable</code></p>
+
+<h3>10. weak属性需要在dealloc中置nil么？</h3>
+
+<p>不需要。</p>
+
+<blockquote><p>在ARC环境无论是强指针还是弱指针都无需在 dealloc 设置为 nil ， ARC 会自动帮我们处理</p></blockquote>
+
+<p>即便是编译器不帮我们做这些，weak也不需要在dealloc中置nil：</p>
+
+<p>正如上文的：<strong><em>runtime 如何实现 weak 属性</em></strong> 中提到的：</p>
+
+<p>我们模拟下weak的setter方法，应该如下：</p>
+
+<pre><code>- (void)setObject:(NSObject *)object
+{
+    objc_setAssociatedObject(self, "object", object, OBJC_ASSOCIATION_ASSIGN);
+    [object cyl_runAtDealloc:^{
+        _object = nil;
+    }];
+}
+</code></pre>
+
+<p>也即:</p>
+
+<blockquote><p>在属性所指的对象遭到摧毁时，属性值也会清空(nil out)。</p></blockquote>
+
+<h3>11. @synthesize和@dynamic分别有什么作用？</h3>
+
+<ol>
+<li>@property有两个对应的词，一个是@synthesize，一个是@dynamic。如果@synthesize和@dynamic都没写，那么默认的就是<code>@syntheszie var = _var;</code></li>
+<li>@synthesize的语义是如果你没有手动实现setter方法和getter方法，那么编译器会自动为你加上这两个方法。</li>
+<li>@dynamic告诉编译器：属性的setter与getter方法由用户自己实现，不自动生成。（当然对于readonly的属性只需提供getter即可）。假如一个属性被声明为@dynamic var，然后你没有提供@setter方法和@getter方法，编译的时候没问题，但是当程序运行到<code>instance.var = someVar</code>，由于缺setter方法会导致程序崩溃；或者当运行到 <code>someVar = var</code>时，由于缺getter方法同样会导致崩溃。编译时没问题，运行时才执行相应的方法，这就是所谓的动态绑定。</li>
+</ol>
+
+
+<h3>12. ARC下，不显式指定任何属性关键字时，默认的关键字都有哪些？</h3>
+
+<ol>
+<li>对应基本数据类型默认关键字是</li>
+</ol>
+
+
+<p> atomic,readwrite,assign
+ 2. 对于普通的OC对象</p>
+
+<p> atomic,readwrite,strong</p>
+
+<p>参考链接：</p>
+
+<ol>
+<li><p><a href="http://stackoverflow.com/a/15541801/3395008"> <strong><em>Objective-C ARC: strong vs retain and weak vs assign</em></strong> </a></p></li>
+<li><p><a href="http://rdcworld-iphone.blogspot.in/2012/12/variable-property-attributes-or.html"> <strong><em>Variable property attributes or Modifiers in iOS</em></strong> </a></p></li>
+</ol>
+
+
+<h3>13. 用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？如果改用strong关键字，可能造成什么问题？</h3>
+
+<ol>
+<li>因为父类指针可以指向子类对象,使用copy的目的是为了让本对象的属性不受外界影响,使用copy无论给我传入是一个可变对象还是不可对象,我本身持有的就是一个不可变的副本.</li>
+<li>如果我们使用是strong,那么这个属性就有可能指向一个可变对象,如果这个可变对象在外部被修改了,那么会影响该属性.</li>
+</ol>
+
+
+<p>copy此特质所表达的所属关系与strong类似。然而设置方法并不保留新值，而是将其“拷贝” (copy)。
+当属性类型为NSString时，经常用此特质来保护其封装性，因为传递给设置方法的新值有可能指向一个NSMutableString类的实例。这个类是NSString的子类，表示一种可修改其值的字符串，此时若是不拷贝字符串，那么设置完属性之后，字符串的值就可能会在对象不知情的情况下遭人更改。所以，这时就要拷贝一份“不可变” (immutable)的字符串，确保对象中的字符串值不会无意间变动。只要实现属性所用的对象是“可变的” (mutable)，就应该在设置新属性值时拷贝一份。</p>
+
+<p>为了理解这种做法，首先要知道，对非集合类对象的copy操作：</p>
+
+<p>在非集合类对象中：对immutable对象进行copy操作，是指针复制，mutableCopy操作时内容复制；对mutable对象进行copy和mutableCopy都是内容复制。用代码简单表示如下：</p>
+
+<ul>
+<li>[immutableObject copy] // 浅复制</li>
+<li>[immutableObject mutableCopy] //深复制</li>
+<li>[mutableObject copy] //深复制</li>
+<li>[mutableObject mutableCopy] //深复制</li>
+</ul>
+
+
+<p>比如以下代码：</p>
+
+<pre><code>NSMutableString *string = [NSMutableString stringWithString:@"origin"];//copy
+NSString *stringCopy = [string copy]; 
+</code></pre>
+
+<p>查看内存，会发现 string、stringCopy 内存地址都不一样，说明此时都是做内容拷贝、深拷贝。即使你进行如下操作：</p>
+
+<pre><code>[string appendString:@"origion!"]
+</code></pre>
+
+<p>stringCopy的值也不会因此改变，但是如果不使用copy，stringCopy的值就会被改变。
+  集合类对象以此类推。
+所以，</p>
+
+<blockquote><p>用@property声明 NSString、NSArray、NSDictionary 经常使用copy关键字，是因为他们有对应的可变类型：NSMutableString、NSMutableArray、NSMutableDictionary，他们之间可能进行赋值操作，为确保对象中的字符串值不会无意间变动，应该在设置新属性值时拷贝一份。</p></blockquote>
+
+<p>参考链接：<a href="https://www.zybuluo.com/MicroCai/note/50592">iOS 集合的深复制与浅复制</a></p>
+
+<h3>14. @synthesize合成实例变量的规则是什么？假如property名为foo，存在一个名为<code>_foo</code>的实例变量，那么还会自动合成新变量么？</h3>
+
+<p>在回答之前先说明下一个概念：</p>
+
+<blockquote><p>实例变量 = 成员变量 ＝ ivar</p></blockquote>
+
+<p>这些说法，笔者下文中，可能都会用到，指的是一个东西。</p>
+
+<p>正如
+<a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/EncapsulatingData/EncapsulatingData.html#//apple_ref/doc/uid/TP40011210-CH5-SW6">Apple官方文档 <strong><em>You Can Customize Synthesized Instance Variable Names</em></strong></a> 所说：
+<img src="http://i.imgur.com/D6d0zGJ.png" alt="enter image description here" /></p>
+
+<p>如果使用了属性的话，那么编译器就会自动编写访问属性所需的方法，此过程叫做“自动合成”( auto synthesis)。需要强调的是，这个过程由编译器在编译期执行，所以编辑器里看不到这些“合成方法” (synthesized method)的源代码。除了生成方法代码之外，编译器还要自动向类中添加适当类型的实例变量，并且在属性名前面加下划线，以此作为实例变量的名字。</p>
+
+<pre><code>@interface CYLPerson : NSObject 
+@property NSString *firstName; 
+@property NSString *lastName; 
+@end
+</code></pre>
+
+<p>在上例中，会生成两个实例变量，其名称分别为
+<code>_firstName</code>与<code>_lastName</code>。也可以在类的实现代码里通过<code>@synthesize</code>语法来指定实例变量的名字:</p>
+
+<pre><code>@implementation CYLPerson 
+@synthesize firstName = _myFirstName; 
+@synthesize lastName = _myLastName; 
+@end 
+</code></pre>
+
+<p>上述语法会将生成的实例变量命名为<code>_myFirstName</code>与<code>_myLastName</code>，而不再使用默认的名字。一般情况下无须修改默认的实例变量名，但是如果你不喜欢以下划线来命名实例变量，那么可以用这个办法将其改为自己想要的名字。笔者还是推荐使用默认的命名方案，因为如果所有人都坚持这套方案，那么写出来的代码大家都能看得懂。</p>
+
+<p>总结下@synthesize合成实例变量的规则，有以下几点：</p>
+
+<ol>
+<li><p>如果指定了成员变量的名称,会生成一个指定的名称的成员变量,</p></li>
+<li><p>如果这个成员已经存在了就不再生成了.</p></li>
+<li>如果是 <code>@synthesize foo;</code> 还会生成一个名称为foo的成员变量，也就是说：</li>
+</ol>
+
+
+<blockquote><p>如果没有指定成员变量的名称会自动生成一个属性同名的成员变量,</p></blockquote>
+
+<ol>
+<li>如果是 <code>@synthesize foo = _foo;</code> 就不会生成成员变量了.</li>
+</ol>
+
+
+<p>假如property名为foo，存在一个名为_foo的实例变量，那么还会自动合成新变量么？
+不会。如下图：</p>
+
+<p><img src="http://i.imgur.com/t28ge4W.png" alt="enter image description here" /></p>
+
+<h3>15. 在有了自动合成属性实例变量之后，@synthesize还有哪些使用场景？</h3>
+
+<p>回答这个问题前，我们要搞清楚一个问题，什么情况下不会autosynthesis（自动合成）？</p>
+
+<ol>
+<li>同时重写了setter和getter时</li>
+<li>重写了只读属性的getter时</li>
+<li>使用了@dynamic时</li>
+<li>在 @protocol 中定义的所有属性</li>
+<li>在 category 中定义的所有属性</li>
+<li>重载的属性</li>
+</ol>
+
+
+<p> 当你在子类中重载了父类中的属性，你必须 使用<code>@synthesize</code>来手动合成ivar。</p>
+
+<p>除了后三条，对其他几个我们可以总结出一个规律：当你想手动管理@property的所有内容时，你就会尝试通过实现@property的所有“存取方法”（the accessor methods）或者使用<code>@dynamic</code>来达到这个目的，这时编译器就会认为你打算手动管理@property，于是编译器就禁用了autosynthesis（自动合成）。</p>
+
+<p>因为有了autosynthesis（自动合成），大部分开发者已经习惯不去手动定义ivar，而是依赖于autosynthesis（自动合成），但是一旦你需要使用ivar，而autosynthesis（自动合成）又失效了，如果不去手动定义ivar，那么你就得借助<code>@synthesize</code>来手动合成ivar。</p>
+
+<p>其实，<code>@synthesize</code>语法还有一个应用场景，但是不太建议大家使用：</p>
+
+<p>可以在类的实现代码里通过<code>@synthesize</code>语法来指定实例变量的名字:</p>
+
+<pre><code>@implementation CYLPerson 
+@synthesize firstName = _myFirstName; 
+@synthesize lastName = _myLastName; 
+@end 
+</code></pre>
+
+<p>上述语法会将生成的实例变量命名为<code>_myFirstName</code>与<code>_myLastName</code>，而不再使用默认的名字。一般情况下无须修改默认的实例变量名，但是如果你不喜欢以下划线来命名实例变量，那么可以用这个办法将其改为自己想要的名字。笔者还是推荐使用默认的命名案，因为如果所有人都坚持这套方案，那么写出来的代码大家都能看得懂。</p>
+
+<p>举例说明：应用场景：</p>
+
+<pre><code>//
+// .m文件
+// http://weibo.com/luohanchenyilong/ (微博@iOS程序犭袁)
+// https://github.com/ChenYilong
+// 打开第14行和第17行中任意一行，就可编译成功
+
+@import Foundation;
+
+@interface CYLObject : NSObject
+@property (nonatomic, copy) NSString *title;
+@end
+
+@implementation CYLObject {
+//    NSString *_title;
+}
+
+//@synthesize title = _title;
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _title = @"微博@iOS程序犭袁";
+    }
+    return self;
+}
+
+- (NSString *)title {
+    return _title;
+}
+
+- (void)setTitle:(NSString *)title {
+    _title = [title copy];
+}
+
+@end
+</code></pre>
+
+<p>结果编译器报错：
+<img src="http://i.imgur.com/fAEGHIo.png" alt="enter image description here" /></p>
+
+<p>当你同时重写了setter和getter时，系统就不会生成ivar（实例变量/成员变量）。这时候有两种选择：</p>
+
+<ol>
+<li>要么如第14行：手动创建ivar</li>
+<li>要么如第17行：使用<code>@synthesize foo = _foo;</code> ，关联@property与ivar。</li>
+</ol>
+
+
+<p>更多信息，请戳- 》<a href="http://stackoverflow.com/a/19821816/3395008"> <strong><em>When should I use @synthesize explicitly?</em></strong> </a></p>
+
+<h3>16. objc中向一个nil对象发送消息将会发生什么？</h3>
+
+<p>在Objective-C中向nil发送消息是完全有效的——只是在运行时不会有任何作用:</p>
+
+<ol>
+<li><p>如果一个方法返回值是一个对象，那么发送给nil的消息将返回0(nil)。例如：</p>
+
+<p>Person * motherInlaw = [[aPerson spouse] mother];</p></li>
+</ol>
+
+
+<p> 如果spouse对象为nil，那么发送给nil的消息mother也将返回nil。
+ 2. 如果方法返回值为指针类型，其指针大小为小于或者等于sizeof(void*)，float，double，long double 或者long long的整型标量，发送给nil的消息将返回0。
+ 2. 如果方法返回值为结构体,发送给nil的消息将返回0。结构体中各个字段的值将都是0。
+ 2. 如果方法的返回值不是上述提到的几种情况，那么发送给nil的消息的返回值将是未定义的。</p>
+
+<p>具体原因如下：</p>
+
+<blockquote><p>objc是动态语言，每个方法在运行时会被动态转为消息发送，即：objc_msgSend(receiver, selector)。</p></blockquote>
+
+<p>那么，为了方便理解这个内容，还是贴一个objc的源代码：</p>
+
+<pre><code>// runtime.h（类在runtime中的定义）
+// http://weibo.com/luohanchenyilong/
+// https://github.com/ChenYilong
+
+struct objc_class {
+  Class isa OBJC_ISA_AVAILABILITY; //isa指针指向Meta Class，因为Objc的类的本身也是一个Object，为了处理这个关系，runtime就创造了Meta Class，当给类发送[NSObject alloc]这样消息时，实际上是把这个消息发给了Class Object
+  #if !__OBJC2__
+  Class super_class OBJC2_UNAVAILABLE; // 父类
+  const char *name OBJC2_UNAVAILABLE; // 类名
+  long version OBJC2_UNAVAILABLE; // 类的版本信息，默认为0
+  long info OBJC2_UNAVAILABLE; // 类信息，供运行期使用的一些位标识
+  long instance_size OBJC2_UNAVAILABLE; // 该类的实例变量大小
+  struct objc_ivar_list *ivars OBJC2_UNAVAILABLE; // 该类的成员变量链表
+  struct objc_method_list **methodLists OBJC2_UNAVAILABLE; // 方法定义的链表
+  struct objc_cache *cache OBJC2_UNAVAILABLE; // 方法缓存，对象接到一个消息会根据isa指针查找消息对象，这时会在method Lists中遍历，如果cache了，常用的方法调用时就能够提高调用的效率。
+  struct objc_protocol_list *protocols OBJC2_UNAVAILABLE; // 协议链表
+  #endif
+  } OBJC2_UNAVAILABLE;
+</code></pre>
+
+<p>objc在向一个对象发送消息时，runtime库会根据对象的isa指针找到该对象实际所属的类，然后在该类中的方法列表以及其父类方法列表中寻找方法运行，然后在发送消息的时候，objc_msgSend方法不会返回值，所谓的返回内容都是具体调用时执行的。
+那么，回到本题，如果向一个nil对象发送消息，首先在寻找对象的isa指针时就是0地址返回了，所以不会出现任何错误。</p>
+
+<h3>17. objc中向一个对象发送消息[obj foo]和objc_msgSend()函数之间有什么关系？</h3>
+
+<p>具体原因同上题：该方法编译之后就是<code>objc_msgSend()</code>函数调用.如果我没有记错的大概是这样的：</p>
+
+<pre><code>((void ()(id, SEL))(void )objc_msgSend)((id)obj, sel_registerName("foo"));
+</code></pre>
+
+<p>也就是说：</p>
+
+<blockquote><p> [obj foo];在objc动态编译时，会被转意为：<code>objc_msgSend(obj, @selector(foo));</code>。</p></blockquote>
+
+<h3>18. 什么时候会报unrecognized selector的异常？</h3>
+
+<p>简单来说：</p>
+
+<blockquote><p>当使用某对象上的某个方法,而该对象上没有实现这个方法的时候，
+可以通过“消息转发”进行解决。</p></blockquote>
+
+<p>简单的流程如下，在上一题中也提到过：</p>
+
+<blockquote><p>objc是动态语言，每个方法在运行时会被动态转为消息发送，即：objc_msgSend(receiver, selector)。</p></blockquote>
+
+<p>objc在向一个对象发送消息时，runtime库会根据对象的isa指针找到该对象实际所属的类，然后在该类中的方法列表以及其父类方法列表中寻找方法运行，如果，在最顶层的父类中依然找不到相应的方法时，程序在运行时会挂掉并抛出异常unrecognized selector sent to XXX 。但是在这之前，objc的运行时会给出三次拯救程序崩溃的机会：</p>
+
+<ol>
+<li>Method resolution</li>
+</ol>
+
+
+<p> objc运行时会调用<code>+resolveInstanceMethod:</code>或者 <code>+resolveClassMethod:</code>，让你有机会提供一个函数实现。如果你添加了函数并返回 YES，那运行时系统就会重新启动一次消息发送的过程，如果 resolve 方法返回 NO ，运行时就会移到下一步，消息转发（Message Forwarding）。</p>
+
+<ol>
+<li>Fast forwarding</li>
+</ol>
+
+
+<p> 如果目标对象实现了<code>-forwardingTargetForSelector:</code>，Runtime 这时就会调用这个方法，给你把这个消息转发给其他对象的机会。
+只要这个方法返回的不是nil和self，整个消息发送的过程就会被重启，当然发送的对象会变成你返回的那个对象。否则，就会继续Normal Fowarding。
+这里叫Fast，只是为了区别下一步的转发机制。因为这一步不会创建任何新的对象，但下一步转发会创建一个NSInvocation对象，所以相对更快点。
+ 3. Normal forwarding</p>
+
+<p> 这一步是Runtime最后一次给你挽救的机会。首先它会发送<code>-methodSignatureForSelector:</code>消息获得函数的参数和返回值类型。如果<code>-methodSignatureForSelector:</code>返回nil，Runtime则会发出<code>-doesNotRecognizeSelector:</code>消息，程序这时也就挂掉了。如果返回了一个函数签名，Runtime就会创建一个NSInvocation对象并发送<code>-forwardInvocation:</code>消息给目标对象。</p>
+
+<h3>19. 一个objc对象如何进行内存布局？（考虑有父类的情况）</h3>
+
+<ul>
+<li>所有父类的成员变量和自己的成员变量都会存放在该对象所对应的存储空间中.</li>
+<li><p>每一个对象内部都有一个isa指针,指向他的类对象,类对象中存放着本对象的</p></li>
+<li><p> 对象方法列表（对象能够接收的消息列表，保存在它所对应的类对象中）</p></li>
+<li> 成员变量的列表,</li>
+<li> 属性列表,</li>
+</ul>
+
+
+<p> 它内部也有一个isa指针指向元对象(meta class),元对象内部存放的是类方法列表,类对象内部还有一个superclass的指针,指向他的父类对象。</p>
+
+<p> <img src="http://i.imgur.com/7mJlUj1.png" alt="enter image description here" /></p>
+
+<ul>
+<li><p>根对象就是NSobject，它的superclass指针指向nil</p></li>
+<li><p>类对象既然称为对象，那它也是一个实例。类对象中也有一个isa指针指向它的元类(meta class)，即类对象是元类的实例。元类内部存放的是类方法列表，根元类的isa指针指向自己，superclass指针指向NSObject类。</p></li>
+</ul>
+
+
+<p>如图:
+<img src="http://i.imgur.com/w6tzFxz.png" alt="enter image description here" /></p>
+
+<h3>20. 一个objc对象的isa的指针指向什么？有什么作用？</h3>
+
+<p>指向他的类对象,从而可以找到对象上的方法</p>
+
+<h3>21. 下面的代码输出什么？</h3>
+
+<pre><code>@implementation Son : Father
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        NSLog(@"%@", NSStringFromClass([self class]));
+        NSLog(@"%@", NSStringFromClass([super class]));
+    }
+    return self;
+}
+@end
+</code></pre>
+
+<p><strong>答案：</strong></p>
+
+<p>都输出 Son</p>
+
+<pre><code>NSStringFromClass([self class]) = Son
+NSStringFromClass([super class]) = Son
+</code></pre>
+
+<p><strong>解惑：</strong></p>
+
+<p>（以下解惑部分摘自<a href="http://weibo.com/junbbcom">微博@Chun_iOS</a>的博文<a href="http://chun.tips/blog/2014/11/05/bao-gen-wen-di-objective%5Bnil%5Dc-runtime(1">刨根问底Objective－C Runtime（1）－ Self &amp; Super</a>%5Bnil%5D-self-and-super/)）</p>
+
+<p>这个题目主要是考察关于objc中对 self 和 super 的理解。</p>
+
+<p>self 是类的隐藏参数，指向当前调用方法的这个类的实例。而 super 是一个 Magic Keyword， 它本质是一个编译器标示符，和 self 是指向的同一个消息接受者。</p>
+
+<p>上面的例子不管调用<code>[self class]</code>还是<code>[super class]</code>，接受消息的对象都是当前 <code>Son ＊xxx</code> 这个对象。而不同的是，super是告诉编译器，调用 class 这个方法时，要去父类的方法，而不是本类里的。</p>
+
+<p>当使用 self 调用方法时，会从当前类的方法列表中开始找，如果没有，就从父类中再找；而当使用 super 时，则从父类的方法列表中开始找。然后调用父类的这个方法。</p>
+
+<p>真的是这样吗？继续看：</p>
+
+<p>使用clang重写命令:</p>
+
+<pre><code>$ clang -rewrite-objc test.m
+</code></pre>
+
+<p>发现上述代码被转化为:</p>
+
+<pre><code>NSLog((NSString *)&amp;__NSConstantStringImpl__var_folders_gm_0jk35cwn1d3326x0061qym280000gn_T_main_a5cecc_mi_0, NSStringFromClass(((Class (*)(id, SEL))(void *)objc_msgSend)((id)self, sel_registerName("class"))));
+
+NSLog((NSString *)&amp;__NSConstantStringImpl__var_folders_gm_0jk35cwn1d3326x0061qym280000gn_T_main_a5cecc_mi_1, NSStringFromClass(((Class (*)(__rw_objc_super *, SEL))(void *)objc_msgSendSuper)((__rw_objc_super){ (id)self, (id)class_getSuperclass(objc_getClass("Son")) }, sel_registerName("class"))));
+</code></pre>
+
+<p>从上面的代码中，我们可以发现在调用 [self class] 时，会转化成 <code>objc_msgSend</code>函数。看下函数定义：</p>
+
+<pre><code>id objc_msgSend(id self, SEL op, ...)
+</code></pre>
+
+<p>我们把 self 做为第一个参数传递进去。</p>
+
+<p>而在调用 [super class]时，会转化成 <code>objc_msgSendSuper</code>函数。看下函数定义:</p>
+
+<pre><code>id objc_msgSendSuper(struct objc_super *super, SEL op, ...)
+</code></pre>
+
+<p>第一个参数是 <code>objc_super</code> 这样一个结构体，其定义如下:</p>
+
+<pre><code>struct objc_super {
+   __unsafe_unretained id receiver;
+   __unsafe_unretained Class super_class;
+};
+</code></pre>
+
+<p>结构体有两个成员，第一个成员是 receiver, 类似于上面的 <code>objc_msgSend</code>函数第一个参数self 。第二个成员是记录当前类的父类是什么。</p>
+
+<p>所以，当调用 ［self class] 时，实际先调用的是 <code>objc_msgSend</code>函数，第一个参数是 Son当前的这个实例，然后在 Son 这个类里面去找 - (Class)class这个方法，没有，去父类 Father里找，也没有，最后在 NSObject类中发现这个方法。而 - (Class)class的实现就是返回self的类别，故上述输出结果为 Son。</p>
+
+<p>objc Runtime开源代码对- (Class)class方法的实现:</p>
+
+<pre><code>- (Class)class {
+    return object_getClass(self);
+}
+</code></pre>
+
+<p>而当调用 <code>[super class]</code>时，会转换成<code>objc_msgSendSuper函数</code>。第一步先构造 <code>objc_super</code> 结构体，结构体第一个成员就是 <code>self</code> 。
+第二个成员是 <code>(id)class_getSuperclass(objc_getClass(“Son”))</code> , 实际该函数输出结果为 Father。
+第二步是去 Father这个类里去找 <code>- (Class)class</code>，没有，然后去NSObject类去找，找到了。最后内部是使用 <code>objc_msgSend(objc_super-&gt;receiver, @selector(class))</code>去调用，
+此时已经和<code>[self class]</code>调用相同了，故上述输出结果仍然返回 Son。</p>
+
+<h3>22. runtime如何通过selector找到对应的IMP地址？（分别考虑类方法和实例方法）</h3>
+
+<p>每一个类对象中都一个方法列表,方法列表中记录着方法的名称,方法实现,以及参数类型,其实selector本质就是方法名称,通过这个方法名称就可以在方法列表中找到对应的方法实现.</p>
+
+<h3>23. 使用runtime Associate方法关联的对象，需要在主对象dealloc的时候释放么？</h3>
+
+<ul>
+<li>在ARC下不需要。</li>
+<li><p><del> 在MRC中,对于使用retain或copy策略的需要 。</del></p>在MRC下也不需要</li>
+</ul>
+
+
+<blockquote><p>无论在MRC下还是ARC下均不需要。</p></blockquote>
+
+<p><a href="https://web.archive.org/web/20120818164935/http://developer.apple.com/library/ios/#/web/20120820002100/http://developer.apple.com/library/ios/documentation/cocoa/conceptual/objectivec/Chapters/ocAssociativeReferences.html"> <strong><em>2011年版本的Apple API 官方文档 - Associative References</em></strong>  </a> 一节中有一个MRC环境下的例子：</p>
+
+<pre><code>// 在MRC下，使用runtime Associate方法关联的对象，不需要在主对象dealloc的时候释放
+// http://weibo.com/luohanchenyilong/ (微博@iOS程序犭袁)
+// https://github.com/ChenYilong
+// 摘自2011年版本的Apple API 官方文档 - Associative References 
+
+static char overviewKey;
+
+NSArray *array =
+    [[NSArray alloc] initWithObjects:@"One", @"Two", @"Three", nil];
+// For the purposes of illustration, use initWithFormat: to ensure
+// the string can be deallocated
+NSString *overview =
+    [[NSString alloc] initWithFormat:@"%@", @"First three numbers"];
+
+objc_setAssociatedObject (
+    array,
+    &amp;overviewKey,
+    overview,
+    OBJC_ASSOCIATION_RETAIN
+);
+
+[overview release];
+// (1) overview valid
+[array release];
+// (2) overview invalid
+</code></pre>
+
+<p>文档指出</p>
+
+<blockquote><p>At point 1, the string <code>overview</code> is still valid because the <code>OBJC_ASSOCIATION_RETAIN</code> policy specifies that the array retains the associated object. When the array is deallocated, however (at point 2), <code>overview</code> is released and so in this case also deallocated.</p></blockquote>
+
+<p>我们可以看到，在<code>[array release];</code>之后，overview就会被release释放掉了。</p>
+
+<p>既然会被销毁，那么具体在什么时间点？</p>
+
+<blockquote><p>根据<a href="https://developer.apple.com/videos/wwdc/2011/#322-video"> <strong><em>WWDC 2011, Session 322 (第36分22秒)</em></strong> </a>中发布的内存销毁时间表，被关联的对象在生命周期内要比对象本身释放的晚很多。它们会在被 NSObject -dealloc 调用的 object_dispose() 方法中释放。</p></blockquote>
+
+<p>对象的内存销毁时间表，分四个步骤：</p>
+
+<pre><code>// 对象的内存销毁时间表
+// http://weibo.com/luohanchenyilong/ (微博@iOS程序犭袁)
+// https://github.com/ChenYilong
+// 根据 WWDC 2011, Session 322 (36分22秒)中发布的内存销毁时间表 
+
+// 1. 调用 -release ：引用计数变为零
+//     * 对象正在被销毁，生命周期即将结束.
+//     * 不能再有新的 __weak 弱引用， 否则将指向 nil.
+//     * 调用 [self dealloc] 
+// 2. 父类 调用 -dealloc
+//     * 继承关系中最底层的父类 在调用 -dealloc
+//     * 如果是 MRC 代码 则会手动释放实例变量们（iVars）
+//     * 继承关系中每一层的父类 都在调用 -dealloc
+// 3. NSObject 调 -dealloc
+//     * 只做一件事：调用 Objective-C runtime 中的 object_dispose() 方法
+// 4. 调用 object_dispose()
+//     * 为 C++ 的实例变量们（iVars）调用 destructors 
+//     * 为 ARC 状态下的 实例变量们（iVars） 调用 -release 
+//     * 解除所有使用 runtime Associate方法关联的对象
+//     * 解除所有 __weak 引用
+//     * 调用 free()
+</code></pre>
+
+<p>（<a href="http://stackoverflow.com/a/10843510/3395008">对象的内存销毁时间表参考链接</a>）</p>
+
+<h3>24. objc中的类方法和实例方法有什么本质区别和联系？</h3>
+
+<p>类方法：</p>
+
+<ol>
+<li>类方法是属于类对象的</li>
+<li>类方法只能通过类对象调用</li>
+<li>类方法中的self是类对象</li>
+<li>类方法可以调用其他的类方法</li>
+<li>类方法中不能访问成员变量</li>
+<li>类方法中不定直接调用对象方法</li>
+</ol>
+
+
+<p>实例方法：</p>
+
+<ol>
+<li>实例方法是属于实例对象的</li>
+<li>实例方法只能通过实例对象调用</li>
+<li>实例方法中的self是实例对象</li>
+<li>实例方法中可以访问成员变量</li>
+<li>实例方法中直接调用实例方法</li>
+<li>实例方法中也可以调用类方法(通过类名)</li>
+</ol>
+
+
+<h2>下一篇文章将发布在<a href="https://github.com/ChenYilong/iOSInterviewQuestions">这里</a>，会对以下问题进行总结，并将本篇文章的勘误一并列出，欢迎指正！请持续关注<a href="http://weibo.com/luohanchenyilong/">微博@iOS程序犭袁</a></h2>
+
+<p>@property部分主要参考
+<a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/EncapsulatingData/EncapsulatingData.html#//apple_ref/doc/uid/TP40011210-CH5-SW2">Apple官方文档：Properties Encapsulate an Object’s Values</a>
+runtime部分主要参考<a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtPropertyIntrospection.html">Apple官方文档：Declared Properties</a></p>
+
+<h3>25. <code>_objc_msgForward</code>函数是做什么的，直接调用它将会发生什么？</h3>
+
+<h3>26. runtime如何实现weak变量的自动置nil？</h3>
+
+<h3>27. 能否向编译后得到的类中增加实例变量？能否向运行时创建的类中添加实例变量？为什么？</h3>
+
+<h3>28. runloop和线程有什么关系？</h3>
+
+<h3>29. runloop的mode作用是什么？</h3>
+
+<h3>30. 以+ scheduledTimerWithTimeInterval&hellip;的方式触发的timer，在滑动页面上的列表时，timer会暂定回调，为什么？如何解决？</h3>
+
+<h3>31. 猜想runloop内部是如何实现的？</h3>
+
+<h3>32. objc使用什么机制管理对象内存？</h3>
+
+<h3>33. ARC通过什么方式帮助开发者管理内存？</h3>
+
+<h3>34. 不手动指定autoreleasepool的前提下，一个autorealese对象在什么时刻释放？（比如在一个vc的viewDidLoad中创建）</h3>
+
+<h3>35. <code>BAD_ACCESS</code>在什么情况下出现？</h3>
+
+<h3>36. 苹果是如何实现autoreleasepool的？</h3>
+
+<h3>37. 使用block时什么情况会发生引用循环，如何解决？</h3>
+
+<h3>38. 在block内如何修改block外部变量？</h3>
+
+<h3>39. 使用系统的某些block api（如UIView的block版本写动画时），是否也考虑引用循环问题？</h3>
+
+<h3>40. GCD的队列（<code>dispatch_queue_t</code>）分哪两种类型？</h3>
+
+<h3>41. 如何用GCD同步若干个异步调用？（如根据若干个url异步加载多张图片，然后在都下载完成后合成一张整图）</h3>
+
+<h3>42. <code>dispatch_barrier_async</code>的作用是什么？</h3>
+
+<h3>43. 苹果为什么要废弃<code>dispatch_get_current_queue</code>？</h3>
+
+<h3>44. 以下代码运行结果如何？</h3>
+
+<pre><code>- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    NSLog(@"1");
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        NSLog(@"2");
+    });
+    NSLog(@"3");
+}
+</code></pre>
+
+<h3>45. addObserver:forKeyPath:options:context:各个参数的作用分别是什么，observer中需要实现哪个方法才能获得KVO回调？</h3>
+
+<h3>46. 如何手动触发一个value的KVO</h3>
+
+<h3>47. 若一个类有实例变量<code>NSString *_foo</code>，调用setValue:forKey:时，可以以foo还是<code>_foo</code>作为key？</h3>
+
+<h3>48. KVC的keyPath中的集合运算符如何使用？</h3>
+
+<h3>49. KVC和KVO的keyPath一定是属性么？</h3>
+
+<h3>50. 如何关闭默认的KVO的默认实现，并进入自定义的KVO实现？</h3>
+
+<h3>51. apple用什么方式实现对一个对象的KVO？</h3>
+
+<h3>52. IBOutlet连出来的视图属性为什么可以被设置成weak?</h3>
+
+<h3>53. IB中User Defined Runtime Attributes如何使用？</h3>
+
+<h3>54. 如何调试<code>BAD_ACCESS</code>错误</h3>
+
+<h3>55. lldb（gdb）常用的调试命令？</h3>
+
+<hr />
+
+<p>Posted by <a href="http://weibo.com/luohanchenyilong/">微博@iOS程序犭袁</a><br/>
+原创文章，版权声明：自由转载-非商用-非衍生-保持署名 | <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">Creative Commons BY-NC-ND 3.0</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[实现placeholder属性的UITextView]]></title>
+    <link href="http://www.superqq.com/blog/2015/08/07/implement-uitextview-placeholder/"/>
+    <updated>2015-08-07T00:27:43+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/08/07/implement-uitextview-placeholder</id>
+    <content type="html"><![CDATA[<p>iOS开发微信公众号上的iOS技术文章，都将发布在<a href="http://www.superqq.com/">刚刚在线</a>。所以大家可以到我的网站上查看之前的文章，也可以在底部的精彩文章查看历史文章。</p>
+
+<p>上一篇文章<a href="http://www.superqq.com/blog/2015/08/06/uitextview-placeholder-practice/">UITextView实现placeholder的猥琐做法</a>讲了关于<code>UITextView</code>的<code>placeholder</code>实现原理。大家都一致认为做法比较猥琐。</p>
+
+<p>那么，这一次我将简单的封装一个<code>UITextView</code>。暂且取名叫<code>GGPlaceholderTextView</code>，GG前缀看着有点任性的哈。</p>
+
+<h2>GGPlaceholderTextView简介</h2>
+
+<p><code>GGPlaceholderTextView</code>也是对<code>text</code>操作，具体逻辑如下：</p>
+
+<ol>
+<li>继承<code>UITextView</code>，并设置<code>placeholder</code>属性</li>
+<li>注册开始编辑和结束编辑通知，然后对<code>text</code>做相应的操作</li>
+<li>通过<code>UIApplicationWillTerminateNotification</code>通知，在APP退出的时候移除通知。</li>
+</ol>
+
+
+<p>我把<code>GGPlaceholderTextView</code>写在下面。不过，微信里看代码还是不太方便，我已经把代码push到:<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a>。你可以下载下来。</p>
+
+<h2>GGPlaceholderTextView.h</h2>
+
+<pre><code>#import &lt;UIKit/UIKit.h&gt;
+
+@interface GGPlaceholderTextView : UITextView
+@property(nonatomic, strong) NSString *placeholder;
+
+@end
+</code></pre>
+
+<p>定义<code>placeholder</code>属性，类似于<code>UITextField</code>。</p>
+
+<h2>GGPlaceholderTextView.m</h2>
+
+<pre><code>#import "GGPlaceholderTextView.h"
+
+@implementation GGPlaceholderTextView
+
+- (id)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        [self addObserver];
+    }
+    return self;
+}
+
+- (id)init {
+    if (self = [super init]) {
+        [self addObserver];
+    }
+    return self;
+}
+
+- (void)setPlaceholder:(NSString *)placeholder
+{
+    _placeholder = placeholder;
+    self.text = placeholder;
+    self.textColor = [UIColor grayColor];
+}
+
+-(void)addObserver
+{
+    //注册通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBeginEditing:) name:UITextViewTextDidBeginEditingNotification object:self];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEndEditing:) name:UITextViewTextDidEndEditingNotification object:self];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(terminate:) name:UIApplicationWillTerminateNotification object:[UIApplication sharedApplication]];
+}
+
+- (void)terminate:(NSNotification *)notification {
+    //移除通知
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)didBeginEditing:(NSNotification *)notification {
+    if ([self.text isEqualToString:self.placeholder]) {
+        self.text = @"";
+        self.textColor = [UIColor blackColor];
+    }
+}
+
+- (void)didEndEditing:(NSNotification *)notification {
+    if (self.text.length&lt;1) {
+        self.text = self.placeholder;
+        self.textColor = [UIColor grayColor];
+    }
+}
+
+@end
+</code></pre>
+
+<p>以上就是关于<code>GGPlaceholderTextView</code>的实现，如果你有类似需求，直接拿去用吧！具体用法请往下看。</p>
+
+<h2>实践</h2>
+
+<pre><code>GGPlaceholderTextView *textView = [[GGPlaceholderTextView alloc] initWithFrame:CGRectMake(0, 64, SCREEN.width , 200)];
+textView.backgroundColor = [UIColor whiteColor];
+textView.placeholder = @"关注微信公众号iOS开发：iOSDevTip";
+[self.view addSubview:textView];
+</code></pre>
+
+<p>经过封装后的<code>GGPlaceholderTextView</code>，使用起来是不是跟<code>UITextField</code>非常相似。当然，我封装的比较简单，github上也有一些朋友封装带<code>placeholder</code>属性的<code>UITextView</code>。比如：TextViewPlaceholder。感兴趣的童鞋可以去试用一下。</p>
+
+<p><strong>广告时间</strong></p>
+
+<p>你的分享就是对我最大的支持，希望你能把iOS开发推荐给你的朋友，不甚感激！</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[UITextView实现placeholder的猥琐做法]]></title>
+    <link href="http://www.superqq.com/blog/2015/08/06/uitextview-placeholder-practice/"/>
+    <updated>2015-08-06T21:37:38+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/08/06/uitextview-placeholder-practice</id>
+    <content type="html"><![CDATA[<p>我经常写一些<a href="http://www.superqq.com/">iOS开发</a>的小技巧，为了在自己需要的时候能用得上，也希望能对正在看文章的你一些帮助，亦或是引发一些思考。</p>
+
+<p>如果你觉得文章对你有帮助，请多多分享。你身边一定有很多做iOS开发的朋友，希望你能把我的iOS开发：<strong>iOSDevTip</strong>推荐给你的朋友。不甚感激！</p>
+
+<p>我们都知道iOS开发中的<code>UITextField</code>有个<code>placeholder</code>属性，<code>placeholder</code>可以很方便引导用户输入。但是<code>UITextView</code>却没有<code>placeholder</code>属性。</p>
+
+<h2>猥琐法分析</h2>
+
+<p>如何让<code>UITextView</code>也有<code>placeholder</code>功能呢？今天给各位分享一个比较猥琐的做法。思路大概是这样的：</p>
+
+<ol>
+<li>把<code>UITextView</code>的<code>text</code>当<code>placeholder</code>使用。</li>
+<li>在开始编辑的代理方法里清除<code>placeholder</code>。</li>
+<li>在结束编辑的代理方法里在设置<code>placeholder</code>。</li>
+</ol>
+
+
+<h2>实现方法</h2>
+
+<h3>创建UITextView</h3>
+
+<pre><code>UITextView *textViewPlaceholder = [[UITextView alloc] initWithFrame:CGRectMake(20, 70, SCREEN.width - 40, 100)];
+textViewPlaceholder.backgroundColor = [UIColor whiteColor];
+textViewPlaceholder.text = @"关注微信公众号iOS开发：iOSDevTip";
+textViewPlaceholder.textColor = [UIColor grayColor];
+textViewPlaceholder.delegate = self;
+[self.view addSubview:textViewPlaceholder];
+</code></pre>
+
+<p>初始化<code>UITextView</code>，给<code>UITextView</code>的<code>text</code>赋值，并且给<code>UITextView</code>的<code>textColor</code>属性设置成灰色，让其看起来更像<code>placeholder</code>。</p>
+
+<p>别忘了设置<code>UITextView</code>的代理，因为后面我们要用到<code>UITextView</code>的两个代理方法。</p>
+
+<h3>开始编辑的代理方法</h3>
+
+<pre><code>- (void)textViewDidBeginEditing:(UITextView *)textView {
+
+    if ([textView.text isEqualToString:@"关注微信公众号iOS开发：iOSDevTip"]) {
+        textView.text = @"";
+        textView.textColor = [UIColor blackColor];
+    }
+}
+</code></pre>
+
+<p>在开始编辑的代理方法里面，判断如果是<code>UITextView</code>的<code>text</code>的值是<code>placeholder</code>，那么，就清空<code>text</code>，并且把<code>textColor</code>设置成真正的内容颜色，假设是黑色。</p>
+
+<h3>结束编辑的代理方法</h3>
+
+<pre><code>- (void)textViewDidEndEditing:(UITextView *)textView {
+    if (textView.text.length&lt;1) {
+        textView.text = @"关注微信公众号iOS开发：iOSDevTip";
+        textView.textColor = [UIColor grayColor];
+    }
+}
+</code></pre>
+
+<p>在结束编辑的代理方法里，判断如果<code>UITextView</code>的<code>text</code>值为空，那么，就要把需要设置的<code>placeholder</code>赋值给<code>UITextView</code>的<code>text</code>，并且将<code>textColor</code>属性设置成灰色。</p>
+
+<h2>添加轻击手势</h2>
+
+<pre><code>UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
+tapGesture.numberOfTapsRequired = 1; //点击次数
+tapGesture.numberOfTouchesRequired = 1; //点击手指数
+[self.view addGestureRecognizer:tapGesture];
+
+//轻击手势触发方法
+-(void)tapGesture:(UITapGestureRecognizer *)sender
+{
+    [self.view endEditing:YES];
+}
+</code></pre>
+
+<p>至此，就很猥琐的实现了<code>placeholder</code>功能。为了方便测试，我加了一个手势。作用是用键盘消失，这样可以测试结束编辑的时候<code>placeholder</code>会不会显示。demo地址：Demo地址:<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
+
+<p>添加手势的方法很简单，关于iOS开发中的手势汇总，你可以看这篇文章<a href="http://www.superqq.com/blog/2015/01/14/ioskai-fa-zhi-shou-shi-shi-bie-hui-zong/">iOS开发之手势识别汇总</a>。</p>
+
+<p>我看了网上一些实现<code>UITextView</code>的<code>placeholder</code>功能的更猥琐的做法，在<code>UITextView</code>上面盖一个<code>UILabel</code>，然后在<code>UITextView</code>的代理方法里控制<code>UILabel</code>的值。还有用两个<code>UITextView</code>实现的。</p>
+
+<p>在这里，我只是抛砖引玉，如果你有更好的实现方法欢迎投稿给我：<strong>worldligang@163.com</strong>，下一篇文章，我将会封装一个带有<code>placeholder</code>属性的<code>UITextView</code>，敬请期待！</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[多个UIImage合并成一个UIImage]]></title>
@@ -56,7 +1968,7 @@ UIImage *togetherImage = UIGraphicsGetImageFromCurrentImageContext();
 UIGraphicsEndImageContext();
 </code></pre>
 
-<p>通过上述的代码，就可以实现两个<code>UIImage</code>的合并。Demo地址:<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a> 这个小功能还挺有用的。</p>
+<p>通过上述的代码，就可以实现两个<code>UIImage</code>的合并。` 这个小功能还挺有用的。</p>
 ]]></content>
   </entry>
   
@@ -1466,628 +3378,6 @@ imgView.image = image;
 <p>希望以上的知识梳理能帮助大家更好的掌握沙盒机制以及文件操作。我会持续分享更多关于iOS开发相关的技术文章。</p>
 
 <p>swift推出这么久，不知道你有没有开始用swift写项目。推荐给你一个swift学习网站:<a href="http://www.iswifting.com/">swift开发</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NSFileManager文件操作的十个小功能]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/24/nsfilemanagerwen-jian-cao-zuo-de-shi-ge-xiao-gong-neng/"/>
-    <updated>2015-07-24T00:14:03+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/24/nsfilemanagerwen-jian-cao-zuo-de-shi-ge-xiao-gong-neng</id>
-    <content type="html"><![CDATA[<p>NSFileManager是一个单列类，也是一个文件管理器。可以通过NSFileManager创建文件夹、创建文件、写文件、读文件内容等等基本功能。</p>
-
-<p>下面将介绍NSFileManager文件操作的十个小功能。我们在Documents里面进行举例，首先是获取Documents的路径。这个在<a href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-%28sandbox/">iOS开发之沙盒机制（SandBox)</a>已经详细讲解过了。获取Documents路径方法如下：</p>
-
-<pre><code>- (NSString *)getDocumentsPath
-{
-    //获取Documents路径
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *path = [paths objectAtIndex:0];
-    NSLog(@"path:%@", path);
-    return path;
-}
-</code></pre>
-
-<h3>创建文件夹</h3>
-
-<pre><code>-(void)createDirectory{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *iOSDirectory = [documentsPath stringByAppendingPathComponent:@"iOS"];
-    BOOL isSuccess = [fileManager createDirectoryAtPath:iOSDirectory withIntermediateDirectories:YES attributes:nil error:nil];
-    if (isSuccess) {
-        NSLog(@"success");
-    } else {
-        NSLog(@"fail");
-    }
-}
-</code></pre>
-
-<h3>创建文件</h3>
-
-<pre><code>-(void)createFile{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    BOOL isSuccess = [fileManager createFileAtPath:iOSPath contents:nil attributes:nil];
-    if (isSuccess) {
-        NSLog(@"success");
-    } else {
-        NSLog(@"fail");
-    }
-}
-</code></pre>
-
-<h3>写文件</h3>
-
-<pre><code>-(void)writeFile{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    NSString *content = @"我要写数据啦";
-    BOOL isSuccess = [content writeToFile:iOSPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    if (isSuccess) {
-        NSLog(@"write success");
-    } else {
-        NSLog(@"write fail");
-    }
-}
-</code></pre>
-
-<h3>读取文件内容</h3>
-
-<pre><code>-(void)readFileContent{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    NSString *content = [NSString stringWithContentsOfFile:iOSPath encoding:NSUTF8StringEncoding error:nil];
-    NSLog(@"read success: %@",content);
-}
-</code></pre>
-
-<h3>判断文件是否存在</h3>
-
-<pre><code>- (BOOL)isSxistAtPath:(NSString *)filePath{
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL isExist = [fileManager fileExistsAtPath:filePath];
-    return isExist;
-}
-</code></pre>
-
-<h3>计算文件大小</h3>
-
-<pre><code>- (unsigned long long)fileSizeAtPath:(NSString *)filePath{
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL isExist = [fileManager fileExistsAtPath:filePath];
-    if (isExist){
-        unsigned long long fileSize = [[fileManager attributesOfItemAtPath:filePath error:nil] fileSize];
-        return fileSize;
-    } else {
-        NSLog(@"file is not exist");
-        return 0;
-    }
-}
-</code></pre>
-
-<h3>计算整个文件夹中所有文件大小</h3>
-
-<pre><code>- (unsigned long long)folderSizeAtPath:(NSString*)folderPath{
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL isExist = [fileManager fileExistsAtPath:folderPath];
-    if (isExist){
-        NSEnumerator *childFileEnumerator = [[fileManager subpathsAtPath:folderPath] objectEnumerator];
-        unsigned long long folderSize = 0;
-        NSString *fileName = @"";
-        while ((fileName = [childFileEnumerator nextObject]) != nil){
-            NSString* fileAbsolutePath = [folderPath stringByAppendingPathComponent:fileName];
-            folderSize += [self fileSizeAtPath:fileAbsolutePath];
-        }
-        return folderSize / (1024.0 * 1024.0);
-    } else {
-        NSLog(@"file is not exist");
-        return 0;
-    }
-}
-</code></pre>
-
-<h3>删除文件</h3>
-
-<pre><code>-(void)deleteFile{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    BOOL isSuccess = [fileManager removeItemAtPath:iOSPath error:nil];
-    if (isSuccess) {
-        NSLog(@"delete success");
-    }else{
-        NSLog(@"delete fail");
-    }
-}
-</code></pre>
-
-<h3>移动文件</h3>
-
-<pre><code>- (void)moveFileName
-{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *filePath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    NSString *moveToPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    BOOL isSuccess = [fileManager moveItemAtPath:filePath toPath:moveToPath error:nil];
-    if (isSuccess) {
-        NSLog(@"rename success");
-    }else{
-        NSLog(@"rename fail");
-    }
-}
-</code></pre>
-
-<h3>重命名</h3>
-
-<pre><code>- (void)renameFileName
-{
-    //通过移动该文件对文件重命名
-    NSString *documentsPath =[self getDocumentsPath];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *filePath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    NSString *moveToPath = [documentsPath stringByAppendingPathComponent:@"rename.txt"];
-    BOOL isSuccess = [fileManager moveItemAtPath:filePath toPath:moveToPath error:nil];
-    if (isSuccess) {
-        NSLog(@"rename success");
-    }else{
-        NSLog(@"rename fail");
-    }
-}
-</code></pre>
-
-<p>以上文件操作代码都在<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a>，可以直接通过git拉下来进行测试。关于NSFileManager的用法还有很多，一起接续探索吧！</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[如何查看真机的沙盒（图文教程）]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/23/ru-he-cha-kan-zhen-ji-de-sha-he-(tu-wen-jiao-cheng-)/"/>
-    <updated>2015-07-23T00:29:31+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/23/ru-he-cha-kan-zhen-ji-de-sha-he-(tu-wen-jiao-cheng-)</id>
-    <content type="html"><![CDATA[<p>在<a href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-%28sandbox/">iOS开发之沙盒机制（SandBox)</a>，我们了解到如何查看模拟器的沙盒内容。直接在Finder->前往->前往文件夹里输入：</p>
-
-<pre><code>/Users/ligang/Library/Application Support/iPhone Simulator/ 
-</code></pre>
-
-<p>这样就可以查看模拟器的沙盒内容。在平时开发中，我们应该大部分用的是真机测试。如果需要在沙盒里操作文件，那么我们可以通过观察真机沙盒的内容，来确定文件操作是否正确。</p>
-
-<p>如果你已经知道如何查看真机的沙盒，请看看其他的文章吧，在这里<a href="zhannei.superqq.com">刚刚在线站内搜索</a>可以搜索到更多iOS开发相关的文章。接下来，通过图文的方式详细讲解如何查看真机沙盒。有兴趣的同学可以继续往下看。</p>
-
-<h2>查看真机沙盒教程</h2>
-
-<h3>打开Devices</h3>
-
-<p>在xcode的上部导航栏里，选择window -> Devices</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/realsandbox1.jpg" alt="realsandbox1.jpg" /></p>
-
-<h3>找到目标APP</h3>
-
-<p>我们拿<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a>举例。界面如下图所示：</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/realsandbox2.jpg" alt="realsandbox2.jpg" /></p>
-
-<h3>浏览沙盒目录结构</h3>
-
-<h4>双击iOSStrongDemo</h4>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/realsandbox3.jpg" alt="realsandbox3.jpg" /></p>
-
-<h4>点击Show Container</h4>
-
-<p>设置图标单击之后，如图所示：</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/realsandbox4.jpg" alt="realsandbox4.jpg" /></p>
-
-<p>这样我们只能看到沙盒的目录结构。看不到实体文件。那么，我们下一步就是找到这个沙盒。</p>
-
-<h3>Download Container保存到桌面</h3>
-
-<p>如上图所示，有一个Download Container，选择之后，保存到桌面。</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/realsandbox5.jpg" alt="realsandbox5.jpg" /></p>
-
-<h3>右键显示包内容</h3>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/realsandbox6.jpg" alt="realsandbox6.jpg" /></p>
-
-<h3>查看沙盒目录</h3>
-
-<p>AppDataInfo.plist是APP的配置文件：</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/realsandbox7.jpg" alt="realsandbox7.jpg" /></p>
-
-<h3>打开AppData</h3>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/realsandbox8.jpg" alt="realsandbox8.jpg" /></p>
-
-<p>这就是APP的沙盒，在这里我们可以对文件进行增删查改操作。更多内容以后继续慢慢分享。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[快快快！27个提升效率的iOS开源库推荐]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/22/kuai-kuai-kuai-!27ge-ti-sheng-xiao-lu-de-ioskai-yuan-ku-tui-jian/"/>
-    <updated>2015-07-22T13:11:49+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/22/kuai-kuai-kuai-!27ge-ti-sheng-xiao-lu-de-ioskai-yuan-ku-tui-jian</id>
-    <content type="html"><![CDATA[<blockquote><p>CSDN移动将持续为您优选移动开发的精华内容，共同探讨移动开发的技术热点话题，涵盖移动应用、开发工具、移动游戏及引擎、智能硬件、物联网等方方面面。如果您想投稿、参与内容翻译工作，或寻求近匠报道，请发送邮件至tangxy#csdn.net（请把#改成@）。</p></blockquote>
-
-<p>我热爱开源，更喜爱那些花费宝贵的业余时间来创造奇迹的开发者们，感谢他们将自己辛苦劳动的成果无偿分享给大家。开源作者和贡献者们，你们太了不起了，感谢你们所付出的一切。</p>
-
-<p>鉴于我是收集不全会死星人，这里我根据个人喜好选取了一些iOS的开源库。这些项目的顺序完全随机，每个都棒到爆。绝大多数支持CocoaPods，所以将它们添加到你的Xcode项目中只是小事一桩。</p>
-
-<p>在本文末尾你可以找到一个长文慎入版本——一个只包含题目与项目链接的简单列表。如果你觉得这篇文章有用的话，请把它分享给其他做iOS开发的小伙伴们，好酒也怕巷子深。</p>
-
-<h3>1. <a href="https://github.com/dzenbot/DZNEmptyDataSet" target="_blank" title=“DZNEmptyDataSet”>DZNEmptyDataSet</a></h3>
-
-<p>DZNEmptyDataSet算是一个很标准的iOS内建方式，适合用来处理空的table view和collection view。默认情况下，如果你的table view为空，屏幕就为空，这样一来用户体验并不理想。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55adfe02a4a2f_middle.jpg" alt="1" /></p>
-
-<p>使用这个库，你只需遵守一些协议，iOS就会自动将collection view处理完善，并将用户消息以合适美观的方式显示出来。每个iOS项目都可以自动处理，不用再一一费神。</p>
-
-<h3>2. <a href="https://github.com/jivesoftware/PDTSimpleCalendar" target="_blank" title=“PDTSimpleCalendar”>PDTSimpleCalendar</a></h3>
-
-<p>你的应用需要一个简单美观且正常运行的日历组件吗？现在有了——PDTSimpleCalendar也许可以算是iOS最棒的日历组件了。你可以在各个方面对它进行定制，无论是运行逻辑还是外观方面。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55adff269e028_middle.jpg" alt="2" /></p>
-
-<h3>3. <a href="https://github.com/magicalpanda/MagicalRecord" target="_blank" title=“MagicalRecord”>MagicalRecord</a></h3>
-
-<p>他们都说：Core Data简洁易用。他们又说：很棒很好用噢。哈？真的吗，苹果？添加到各个项目中的大量样板数据完全不符合简洁而易用的标准。更别提添加、移除和更新那一大堆的entities、保存context、按不同环境创建不同的Core Data堆栈等等。当然，我很喜欢Core Data，但是苹果真的可以把它更好地简化一下——使用MagicalRecord方式。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0130e5bb0_middle.jpg" alt="3" /></p>
-
-<p>MagicalRecord就像是给Core Data提供了一层外包装，隐藏掉所有不相关的东西。如果你曾经使用过active record模式（比如Ruby on Rails），你就知道了。倾情推荐，在应用中使用Core Data的童鞋们可一定要试试。</p>
-
-<h3>4. <a href="https://github.com/ViccAlexander/Chameleon" target="_blank" title=“Chameleon”>Chameleon</a></h3>
-
-<p>如果你已经看到这里了，我猜你更有可能是个程序猿，而不是设计狮。这里有个东东很适合你。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae02035ca71_middle.jpg" alt="4" /></p>
-
-<p>Chameleon是一个iOS的色彩框架。它运用现代化flat color将UIColor扩展地非常美观。我们还可以通过它运用自定义颜色创建调色板。它还有很多功用，请浏览readme。如果你想要应用美观的话，一定要把这个库加到项目里。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0212f22c6_middle.jpg" alt="4-1" /></p>
-
-<h3>5. <a href="https://github.com/Alamofire/Alamofire" target="_blank" title=“Alamofire”>Alamofire</a></h3>
-
-<p>Alamofire是一个简洁的网络库，用Swift语言编写。你是否曾经使用过AFNetworking呢？Alamofire是它的小弟。更年轻更时尚，当然（AFNetworking是用Objective-C编写的）。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae024c07d47_middle.jpg" alt="5" /></p>
-
-<p>如果你需要进行网络的相关工作，诸如下载、上传与获取JSONs等等的话，Alamofire正是你所需要的。GitHub上8000人次推荐，一定不会错。</p>
-
-<h3>6. <a href="https://github.com/raulriera/TextFieldEffects" target="_blank" title=“TextFieldEffects”>TextFieldEffects</a></h3>
-
-<p>你不觉得标准的UITextField有些枯燥么？我也这样想——来认识一下TextFieldEffects吧！废话不多说，只要看几个例子：</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae048484702.jpg" alt="6" /></p>
-
-<p>是啊，都是些简单的dropin控制器。你甚至可以在storyboard中使用IBDesignables。</p>
-
-<p>不幸地是：这个库不支持CocoaPods（如果你来自未来，而这一情况什么时候会改变的话，一定要在Twitter上告诉我），但是它支持Carthage。你只管从GitHub上下载项目，把它放入你的workspace就行了。</p>
-
-<h3>7. <a href="https://github.com/BradLarson/GPUImage" target="_blank" title=“GPUImage”>GPUImage</a></h3>
-
-<p>你曾经写过照相机应用吗？如果没有的话，很快你一定会遇到这个库的。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae04fe94fc8.jpg" alt="7" /></p>
-
-<p>GPUImage为我们提供了一个GPU加速的照相机效果（同时支持照片与视频），而且处理速度飞快。在App Store中，使用这个库的应用数以百计。我有一个应用也用到了GPUImage。 它在GitHub上获得了8869个star，而且还在增长。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae053f548d5_middle.jpg" alt="7-1" /></p>
-
-<h3>8. <a href="https://github.com/nicklockwood/iRate" target="_blank" title=“iRate”>iRate</a></h3>
-
-<p>想要在App Store中获得更多评论的最佳方式是什么？想要回答这个问题，我缺乏切实数据，但如果必须猜一下的话，我会建议问问用户。也许这样做有点老套——大多开发者现在都有创建定制的应用内置alert。</p>
-
-<p>但是如果你没有时间，或者不想从头实现的话，最好用一下iRata。这个就是iRata——一个小型库——你可以把它放入项目中，把问卷调查什么的都忘记吧，iRate会在恰当的时候为你解决这个问题。</p>
-
-<h3>9. <a href="https://github.com/nihalahmed/GameCenterManager" target="_blank" title=“GameCenterManager”>GameCenterManager</a></h3>
-
-<p>无论你喜不喜欢单例模式，管理一个GameCenter都比我们已知的其他相反模式要好很多。（你的游戏只有一个GameCenter，对吗？）</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae05bd3f99e_middle.jpg" alt="9" /></p>
-
-<p>说实话，在iOS上管理GameCenter vanilla并不算难，但是有了这个库会更简单也更快。好上加好不是更好么。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae05c9cba37_middle.jpg" alt="9-1" /></p>
-
-<p>我在我一个游戏中用到了这个，体验很好。</p>
-
-<h3>10. <a href="https://github.com/pkluz/PKRevealController" target="_blank" title=“PKRevealController 2”>PKRevealController 2</a></h3>
-
-<p>这个要注意，真的很棒！是我最喜爱的iOS控件之一。PKRevealController是一个可以滑动的侧边栏菜单（可向左、向右或者同时向两侧），只需手指轻轻一点（或者按一下按钮，但是这样滑动时不够炫酷）。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae067bd3b6b.jpg" alt="2" /></p>
-
-<p>我试过一些可以提供这类控制的其他库，而PKRevealController是最棒的。安装简便，高度定制且对手势识别良好。可以当做一个标准控件用在iOS SDK中。</p>
-
-<h3>11. <a href="https://github.com/slackhq/SlackTextViewController" target="_blank" title=“SlackTextViewController”>SlackTextViewController</a></h3>
-
-<p>你曾经用过Slack iOS应用吗？如果你在较大的软件公司工作，也许会用过。对那些没用过的人呢？—?Slack令人激动。用到Slack的应用也是这样，尤其是用作极佳、定制的文本输入控制时。这时你有了一个现成可用在应用中的代码。</p>
-
-<p>自适应文本区域？试一下。</p>
-
-<p>手势识别、自动填充、多媒体合并？试一下。</p>
-
-<p>快速drop-in解决方案？试一下。</p>
-
-<p>其他还想要什么？</p>
-
-<h3>12. <a href="https://github.com/romaonthego/RETableViewManager" target="_blank" title=“RETableViewManager”>RETableViewManager</a></h3>
-
-<p>RETableViewManager可以帮助你进行动态创建与管理table views。它给我们提供了预定义cells（bool类型、文本、日期等等——请看下面的截图），但是你还可以创建自定义views，并与默认视图一同使用。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0702088ab_middle.jpg" alt="12" /></p>
-
-<p>左侧截图显得非常古板！在storyboard中没有这个库的时候，你能做的就是这些了，但是有时候代码比可视化编辑器要好。</p>
-
-<h3>13. <a href="https://github.com/nickoneill/PermissionScope" target="_blank" title=“PermissionScope”>PermissionScope</a></h3>
-
-<p>用这个库可以在询问用户前，就告知用户所需的系统权限，为用户带来更好的体验。接受度更高—>更多活跃用户->更高的留存率->数据更好->下载率更高。墙裂推荐pod。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0733b6110_middle.jpg" alt="13" /></p>
-
-<h3>14. <a href="https://github.com/TransitApp/SVProgressHUD" target="_blank" title=“SVProgressHUD”>SVProgressHUD</a></h3>
-
-<p>这张图片在正常加载，无需等待太久或者刷新页面。这正是SVProgressHUD在你的应用中的表现。如果你需要定制化的等待提示器，这个就是了（也许是最好的）。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae077d15432.jpg" alt="14" /></p>
-
-<h3>15. <a href="https://github.com/PrideChung/FontAwesomeKit" target="_blank" title=“FontAwesomeKit”>FontAwesomeKit</a></h3>
-
-<p>Font Awesome很棒，有了它你可以很容易地给项目加字体，使用方式繁多。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae07a34b492_middle.jpg" alt="15" /></p>
-
-<h3>16. <a href="https://github.com/SnapKit/SnapKit" target="_blank" title=“SnapKit”>SnapKit</a></h3>
-
-<p>喜欢自动布局吗？当然喜欢！至少在storyboard中创建时会喜欢。 在代码中纯手工创建约束灰常痛苦，但幸运的是我们有了SnapKit，在board中用上它，你可以简单直观地编写约束了。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae07ebf3c2c_middle.jpg" alt="16" /></p>
-
-<h3>17. <a href="https://github.com/MortimerGoro/MGSwipeTableCell" target="_blank" title=“MGSwipeTableCell”>MGSwipeTableCell</a></h3>
-
-<p>这是另一个常见于很多应用中的UI组件，苹果应该考虑在标准的iOS SDK中加入一些类似的内容。Swipeable表格cell是这个pod的最佳描述，也是最好的。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0953304a9.jpg" alt="17" /></p>
-
-<p>这只是其中三个动画类型，还有更多变化，请查看readme。</p>
-
-<h3>18. <a href="https://github.com/Quick/Quick" target="_blank" title=“Quick”>Quick</a></h3>
-
-<p>用于Swift中的单元测试（也可用于Objective-C），与Xcode整合在一起。如果你是Objective-C的粉丝，我建议用Specta代替这个，但是对Swift使用者来说，Quick是最佳选择。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0a6012068_middle.jpg" alt="18" /></p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0a767198e_middle.jpg" alt="181" /></p>
-
-<h3>19. <a href="https://github.com/saturngod/IAPHelper" target="_blank" title=“IAPHelper”>IAPHelper</a></h3>
-
-<p>应用内付费给我们提供了很多样本代码，而这个库丢掉了那些代码，将金钱交易相关的大多通用任务做了简单的封装。</p>
-
-<h3>20. <a href="https://github.com/ReactiveCocoa/ReactiveCocoa" target="_blank" title=“ReactiveCocoa”>ReactiveCocoa</a></h3>
-
-<p>好吧，这是个小怪物。</p>
-
-<p>ReactiveCocoa并不像列表中其他库一样，它不是小型的drop-in项目。ReactiveCocoa给我们带来了一个迥异的编程风格与结构，它是基于信号与数据流的。首先你需要忘掉已知的一切，才能理解它的工作方式。很有难度，但是价值不斐。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0acf1f0dc_middle.jpg" alt="20" /></p>
-
-<p>在这里教ReactiveCocoa有点不合适，但是如果你感兴趣的话，我会提供一些好源：</p>
-
-<ul>
-<li><a href="http://www.teehanlax.com/blog/getting-started-with-reactivecocoa/" target="_blank" title=“Getting Started with ReactiveCocoa”>Getting Started with ReactiveCocoa</a></li>
-<li><a href="http://nshipster.com/reactivecocoa/" target="_blank" title=“Mattt Thompson：Reactive​Cocoa”>Mattt Thompson：Reactive​Cocoa</a></li>
-<li><a href="http://www.raywenderlich.com/62699/reactivecocoa-tutorial-pt1" target="_blank" title=“ReactiveCocoa Tutorial – The Definitive Introduction: Part 1/2”>ReactiveCocoa Tutorial – The Definitive Introduction: Part &frac12;</a></li>
-</ul>
-
-
-<p>注意：对我们iOS开发社区的朋友来说，这会是一个稍微有些技术含量的活儿。</p>
-
-<h3>21. <a href="https://github.com/SwiftyJSON/SwiftyJSON" target="_blank" title=“SwiftyJSON”>SwiftyJSON</a></h3>
-
-<p>使Swift的JSON解析变得简单。</p>
-
-<h3>22. <a href="https://github.com/MengTo/Spring" target="_blank" title=“Spring”>Spring</a></h3>
-
-<p>使动画在简单性、可链接性与声明性方面有所提高。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0dfe58b6c_middle.jpg" alt="22" /></p>
-
-<h3>23. <a href="https://github.com/ArtSabintsev/FontBlaster" target="_blank" title=“FontBlaster”>FontBlaster</a></h3>
-
-<p>载入定制字体时更简单。</p>
-
-<h3>24. <a href="https://github.com/JanC/TAPromotee" target="_blank" title=“TAPromotee”>TAPromotee</a></h3>
-
-<p>交叉推广应用是你可以免费实现的最佳市场推广策略之一。使用这个库做起来非常简单，不用都不可能——将TAPromotee加入你的podfile中，免费配置与享受更多下载吧。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0e81d6464_middle.jpg" alt="24" /></p>
-
-<h3>25. <a href="https://github.com/contentful-labs/Concorde" target="_blank" title=“Concorde”>Concorde</a></h3>
-
-<p>你在应用中载入了一堆jpeg吗？有了Concorde，你可以用更好的方式来解决，这是一个很大的进步。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae11e47390e.jpg" alt="25" /></p>
-
-<h3>26. <a href="https://github.com/kishikawakatsumi/KeychainAccess" target="_blank" title=“KeychainAccess”>KeychainAccess</a></h3>
-
-<p>管理Keychain接入的小助手。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0f198a4dc_middle.jpg" alt="26" /></p>
-
-<h3>27. <a href="https://github.com/danielgindi/ios-charts" target="_blank" title=“iOS-charts”>iOS-charts</a></h3>
-
-<p>最后一个，但绝不是最不重要的——iOS图表库！非常有用而且美观，这里我无需赘言。向下看，你就知道用它可以做什么了。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0f6715aec_middle.jpg" alt="27" /></p>
-
-<p>没错，一切都变成了drop-in组件了（也许是“code-in组件）。</p>
-
-<p><img src="http://img.ptcms.csdn.net/article/201507/21/55ae0f7ec6743_middle.jpg" alt="271" /></p>
-
-<p>不幸的是，它还不支持CocoaPods，所以你得手动把它拽到你的Xcode workspace里面去。</p>
-
-<p>超长慎入列表：</p>
-
-<ol>
-<li><a href="https://github.com/dzenbot/DZNEmptyDataSet" target="_blank" title=“DZNEmptyDataSet”>DZNEmptyDataSet</a>（UI，空表格视图解算器）</li>
-<li><a href="https://github.com/jivesoftware/PDTSimpleCalendar" target="_blank" title=“PDTSimpleCalendar”>PDTSimpleCalendar</a>（UI，drop-in日历组件）</li>
-<li><a href="https://github.com/magicalpanda/MagicalRecord" target="_blank" title=“MagicalRecord”>MagicalRecord</a>（实施活跃记录模式的Core Data助手）</li>
-<li><a href="https://github.com/ViccAlexander/Chameleon" target="_blank" title=“Chameleon”>Chameleon</a>（UI，色彩框架）</li>
-<li><a href="https://github.com/Alamofire/Alamofire" target="_blank" title=“Alamofire”>Alamofire</a>（Swift 网络）</li>
-<li><a href="https://github.com/raulriera/TextFieldEffects" target="_blank" title=“TextFieldEffects”>TextFieldEffects</a> （UI，自定义外观的文本区域）</li>
-<li><a href="https://github.com/BradLarson/GPUImage" target="_blank" title=“GPUImage”>GPUImage</a>（快速图片处理）</li>
-<li><a href="https://github.com/nicklockwood/iRate" target="_blank" title=“iRate”>iRate</a>（获取用户评价）</li>
-<li><a href="https://github.com/nihalahmed/GameCenterManager" target="_blank" title=“GameCenterManager”>GameCenterManager</a>（快速管理游戏中心）</li>
-<li><a href="https://github.com/pkluz/PKRevealController" target="_blank" title=“PKRevealController 2”>PKRevealController 2</a>（UI，滑动侧边栏菜单）</li>
-<li><a href="https://github.com/slackhq/SlackTextViewController" target="_blank" title=“SlackTextViewController”>SlackTextViewController</a>（UI，高度可定制的自定义文本区域）</li>
-<li><a href="https://github.com/romaonthego/RETableViewManager" target="_blank" title=“RETableViewManager”>RETableViewManager</a>（自动以代码创建表格视图）</li>
-<li><a href="https://github.com/nickoneill/PermissionScope" target="_blank" title=“PermissionScope”>PermissionScope</a>（UI，预询问用户系统权限的友好体验）</li>
-<li><a href="https://github.com/TransitApp/SVProgressHUD" target="_blank" title=“SVProgressHUD”>SVProgressHUD</a> （UI，自定义等待进度条）</li>
-<li><a href="https://github.com/PrideChung/FontAwesomeKit" target="_blank" title=“FontAwesomeKit”>FontAwesomeKit</a> （快速添加Awesome字体）</li>
-<li><a href="https://github.com/SnapKit/SnapKit" target="_blank" title=“SnapKit”>SnapKit</a>（在代码中快速自动布局）</li>
-<li><a href="https://github.com/MortimerGoro/MGSwipeTableCell" target="_blank" title=“MGSwipeTableCell”>MGSwipeTableCell</a> （UI，可滑动的表格视图cell）</li>
-<li><a href="https://github.com/Quick/Quick" target="_blank" title=“Quick”>Quick</a>（Swift单元测试框架）</li>
-<li><a href="https://github.com/saturngod/IAPHelper" target="_blank" title=“IAPHelper”>IAPHelper</a>（应用内购买助手封装）</li>
-<li><a href="https://github.com/ReactiveCocoa/ReactiveCocoa" target="_blank" title=“ReactiveCocoa”>ReactiveCocoa</a>（FRP框架）</li>
-<li><a href="https://github.com/SwiftyJSON/SwiftyJSON" target="_blank" title=“SwiftyJSON”>SwiftyJSON</a>（Swift JSON库）</li>
-<li><a href="https://github.com/MengTo/Spring" target="_blank" title=“Spring”>Spring</a>（动画框架）</li>
-<li><a href="https://github.com/ArtSabintsev/FontBlaster" target="_blank" title=“FontBlaster”>FontBlaster</a>（在应用中快速载入个性化字体）</li>
-<li><a href="https://github.com/JanC/TAPromotee" target="_blank" title=“TAPromotee”>TAPromotee</a>（使用drop-in视图交叉推广应用）</li>
-<li><a href="https://github.com/contentful-labs/Concorde" target="_blank" title=“Concorde”>Concorde</a>（下载解码渐进式jpeg）</li>
-<li><a href="https://github.com/kishikawakatsumi/KeychainAccess" target="_blank" title=“KeychainAccess”>KeychainAccess</a>（简便管理keychain）</li>
-<li><a href="https://github.com/danielgindi/ios-charts" target="_blank" title=“iOS-charts”>iOS-charts</a>（美观的图表库）</li>
-</ol>
-
-
-<p>文章来源：<a href="https://medium.com/app-coder-io/27-ios-open-source-libraries-to-skyrocket-your-development-301b67d3124c" target="_blank" title=“Medium”>Medium</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS开发之获取沙盒路径]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/22/ioskai-fa-zhi-huo-qu-sha-he-lu-jing/"/>
-    <updated>2015-07-22T01:02:41+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/22/ioskai-fa-zhi-huo-qu-sha-he-lu-jing</id>
-    <content type="html"><![CDATA[<p><a href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-%28sandbox/">iOS开发之沙盒机制（SandBox)</a>详细讲解了沙盒的一些机制。在开发中，我们需要对沙盒进行操作，所以我们需要获取到沙盒路径。</p>
-
-<p>沙盒里的文件夹包括Documents、Library、tmp。这三个文件夹的作用请点击<a href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-%28sandbox/">这里</a>。接下来我们来讲解如何获取Documents、Library、tmp的路径。</p>
-
-<h3>获取沙盒根目录</h3>
-
-<p>获取沙盒根目录，直接调用NSHomeDirectory()：</p>
-
-<pre><code>//获取沙盒根目录
-NSString *directory = NSHomeDirectory();
-NSLog(@"directory:%@", directory);
-</code></pre>
-
-<p>控制台输出：</p>
-
-<pre><code>2015-07-22 00:40:16.185 iOSStrongDemo[1605:555658] directory:/var/mobile/Containers/Data/Application/F9418815-51A9-4A0A-A76C-6FD37C400928
-</code></pre>
-
-<p>这个是真机的路径，大家有时间的话可以看看模拟器的根目录路径。</p>
-
-<h3>获取Documents路径</h3>
-
-<p>获取Documents路径如下：</p>
-
-<pre><code>//获取Documents路径
-NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-NSString *path = [paths objectAtIndex:0];
-NSLog(@"path:%@", path);
-</code></pre>
-
-<p>控制台输出：</p>
-
-<pre><code>2015-07-22 00:41:41.397 iOSStrongDemo[1613:556159] path:/var/mobile/Containers/Data/Application/A62B886B-A8F0-4215-B59D-1F505C3997BD/Documents
-</code></pre>
-
-<p>获取Documents文件夹目录,第一个参数是说明获取Doucments文件夹目录，第二个参数说明是在当前应用沙盒中获取。</p>
-
-<h3>获取Library路径</h3>
-
-<pre><code>//获取Library路径
-NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-NSString *path = [paths objectAtIndex:0];
-NSLog(@"path：%@", path);
-</code></pre>
-
-<p>控制台输出：</p>
-
-<pre><code>2015-07-22 00:43:15.803 iOSStrongDemo[1619:556638] /var/mobile/Containers/Data/Application/17300507-4643-4DE7-BC68-E13DB19C8D98/Library
-</code></pre>
-
-<h3>获取Caches路径</h3>
-
-<pre><code>//获取Caches路径
-NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-NSString *path = [paths objectAtIndex:0];
-NSLog(@"path：%@", path);
-</code></pre>
-
-<p>控制台输出：</p>
-
-<pre><code>2015-07-22 00:44:31.383 iOSStrongDemo[1626:557083] path：/var/mobile/Containers/Data/Application/1E945B52-E29D-4041-A489-1AA1B11BB960/Library/Caches
-</code></pre>
-
-<h3>获取tmp路径</h3>
-
-<pre><code>NSString *tmp = NSTemporaryDirectory();
-NSLog(@"tmp：%@", tmp);
-</code></pre>
-
-<p>控制台输出：</p>
-
-<pre><code>2015-07-22 00:46:07.846 iOSStrongDemo[1632:557537] tmp：/private/var/mobile/Containers/Data/Application/4BE02307-1CC5-47E8-BEA8-CEBB7ED5A402/tmp/
-</code></pre>
-
-<p>以上是iOS开发中获取沙盒路径的方法，也许还有更好的获取方法等待我们去发现。后面我们还会讲到关于在沙盒里进行读写文件操作。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[报错：failed to Get the Task for Process 1285（解决方案）]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/21/bao-cuo-:process-launch-failed-failed-to-get-the-task-for-process-1285(jie-jue-fang-an-)/"/>
-    <updated>2015-07-21T00:16:31+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/21/bao-cuo-:process-launch-failed-failed-to-get-the-task-for-process-1285(jie-jue-fang-an-)</id>
-    <content type="html"><![CDATA[<h2>你遇到的问题别人也遇到过</h2>
-
-<p>初接触iOS开发的童鞋估计会被真机调试搞的稀里糊涂的。在模拟器上运行什么问题没有，真机调试就会碰到各种各样的问题。</p>
-
-<p>不用担心。记住：你碰到的问题别人肯定都已经碰到过了。我们不是有百度和谷歌嘛，把你的问题描述出来，一定有解决方案的。还可以在<a href="http://zhannei.superqq.com/">刚刚在线站内搜索</a>里搜索，说不定也能帮你解决不少问题呢。</p>
-
-<p>我会经常把自己开发过程中碰到的调试问题，一一总结出来。一来是帮助自己在下一次碰到同样问题时，可以游刃有余。二来是帮助大家再碰到类似问题的时候，有一个参考的作用。</p>
-
-<h2>failed to get the task for process 1285</h2>
-
-<p>这一次碰到的问题是这样的：模拟器上运行正常。我在iPhone 6上运行，程序编译正常，但是跑起来之后，大概一两秒的时间，就闪退（代码是没有问题的）。这个时候，Xcode6.4弹出这样的提示：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/fixbug12850.jpg" alt="fixbug1285" /></p>
-
-<pre><code>Could not launch “iOSStrongDemo”
-process launch failed: failed to get the task for process 1285
-</code></pre>
-
-<h2>错误分析</h2>
-
-<p>我看了一下Build Settings里的Code Signing配置，发现Provisioning Profile选择的是XC Ad Hoc: *。如下图所示：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/fixbug.jpg" alt="fixbug" /></p>
-
-<p>Ad Hoc是用来实现发布前的用户测试的，也就是通过Ad Hoc将未发布的App给其他人提前使用。显然这是不对的，我们是要真机调试。</p>
-
-<h2>解决方案</h2>
-
-<p>解决方法很简单，将Provisioning Profile换成用开发证书创建的Provisioning Profile即可。</p>
 ]]></content>
   </entry>
   

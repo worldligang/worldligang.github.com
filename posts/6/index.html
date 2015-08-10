@@ -81,6 +81,557 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/06/29/cgcontextrefshi-yong-jian-yao-jiao-cheng/">CGContextRef使用简要教程</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-29T10:55:01+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:55 am</span></time>
+        
+        
+          | <a href="/blog/2015/06/29/cgcontextrefshi-yong-jian-yao-jiao-cheng/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Graphics Context是图形上下文,也可以理解为一块画布,我们可以在上面进行绘画操作,绘制完成后,将画布放到我们的view中显示即可,view看作是一个画框.</p>
+
+<p>CGContextRef功能强大，我们借助它可以画各种图形。开发过程中灵活运用这些技巧，可以帮助我们提供代码水平。</p>
+
+<p>说到画图，我就立马想到：我的数学公式都快忘完了。</p>
+
+<h2>高中数学你还记得多少？</h2>
+
+<p>我记得我上学的时候，数学一直都很好。以至于在班里都不敢和别人吵吵闹闹。一吵吵闹闹，别人就会来一句：以为你数学好，就可以怎么样怎么样了是吧？说的我好无奈啊。</p>
+
+<p>这么多年过去了，说句实话，高中时学的数学公式什么的，都忘记的差不多了。现在要去做高三的考题，估计比写代码还难。</p>
+
+<p>作为一名程序员，数学好，一定是优势。就拿画图来说吧，如果你还清楚的记得那些公式，那么你就可以很随意地画出一些好看的图形出来。</p>
+
+<p>接下来，我们来看看CGContextRef到底能实现些什么？</p>
+
+<h2>写文字</h2>
+
+<pre><code>- (void)drawRect:(CGRect)rect
+{
+    //获得当前画板
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    //颜色
+    CGContextSetRGBStrokeColor(ctx, 0.2, 0.2, 0.2, 1.0);
+    //画线的宽度
+    CGContextSetLineWidth(ctx, 0.25);
+    //开始写字
+    [@"我是文字" drawInRect:CGRectMake(10, 10, 100, 30) withFont:font];  
+    [super drawRect:rect];
+}
+</code></pre>
+
+<p>这段代码就可以很漂亮的写出四个大字：我是文字。很容易理解，每句话都有注释。</p>
+
+<h2>画直线</h2>
+
+<pre><code>- (void)drawRect:(CGRect)rect
+{
+    //获得当前画板
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    //颜色
+    CGContextSetRGBStrokeColor(ctx, 0.2, 0.2, 0.2, 1.0);
+    //画线的宽度
+    CGContextSetLineWidth(ctx, 0.25);
+    //顶部横线
+    CGContextMoveToPoint(ctx, 0, 10);
+    CGContextAddLineToPoint(ctx, self.bounds.size.width, 10);
+    CGContextStrokePath(ctx);
+    [super drawRect:rect];
+}
+</code></pre>
+
+<h2>画圆</h2>
+
+<pre><code>- (void)drawRect:(CGRect)rect
+{
+    //获得当前画板
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    //颜色
+    CGContextSetRGBStrokeColor(ctx, 0.2, 0.2, 0.2, 1.0);
+    //画线的宽度
+    CGContextSetLineWidth(ctx, 0.25);
+    //void CGContextAddArc(CGContextRef c,CGFloat x, CGFloat y,CGFloat radius,CGFloat startAngle,CGFloat endAngle, int clockwise)1弧度＝180°/π （≈57.3°） 度＝弧度×180°/π 360°＝360×π/180 ＝2π 弧度
+    // x,y为圆点坐标，radius半径，startAngle为开始的弧度，endAngle为 结束的弧度，clockwise 0为顺时针，1为逆时针。
+    CGContextAddArc(ctx, 100, 20, 20, 0, 2*M_PI, 0); //添加一个圆
+    CGContextDrawPath(ctx, kCGPathStroke); //绘制路径
+    [super drawRect:rect];
+}
+</code></pre>
+
+<p>这个画圆的公式你还记得吗？你还知道M_PI是什么吗？等于多少吗？赶紧脑补一下吧！</p>
+
+<h2>画矩形</h2>
+
+<pre><code>- (void)drawRect:(CGRect)rect
+{
+    //获得当前画板
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    //颜色
+    CGContextSetRGBStrokeColor(ctx, 0.2, 0.2, 0.2, 1.0);
+    //画线的宽度
+    CGContextSetLineWidth(ctx, 0.25);
+    CGContextAddRect(ctx, CGRectMake(2, 2, 30, 30));
+    CGContextStrokePath(ctx);
+    [super drawRect:rect];
+}
+</code></pre>
+
+<p>图形千千万，万变不离其宗。更多画图方法，期待你的探索。</p>
+
+<blockquote><p>作者李刚是刚刚在线（<a href="www.superqq.com">www.superqq.com</a>）站长，百度百家专栏作者
+iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</p></blockquote>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="2" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/27/yong-zheng-ze-biao-da-shi-yan-zheng-you-xiang-he-shou-ji-hao/">用正则表达式验证邮箱和手机号</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-27T07:35:42+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:35 am</span></time>
+        
+        
+          | <a href="/blog/2015/06/27/yong-zheng-ze-biao-da-shi-yan-zheng-you-xiang-he-shou-ji-hao/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>正则表达式，又称正规表示法、常规表示法（英语：Regular Expression，在代码中常简写为regex、regexp或RE），计算机科学的一个概念。正则表达式使用单个字符串来描述、匹配一系列符合某个句法规则的字符串。</p></blockquote>
+
+<p>做iOS开发的童鞋，应该都用过正则表达式吧。正则表达式很好地，帮助我们判断一个字符串是否合法。比如：</p>
+
+<ol>
+<li><p>在做app注册页面的时候，需要判断手机号是否格式正确，是否够11位。</p></li>
+<li><p>在做意见反馈的时候，需要判断邮箱格式是否正确。</p></li>
+</ol>
+
+
+<p>判断手机号和判断邮箱，应该是iOS开发者们最常用的。具体如何判断，简单整理如下：</p>
+
+<h2>验证邮箱</h2>
+
+<pre><code>+ (BOOL)validateEmail:(NSString *)email
+{
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    return [emailTest evaluateWithObject:email];
+}
+</code></pre>
+
+<p>NSPredicate是一个Foundation类，是用来查询的，原理和用法都类似于SQL中的where。</p>
+
+<h2>验证手机号</h2>
+
+<h3>简单的判断方法</h3>
+
+<pre><code>+ (BOOL)validatePhone:(NSString *)phone
+{
+    NSString *phoneRegex = @"1[3|5|7|8|][0-9]{9}";
+    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
+    return [phoneTest evaluateWithObject:phone];
+}
+</code></pre>
+
+<p>这只是简单地判断手机号格式。其实手机的格式还是有一点复杂的。</p>
+
+<h3>详细的判断方法</h3>
+
+<pre><code>//正则判断手机号码格式
++ (BOOL)validatePhone:(NSString *)phone
+{
+       /**
+        * 手机号码
+        * 移动：134[0-8],135,136,137,138,139,150,151,157,158,159,182,187,188
+        * 联通：130,131,132,152,155,156,185,186
+        * 电信：133,1349,153,180,189
+        */
+       NSString * MOBILE = @"^1(3[0-9]|5[0-35-9]|8[025-9])\\d{8}$";
+       /**
+        10         * 中国移动：China Mobile
+        11         * 134[0-8],135,136,137,138,139,150,151,157,158,159,182,187,188
+        12         */
+       NSString * CM = @"^1(34[0-8]|(3[5-9]|5[017-9]|8[278])\\d)\\d{7}$";
+       /**
+        15         * 中国联通：China Unicom
+        16         * 130,131,132,152,155,156,185,186
+        17         */
+       NSString * CU = @"^1(3[0-2]|5[256]|8[56])\\d{8}$";
+       /**
+        20         * 中国电信：China Telecom
+        21         * 133,1349,153,180,189
+        22         */
+       NSString * CT = @"^1((33|53|8[09])[0-9]|349)\\d{7}$";
+       /**
+        25         * 大陆地区固话及小灵通
+        26         * 区号：010,020,021,022,023,024,025,027,028,029
+        27         * 号码：七位或八位
+        28         */
+      // NSString * PHS = @"^0(10|2[0-5789]|\\d{3})\\d{7,8}$";
+
+     NSPredicate *regextestmobile = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", MOBILE];
+     NSPredicate *regextestcm = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CM];
+     NSPredicate *regextestcu = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CU];
+     NSPredicate *regextestct = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CT];
+
+    if (([regextestmobile evaluateWithObject:phone] == YES)
+    || ([regextestcm evaluateWithObject:phone] == YES)
+    || ([regextestct evaluateWithObject:phone] == YES)
+    || ([regextestcu evaluateWithObject:phone] == YES))
+    {
+        if([regextestcm evaluateWithObject:phone] == YES) {
+          NSLog(@"China Mobile");
+        } else if([regextestct evaluateWithObject:phone] == YES) {
+          NSLog(@"China Telecom");
+        } else if ([regextestcu evaluateWithObject:phone] == YES) {
+          NSLog(@"China Unicom");
+        } else {
+          NSLog(@"Unknow");
+        }
+
+        return YES;
+    }
+    else 
+    {
+        return NO;
+    }
+}
+</code></pre>
+
+<p>以上这段（来自网络）是手机号判断的详细方法。基本上这个判断就够用了，如果三大运营商，再出其他段的手机号。直接子啊上面做简单修改即可。</p>
+
+<blockquote><p>作者李刚是刚刚在线（<a href="www.superqq.com">www.superqq.com</a>）站长，百度百家专栏作者
+iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</p></blockquote>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="2" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/26/xcodezhen-ji-diao-shi-bao-cuo-:the-application-could-not-be-verified/">Xcode真机调试报错：The Application Could Not Be Verified.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-26T15:33:34+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:33 pm</span></time>
+        
+        
+          | <a href="/blog/2015/06/26/xcodezhen-ji-diao-shi-bao-cuo-:the-application-could-not-be-verified/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p> 今天真机调试的时候遇到这个错误：</p>
+
+<pre><code>The application could not be verified.
+</code></pre>
+
+<p> 这还是第一次遇到，应该是手机上的app的证书跟现在的证书不一致导致。</p>
+
+<p> 解决方法有两个</p>
+
+<p> ###xcode中切换证书：</p>
+
+<pre><code>你手机上的app用的是哪个证书，你现在还用那个证书运行。
+</code></pre>
+
+<p> ###删除手机上的app</p>
+
+<pre><code>直接删除手机上的app，再运行就可以啦！
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/26/nsdatehe-nsstringxiang-hu-zhuan-huan/">NSDate和NSString相互转换</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-26T07:34:32+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:34 am</span></time>
+        
+        
+          | <a href="/blog/2015/06/26/nsdatehe-nsstringxiang-hu-zhuan-huan/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/2NSDate.jpg" alt="1" /></p>
+
+<p>不积小流无以成江海，不及硅步无以至千里。做<a href="http://www.superqq.com/blog/2015/01/14/ioskai-fa-zhi-shou-shi-shi-bie-hui-zong/">iOS开发</a>也是这样，平时写代码要多收集一些有用的代码，以免每次都从新来一遍，不仅浪费时间，也影响开发效率。</p>
+
+<p>有人把做app形容成盖房子，码农就是搬砖的，真的是形象无比。随着时间的推移，手里积累的优秀代码就越来越多。这样，盖起房子来，效率肯定是杠杠的。</p>
+
+<p>我也会收集一些有用的代码，有的会写在博客里，有的会写成demo放在<a href="http://www.superqq.com/blog/2014/11/19/ioskai-fa-zhong-gitfen-zhi-chuang-jian-he-guan-li/">github</a>上面，有的就很安静的躺在我的电脑里。每次我用到的时候，我都会顺手复制过来。</p>
+
+<p>今天给大家分享一些关于NSDate和NSString相互转换。百度一下，有一大推相关的方法。每次都百度，不如自己收集起来方便。</p>
+
+<h2>NSDate转NSString</h2>
+
+<p>日期转成字符串。这个虽然简单，但是我相信很多朋友初次遇到肯定束手无策。脑子里蹦出四个字：这怎么转？直接上代码：</p>
+
+<pre><code>//获取系统当前时间
+NSDate *currentDate = [NSDate date];
+//用于格式化NSDate对象
+NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//设置格式：zzz表示时区
+[dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
+//NSDate转NSString
+NSString *currentDateString = [dateFormatter stringFromDate:currentDate];
+//输出currentDateString
+NSLog(@"%@",currentDateString);
+</code></pre>
+
+<p>NSDate对象包含两个部分，日期（Date）和时间（Time）。格式化的时间字符串主要也是针对日期和时间的。NSDateFormatter是一个很常用的类，用于格式化NSDate对象，支持本地化的信息。</p>
+
+<p>NSDateFormatter常用的格式有：</p>
+
+<pre><code>yyyy-MM-dd HH:mm:ss.SSS 
+yyyy-MM-dd HH:mm:ss
+yyyy-MM-dd
+MM dd yyyy
+</code></pre>
+
+<p>NSDateFormatter格式化参数如下：</p>
+
+<pre><code>G: 公元时代，例如AD公元
+yy: 年的后2位
+yyyy: 完整年
+MM: 月，显示为1-12
+MMM: 月，显示为英文月份简写,如 Jan
+MMMM: 月，显示为英文月份全称，如 Janualy
+dd: 日，2位数表示，如02
+d: 日，1-2位显示，如 2
+EEE: 简写星期几，如Sun
+EEEE: 全写星期几，如Sunday
+aa: 上下午，AM/PM
+H: 时，24小时制，0-23
+K：时，12小时制，0-11
+m: 分，1-2位
+mm: 分，2位
+s: 秒，1-2位
+ss: 秒，2位
+S: 毫秒
+</code></pre>
+
+<h2>NSString转NSDate</h2>
+
+<p>既然NSDate可以转成NSString，毫无疑问NSString也可以转成NSDate。代码如下：</p>
+
+<pre><code>//需要转换的字符串
+NSString *dateString = @"2015-06-26 08:08:08";
+ //设置转换格式
+NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
+[formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+//NSString转NSDate
+NSDate *date=[formatter dateFromString:dateString];
+</code></pre>
+
+<p>NSDate和NSString相互转换就是这么简单。</p>
+
+<h2>转换工具类</h2>
+
+<p>在项目中，我们需要用到转换的地方可能不止一处，所以建议我们定义一个工具类。在工具类里实现如下两个方法：</p>
+
+<pre><code>//NSDate转NSString
++ (NSString *)stringFromDate:(NSDate *)date
+{
+    //获取系统当前时间
+    NSDate *currentDate = [NSDate date];
+    //用于格式化NSDate对象
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    //设置格式：zzz表示时区
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
+    //NSDate转NSString
+    NSString *currentDateString = [dateFormatter stringFromDate:currentDate];
+    //输出currentDateString
+    NSLog(@"%@",currentDateString);
+    return currentDateString;
+}
+
+//NSString转NSDate
++ (NSDate *)dateFromString:(NSString *)string
+{
+    //需要转换的字符串
+    NSString *dateString = @"2015-06-26 08:08:08";
+    //设置转换格式
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    //NSString转NSDate
+    NSDate *date=[formatter dateFromString:dateString];
+    return date;
+}
+</code></pre>
+
+<p>有了这个工具类，妈妈再也不用担心我的转换能力啦！</p>
+
+<blockquote><p>作者李刚是刚刚在线（<a href="www.superqq.com">www.superqq.com</a>）站长，百度百家专栏作者
+iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</p></blockquote>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="2" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/25/ru-he-cheng-wei-%5B%3F%5D-ming-you-xiu-de-ioskai-fa-gong-cheng-shi/">如何成为一名优秀的iOS开发工程师</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-25T07:49:07+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:49 am</span></time>
+        
+        
+          | <a href="/blog/2015/06/25/ru-he-cheng-wei-%5B%3F%5D-ming-you-xiu-de-ioskai-fa-gong-cheng-shi/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/1iOSkaifa.jpg" alt="1" /></p>
+
+<p>如果你是一位专业的<strong>iOS开发工程师</strong>，你应该为自己感到自豪。因为你能在强大的iOS系统下，一展身手实现自己和他人的想法，这是一件令人无比激动的事情。</p>
+
+<p>作为一名iOS开发工程师，你一定想成为行业的佼佼者。那么，如何成为一名优秀的iOS开发工程师呢？我觉得做到以下几点，你就离优秀越来越近了。</p>
+
+<h3>提高英语水平</h3>
+
+<p>作为码农，英语水平虽然不是一个硬指标，但是，如果你的英语水平足够好，那真是如虎添翼。在公司里面，糟糕的英语表达能力也掩盖了你在软件开发技术上的优势。</p>
+
+<p>很多优秀的技术文章都是英文版本的，就像苹果官方文档一样，你看不懂你就比别人落后了一步。当这些文档被汉化，被翻译成中文，那是需要一段时间的。少则几天，多则几个月。所以与其被动等待，不如先把英语水平提上去。</p>
+
+<p>英语的重要性，不言而喻，不仅仅有助于写代码。如果万一哪一天你成为公众人物了，你是想向刘强东一样讲英语，还是想向雷布斯一样讲英语呢？我觉得你应该更想像马云一样。</p>
+
+<p>至于，如何提高英语水平，请问度娘。</p>
+
+<h3>控制代码质量</h3>
+
+<p>想成为优秀的iOS开发工程师，代码质量是很重要的一关。关于如何提高代码质量，推荐大家看一篇文章：<a href="http://www.90159.com/2015/06/17/Objective-C%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%EF%BC%9A26%E4%B8%AA%E6%96%B9%E9%9D%A2%E8%A7%A3%E5%86%B3iOS%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98/">Objective-C编码规范：26个方面解决iOS开发问题</a>，这篇文章详细的讲述了iOS开发方面的编码规范，建议大家多看一看。</p>
+
+<p>如果你能按着上面的编码规范来规范自己，我觉得最起码你代码看起来就比较整洁。这样的话，哪怕你一个月回头再来看自己的代码，应该很快就可以理解。而且，当你离开现在的公司，不至于后来的人骂你。</p>
+
+<p>没听人常说嘛：良好的习惯是成功的第一步，iOS开发者也不例外。</p>
+
+<h3>写博客分享技术</h3>
+
+<p>在csdn上看到有人问：不写博客的程序员是好程序员吗？这个问题问的其实挺好。不写博客的人也有进BAT的，BAT里面的程序员并不一定都写博客；写博客的人大部分都没有进BAT，比如像我这样的屌丝。</p>
+
+<p>但是这并不能说明什么。且看，写博客的好处在哪里？</p>
+
+<p><strong>写博客你可以交到一群志同道合的朋友</strong>。即使你们现实中从来没见过面，但是你们在互联网上有过思想的碰撞，这就已经足够了。</p>
+
+<p><strong>书写就是很好的思考</strong>。当你想熟练掌握一项技能，请将你的技术分享出来吧。</p>
+
+<p><strong>写的过程中也是学习</strong>。当你能把一项技术讲清楚，说明你已经完全理解了。</p>
+
+<p><strong>你的博客将比简历更有价值</strong>。你在各大招聘网站写简历不如你有一个有价值的博客。</p>
+
+<p>把技术分享出来，不仅帮助新人，更是提高自己，这是一种双赢。如果你写了技术文章没有好的地方可以发布，可以投稿给我：<a href="&#x6d;&#x61;&#x69;&#108;&#116;&#111;&#x3a;&#119;&#x6f;&#114;&#x6c;&#100;&#x6c;&#105;&#x67;&#97;&#x6e;&#103;&#64;&#49;&#x36;&#51;&#46;&#x63;&#x6f;&#109;">&#119;&#111;&#114;&#x6c;&#x64;&#x6c;&#105;&#x67;&#97;&#110;&#x67;&#x40;&#x31;&#54;&#x33;&#46;&#99;&#111;&#109;</a> 我将发布在我的公众号iOS开发（<strong>iOSDevTip</strong>）上，直接分享给上万名iOS开发者。</p>
+
+<h3>看github开源项目</h3>
+
+<p>github对于程序员来说，可谓是一个金库。很多优秀的人才，都在上面开源自己的项目。这些人都是伟大的。</p>
+
+<p>当你想实现一个功能，很有可能有一些大牛已经实现了。与其我们写出蹩脚代码来实现，不如去阅读大牛们在github上的开源项目。去看大牛是怎么实现的？思路是什么？如果是你你会怎么写？经过这样的思考之后，比你自己去实现重要的多。</p>
+
+<p>如果你自己就是大牛，那就另说了。你可以实现之后，把代码分享到github，帮助更多人。</p>
+
+<h3>实现自己的想法</h3>
+
+<p>一个不想当老板的程序员不是好程序员。谁不想成为马云呢，谁不想改变世界呢。所以，你要敢想，然后通过自己的技术去实现它。</p>
+
+<p>有些人可能以为：在公司里上班，去想做个什么东西，就是对老板不忠。这是一个很严重的错误想法。</p>
+
+<p>在大公司，都是支持内部创业的。如果你有好的想法，尽管去干吧。说不定第一个天使投资人就是你的老板。屌丝逆袭说不定从此开始。</p>
+
+<p>行了，醒醒，有想法更要有行动。</p>
+
+<p>按照我们老师的话说：成为一名优秀的iOS开发工程师任重而道远！这句话也送给你。</p>
+
+<blockquote><p>作者李刚是刚刚在线（<a href="www.superqq.com">www.superqq.com</a>）站长，百度百家专栏作者
+iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</p></blockquote>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="2" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/06/21/ios-she-ji-mo-shi-xi-lie-:command-ming-ling-mo-shi/">iOS 设计模式系列：Command – 命令模式</a></h1>
     
     
@@ -803,1058 +1354,6 @@ undoStack = [[NSMutableArray alloc] init];
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-17T14:24:04+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:24 pm</span></time>
-        
-        
-          | <a href="/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>注：本节有点长，并且有些难度，希望大家有毅力看下去。</p>
-
-<p>一个适配器允许接口不兼容的类在一起工作。它把它自己包裹成一个对象，公开一个与这个对象相互作用的标准接口。</p>
-
-<p>如果你熟习<strong>适配器模式</strong>，你会注意到苹果实施它的时候有一点不同的习惯─苹果使用协议 (protocols)。你可能熟习像 UITableViewDelegate, UIScrollViewDelegate, NSCoding 和 NSCopying 这样的协议。例子，NSCopying 的协议 (protocol)，任何类都可以提供这样一个标准的复制方法。</p>
-
-<h3>如何使用适配器模式</h3>
-
-<p>我们提到的滚动区域是这样的：</p>
-
-<p><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2013/08/protocol1.png" alt="1" /></p>
-
-<p>现在开始，在项目导航的 View 文件夹上右击鼠标，选择 New File…，用 iOS\Cocoa Touch\Object-C class 模板创建一个新类。新类的名字叫 HorizontalScroller，选择它的子类为 UIView。</p>
-
-<p>打开 HorizontalScroller.h 文件在 @end 后面插入如下代码：</p>
-
-<pre><code>@protocol HorizontalScrollerDelegate &lt;NSObject&gt;
-// methods declaration goes in here
-@end
-</code></pre>
-
-<p>这里定义一个 HorizontalScrollerDelegate 名字的协议，它继承于 NSObject 协议，同样的这是继承它父类的一个 Objective-C 类。符合 NSObject 协议，这是一个很好的做法─或者遵照 NSObject 协议。这能使你从定义的 NSObject 发送消息到 HorizontalScroller 的代理。你将会看到为什么这很重要。</p>
-
-<p>定义个代理执行的方法，要在 @protocol 和 @end 之间，它们分为必要方法和可选方法。添加下面协议方法：</p>
-
-<pre><code>@required
-// 询问 delegate 在滚动区域里有多少个视图要被显示
-- (NSInteger)numberOfViewsForHorizontalScroller:    (HorizontalScroller*)scroller;
-
-// 返回索引是 index 的视图
-- (UIView*)horizontalScroller:(HorizontalScroller*)scroller viewAtIndex:(int)index;
-
-// 当索引是 index 的视图被点击了，通知 delegate 
-- (void)horizontalScroller:(HorizontalScroller*)scroller clickedViewAtIndex:(int)index;
-
-@optional
-// 通知 delegate，显示初始化时索引是 Index 的视图。这个方法是可选的
-// ask the delegate for the index of the initial view to display. this method is optional
-// 如果没有被 delegate 执行，默认值是 0
-- (NSInteger)initialViewIndexForHorizontalScroller:(HorizontalScroller*)scroller;
-</code></pre>
-
-<p>这里我们必选的和可选的方法我们都定义了。必选方法一定要被代理执行，它通常包含一些类必须要执行的数据。这里，必选方法是获取视图的数量，当前显示视图的索引和当视图被点击的时候执行的操作。可选方法这里是初始化视图；如果没有执行 HorizontalScroller 将会显示第一个索引的视图。</p>
-
-<p>接下来，你需要在 HorizontalScroller 内部定义你的新代理。但是协议的定义在类的定义下面，因此在这点上它是不可见的。你该怎么办？</p>
-
-<p>解决办法就是在前面声明协议以便于编译器（和Xcode）知道这个协议是可用的。好了，在 @interface 上面加入下面代码：</p>
-
-<pre><code>@protocol HorizontalScrollerDelegate;
-</code></pre>
-
-<p>还是 HorizontalScroller.h，在 @interface 和 @end 之间加入下面代码：</p>
-
-<pre><code>@property (weak) id&lt;HorizontalScrollerDelegate&gt; delegate;
-- (void)reload;
-</code></pre>
-
-<p>这个属性被定义成为一个 weak。这是为了防止循环 retain。如果一个类保持一个强指针(strong pointer)指向它的委托(delegate)，同时委托也保持一个强指针指向这个类，在释放类所占用的内存时会造成 app 内存泄漏。</p>
-
-<p>id 的意思是把这个代理指定给一个类，它遵照 HorizontalScrollerDelegate，给你一些类型安全。</p>
-
-<p>reload 方法是模仿 UITableView 类的 relaodData；它重新加载所有数据用来创建一个水平移动视图。</p>
-
-<p>用下面代码替换 HorizontalScroller.m 的内容：</p>
-
-<pre><code>#import “HorizontalScroller.m”
-
-#define VIEW_PADDING 10
-#define VIEW_DIMENSIONS 100
-#define VIEW_OFFSET 100
-
-@interface HorizontalScroller () &lt;UIScrollViewDelegate&gt;
-@end
-
-@implementation HorizontalScroller
-{
-    UIScrollView *scroller;
-}
-@end
-</code></pre>
-
-<p>来解释下每块代码：</p>
-
-<ol>
-<li>常量定义，在设计时间可以方便修改布局。在滚动视图内，每个图片的大小在一个 100×100 内边距为 10 点(point) 的矩形内。</li>
-<li>HorizontalScroller 遵照 UIScrollViewDelegate 协议。因为 HorizontalScroller 使用一个 UIScrollView 来滚动专辑封面，它需要知道用户什么时候停止滚动。</li>
-<li>创建一个包含图片的滚动视图。</li>
-</ol>
-
-
-<p>接下来你需要执行初始化。添加下面的方法：</p>
-
-<pre><code>- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        scroller = [[UIScrollerView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-        scroller.delegate = self;
-        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarger:self action:@select(scrollerTapped:)];
-        [scroller addGestureRecognizer:tapRecognizer];
-    }
-    return self;
-}
-</code></pre>
-
-<p>HorizontalScroller 将被滚动视图整个填充。如果一个专辑封面被点击，UITapGestureRecognizer 将会监听它上面的事件。如果有，它会通知 HorizontalScroller 的代理。</p>
-
-<p>现在添加下面方法：</p>
-
-<pre><code>- (void)scrollerTapped:(UITapGestureRecognizer*)gesture
-{
-    CGPoint location = [gesture locationInView:gesture.view];
-    // we can’t use an enumerator here, because we don’t want to enumerate over ALL of the UIScrollView subviews.
-    // we want to enumerate only the subview that we added
-    for (int index=0; index&lt;[self.delegate numberOfViewForHorizontalScroller:self]; index++) {
-        UIView *view = scroller.subviews[index];
-        if (CGRectContainsPoint(view.frame, location)) {
-            [self.delegate horizontalScroller:self clickedViewAtIndex:index];
-            [scroller setContentOffset:CGPointMake(view.frame.origin.x - self.frame.size.width/2 + view.frame.size.width/2, 0) animated:YES];
-            break;
-        }
-    }
-}
-</code></pre>
-
-<p>手势操作就如同传入的一个参数，可以从 locationInView: 获取定位信息。</p>
-
-<p>接下来，调用委托的 numberOfViewForHorizontalScroller: 方法。它必须遵照 HorizontalScrollerDelegate 的协议安全发送消息，否则 HorizontalScroller 实例的代理是没法使用这些信息。</p>
-
-<p>滚动视图里的每个视图，用 CGRectContainsPoint 执行一个点击测试，找到那个被点击的视图。当视图被找到，发送给委托一个消息 horizontalScroller:clickedViewAtIndex:。当你跳出这个循环后，设置被点击的视图滚动到视图中间。</p>
-
-<p>现在添加下面的代码，用来刷新滚动视图(scroller):</p>
-
-<pre><code>- (void)reload
-{
-    // 1 - nothing to load if there’s no delegate
-    if (self.delegate == nil) return;
-
-    // 2 - remover all subviews
-    [scroller.subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [obj removeFromSuperview];
-    }
-
-    // 3 - xValue is the starting point of the views inside the scroller
-    CGFloat xValue = VIEWS_OFFSET;
-    for (int i=0; i&lt;[self.delegate numberOfViewsForHorizontalScroller:self]; i++) {
-        // 4 - add a view at the right position
-        xValue += VIEW_PADDING;
-        UIView *view = [self.delegate horizontalScroller:self viewAtIndex:i]
-        view.frame = CGRectMake(xValue, VIEW_PADDING, VIEW_DIMENSIONS, VIEW_DIMENSIONS);
-        xValue += VIEW_DIMENSIONS + VIEW_PADDING;
-    }
-
-    // 5
-    [scroller setContentSize:CGSizeMake(xValue+VIEWS_OFFSET, self.frame.size.height)];
-
-    // 6 - if an initial view is defined, center the scroller on it
-    if (self.delegate respondsToSelector:@select(initialViewIndexForHorizontalScroller:)]) {
-        int initialView = [self.delegate initialViewIndexForHorizontalScroller:self];
-        [scroller setContentOffset:CGPointMake(initialView*(VIEW_DIMENSIONS+(2*VIEW_PADDING)), 0) animated:YES];
-    }
-}
-</code></pre>
-
-<p>能过代码一步步来讨论：</p>
-
-<ol>
-<li>如果没有代理，这里什么事情也不做。</li>
-<li>移除之前添加的所有的子视图。</li>
-<li>给所有视图设置一个偏移(offset)位置。现在的是 100，但是通过顶部的 #define，它很容易修改。</li>
-<li>HorizontalScroller 通过它的委托一次请求一个视图，用之前定义的 padding 值把它们依次的一个个放置下来。</li>
-<li>当所有的视图都生成好，通过设置滚动视图内容的偏移量以达到用户能过滚动可以看到所有专辑封面的目的。</li>
-<li>HorizontalScroller 的委托需要验证是否响应了 initialViewIndexForHorizontalScroller: 方法。这个验证是必需的，因为这个特别的协议方法是可选性的。如果代理没有执行这个方法，它的默认值会是 0。最终，通过委托，这块代码会在滚动视图中间设置一个初始化好的视图。</li>
-</ol>
-
-
-<p>当数据发生改变的时候执行 reload 方法。当添加 HorizontalScroller 到别个一个视图时，你同样可以执行这个方法。在 HorizontalScroller.m 添加下面的代码替换后面的方案：</p>
-
-<pre><code>- (void)didMoveToSuperview
-{
-    [self reload];
-} 
-</code></pre>
-
-<p>当它要添加一个子视图的时候，didMoveToSuperview 会发送消息给视图。这时正好可以更新滚动视图的内容。</p>
-
-<p>HorizontalScroller 的最后一个难题就是，如何设置你看到的专辑总是在滚动视图的中间。为了这些，当用户通过他们的手指拖动滚动视图的时候你就需要做一些计算了。</p>
-
-<p>添加下面方法（同样在 HorizontalScroller.m）：</p>
-
-<pre><code>- (void)centerCurrentView {
-    int xFinal = scroller.contentOffset.x + (VIEWS_OFFSET/2) + VIEW_PADDING;
-    int viewIndex = xFinal / (VIEW_DIMENSIONS + (2*VIEW_PADDING));
-    xFinal = viewIndex * (VIEW_DIMENSIONS+(2*VIEW_PADDING));
-    [scroller setContentOffset:CGPointMake(xFinal, 0) animated:YES];
-    [self.delegate horizontalScroller:self clickedViewAtIndex:viewIndex];
-}
-</code></pre>
-
-<p>上面的代码通过滚动视图的当前偏移量，外观尺寸，内边距来计算当前视图离中心的距离。最后一行非常重要：当一个视图居中后，你需要通知委托你选择的视图改变了。</p>
-
-<p>为了侦测用户在滚动视图内完成拖拽的动作，你需要添加 UIScrollViewDelegate 方法：</p>
-
-<pre><code>- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    if (!decelerate)
-    {
-        [self centerCurrentView];
-    }
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    [self centerCurrentView];
-}
-</code></pre>
-
-<p>当用户完成拖拽的时候 scrollViewDidEndDragging:willDecelerate: 通知委托。如果滚动视图没有停止滚动， decelerate 参数会返回 true。当滚动结束，系统将会调用 scrollViewDidEndDecelerating。当用户拖动滚动当前视图后，两种情况，我们都需要调用一个新方法来使当前视图居中。</p>
-
-<p>HorizontalScroller 现在可以使用了。浏览你刚刚写的代码；这里没有一处提到 Album 和 AlbumView 类。这非常棒，说明这个新的滚动视图是真正的完全独立的和可重用的。</p>
-
-<p>Build 项目，确保所有的代码编译正确。</p>
-
-<p>现在 HorizontalScroller 完成了，是时候在你的 APP 中使用了。打开 ViewController.m 添加如下引用：</p>
-
-<pre><code>#import “HorizontalScroller.h”
-#import “AlbumView.h”
-</code></pre>
-
-<p>给 ViewController 添加 HorizontalScrollerDelegate：</p>
-
-<p>@interf<!---->ace ViewController () &lt;UITableViewDataSource, UITableViewDelegate, HorizontalScroller></p>
-
-<p>在类的扩展里为水平滚动视图添加如下实例变量：</p>
-
-<p>Horizonta<!---->lScroller *scroller;</p>
-
-<p>现在你可以执行代理方法了；你会惊奇的发现只需要几行代码你就能实现很多功能。</p>
-
-<p>在 ViewController.m 添加如下代码：</p>
-
-<pre><code>#pragma mark - HorizontalScrollerDelegate methods
-- (void)horizontalScroller:(HorizontalScroller *)scroller clickedViewAtIndex:(int)index
-{
-    currentAlbumIndex = index;
-    [self showDataForAlbumAtIndex:index];
-}
-</code></pre>
-
-<p>这里设置一个变量用来存储当前的专辑，然后调用 showDataForAlbumAtIndex: 显示一个新专辑的数据。</p>
-
-<p>提示：一般在方法代码的前面放置 #pragma mark 指示符。编译器会忽略这一行，当你在使用 Xcode 的跳转工具栏(Xcode’s jump bar)查看你的方法列表时，你会看到一个分隔符和个加粗的指示标题。在 Xcode 里，这可以帮助你很容易的组织代码。</p>
-
-<p>下面，添加如下代码：</p>
-
-<pre><code>- (NSInteger)numberOfViewsForHorizontalScroller:(HorizontalScroller *)scroller
-{
-    return allAlbums.count;
-}
-</code></pre>
-
-<p>这里，协议方法返回滚动视图里的视图数量。因为滚动视图需要显示所有的专辑封面，这个 count 是所有专辑的数目。</p>
-
-<p>现在，添加这些代码：</p>
-
-<pre><code>- (UIView *)horizontalScroller:(HorizontalScroller *)scroller viewAtIndex:(ini)index
-{
-    Album *album = allAlbums[index];
-    return [[Album alloc] initWithFrame:CGRectMake(0, 0, 100, 100) albumCover:album.coverUrl];
-}
-</code></pre>
-
-<p>这里你创建了一个新 AlbumView，然后交给 HorizontalScroller 使用。</p>
-
-<p>就是这样，通过三个这么短的方法就可以显示一个漂亮的滚动视图。</p>
-
-<p>实际上，你仍需要创建一个真正的滚动视图，然后添加到你的主视图上，但是在这之前，先添加下面的方法：</p>
-
-<pre><code>- (void)reloadScroller
-{
-    allAlbums = [[LibraryAPI sharedInstance] getAlbums];
-    if (currentAlbumIndex &lt; 0) currentAlbumIndex = 0;
-    else if (currentAlbumIndex &gt;=allAlbum.count) currentAlbumIndex = allAlbum.count - 1;
-    [scroller reload];
-
-    [self showDataFroAlbumAtIndex:currentAlbumIndex;
-}
-</code></pre>
-
-<p>这个方法从 LibraryAPI 加载专辑数据，然后以当前视图的索引值为基础设置显示当前的图片。 如果当前视图的索引小于零，意味着当前没有选择视图，显示列表里的第一张专辑。否则显示最后一张专辑。</p>
-
-<p>现在，在 viewDidLoad 里 [self showDataForAlbumIndex:0] 前面添加下面代码来初始化滚动视图：</p>
-
-<pre><code>scroller  = [[HorizontalScroller alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 120)];
-scroller.backgroundColor = [UIColor colorWithRed:0.24f greed:0.35f blue:0.49f alpha:1];
-scroller.delegate = self;
-[self.view addSubview:scroller];
-
-[self reloadScroller];
-</code></pre>
-
-<p>上面的代码创建了一个 HorizontalScroller 的实例，设置了它的背景颜色和委托，添加滚动视图到主视图上，在滚动视图的子视图上加载专辑数据。</p>
-
-<pre><code>提示：如果一个协议变得很大，里面有很多方法，你应该考虑把它们分散到几个小的协议里去。UITableViewDelegate 和 UITableViewDataSource 就是一个很好的例子，因为它们都是 UITablveView 的协议。设计协议的时候，最好一个名称引导一个功能。
-</code></pre>
-
-<p>构建和运行你的项目，你会看到一个新的很了不起的水平滚动视图：</p>
-
-<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2013/08/design-patterns-3-298x320.png" alt="2" /></p>
-
-<p>啊嗯，等等。水平滚动的视图已经有了，可是专辑封面在哪里？</p>
-
-<p>对了，你还没有代码来执行下载图片的功能。你需要添加一个下载图片的方法。查检 LibraryAPI 服务的所有接口，这里需要添加一个新的方法。不管怎样，现在还有几件事情需要考虑：</p>
-
-<ol>
-<li>AlbumView 并没没有通过 LibraryAPI 立即工作。你没有给视图添加通信逻辑。</li>
-<li>相同的原因，LibraryAPI 并不认识 AlbumView。</li>
-<li>LibraryAPI 需要通知 AlbumView，一旦封面下载完成，AlbumView 就会显示它。</li>
-</ol>
-
-
-<p>听起来这是一个难题？不用害怕，你将要学习如何使用观察者模式 (Observer pattern)。</p>
-
-<p><strong>设计模式系列文章</strong>：</p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/">iOS 设计模式系列：Facade – 外观模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/">iOS 设计模式系列：Observer – 观察者模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/">iOS 设计模式系列：Archiving – 归档模式</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-16T13:38:15+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:38 pm</span></time>
-        
-        
-          | <a href="/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>装饰器模式</strong>可以在不修改代码的情况下灵活的为一对象添加行为和职责。当你要修改一个被其它类包含的类的行为时，它可以代替子类化方法。</p>
-
-<p>在 Object-C 里有两个种非常常见的实现模式：分类(Category)和委托(Delegation)。</p>
-
-<h3>分类 Category</h3>
-
-<p>分类是一种非常强大的机制，它允许你在一个已存在的类里添加新方法，而不需要去为他添加一个子类。新方法在编译的时候添加，它能像这个类的扩展方法一样正常执行。一个装饰器跟类的定义稍微有点不同的就是，因为装饰器不能被实例化，它只是一个扩展。</p>
-
-<pre><code>提示：除了你自己类的扩展，你还可在任何 Cocoa 类里的扩展添加方法。
-</code></pre>
-
-<h3>如何使用分类</h3>
-
-<p>现在你有一个 Album 对象，你需要把它显示在一个表单视图里(table view)：</p>
-
-<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2013/08/design-patterns-category1.png" alt="1" /></p>
-
-<p>专辑的标题从哪里来？Album 只是一个模型对象，它才不会去关心你如果去显示这些数据。为了这些，你需要给 Album 类添加一些额外的代码，但是请不要直接修改这个类。</p>
-
-<p>你现在就需要为 Album 添加一个分类 (category) 的扩展；它将定义一个新地方法用来返回一个数据结构，这个数据结构可以很容易的被 UITableViews 使用。</p>
-
-<p>这个数据结构看起来如下：</p>
-
-<p><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2013/08/delegate2-480x67.png" alt="2" /></p>
-
-<p>为 Album 添加一个分类，导航 File\New\File… 选择 Object-C category 模版─不要习惯的去选择 Object-C class，在 Category 后面输入 TableRepresentation，Category to 后面输入 Album。</p>
-
-<pre><code>提示：你有没有注意这个新文件的名字？Album+TableRepresentation 说明它是 Album 类的一个扩展。这个习惯很重要，因为第一这很容易读，第二防止你或者其他人创建的分类跟其冲突。
-</code></pre>
-
-<p>打开 Album+TableRepresentation，加入下面的方法原型：</p>
-
-<pre><code>- (NSDictionary*)tr_tableRepresentation;
-</code></pre>
-
-<p>注意，这是一个 tr_ 开头的方法名，就像是这个分类名字的缩写一样：TableRepresentation。其次，这个习惯会避免这个方法跟其它方法重名！</p>
-
-<pre><code>提示：如果分类 (Category) 声明的一个方法跟原始类的一个方法重名，或者跟同类里的的另一个分类名字重复（或者是它的父类），当它在运行的时候，它就不知道要执行哪个方法。如果是在你自己类的分类里，它不太可能出现大的问题，但是如果一个标准 Cocoa 或者 Cocoa Touch 类里面添加这个分类的方法，就可能会引起严重的问题。
-</code></pre>
-
-<p>打开 Album+TableRepersentation.m 文件添加下面的方法：</p>
-
-<pre><code>- (NSDictionary*)tr_TableRepersentation
-{
-    return @{@"titles":@[@"Artist", @"Album", @"Genre", @"Year"],
-            @"values":@[self.artist, self.title, self.genre, self.year]};
-};
-</code></pre>
-
-<p>考虑一会，为什么这种模式如些强大：</p>
-
-<ul>
-<li>你能够直接使用 Album 的属性。</li>
-<li>你已经添加在 Album 类里，但它并不是它的子类。如果子类需要，你同样也可以这样做。</li>
-<li>这样一个简单的添加，Album 类的数据返回一个 UITableView 可用的数据结构，但并不需要修改 Album 的代码。</li>
-</ul>
-
-
-<p>苹果在基础类里大量的使用了分类设计模式。去看看他们是怎么做的，打开 NSString.h。找到 @interface NSString，你将会看到这个类定义了三个分类：NSStringExtensionMethods, NSExtendedStringPropertyListParsing 和 NSStingDeprecated。在代码片里，分类将帮助你保持方法的组织性和分离必。</p>
-
-<h3>委托 Delegation</h3>
-
-<p>另外一种装饰器的设计模式是，委托 (Delegation)，它是一种机制，一个对象代表另外一个对象或者其相互合作。例子，当你使用 UITableView 的时候，其中一个方法是你必需要执行的，tableView:numberOfRowsInSection:。</p>
-
-<p>你可能并不期望 UITableView 知道每个 section 中有多少行，这是程序的特性。因此，计算每个 section 有多少行的工作就交给了 UITableView 的委托 (delegate)。它允许 UITableView 类不依赖它显示的数据。</p>
-
-<p>当你创建了一个新的 UITableView 的时候，这里有一个类似的解释：</p>
-
-<p><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2013/08/delegate-480x252.png" alt="3" /></p>
-
-<p>UITableView 对象的工作就是显示一个表单视图。然而，最终它都需要一些它信息，它并不拥有这些信息。然后，它会转向它的委托，发送一个添加信息的消息。在 Object-C 中实现委托模式，一个类可以通过协议 (protocol) 来声明一个可选和必选的方法。稍后，在这个教程你将覆盖一个协议 (protocols)。</p>
-
-<p>它看起来比子类更容易，覆盖需要的方法，但是考虑如果是单类的话你只能创建子类。如果你想一个对象委托两个或者多个对象的时候，子类化的方法是不能实现的。</p>
-
-<pre><code>提示：这是一个很重要的模式。苹果在 UIKit 类中大量的使用了此方法：UITableView, UITextView, UITextField, UIWebView, UIAlert, UIActionSheet, UICollectionView, UIPickerView, UIGestureRecognizer, UIScrollView。这个列表还可以有很多。
-</code></pre>
-
-<h3>如何使用委托模式</h3>
-
-<p>打开 ViewController.m，在顶部引入如下文件</p>
-
-<pre><code>#import "LibraryAPI.h"
-#import "Album+TableRepresentation.h"
-</code></pre>
-
-<p>现在，在类的扩展里的添加一些私有变量，它们看起来如下：</p>
-
-<pre><code>@interface ViewController (){
-    UITableView *dataTable;
-    NSArray *allAlbums;
-    NSDictionary *currentAlbumData;
-    int currentAlbumIndex;
-}
-@end
-</code></pre>
-
-<p>现在，替换类扩展里的 @interface 这一行，完成后如下：</p>
-
-<pre><code>@interface ViewController () &lt;UITableViewDataSoure, UITableViewDelegate&gt; {
-</code></pre>
-
-<p>这就是如何设置一个正确的委托─把它相象成允许一个委托来履行一个方法的合同。这里，表明 ViewController 将会遵照 UITableViewDataSource 和 UITableViewDelegate 协议。这种方法下 UITableView 必须执行它自己的委托方法。</p>
-
-<p>下面，用下面的代码替换 viewDidLoad:</p>
-
-<pre><code>- (void)viewDidLoad {
-    [super viewDidLoad];
-    // 1
-    self.view.backgroundColor = [UIColor colorWithRed:0.76f green:0.81f blue:0.87f alpha:1];
-    currentAlbumIndex = 0;
-
-    //2
-    allAlbums = [[LibraryAPI sharedInstance] getAlbums];
-
-    // 3
-    // the uitableview that presents the album data
-    dataTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 120, self.view.frame.size.width, self.view.frame.size.height-120) style:UITableViewStyleGrouped];
-    dataTable.delegate = self;
-    dataTable.dataSource = self;
-    dataTable.backgroundView = nil;
-    [self.view addSubview:dataTable];
-}
-</code></pre>
-
-<p>这里分析下上面的代码：</p>
-
-<ol>
-<li>把背景色改为漂亮的深蓝色。</li>
-<li>从 API 获取一个列表，它包含所有的专辑数据。不能直接使用 PersistencyManager。</li>
-<li>创建一个 UITableView。你声明了视图控制器是 UITableView delegate/data source；因此，UITableView 将会提供视图控制器需要的所有信息。</li>
-</ol>
-
-
-<p>现在，在 ViewController.m 里面添加如下方法：</p>
-
-<pre><code>- (void)showDataForAlbumAtIndex:(int)albumIndex{
-    // defensive code: make sure the requested index is lower than the amount of albums
-    if (albumIndex &lt; allAlbums.count) {
-        // fetch the album
-        Album *album = allAlbums[albumIndex];
-        // save the albums data to present it later in the tableview
-        currentAlbumData = [album tr_tableRepresentation];
-    } else {
-        currentAlbumData = nil;
-    }
-
-    // we have the data we need, let's refresh our tableview
-    [dataTable reloaddata];
-}
-</code></pre>
-
-<p>showDataForAlbumAtIndex: 从专辑数组中取出需要的专辑数据。当你需要显示新数据的时候，你只需要重载数据 (relaodData)。这是因为 UITableView 需要请求它的委托代理，像有多少 sections 将会在表单视图中显示，每个 section 中有多少行，每行看起来是什么样的。</p>
-
-<p>在 viewDidLoad 中添加下面代码</p>
-
-<pre><code>[self showDataForAlbumAtIndex:currentAlbumIndex];
-</code></pre>
-
-<p>当程序运行的时候它会加载当前的专辑信息。由于 currentAlbumIndex 的预设值为 0，所以会显示收藏中的第一张专辑信息。</p>
-
-<p>构建并运行你的项目，你的程序会崩溃掉，在控制台会输入如下的异常：</p>
-
-<p><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2013/09/2013-09-01_15-57-32-700x112.png" alt="4" /></p>
-
-<p>出现什么问题了？你已经声明了 ViewController 中的 UItableView 的委托(delegate)和数据源(data source)。但是在这种情况下，你必需执行所有的必需方法─包含 tableView:numberOfRowsInsection:─你现在还没有它。</p>
-
-<p>在 ViewContrller.m 的 @implementation 和 @end 的任何地方添加如下代码：</p>
-
-<pre><code>- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [currentAlbumData[@"titles"] count];
-}
-
-- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
-    }
-
-    cell.textLabel.text = currentAlbumData[@"titles"][indexPath.row];
-    cell.detailTextLabel.text = currentAlbumData[@"values"][indexPath.row];
-
-    return cell;
-}
-</code></pre>
-
-<p>tableView:numberOfRowsIndexSection: 返回表单视图显示的行数，匹配数据结构中标题的数目。</p>
-
-<p>tableView:cellForRowAtIndexPath: 创建并返回一个带标题和信息的 cell。</p>
-
-<p>现在构建并运行你的项目。你的程序开始运行并显示出下图的界面：</p>
-
-<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2013/08/design-pattern-stage1.png" alt="5" /></p>
-
-<p>这目前为止事情看起来很不错。但是如果你回过去看第一张图片的时候，你会发现在屏幕的顶端有一个可以水平滚动的视图，用于切换专辑。它只是简单的水平滚动，为什么不做一个可以重复使用的视图来代替它呢。</p>
-
-<p><img src="%E8%BF%99%E7%9B%AE%E5%89%8D%E4%B8%BA%E6%AD%A2%E4%BA%8B%E6%83%85%E7%9C%8B%E8%B5%B7%E6%9D%A5%E5%BE%88%E4%B8%8D%E9%94%99%E3%80%82%E4%BD%86%E6%98%AF%E5%A6%82%E6%9E%9C%E4%BD%A0%E5%9B%9E%E8%BF%87%E5%8E%BB%E7%9C%8B%E7%AC%AC%E4%B8%80%E5%BC%A0%E5%9B%BE%E7%89%87%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E4%BD%A0%E4%BC%9A%E5%8F%91%E7%8E%B0%E5%9C%A8%E5%B1%8F%E5%B9%95%E7%9A%84%E9%A1%B6%E7%AB%AF%E6%9C%89%E4%B8%80%E4%B8%AA%E5%8F%AF%E4%BB%A5%E6%B0%B4%E5%B9%B3%E6%BB%9A%E5%8A%A8%E7%9A%84%E8%A7%86%E5%9B%BE%EF%BC%8C%E7%94%A8%E4%BA%8E%E5%88%87%E6%8D%A2%E4%B8%93%E8%BE%91%E3%80%82%E5%AE%83%E5%8F%AA%E6%98%AF%E7%AE%80%E5%8D%95%E7%9A%84%E6%B0%B4%E5%B9%B3%E6%BB%9A%E5%8A%A8%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E5%81%9A%E4%B8%80%E4%B8%AA%E5%8F%AF%E4%BB%A5%E9%87%8D%E5%A4%8D%E4%BD%BF%E7%94%A8%E7%9A%84%E8%A7%86%E5%9B%BE%E6%9D%A5%E4%BB%A3%E6%9B%BF%E5%AE%83%E5%91%A2%E3%80%82" alt="6" /></p>
-
-<p>这个可以重复使用的视图 (view)，它所有的内容都由另一个对象来管理：委托 (delegate)。这个水平滚动区域需要声明一个方法，一个为滚动区域工作的代理工具，就像 UITableView 代理方法如何工作一样。当我讨论下一个设计模式时将会实施它。</p>
-
-<p><strong>设计模式系列文章</strong>：</p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/">iOS 设计模式系列：Facade – 外观模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/">iOS 设计模式系列：Observer – 观察者模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/">iOS 设计模式系列：Archiving – 归档模式</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/">iOS 设计模式系列：Facade – 外观模式</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-15T10:06:20+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:06 am</span></time>
-        
-        
-          | <a href="/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>目前你有 PersistencyManager 来在本地存储专辑数据，HTTPClient 处理远程通信。项目中其它的类跟这些逻辑都没关。</p>
-
-<p>执行这个<a href="http://www.superqq.com/blog/2015/03/21/dan-li-mo-shi-de-xie-fa/">模式</a>，只有 LibraryAPI 来保存 PersistencyManager 和 HTTPClient 的实例。之后，LibraryAPI 将会公开一个简单的 API 来访问这些服务。</p>
-
-<pre><code>提示：通常，单例存在 app 的整个生命周期。不需一直使用很多指针指向其它对象，因为她们直到程序关闭后才会被释放。   
-</code></pre>
-
-<p>这个设计就像下图：</p>
-
-<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2013/08/design-patterns-facade-uml-480x71.png" alt="icon" /></p>
-
-<p>LibraryAPI 将会公开给其它代码，但是它隐藏了 APP 中 HTTPClient 和 PersistencyManager 的复杂部分。</p>
-
-<p>打开 LibraryAPI.h，在顶部引入面文件：</p>
-
-<pre><code>#import "Album.h"
-</code></pre>
-
-<p>接下来，在 LibraryAPI.h下面添加如下方法：</p>
-
-<pre><code>- (NSArray*)getAlbums;
-- (void)addAlbum:(Album*)album atIndex:(int)index;
-- (void)deleteAlbumAtIndex:(int)index;
-</code></pre>
-
-<p>现在，这些方法都公开给了其它类。</p>
-
-<p>在 LibraryAPI.m 文件引入如下两个文件：</p>
-
-<pre><code>#import "PersistencyManager.h"
-#import "HTTPClient.h"
-</code></pre>
-
-<p>只有在这个地方你才会需要引入这些类。记住：你的 API 将会是你「复杂」系统的唯一的接入点。</p>
-
-<p>现在添加一些私有属性在你的类的扩展里（在 @implementation 上面）</p>
-
-<pre><code>@interface LibraryAPI () {
-    PersistencyManager *persistencyManager;
-    HTTPClient *httpClient;
-    BOOL isOnline;
-}
-@end
-</code></pre>
-
-<p>isOnline 用来判断，如果专辑列表数据发生变化是否能够更新到服务器，例如添加或者删除专辑。</p>
-
-<p>你现在需要在 init 方法中初始化这些变量，在 LibraryAPI.m 中添加下面代码：</p>
-
-<pre><code>- (id)init
-{
-    self = [super init];
-    if (self) {
-        persistencyManager = [[PersistencyManager alloc] init];
-        httpClient = [[HTTPClient alloc] init];
-        isOnline = NO;
-    }
-    return self;
-}
-</code></pre>
-
-<p>这个 HTTP 客户端在这里并不真正的工作，它只是在外观设计里面起一个示范用法的作用，所以 isOnline 永远是 NO 了。</p>
-
-<p>接下来，在 LibraryAPI.m 里面添加下面三个方法：</p>
-
-<pre><code>- (NSArray*)getAlbums
-{
-    return [persistencyManager getAlbums];
-}
-
-- (void)addAlbum:(Album*)album atIndex:(int)index
-{
-    [persistencyManager addAlbum:album atIndex:index];
-    if (isOnline)
-    {
-        [httpClient postRequest:@"/api/addAlbum" body:[album description]];
-    }
-}
-
-- (void)deleteAlbumAtIndex:(int)index
-{
-    [persistencyManager deleteAlbumAtIndex:index];
-    if (isOnline)
-    {
-        [httpClient postRequest:@"/api/deleteAlbum" body:[@(index) description]];
-    }
-}
-</code></pre>
-
-<p>看一下 addAlbum:atIndex:。这个类首先更新本地数据，如果联网，它再更新远端服务器。这就是外观设计的长处；当一些系统外的类添加了一个新专辑，它不知道─也不需要知道─复杂的内部系统。</p>
-
-<pre><code>提示：当在你的子系统里设计一个外观类的时候，记住没有任何东西可能阻止客户访问这些「隐藏」类。要多写些防御性的代码，不要想当然的认为所有客户都会用同样的方式使用你的外观类。
-</code></pre>
-
-<p>运行你的程序，你会看一个黑底空白内容的屏幕，像下面这样：</p>
-
-<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2013/09/2013-09-01_12-08-44-211x320.png" alt="icon1" /></p>
-
-<p>你需要在屏幕上显示一些专辑数据─这就需要使用到下面一个设计模式：装饰器 (Decorator)。</p>
-
-<p><strong>设计模式系列文章</strong>：</p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/">iOS 设计模式系列：Facade – 外观模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/">iOS 设计模式系列：Observer – 观察者模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/">iOS 设计模式系列：Archiving – 归档模式</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-13T08:21:55+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:21 am</span></time>
-        
-        
-          | <a href="/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.superqq.com/blog/2015/03/21/dan-li-mo-shi-de-xie-fa/">单例设计模式</a>确切的说就是一个类只有一个实例，有一个全局的接口来访问这个实例。当第一次载入的时候，它通常使用延时加载的方法创建单一实例。</p>
-
-<pre><code>提示：苹果大量的使用了这种方法。例子：[NSUserDefaults standerUserDefaults], [UIApplication sharedApplication], [UIScreen mainScreen], [NSFileManager defaultManager] 都返回一个单一对象。
-</code></pre>
-
-<p>你可能想知道你为什么要关心一个类有多个的实例。代码和内存都很便宜，不是吗？</p>
-
-<p>在一些情况下，一个类只有一个实例是有意义的。例如，这里没有必要有多个登录实例，除非你一次想写入多个日志文件。或者，一个全局的配置类文件：它可以很容易的很安全的执行一个公共资源，这样的一个配置文件，要比同时修改多个配置类文件好很多。</p>
-
-<h3>如何使用单例模式</h3>
-
-<p>请看下面的图片</p>
-
-<p><img src="http://cdn3.raywenderlich.com/wp-content/uploads/2013/08/singleton.png" alt="icon" /></p>
-
-<p>上面的图片显示的是一个登录类，它有一个属性（这个单一实例），有两个方法：sharedInstance 和 init。</p>
-
-<p>首先一个客户端(client)发送 sharedInstance 信息，但是属性 instance 还没有初始化，所以你要先给这个类创建一个实例。</p>
-
-<p>然后你调用 sharedInstance，instance 会马上返回初始化的值。这个逻辑最终只会返回一个实例。</p>
-
-<p>你需要执行这个模式来创建单例类来管理所有的专辑数据。</p>
-
-<p>你需要注意在项目里有一个叫 API 文件夹，给你的 APP 提供服务的所有类都需要放在这里。在这个文件夹里用 iOS\Cocoa Touch\Object-C class 创建一个新类。类的名字叫 LibraryAPI，子类选择 NSObject。</p>
-
-<p>打开 LibraryAPI.h 文件用下面的代码替换里面的内容：</p>
-
-<pre><code>@interface LibraryAPI: NSObject
-+ (LibraryAPI*)sharedInstance;
-@end
-</code></pre>
-
-<p>现在打开 LibraryAPI.m 文件，在 @implentation 后面添加如下方法：</p>
-
-<pre><code>+ (LibraryAPI*)sharedInstance 
-{
-    // 1
-    static LibraryAPI *_sharedInstance = nil;
-
-    // 2 
-    static dispatch_once_t oncePredicate; 
-
-    // 3
-    dispatch_once(&amp;nocePredicate, ^{
-        _sharedInstance = [[LibraryAPI alloc] init];
-    });
-    return _sharedInstance;
-}
-</code></pre>
-
-<p>在这个短方法中做了这些事情：</p>
-
-<ul>
-<li>在这个类中，声明一个静态变量来保存这个实例，保证它是一个全局可用的变量。</li>
-<li>声明一个静态这是 dispatch_one_t，确保这些初始化代码只能被执行一次。</li>
-<li>使用 Grand Central Dispatch（GCD）执行一个 block 来初始化 LibraryAPI 实例。这是单例设计模式的关键所在：一个类只能被实例化一次。</li>
-</ul>
-
-
-<p>接下来执行 sharedInstance，在 dispatch_once block 里的代码是不会被执行的（当它已经被执行过一次后），它会返回之前创建的 LibraryAPI 实例。</p>
-
-<pre><code>提示：想了解更多关于 GCD 和使用它，请点击这里的教程 Multithreading and Grand Central Dispatch，如何使用 Blocks 在这里。
-</code></pre>
-
-<p>你现在有一个单例对象来管理专辑了。下一步就是创建一个类用来保存你的专辑数据了。</p>
-
-<p>用 iOS\Cocoa Touch\Object-C class 在 API 文件夹下创建一个新的类，名字叫 PersistencyManager，子类选择 NSObject。</p>
-
-<p>打开 PersistencyManager.h，在顶部引入面文件：</p>
-
-<pre><code>#import "Album.h"
-</code></pre>
-
-<p>然后在 @interface 后面加入下面代码：</p>
-
-<pre><code>- (NSArray *)getAlbums;
-- (void)addAlbums:(Album*)album atIndex:(int)index;
-- (void)deleteAlbumAtIndex:(int)index;
-</code></pre>
-
-<p>上面的三个方法都需要跟专辑的数据相结合。</p>
-
-<p>打开 PersistencyManager.m，在 @implementation 上面添加如下代码：</p>
-
-<pre><code>@interface PersistencyManager () {
-    NSMutableArray *albums;
-}
-</code></pre>
-
-<p>上面的代码是给类添加了一个扩展，这是另一种给类添加私有方法和私有属性的方法，类外面的成员是看不到这些的。这里，你声明了一个 NSMutableArray 来保存专辑的数据。这是一个可变数组，你可以很容易的添加和删除专辑。</p>
-
-<p>现在在 @implementation 下面添加实现代码：</p>
-
-<pre><code>- (id)init {
-    self = [super init];
-    if (self) {
-        albums = [NSMutableArray arrayWithArray:@[[[Album alloc] initWithTitle:@"Best of Bowie" artist:@"David Bowie" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_david%20bowie_best%20of%20bowie.png" year:@"1992"],
-        [[Album alloc] initWithTitle:@"It's My Life" artist:@"No Doubt" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_no%20doubt_its%20my%20life%20%20bathwater.png" year:@"2003"],
-                [[Album alloc] initWithTitle:@"Nothing Like The Sun" artist:@"Sting" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_sting_nothing%20like%20the%20sun.png" year:@"1999"],
-            [[Album alloc] initWithTitle:@"Staring at the Sun" artist:@"U2" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_u2_staring%20at%20the%20sun.png" year:@"2000"],
-                [[Album alloc] initWithTitle:@"American Pie" artist:@"Madonna" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_madonna_american%20pie.png" year:@"2000"]]];
-    }
-    return self;
-}
-</code></pre>
-
-<p>在 init 里你在数组中加入了 5 张专辑。如果上面的专辑你不喜欢，你可以随意替换成你喜欢的。:]</p>
-
-<p>现存在 PersistencyManager.m 添加下面三个方法：</p>
-
-<pre><code>- (NSArray*)getAlbums
-{
-        return albums;
-}
-
-- (void)addAlbum:(Album*)album atIndex:(int)index
-{
-        if (albums.count &gt;= index)
-            [albums insertObject:album atIndex:index];
-        else
-        [albums addObject:album];
-}
-
-- (void)deleteAlbumAtIndex:(int)index
-{
-        [albums removeObjectAtIndex:index];
-}
-</code></pre>
-
-<p>这些方法是获取，添加，删除专辑。</p>
-
-<p>Build 你的项目，确保所有的代码都能正确编译。</p>
-
-<p>现在，你也许想知道为什么会有一个 PersistencyManager 类，因为它都不是单例类。不要着急，接下来第二步，外观设计模式(Facade design patten) 将会探讨 LibraryAPI 和 PersistencyManager 之间的关系。</p>
-
-<p><strong>设计模式系列文章</strong>：</p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/">iOS 设计模式系列：Facade – 外观模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/">iOS 设计模式系列：Observer – 观察者模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/">iOS 设计模式系列：Archiving – 归档模式</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-11T13:41:20+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:41 pm</span></time>
-        
-        
-          | <a href="/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2013/07/mvcking.png" alt="icon" /></p>
-
-<p>模型(Model) 视图(View) 控制器(Controller) (<a href="http://www.superqq.com/blog/2014/11/10/qian-xi-mvche-shuo-mei-de-guo-cheng/">MVC</a>) 是 Cocoa 中的一种行为模块，并且也是所有 Cocoa 设计模式中使用最多的。在程序中按照它们的角色来分类这些对象并且鼓励你的基础代码也按照这个来划分。</p>
-
-<p>这三种角色是：</p>
-
-<ul>
-<li>模型：这是一种暂时保存你程序数据和定义如何操作它的对象。一个例子，在你的程序中 Album 类就是一个模型。</li>
-<li>视图：这种对象是控制模型里的数据如何显示出来的，用户也可操作这些对象；事实上，包含所有的 UIView 和他们的子类。在你的程序中视图是 AlbumView 类。</li>
-<li>控制器：控制器是一个中介者协调所有的工作。他使数据从模型传出来然后显示在视图上，监听事件，在必要的时候操作数据。你能猜到哪个类你的控制器吗？对了，它就是 ViewController。</li>
-</ul>
-
-
-<p>在你的程序中一个好的设计模式的实现意味者所有的对象都在这些群组中。</p>
-
-<p>下图很好的描述了视图和模型之间的通信过程：</p>
-
-<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2013/07/mvc0.png" alt="icon" /></p>
-
-<p>当有数据发生改变的时候模型通知控制器，然后控制器更新视图数据。 反过来，当用户在视图执行一些操作后，视图会通知控制器，如果有需要或是要取回请求数据，控制器也会更新模型或者。</p>
-
-<p>你可能想我为什么不能丢掉控制器，在同一个类里实现视图和模型，这样看起来更简单。</p>
-
-<p>归根结底，这是为是分离代码和提高代码的可重用性。理想状态下视图应该完全从模型中分离出来。如果视图不依赖一个特殊的模型来实现，那么另外一个模型就可以重复利用这个视图显示一些其它不同的数据。</p>
-
-<p>举一个例子，在将来某一天你想在你的音乐库中加入一些电影或者一些书，你可以继续使用原来的 AlbumView 视图来显示这个电影或者图书对象。此外，如果你想创建一个新项目，这个项目中的一些东西跟音乐专辑有关，你可以很简单的拿来重用 Album 类，因为它不依赖于其它任何视图。这就是 MVC 的精髓所在。</p>
-
-<h3>如何使用 MVC 模式</h3>
-
-<p>首先，你要保证在你的项目中任何一个类都有一个控制器，一个模型，一个视图，一个类中的函数不能有两种作用。到目前为至，你已经完成了一项很棒的工作，创建了一个 Album 类和一个 AlbumView 类。</p>
-
-<p>第二步，根据这些方法的作用你应该创建三个文件夹，来存放不同类别的代码，每种类型一个文件夹。</p>
-
-<p>在菜单上选择 File\New\Group (或者按 Command+Option+N) ，创建名称为 Model，重复上面的动作，创建 View 和 Controller 文件夹。</p>
-
-<p>现在拖动 Album.h 和 Album.m 文件到 Model 文件夹。拖动 AlbumView.h 和 AlbumView.m 文件到 View 文件夹，最后拖动 ViewController.h 和 ViewController.m 文件到 Controller 文件夹中。</p>
-
-<p>现在，项目文件的结构目录应该是这个样子的：</p>
-
-<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2013/07/mvc2-255x320.png" alt="icon" /></p>
-
-<p>如果没有其它的文件漂在外面，你的项目看起来已经非常棒了。显然你还可能有其它的文件夹和类，但是你程序的核心内容应该包含在这三个分类中。</p>
-
-<p>现在你的文件已经组织好了，你需要从其它地方获取专辑数据了。你需要创建一个 API 类用来管理你的代码的数据来源 — 现在是机会开始讨论下一个设计模式了 — 单例模式(The Singleton Pattern)。</p>
-
-<p><strong>设计模式系列文章</strong>：</p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/">iOS 设计模式系列：Facade – 外观模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/">iOS 设计模式系列：Observer – 观察者模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/">iOS 设计模式系列：Archiving – 归档模式</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/7">&larr; Older</a>
@@ -1868,47 +1367,55 @@ scroller.delegate = self;
 <aside class="sidebar">
   
     <section>
+<h1>热门推荐</h1>
+  <!--广告位-->
+<script type="text/javascript">
+    /*250*250 创建于 2015-08-08*/
+    var cpro_id = "u2252717";
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+<!--广告链接结束-->
   <h1>微信扫一扫，代码写的好</h1>
         <br/>
         <br/><strong>东半球最好的iOS开发公众号</strong> 
         <br/>
-        <br/><img width="220px" src="http://www.superqq.com/images/getqrcode.jpg" />
+        <br/><img width="220px" src="http://images.90159.com/icon/iOSDevTip.jpg" />
         <br/>
         <br/><strong>东半球最好的程序猿公众号</strong>
         <br/>
-        <br/><img width="220px" src="http://www.superqq.com/images/CodePush.jpg" />
+        <br/><img width="220px" src="http://images.90159.com/icon/codepush.jpg" />
         </p>
-<!--广告位-->
-<script type="text/javascript">
-var cpro_id="u2238881";
-(window["cproStyleApi"] = window["cproStyleApi"] || {})[cpro_id]={at:"3",rsi0:"250",rsi1:"250",pat:"17",tn:"baiduCustNativeAD",rss1:"#FFFFFF",conBW:"1",adp:"1",ptt:"0",titFF:"%E5%BE%AE%E8%BD%AF%E9%9B%85%E9%BB%91",titFS:"14",rss2:"#000000",titSU:"0"}
-</script>
-<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
-<!--广告链接结束-->
   <h1>最新文章</h1>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/08/05/multiple-uiimage-merged/">多个UIImage合并成一个UIImage</a>
+        <a href="/blog/2015/08/10/coremotion-framework-use-accelerometer/">CoreMotion框架中加速度计使用简明教程</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/08/04/save-photo-to-own-album/">iOS开发之保存照片到自己创建的相簿</a>
+        <a href="/blog/2015/08/09/performance-optimization-of-mkmapview/">一次对MKMapView的性能优化</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-(photo-album)/">iOS开发之保存照片到系统相册（Photo Album）</a>
+        <a href="/blog/2015/08/08/interview-ios-question-answer/">《招聘一个靠谱的iOS》面试题参考答案（上）</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/08/02/custom-navigation-button-uibarbuttonitem/">自定义导航按钮UIBarButtonItem</a>
+        <a href="/blog/2015/08/07/implement-uitextview-placeholder/">实现placeholder属性的UITextView</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/08/02/first-watch-movie/">《大圣归来》和《捉妖记》第一次购票看电影</a>
+        <a href="/blog/2015/08/06/uitextview-placeholder-practice/">UITextView实现placeholder的猥琐做法</a>
       </li>
     
   </ul>
+  <!--广告位-->
+<script type="text/javascript">
+    /*刚刚在线250*350 创建于 2015-07-31*/
+    var cpro_id = "u2238366";
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+<!--广告链接结束-->
 </section>
 </section>
 <section>
@@ -1944,6 +1451,9 @@ var cpro_id="u2238881";
        </li>
         <li>
            <a href="http://www.boxingjiaoyu.com/" target="_blank" title="程序员聚合平台">程序员聚合平台</a>
+       </li>
+       <li>
+           <a href="http://gank.io/" target="_blank" title="干货集中营">干货集中营</a>
        </li>
       <li>
            <a href="http://www.mobile-open.com/" target="_blank" title="阳和移动开发">阳和移动开发</a>
@@ -2022,15 +1532,7 @@ Copyright &copy; 2015 - 李刚
 
 <script language="javascript" type="text/javascript" src="http://js.users.51.la/17443209.js"></script>
 <noscript><a href="http://www.51.la/?17443209" target="_blank"><img alt="&#x6211;&#x8981;&#x5566;&#x514D;&#x8D39;&#x7EDF;&#x8BA1;" src="http://img.users.51.la/17443209.asp" style="border:none" /></a></noscript>
-<!--广告位-->
-<dic class="flashnews">
-    <script type="text/javascript">
-        /*960*60 创建于 2015-06-05*/
-        var cpro_id = "u2140429";
-        </script>
-    <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
-    </div>
-<!--广告链接结束--></footer>
+</footer>
   
 
 
