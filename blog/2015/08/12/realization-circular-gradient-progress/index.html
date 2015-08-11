@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>支付宝和微信在抄袭上谁更胜一筹 - 刚刚在线</title>
+  <title>环形渐变进度条实现 - 刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="支付宝最新版本9.0上线，立刻引发一场撕逼大战。支付宝指责微信抄袭，微信也不甘示弱。在我看来，支付宝和微信是相互抄袭。既然都是抄袭，何必以五十步笑百步呢，对吧。">
-  <meta name="keywords" content="支付宝, 支付宝9.0, 支付宝和微信, 支付宝和微信在抄袭, 刚刚在线">
+  <meta name="description" content="之前有人在找渐变进度条的效果，闲来无事就顺手写了一个，然后画了视图层级，方便讲解。">
+  <meta name="keywords" content="进度条, 环形渐变, 切换动画, iOS开发, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/blog/2015/07/10/zhi-fu-bao-he-wei-xin-zai-chao-xi-shang-shui-geng-sheng-%5B%3F%5D-chou">
+  <link rel="canonical" href="http://www.superqq.com/blog/2015/08/12/realization-circular-gradient-progress">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -78,7 +78,7 @@
   
   <header>
     
-      <h1 class="entry-title">支付宝和微信在抄袭上谁更胜一筹</h1>
+      <h1 class="entry-title">环形渐变进度条实现</h1>
     
     
       <p class="meta">
@@ -87,7 +87,7 @@
 
 
 
-<time class='entry-date' datetime='2015-07-10T13:32:11+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:32 pm</span></time>
+<time class='entry-date' datetime='2015-08-12T01:12:05+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:12 am</span></time>
         
         
           | <a href="#comments">Comments</a>
@@ -97,41 +97,192 @@
   </header>
 
 
-<div class="entry-content"><p>支付宝最新版本9.0上线，立刻引发一场撕逼大战。支付宝指责微信抄袭，微信也不甘示弱。在我看来，支付宝和微信是相互抄袭。既然都是抄袭，何必以五十步笑百步呢，对吧。</p>
+<div class="entry-content"><p>之前有人在找渐变进度条的效果，闲来无事就顺手写了一个，然后画了视图层级，方便讲解。</p>
 
-<p>来看一下网上疯转的一张图：</p>
+<p>环境信息：</p>
 
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/zhifubao1.png" alt="zhifubao1" /></p>
+<p>Mac OS X 10.10.3</p>
 
-<p>由上图，我们对支付宝和微信各自的抄袭能力和力度有了初步的了解。在抄袭方面，是支付宝厉害呢？还是微信更胜一筹？</p>
+<p>Xcode 6.3.1</p>
 
-<h2>微信抄袭支付宝</h2>
+<p>iOS 8.3</p>
 
-<p>这个问题如果在支付宝9.0出来之前回答的话，肯定是归微信莫属。</p>
+<p>效果图：</p>
 
-<p>在微信支付出来之前，微信的抄袭还是有所保留，每次都是一个功能一个功能的抄。</p>
+<p><img src="http://images.90159.com/08/result.gif" alt="1" /></p>
 
-<p>腾讯的抄袭能力是世人皆知的，更是让创业者们望而生畏。甚至网上有流传，投资人在投资一个项目的时候就会问，如果腾讯抄袭了怎么办？可想而知，腾讯内部的微创新团队干了多少抄袭的事儿。但是话说回来了，腾讯现在可是进步不少，不再是见什么抄什么，而是改为投资。比如说：京东、滴滴。</p>
+<p>源码下载地址：<a href="https://github.com/saitjr/LoopProgressDemo.git">LoopProgressDemo</a></p>
 
-<p>微信支付的推出，算是对支付宝比较大的一次抄袭，无论从界面还是功能上都比较相似。这一次，彻底扰乱了马云的阵脚。全球变暖，小企鹅不在南极好好呆着，竟然跑到家门口了。马云也放出狠话：把企鹅赶回南极老家去。</p>
+<p>正文</p>
 
-<h2>支付宝抄袭微信</h2>
+<h2>一、视图层级</h2>
 
-<p>回到我们的问题。在支付宝9.0推出之后，支付宝的抄袭能力真的是甩掉微信几条街。来看一张图：</p>
+<p>首先需要搞定的就是视图层级关系。可以看到，</p>
 
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/zhifubao2.png" alt="zhifubao2" /></p>
+<pre><code>1. 背景是有透明度的蓝色(blueView)
 
-<p>支付宝9.0版本将原有的“服务窗”与“探索”板块，换成了“商家”和“朋友”。商家像不像大众点评？朋友像不像微信？简直是逼真了，无论从设计上，还是功能上都如出一辙。抄袭竟然这么光明正大。</p>
+2. 需要一个从绿-&gt;黄-&gt;红的渐变色，那个这里我采用的是Layer(colorLayer)
 
-<p>蚂蚁金服支付事业群总裁樊治铭说，支付宝花了8年时间从一个工具变成一个应用，又用了两年从一个应用变成一个支付平台。如今，支付宝会贯穿到消费、生活、金融理财、沟通等各种真实生活的场景，成为以每个人为中心的一站式场景平台。</p>
+3. blueView和colorLayer他们的表现状态都是环形的，所以还需要环形的遮罩
 
-<p>有个小插曲，昨天我拿支付宝的朋友资料设置界面，问我的同事，这是哪个app？得到的回答都是微信。我说不是，我的小伙伴们都惊呆了，我说这是支付宝，他们都震惊了。马云真的是要把小企鹅赶回南极老家的节奏啊。</p>
+4. 蓝色的环并没有变，而渐变色的环却在时刻变化，所以需要两个遮罩，一个给蓝色(blueMaskLayer)，一个给渐变色(colorMaskLayer)
+</code></pre>
 
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/zhifubao3.png" alt="zhifubao3" /></p>
+<p>从上面的分析可以看出，现在需要几个变量以及他们的关系如下：</p>
 
-<h2>支付社交谁主沉浮？</h2>
+<pre><code>[viewController.view addSubView:blueView];
+[blueView.layer addSubLayer:colorLayer];
+colorLayer.mask = colorMaskLayer;
+blueView.layer.mask = blueMaskLayer;
+</code></pre>
 
-<p>微信进军支付，支付宝进军社交。这场撕逼大战何时会分出胜负呢？你是支持支付宝，还是支持微信。请留下你的观点。</p>
+<p>视图层级图如下：</p>
+
+<p><img src="http://images.90159.com/08/ios-implement-loop-progress-1.png" alt="1" /></p>
+
+<h2>二、根据视图层级来实现</h2>
+
+<p>搞清楚了层级，接着就应该逐个实现了。</p>
+
+<ol>
+<li>有透明度的蓝色视图blueView</li>
+</ol>
+
+
+<p>ViewController.m</p>
+
+<p>BlueView *blueView = [[BlueView alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
+blueView.center = self.view.center;
+blueView.backgroundColor = [UIColor blueColor]; // 我这里没有给透明度
+[self.view addSubView:blueView];</p>
+
+<ol>
+<li>渐变图层colorLayer</li>
+</ol>
+
+
+<p>因为系统没有提供根据路径渐变的实现方法，所以只能采用曲线救国的方式来画。那么我所使用的方法是：在左边画一个从下往上为绿->黄的渐变Layer（leftLayer），然后右边画一个从下往上为红->黄的渐变Layer（rightLayer）。</p>
+
+<p>效果图如下：</p>
+
+<p><img src="http://images.90159.com/08/ios-implement-loop-progress-2.png" alt="1" /></p>
+
+<p>渐变色</p>
+
+<p>但是这种方式效果不是很好，因为黄绿色和橘红色的分界太明显，所以最好设置一个渐变的范围。</p>
+
+<p>效果图如下：</p>
+
+<p><img src="http://images.90159.com/08/ios-implement-loop-progress-3.png" alt="1" /></p>
+
+<p>设置渐变范围的渐变色</p>
+
+<p>实现代码：</p>
+
+<p>BlueView.m</p>
+
+<pre><code>- (void)setupColorLayer {
+    self.colorLayer = [CAShapeLayer layer];
+    self.colorLayer.frame = self.bounds;
+    [self.layer addSublayer:self.colorLayer];
+
+    CAGradientLayer *leftLayer = [CAGradientLayer layer];
+    leftLayer.frame = CGRectMake(0, 0, self.bounds.size.width / 2, self.bounds.size.height);
+    // 分段设置渐变色
+    leftLayer.locations = @[@0.3, @0.9, @1];
+    leftLayer.colors = @[(id)[UIColor yellowColor].CGColor, (id)[UIColor greenColor].CGColor];
+    [self.colorLayer addSublayer:leftLayer];
+
+    CAGradientLayer *rightLayer = [CAGradientLayer layer];
+    rightLayer.frame = CGRectMake(self.bounds.size.width / 2, 0, self.bounds.size.width / 2, self.bounds.size.height);
+    rightLayer.locations = @[@0.3, @0.9, @1];
+    rightLayer.colors = @[(id)[UIColor yellowColor].CGColor, (id)[UIColor redColor].CGColor];
+    [self.colorLayer addSublayer:rightLayer];
+}
+</code></pre>
+
+<ol>
+<li>渐变图层的环形遮罩colorMaskLayer</li>
+</ol>
+
+
+<p>因为渐变图层环形遮罩和蓝色视图的环形遮罩样式都是一样的，所以可以将环形遮罩的创建代码封装出来：</p>
+
+<p>BlueView.m</p>
+
+<pre><code>- (CAShapeLayer *)generateMaskLayer {
+
+    CAShapeLayer *layer = [CAShapeLayer layer];
+    layer.frame = self.bounds;
+
+    // 创建一个圆心为父视图中点的圆，半径为父视图宽的2/5，起始角度是从-240°到60°
+    UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.bounds.size.width / 2, self.bounds.size.height / 2) radius:self.bounds.size.width / 2.5 startAngle:-3 / 4 * M_PI endAngle:1 / 3 * M_PI clockwise:YES];
+    layer.lineWidth = 20;
+    layer.path = path.CGPath;
+    layer.fillColor = [UIColor clearColor].CGColor; // 填充色为透明（不设置为黑色）
+    layer.strokeColor = [UIColor blackColor].CGColor; // 随便设置一个边框颜色
+    layer.lineCap = kCALineCapRound; // 设置线为圆角
+    return layer;
+}
+</code></pre>
+
+<p>设置渐变色环形遮罩层</p>
+
+<p>BlueView.m</p>
+
+<pre><code>- (void)setupColorMaskLayer {
+
+    CAShapeLayer *layer = [self generateMaskLayer];
+    layer.lineWidth = 20.5; // 渐变遮罩线宽较大，防止蓝色遮罩有边露出来
+    self.colorLayer.mask = layer;
+
+    self.colorMaskLayer = [CAShapeLayer layer];
+    self.colorMaskLayer = layer;
+}
+</code></pre>
+
+<ol>
+<li>blueView的环形遮罩blueMaskLayer</li>
+</ol>
+
+
+<p>BlueView.m</p>
+
+<pre><code>- (void)setupBlueMaskLayer {
+
+    CAShapeLayer *layer = [self generateMaskLayer];
+    self.layer.mask = layer;
+    self.blueMaskLayer = layer;
+}
+</code></pre>
+
+<ol>
+<li>设置百分比</li>
+</ol>
+
+
+<p>设置渐变色所占的百分比，其实就是改变colorMaskLayer的范围，系统提供了一个方法可以直接根据百分比来修改。</p>
+
+<pre><code>self.colorMaskLayer.strokeEnd = 0.5;
+</code></pre>
+
+<p>到此，整个效果就已经完成了，接下来说一下回弹动画。</p>
+
+<h2>三、设置回弹动画</h2>
+
+<p>我所使用的是pop库中的POPSpringAnimation，这个效果比较Q弹，加在进度条上刚好。要加动画，只需要把上面的修改strokeEnd的代码换成一下方法就可以了：</p>
+
+<pre><code>- (void)animationWithStrokeEnd:(CGFloat)strokeEnd {
+
+    POPSpringAnimation *strokeAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPShapeLayerStrokeEnd];
+    strokeAnimation.toValue = @(strokeEnd);
+    strokeAnimation.springBounciness = 12.f;
+    strokeAnimation.removedOnCompletion = NO;
+    [self.colorMaskLayer pop_addAnimation:strokeAnimation forKey:@"layerStrokeAnimation"];
+}
+</code></pre>
+
+<p>来源：<a href="http://www.brighttj.com/ios/ios-implement-loop-progress.html">环形渐变进度条实现</a></p>
 </div>
 <!--广告位-->
 <script type="text/javascript">
@@ -154,18 +305,18 @@
 
 
 
-<time class='entry-date' datetime='2015-07-10T13:32:11+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:32 pm</span></time>
+<time class='entry-date' datetime='2015-08-12T01:12:05+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:12 am</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/cheng-xu-yuan/'>程序员</a>
+    <a class='category' href='/blog/categories/tui-jian/'>推荐</a>
   
 </span>
 
 
       <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
-<br>原文链接：<a href="http://www.superqq.com/blog/2015/07/10/zhi-fu-bao-he-wei-xin-zai-chao-xi-shang-shui-geng-sheng-%5B%3F%5D-chou/">http://www.superqq.com/blog/2015/07/10/zhi-fu-bao-he-wei-xin-zai-chao-xi-shang-shui-geng-sheng-%5B%3F%5D-chou/</a> <!-- 添加这一行代码 -->
+<br>原文链接：<a href="http://www.superqq.com/blog/2015/08/12/realization-circular-gradient-progress/">http://www.superqq.com/blog/2015/08/12/realization-circular-gradient-progress/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -186,10 +337,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/07/09/shi-yong-uidatadetectortypeszi-dong-jian-ce-dian-hua-,-wang-zhi-he-you-xiang/" title="Previous Post: 使用UIDataDetectorTypes自动检测电话、网址和邮箱">&laquo; 使用UIDataDetectorTypes自动检测电话、网址和邮箱</a>
+        <a class="basic-alignment left" href="/blog/2015/08/11/color-tabbar-switch-animation/" title="Previous Post: 彩色TabBar切换动画实现">&laquo; 彩色TabBar切换动画实现</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/07/10/ioskai-fa-zhi-nstimershi-yong-chu-tan/" title="Next Post: iOS开发之NSTimer使用初探">iOS开发之NSTimer使用初探 &ra/categories.htmlquo;</a>
       
     </p>
   </footer>
@@ -199,7 +348,7 @@
   <section>
     <h1>Comments</h1>
     <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
-<div class="ds-thread" data-title="支付宝和微信在抄袭上谁更胜一筹"></div>
+<div class="ds-thread" data-title="环形渐变进度条实现"></div>
 <script type="text/javascript">
   var duoshuoQuery = {short_name:"superqq"};
   (function() {
