@@ -3,7 +3,7 @@ layout: post
 title: CoreMotion框架中加速度计使用简明教程
 date: 2015-08-10 00:37:33 +0800
 comments: true
-categories: 推荐
+categories: iOS开发
 keywords: UIAccelerometer, 加速度计, CoreMotion, iOS开发, 刚刚在线
 description: 在iOS4之前加速度计是由UIAccelerometer来采集数据的，现在都是用CoreMotion来处理。两种使用都比较简单，相对来说UIAccelerometer更简单一些。本文将分享两者的用法。
 
