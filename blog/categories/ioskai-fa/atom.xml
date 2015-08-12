@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-12T01:15:30+08:00</updated>
+  <updated>2015-08-13T00:26:53+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,70 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[CoreMotion框架中加速度计使用简明教程]]></title>
+    <link href="http://www.superqq.com/blog/2015/08/10/coremotion-framework-use-accelerometer/"/>
+    <updated>2015-08-10T00:37:33+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/08/10/coremotion-framework-use-accelerometer</id>
+    <content type="html"><![CDATA[<h2>前言</h2>
+
+<p>之前有人通过iPhone的加速度计做出一个手机防盗APP，而且正是通过这个防盗APP拿到天使投资。从此以后华丽转身，公司发展的有声有色。虽然这个项目最后不怎么样，但是，确实是一个不错的想法。</p>
+
+<p>也许你不知道，每一台iPhone都内置的有加速度计。这样当用户操作手机的的时候，比如旋转手机，内置的加速度计就会做出反应。</p>
+
+<p>在iOS4之前加速度计是由<code>UIAccelerometer</code>来采集数据的，现在都是用<code>CoreMotion</code>来处理。两种使用都比较简单，相对来说<code>UIAccelerometer</code>更简单一些。本文将分享两者的用法。</p>
+
+<h2>加速度计原理</h2>
+
+<p><img src="http://images.90159.com/08/Accelerometer.png" alt="Accelerometer.png" /></p>
+
+<p>来自网络</p>
+
+<p>iPhone的加速度计有三个轴，分别是x轴、y轴、z轴，如上图所示。这是一个三维立体空间，可以捕获用户每一个角度的操作。通过这三个轴可以计算iPhone倾斜的角度，从而计算出加速度。</p>
+
+<h2>UIAccelerometer使用</h2>
+
+<p><code>UIAccelerometer</code>的使用比较简单，需要实现<code>UIAccelerometerDelegate</code>的代理方法，具体代码如下：</p>
+
+<pre><code>UIAccelerometer *accelerometer = [UIAccelerometer sharedAccelerometer];
+accelerometer.delegate = self;
+accelerometer.updateInterval = 0.1;
+</code></pre>
+
+<p>实现<code>UIAccelerometerDelegate</code>代理方法：</p>
+
+<pre><code>- (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration NS_DEPRECATED_IOS(2_0, 5_0)
+{
+    NSLog(@"x -&gt; %f y - &gt; %f z -&gt; %f",accelerometer.x,accelerometer.y,accelerometer.z);
+}
+</code></pre>
+
+<h2>CoreMotion加速度计</h2>
+
+<p>首先需要引入<code>#import &lt;CoreMotion/CoreMotion.h&gt;</code>，直接通过<code>block</code>回调，然后处理三个轴的数据。代码如下：</p>
+
+<pre><code>CMMotionManager *motionManager = [[CMMotionManager alloc] init];
+NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+//加速计
+if (motionManager.accelerometerAvailable) {
+    motionManager.accelerometerUpdateInterval = 0.1;
+    [motionManager startAccelerometerUpdatesToQueue:queue withHandler:^(CMAccelerometerData *accelerometerData,NSError *error){
+        if (error) {
+            [motionManager stopAccelerometerUpdates];
+            NSLog(@"error");
+        }else{
+            NSLog(@"x -&gt; %f y - &gt; %f z -&gt; %f",accelerometerData.acceleration.x,accelerometerData.acceleration.y,accelerometerData.acceleration.z);
+        }
+    }];
+}else{
+    NSLog(@"This device has no accelerometer");
+}
+</code></pre>
+
+<p>以上就是关于<code>UIAccelerometer</code>和<code>CoreMotion</code>的使用，加速度计确实是iPhone手机的亮点功能。具体用途，需要我们发散思维，说不定哪一天你也有一个很牛的创意。屌丝逆袭也许就在下一刻。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[实现placeholder属性的UITextView]]></title>
@@ -479,72 +543,6 @@ UIGraphicsEndImageContext();
 </code></pre>
 
 <p><code>ALAssetsLibrary+CustomPhotoAlbum</code>对保存视频的封装也是非常好的。我现在项目中用的也是这个第三方来保存照片和视频。因为不错，所以推荐给大家使用。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS开发之保存照片到系统相册（Photo Album）]]></title>
-    <link href="http://www.superqq.com/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-(photo-album)/"/>
-    <updated>2015-08-03T21:43:34+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-(photo-album)</id>
-    <content type="html"><![CDATA[<p>保存照片到系统相册这个功能很多社交类的APP都有的，今天我们简单讲解一下，如何将图片保存到系统相册（Photo Album）。</p>
-
-<h2>创建UIImageView</h2>
-
-<p>创建<code>UIImageView</code>是为了将照片展示出来，我们是要把<code>UIImage</code>保存到系统相册（Photo Album）:</p>
-
-<pre><code>#define SCREEN [UIScreen mainScreen].bounds.size
-
-self.image = [UIImage imageNamed:@"iOSDevTip"];
-UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake((SCREEN.width - 300) / 2, 70, 300, 150)];
-imageView.image = self.image;
-[self.view addSubview:imageView];
-</code></pre>
-
-<h2>创建UIButton</h2>
-
-<p>创建<code>UIButton</code>并绑定<code>actionClick:</code>事件:</p>
-
-<pre><code>UIButton *button = [[UIButton alloc] init];
-button.frame = CGRectMake( 100, 300, SCREEN.width - 200, 40);
-[button addTarget:self action:@selector(actionClick:) forControlEvents:UIControlEventTouchUpInside];
-[button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-[button setBackgroundColor:[UIColor orangeColor]];
-[button setTitle:@"SavePhoto" forState:UIControlStateNormal];
-[self.view addSubview:button];
-
-
-- (void)actionClick:(UIButton *)button
-{
-
-}
-</code></pre>
-
-<h2>保存照片到系统相册（Photo Album）</h2>
-
-<p>在<code>actionClick:</code>方法里调用：</p>
-
-<pre><code>UIImageWriteToSavedPhotosAlbum(self.image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
-</code></pre>
-
-<p>这个时候，我们想知道保存是否成功，所以需要制定回调方法</p>
-
-<pre><code>// 指定回调方法
-- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
-{
-    if(!error){
-        NSLog(@"save success");
-    }else{
-        NSLog(@"save failed");
-    }
-}
-</code></pre>
-
-<p>在这个方法里，我们就知道照片是否保存成功。然后，根据需求来刷新UI线程。用户第一次使用APP的时候，点击<code>SavePhoto</code>按钮的时候，系统会询问权限：</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/46869740F32868C1F9769ED5FED1C7D0.png" alt="photo" /></p>
-
-<p>Demo地址:<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a> 下一篇文章，将会讲如何创建自己的相册并保存照片。</p>
 ]]></content>
   </entry>
   
