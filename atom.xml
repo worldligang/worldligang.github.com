@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-13T00:26:53+08:00</updated>
+  <updated>2015-08-18T15:29:41+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,58 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发小技巧：刷新UITableView]]></title>
+    <link href="http://www.superqq.com/blog/2015/08/18/ios-development-refresh-uitableview/"/>
+    <updated>2015-08-18T15:25:58+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/08/18/ios-development-refresh-uitableview</id>
+    <content type="html"><![CDATA[<blockquote><p>我创建了iOS开发博主联盟群：<strong>364679270</strong>，有博客的朋友欢迎加入。一起打造一个优质的iOS技术分享社群。</p></blockquote>
+
+<p>UITableView对于iOS开发者来说一定不会陌生，很有可能你的APP很多界面都用到它。关于UITableView的文章，想必已经不计其数，没事可以多看看。特别是UITableView优化的文章，非常值得仔细琢磨一番。</p>
+
+<p>今天我们来看看如何刷新UITableView的，一般情况下，刷新UITableView，我们会直接调用reloadData方法。</p>
+
+<h2>刷新UITableView</h2>
+
+<pre><code>[self.tableView reloadData];
+</code></pre>
+
+<p>reloadData是刷新整个UITableView，有时候，我们可能需要局部刷新。比如：只刷新一个cell、只刷新一个section等等。这个时候在调用reloadData方法，虽然用户看不出来，但是有些浪费资源。</p>
+
+<h2>刷新局部cell</h2>
+
+<pre><code> NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+ [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationFade];
+</code></pre>
+
+<p>这样就可以很方便的刷新第一个section的第一个cell。虽然看起来代码多了，但是确实比较节省资源。尽量少的刷新，也是UITableView的一种优化。</p>
+
+<h2>局部刷新section</h2>
+
+<pre><code>NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
+[self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
+</code></pre>
+
+<p>上面这段代码是刷新第0个section。</p>
+
+<h2>刷新动画</h2>
+
+<p>刷新UITableView还有几个动画：</p>
+
+<pre><code>typedef NS_ENUM(NSInteger, UITableViewRowAnimation) {
+    UITableViewRowAnimationFade,   //淡入淡出
+    UITableViewRowAnimationRight,  //从右滑入         // slide in from right (or out to right)
+    UITableViewRowAnimationLeft,   //从左滑入
+    UITableViewRowAnimationTop,     //从上滑入
+    UITableViewRowAnimationBottom,  //从下滑入
+    UITableViewRowAnimationNone,            // available in iOS 3.0
+    UITableViewRowAnimationMiddle,          // available in iOS 3.2.  attempts to keep cell centered in the space it will/did occupy
+    UITableViewRowAnimationAutomatic = 100  // available in iOS 5.0.  chooses an appropriate animation style for you
+};
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[环形渐变进度条实现]]></title>
@@ -750,7 +802,7 @@ float -> CGFloat
 <p> （如果抛开命名规范，假设该类真的是MVVM模式里的 ViewModel ，那么UserModel这个类可能对应的是用户注册页面，如果有特殊的业务需求，比如：login对应的应当是注册并登录的一个Button，出现login方法也可能是合理的。）</p>
 
 <ol>
-<li>doLogIn方法命名不规范：添加了多余的动词前缀。
+<li> doLogIn方法命名不规范：添加了多余的动词前缀。
 请牢记：</li>
 </ol>
 
@@ -767,7 +819,7 @@ float -> CGFloat
 </code></pre>
 
 <ol>
-<li>由于字符串值可能会改变，所以要把相关属性的“内存管理语义”声明为copy。(原因在下文有详细论述：<strong><em>用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？</em></strong>)</li>
+<li> 由于字符串值可能会改变，所以要把相关属性的“内存管理语义”声明为copy。(原因在下文有详细论述：<strong><em>用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？</em></strong>)</li>
 <li>“性别”(sex）属性的：该类中只给出了一种“初始化方法” (initializer)用于设置“姓名”(Name)和“年龄”(Age)的初始值，那如何对“性别”(Sex）初始化？</li>
 </ol>
 
@@ -858,7 +910,7 @@ typedef NS_ENUM(NSInteger, CYLSex) {
 <li><p><code>-(id)initUserModelWithUserName: (NSString*)name withAge:(int)age;</code>方法中方法名与参数之间多了空格。而且<code>-</code> 与<code>(id)</code>之间少了空格。</p></li>
 <li><p><code>-(id)initUserModelWithUserName: (NSString*)name withAge:(int)age;</code>方法中方法名与参数之间多了空格：<code>(NSString*)name</code>前多了空格。</p></li>
 <li><p><code>-(id)initUserModelWithUserName: (NSString*)name withAge:(int)age;</code>方法中<code>(NSString*)name</code>,应为<code>(NSString *)name</code>，少了空格。</p></li>
-<li>doLogIn方法命名不清晰：笔者猜测是login的意思，应该是粗心手误造成的。</li>
+<li> doLogIn方法命名不清晰：笔者猜测是login的意思，应该是粗心手误造成的。</li>
 <li>第二个@property中assign和nonatomic调换位置。</li>
 </ol>
 
@@ -1203,8 +1255,8 @@ typedef NS_ENUM(NSInteger, CYLSex) {
 <ol>
 <li>在protocol中使用property只会生成setter和getter方法声明,我们使用属性的目的,是希望遵守我协议的对象能实现该属性</li>
 <li><p>category 使用 @property 也是只会生成setter和getter方法的声明,如果我们真的需要给category增加属性的实现,需要借助于运行时的两个函数：</p></li>
-<li><p><code>objc_setAssociatedObject</code></p></li>
-<li><code>objc_getAssociatedObject</code></li>
+<li><p> <code>objc_setAssociatedObject</code></p></li>
+<li> <code>objc_getAssociatedObject</code></li>
 </ol>
 
 
@@ -1771,9 +1823,9 @@ struct objc_class {
 <ul>
 <li>所有父类的成员变量和自己的成员变量都会存放在该对象所对应的存储空间中.</li>
 <li><p>每一个对象内部都有一个isa指针,指向他的类对象,类对象中存放着本对象的</p></li>
-<li><p>对象方法列表（对象能够接收的消息列表，保存在它所对应的类对象中）</p></li>
-<li>成员变量的列表,</li>
-<li>属性列表,</li>
+<li><p> 对象方法列表（对象能够接收的消息列表，保存在它所对应的类对象中）</p></li>
+<li> 成员变量的列表,</li>
+<li> 属性列表,</li>
 </ul>
 
 
@@ -3534,124 +3586,6 @@ You should not call this method directly. If you want to force a layout update, 
 </code></pre>
 
 <p><code>layoutSubviews</code>方法在对自雷视图进行布局的时候非常方便。可以自己动手，深入理解<code>layoutSubviews</code>的调用机制。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[截取UIImage指定大小区域]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/26/jie-qu-uiimagezhi-ding-da-xiao-qu-yu/"/>
-    <updated>2015-07-26T10:07:58+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/26/jie-qu-uiimagezhi-ding-da-xiao-qu-yu</id>
-    <content type="html"><![CDATA[<p>最近遇到这样的需求：从服务器获取到一张照片，只需要显示他的左半部分，或者中间部分等等。也就是截取UIImage指定大小区域。</p>
-
-<h2>UIImage扩展</h2>
-
-<p>我的解决方案是对<code>UIImage</code>进行扩展。通过<code>CGImageRef</code>和<code>CGImage</code>完成截取，调用的方法是：<code>CGImageCreateWithImageInRect</code>。扩展类叫<code>UIImage+Crop</code>，具体代码如下：</p>
-
-<h3>UIImage+Crop.h</h3>
-
-<pre><code>#import &lt;UIKit/UIKit.h&gt;
-
-typedef NS_ENUM(NSInteger, XYCropImageStyle){
-    XYCropImageStyleRight               =0,      // 右半部分
-    XYCropImageStyleCenter              =1,      // 中间部分
-    XYCropImageStyleLeft                =2,      // 左半部分
-    XYCropImageStyleRightOneOfThird     =3,      // 右侧三分之一部分
-    XYCropImageStyleCenterOneOfThird    =4,      // 中间三分之一部分
-    XYCropImageStyleLeftOneOfThird      =5,      // 左侧三分之一部分
-    XYCropImageStyleRightQuarter        =6,      // 右侧四分之一部分
-    XYCropImageStyleCenterRightQuarter  =7,      // 中间右侧四分之一部分
-    XYCropImageStyleCenterLeftQuarter   =8,      // 中间左侧四分之一部分
-    XYCropImageStyleLeftQuarter         =9,      // 左侧四分之一部分
-};
-
-@interface UIImage (Crop)
-- (UIImage *)imageByCroppingWithStyle:(XYCropImageStyle)style;
-
-@end
-</code></pre>
-
-<h3>UIImage+Crop.m</h3>
-
-<pre><code>#import "UIImage+Crop.h"
-
-@implementation UIImage (Crop)
-
-- (UIImage *)imageByCroppingWithStyle:(XYCropImageStyle)style
-{
-    CGRect rect;
-    switch (style) {
-        case XYCropImageStyleLeft:
-            rect = CGRectMake(0, 0, self.size.width/2, self.size.height);
-            break;
-        case XYCropImageStyleCenter:
-            rect = CGRectMake(self.size.width/4, 0, self.size.width/2, self.size.height);
-            break;
-        case XYCropImageStyleRight:
-            rect = CGRectMake(self.size.width/2, 0, self.size.width/2, self.size.height);
-            break;
-        case XYCropImageStyleLeftOneOfThird:
-            rect = CGRectMake(0, 0, self.size.width/3, self.size.height);
-            break;
-        case XYCropImageStyleCenterOneOfThird:
-            rect = CGRectMake(self.size.width/3, 0, self.size.width/3, self.size.height);
-            break;
-        case XYCropImageStyleRightOneOfThird:
-            rect = CGRectMake(self.size.width/3*2, 0, self.size.width/3, self.size.height);
-            break;
-        case XYCropImageStyleLeftQuarter:
-            rect = CGRectMake(0, 0, self.size.width/4, self.size.height);
-            break;
-        case XYCropImageStyleCenterLeftQuarter:
-            rect = CGRectMake(self.size.width/4, 0, self.size.width/4, self.size.height);
-            break;
-        case XYCropImageStyleCenterRightQuarter:
-            rect = CGRectMake(self.size.width/4*2, 0, self.size.width/4, self.size.height);
-            break;
-        case XYCropImageStyleRightQuarter:
-            rect = CGRectMake(self.size.width/4*3, 0, self.size.width/4, self.size.height);
-            break;
-        default:
-            break;
-    }
-    CGImageRef imageRef = self.CGImage;
-    CGImageRef imagePartRef = CGImageCreateWithImageInRect(imageRef, rect);
-    UIImage *cropImage = [UIImage imageWithCGImage:imagePartRef];
-    CGImageRelease(imagePartRef);
-    return cropImage;
-}
-</code></pre>
-
-<h2>实际运用</h2>
-
-<p>简单测试一下，看看有没有实现我们想要的效果。首先，先加载一个完整的UIImageView。这个应该不难。代码如下：</p>
-
-<pre><code>UIImageView *imgView = [[UIImageView alloc] init];
-imgView.frame = CGRectMake((SCREEN.width - 226) / 2, 100, 226, 106);
-UIImage *image = [UIImage imageNamed:@"ganggang"];
-imgView.image = image;
-[self.view addSubview:imgView];
-</code></pre>
-
-<p>运行一下：</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/jiequing.png" alt="jiequing" /></p>
-
-<p>要对UIImage进行裁剪，首先导入头文件：</p>
-
-<pre><code>#import "UIImage+Crop.h"
-</code></pre>
-
-<p>在上面<code>UIImage *image = [UIImage imageNamed:@"ganggang"];</code>这段代码之后加上下面这句：</p>
-
-<pre><code>image = [image imageByCroppingWithStyle:XYCropImageStyleLeft];
-</code></pre>
-
-<p><code>XYCropImageStyleLeft</code>是截取照片的左半部分。效果如下：</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/jiequed.png" alt="jiequed" /></p>
-
-<p>截取成功，还可以截取其他区域的，只需要传入不同的<code>XYCropImageStyle</code>即可实现。以上代码依然在<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a>里。</p>
 ]]></content>
   </entry>
   

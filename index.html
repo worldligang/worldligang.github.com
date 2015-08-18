@@ -81,6 +81,81 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/08/18/ios-development-refresh-uitableview/">iOS开发小技巧：刷新UITableView</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-18T15:25:58+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:25 pm</span></time>
+        
+        
+          | <a href="/blog/2015/08/18/ios-development-refresh-uitableview/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>我创建了iOS开发博主联盟群：<strong>364679270</strong>，有博客的朋友欢迎加入。一起打造一个优质的iOS技术分享社群。</p></blockquote>
+
+<p>UITableView对于iOS开发者来说一定不会陌生，很有可能你的APP很多界面都用到它。关于UITableView的文章，想必已经不计其数，没事可以多看看。特别是UITableView优化的文章，非常值得仔细琢磨一番。</p>
+
+<p>今天我们来看看如何刷新UITableView的，一般情况下，刷新UITableView，我们会直接调用reloadData方法。</p>
+
+<h2>刷新UITableView</h2>
+
+<pre><code>[self.tableView reloadData];
+</code></pre>
+
+<p>reloadData是刷新整个UITableView，有时候，我们可能需要局部刷新。比如：只刷新一个cell、只刷新一个section等等。这个时候在调用reloadData方法，虽然用户看不出来，但是有些浪费资源。</p>
+
+<h2>刷新局部cell</h2>
+
+<pre><code> NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+ [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationFade];
+</code></pre>
+
+<p>这样就可以很方便的刷新第一个section的第一个cell。虽然看起来代码多了，但是确实比较节省资源。尽量少的刷新，也是UITableView的一种优化。</p>
+
+<h2>局部刷新section</h2>
+
+<pre><code>NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
+[self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
+</code></pre>
+
+<p>上面这段代码是刷新第0个section。</p>
+
+<h2>刷新动画</h2>
+
+<p>刷新UITableView还有几个动画：</p>
+
+<pre><code>typedef NS_ENUM(NSInteger, UITableViewRowAnimation) {
+    UITableViewRowAnimationFade,   //淡入淡出
+    UITableViewRowAnimationRight,  //从右滑入         // slide in from right (or out to right)
+    UITableViewRowAnimationLeft,   //从左滑入
+    UITableViewRowAnimationTop,     //从上滑入
+    UITableViewRowAnimationBottom,  //从下滑入
+    UITableViewRowAnimationNone,            // available in iOS 3.0
+    UITableViewRowAnimationMiddle,          // available in iOS 3.2.  attempts to keep cell centered in the space it will/did occupy
+    UITableViewRowAnimationAutomatic = 100  // available in iOS 5.0.  chooses an appropriate animation style for you
+};
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/08/12/realization-circular-gradient-progress/">环形渐变进度条实现</a></h1>
     
     
@@ -924,7 +999,7 @@ float -> CGFloat
 <p> （如果抛开命名规范，假设该类真的是MVVM模式里的 ViewModel ，那么UserModel这个类可能对应的是用户注册页面，如果有特殊的业务需求，比如：login对应的应当是注册并登录的一个Button，出现login方法也可能是合理的。）</p>
 
 <ol>
-<li>doLogIn方法命名不规范：添加了多余的动词前缀。
+<li> doLogIn方法命名不规范：添加了多余的动词前缀。
 请牢记：</li>
 </ol>
 
@@ -941,7 +1016,7 @@ float -> CGFloat
 </code></pre>
 
 <ol>
-<li>由于字符串值可能会改变，所以要把相关属性的“内存管理语义”声明为copy。(原因在下文有详细论述：<strong><em>用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？</em></strong>)</li>
+<li> 由于字符串值可能会改变，所以要把相关属性的“内存管理语义”声明为copy。(原因在下文有详细论述：<strong><em>用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？</em></strong>)</li>
 <li>“性别”(sex）属性的：该类中只给出了一种“初始化方法” (initializer)用于设置“姓名”(Name)和“年龄”(Age)的初始值，那如何对“性别”(Sex）初始化？</li>
 </ol>
 
@@ -1032,7 +1107,7 @@ typedef NS_ENUM(NSInteger, CYLSex) {
 <li><p><code>-(id)initUserModelWithUserName: (NSString*)name withAge:(int)age;</code>方法中方法名与参数之间多了空格。而且<code>-</code> 与<code>(id)</code>之间少了空格。</p></li>
 <li><p><code>-(id)initUserModelWithUserName: (NSString*)name withAge:(int)age;</code>方法中方法名与参数之间多了空格：<code>(NSString*)name</code>前多了空格。</p></li>
 <li><p><code>-(id)initUserModelWithUserName: (NSString*)name withAge:(int)age;</code>方法中<code>(NSString*)name</code>,应为<code>(NSString *)name</code>，少了空格。</p></li>
-<li>doLogIn方法命名不清晰：笔者猜测是login的意思，应该是粗心手误造成的。</li>
+<li> doLogIn方法命名不清晰：笔者猜测是login的意思，应该是粗心手误造成的。</li>
 <li>第二个@property中assign和nonatomic调换位置。</li>
 </ol>
 
@@ -1377,8 +1452,8 @@ typedef NS_ENUM(NSInteger, CYLSex) {
 <ol>
 <li>在protocol中使用property只会生成setter和getter方法声明,我们使用属性的目的,是希望遵守我协议的对象能实现该属性</li>
 <li><p>category 使用 @property 也是只会生成setter和getter方法的声明,如果我们真的需要给category增加属性的实现,需要借助于运行时的两个函数：</p></li>
-<li><p><code>objc_setAssociatedObject</code></p></li>
-<li><code>objc_getAssociatedObject</code></li>
+<li><p> <code>objc_setAssociatedObject</code></p></li>
+<li> <code>objc_getAssociatedObject</code></li>
 </ol>
 
 
@@ -1945,9 +2020,9 @@ struct objc_class {
 <ul>
 <li>所有父类的成员变量和自己的成员变量都会存放在该对象所对应的存储空间中.</li>
 <li><p>每一个对象内部都有一个isa指针,指向他的类对象,类对象中存放着本对象的</p></li>
-<li><p>对象方法列表（对象能够接收的消息列表，保存在它所对应的类对象中）</p></li>
-<li>成员变量的列表,</li>
-<li>属性列表,</li>
+<li><p> 对象方法列表（对象能够接收的消息列表，保存在它所对应的类对象中）</p></li>
+<li> 成员变量的列表,</li>
+<li> 属性列表,</li>
 </ul>
 
 
@@ -2810,95 +2885,6 @@ UIGraphicsEndImageContext();
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-(photo-album)/">iOS开发之保存照片到系统相册（Photo Album）</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-08-03T21:43:34+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:43 pm</span></time>
-        
-        
-          | <a href="/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-(photo-album)/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>保存照片到系统相册这个功能很多社交类的APP都有的，今天我们简单讲解一下，如何将图片保存到系统相册（Photo Album）。</p>
-
-<h2>创建UIImageView</h2>
-
-<p>创建<code>UIImageView</code>是为了将照片展示出来，我们是要把<code>UIImage</code>保存到系统相册（Photo Album）:</p>
-
-<pre><code>#define SCREEN [UIScreen mainScreen].bounds.size
-
-self.image = [UIImage imageNamed:@"iOSDevTip"];
-UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake((SCREEN.width - 300) / 2, 70, 300, 150)];
-imageView.image = self.image;
-[self.view addSubview:imageView];
-</code></pre>
-
-<h2>创建UIButton</h2>
-
-<p>创建<code>UIButton</code>并绑定<code>actionClick:</code>事件:</p>
-
-<pre><code>UIButton *button = [[UIButton alloc] init];
-button.frame = CGRectMake( 100, 300, SCREEN.width - 200, 40);
-[button addTarget:self action:@selector(actionClick:) forControlEvents:UIControlEventTouchUpInside];
-[button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-[button setBackgroundColor:[UIColor orangeColor]];
-[button setTitle:@"SavePhoto" forState:UIControlStateNormal];
-[self.view addSubview:button];
-
-
-- (void)actionClick:(UIButton *)button
-{
-
-}
-</code></pre>
-
-<h2>保存照片到系统相册（Photo Album）</h2>
-
-<p>在<code>actionClick:</code>方法里调用：</p>
-
-<pre><code>UIImageWriteToSavedPhotosAlbum(self.image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
-</code></pre>
-
-<p>这个时候，我们想知道保存是否成功，所以需要制定回调方法</p>
-
-<pre><code>// 指定回调方法
-- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
-{
-    if(!error){
-        NSLog(@"save success");
-    }else{
-        NSLog(@"save failed");
-    }
-}
-</code></pre>
-
-<p>在这个方法里，我们就知道照片是否保存成功。然后，根据需求来刷新UI线程。用户第一次使用APP的时候，点击<code>SavePhoto</code>按钮的时候，系统会询问权限：</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/46869740F32868C1F9769ED5FED1C7D0.png" alt="photo" /></p>
-
-<p>Demo地址:<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a> 下一篇文章，将会讲如何创建自己的相册并保存照片。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -2932,6 +2918,10 @@ button.frame = CGRectMake( 100, 300, SCREEN.width - 200, 40);
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/08/18/ios-development-refresh-uitableview/">iOS开发小技巧：刷新UITableView</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/08/12/realization-circular-gradient-progress/">环形渐变进度条实现</a>
       </li>
     
@@ -2945,10 +2935,6 @@ button.frame = CGRectMake( 100, 300, SCREEN.width - 200, 40);
     
       <li class="post">
         <a href="/blog/2015/08/09/performance-optimization-of-mkmapview/">一次对MKMapView的性能优化</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/08/interview-ios-question-answer/">《招聘一个靠谱的iOS》面试题参考答案（上）</a>
       </li>
     
   </ul>
