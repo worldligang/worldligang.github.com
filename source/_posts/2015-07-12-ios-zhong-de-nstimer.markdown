@@ -184,4 +184,4 @@ NSTimer 在哪个线程创建就要在哪个线程停止，否则会导致资源
 * [Weak Reference to NSTimer Target To Prevent Retain Cycle](http://stackoverflow.com/questions/16821736/weak-reference-to-nstimer-target-to-prevent-retain-cycle)
 * [performSelector may cause a leak because its selector is unknown](http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown)
 
-原文链接： <a href="http://blog.callmewhy.com/2015/07/06/weak-timer-in-ios/?sukey=fc78a68049a14bb264852ae4e610e664d74bb6bf7a3e31be7aa2ac6c3e5a83ca566fa1c683d37c01e8569e560d873907" target="_blank" title=" iOS 中的 NSTimer "> iOS 中的 NSTimer </a>
+原文链接：http://blog.callmewhy.com/2015/07/06/weak-timer-in-ios/

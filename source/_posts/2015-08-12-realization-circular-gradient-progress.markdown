@@ -172,5 +172,4 @@ BlueView.m
 	    [self.colorMaskLayer pop_addAnimation:strokeAnimation forKey:@"layerStrokeAnimation"];
 	}
 	
-来源：[环形渐变进度条实现]
-[环形渐变进度条实现]:	http://www.brighttj.com/ios/ios-implement-loop-progress.html
+来源：http://www.brighttj.com/ios/ios-implement-loop-progress.html

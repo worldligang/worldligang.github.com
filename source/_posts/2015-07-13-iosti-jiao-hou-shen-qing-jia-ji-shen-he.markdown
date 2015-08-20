@@ -108,4 +108,4 @@ PS. 如果遇到非常时期或者人品不好遇到心情不好的审核员，�
 加急审核说明是可以写中文的。这里感谢 @第七只蚂蚁 提供宝贵的信息。
 
 
-原文来自：[iOS提交后申请加急审核](http://blog.csdn.net/showhilllee/article/details/19541493)
+原文来自：http://blog.csdn.net/showhilllee/article/details/19541493

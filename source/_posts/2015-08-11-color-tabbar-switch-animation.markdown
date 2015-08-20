@@ -142,5 +142,4 @@ UITabBar并没有获取点击下标的接口，但是UITabBarDelegate有，这�
 	    }];
 	}
 	
-原文:[彩色TabBar切换动画实现]
-[彩色TabBar切换动画实现]:http://www.brighttj.com/ios/ios-colorful-tabbar-implement.html
+原文:http://www.brighttj.com/ios/ios-colorful-tabbar-implement.html

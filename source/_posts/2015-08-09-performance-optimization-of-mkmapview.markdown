@@ -233,3 +233,5 @@ description: 首先看下我是怎么实现这个annotationView的,由于这个a
 ![Pic-MK-7](http://7xkkjz.com1.z0.glb.clouddn.com/MK-7.jpg)
 
 Oh-Yeah~ 不光帧数达到了我们的目标60帧(由于还有业务逻辑线程在后台跑 所以没有那么的稳定) 就连平均运行耗时都下降了不少 就算地图上再多显示几十个人 也不成问题了
+
+原文连接：http://adad184.com/2015/07/13/improve-performance-with-mkmapview/
