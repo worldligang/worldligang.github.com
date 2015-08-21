@@ -81,6 +81,86 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/07/03/uibuttonzhong-de-san-ge-uiedgeinsetsshu-xing-(%5B%3F%5D-)/">UIButton中的三个UIEdgeInsets属性（一）</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-03T23:29:55+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:29 pm</span></time>
+        
+        
+          | <a href="/blog/2015/07/03/uibuttonzhong-de-san-ge-uiedgeinsetsshu-xing-(%5B%3F%5D-)/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>随着时间的推移，随着我的坚持，公众号的订阅用户已经越来越多了。非常感谢大家的信任，我会再接再厉，努力为大家提供更多优秀的文章。</p>
+
+<p>当初创建<a href="http://www.superqq.com/">iOS开发</a>（ <strong>iOSDevTip</strong> ），只是自己的兴趣。刚开始还不怎么会用微信公众号的后台，连发图文消息都不会。不知道怎么去编辑，当初的微信公众号后台也没有现在这么强大。我还以为就是个一对多的聊天工具呢。（😊）</p>
+
+<p>慢慢的我学会了编辑文章，成为一个真正意义上的小编。每天负责为大家推送一些iOS相关的技术文章。每天到各大论坛、网站、大神的博客找一些好的文章。这个过程是漫长的，但是是值得的。</p>
+
+<p>找文章的过程中，对自己来说，也是学习的好机会。如果没有这个公众号，我可能就看不到那么多的技术文章，也不能为大家推荐文章，自己也不会建立博客。</p>
+
+<p>现在微信团队已经邀请我开通原创功能，以后，我就会多发一些原创内容。一个人的力量比较是有限的，订阅的用户如果有喜欢写技术文章的，欢迎头投稿给我，我的邮箱：<strong>worldligang@163.com</strong></p>
+
+<p><strong>相信我，你的付出也会有回报的。</strong></p>
+
+<p>今天是周六，不知道正在看文章的你有没有在加班。没有加班的，就好好休息一下吧；加班的，我只能同情一下啦。今天我们来看看UIButton中的三个UIEdgeInsets属性。</p>
+
+<h2>UIEdgeInsets是什么</h2>
+
+<p>UIEdgeInsets是什么？我们点进去看一下：</p>
+
+<pre><code>typedef struct UIEdgeInsets {
+    CGFloat top, left, bottom, right;  // specify amount to inset (positive) for each of the edges. values can be negative to 'outset'
+} UIEdgeInsets;
+</code></pre>
+
+<p>UIEdgeInsets是个结构体类型。里面有四个参数，分别是：top, left, bottom, right。这四个参数表示距离上边界、左边界、下边界、右边界的距离。</p>
+
+<h2>哪三个UIEdgeInsets属性</h2>
+
+<p>不知道大家发现没有，UIButton里面有三个UIEdgeInsets属性，分别是：</p>
+
+<pre><code>@property(nonatomic)          UIEdgeInsets contentEdgeInsets UI_APPEARANCE_SELECTOR; // default is UIEdgeInsetsZero
+
+@property(nonatomic)          UIEdgeInsets titleEdgeInsets;                // default is UIEdgeInsetsZero
+
+@property(nonatomic)          UIEdgeInsets imageEdgeInsets;                // default is UIEdgeInsetsZero
+</code></pre>
+
+<p>contentEdgeInsets后面有个UI_APPEARANCE_SELECTOR是什么意思呢？</p>
+
+<pre><code>提示：UI_APPEARANCE_SELECTOR标记的属性都支持通过外观代理来定制。
+</code></pre>
+
+<p>举例，设置UIButton的contentEdgeInsets属性，可以直接调用：</p>
+
+<pre><code>[[UIButton appearance] setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+</code></pre>
+
+<p>关于UIButton三个UIEdgeInsets属性的作用，下一篇文章介绍。</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="ios" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/07/02/uibuttonwen-zi-ju-zuo-xian-shi/">UIButton文字居左显示</a></h1>
     
     
@@ -1086,7 +1166,7 @@ iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</
 
 <p><strong>你的博客将比简历更有价值</strong>。你在各大招聘网站写简历不如你有一个有价值的博客。</p>
 
-<p>把技术分享出来，不仅帮助新人，更是提高自己，这是一种双赢。如果你写了技术文章没有好的地方可以发布，可以投稿给我：<a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#x77;&#111;&#x72;&#x6c;&#100;&#108;&#105;&#x67;&#x61;&#110;&#x67;&#x40;&#49;&#x36;&#51;&#46;&#99;&#x6f;&#109;">&#x77;&#111;&#x72;&#x6c;&#100;&#x6c;&#x69;&#103;&#x61;&#110;&#x67;&#x40;&#x31;&#x36;&#x33;&#x2e;&#x63;&#x6f;&#x6d;</a> 我将发布在我的公众号iOS开发（<strong>iOSDevTip</strong>）上，直接分享给上万名iOS开发者。</p>
+<p>把技术分享出来，不仅帮助新人，更是提高自己，这是一种双赢。如果你写了技术文章没有好的地方可以发布，可以投稿给我：<a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#x77;&#111;&#114;&#108;&#100;&#x6c;&#105;&#103;&#x61;&#110;&#103;&#x40;&#x31;&#x36;&#x33;&#46;&#99;&#111;&#x6d;">&#119;&#x6f;&#114;&#108;&#100;&#x6c;&#105;&#103;&#x61;&#x6e;&#x67;&#x40;&#49;&#x36;&#x33;&#46;&#x63;&#111;&#109;</a> 我将发布在我的公众号iOS开发（<strong>iOSDevTip</strong>）上，直接分享给上万名iOS开发者。</p>
 
 <h3>看github开源项目</h3>
 
@@ -1112,185 +1192,6 @@ iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</
 iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</p></blockquote>
 
 <p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="2" /></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/21/ios-she-ji-mo-shi-xi-lie-:command-ming-ling-mo-shi/">iOS 设计模式系列：Command – 命令模式</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-21T23:39:03+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>11:39 pm</span></time>
-        
-        
-          | <a href="/blog/2015/06/21/ios-she-ji-mo-shi-xi-lie-:command-ming-ling-mo-shi/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>命令模式</strong>封装一个请求或行为作为一个对象。封装的请求比原的更加灵活，可以在对象之间传递，储存，动态修改，或放入一个队列。苹果的Target-Action调用机制已经实现了命令模式。</p>
-
-<p>你可以查看跟多关于<a href="https://developer.apple.com/library/ios/documentation/General/Conceptual/CocoaEncyclopedia/Target-Action/Target-Action.html">Target-Action</a>的苹果官方文档，
-NSInvocation包含一个target对象，一个方法和一些参数。这个对象可以按需要动态修改。这是一个非常好的命令模式的列子。减少发送对象和接受对象之间的操作，直接写成一个请求或请求链。</p>
-
-<h3>如何用命令模式</h3>
-
-<p>调用之前，你需要设置取消动作的框架。所以你需要定义一个UIToolBar和NSMutableArray保存需要撤销的堆栈。</p>
-
-<p>添加代码到ViewController.m 文件：</p>
-
-<pre><code>    UIToolbar *toolbar;
-// We will use this array as a stack to push and pop operation for the undo option
-    NSMutableArray *undoStack;
-</code></pre>
-
-<p>创建一个toolbar将显示新的动作按钮，以及一个数组作为命令队列。</p>
-
-<p>将下面的代码添加到viewDidLoad：</p>
-
-<pre><code>  toolbar = [[UIToolbar alloc] init];
-UIBarButtonItem *undoItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemUndo target:self action:@selector(undoAction)];
-undoItem.enabled = NO;
-UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-UIBarButtonItem *delete = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteAlbum)];
-[toolbar setItems:@[undoItem,space,delete]];
-[self.view addSubview:toolbar];
-undoStack = [[NSMutableArray alloc] init];
-</code></pre>
-
-<p>上面的代码创建了一个toolbar和两个按钮，它还创建一个空的撤消堆栈。这里的撤销按钮被禁用因为撤销栈为空。</p>
-
-<p>将下面代码添加到ViewController.m：</p>
-
-<pre><code>- (void)viewWillLayoutSubviews
-{
-    toolbar.frame = CGRectMake(0, self.view.frame.size.height-44, self.view.frame.size.width, 44);
-    dataTable.frame = CGRectMake(0, 130, self.view.frame.size.width, self.view.frame.size.height - 200);
-}
-</code></pre>
-
-<p>在ViewController.m增加三个方法：增加、删除、撤销。</p>
-
-<p>增加一个新专辑代码如下：</p>
-
-<pre><code>- (void)addAlbum:(Album*)album atIndex:(int)index
-{
-    [[LibraryAPI sharedInstance] addAlbum:album atIndex:index];
-    currentAlbumIndex = index;
-    [self reloadScroller];
-}
-</code></pre>
-
-<p>在这里你添加相册，将其设置为当前专辑索引，并重新加载。</p>
-
-<p>接下来就是删除方法：</p>
-
-<pre><code>- (void)deleteAlbum
-{
-    // 1
-    Album *deletedAlbum = allAlbums[currentAlbumIndex];
-
-    // 2
-    NSMethodSignature *sig = [self methodSignatureForSelector:@selector(addAlbum:atIndex:)];
-    NSInvocation *undoAction = [NSInvocation invocationWithMethodSignature:sig];
-    [undoAction setTarget:self];
-    [undoAction setSelector:@selector(addAlbum:atIndex:)];
-    [undoAction setArgument:&amp;deletedAlbum atIndex:2];
-    [undoAction setArgument:&amp;currentAlbumIndex atIndex:3];
-    [undoAction retainArguments];
-
-    // 3
-    [undoStack addObject:undoAction];
-
-    // 4
-    [[LibraryAPI sharedInstance] deleteAlbumAtIndex:currentAlbumIndex];
-    [self reloadScroller];
-
-    // 5
-    [toolbar.items[0] setEnabled:YES];
-}
-</code></pre>
-
-<p>这是一段新的令人激动的代码，讲解如下：</p>
-
-<ol>
-<li>得到要删除的专辑信息</li>
-<li>Define an object of type NSMethodSignature to create the NSInvocation, which will be used to reverse the delete action if the user later decides to undo a deletion. The NSInvocation needs to know three things: The selector (what message to send), the target (who to send the message to) and the arguments of the message. In this example the message sent is delete’s opposite since when you undo a deletion, you need to add back the deleted album.</li>
-<li>After the undoAction has been created you add it to the undoStack. This action will be added to the end of the array, just as in a normal stack.</li>
-<li>Use LibraryAPI to delete the album from the data structure and reload the scroller.</li>
-<li><p>Since there’s an action in the undo stack, you need to enable the undo button.</p>
-
-<pre><code> 提示: With NSInvocation, you need to keep the following points in mind:
-
- The arguments must be passed by pointer.
- The arguments start at index 2; indices 0 and 1 are reserved for the target and the selector.
- If there’s a chance that the arguments will be deallocated, then you should call retainArguments.
-</code></pre></li>
-</ol>
-
-
-<p>最后，添加撤销方法：</p>
-
-<pre><code>- (void)undoAction
-{
-    if (undoStack.count &gt; 0)
-    {
-        NSInvocation *undoAction = [undoStack lastObject];
-        [undoStack removeLastObject];
-        [undoAction invoke];
-    }
-
-    if (undoStack.count == 0)
-    {
-        [toolbar.items[0] setEnabled:NO];
-    }
-}
-</code></pre>
-
-<p>这个撤销操作是取消栈里最后一个对象，This object is always of type NSInvocation and can be invoked by calling … invoke. This invokes the command you created earlier when the album was deleted, and adds the deleted album back to the album list. Since you also deleted the last object in the stack when you “popped” it, you now check to see if the stack is empty. If it is, that means there are no more actions to undo. So you disable the Undo button.</p>
-
-<p>运行你的app，测试撤销功能，删除一个专辑（或两个）然后点击撤销按钮看看效果：</p>
-
-<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2013/08/design-pattern-stage4.png" alt="1" /></p>
-
-<p>这也是一个很好的地方来测试是否你的相册数据保留会变化。现在，如果你删除一个专辑，app退到后台，并终止应用程序，在下次启动应用程序显示的专辑列表不会有删除专辑信息。</p>
-
-<p>这里的源代码完成的项目：<a href="cdn2.raywenderlich.com/wp-content/uploads/2013/08/BlueLibrary-final.zip">最后bluelibrary</a></p>
-
-<p><strong>设计模式系列文章</strong>：</p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/">iOS 设计模式系列：Facade – 外观模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/">iOS 设计模式系列：Observer – 观察者模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/">iOS 设计模式系列：Archiving – 归档模式</a></p>
 </div>
   
   
@@ -1333,6 +1234,10 @@ undoStack = [[NSMutableArray alloc] init];
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/08/22/development-ios-reward/">iOS开发征稿启示（打赏归作者所有）</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/08/21/sina-animation/">一句代码添加新浪弹出框动画</a>
       </li>
     
@@ -1346,10 +1251,6 @@ undoStack = [[NSMutableArray alloc] init];
     
       <li class="post">
         <a href="/blog/2015/08/11/color-tabbar-switch-animation/">彩色TabBar切换动画实现</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/10/coremotion-framework-use-accelerometer/">CoreMotion框架中加速度计使用简明教程</a>
       </li>
     
   </ul>
