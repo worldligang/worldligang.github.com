@@ -21,8 +21,9 @@ footer: true
 
 **微信扫一扫，代码写得好**
 
-![weixin1](http://7xjrlb.com1.z0.glb.clouddn.com/weixin1.jpg)![weixin2](http://7xjrlb.com1.z0.glb.clouddn.com/weixin2.jpg)
-![weixin3](http://7xjrlb.com1.z0.glb.clouddn.com/weixin3.jpg)![weixin4](http://7xjrlb.com1.z0.glb.clouddn.com/weixin4.jpg)
+<!--![weixin1](http://7xjrlb.com1.z0.glb.clouddn.com/weixin1.jpg)![weixin2](http://7xjrlb.com1.z0.glb.clouddn.com/weixin2.jpg)
+-->
+![weixin3](http://7xkkk9.com1.z0.glb.clouddn.com/zanzhu.jpeg)![weixin4](http://7xjrlb.com1.z0.glb.clouddn.com/weixin4.jpg)
 ![weixin5](http://7xjrlb.com1.z0.glb.clouddn.com/weixin5.jpg)![weixin6](http://7xjrlb.com1.z0.glb.clouddn.com/weixin6.jpg)
 ![weixin7](http://7xjrlb.com1.z0.glb.clouddn.com/weixin7.jpg)![weixin8](http://7xjrlb.com1.z0.glb.clouddn.com/weixin8.jpg)
 
