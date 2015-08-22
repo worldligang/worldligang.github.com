@@ -3,7 +3,7 @@ layout: post
 title: iOS开发征稿启示（打赏归作者所有）
 date: 2015-08-22 00:45:26 +0800
 comments: true
-categories: 推荐
+categories: iOS开发
 keywords: 征稿, 公众号征稿, iOS开发征稿, iOS开发, 刚刚在线
 description:  随着订阅用户的增多，大家对文章内容的需求也越来越高。由于我一个人的力量毕竟有限，可能无法满足所有人的需求。订阅iOS开发的用户不乏一些大牛，所以我想发动大家的力量，一起来为优质的iOS开发文章而努力。
 
