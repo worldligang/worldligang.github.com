@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-22T00:49:39+08:00</updated>
+  <updated>2015-08-22T12:43:20+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,71 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发征稿启示（打赏归作者所有）]]></title>
+    <link href="http://www.superqq.com/blog/2015/08/22/development-ios-reward/"/>
+    <updated>2015-08-22T00:45:26+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/08/22/development-ios-reward</id>
+    <content type="html"><![CDATA[<h2>iOS开发订阅用户突破10000人</h2>
+
+<p>首先，非常感谢您的支持和一路陪伴！经过一年多的发展，iOS开发（iOSDevTip）微信公众号的订阅用户越来越多，已经超过10000人。这是一件好事，也是对iOS开发公众号价值的体现。</p>
+
+<p>这一年多的时间里，我每天都在为寻求一篇好的iOS开发文章而努力。这个过程有快乐也有艰辛。每天做一件事，说起来不难，真要坚持下来，不是那么容易的一件事情。我说这些，并不是要证明自己有多厉害。为了寻求好的文章，我会经常阅读大量的博文，上各大程序员门户网站。有时，会因为发现一篇好的文章而庆幸不已；有时，也会因为找不到文章而心里焦急。</p>
+
+<p>后来，我建立了自己的博客<a href="http://www.superqq.com/">刚刚在线</a>：www.superqq.com 。有时间，我就会写一些技术文章分享在上面。也会把文章同步到iOS开发公众号上。</p>
+
+<p>随着订阅用户的增多，大家对文章内容的需求也越来越高。由于我一个人的力量毕竟有限，可能无法满足所有人的需求。订阅iOS开发的用户不乏一些大牛，所以我想发动大家的力量，一起来为优质的iOS开发文章而努力。</p>
+
+<h2>毕洪博投稿文章情况</h2>
+
+<p>七夕那天，作者毕洪博投稿<a href="http://www.superqq.com/blog/2015/08/21/sina-animation/"> 一句代码添加新浪弹出框动画 </a>得到了不错的反响，我把主数据给大家看看：</p>
+
+<pre><code>图文阅读：1695
+原文阅读：19   
+转发+收藏：193
+文章发布日期：2015-08-20
+评论人数：5
+赞赏人数：3
+赞赏金额：9元
+</code></pre>
+
+<p>从阅读量上来看，还是挺不错的。虽然赞赏金额不多吧，但也算是有一点点回报。七夕那天夜里，我找到作者毕洪博给他发了一个红包。哈哈！</p>
+
+<p>如果您是一名iOS开发者，如果您有自己的博客，如果您喜欢分享，那就快行动吧！把您的优秀文章投稿给我，我将会把您的文章推送在iOS开发微信公众号上，分享给更多的iOS开发者。</p>
+
+<h2>投稿方式</h2>
+
+<pre><code>投稿邮箱：worldligang@163.com
+个人微信：chinaligang
+投稿格式：markdown格式
+博主联盟群：364679270
+</code></pre>
+
+<p>因为微信上面不方便阅读代码，但是支持markdown语法转换。所以投稿的时候，最好是markdown格式的。投稿之后，请记得加我的个人微信，以便我将打赏的钱转账给您。如果你有自己的博客，欢迎加入博主联盟群。</p>
+
+<h2>版权申明</h2>
+
+<ul>
+<li><p>微信公众号规定打赏必须是原创文章，所以希望您能将你的文章在微信公众平台的发表权「独家代理」iOS开发（ iOSDevTip ） 微信公众号。这样我就可以对您的文章申明原创和开通打赏功能。文章的版权依然归您所有，你可以将文章发布在你的博客、微博上。</p></li>
+<li><p>为了证明我得到您的授权，您需要在您的文章底部加上如下申明：</p>
+
+<p>  版权声明：我已将本文在微信公众平台的发表权「独家代理」给 iOS开发（ iOSDevTip ） 微信公众号。扫下方二维码即可关注「iOS 开发」：</p>
+
+<p>  <img src="http://images.90159.com/icon/iOSDevTip.jpg" alt="iOSDevTip" /></p></li>
+</ul>
+
+
+<p>申明markdown格式为：</p>
+
+<pre><code>    版权声明：我已将本文在微信公众平台的发表权「独家代理」给 iOS开发（ iOSDevTip ） 微信公众号。扫下方二维码即可关注「iOS 开发」：
+
+    ![iOSDevTip](http://images.90159.com/icon/iOSDevTip.jpg)    
+</code></pre>
+
+<p>如果对投稿有什么疑问，欢迎加我微信：chinaligang，详细了解一下。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS开发小技巧：刷新UITableView]]></title>
@@ -324,53 +389,6 @@ tapGesture.numberOfTouchesRequired = 1; //点击手指数
 <p>我看了网上一些实现<code>UITextView</code>的<code>placeholder</code>功能的更猥琐的做法，在<code>UITextView</code>上面盖一个<code>UILabel</code>，然后在<code>UITextView</code>的代理方法里控制<code>UILabel</code>的值。还有用两个<code>UITextView</code>实现的。</p>
 
 <p>在这里，我只是抛砖引玉，如果你有更好的实现方法欢迎投稿给我：<strong>worldligang@163.com</strong>，下一篇文章，我将会封装一个带有<code>placeholder</code>属性的<code>UITextView</code>，敬请期待！</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[多个UIImage合并成一个UIImage]]></title>
-    <link href="http://www.superqq.com/blog/2015/08/05/multiple-uiimage-merged/"/>
-    <updated>2015-08-05T17:43:53+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/08/05/multiple-uiimage-merged</id>
-    <content type="html"><![CDATA[<p>写了两篇关于照片保存的文章：</p>
-
-<ol>
-<li><a href="http://www.superqq.com/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-%28photo-album%29/">iOS开发之保存照片到系统相册（Photo Album）</a></li>
-<li><a href="http://www.superqq.com/blog/2015/08/04/save-photo-to-own-album/">iOS开发之保存照片到自己创建的相簿</a></li>
-</ol>
-
-
-<p>介绍了如何将图片保存到系统相册，也可以将照片保存到自己的相簿。里面还介绍了一个第三方<code>ALAssetsLibrary+CustomPhotoAlbum</code>保存照片的方法。</p>
-
-<p>本篇文章将会介绍如何将多个<code>UIImage</code>合并成一个<code>UIImage</code>。听起来似乎有点晕晕乎乎的，这个可以合并吗？答案是肯定的。我们拿两个<code>UIImage</code>来举例。</p>
-
-<h2>创建两个UIImage</h2>
-
-<pre><code>UIImage *image1 = [UIImage imageNamed:@"iOSDevTip"];
-UIImage *image2 = [UIImage imageNamed:@"CodePush"];
-</code></pre>
-
-<p>创建<code>UIImage</code>的方法有很多种，我们就简单的通过<code>imageNamed:</code>方法来创建。</p>
-
-<h2>合并之后的size</h2>
-
-<pre><code>CGSize size = CGSizeMake(image1.size.width + image2.size.width, image1.size.height);
-</code></pre>
-
-<p>合并两个<code>UIImage</code>，需要计算合并之后的<code>size</code>。假设这两个<code>UIImage</code>的高度是是相同的，把他们的宽度相加，得到合并之后的<code>UIImage</code>的<code>size</code>。</p>
-
-<h2>合并方法</h2>
-
-<p>有了<code>UIImage</code>和<code>size</code>接下来就是把两个<code>UIImage</code>合并，方法如下：</p>
-
-<pre><code> UIGraphicsBeginImageContext(size);
-[image1 drawInRect:CGRectMake(0, 0, image1.size.width, size.height)];
-[image2 drawInRect:CGRectMake(image1.size.width, 0, image2.size.width, size.height)];
-UIImage *togetherImage = UIGraphicsGetImageFromCurrentImageContext();
-UIGraphicsEndImageContext();
-</code></pre>
-
-<p>通过上述的代码，就可以实现两个<code>UIImage</code>的合并。` 这个小功能还挺有用的。</p>
 ]]></content>
   </entry>
   
