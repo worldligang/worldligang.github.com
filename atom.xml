@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-22T12:43:20+08:00</updated>
+  <updated>2015-08-23T11:51:14+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,71 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS/Android开发社交SDK列表]]></title>
+    <link href="http://www.superqq.com/blog/2015/08/23/ios-android-social-sdk/"/>
+    <updated>2015-08-23T11:48:48+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/08/23/ios-android-social-sdk</id>
+    <content type="html"><![CDATA[<h3>友盟社会化分享</h3>
+
+<p><a href="http://www.umeng.com/social"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>友盟社会化分享组件，可以让移动应用快速具备社会化分享、登录、评论、喜欢等功能，并提供实时、全面的社会化数据统计分析服务。指南将会手把手教你使用社会化组件SDK，用5分钟为APP增加新浪微博、腾讯微博、人人网分享功能。</p>
+
+<h2></br></h2>
+
+<h3>ShareSDK</h3>
+
+<p><a href="www.mob.com"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>ShareSDK是为iOS、Android的App提供社会化功能的一个组件，开发者仅需10分钟即可集成到自己的App中，它不仅支持国内外40多家的主流社交平台，帮助开发者轻松实现社会化分享、登录、关注、获得用户资料、获取好友列表等主流的社会化功能，还有强大的社会化统计分析管理后台，可以实时了解用户、信息流、回流率、传播效率等数据，有效地指导移动App的日常运营与推广，同时为App引入更多的社会化流量</p>
+
+<h2></br></h2>
+
+<h3>百度社会化分享</h3>
+
+<p><a href="http://developer.baidu.com/soc/share"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>百度社会化分享组件集成多种热门社会化媒体平台，开发者可将此组件集成到自己的移动应用中，用户即可方便地对应用中的内容分享到新浪微博、Qzone、腾讯微博、开心网等各大热门社会化媒体平台中。</p>
+
+<h2></br></h2>
+
+<h3>微信开放平台</h3>
+
+<p><a href="https://open.weixin.qq.com/cgi-bin/frame?t=home/app_tmpl&lang=zh_CN"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>微信是腾讯公司于2011年1月21日推出的一款通过网络快速发送语音短信、视频、图片和文字，支持多人群聊的手机聊天软件。用户可以通过微信与好友进行形式上更加丰富的类似于短信、彩信等方式的联系。微信软件本身完全免费，使用任何功能都不会收取费用，微信时产生的上网流量费由网络运营商收取。</p>
+
+<h2></br></h2>
+
+<h3>新浪微博</h3>
+
+<p><a href="http://open.weibo.com/wiki/%E9%A6%96%E9%A1%B5"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>新浪微博开放平台（Weibo Open Platform）是基于新浪微博海量用户和强大的传播能力，接入第三方合作伙伴服务，向用户提供丰富应用和完善服务的开放平台。将你的服务接入微博平台，有助于推广产品，增加网站/应用的流量、拓展新用户，获得收益。</p>
+
+<h2></br></h2>
+
+<h3>bShare</h3>
+
+<p><a href="http://www.bshare.cn/"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>bShare是中国最专业、最强大的社会化分享服务商，提供能分享到QQ空间、新浪微博、人人网等的分享功能。目前bShare已与130+家合作平台，赢得 150000+家网站 的信任。长期以来，我们专注于在社会化分享领域深耕细作，为千万家网站注入社交功能，导入巨大流量的同时，也提供专业的用户分享数据统计，并致力于打造最专业的社会化分享服务。</p>
+
+<h2></br></h2>
+
+<h3>LeanCloud</h3>
+
+<p><a href="https://cn.avoscloud.com/docs/sns.html"target="_blank"title="进入官网">进入官网</a></p>
+
+<p>LeanCloud 社交分享提供强大的用户管理功能，包括密码加密、邮箱验证等。并且用户通过 LeanCloud 的 SDK，可轻松实现微博、微信等账号绑定和信息分享。</p>
+
+<h2></br></h2>
+
+<p>有<a href="http://www.superqq.com/">刚刚在线</a>整理，转载请注明来源。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS开发征稿启示（打赏归作者所有）]]></title>
@@ -3446,313 +3511,6 @@ _tabBarController = [[AKTabBarController alloc] initWithTabBarHeight:50 position
 </code></pre>
 
 <p>很久之前写了一篇文章<a href="http://www.superqq.com/blog/2015/01/22/jie-jue-mwphotobrowserzhong-de-sdwebimagejia-zai-da-tu-dao-zhi-de-nei-cun-jing-gao-wen-ti/">解决MWPhotoBrowser中的SDWebImage加载大图导致的内存警告问题</a>。这个我记得当时从服务器拿到的照片大概有10几M的样子，加载出来会导致内存警告。所以我当时通过修改SDWebImage源码，就是把下载下来的照片进行缩放，内存就降下来了。一般情况下应该不会加载这么大的照片的，用户要是知道，早把你的APP给删掉了。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[著名的AFNetworking网络基础库Swift版Alamofire]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/28/swift-alamofire/"/>
-    <updated>2015-07-28T20:42:52+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/28/swift-alamofire</id>
-    <content type="html"><![CDATA[<p><a href="https://github.com/Alamofire/Alamofire" target="_blank" title=“源代码”>源代码</a></p>
-
-<p><img src="http://swiftmi.qiniudn.com/codeimage/201409/13_1410874399080_89.gif" alt="swift-gif" /></p>
-
-<h2>Swift Alamofire 简介</h2>
-
-<p><img src="https://raw.githubusercontent.com/Alamofire/Alamofire/assets/alamofire.png" alt="Alamofire: Elegant Networking in Swift" /></p>
-
-<p>Alamofire是 Swift 语言的 HTTP 网络开发工具包,相当于Swift实现<a href="http://www.superqq.com/blog/2014/11/07/ioswang-luo-bian-cheng-zhi-afnetworkingshi-yong/">AFNetworking</a>版本。</p>
-
-<p>当然,AFNetworking非常稳定,在Mac OSX与iOS中也能像其他Objective-C代码一样用Swift编写。不过Alamofire更适合Swift语言风格习惯(Alamofire与AFNetworking可以共存一个项目中,互不影响).</p>
-
-<pre><code>Alamofire 取名来源于 [Alamo Fire flower](https://aggie-horticulture.tamu.edu/wildseed/alamofire.html)
-</code></pre>
-
-<h2>Alamofire安装使用方法</h2>
-
-<p>使用CocoaPods安装，在podfile</p>
-
-<pre><code>source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '8.0'
-use_frameworks!
-
-pod 'Alamofire', '~&gt; 1.2'
-</code></pre>
-
-<p>submodule 方式安装</p>
-
-<pre><code>$ git submodule add https://github.com/Alamofire/Alamofire.git
-</code></pre>
-
-<h2>环境要求</h2>
-
-<p>Xcode 6</p>
-
-<p>iOS 7.0+ / Mac OS X 10.9+</p>
-
-<h2>Alamofire使用方法</h2>
-
-<h3>GET 请求</h3>
-
-<pre><code>Alamofire.request(.GET, "http://httpbin.org/get")
-</code></pre>
-
-<p>带参数</p>
-
-<pre><code>Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
-</code></pre>
-
-<p>Response结果处理</p>
-
-<pre><code>Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
-         .response { (request, response, data, error) in
-                     println(request)
-                     println(response)
-                     println(error)
-                   }
-</code></pre>
-
-<p>Response结果字符串处理</p>
-
-<pre><code>Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
-         .responseString { (request, response, string, error) in
-                  println(string)
-         }
-</code></pre>
-
-<h2>HTTP 方法（Medthods）</h2>
-
-<p>Alamofire.Method enum 列表出在RFC 2616中定义的HTTP方法 §9:</p>
-
-<pre><code>public enum Method: String {
-    case OPTIONS = "OPTIONS"
-    case GET = "GET"
-    case HEAD = "HEAD"
-    case POST = "POST"
-    case PUT = "PUT"
-    case PATCH = "PATCH"
-    case DELETE = "DELETE"
-    case TRACE = "TRACE"
-    case CONNECT = "CONNECT"
-}
-</code></pre>
-
-<p>这些值可以作为Alamofire.request请求的第一个参数.</p>
-
-<pre><code>Alamofire.request(.POST, "http://httpbin.org/post")
-
-Alamofire.request(.PUT, "http://httpbin.org/put")
-
-Alamofire.request(.DELETE, "http://httpbin.org/delete")
-</code></pre>
-
-<p>POST请求</p>
-
-<pre><code>let parameters = [
-    "foo": "bar",
-    "baz": ["a", 1],
-    "qux": [
-        "x": 1,
-        "y": 2,
-        "z": 3
-    ]
-]
-
-Alamofire.request(.POST, "http://httpbin.org/post", parameters: parameters)
-</code></pre>
-
-<p>发送以下HttpBody内容:</p>
-
-<pre><code>foo=bar&amp;baz[]=a&amp;baz[]=1&amp;qux[x]=1&amp;qux[y]=2&amp;qux[z]=3
-</code></pre>
-
-<p>Alamofire 使用Alamofire.ParameterEncoding可以支持URL query/URI form,JSON, PropertyList方式编码参数。</p>
-
-<p>Parameter Encoding</p>
-
-<pre><code>enum ParameterEncoding {
-    case URL
-    case JSON(options: NSJSONWritingOptions)
-    case PropertyList(format: NSPropertyListFormat,
-                      options: NSPropertyListWriteOptions)
-
-    func encode(request: NSURLRequest,
-                parameters: [String: AnyObject]?) -&gt;
-                    (NSURLRequest, NSError?)
-    { ... }
-}
-</code></pre>
-
-<p>NSURLRequest方式编码参数</p>
-
-<pre><code>let URL = NSURL(string: "http://httpbin.org/get")
-var request = NSURLRequest(URL: URL)
-
-let parameters = ["foo": "bar"]
-let encoding = Alamofire.ParameterEncoding.URL
-(request, _) = encoding.encode(request, parameters)
-</code></pre>
-
-<p>POST JSON格式数据</p>
-
-<pre><code>Alamofire.request(.POST, "http://httpbin.org/post", parameters: parameters, encoding: .JSON(options: nil))
-         .responseJSON {(request, response, JSON, error) in
-            println(JSON)
-     }
-</code></pre>
-
-<p>Response 方法</p>
-
-<pre><code>response()
-responseString(encoding: NSStringEncoding)
-responseJSON(options: NSJSONReadingOptions)
-responsePropertyList(options: NSPropertyListReadOptions)
-</code></pre>
-
-<h3>上传（Uploading）</h3>
-
-<p>支持的类型</p>
-
-<pre><code>File
-Data
-Stream
-Multipart (Coming Soon)
-</code></pre>
-
-<p>上传文件</p>
-
-<pre><code>let fileURL = NSBundle.mainBundle()
-                  .URLForResource("Default",
-                                  withExtension: "png")
-
-Alamofire.upload(.POST, "http://httpbin.org/post", file: fileURL)
-</code></pre>
-
-<h3>上传进度</h3>
-
-<pre><code>Alamofire.upload(.POST, "http://httpbin.org/post", file: fileURL)
-    .progress { (bytesWritten, totalBytesWritten, totalBytesExpectedToWrite) in
-        println(totalBytesWritten)
-    }
-    .responseJSON { (request, response, JSON, error) in
-        println(JSON)
-    }
-</code></pre>
-
-<h3>下载</h3>
-
-<p>支持的类型</p>
-
-<pre><code>Request
-Resume Data
-</code></pre>
-
-<p>下载文件</p>
-
-<pre><code>Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: { (temporaryURL, response) in
-    if let directoryURL = NSFileManager.defaultManager()
-                          .URLsForDirectory(.DocumentDirectory,
-                                            inDomains: .UserDomainMask)[0]
-                          as? NSURL {
-        let pathComponent = response.suggestedFilename
-
-        return directoryURL.URLByAppendingPathComponent(pathComponent)
-    }
-
-    return temporaryURL
-})
-</code></pre>
-
-<p>下载到默认路径</p>
-
-<pre><code>let destination = Alamofire.Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
-
-Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
-</code></pre>
-
-<p>下载进度</p>
-
-<pre><code>Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
-         .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
-             println(totalBytesRead)
-         }
-         .response { (request, response, _, error) in
-             println(response)
-         }
-</code></pre>
-
-<h3>认证（Authentication）</h3>
-
-<p>支持以下几种认证</p>
-
-<pre><code>HTTP Basic
-HTTP Digest
-Kerberos
-NTLM
-</code></pre>
-
-<p>Http basic认证</p>
-
-<pre><code>let user = "user"
-let password = "password"
-
-Alamofire.request(.GET, "https://httpbin.org/basic-auth/\(user)/\(password)")
-    .authenticate(HTTPBasic: user, password: password)
-    .response {(request, response, _, error) in
-        println(response)
-        }
-</code></pre>
-
-<p>采用NSURLCredential&amp;NSURLProtectionSpace方式认证</p>
-
-<pre><code>let user = "user"
-let password = "password"
-
-let credential = NSURLCredential(user: user, password: password, persistence: .ForSession)
-let protectionSpace = NSURLProtectionSpace(host: "httpbin.org", port: 0, `protocol`: "https", realm: nil, authenticationMethod: NSURLAuthenticationMethodHTTPBasic)
-
-
-
-Alamofire.request(.GET, "https://httpbin.org/basic-auth/\(user)/\(password)")
-    .authenticate(usingCredential: credential, forProtectionSpace: protectionSpace)
-    .response {(request, response, _, error) in
-        println(response)
-}
-</code></pre>
-
-<h3>Printable</h3>
-
-<pre><code>let request = Alamofire.request(.GET, "http://httpbin.org/ip")
-
-println(request)
-// GET http://httpbin.org/ip (200)
-</code></pre>
-
-<h3>调试</h3>
-
-<pre><code>let request = Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
-
-debugPrintln(request)
-</code></pre>
-
-<h3>Output (cURL)</h3>
-
-<pre><code>$ curl -i \
-    -H "User-Agent: Alamofire" \
-    -H "Accept-Encoding: Accept-Encoding: gzip;q=1.0,compress;q=0.5" \
-    -H "Accept-Language: en;q=1.0,fr;q=0.9,de;q=0.8,zh-Hans;q=0.7,zh-Hant;q=0.6,ja;q=0.5" \
-    "http://httpbin.org/get?foo=bar"
-</code></pre>
-
-<p>更多的用法将会在接口文档中一一列出,敬请期待。</p>
-
-<p>Alamofire与AFNetworking是同一个作者</p>
-
-<blockquote><p>作者李刚是刚刚在线（www.superqq.com）站长，百度百家专栏作者
-iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</p></blockquote>
-
-<p><img src="http://upload-images.jianshu.io/upload_images/624136-963198258f95cc10.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="iOSDevTip" /></p>
 ]]></content>
   </entry>
   

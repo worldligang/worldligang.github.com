@@ -81,6 +81,182 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/04/23/iosyong-hu-dian-ji-shi-jian-chu-li/">hitTest和pointInside如何响应用户点击事件</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-04-23T16:05:20+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>4:05 pm</span></time>
+        
+        
+          | <a href="/blog/2015/04/23/iosyong-hu-dian-ji-shi-jian-chu-li/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>处理机制</h3>
+
+<p>iOS事件处理，首先应该是找到能处理点击事件的视图，然后在找到的这个视图里处理这个点击事件。</p>
+
+<p>处理原理如下：</p>
+
+<p>• 当用户点击屏幕时，会产生一个触摸事件，系统会将该事件加入到一个由UIApplication管理的事件队列中</p>
+
+<p>• UIApplication会从事件队列中取出最前面的事件进行分发以便处理，通常，先发送事件给应用程序的主窗口(UIWindow)</p>
+
+<p>• 主窗口会调用hitTest:withEvent:方法在视图(UIView)层次结构中找到一个最合适的UIView来处理触摸事件</p>
+
+<p>(hitTest:withEvent:其实是UIView的一个方法，UIWindow继承自UIView，因此主窗口UIWindow也是属于视图的一种)</p>
+
+<p>• hitTest:withEvent:方法大致处理流程是这样的：</p>
+
+<p>首先调用当前视图的pointInside:withEvent:方法判断触摸点是否在当前视图内：</p>
+
+<p>▶ 若pointInside:withEvent:方法返回NO，说明触摸点不在当前视图内，则当前视图的hitTest:withEvent:返回nil</p>
+
+<p>▶ 若pointInside:withEvent:方法返回YES，说明触摸点在当前视图内，则遍历当前视图的所有子视图(subviews)，调用子视图的hitTest:withEvent:方法重复前面的步骤，子视图的遍历顺序是从top到bottom，即从subviews数组的末尾向前遍历，直到有子视图的hitTest:withEvent:方法返回非空对象或者全部子视图遍历完毕：</p>
+
+<p>▷ 若第一次有子视图的hitTest:withEvent:方法返回非空对象,则当前视图的hitTest:withEvent:方法就返回此对象，处理结束</p>
+
+<p>▷ 若所有子视图的hitTest:withEvent:方法都返回nil，则当前视图的hitTest:withEvent:方法返回当前视图自身(self)</p>
+
+<p>• 最终，这个触摸事件交给主窗口的hitTest:withEvent:方法返回的视图对象去处理。我的微信号iOS开发：iOSDevTip</p>
+
+<h3>案列分析</h3>
+
+<p>在UIViewController的self.view上加载一个LGFirstView</p>
+
+<p>LGFirstView上面有一个UIButton我们叫它buttonFirst</p>
+
+<p>然后，self.view上加载一个LGSecondView，刚好盖在LGFirstView上面</p>
+
+<p>LGSecondView上面也有一个UIButton我们叫它buttonSecond</p>
+
+<h5>正常情况下：</h5>
+
+<p>用户点击LGSecondView（点击的点不在buttonSecond上，但是在buttonFirst撒很难过吗），事件处理流程如下：</p>
+
+<p>1）调用UIWindow的hitTest:withEvent:方法，hitTest:withEvent:方法会调用pointInside:withEvent:方法。此时pointInside:withEvent:返回YES，说明触摸事件在UIWindow上面。</p>
+
+<p>2）去遍历UIWindow上面的子视图，也就是self.view。同样也是调用self.view的hitTest:withEvent:方法，hitTest:withEvent:方法会调用pointInside:withEvent:方法。此时pointInside:withEvent:返回YES，说明触摸事件在self.view上面。</p>
+
+<p>3）去遍历self.view上的子视图，也就是LGFirstView和LGSecondView。（注意：子视图的遍历顺序是从top到bottom，即从subviews数组的末尾向前遍历）。</p>
+
+<p>4）所以先调用LGSecondView的hitTest:withEvent:方法，hitTest:withEvent:方法会调用pointInside:withEvent:方法。此时pointInside:withEvent:返回YES，说明触摸事件在LGSecondView上面。（此时不会再去遍历LGFirstView，所以正如你所愿buttonFirst的点击事件也不会被调用）</p>
+
+<p>5）还没有结束，接着回去遍历LGSecondView上的所有子视图，结果所有子视图的hitTest:withEvent:方法都返回nil，因为LGSecondView上面只有secondButton，而点击的点不在secondButton。</p>
+
+<p>6）最终hitTest:withEvent:方法返回当前视图自身(self)，而LGSecondView没有事件要处理。整个过程结束。</p>
+
+<h5>如果我们想让buttonFirst也响应点击事件怎么办？</h5>
+
+<h5>方法一：</h5>
+
+<p>我们在LGSecondView加入如下代码：</p>
+
+<pre><code>#pragma mark - 方法一
+-(id)hitTest:(CGPoint)point withEvent:(UIEvent *)event
+{
+    UIView *hitView = [super hitTest:point withEvent:event];
+    if (hitView == self)
+    {
+        return nil;
+    }
+    else
+    {
+        return hitView;
+    }
+}
+</code></pre>
+
+<p>我们再来分析一下：</p>
+
+<p>还是这个场景，用户点击LGSecondView（点击的点不在buttonSecond上，但是在buttonFirst撒很难过吗），事件处理流程如下：</p>
+
+<p>1）调用UIWindow的hitTest:withEvent:方法，hitTest:withEvent:方法会调用pointInside:withEvent:方法。此时pointInside:withEvent:返回YES，说明触摸事件在UIWindow上面。</p>
+
+<p>2）去遍历UIWindow上面的子视图，也就是self.view。同样也是调用self.view的hitTest:withEvent:方法，hitTest:withEvent:方法会调用pointInside:withEvent:方法。此时pointInside:withEvent:返回YES，说明触摸事件在self.view上面。</p>
+
+<p>3）去遍历self.view上的子视图，也就是LGFirstView和LGSecondView。（注意：子视图的遍历顺序是从top到bottom，即从subviews数组的末尾向前遍历）。</p>
+
+<p>4）所以先调用LGSecondView的hitTest:withEvent:方法，hitTest:withEvent:方法会调用pointInside:withEvent:方法。此时pointInside:withEvent:返回YES，说明触摸事件在LGSecondView上面。</p>
+
+<p>5)但是，注意了，这里有个但是， UIView *hitView = [super hitTest:point withEvent:event];就是这句代码发挥了作用。如果hitView是LGSecondView的话，就不处理点击事件。（这跟userInteractionEnabled=NO是不一样的，userInteractionEnabled=NO，LGSecondView上的buttonSecond也不会响应点击事件了。）</p>
+
+<p>6)这个时候会去调用LGFirstView的hitTest:withEvent:方法，hitTest:withEvent:方法会调用pointInside:withEvent:方法。此时pointInside:withEvent:返回YES，说明触摸事件在LGFirstView上面。</p>
+
+<p>7）再去遍历LGFirstView上面的子视图，也就是buttonFirst，调用buttonFirst的hitTest:withEvent:方法，hitTest:withEvent:方法会调用pointInside:withEvent:方法。此时pointInside:withEvent:返回YES，说明触摸事件在buttonFirst上面。</p>
+
+<p>8）再去遍历buttonFirst上的所有子视图，结果所有子视图的hitTest:withEvent:方法都返回nil，说明点击就在buttonFirst，buttonFirst就用响应的点击方法。</p>
+
+<h5>方法二</h5>
+
+<p>在LGSecondView.m</p>
+
+<pre><code>@interface LGSecondView ()
+
+@property (nonatomic, strong) NSMutableArray *subControlsArray;
+
+@end
+
+@implementation LGSecondView
+
+
+- (id)initWithFrame:(CGRect)frame
+{
+    if (self = [super initWithFrame:frame]) {
+        self.subControlsArray = [NSMutableArray array];
+    }
+    return self;
+}
+
+
+#pragma mark - 方法二
+
+- (void)addSubview:(UIView *)view{
+    [super addSubview:view];
+    if ([view isKindOfClass:[UIControl class]]) {
+        [self.subControlsArray addObject:view];
+    }
+}
+
+//set self not response action and self subviews response action
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event;
+{
+    BOOL toNext = YES;
+    for (UIView *view in _subControlsArray) {
+        if (CGRectContainsPoint(view.frame, point)) {
+            toNext = NO;
+            break;
+        }
+    }
+    return !toNext;
+}
+</code></pre>
+
+<p>具体原理就不在累述了，大家自己推一下，也可以把你的思路写下来发给我。</p>
+
+<p>还有很多方法也欢迎你把思路写下来发给我。我的微信号iOS开发：iOSDevTip</p>
+
+<p>代码下载地址:<a href="https://github.com/worldligang/HitTestMaster.git"target="_blank"title="HitTestMaster">HitTestMaster</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/04/07/mvczhong-modelde-she-ji/">MVC中Model的设计</a></h1>
     
     
@@ -1362,229 +1538,6 @@ static LGManagerCenter *managerCenter;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/01/15/objective-cxiang-guan-categoryde-shou-ji/">Objective-C相关Category的收集</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-01-15T10:38:25+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:38 am</span></time>
-        
-        
-          | <a href="/blog/2015/01/15/objective-cxiang-guan-categoryde-shou-ji/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-
-<p>Categories是给你得不到源码的classes增加功能的一种方法。 <a href="http://cocoacats.com"target="_blank"title="iOS开发">这个页面</a> 收集一些相关的Category，并且持续更新，你可以订阅关注。作者是Fille Åström，是@ IMGNRY的联合创始人和开发者。</p>
-
-<p>感谢大家的反馈，如果你有任何想法、抱怨或者建议，可以给我发送邮件（fille@imgnry.com），也可以在<a href="twitter.com/bobmoff"target="_blank"title="iOS开发">推特</a>或者App.net上给我发信息（@bobmoff）。</p>
-
-<p>参考阅读：
-苹果官方文档：<a href="https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/CustomizingExistingClasses/CustomizingExistingClasses.html"target="_blank"title="iOS开发">Customizing Existing Classes </a></p>
-
-<p><a href="https://github.com/Julioacarrettoni/UIImageView_FaceAwareFill"target="_blank"title="iOS开发">UIImageView+FaceAwareFill</a></p>
-
-<p>这个类别使用了Aspect Fill内容模式，可以自动根据图像内容进行调整，当检测到人脸时，它会以脸部中心替代掉以图片的几何中心。
-测试环境：Xcode 5.0，iOS 6.0以上</p>
-
-<p><a href="https://github.com/bendytree/Objective-C-RegEx-Categories"target="_blank"title="iOS开发">NSRegularEx+ObjCRegex</a></p>
-
-<p>Objective-C-RegEx-Categories是NSRegularExpression的一个延展，它可以把Object-C中的很多正则表达式合并成一个，简化了代码。
-这个库没有任何依赖性，适用于iOS 4+和OS X 10.7+。</p>
-
-<p><a href="https://github.com/nicklockwood/AutoCoding"target="_blank"title="iOS开发">NSObject+AutoCoding</a></p>
-
-<p>AutoCoding是一个NSObject的类目，提供了对NSCoding 和NSCopying的自动支持。
-兼容ARC和non-ARC编译目标
-支持iOS 7.0/Mac OS 10.9 (Xcode 5.0, Apple LLVM compiler 5.0)</p>
-
-<p><a href="https://gist.github.com/alvesjtiago/8123006"target="_blank"title="iOS开发">NSInvocation+SimpleCreation</a></p>
-
-<p>创建invocations的简单方法</p>
-
-<p><a href="https://github.com/shaahin/SHPersian"target="_blank"title="iOS开发">NSString+SHPersian</a></p>
-
-<p>SHPersian是一个针对使用波斯语和阿拉伯语的iOS开发者提供的工具，包含了一个在Persian iOS app中为文本添加自定义外观的必需的类。</p>
-
-<p><a href="https://github.com/mergesort/UILabel-ContentSize"target="_blank"title="iOS开发">UILabel+ContentSize</a></p>
-
-<p>在UILabel内计算内容的大小。</p>
-
-<p><a href="https://github.com/RuiAAPeres/UIViewController-Swizzled"target="_blank"title="iOS开发">UIViewController+Swizzled</a></p>
-
-<p>记录UIViewController层次：包括你在视图控制器的名字，还有你进入层次的展示。</p>
-
-<p><a href="https://gist.github.com/maciekish/7772693"target="_blank"title="iOS开发">NSObject+Association</a></p>
-
-<p>你是不是一直希望将&#8221;userInfo&#8221;显示到UIAlertView上呢？通过Association这个category可以将任意的对象赋值给其它任意对象(从iOS3.1和mac os 10.6到最新的系统版本。)</p>
-
-<p><a href="https://gist.github.com/maciekish/6268142"target="_blank"title="iOS开发">NSHTTPCookieStorage+FreezeDry</a></p>
-
-<p>app重启时，清除UIWebView cookies。</p>
-
-<p><a href="https://github.com/erica/uidevice-extension"target="_blank"title="iOS开发">UIDevice+Hardware</a></p>
-
-<p>检测硬件设备的版本。</p>
-
-<p><a href="https://gist.github.com/aegzorz/6068741"target="_blank"title="iOS开发">NSObject+LogDealloc</a></p>
-
-<p>是一个NSObject category，对于内存泄露的跟踪非常有用</p>
-
-<p><a href="https://github.com/krzysztofzablocki/SFObservers"target="_blank"title="iOS开发">NSObject+SFObservers</a></p>
-
-<p>是对NSNotificationCenter and KVO的一个扩展，它能够自动移除观察者。</p>
-
-<p><a href="https://gist.github.com/maciekish/6052297"target="_blank"title="iOS开发">UIApplication+NetworkActivity</a></p>
-
-<p>UIApplication+NetworkActivity跟踪你最近进行过的网络操作，并管理NetworkActivityIndicator。</p>
-
-<p><a href="https://gist.github.com/aegzorz/5974444"target="_blank"title="iOS开发">UIView+Recursion</a></p>
-
-<p>以递归的方式遍历(查找)subview</p>
-
-<p><a href="https://gist.github.com/bobmoff/5967220"target="_blank"title="iOS开发">UIView+RoundedCorners</a></p>
-
-<p>使用图层蒙版为视图添加圆角</p>
-
-<p><a href="https://gist.github.com/bobmoff/5967180"target="_blank"title="iOS开发">UIView+Stacker</a></p>
-
-<p>Stack subviews是按照索引进行垂直排序的。主要用于——使用xib时，以及需要进行view布局时(显示/隐藏)——当基于外部数据。不过不能用于autolayout。.</p>
-
-<p><a href="https://github.com/carlbrown/RegexOnNSString"target="_blank"title="iOS开发">NSString+PDRegex</a></p>
-
-<p>简化正则表达式的使用</p>
-
-<p><a href="https://gist.github.com/maciekish/5947238"target="_blank"title="iOS开发">MKMapView+MoveLogo</a></p>
-
-<p>这个类目允许你移动MKMapView logo，即使你放其他东西在mapview上它仍能保持可见。如果隐藏了logo，那将不能通过App Store审核。已经在iOS 5-iOS 7上进行了测试。</p>
-
-<p><a href="https://github.com/azu/NSDate-Escort"target="_blank"title="iOS开发">NSDate+Escort</a></p>
-
-<p>NSDate-Escort是一个NSDate实用库，兼容NSDate-Extensions API</p>
-
-<p><a href="https://gist.github.com/danielphillips/1005520"target="_blank"title="iOS开发">UILabel+DynamicSizeMe</a></p>
-
-<p>调整UILabel来根据内容改变其框架</p>
-
-<p><a href="https://github.com/scalessec/Toast"target="_blank"title="iOS开发">UIView+Toast</a></p>
-
-<p>适用于iOS上的Android风格toas通知。</p>
-
-<p><a href="https://github.com/Nyx0uf/NYXImagesKit"target="_blank"title="iOS开发">UIImage+NYXImagesKit</a></p>
-
-<p>NYXImagesKit是一个重组了多个有用的UIImage categories的iOS项目，可对图像/图片进行多个处理，比如筛选、模糊、优化、蒙版、调整大小、旋转以及保存等等。同时还提供了一个UIImageView子类从URL异步加载图片，并在下载完毕时展示图片。</p>
-
-<p><a href="https://github.com/martinjuhasz/MJPopupViewController"target="_blank"title="iOS开发">UIViewController+MJPopup</a></p>
-
-<p>MJPopupViewController是一个 UIViewController Category，用于使用不同的过渡效果来把ViewController作为弹出视图进行展示。</p>
-
-<p>  <a href="https://github.com/mattgemmell/MGImageUtilities"target="_blank"title="iOS开发">UIImage+MGImageUtilities</a></p>
-
-<p>MGImageUtilities展示两个UIImage category：UIImage+ProportionalFill和UIImage+Tint。你可以通过UIImage+ProportionalFill调整任意图片的尺寸，可以使用UIImage+Tint来为图片着色。</p>
-
-<p><a href="https://github.com/Cocoanetics/DTFoundation"target="_blank"title="iOS开发">MultipleObjects+DTFoundation</a></p>
-
-<p>DTFoundation集合了实用方法和category的扩展，逐渐演变成一个文档齐全的工具集，记录和测试代码以加快开发。</p>
-
-<p><a href="https://github.com/rs/SDWebImage"target="_blank"title="iOS开发">UIImageView+WebCache</a></p>
-
-<p>SDWebImage提供一个UIImageView类别，以支持加载管理源自网络的远程图片。具有异步加载、缓存管理、同一个URL下载次数控制和优化等特征。简单易用。</p>
-
-<p> <a href="https://github.com/bennyguitar/Colours"target="_blank"title="iOS开发">UIColor+Colours</a></p>
-
-<p>100组漂亮的预制的色彩和配色方案可以让你的iOS/OS X开发更轻松。</p>
-
-<p> <a href="https://github.com/ProjectDent/UIImage-PDFColoredImage"target="_blank"title="iOS开发">UIImage+PDFColoredImage</a></p>
-
-<p>UIImage-PDFColoredImage是一个UIImage扩展，可以把黑色的PDF image转换成任意尺寸任意颜色的UIImage，只需一行代码，简单易用。</p>
-
-<p><a href="https://github.com/k06a/NSData-AsyncCacher"target="_blank"title="iOS开发">NSData+AsyncCacher</a></p>
-
-<p>NSData-AsyncCacher是NSData的一个category，用于从url和block中异步加载数据。请求数据使用NSCache缓存，可以多次请求。</p>
-
-<p> <a href="https://github.com/billymeltdown/nsdate-helper"target="_blank"title="iOS开发">NSDate+Helper</a></p>
-
-<p>通过一些便捷函数扩展了Cocoa的NSDate</p>
-
-<p> <a href="https://github.com/supermarin/ObjectiveSugar"target="_blank"title="iOS开发">MultipleObjects+ObjectiveSugar</a></p>
-
-<p>Objective-C additions for humans. Ruby style.</p>
-
-<p><a href="https://github.com/Kjuly/MKMapView-ZoomLevel"target="_blank"title="iOS开发">MKMapView+ZoomLevel</a></p>
-
-<p>在MapView中设置缩放比例。</p>
-
-<p> <a href="https://gist.github.com/Abeansits/5848341"target="_blank"title="iOS开发">NSString+Extensions</a></p>
-
-<p>一个针对NSStrings的category，它能将string转换为SHA1，NSNumber。检测string是否为空、是否包含某个子字符串，以及替换掉NSDictionary中的子字符串。</p>
-
-<p><a href="https://github.com/nicklockwood/ViewUtils"target="_blank"title="iOS开发">UIView+Utils</a></p>
-
-<p>ViewUtils是一个category methods的集合，这些方法是UIView的扩展，包含了许多方便的属性和方法，其中许多都是我们希望苹果内置的。</p>
-
-<p> <a href="https://github.com/kevinlawler/NSDate-TimeAgo"target="_blank"title="iOS开发">NSDate+TimeAgo</a></p>
-
-<p>让NSDate报告时间，比如&#8221;A moment ago&#8221;, &ldquo;30 seconds ago&rdquo;, &ldquo;5 minutes ago&rdquo;, &ldquo;Yesterday&rdquo;, &ldquo;Last month&rdquo;, &ldquo;2 years ago&#8221;以及其他。</p>
-
-<p> <a href="https://github.com/alexdrone/ios-fontawesome"target="_blank"title="iOS开发">NSString+FontAwesome</a></p>
-
-<p>FontAwesome+iOS是一个开源形象字体库，通过扩展 NSString 让你在app中轻松使用 FontAwesome 字体。
-官方网站：<a href="http://fortawesome.github.io/Font-Awesome/">http://fortawesome.github.io/Font-Awesome/</a></p>
-
-<p> <a href="https://gist.github.com/aegzorz/5797393"target="_blank"title="iOS开发">NSArray+FirstObject</a></p>
-
-<p>从数组中获得第一个对象，或者从空数组中返回零</p>
-
-<p>  <a href="https://github.com/djmadcat/NSObject-AutoDescription"target="_blank"title="iOS开发">NSObject+AutoDescription</a></p>
-
-<p>能够简单地为任何类描述日志(从 NSObject派生出来)</p>
-
-<p>  <a href="https://gist.github.com/aegzorz/5797337"target="_blank"title="iOS开发">CGRect+Additions</a></p>
-
-<p>处理CGRects的一些函数。</p>
-
-<p> <a href="https://gist.github.com/bobmoff/5276954"target="_blank"title="iOS开发">UIView+ModifyFrame</a></p>
-
-<p>简单实用的UIView类目使修改框架不那么变态。</p>
-
-<p><a href="https://gist.github.com/dsibilly/1038500"target="_blank"title="iOS开发">NSString+UsefulShit</a></p>
-
-<p>Objective-C category 示范</p>
-
-<p><strong>更多源代码：</strong></p>
-
-<p><a href="http://www.superqq.com/blog/2015/01/07/paperfold-for-ios/">PaperFold-for-iOS</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/01/07/dkcirclebutton/">DKCircleButton</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/01/07/twittercover/">TwitterCover</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/01/07/hackernews/">HackerNews</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/01/06/gpuimage/">GPUImage</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/10">&larr; Older</a>
@@ -1620,6 +1573,10 @@ static LGManagerCenter *managerCenter;
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/08/23/ios-android-social-sdk/">iOS/Android开发社交SDK列表</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/08/22/development-ios-reward/">iOS开发征稿启示（打赏归作者所有）</a>
       </li>
     
@@ -1633,10 +1590,6 @@ static LGManagerCenter *managerCenter;
     
       <li class="post">
         <a href="/blog/2015/08/12/realization-circular-gradient-progress/">环形渐变进度条实现</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/11/color-tabbar-switch-animation/">彩色TabBar切换动画实现</a>
       </li>
     
   </ul>
