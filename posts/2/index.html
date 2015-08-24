@@ -104,107 +104,12 @@
 
 <p>上一篇文章<a href="http://www.superqq.com/blog/2015/08/06/uitextview-placeholder-practice/">UITextView实现placeholder的猥琐做法</a>讲了关于<code>UITextView</code>的<code>placeholder</code>实现原理。大家都一致认为做法比较猥琐。</p>
 
-<p>那么，这一次我将简单的封装一个<code>UITextView</code>。暂且取名叫<code>GGPlaceholderTextView</code>，GG前缀看着有点任性的哈。</p>
-
-<h2>GGPlaceholderTextView简介</h2>
-
-<p><code>GGPlaceholderTextView</code>也是对<code>text</code>操作，具体逻辑如下：</p>
-
-<ol>
-<li>继承<code>UITextView</code>，并设置<code>placeholder</code>属性</li>
-<li>注册开始编辑和结束编辑通知，然后对<code>text</code>做相应的操作</li>
-<li>通过<code>UIApplicationWillTerminateNotification</code>通知，在APP退出的时候移除通知。</li>
-</ol>
-
-
-<p>我把<code>GGPlaceholderTextView</code>写在下面。不过，微信里看代码还是不太方便，我已经把代码push到:<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a>。你可以下载下来。</p>
-
-<h2>GGPlaceholderTextView.h</h2>
-
-<pre><code>#import &lt;UIKit/UIKit.h&gt;
-
-@interface GGPlaceholderTextView : UITextView
-@property(nonatomic, strong) NSString *placeholder;
-
-@end
-</code></pre>
-
-<p>定义<code>placeholder</code>属性，类似于<code>UITextField</code>。</p>
-
-<h2>GGPlaceholderTextView.m</h2>
-
-<pre><code>#import "GGPlaceholderTextView.h"
-
-@implementation GGPlaceholderTextView
-
-- (id)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {
-        [self addObserver];
-    }
-    return self;
-}
-
-- (id)init {
-    if (self = [super init]) {
-        [self addObserver];
-    }
-    return self;
-}
-
-- (void)setPlaceholder:(NSString *)placeholder
-{
-    _placeholder = placeholder;
-    self.text = placeholder;
-    self.textColor = [UIColor grayColor];
-}
-
--(void)addObserver
-{
-    //注册通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBeginEditing:) name:UITextViewTextDidBeginEditingNotification object:self];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEndEditing:) name:UITextViewTextDidEndEditingNotification object:self];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(terminate:) name:UIApplicationWillTerminateNotification object:[UIApplication sharedApplication]];
-}
-
-- (void)terminate:(NSNotification *)notification {
-    //移除通知
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)didBeginEditing:(NSNotification *)notification {
-    if ([self.text isEqualToString:self.placeholder]) {
-        self.text = @"";
-        self.textColor = [UIColor blackColor];
-    }
-}
-
-- (void)didEndEditing:(NSNotification *)notification {
-    if (self.text.length&lt;1) {
-        self.text = self.placeholder;
-        self.textColor = [UIColor grayColor];
-    }
-}
-
-@end
-</code></pre>
-
-<p>以上就是关于<code>GGPlaceholderTextView</code>的实现，如果你有类似需求，直接拿去用吧！具体用法请往下看。</p>
-
-<h2>实践</h2>
-
-<pre><code>GGPlaceholderTextView *textView = [[GGPlaceholderTextView alloc] initWithFrame:CGRectMake(0, 64, SCREEN.width , 200)];
-textView.backgroundColor = [UIColor whiteColor];
-textView.placeholder = @"关注微信公众号iOS开发：iOSDevTip";
-[self.view addSubview:textView];
-</code></pre>
-
-<p>经过封装后的<code>GGPlaceholderTextView</code>，使用起来是不是跟<code>UITextField</code>非常相似。当然，我封装的比较简单，github上也有一些朋友封装带<code>placeholder</code>属性的<code>UITextView</code>。比如：TextViewPlaceholder。感兴趣的童鞋可以去试用一下。</p>
-
-<p><strong>广告时间</strong></p>
-
-<p>你的分享就是对我最大的支持，希望你能把iOS开发推荐给你的朋友，不甚感激！</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/08/07/implement-uitextview-placeholder/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -251,70 +156,12 @@ textView.placeholder = @"关注微信公众号iOS开发：iOSDevTip";
 </ol>
 
 
-<h2>实现方法</h2>
-
-<h3>创建UITextView</h3>
-
-<pre><code>UITextView *textViewPlaceholder = [[UITextView alloc] initWithFrame:CGRectMake(20, 70, SCREEN.width - 40, 100)];
-textViewPlaceholder.backgroundColor = [UIColor whiteColor];
-textViewPlaceholder.text = @"关注微信公众号iOS开发：iOSDevTip";
-textViewPlaceholder.textColor = [UIColor grayColor];
-textViewPlaceholder.delegate = self;
-[self.view addSubview:textViewPlaceholder];
-</code></pre>
-
-<p>初始化<code>UITextView</code>，给<code>UITextView</code>的<code>text</code>赋值，并且给<code>UITextView</code>的<code>textColor</code>属性设置成灰色，让其看起来更像<code>placeholder</code>。</p>
-
-<p>别忘了设置<code>UITextView</code>的代理，因为后面我们要用到<code>UITextView</code>的两个代理方法。</p>
-
-<h3>开始编辑的代理方法</h3>
-
-<pre><code>- (void)textViewDidBeginEditing:(UITextView *)textView {
-
-    if ([textView.text isEqualToString:@"关注微信公众号iOS开发：iOSDevTip"]) {
-        textView.text = @"";
-        textView.textColor = [UIColor blackColor];
-    }
-}
-</code></pre>
-
-<p>在开始编辑的代理方法里面，判断如果是<code>UITextView</code>的<code>text</code>的值是<code>placeholder</code>，那么，就清空<code>text</code>，并且把<code>textColor</code>设置成真正的内容颜色，假设是黑色。</p>
-
-<h3>结束编辑的代理方法</h3>
-
-<pre><code>- (void)textViewDidEndEditing:(UITextView *)textView {
-    if (textView.text.length&lt;1) {
-        textView.text = @"关注微信公众号iOS开发：iOSDevTip";
-        textView.textColor = [UIColor grayColor];
-    }
-}
-</code></pre>
-
-<p>在结束编辑的代理方法里，判断如果<code>UITextView</code>的<code>text</code>值为空，那么，就要把需要设置的<code>placeholder</code>赋值给<code>UITextView</code>的<code>text</code>，并且将<code>textColor</code>属性设置成灰色。</p>
-
-<h2>添加轻击手势</h2>
-
-<pre><code>UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
-tapGesture.numberOfTapsRequired = 1; //点击次数
-tapGesture.numberOfTouchesRequired = 1; //点击手指数
-[self.view addGestureRecognizer:tapGesture];
-
-//轻击手势触发方法
--(void)tapGesture:(UITapGestureRecognizer *)sender
-{
-    [self.view endEditing:YES];
-}
-</code></pre>
-
-<p>至此，就很猥琐的实现了<code>placeholder</code>功能。为了方便测试，我加了一个手势。作用是用键盘消失，这样可以测试结束编辑的时候<code>placeholder</code>会不会显示。demo地址：Demo地址:<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
-
-<p>添加手势的方法很简单，关于iOS开发中的手势汇总，你可以看这篇文章<a href="http://www.superqq.com/blog/2015/01/14/ioskai-fa-zhi-shou-shi-shi-bie-hui-zong/">iOS开发之手势识别汇总</a>。</p>
-
-<p>我看了网上一些实现<code>UITextView</code>的<code>placeholder</code>功能的更猥琐的做法，在<code>UITextView</code>上面盖一个<code>UILabel</code>，然后在<code>UITextView</code>的代理方法里控制<code>UILabel</code>的值。还有用两个<code>UITextView</code>实现的。</p>
-
-<p>在这里，我只是抛砖引玉，如果你有更好的实现方法欢迎投稿给我：<strong>worldligang@163.com</strong>，下一篇文章，我将会封装一个带有<code>placeholder</code>属性的<code>UITextView</code>，敬请期待！</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/08/06/uitextview-placeholder-practice/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -356,35 +203,12 @@ tapGesture.numberOfTouchesRequired = 1; //点击手指数
 
 <p>本篇文章将会介绍如何将多个<code>UIImage</code>合并成一个<code>UIImage</code>。听起来似乎有点晕晕乎乎的，这个可以合并吗？答案是肯定的。我们拿两个<code>UIImage</code>来举例。</p>
 
-<h2>创建两个UIImage</h2>
-
-<pre><code>UIImage *image1 = [UIImage imageNamed:@"iOSDevTip"];
-UIImage *image2 = [UIImage imageNamed:@"CodePush"];
-</code></pre>
-
-<p>创建<code>UIImage</code>的方法有很多种，我们就简单的通过<code>imageNamed:</code>方法来创建。</p>
-
-<h2>合并之后的size</h2>
-
-<pre><code>CGSize size = CGSizeMake(image1.size.width + image2.size.width, image1.size.height);
-</code></pre>
-
-<p>合并两个<code>UIImage</code>，需要计算合并之后的<code>size</code>。假设这两个<code>UIImage</code>的高度是是相同的，把他们的宽度相加，得到合并之后的<code>UIImage</code>的<code>size</code>。</p>
-
-<h2>合并方法</h2>
-
-<p>有了<code>UIImage</code>和<code>size</code>接下来就是把两个<code>UIImage</code>合并，方法如下：</p>
-
-<pre><code> UIGraphicsBeginImageContext(size);
-[image1 drawInRect:CGRectMake(0, 0, image1.size.width, size.height)];
-[image2 drawInRect:CGRectMake(image1.size.width, 0, image2.size.width, size.height)];
-UIImage *togetherImage = UIGraphicsGetImageFromCurrentImageContext();
-UIGraphicsEndImageContext();
-</code></pre>
-
-<p>通过上述的代码，就可以实现两个<code>UIImage</code>的合并。` 这个小功能还挺有用的。</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/08/05/multiple-uiimage-merged/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -420,218 +244,12 @@ UIGraphicsEndImageContext();
 
 <p>接下来，我们来详细讲解一下关于系统相册权限获取、保存照片、创建自己的相簿等等功能。</p>
 
-<h2>创建自己的相簿</h2>
-
-<p>这也是一种比较创建的作法，创建自己的相簿，然后把照片或者视频保存到自己的相簿中。相关代码如下：</p>
-
-<pre><code>  ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
-[library addAssetsGroupAlbumWithName:@"test" resultBlock:^(ALAssetsGroup *group) {
-
-    //创建相簿成功
-
-} failureBlock:^(NSError *error) {
-    //失败
-}];
-</code></pre>
-
-<h2>保存照片</h2>
-
-<p>这个方法也是将照片保存到系统相簿里面，不是保存到自己创建的相簿里面。代码如下：</p>
-
-<pre><code> ALAssetsLibrary *library = [[ALAssetsLibrary alloc]init];
-[library writeImageToSavedPhotosAlbum:image.CGImage orientation:(ALAssetOrientation)image.imageOrientation completionBlock:^(NSURL *asSetUrl,NSError *error){
-    if (error) {
-       //失败
-    }else{
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"存储成功"
-                                                       message:nil
-                                                      delegate:nil
-                                             cancelButtonTitle:@"确定"
-                                             otherButtonTitles:nil, nil];
-        [alert show];
-
-    }
-}];
-</code></pre>
-
-<h2>获取权限</h2>
-
-<p>在保存照片之前，如果用户关闭相册权限，这个时候是保存失败的。如果你不做任何处理，用户是不会知道自己保存失败了。所以，我们可以在保存照片之前，做出相应的提示。如何获取这个权限呢？一般有两种方法：</p>
-
-<ol>
-<li><p>创建相簿失败</p></li>
-<li><p>保存照片失败</p></li>
-</ol>
-
-
-<p>在上面两个方法<strong>创建自己的相簿</strong>和<strong>保存照片</strong>的失败结果里，我们可以弹出获取照片权限失败的提示。我们拿第一个创建相簿失败来举例：</p>
-
-<pre><code>ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
-[library addAssetsGroupAlbumWithName:@"test" resultBlock:^(ALAssetsGroup *group)    {
-
-      //创建相簿成功
-
-} failureBlock:^(NSError *error) {
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"存储失败"
-                                                       message:@"请打开 设置-隐私-照片 来进行设置"
-                                                      delegate:nil
-                                             cancelButtonTitle:@"确定"
-                                             otherButtonTitles:nil, nil];
-    [alert show];
-}];
-</code></pre>
-
-<p>在保存照片失败的结果里，我们也可以弹出相应的提示，让用户打开应用程序的相册权限。</p>
-
-<h2>保存照片到自己的相簿</h2>
-
-<p>下面这段代码是在大谷歌里面找到的，亲自测试过是可以用的，整理如下：</p>
-
-<pre><code>#pragma mark - 创建相册
-- (void)createAlbum
-{
-    ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
-    NSMutableArray *groups=[[NSMutableArray alloc]init];
-    ALAssetsLibraryGroupsEnumerationResultsBlock listGroupBlock = ^(ALAssetsGroup *group, BOOL *stop)
-    {
-        if (group)
-        {
-            [groups addObject:group];
-        }
-
-        else
-        {
-            BOOL haveHDRGroup = NO;
-
-            for (ALAssetsGroup *gp in groups)
-            {
-                NSString *name =[gp valueForProperty:ALAssetsGroupPropertyName];
-
-                if ([name isEqualToString:@"iOSDevTip"])
-                {
-                    haveHDRGroup = YES;
-                }
-            }
-
-            if (!haveHDRGroup)
-            {
-                //do add a group named "XXXX"
-                [assetsLibrary addAssetsGroupAlbumWithName:@"iOSDevTip"
-                                               resultBlock:^(ALAssetsGroup *group)
-                 {
-                     [groups addObject:group];
-
-                 }
-                                              failureBlock:nil];
-                haveHDRGroup = YES;
-            }
-        }
-
-    };
-    //创建相簿
-    [assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupAlbum usingBlock:listGroupBlock failureBlock:nil];
-
-    [self saveToAlbumWithMetadata:nil imageData:UIImagePNGRepresentation(self.image) customAlbumName:@"iOSDevTip" completionBlock:^
-     {
-         //这里可以创建添加成功的方法
-
-     }
-                     failureBlock:^(NSError *error)
-     {
-         //处理添加失败的方法显示alert让它回到主线程执行，不然那个框框死活不肯弹出来
-         dispatch_async(dispatch_get_main_queue(), ^{
-
-             //添加失败一般是由用户不允许应用访问相册造成的，这边可以取出这种情况加以判断一下
-             if([error.localizedDescription rangeOfString:@"User denied access"].location != NSNotFound ||[error.localizedDescription rangeOfString:@"用户拒绝访问"].location!=NSNotFound){
-                 UIAlertView *alert=[[UIAlertView alloc]initWithTitle:error.localizedDescription message:error.localizedFailureReason delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", nil) otherButtonTitles: nil];
-
-                 [alert show];
-             }
-         });
-     }];
-}
-
-- (void)saveToAlbumWithMetadata:(NSDictionary *)metadata
-                      imageData:(NSData *)imageData
-                customAlbumName:(NSString *)customAlbumName
-                completionBlock:(void (^)(void))completionBlock
-                   failureBlock:(void (^)(NSError *error))failureBlock
-{
-
-    ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
-    __weak ALAssetsLibrary *weakSelf = assetsLibrary;
-    void (^AddAsset)(ALAssetsLibrary *, NSURL *) = ^(ALAssetsLibrary *assetsLibrary, NSURL *assetURL) {
-        [assetsLibrary assetForURL:assetURL resultBlock:^(ALAsset *asset) {
-            [assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
-
-                if ([[group valueForProperty:ALAssetsGroupPropertyName] isEqualToString:customAlbumName]) {
-                    [group addAsset:asset];
-                    if (completionBlock) {
-                        completionBlock();
-                    }
-                }
-            } failureBlock:^(NSError *error) {
-                if (failureBlock) {
-                    failureBlock(error);
-                }
-            }];
-        } failureBlock:^(NSError *error) {
-            if (failureBlock) {
-                failureBlock(error);
-            }
-        }];
-    };
-    [assetsLibrary writeImageDataToSavedPhotosAlbum:imageData metadata:metadata completionBlock:^(NSURL *assetURL, NSError *error) {
-        if (customAlbumName) {
-            [assetsLibrary addAssetsGroupAlbumWithName:customAlbumName resultBlock:^(ALAssetsGroup *group) {
-                if (group) {
-                    [weakSelf assetForURL:assetURL resultBlock:^(ALAsset *asset) {
-                        [group addAsset:asset];
-                        if (completionBlock) {
-                            completionBlock();
-                        }
-                    } failureBlock:^(NSError *error) {
-                        if (failureBlock) {
-                            failureBlock(error);
-                        }
-                    }];
-                } else {
-                    AddAsset(weakSelf, assetURL);
-                }
-            } failureBlock:^(NSError *error) {
-                AddAsset(weakSelf, assetURL);
-            }];
-        } else {
-            if (completionBlock) {
-                completionBlock();
-            }
-        }
-    }];
-}
-</code></pre>
-
-<h2>ALAssetsLibrary+CustomPhotoAlbum保存照片</h2>
-
-<p><code>github</code>上有一个项目<a href="https://github.com/Kjuly/ALAssetsLibrary-CustomPhotoAlbum">ALAssetsLibrary+CustomPhotoAlbum</a>，讲保存照片做了很好的封装。使用之前记得先导入头文件：</p>
-
-<pre><code>#import "ALAssetsLibrary+CustomPhotoAlbum.h"
-</code></pre>
-
-<p>保存照片到自己的相簿，直接调用：</p>
-
-<pre><code>ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
-[library saveImage:self.image toAlbum:@"gang" completion:^(NSURL *assetURL, NSError *error) {
-    if (!error) {
-
-    }
-} failure:^(NSError *error) {
-
-}];
-</code></pre>
-
-<p><code>ALAssetsLibrary+CustomPhotoAlbum</code>对保存视频的封装也是非常好的。我现在项目中用的也是这个第三方来保存照片和视频。因为不错，所以推荐给大家使用。</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/08/04/save-photo-to-own-album/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -675,52 +293,12 @@ imageView.image = self.image;
 [self.view addSubview:imageView];
 </code></pre>
 
-<h2>创建UIButton</h2>
-
-<p>创建<code>UIButton</code>并绑定<code>actionClick:</code>事件:</p>
-
-<pre><code>UIButton *button = [[UIButton alloc] init];
-button.frame = CGRectMake( 100, 300, SCREEN.width - 200, 40);
-[button addTarget:self action:@selector(actionClick:) forControlEvents:UIControlEventTouchUpInside];
-[button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-[button setBackgroundColor:[UIColor orangeColor]];
-[button setTitle:@"SavePhoto" forState:UIControlStateNormal];
-[self.view addSubview:button];
-
-
-- (void)actionClick:(UIButton *)button
-{
-
-}
-</code></pre>
-
-<h2>保存照片到系统相册（Photo Album）</h2>
-
-<p>在<code>actionClick:</code>方法里调用：</p>
-
-<pre><code>UIImageWriteToSavedPhotosAlbum(self.image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
-</code></pre>
-
-<p>这个时候，我们想知道保存是否成功，所以需要制定回调方法</p>
-
-<pre><code>// 指定回调方法
-- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
-{
-    if(!error){
-        NSLog(@"save success");
-    }else{
-        NSLog(@"save failed");
-    }
-}
-</code></pre>
-
-<p>在这个方法里，我们就知道照片是否保存成功。然后，根据需求来刷新UI线程。用户第一次使用APP的时候，点击<code>SavePhoto</code>按钮的时候，系统会询问权限：</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/46869740F32868C1F9769ED5FED1C7D0.png" alt="photo" /></p>
-
-<p>Demo地址:<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a> 下一篇文章，将会讲如何创建自己的相册并保存照片。</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-(photo-album)/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -754,117 +332,12 @@ button.frame = CGRectMake( 100, 300, SCREEN.width - 200, 40);
 
 <p>iOS系统导航栏中有<code>leftBarButtonItem</code>和<code>rightBarButtonItem</code>，我们可以根据自己的需求来自定义这两个<code>UIBarButtonItem</code>。</p>
 
-<h2>四种创建方法</h2>
-
-<p>系统提供了四种创建的方法：</p>
-
-<pre><code>- (instancetype)initWithBarButtonSystemItem:(UIBarButtonSystemItem)systemItem target:(id)target action:(SEL)action;
-
-
-- (instancetype)initWithImage:(UIImage *)image style:(UIBarButtonItemStyle)style target:(id)target action:(SEL)action;
-
-
-- (instancetype)initWithTitle:(NSString *)title style:(UIBarButtonItemStyle)style target:(id)target action:(SEL)action;
-
-- (instancetype)initWithBarButtonSystemItem:(UIBarButtonSystemItem)systemItem target:(id)target action:(SEL)action;
-
-- (instancetype)initWithCustomView:(UIView *)customView;
-</code></pre>
-
-<h3>通过系统UIBarButtonSystemItem创建</h3>
-
-<p>自定义<code>rightBarButtonItem</code>，代码如下：</p>
-
-<pre><code>self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(right:)];
-</code></pre>
-
-<p>UIBarButtonSystemItem有以下样式可以供选择：</p>
-
-<pre><code>typedef NS_ENUM(NSInteger, UIBarButtonSystemItem) {
-    UIBarButtonSystemItemDone,
-    UIBarButtonSystemItemCancel,
-    UIBarButtonSystemItemEdit,  
-    UIBarButtonSystemItemSave,  
-    UIBarButtonSystemItemAdd,
-    UIBarButtonSystemItemFlexibleSpace,
-    UIBarButtonSystemItemFixedSpace,
-    UIBarButtonSystemItemCompose,
-    UIBarButtonSystemItemReply,
-    UIBarButtonSystemItemAction,
-    UIBarButtonSystemItemOrganize,
-    UIBarButtonSystemItemBookmarks,
-    UIBarButtonSystemItemSearch,
-    UIBarButtonSystemItemRefresh,
-    UIBarButtonSystemItemStop,
-    UIBarButtonSystemItemCamera,
-    UIBarButtonSystemItemTrash,
-    UIBarButtonSystemItemPlay,
-    UIBarButtonSystemItemPause,
-    UIBarButtonSystemItemRewind,
-    UIBarButtonSystemItemFastForward,
-#if __IPHONE_3_0 &lt;= __IPHONE_OS_VERSION_MAX_ALLOWED
-    UIBarButtonSystemItemUndo,
-    UIBarButtonSystemItemRedo,
-#endif
-#if __IPHONE_4_0 &lt;= __IPHONE_OS_VERSION_MAX_ALLOWED
-    UIBarButtonSystemItemPageCurl,
-#endif
-};
-</code></pre>
-
-<p>最后别忘了实现<code>right:</code>方法：</p>
-
-<pre><code>- (void)right:(id)sender
-{
-    NSLog(@"rightBarButtonItem");
-}
-</code></pre>
-
-<h3>自定义文字的UIBarButtonItem</h3>
-
-<p>在文章<a href="http://www.superqq.com/blog/2015/07/30/six-tips-on-navigation-bar/">关于导航栏的六个小技巧</a>的第五个技巧里面有自定义<code>rightBarButtonItem</code></p>
-
-<pre><code>self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"back" style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
-</code></pre>
-
-<p>UIBarButtonItemStyle有以下三种选择：</p>
-
-<pre><code>typedef NS_ENUM(NSInteger, UIBarButtonItemStyle) {
-    UIBarButtonItemStylePlain,
-    UIBarButtonItemStyleBordered NS_ENUM_DEPRECATED_IOS(2_0, 8_0, "Use UIBarButtonItemStylePlain when minimum deployment target is iOS7 or later"),
-    UIBarButtonItemStyleDone,
-};
-</code></pre>
-
-<p>实现<code>back:</code>方法：</p>
-
-<pre><code>- (void)back:(id)sender
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-</code></pre>
-
-<h3>自定义照片的UIBarButtonItem</h3>
-
-<pre><code>self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"test"] style:UIBarButtonItemStylePlain target:self action:@selector(right:)];
-</code></pre>
-
-<h3>自定义UIView的UIBarButtonItem</h3>
-
-<p>自定义<code>UIView</code>，然后通过<code>initWithCustomView:</code>方法来创建<code>UIBarButtonItem</code>。</p>
-
-<pre><code>UIView *testView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 60)];
-self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:testView];
-</code></pre>
-
-<p>看到有朋友在后台提问：</p>
-
-<pre><code>刚哥，我现在即需要改那个导航原生的返回图片，也要改返回文字，应该怎么改呢，求指教。
-</code></pre>
-
-<p>其实，这个就可以用<code>initWithCustomView:</code>来解决，自定义<code>UIView</code>你可以放<code>UIImageView</code>和<code>UILabel</code>。可以自定义<code>UIView</code>，那么想怎么定义都是可以的。</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/08/02/custom-navigation-button-uibarbuttonitem/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -900,21 +373,12 @@ self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustom
 
 <p>说实话，电影院里看电影就是跟手机上看感觉不一样。在电影院里，很多人坐在一起看电影有氛围，还是大屏幕带来的视觉感。而手机还是显得比较low。</p>
 
-<h2>第一次购票看电影</h2>
-
-<p>这个周六和老婆一起到电影院看了两场电影，分别是《大圣归来》和《捉妖记》。两部电影拍的都不错，好像也是最近比较热播的两部电影。</p>
-
-<p>截至7月30日，《大圣归来》票房突破7.2亿元，打破《功夫熊猫2》保持4年的动画票房纪录，“登顶”中国动画电影票房总冠军。</p>
-
-<p>电影《捉妖记》上映17天，票房破17亿，再创华语票房新记录！此前《捉妖记》票房突破十五亿大关，超越《复仇者联盟2》成为内地影史票房第三高的影片。</p>
-
-<p>既然是热播电影，肯定会有它火的原因在里面。我不是个电影迷，所以我也无法为大家推荐好的电影。</p>
-
-<p>这是我第一次自己购票看电影还是不便宜的，花了我近两百元。我以前一直以为电影票就10元一张呢，搞不好还给你打个折。看来都是我想多了。</p>
-
-<p>这一次亲自购票经历，让我发现一个比较优惠的APP，叫猫眼电影，以后买电影票可以在这上面买。票价相对较便宜，我对比了一下，比其他几个知名app都要便宜。</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/08/02/first-watch-movie/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -948,54 +412,12 @@ self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustom
 
 <p>我的网站<a href="http://www.superqq.com/">刚刚在线</a>去年九月份正式上线的，马上快一周年啦！作为一个技术型的博客网站，<a href="http://www.superqq.com/">刚刚在线</a>成长速度还是蛮快的。</p>
 
-<h2>刚刚在线排名</h2>
-
-<p>特别是最近一段时间，我一直在关注<a href="http://www.superqq.com/">刚刚在线</a>的排名，每天的进步速度非常快。这也是我持续更新的结果，百度对持续更新的网站是非常友好的。</p>
-
-<p>我用Alexa的插件看了一下<a href="http://www.superqq.com/">刚刚在线</a>的排名，全球排名：<strong>240334</strong> ， 中国区排名：<strong>14665</strong> 。我特意截了一张图给大家看一看：</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/superqqalexa.jpg" alt="superqqalexa.jpg" /></p>
-
-<p>路漫漫其修远兮，吾将上下而求索。要想取得更好的成就，仍需努力！<a href="http://www.superqq.com/">刚刚在线</a>一直有一个问题困惑着我。就是在火狐浏览器中，文章底部评论模块会出现错乱。</p>
-
-<h2>火狐评论版块错乱修复</h2>
-
-<p><a href="http://www.superqq.com/">刚刚在线</a>的评论模块用的是友言。也挺奇怪的，在其他浏览器中就好好的，唯独在火狐浏览器了会出现错乱。我知道这个问题的存在，已有一些访客反应过这个问题。但是，我一直没有找到原因。</p>
-
-<p>估计iOS开发者用火狐浏览器的人肯定不少，这个错乱问题一直在这里的话，肯定会给访客留下不好的印象。所以得尽早解决这个问题。</p>
-
-<p>既然找不到解决错乱的方法，就把友言给替换掉吧。百度搜了一下，发现国内的还有多说，评论功能还是挺不错的。我也看到很多网站在用多说。</p>
-
-<h2>把友言替换成多说</h2>
-
-<p>说换就换，多说（ **<a href="http://duoshuo.com/**">http://duoshuo.com/**</a> ）接入流程也不复杂。网上有很多教程，我简单说一下我是如何操作的。</p>
-
-<h3>1.获取站点的short_name</h3>
-
-<p>到多说的官网注册账号，并且添加你的站点。<code>short_name</code>就是添加站点的时候的多说域名框里填写的。添加站点流程如下：</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/duoshuozhuce.jpg" alt="duoshuozhuce.jpg" /></p>
-
-<h3>2.配置_config.yml</h3>
-
-<p>在 <code>_config.yml</code> 中添加</p>
-
-<pre><code># duoshuo comments
-duoshuo_comments: true
-duoshuo_short_name: superqq
-</code></pre>
-
-<p>具体配置方法请看点击<a href="http://blog.csdn.net/iosdevtip/article/details/47179709"> 为 Octopress 添加多说评论系统 </a></p>
-
-<p>ok，经过上面五小步就可以实现接入多说评论版块啦。迫不及待地想看看问题有没有解决，下过如何？赶紧部署上去，我简单的测试了一下。你可以点击<a href="http://www.superqq.com/">刚刚在线</a>，看看实现效果：</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/duoshuocomment.jpg" alt="duoshuocomment.jpg" /></p>
-
-<h2>网站有评论必回复噢</h2>
-
-<p>既然网站评论已经成功接入，大家以后有什么问题，或者需要交流的可以直接在网站上评论。虽然，每天有很多少要做，但是我依然会抽出时间来看看大家提的评论，一起探讨，一起成长。</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/08/01/octopress-add-duoshuo/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -1031,87 +453,12 @@ duoshuo_short_name: superqq
 
 <p>在昨天的文章评论里面，有一个朋友提出了一个问题，关于微信导航栏的。</p>
 
-<h2>问题分析和解答</h2>
-
-<p><strong>问：</strong></p>
-
-<pre><code>自定义导航栏怎么写？就像微信那样，tabBar的四个界面切换导航栏都不变化
-</code></pre>
-
-<p><strong>答：</strong></p>
-
-<pre><code>github上搜索AKTabBarController
-</code></pre>
-
-<p>其实，这位朋友的问题不是关于自定义导航栏，我觉得他可能是想问微信底部的<code>TabBar</code>和导航结合使用是如何实现的。</p>
-
-<p>记得之前在github看到过有一个类似微信的框架（算不上框架，我们就这么简单的叫一下）。就是<a href="https://github.com/alikaragoz/AKTabBarController">AKTabBarController</a>。</p>
-
-<p><code>AKTabBarController</code>是一个非常不错的第三方。在github上有663个<code>star</code>，使用方法也不是很复杂，下面我们简单的看一下。</p>
-
-<h2>如何导入到项目中</h2>
-
-<p><code>AKTabBarController</code>是支持<a href="http://www.superqq.com/blog/2014/10/16/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/">CocoaPods</a>导入的。想理解CocoaPods的请点击：<a href="http://www.superqq.com/blog/2014/10/16/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/">CocoaPods安装和使用教程</a>。在你的Podfile文件中加入：</p>
-
-<pre><code>platform :ios
-
-pod 'AKTabBarController'
-</code></pre>
-
-<p>添加成功之后，在终端执行：</p>
-
-<pre><code>pod install 
-</code></pre>
-
-<h2>如何使用AKTabBarController</h2>
-
-<p>安装成功之后，在你想用的地方导入头文件：</p>
-
-<pre><code>#import "AKTabBarController.h"
-</code></pre>
-
-<p>然后，创建<code>tabBar</code></p>
-
-<pre><code>// Create and initialize the height of the tab bar to 50px.
-_tabBarController = [[AKTabBarController alloc] initWithTabBarHeight:50];
-
-// Create and initialize with specific height and position atop the view controller
-_tabBarController = [[AKTabBarController alloc] initWithTabBarHeight:50 position:AKTabBarPositionTop];
-
-// Adding the view controllers to manage.
-[_tabBarController setViewControllers:@[[[FirstViewController alloc] init], [[SecondViewController alloc] init], [[ThirdViewController alloc] init], [[FourthViewController alloc] init]]]];  
-</code></pre>
-
-<p>关于更多AKTabBarController的用法，请访问：**<a href="https://github.com/alikaragoz/AKTabBarController**">https://github.com/alikaragoz/AKTabBarController**</a></p>
-
-<h2>功能简介</h2>
-
-<pre><code>• 自适应竖屏和横屏模式，tab 上的图标会根据竖屏和横屏模式自动缩放大小以适应tab的高度。
-
-• 自定义 tab bar 的高度；
-
-• 当进入下个视图时，可以自动隐藏tab bar；
-
-• 可以只显示图片，而不显示文字；并且当 tab bar 的高度太小时，可以自动缩放图片以及隐藏文字；
-
-• 只需要一张图片来表示 tab 被选择和非选择模式。即tab 被选中时的高光是用CoreGraphics绘制的，不需要额外的图片。
-
-• 选择不同 tab 时的动画切换效果用的是淡入淡出（cross fade）的效果. 
-
-• 支持预渲染图像
-
-• 支持设置tabBar字体。
-</code></pre>
-
-<h2>实际效果</h2>
-
-<p>最终实现的效果如下所示：</p>
-
-<p><img src="https://github.com/alikaragoz/AKTabBarController/raw/master/Screenshots/iphone-portrait.png" alt="1" /></p>
-
-<p>这里只是简单的讲解一下。大家闲的时候，如果有兴趣的话，可以自己动手来熟练关于<code>AKTabBarController</code>更多的功能。</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/07/31/aktabbarcontroller-similar-to-wechat-library/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -1152,64 +499,12 @@ _tabBarController = [[AKTabBarController alloc] initWithTabBarHeight:50 position
 
 <p>设置方法：</p>
 
-<pre><code>[self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
-</code></pre>
-
-<p><code>UIBarStyle</code>的样式：</p>
-
-<pre><code>typedef NS_ENUM(NSInteger, UIBarStyle) {
-    UIBarStyleDefault          = 0,
-    UIBarStyleBlack            = 1,
-
-    UIBarStyleBlackOpaque      = 1, // Deprecated. Use UIBarStyleBlack
-    UIBarStyleBlackTranslucent = 2, // Deprecated. Use UIBarStyleBlack and set the translucent property to YES
-};
-</code></pre>
-
-<p><code>UIBarStyleDefault</code>是默认样式，<code>UIBarStyleBlack</code>是黑色不透明。<code>UIBarStyleBlackOpaque</code>和<code>UIBarStyleBlackTranslucent</code>这两个已经废弃了。</p>
-
-<p>如果想设置导航栏透明，可以加上下面这句代码：</p>
-
-<pre><code>self.navigationController.navigationBar.translucent = YES;
-</code></pre>
-
-<h2>3.修改返回按钮title</h2>
-
-<pre><code>self.navigationItem.title = @"test";
-</code></pre>
-
-<h2>4.隐藏返回按钮title</h2>
-
-<p>比较笨的方法是：</p>
-
-<pre><code>self.navigationItem.title = @"";
-</code></pre>
-
-<p>还可以这样设置：</p>
-
-<pre><code>[[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
-</code></pre>
-
-<h2>5.设置leftBarButtonItem</h2>
-
-<pre><code>self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"back" style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
-
-- (void)back:(id)sender
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-</code></pre>
-
-<h2>6.左滑返回手势失效了怎么办</h2>
-
-<p>如果按上一步设置<code>leftBarButtonItem</code>之后，左滑返回手势就会失效。设置一下<code>UIGestureRecognizerDelegate</code>代理即可：</p>
-
-<pre><code>self.navigationController.interactivePopGestureRecognizer.delegate = self;
-</code></pre>
-
-<p>以上是六个关于导航栏的小技巧。更多iOS开发相关的技术，请关注我的微信公众号iOS开发：<strong>iOSDevTip</strong></p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/07/30/six-tips-on-navigation-bar/">Read on &rarr;</a>
+    </footer>
   
 
 

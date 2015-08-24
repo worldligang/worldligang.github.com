@@ -113,70 +113,12 @@ NSString *directory = NSHomeDirectory();
 NSLog(@"directory:%@", directory);
 </code></pre>
 
-<p>控制台输出：</p>
-
-<pre><code>2015-07-22 00:40:16.185 iOSStrongDemo[1605:555658] directory:/var/mobile/Containers/Data/Application/F9418815-51A9-4A0A-A76C-6FD37C400928
-</code></pre>
-
-<p>这个是真机的路径，大家有时间的话可以看看模拟器的根目录路径。</p>
-
-<h3>获取Documents路径</h3>
-
-<p>获取Documents路径如下：</p>
-
-<pre><code>//获取Documents路径
-NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-NSString *path = [paths objectAtIndex:0];
-NSLog(@"path:%@", path);
-</code></pre>
-
-<p>控制台输出：</p>
-
-<pre><code>2015-07-22 00:41:41.397 iOSStrongDemo[1613:556159] path:/var/mobile/Containers/Data/Application/A62B886B-A8F0-4215-B59D-1F505C3997BD/Documents
-</code></pre>
-
-<p>获取Documents文件夹目录,第一个参数是说明获取Doucments文件夹目录，第二个参数说明是在当前应用沙盒中获取。</p>
-
-<h3>获取Library路径</h3>
-
-<pre><code>//获取Library路径
-NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-NSString *path = [paths objectAtIndex:0];
-NSLog(@"path：%@", path);
-</code></pre>
-
-<p>控制台输出：</p>
-
-<pre><code>2015-07-22 00:43:15.803 iOSStrongDemo[1619:556638] /var/mobile/Containers/Data/Application/17300507-4643-4DE7-BC68-E13DB19C8D98/Library
-</code></pre>
-
-<h3>获取Caches路径</h3>
-
-<pre><code>//获取Caches路径
-NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-NSString *path = [paths objectAtIndex:0];
-NSLog(@"path：%@", path);
-</code></pre>
-
-<p>控制台输出：</p>
-
-<pre><code>2015-07-22 00:44:31.383 iOSStrongDemo[1626:557083] path：/var/mobile/Containers/Data/Application/1E945B52-E29D-4041-A489-1AA1B11BB960/Library/Caches
-</code></pre>
-
-<h3>获取tmp路径</h3>
-
-<pre><code>NSString *tmp = NSTemporaryDirectory();
-NSLog(@"tmp：%@", tmp);
-</code></pre>
-
-<p>控制台输出：</p>
-
-<pre><code>2015-07-22 00:46:07.846 iOSStrongDemo[1632:557537] tmp：/private/var/mobile/Containers/Data/Application/4BE02307-1CC5-47E8-BEA8-CEBB7ED5A402/tmp/
-</code></pre>
-
-<p>以上是iOS开发中获取沙盒路径的方法，也许还有更好的获取方法等待我们去发现。后面我们还会讲到关于在沙盒里进行读写文件操作。</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/07/22/ioskai-fa-zhi-huo-qu-sha-he-lu-jing/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -214,29 +156,12 @@ NSLog(@"tmp：%@", tmp);
 
 <p>我会经常把自己开发过程中碰到的调试问题，一一总结出来。一来是帮助自己在下一次碰到同样问题时，可以游刃有余。二来是帮助大家再碰到类似问题的时候，有一个参考的作用。</p>
 
-<h2>failed to get the task for process 1285</h2>
-
-<p>这一次碰到的问题是这样的：模拟器上运行正常。我在iPhone 6上运行，程序编译正常，但是跑起来之后，大概一两秒的时间，就闪退（代码是没有问题的）。这个时候，Xcode6.4弹出这样的提示：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/fixbug12850.jpg" alt="fixbug1285" /></p>
-
-<pre><code>Could not launch “iOSStrongDemo”
-process launch failed: failed to get the task for process 1285
-</code></pre>
-
-<h2>错误分析</h2>
-
-<p>我看了一下Build Settings里的Code Signing配置，发现Provisioning Profile选择的是XC Ad Hoc: *。如下图所示：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/fixbug.jpg" alt="fixbug" /></p>
-
-<p>Ad Hoc是用来实现发布前的用户测试的，也就是通过Ad Hoc将未发布的App给其他人提前使用。显然这是不对的，我们是要真机调试。</p>
-
-<h2>解决方案</h2>
-
-<p>解决方法很简单，将Provisioning Profile换成用开发证书创建的Provisioning Profile即可。</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/07/21/bao-cuo-:process-launch-failed-failed-to-get-the-task-for-process-1285(jie-jue-fang-an-)/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -472,11 +397,11 @@ Objective-C 没有消失，但是现在用一个慢慢失去关注的语言来�
 
 <p><strong>林翔宇</strong>
 - <a href="http://linxiangyu.org">http://linxiangyu.org</a>
-- <a href="&#109;&#97;&#105;&#108;&#x74;&#x6f;&#x3a;&#108;&#105;&#110;&#120;&#x69;&#x61;&#x6e;&#103;&#121;&#x75;&#x40;&#x6e;&#x75;&#112;&#116;&#101;&#x72;&#46;&#x6f;&#x72;&#103;">&#108;&#105;&#x6e;&#120;&#105;&#x61;&#x6e;&#x67;&#121;&#117;&#64;&#110;&#117;&#112;&#116;&#x65;&#x72;&#46;&#x6f;&#114;&#x67;</a>
+- <a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#x6c;&#105;&#x6e;&#120;&#105;&#x61;&#110;&#x67;&#121;&#x75;&#64;&#110;&#x75;&#x70;&#116;&#x65;&#114;&#46;&#x6f;&#x72;&#103;">&#108;&#x69;&#x6e;&#x78;&#x69;&#97;&#x6e;&#103;&#x79;&#x75;&#x40;&#110;&#x75;&#x70;&#116;&#101;&#114;&#x2e;&#111;&#x72;&#x67;</a>
 - <a href="http://github.com/oa414">http://github.com/oa414</a></p>
 
 <p><strong>庞博</strong>
-- <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#58;&#x62;&#111;&#112;&#x61;&#x6e;&#x67;&#x40;&#x73;&#111;&#104;&#x75;&#45;&#x69;&#x6e;&#99;&#x2e;&#x63;&#111;&#x6d;">&#98;&#x6f;&#112;&#x61;&#110;&#x67;&#x40;&#115;&#x6f;&#x68;&#117;&#x2d;&#105;&#110;&#x63;&#x2e;&#x63;&#111;&#109;</a>
+- <a href="&#109;&#97;&#105;&#108;&#x74;&#x6f;&#58;&#x62;&#111;&#x70;&#x61;&#110;&#103;&#64;&#x73;&#x6f;&#x68;&#117;&#45;&#x69;&#x6e;&#99;&#46;&#x63;&#111;&#109;">&#x62;&#111;&#x70;&#97;&#x6e;&#x67;&#x40;&#115;&#111;&#104;&#x75;&#45;&#x69;&#x6e;&#x63;&#46;&#x63;&#111;&#x6d;</a>
 - <a href="https://github.com/heistings">https://github.com/heistings</a></p>
 
 <p>翻译已得到原作者许可，并且会在更加完善后申请合并到原文仓库。</p>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 推荐 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/tui-jian/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-24T11:53:38+08:00</updated>
+  <updated>2015-08-24T12:18:28+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -277,6 +277,9 @@ NSURL *fileURL = ...;    //存放位置
 3.动画进行时对用户交互的处理
 4.<code>UIControl</code> 的 <code>event</code> 类型</p>
 
+<!--more-->
+
+
 <h2>一、背景的毛玻璃效果</h2>
 
 <p>对新浪微博中弹出动画背景的思路分析：</p>
@@ -508,6 +511,9 @@ Xcode -> Product -> Profile -> Allocations， 开启之后我们来使用右下�
 
 <p>效果图：</p>
 
+<!--more-->
+
+
 <p><img src="http://images.90159.com/08/result.gif" alt="1" /></p>
 
 <p>源码下载地址：<a href="https://github.com/saitjr/LoopProgressDemo.git">LoopProgressDemo</a></p>
@@ -697,6 +703,9 @@ Xcode 6.4
 iOS 8.4
 效果图：</p>
 
+<!--more-->
+
+
 <p><img src="http://images.90159.com/08/1.1TabBar-1.gif" alt="1.1TabBar-1.gif" /></p>
 
 <p>源码下载地址：
@@ -847,6 +856,9 @@ TColorfulTabBar.m</p>
 <p><img src="http://7xkkjz.com1.z0.glb.clouddn.com/MK-1.png" alt="Pic-MK-1" /></p>
 
 <p>乍一看上去是挺好挺美观的 不同的人会显示不同的头像 可是当人扎堆的时候 问题就来了</p>
+
+<!--more-->
+
 
 <p><img src="http://7xkkjz.com1.z0.glb.clouddn.com/MK-2.png" alt="Pic-MK-2" /></p>
 

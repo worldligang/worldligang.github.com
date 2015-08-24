@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Swift开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/swiftkai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-24T11:53:38+08:00</updated>
+  <updated>2015-08-24T12:18:28+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -23,6 +23,9 @@
 <p><img src="http://swiftmi.qiniudn.com/codeimage/201409/13_1410874399080_89.gif" alt="swift-gif" /></p>
 
 <h2>Swift Alamofire 简介</h2>
+
+<!--more-->
+
 
 <p><img src="https://raw.githubusercontent.com/Alamofire/Alamofire/assets/alamofire.png" alt="Alamofire: Elegant Networking in Swift" /></p>
 
