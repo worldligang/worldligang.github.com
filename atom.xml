@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-23T11:51:14+08:00</updated>
+  <updated>2015-08-21T13:45:18+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,136 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[iOS/Android开发社交SDK列表]]></title>
-    <link href="http://www.superqq.com/blog/2015/08/23/ios-android-social-sdk/"/>
-    <updated>2015-08-23T11:48:48+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/08/23/ios-android-social-sdk</id>
-    <content type="html"><![CDATA[<h3>友盟社会化分享</h3>
-
-<p><a href="http://www.umeng.com/social"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>友盟社会化分享组件，可以让移动应用快速具备社会化分享、登录、评论、喜欢等功能，并提供实时、全面的社会化数据统计分析服务。指南将会手把手教你使用社会化组件SDK，用5分钟为APP增加新浪微博、腾讯微博、人人网分享功能。</p>
-
-<h2></br></h2>
-
-<h3>ShareSDK</h3>
-
-<p><a href="www.mob.com"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>ShareSDK是为iOS、Android的App提供社会化功能的一个组件，开发者仅需10分钟即可集成到自己的App中，它不仅支持国内外40多家的主流社交平台，帮助开发者轻松实现社会化分享、登录、关注、获得用户资料、获取好友列表等主流的社会化功能，还有强大的社会化统计分析管理后台，可以实时了解用户、信息流、回流率、传播效率等数据，有效地指导移动App的日常运营与推广，同时为App引入更多的社会化流量</p>
-
-<h2></br></h2>
-
-<h3>百度社会化分享</h3>
-
-<p><a href="http://developer.baidu.com/soc/share"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>百度社会化分享组件集成多种热门社会化媒体平台，开发者可将此组件集成到自己的移动应用中，用户即可方便地对应用中的内容分享到新浪微博、Qzone、腾讯微博、开心网等各大热门社会化媒体平台中。</p>
-
-<h2></br></h2>
-
-<h3>微信开放平台</h3>
-
-<p><a href="https://open.weixin.qq.com/cgi-bin/frame?t=home/app_tmpl&lang=zh_CN"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>微信是腾讯公司于2011年1月21日推出的一款通过网络快速发送语音短信、视频、图片和文字，支持多人群聊的手机聊天软件。用户可以通过微信与好友进行形式上更加丰富的类似于短信、彩信等方式的联系。微信软件本身完全免费，使用任何功能都不会收取费用，微信时产生的上网流量费由网络运营商收取。</p>
-
-<h2></br></h2>
-
-<h3>新浪微博</h3>
-
-<p><a href="http://open.weibo.com/wiki/%E9%A6%96%E9%A1%B5"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>新浪微博开放平台（Weibo Open Platform）是基于新浪微博海量用户和强大的传播能力，接入第三方合作伙伴服务，向用户提供丰富应用和完善服务的开放平台。将你的服务接入微博平台，有助于推广产品，增加网站/应用的流量、拓展新用户，获得收益。</p>
-
-<h2></br></h2>
-
-<h3>bShare</h3>
-
-<p><a href="http://www.bshare.cn/"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>bShare是中国最专业、最强大的社会化分享服务商，提供能分享到QQ空间、新浪微博、人人网等的分享功能。目前bShare已与130+家合作平台，赢得 150000+家网站 的信任。长期以来，我们专注于在社会化分享领域深耕细作，为千万家网站注入社交功能，导入巨大流量的同时，也提供专业的用户分享数据统计，并致力于打造最专业的社会化分享服务。</p>
-
-<h2></br></h2>
-
-<h3>LeanCloud</h3>
-
-<p><a href="https://cn.avoscloud.com/docs/sns.html"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>LeanCloud 社交分享提供强大的用户管理功能，包括密码加密、邮箱验证等。并且用户通过 LeanCloud 的 SDK，可轻松实现微博、微信等账号绑定和信息分享。</p>
-
-<h2></br></h2>
-
-<p>有<a href="http://www.superqq.com/">刚刚在线</a>整理，转载请注明来源。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS开发征稿启示（打赏归作者所有）]]></title>
-    <link href="http://www.superqq.com/blog/2015/08/22/development-ios-reward/"/>
-    <updated>2015-08-22T00:45:26+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/08/22/development-ios-reward</id>
-    <content type="html"><![CDATA[<h2>iOS开发订阅用户突破10000人</h2>
-
-<p>首先，非常感谢您的支持和一路陪伴！经过一年多的发展，iOS开发（iOSDevTip）微信公众号的订阅用户越来越多，已经超过10000人。这是一件好事，也是对iOS开发公众号价值的体现。</p>
-
-<p>这一年多的时间里，我每天都在为寻求一篇好的iOS开发文章而努力。这个过程有快乐也有艰辛。每天做一件事，说起来不难，真要坚持下来，不是那么容易的一件事情。我说这些，并不是要证明自己有多厉害。为了寻求好的文章，我会经常阅读大量的博文，上各大程序员门户网站。有时，会因为发现一篇好的文章而庆幸不已；有时，也会因为找不到文章而心里焦急。</p>
-
-<p>后来，我建立了自己的博客<a href="http://www.superqq.com/">刚刚在线</a>：www.superqq.com 。有时间，我就会写一些技术文章分享在上面。也会把文章同步到iOS开发公众号上。</p>
-
-<p>随着订阅用户的增多，大家对文章内容的需求也越来越高。由于我一个人的力量毕竟有限，可能无法满足所有人的需求。订阅iOS开发的用户不乏一些大牛，所以我想发动大家的力量，一起来为优质的iOS开发文章而努力。</p>
-
-<h2>毕洪博投稿文章情况</h2>
-
-<p>七夕那天，作者毕洪博投稿<a href="http://www.superqq.com/blog/2015/08/21/sina-animation/"> 一句代码添加新浪弹出框动画 </a>得到了不错的反响，我把主数据给大家看看：</p>
-
-<pre><code>图文阅读：1695
-原文阅读：19   
-转发+收藏：193
-文章发布日期：2015-08-20
-评论人数：5
-赞赏人数：3
-赞赏金额：9元
-</code></pre>
-
-<p>从阅读量上来看，还是挺不错的。虽然赞赏金额不多吧，但也算是有一点点回报。七夕那天夜里，我找到作者毕洪博给他发了一个红包。哈哈！</p>
-
-<p>如果您是一名iOS开发者，如果您有自己的博客，如果您喜欢分享，那就快行动吧！把您的优秀文章投稿给我，我将会把您的文章推送在iOS开发微信公众号上，分享给更多的iOS开发者。</p>
-
-<h2>投稿方式</h2>
-
-<pre><code>投稿邮箱：worldligang@163.com
-个人微信：chinaligang
-投稿格式：markdown格式
-博主联盟群：364679270
-</code></pre>
-
-<p>因为微信上面不方便阅读代码，但是支持markdown语法转换。所以投稿的时候，最好是markdown格式的。投稿之后，请记得加我的个人微信，以便我将打赏的钱转账给您。如果你有自己的博客，欢迎加入博主联盟群。</p>
-
-<h2>版权申明</h2>
-
-<ul>
-<li><p>微信公众号规定打赏必须是原创文章，所以希望您能将你的文章在微信公众平台的发表权「独家代理」iOS开发（ iOSDevTip ） 微信公众号。这样我就可以对您的文章申明原创和开通打赏功能。文章的版权依然归您所有，你可以将文章发布在你的博客、微博上。</p></li>
-<li><p>为了证明我得到您的授权，您需要在您的文章底部加上如下申明：</p>
-
-<p>  版权声明：我已将本文在微信公众平台的发表权「独家代理」给 iOS开发（ iOSDevTip ） 微信公众号。扫下方二维码即可关注「iOS 开发」：</p>
-
-<p>  <img src="http://images.90159.com/icon/iOSDevTip.jpg" alt="iOSDevTip" /></p></li>
-</ul>
-
-
-<p>申明markdown格式为：</p>
-
-<pre><code>    版权声明：我已将本文在微信公众平台的发表权「独家代理」给 iOS开发（ iOSDevTip ） 微信公众号。扫下方二维码即可关注「iOS 开发」：
-
-    ![iOSDevTip](http://images.90159.com/icon/iOSDevTip.jpg)    
-</code></pre>
-
-<p>如果对投稿有什么疑问，欢迎加我微信：chinaligang，详细了解一下。</p>
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[一句代码添加新浪弹出框动画]]></title>
@@ -1162,7 +1032,7 @@ float -> CGFloat
 <p> （如果抛开命名规范，假设该类真的是MVVM模式里的 ViewModel ，那么UserModel这个类可能对应的是用户注册页面，如果有特殊的业务需求，比如：login对应的应当是注册并登录的一个Button，出现login方法也可能是合理的。）</p>
 
 <ol>
-<li>doLogIn方法命名不规范：添加了多余的动词前缀。
+<li> doLogIn方法命名不规范：添加了多余的动词前缀。
 请牢记：</li>
 </ol>
 
@@ -1179,7 +1049,7 @@ float -> CGFloat
 </code></pre>
 
 <ol>
-<li>由于字符串值可能会改变，所以要把相关属性的“内存管理语义”声明为copy。(原因在下文有详细论述：<strong><em>用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？</em></strong>)</li>
+<li> 由于字符串值可能会改变，所以要把相关属性的“内存管理语义”声明为copy。(原因在下文有详细论述：<strong><em>用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？</em></strong>)</li>
 <li>“性别”(sex）属性的：该类中只给出了一种“初始化方法” (initializer)用于设置“姓名”(Name)和“年龄”(Age)的初始值，那如何对“性别”(Sex）初始化？</li>
 </ol>
 
@@ -1270,7 +1140,7 @@ typedef NS_ENUM(NSInteger, CYLSex) {
 <li><p><code>-(id)initUserModelWithUserName: (NSString*)name withAge:(int)age;</code>方法中方法名与参数之间多了空格。而且<code>-</code> 与<code>(id)</code>之间少了空格。</p></li>
 <li><p><code>-(id)initUserModelWithUserName: (NSString*)name withAge:(int)age;</code>方法中方法名与参数之间多了空格：<code>(NSString*)name</code>前多了空格。</p></li>
 <li><p><code>-(id)initUserModelWithUserName: (NSString*)name withAge:(int)age;</code>方法中<code>(NSString*)name</code>,应为<code>(NSString *)name</code>，少了空格。</p></li>
-<li>doLogIn方法命名不清晰：笔者猜测是login的意思，应该是粗心手误造成的。</li>
+<li> doLogIn方法命名不清晰：笔者猜测是login的意思，应该是粗心手误造成的。</li>
 <li>第二个@property中assign和nonatomic调换位置。</li>
 </ol>
 
@@ -1615,8 +1485,8 @@ typedef NS_ENUM(NSInteger, CYLSex) {
 <ol>
 <li>在protocol中使用property只会生成setter和getter方法声明,我们使用属性的目的,是希望遵守我协议的对象能实现该属性</li>
 <li><p>category 使用 @property 也是只会生成setter和getter方法的声明,如果我们真的需要给category增加属性的实现,需要借助于运行时的两个函数：</p></li>
-<li><p><code>objc_setAssociatedObject</code></p></li>
-<li><code>objc_getAssociatedObject</code></li>
+<li><p> <code>objc_setAssociatedObject</code></p></li>
+<li> <code>objc_getAssociatedObject</code></li>
 </ol>
 
 
@@ -2183,9 +2053,9 @@ struct objc_class {
 <ul>
 <li>所有父类的成员变量和自己的成员变量都会存放在该对象所对应的存储空间中.</li>
 <li><p>每一个对象内部都有一个isa指针,指向他的类对象,类对象中存放着本对象的</p></li>
-<li><p>对象方法列表（对象能够接收的消息列表，保存在它所对应的类对象中）</p></li>
-<li>成员变量的列表,</li>
-<li>属性列表,</li>
+<li><p> 对象方法列表（对象能够接收的消息列表，保存在它所对应的类对象中）</p></li>
+<li> 成员变量的列表,</li>
+<li> 属性列表,</li>
 </ul>
 
 
@@ -3511,6 +3381,389 @@ _tabBarController = [[AKTabBarController alloc] initWithTabBarHeight:50 position
 </code></pre>
 
 <p>很久之前写了一篇文章<a href="http://www.superqq.com/blog/2015/01/22/jie-jue-mwphotobrowserzhong-de-sdwebimagejia-zai-da-tu-dao-zhi-de-nei-cun-jing-gao-wen-ti/">解决MWPhotoBrowser中的SDWebImage加载大图导致的内存警告问题</a>。这个我记得当时从服务器拿到的照片大概有10几M的样子，加载出来会导致内存警告。所以我当时通过修改SDWebImage源码，就是把下载下来的照片进行缩放，内存就降下来了。一般情况下应该不会加载这么大的照片的，用户要是知道，早把你的APP给删掉了。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[著名的AFNetworking网络基础库Swift版Alamofire]]></title>
+    <link href="http://www.superqq.com/blog/2015/07/28/swift-alamofire/"/>
+    <updated>2015-07-28T20:42:52+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/07/28/swift-alamofire</id>
+    <content type="html"><![CDATA[<p><a href="https://github.com/Alamofire/Alamofire" target="_blank" title=“源代码”>源代码</a></p>
+
+<p><img src="http://swiftmi.qiniudn.com/codeimage/201409/13_1410874399080_89.gif" alt="swift-gif" /></p>
+
+<h2>Swift Alamofire 简介</h2>
+
+<p><img src="https://raw.githubusercontent.com/Alamofire/Alamofire/assets/alamofire.png" alt="Alamofire: Elegant Networking in Swift" /></p>
+
+<p>Alamofire是 Swift 语言的 HTTP 网络开发工具包,相当于Swift实现<a href="http://www.superqq.com/blog/2014/11/07/ioswang-luo-bian-cheng-zhi-afnetworkingshi-yong/">AFNetworking</a>版本。</p>
+
+<p>当然,AFNetworking非常稳定,在Mac OSX与iOS中也能像其他Objective-C代码一样用Swift编写。不过Alamofire更适合Swift语言风格习惯(Alamofire与AFNetworking可以共存一个项目中,互不影响).</p>
+
+<pre><code>Alamofire 取名来源于 [Alamo Fire flower](https://aggie-horticulture.tamu.edu/wildseed/alamofire.html)
+</code></pre>
+
+<h2>Alamofire安装使用方法</h2>
+
+<p>使用CocoaPods安装，在podfile</p>
+
+<pre><code>source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '8.0'
+use_frameworks!
+
+pod 'Alamofire', '~&gt; 1.2'
+</code></pre>
+
+<p>submodule 方式安装</p>
+
+<pre><code>$ git submodule add https://github.com/Alamofire/Alamofire.git
+</code></pre>
+
+<h2>环境要求</h2>
+
+<p>Xcode 6</p>
+
+<p>iOS 7.0+ / Mac OS X 10.9+</p>
+
+<h2>Alamofire使用方法</h2>
+
+<h3>GET 请求</h3>
+
+<pre><code>Alamofire.request(.GET, "http://httpbin.org/get")
+</code></pre>
+
+<p>带参数</p>
+
+<pre><code>Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
+</code></pre>
+
+<p>Response结果处理</p>
+
+<pre><code>Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
+         .response { (request, response, data, error) in
+                     println(request)
+                     println(response)
+                     println(error)
+                   }
+</code></pre>
+
+<p>Response结果字符串处理</p>
+
+<pre><code>Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
+         .responseString { (request, response, string, error) in
+                  println(string)
+         }
+</code></pre>
+
+<h2>HTTP 方法（Medthods）</h2>
+
+<p>Alamofire.Method enum 列表出在RFC 2616中定义的HTTP方法 §9:</p>
+
+<pre><code>public enum Method: String {
+    case OPTIONS = "OPTIONS"
+    case GET = "GET"
+    case HEAD = "HEAD"
+    case POST = "POST"
+    case PUT = "PUT"
+    case PATCH = "PATCH"
+    case DELETE = "DELETE"
+    case TRACE = "TRACE"
+    case CONNECT = "CONNECT"
+}
+</code></pre>
+
+<p>这些值可以作为Alamofire.request请求的第一个参数.</p>
+
+<pre><code>Alamofire.request(.POST, "http://httpbin.org/post")
+
+Alamofire.request(.PUT, "http://httpbin.org/put")
+
+Alamofire.request(.DELETE, "http://httpbin.org/delete")
+</code></pre>
+
+<p>POST请求</p>
+
+<pre><code>let parameters = [
+    "foo": "bar",
+    "baz": ["a", 1],
+    "qux": [
+        "x": 1,
+        "y": 2,
+        "z": 3
+    ]
+]
+
+Alamofire.request(.POST, "http://httpbin.org/post", parameters: parameters)
+</code></pre>
+
+<p>发送以下HttpBody内容:</p>
+
+<pre><code>foo=bar&amp;baz[]=a&amp;baz[]=1&amp;qux[x]=1&amp;qux[y]=2&amp;qux[z]=3
+</code></pre>
+
+<p>Alamofire 使用Alamofire.ParameterEncoding可以支持URL query/URI form,JSON, PropertyList方式编码参数。</p>
+
+<p>Parameter Encoding</p>
+
+<pre><code>enum ParameterEncoding {
+    case URL
+    case JSON(options: NSJSONWritingOptions)
+    case PropertyList(format: NSPropertyListFormat,
+                      options: NSPropertyListWriteOptions)
+
+    func encode(request: NSURLRequest,
+                parameters: [String: AnyObject]?) -&gt;
+                    (NSURLRequest, NSError?)
+    { ... }
+}
+</code></pre>
+
+<p>NSURLRequest方式编码参数</p>
+
+<pre><code>let URL = NSURL(string: "http://httpbin.org/get")
+var request = NSURLRequest(URL: URL)
+
+let parameters = ["foo": "bar"]
+let encoding = Alamofire.ParameterEncoding.URL
+(request, _) = encoding.encode(request, parameters)
+</code></pre>
+
+<p>POST JSON格式数据</p>
+
+<pre><code>Alamofire.request(.POST, "http://httpbin.org/post", parameters: parameters, encoding: .JSON(options: nil))
+         .responseJSON {(request, response, JSON, error) in
+            println(JSON)
+     }
+</code></pre>
+
+<p>Response 方法</p>
+
+<pre><code>response()
+responseString(encoding: NSStringEncoding)
+responseJSON(options: NSJSONReadingOptions)
+responsePropertyList(options: NSPropertyListReadOptions)
+</code></pre>
+
+<h3>上传（Uploading）</h3>
+
+<p>支持的类型</p>
+
+<pre><code>File
+Data
+Stream
+Multipart (Coming Soon)
+</code></pre>
+
+<p>上传文件</p>
+
+<pre><code>let fileURL = NSBundle.mainBundle()
+                  .URLForResource("Default",
+                                  withExtension: "png")
+
+Alamofire.upload(.POST, "http://httpbin.org/post", file: fileURL)
+</code></pre>
+
+<h3>上传进度</h3>
+
+<pre><code>Alamofire.upload(.POST, "http://httpbin.org/post", file: fileURL)
+    .progress { (bytesWritten, totalBytesWritten, totalBytesExpectedToWrite) in
+        println(totalBytesWritten)
+    }
+    .responseJSON { (request, response, JSON, error) in
+        println(JSON)
+    }
+</code></pre>
+
+<h3>下载</h3>
+
+<p>支持的类型</p>
+
+<pre><code>Request
+Resume Data
+</code></pre>
+
+<p>下载文件</p>
+
+<pre><code>Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: { (temporaryURL, response) in
+    if let directoryURL = NSFileManager.defaultManager()
+                          .URLsForDirectory(.DocumentDirectory,
+                                            inDomains: .UserDomainMask)[0]
+                          as? NSURL {
+        let pathComponent = response.suggestedFilename
+
+        return directoryURL.URLByAppendingPathComponent(pathComponent)
+    }
+
+    return temporaryURL
+})
+</code></pre>
+
+<p>下载到默认路径</p>
+
+<pre><code>let destination = Alamofire.Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
+
+Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
+</code></pre>
+
+<p>下载进度</p>
+
+<pre><code>Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
+         .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
+             println(totalBytesRead)
+         }
+         .response { (request, response, _, error) in
+             println(response)
+         }
+</code></pre>
+
+<h3>认证（Authentication）</h3>
+
+<p>支持以下几种认证</p>
+
+<pre><code>HTTP Basic
+HTTP Digest
+Kerberos
+NTLM
+</code></pre>
+
+<p>Http basic认证</p>
+
+<pre><code>let user = "user"
+let password = "password"
+
+Alamofire.request(.GET, "https://httpbin.org/basic-auth/\(user)/\(password)")
+    .authenticate(HTTPBasic: user, password: password)
+    .response {(request, response, _, error) in
+        println(response)
+        }
+</code></pre>
+
+<p>采用NSURLCredential&amp;NSURLProtectionSpace方式认证</p>
+
+<pre><code>let user = "user"
+let password = "password"
+
+let credential = NSURLCredential(user: user, password: password, persistence: .ForSession)
+let protectionSpace = NSURLProtectionSpace(host: "httpbin.org", port: 0, `protocol`: "https", realm: nil, authenticationMethod: NSURLAuthenticationMethodHTTPBasic)
+
+
+
+Alamofire.request(.GET, "https://httpbin.org/basic-auth/\(user)/\(password)")
+    .authenticate(usingCredential: credential, forProtectionSpace: protectionSpace)
+    .response {(request, response, _, error) in
+        println(response)
+}
+</code></pre>
+
+<h3>Printable</h3>
+
+<pre><code>let request = Alamofire.request(.GET, "http://httpbin.org/ip")
+
+println(request)
+// GET http://httpbin.org/ip (200)
+</code></pre>
+
+<h3>调试</h3>
+
+<pre><code>let request = Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
+
+debugPrintln(request)
+</code></pre>
+
+<h3>Output (cURL)</h3>
+
+<pre><code>$ curl -i \
+    -H "User-Agent: Alamofire" \
+    -H "Accept-Encoding: Accept-Encoding: gzip;q=1.0,compress;q=0.5" \
+    -H "Accept-Language: en;q=1.0,fr;q=0.9,de;q=0.8,zh-Hans;q=0.7,zh-Hant;q=0.6,ja;q=0.5" \
+    "http://httpbin.org/get?foo=bar"
+</code></pre>
+
+<p>更多的用法将会在接口文档中一一列出,敬请期待。</p>
+
+<p>Alamofire与AFNetworking是同一个作者</p>
+
+<blockquote><p>作者李刚是刚刚在线（www.superqq.com）站长，百度百家专栏作者
+iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</p></blockquote>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/624136-963198258f95cc10.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="iOSDevTip" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[五种创建UIImage的类方法]]></title>
+    <link href="http://www.superqq.com/blog/2015/07/28/four-create-uiimage-method/"/>
+    <updated>2015-07-28T01:08:30+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/07/28/four-create-uiimage-method</id>
+    <content type="html"><![CDATA[<h3>iOS开发已开通评论功能</h3>
+
+<p>皇天不负有心人，iOS开发的评论功能已经被邀请开通啦。这几天一直想着，微信团队大概在月底的时候会邀请我开通评论功能。果然不出我所料。这是我收到的消息：</p>
+
+<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/weixincomment.png" alt="weixincomment.png" /></p>
+
+<p>至此，iOS开发的原创、赞赏、评论三个功能都齐啦，这也是对我辛苦努力的一种肯定。前方的路依然很漫长，我们一起努力，让iOS开发变得更好。</p>
+
+<p>既然评论功能已经开通，大家也别闲着啦！今天的文章大家一起尽情的吐槽吧！</p>
+
+<p><code>UIImage</code>有五个类方法，用来创建<code>UIImage</code>的。下面介绍一下每个类方法的作用和创建实例。</p>
+
+<h3>1.使用类方法<code>imageNamed:</code>创建</h3>
+
+<pre><code>+ (UIImage *)imageNamed:(NSString *)name;      // load from main bundle      
+</code></pre>
+
+<p><code>name</code>是照片名称。创建UIImage对象，代码如下：</p>
+
+<pre><code>UIImage *image = [UIImage imageNamed:@"ganggang"];   
+</code></pre>
+
+<p>使用<code>imageNamed:</code>初始化的时候，会先检查缓存中是否存在<code>ganggang</code>的照片，如不存在，图片首先会被缓存起来，然后才返回要加载的图片对象；如果存在，直接返回要加载的照片对象。</p>
+
+<h3>2.使用类方法<code>imageWithContentsOfFile:</code>创建</h3>
+
+<pre><code>+ (UIImage *)imageWithContentsOfFile:(NSString *)path;
+</code></pre>
+
+<p><code>path</code>是需要加载照片的路径，如何获取照片的路径请点击<a href="http://www.superqq.com/blog/2015/07/22/ioskai-fa-zhi-huo-qu-sha-he-lu-jing/">iOS开发之获取沙盒路径</a>。实现代码如下：</p>
+
+<pre><code>UIImage *image = [UIImage imageWithContentsOfFile:path];   
+</code></pre>
+
+<p>使用<code>imageWithContentsOfFile:</code>创建<code>UIImage</code>的时候，是直接从磁盘上加载。当收到内存警告时，<code>UIImage</code>对象会被释放，下一次绘图的时候，需要重新加载。</p>
+
+<h3>3.使用类方法<code>imageWithData:</code>创建</h3>
+
+<pre><code>+ (UIImage *)imageWithData:(NSData *)data;
+</code></pre>
+
+<p><code>data</code>是照片数据，一般是请求返回的，然后通过<code>imageWithData:</code>创建<code>UIImage</code>。实现代码如下所示：</p>
+
+<pre><code>NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://www.superqq.com/images/getqrcode.jpg"]];
+UIImage *image =[UIImage imageWithData:data]; 
+</code></pre>
+
+<h3>4.使用类方法<code>imageWithCGImage:</code>创建</h3>
+
+<pre><code>+ (UIImage *)imageWithCGImage:(CGImageRef)cgImage;
+</code></pre>
+
+<p><code>cgImage</code>是定义在QuartzCore框架中的一个结构体指针。这个结构用来创建像素位图，可以通过操作存储的像素位来编辑图片。</p>
+
+<pre><code>UIImage *image = [UIImage imageWithCGImage:cgImage];   
+</code></pre>
+
+<h3>5.使用类方法<code>imageWithCIImage:</code>创建</h3>
+
+<pre><code>+ (UIImage *)imageWithCIImage:(CIImage *)ciImage NS_AVAILABLE_IOS(5_0);
+</code></pre>
+
+<p><code>CIImage</code>是<code>CoreImage</code>框架中最基本代表图像的对象，在<code>CIImage</code>被<code>CIContext</code>渲染出来之前，他是依赖于滤镜链的，滤镜是不会更改<code>CIImage</code>中的图像数据。</p>
+
+<pre><code> UIImage *image = [UIImage imageWithCGImage:ciImage];   
+</code></pre>
+
+<p>以上四种方法都是<code>UIImage</code>的类方法，使用<code>UIImage</code>的初始化方法也是可以创建<code>UIImage</code>对象的大家可以进<code>UIImage</code>详细了解一下。</p>
 ]]></content>
   </entry>
   
