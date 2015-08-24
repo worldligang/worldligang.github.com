@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 推荐 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/tui-jian/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-24T11:42:29+08:00</updated>
+  <updated>2015-08-24T11:53:38+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -74,7 +74,7 @@ AVCaptureSession、AVCaptureDeviceInput、AVCaptureOutput,同样，来看一张�
 
 <p>一般来说，如果你想修改视频的相关信息，如拍摄地点等，可以拿到output的metadata来修改。大致代码如下:</p>
 
-<pre><code class="Objective-C">NSMutableArray *array = [output.metadta mutableCopy];
+<pre><code>NSMutableArray *array = [output.metadta mutableCopy];
 AVMutableMetadataItem *item = [[AVMutableMetadataItem alloc] init];
 item.keyspace = ...;
 item.key = ...;
@@ -114,7 +114,7 @@ videoDataOutput.videoSettings = newSettings;
 
 <p>说了这么多，感觉很虚，还是直接上代码，将以上部分衔接起来</p>
 
-<pre><code class="Objective-C">//自定义方法，小演示只添加了视频，没有添加声音，添加声音类似
+<pre><code>//自定义方法，小演示只添加了视频，没有添加声音，添加声音类似
 - (void)yourCustomMethodName{
     AVCaptureSession *session = [[AVCaptureSession alloc] init];
     if ([session canSetSessionPreset:AVCaptureSessionPreset640x480]){ 

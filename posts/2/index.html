@@ -81,6 +81,320 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/08/07/implement-uitextview-placeholder/">实现placeholder属性的UITextView</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-07T00:27:43+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:27 am</span></time>
+        
+        
+          | <a href="/blog/2015/08/07/implement-uitextview-placeholder/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>iOS开发微信公众号上的iOS技术文章，都将发布在<a href="http://www.superqq.com/">刚刚在线</a>。所以大家可以到我的网站上查看之前的文章，也可以在底部的精彩文章查看历史文章。</p>
+
+<p>上一篇文章<a href="http://www.superqq.com/blog/2015/08/06/uitextview-placeholder-practice/">UITextView实现placeholder的猥琐做法</a>讲了关于<code>UITextView</code>的<code>placeholder</code>实现原理。大家都一致认为做法比较猥琐。</p>
+
+<p>那么，这一次我将简单的封装一个<code>UITextView</code>。暂且取名叫<code>GGPlaceholderTextView</code>，GG前缀看着有点任性的哈。</p>
+
+<h2>GGPlaceholderTextView简介</h2>
+
+<p><code>GGPlaceholderTextView</code>也是对<code>text</code>操作，具体逻辑如下：</p>
+
+<ol>
+<li>继承<code>UITextView</code>，并设置<code>placeholder</code>属性</li>
+<li>注册开始编辑和结束编辑通知，然后对<code>text</code>做相应的操作</li>
+<li>通过<code>UIApplicationWillTerminateNotification</code>通知，在APP退出的时候移除通知。</li>
+</ol>
+
+
+<p>我把<code>GGPlaceholderTextView</code>写在下面。不过，微信里看代码还是不太方便，我已经把代码push到:<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a>。你可以下载下来。</p>
+
+<h2>GGPlaceholderTextView.h</h2>
+
+<pre><code>#import &lt;UIKit/UIKit.h&gt;
+
+@interface GGPlaceholderTextView : UITextView
+@property(nonatomic, strong) NSString *placeholder;
+
+@end
+</code></pre>
+
+<p>定义<code>placeholder</code>属性，类似于<code>UITextField</code>。</p>
+
+<h2>GGPlaceholderTextView.m</h2>
+
+<pre><code>#import "GGPlaceholderTextView.h"
+
+@implementation GGPlaceholderTextView
+
+- (id)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        [self addObserver];
+    }
+    return self;
+}
+
+- (id)init {
+    if (self = [super init]) {
+        [self addObserver];
+    }
+    return self;
+}
+
+- (void)setPlaceholder:(NSString *)placeholder
+{
+    _placeholder = placeholder;
+    self.text = placeholder;
+    self.textColor = [UIColor grayColor];
+}
+
+-(void)addObserver
+{
+    //注册通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBeginEditing:) name:UITextViewTextDidBeginEditingNotification object:self];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEndEditing:) name:UITextViewTextDidEndEditingNotification object:self];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(terminate:) name:UIApplicationWillTerminateNotification object:[UIApplication sharedApplication]];
+}
+
+- (void)terminate:(NSNotification *)notification {
+    //移除通知
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)didBeginEditing:(NSNotification *)notification {
+    if ([self.text isEqualToString:self.placeholder]) {
+        self.text = @"";
+        self.textColor = [UIColor blackColor];
+    }
+}
+
+- (void)didEndEditing:(NSNotification *)notification {
+    if (self.text.length&lt;1) {
+        self.text = self.placeholder;
+        self.textColor = [UIColor grayColor];
+    }
+}
+
+@end
+</code></pre>
+
+<p>以上就是关于<code>GGPlaceholderTextView</code>的实现，如果你有类似需求，直接拿去用吧！具体用法请往下看。</p>
+
+<h2>实践</h2>
+
+<pre><code>GGPlaceholderTextView *textView = [[GGPlaceholderTextView alloc] initWithFrame:CGRectMake(0, 64, SCREEN.width , 200)];
+textView.backgroundColor = [UIColor whiteColor];
+textView.placeholder = @"关注微信公众号iOS开发：iOSDevTip";
+[self.view addSubview:textView];
+</code></pre>
+
+<p>经过封装后的<code>GGPlaceholderTextView</code>，使用起来是不是跟<code>UITextField</code>非常相似。当然，我封装的比较简单，github上也有一些朋友封装带<code>placeholder</code>属性的<code>UITextView</code>。比如：TextViewPlaceholder。感兴趣的童鞋可以去试用一下。</p>
+
+<p><strong>广告时间</strong></p>
+
+<p>你的分享就是对我最大的支持，希望你能把iOS开发推荐给你的朋友，不甚感激！</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/06/uitextview-placeholder-practice/">UITextView实现placeholder的猥琐做法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-06T21:37:38+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:37 pm</span></time>
+        
+        
+          | <a href="/blog/2015/08/06/uitextview-placeholder-practice/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>我经常写一些<a href="http://www.superqq.com/">iOS开发</a>的小技巧，为了在自己需要的时候能用得上，也希望能对正在看文章的你一些帮助，亦或是引发一些思考。</p>
+
+<p>如果你觉得文章对你有帮助，请多多分享。你身边一定有很多做iOS开发的朋友，希望你能把我的iOS开发：<strong>iOSDevTip</strong>推荐给你的朋友。不甚感激！</p>
+
+<p>我们都知道iOS开发中的<code>UITextField</code>有个<code>placeholder</code>属性，<code>placeholder</code>可以很方便引导用户输入。但是<code>UITextView</code>却没有<code>placeholder</code>属性。</p>
+
+<h2>猥琐法分析</h2>
+
+<p>如何让<code>UITextView</code>也有<code>placeholder</code>功能呢？今天给各位分享一个比较猥琐的做法。思路大概是这样的：</p>
+
+<ol>
+<li>把<code>UITextView</code>的<code>text</code>当<code>placeholder</code>使用。</li>
+<li>在开始编辑的代理方法里清除<code>placeholder</code>。</li>
+<li>在结束编辑的代理方法里在设置<code>placeholder</code>。</li>
+</ol>
+
+
+<h2>实现方法</h2>
+
+<h3>创建UITextView</h3>
+
+<pre><code>UITextView *textViewPlaceholder = [[UITextView alloc] initWithFrame:CGRectMake(20, 70, SCREEN.width - 40, 100)];
+textViewPlaceholder.backgroundColor = [UIColor whiteColor];
+textViewPlaceholder.text = @"关注微信公众号iOS开发：iOSDevTip";
+textViewPlaceholder.textColor = [UIColor grayColor];
+textViewPlaceholder.delegate = self;
+[self.view addSubview:textViewPlaceholder];
+</code></pre>
+
+<p>初始化<code>UITextView</code>，给<code>UITextView</code>的<code>text</code>赋值，并且给<code>UITextView</code>的<code>textColor</code>属性设置成灰色，让其看起来更像<code>placeholder</code>。</p>
+
+<p>别忘了设置<code>UITextView</code>的代理，因为后面我们要用到<code>UITextView</code>的两个代理方法。</p>
+
+<h3>开始编辑的代理方法</h3>
+
+<pre><code>- (void)textViewDidBeginEditing:(UITextView *)textView {
+
+    if ([textView.text isEqualToString:@"关注微信公众号iOS开发：iOSDevTip"]) {
+        textView.text = @"";
+        textView.textColor = [UIColor blackColor];
+    }
+}
+</code></pre>
+
+<p>在开始编辑的代理方法里面，判断如果是<code>UITextView</code>的<code>text</code>的值是<code>placeholder</code>，那么，就清空<code>text</code>，并且把<code>textColor</code>设置成真正的内容颜色，假设是黑色。</p>
+
+<h3>结束编辑的代理方法</h3>
+
+<pre><code>- (void)textViewDidEndEditing:(UITextView *)textView {
+    if (textView.text.length&lt;1) {
+        textView.text = @"关注微信公众号iOS开发：iOSDevTip";
+        textView.textColor = [UIColor grayColor];
+    }
+}
+</code></pre>
+
+<p>在结束编辑的代理方法里，判断如果<code>UITextView</code>的<code>text</code>值为空，那么，就要把需要设置的<code>placeholder</code>赋值给<code>UITextView</code>的<code>text</code>，并且将<code>textColor</code>属性设置成灰色。</p>
+
+<h2>添加轻击手势</h2>
+
+<pre><code>UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
+tapGesture.numberOfTapsRequired = 1; //点击次数
+tapGesture.numberOfTouchesRequired = 1; //点击手指数
+[self.view addGestureRecognizer:tapGesture];
+
+//轻击手势触发方法
+-(void)tapGesture:(UITapGestureRecognizer *)sender
+{
+    [self.view endEditing:YES];
+}
+</code></pre>
+
+<p>至此，就很猥琐的实现了<code>placeholder</code>功能。为了方便测试，我加了一个手势。作用是用键盘消失，这样可以测试结束编辑的时候<code>placeholder</code>会不会显示。demo地址：Demo地址:<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
+
+<p>添加手势的方法很简单，关于iOS开发中的手势汇总，你可以看这篇文章<a href="http://www.superqq.com/blog/2015/01/14/ioskai-fa-zhi-shou-shi-shi-bie-hui-zong/">iOS开发之手势识别汇总</a>。</p>
+
+<p>我看了网上一些实现<code>UITextView</code>的<code>placeholder</code>功能的更猥琐的做法，在<code>UITextView</code>上面盖一个<code>UILabel</code>，然后在<code>UITextView</code>的代理方法里控制<code>UILabel</code>的值。还有用两个<code>UITextView</code>实现的。</p>
+
+<p>在这里，我只是抛砖引玉，如果你有更好的实现方法欢迎投稿给我：<strong>worldligang@163.com</strong>，下一篇文章，我将会封装一个带有<code>placeholder</code>属性的<code>UITextView</code>，敬请期待！</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/05/multiple-uiimage-merged/">多个UIImage合并成一个UIImage</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-05T17:43:53+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:43 pm</span></time>
+        
+        
+          | <a href="/blog/2015/08/05/multiple-uiimage-merged/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>写了两篇关于照片保存的文章：</p>
+
+<ol>
+<li><a href="http://www.superqq.com/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-%28photo-album%29/">iOS开发之保存照片到系统相册（Photo Album）</a></li>
+<li><a href="http://www.superqq.com/blog/2015/08/04/save-photo-to-own-album/">iOS开发之保存照片到自己创建的相簿</a></li>
+</ol>
+
+
+<p>介绍了如何将图片保存到系统相册，也可以将照片保存到自己的相簿。里面还介绍了一个第三方<code>ALAssetsLibrary+CustomPhotoAlbum</code>保存照片的方法。</p>
+
+<p>本篇文章将会介绍如何将多个<code>UIImage</code>合并成一个<code>UIImage</code>。听起来似乎有点晕晕乎乎的，这个可以合并吗？答案是肯定的。我们拿两个<code>UIImage</code>来举例。</p>
+
+<h2>创建两个UIImage</h2>
+
+<pre><code>UIImage *image1 = [UIImage imageNamed:@"iOSDevTip"];
+UIImage *image2 = [UIImage imageNamed:@"CodePush"];
+</code></pre>
+
+<p>创建<code>UIImage</code>的方法有很多种，我们就简单的通过<code>imageNamed:</code>方法来创建。</p>
+
+<h2>合并之后的size</h2>
+
+<pre><code>CGSize size = CGSizeMake(image1.size.width + image2.size.width, image1.size.height);
+</code></pre>
+
+<p>合并两个<code>UIImage</code>，需要计算合并之后的<code>size</code>。假设这两个<code>UIImage</code>的高度是是相同的，把他们的宽度相加，得到合并之后的<code>UIImage</code>的<code>size</code>。</p>
+
+<h2>合并方法</h2>
+
+<p>有了<code>UIImage</code>和<code>size</code>接下来就是把两个<code>UIImage</code>合并，方法如下：</p>
+
+<pre><code> UIGraphicsBeginImageContext(size);
+[image1 drawInRect:CGRectMake(0, 0, image1.size.width, size.height)];
+[image2 drawInRect:CGRectMake(image1.size.width, 0, image2.size.width, size.height)];
+UIImage *togetherImage = UIGraphicsGetImageFromCurrentImageContext();
+UIGraphicsEndImageContext();
+</code></pre>
+
+<p>通过上述的代码，就可以实现两个<code>UIImage</code>的合并。` 这个小功能还挺有用的。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/08/04/save-photo-to-own-album/">iOS开发之保存照片到自己创建的相簿</a></h1>
     
     
@@ -901,580 +1215,6 @@ _tabBarController = [[AKTabBarController alloc] initWithTabBarHeight:50 position
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/29/uiimage-geometric-zoom/">iOS开发之UIImage等比缩放</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-29T00:01:15+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:01 am</span></time>
-        
-        
-          | <a href="/blog/2015/07/29/uiimage-geometric-zoom/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>评论功能真不错</h2>
-
-<p>评论开通后，果然有很多人吐槽。谢谢大家的支持和关爱，如果有做的不到的地方，还请海涵。毕竟我一个人的力量是有限的，我会尽自己最大的努力大家准备一些干货。</p>
-
-<p>有些内容可能都是比较基础的，记住：不积跬步无以至千里，不积小流无以成江海。我想这个道理大家都懂，在为大家准备文章的过程中，对我来说也是一次学习成长。</p>
-
-<p>大家可以继续吐槽！微信的评论就是一个沟通的渠道，也是一篇文章的延续。你也可以在评论中写一些你对iOS开发的见解，说不定就会对他人有帮助。</p>
-
-<p>很高兴，已经有好几位iOS开发的朋友答应以后会写文章投稿给我。在这里，我再强调一下：如果你有好的技术文章一定要投稿给我噢！投稿邮箱：</p>
-
-<pre><code>worldligang@163.com
-</code></pre>
-
-<p>前面讲了<a href="http://www.superqq.com/blog/2015/07/26/jie-qu-uiimagezhi-ding-da-xiao-qu-yu/">截取UIImage指定大小区域</a>，很方便的截取<code>UIImage</code>。今天要和大家分享的是<code>UIImage</code>的缩放。</p>
-
-<p>两种缩放:</p>
-
-<ol>
-<li>缩放到指定大小，也就是指定的<code>size</code>.</li>
-<li>等比缩放。</li>
-</ol>
-
-
-<h2>缩放到指定大小</h2>
-
-<pre><code>- (UIImage*)imageCompressWithSimple:(UIImage*)image scaledToSize:(CGSize)size
-{
-    UIGraphicsBeginImageContext(size);
-    [image drawInRect:CGRectMake(0,0,size.width,size.height)];
-    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return newImage;
-}
-</code></pre>
-
-<h2>等比缩放</h2>
-
-<h3>通过缩放系数</h3>
-
-<pre><code>- (UIImage*)imageCompressWithSimple:(UIImage*)image scale:(float)scale
-{
-    CGSize size = image.size;
-    CGFloat width = size.width;
-    CGFloat height = size.height;
-    CGFloat scaledWidth = width * scale;
-    CGFloat scaledHeight = height * scale;
-    UIGraphicsBeginImageContext(size); // this will crop
-    [image drawInRect:CGRectMake(0,0,scaledWidth,scaledHeight)];
-    UIImage* newImage= UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return newImage;
-}
-</code></pre>
-
-<p><code>scale</code>是缩放系数  。</p>
-
-<h3>通过计算得到缩放系数</h3>
-
-<pre><code>- (UIImage*)imageByScalingAndCroppingForSize:(CGSize)targetSize
-{
-
-    UIImage *sourceImage = [UIImage imageNamed:@"test.jpg"];
-    UIImage *newImage = nil;
-    CGSize imageSize = sourceImage.size;
-    CGFloat width = imageSize.width;
-    CGFloat height = imageSize.height;
-    CGFloat targetWidth = targetSize.width;
-    CGFloat targetHeight = targetSize.height;
-    CGFloat scaleFactor = 0.0;
-    CGFloat scaledWidth = targetWidth;
-    CGFloat scaledHeight = targetHeight;
-    CGPoint thumbnailPoint = CGPointMake(0.0,0.0);
-
-    if (CGSizeEqualToSize(imageSize, targetSize) == NO)
-    {
-        CGFloat widthFactor = targetWidth / width;
-        CGFloat heightFactor = targetHeight / height;
-        if (widthFactor &gt; heightFactor)
-            scaleFactor = widthFactor; // scale to fit height
-        else
-            scaleFactor = heightFactor; // scale to fit width
-
-        scaledWidth= width * scaleFactor;
-        scaledHeight = height * scaleFactor;
-        // center the image
-        if (widthFactor &gt; heightFactor)
-        {
-            thumbnailPoint.y = (targetHeight - scaledHeight) * 0.5;
-        }
-        else if (widthFactor &lt; heightFactor)
-        {
-            thumbnailPoint.x = (targetWidth - scaledWidth) * 0.5;
-        }
-    }
-
-    UIGraphicsBeginImageContext(targetSize); // this will crop
-    CGRect thumbnailRect = CGRectZero;
-    thumbnailRect.origin = thumbnailPoint;
-    thumbnailRect.size.width= scaledWidth;
-    thumbnailRect.size.height = scaledHeight;
-    [sourceImage drawInRect:thumbnailRect];
-    newImage = UIGraphicsGetImageFromCurrentImageContext();
-
-    if(newImage == nil)
-        NSLog(@"could not scale image");
-    //pop the context to get back to the default
-    UIGraphicsEndImageContext();
-
-    return newImage;
-
-}
-</code></pre>
-
-<p>很久之前写了一篇文章<a href="http://www.superqq.com/blog/2015/01/22/jie-jue-mwphotobrowserzhong-de-sdwebimagejia-zai-da-tu-dao-zhi-de-nei-cun-jing-gao-wen-ti/">解决MWPhotoBrowser中的SDWebImage加载大图导致的内存警告问题</a>。这个我记得当时从服务器拿到的照片大概有10几M的样子，加载出来会导致内存警告。所以我当时通过修改SDWebImage源码，就是把下载下来的照片进行缩放，内存就降下来了。一般情况下应该不会加载这么大的照片的，用户要是知道，早把你的APP给删掉了。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/28/swift-alamofire/">著名的AFNetworking网络基础库Swift版Alamofire</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-28T20:42:52+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:42 pm</span></time>
-        
-        
-          | <a href="/blog/2015/07/28/swift-alamofire/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="https://github.com/Alamofire/Alamofire" target="_blank" title=“源代码”>源代码</a></p>
-
-<p><img src="http://swiftmi.qiniudn.com/codeimage/201409/13_1410874399080_89.gif" alt="swift-gif" /></p>
-
-<h2>Swift Alamofire 简介</h2>
-
-<p><img src="https://raw.githubusercontent.com/Alamofire/Alamofire/assets/alamofire.png" alt="Alamofire: Elegant Networking in Swift" /></p>
-
-<p>Alamofire是 Swift 语言的 HTTP 网络开发工具包,相当于Swift实现<a href="http://www.superqq.com/blog/2014/11/07/ioswang-luo-bian-cheng-zhi-afnetworkingshi-yong/">AFNetworking</a>版本。</p>
-
-<p>当然,AFNetworking非常稳定,在Mac OSX与iOS中也能像其他Objective-C代码一样用Swift编写。不过Alamofire更适合Swift语言风格习惯(Alamofire与AFNetworking可以共存一个项目中,互不影响).</p>
-
-<pre><code>Alamofire 取名来源于 [Alamo Fire flower](https://aggie-horticulture.tamu.edu/wildseed/alamofire.html)
-</code></pre>
-
-<h2>Alamofire安装使用方法</h2>
-
-<p>使用CocoaPods安装，在podfile</p>
-
-<pre><code>source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '8.0'
-use_frameworks!
-
-pod 'Alamofire', '~&gt; 1.2'
-</code></pre>
-
-<p>submodule 方式安装</p>
-
-<pre><code>$ git submodule add https://github.com/Alamofire/Alamofire.git
-</code></pre>
-
-<h2>环境要求</h2>
-
-<p>Xcode 6</p>
-
-<p>iOS 7.0+ / Mac OS X 10.9+</p>
-
-<h2>Alamofire使用方法</h2>
-
-<h3>GET 请求</h3>
-
-<pre><code>Alamofire.request(.GET, "http://httpbin.org/get")
-</code></pre>
-
-<p>带参数</p>
-
-<pre><code>Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
-</code></pre>
-
-<p>Response结果处理</p>
-
-<pre><code>Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
-         .response { (request, response, data, error) in
-                     println(request)
-                     println(response)
-                     println(error)
-                   }
-</code></pre>
-
-<p>Response结果字符串处理</p>
-
-<pre><code>Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
-         .responseString { (request, response, string, error) in
-                  println(string)
-         }
-</code></pre>
-
-<h2>HTTP 方法（Medthods）</h2>
-
-<p>Alamofire.Method enum 列表出在RFC 2616中定义的HTTP方法 §9:</p>
-
-<pre><code>public enum Method: String {
-    case OPTIONS = "OPTIONS"
-    case GET = "GET"
-    case HEAD = "HEAD"
-    case POST = "POST"
-    case PUT = "PUT"
-    case PATCH = "PATCH"
-    case DELETE = "DELETE"
-    case TRACE = "TRACE"
-    case CONNECT = "CONNECT"
-}
-</code></pre>
-
-<p>这些值可以作为Alamofire.request请求的第一个参数.</p>
-
-<pre><code>Alamofire.request(.POST, "http://httpbin.org/post")
-
-Alamofire.request(.PUT, "http://httpbin.org/put")
-
-Alamofire.request(.DELETE, "http://httpbin.org/delete")
-</code></pre>
-
-<p>POST请求</p>
-
-<pre><code>let parameters = [
-    "foo": "bar",
-    "baz": ["a", 1],
-    "qux": [
-        "x": 1,
-        "y": 2,
-        "z": 3
-    ]
-]
-
-Alamofire.request(.POST, "http://httpbin.org/post", parameters: parameters)
-</code></pre>
-
-<p>发送以下HttpBody内容:</p>
-
-<pre><code>foo=bar&amp;baz[]=a&amp;baz[]=1&amp;qux[x]=1&amp;qux[y]=2&amp;qux[z]=3
-</code></pre>
-
-<p>Alamofire 使用Alamofire.ParameterEncoding可以支持URL query/URI form,JSON, PropertyList方式编码参数。</p>
-
-<p>Parameter Encoding</p>
-
-<pre><code>enum ParameterEncoding {
-    case URL
-    case JSON(options: NSJSONWritingOptions)
-    case PropertyList(format: NSPropertyListFormat,
-                      options: NSPropertyListWriteOptions)
-
-    func encode(request: NSURLRequest,
-                parameters: [String: AnyObject]?) -&gt;
-                    (NSURLRequest, NSError?)
-    { ... }
-}
-</code></pre>
-
-<p>NSURLRequest方式编码参数</p>
-
-<pre><code>let URL = NSURL(string: "http://httpbin.org/get")
-var request = NSURLRequest(URL: URL)
-
-let parameters = ["foo": "bar"]
-let encoding = Alamofire.ParameterEncoding.URL
-(request, _) = encoding.encode(request, parameters)
-</code></pre>
-
-<p>POST JSON格式数据</p>
-
-<pre><code>Alamofire.request(.POST, "http://httpbin.org/post", parameters: parameters, encoding: .JSON(options: nil))
-         .responseJSON {(request, response, JSON, error) in
-            println(JSON)
-     }
-</code></pre>
-
-<p>Response 方法</p>
-
-<pre><code>response()
-responseString(encoding: NSStringEncoding)
-responseJSON(options: NSJSONReadingOptions)
-responsePropertyList(options: NSPropertyListReadOptions)
-</code></pre>
-
-<h3>上传（Uploading）</h3>
-
-<p>支持的类型</p>
-
-<pre><code>File
-Data
-Stream
-Multipart (Coming Soon)
-</code></pre>
-
-<p>上传文件</p>
-
-<pre><code>let fileURL = NSBundle.mainBundle()
-                  .URLForResource("Default",
-                                  withExtension: "png")
-
-Alamofire.upload(.POST, "http://httpbin.org/post", file: fileURL)
-</code></pre>
-
-<h3>上传进度</h3>
-
-<pre><code>Alamofire.upload(.POST, "http://httpbin.org/post", file: fileURL)
-    .progress { (bytesWritten, totalBytesWritten, totalBytesExpectedToWrite) in
-        println(totalBytesWritten)
-    }
-    .responseJSON { (request, response, JSON, error) in
-        println(JSON)
-    }
-</code></pre>
-
-<h3>下载</h3>
-
-<p>支持的类型</p>
-
-<pre><code>Request
-Resume Data
-</code></pre>
-
-<p>下载文件</p>
-
-<pre><code>Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: { (temporaryURL, response) in
-    if let directoryURL = NSFileManager.defaultManager()
-                          .URLsForDirectory(.DocumentDirectory,
-                                            inDomains: .UserDomainMask)[0]
-                          as? NSURL {
-        let pathComponent = response.suggestedFilename
-
-        return directoryURL.URLByAppendingPathComponent(pathComponent)
-    }
-
-    return temporaryURL
-})
-</code></pre>
-
-<p>下载到默认路径</p>
-
-<pre><code>let destination = Alamofire.Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
-
-Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
-</code></pre>
-
-<p>下载进度</p>
-
-<pre><code>Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
-         .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
-             println(totalBytesRead)
-         }
-         .response { (request, response, _, error) in
-             println(response)
-         }
-</code></pre>
-
-<h3>认证（Authentication）</h3>
-
-<p>支持以下几种认证</p>
-
-<pre><code>HTTP Basic
-HTTP Digest
-Kerberos
-NTLM
-</code></pre>
-
-<p>Http basic认证</p>
-
-<pre><code>let user = "user"
-let password = "password"
-
-Alamofire.request(.GET, "https://httpbin.org/basic-auth/\(user)/\(password)")
-    .authenticate(HTTPBasic: user, password: password)
-    .response {(request, response, _, error) in
-        println(response)
-        }
-</code></pre>
-
-<p>采用NSURLCredential&amp;NSURLProtectionSpace方式认证</p>
-
-<pre><code>let user = "user"
-let password = "password"
-
-let credential = NSURLCredential(user: user, password: password, persistence: .ForSession)
-let protectionSpace = NSURLProtectionSpace(host: "httpbin.org", port: 0, `protocol`: "https", realm: nil, authenticationMethod: NSURLAuthenticationMethodHTTPBasic)
-
-
-
-Alamofire.request(.GET, "https://httpbin.org/basic-auth/\(user)/\(password)")
-    .authenticate(usingCredential: credential, forProtectionSpace: protectionSpace)
-    .response {(request, response, _, error) in
-        println(response)
-}
-</code></pre>
-
-<h3>Printable</h3>
-
-<pre><code>let request = Alamofire.request(.GET, "http://httpbin.org/ip")
-
-println(request)
-// GET http://httpbin.org/ip (200)
-</code></pre>
-
-<h3>调试</h3>
-
-<pre><code>let request = Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
-
-debugPrintln(request)
-</code></pre>
-
-<h3>Output (cURL)</h3>
-
-<pre><code>$ curl -i \
-    -H "User-Agent: Alamofire" \
-    -H "Accept-Encoding: Accept-Encoding: gzip;q=1.0,compress;q=0.5" \
-    -H "Accept-Language: en;q=1.0,fr;q=0.9,de;q=0.8,zh-Hans;q=0.7,zh-Hant;q=0.6,ja;q=0.5" \
-    "http://httpbin.org/get?foo=bar"
-</code></pre>
-
-<p>更多的用法将会在接口文档中一一列出,敬请期待。</p>
-
-<p>Alamofire与AFNetworking是同一个作者</p>
-
-<blockquote><p>作者李刚是刚刚在线（www.superqq.com）站长，百度百家专栏作者
-iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</p></blockquote>
-
-<p><img src="http://upload-images.jianshu.io/upload_images/624136-963198258f95cc10.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="iOSDevTip" /></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/28/four-create-uiimage-method/">五种创建UIImage的类方法</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-28T01:08:30+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:08 am</span></time>
-        
-        
-          | <a href="/blog/2015/07/28/four-create-uiimage-method/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>iOS开发已开通评论功能</h3>
-
-<p>皇天不负有心人，iOS开发的评论功能已经被邀请开通啦。这几天一直想着，微信团队大概在月底的时候会邀请我开通评论功能。果然不出我所料。这是我收到的消息：</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/weixincomment.png" alt="weixincomment.png" /></p>
-
-<p>至此，iOS开发的原创、赞赏、评论三个功能都齐啦，这也是对我辛苦努力的一种肯定。前方的路依然很漫长，我们一起努力，让iOS开发变得更好。</p>
-
-<p>既然评论功能已经开通，大家也别闲着啦！今天的文章大家一起尽情的吐槽吧！</p>
-
-<p><code>UIImage</code>有五个类方法，用来创建<code>UIImage</code>的。下面介绍一下每个类方法的作用和创建实例。</p>
-
-<h3>1.使用类方法<code>imageNamed:</code>创建</h3>
-
-<pre><code>+ (UIImage *)imageNamed:(NSString *)name;      // load from main bundle      
-</code></pre>
-
-<p><code>name</code>是照片名称。创建UIImage对象，代码如下：</p>
-
-<pre><code>UIImage *image = [UIImage imageNamed:@"ganggang"];   
-</code></pre>
-
-<p>使用<code>imageNamed:</code>初始化的时候，会先检查缓存中是否存在<code>ganggang</code>的照片，如不存在，图片首先会被缓存起来，然后才返回要加载的图片对象；如果存在，直接返回要加载的照片对象。</p>
-
-<h3>2.使用类方法<code>imageWithContentsOfFile:</code>创建</h3>
-
-<pre><code>+ (UIImage *)imageWithContentsOfFile:(NSString *)path;
-</code></pre>
-
-<p><code>path</code>是需要加载照片的路径，如何获取照片的路径请点击<a href="http://www.superqq.com/blog/2015/07/22/ioskai-fa-zhi-huo-qu-sha-he-lu-jing/">iOS开发之获取沙盒路径</a>。实现代码如下：</p>
-
-<pre><code>UIImage *image = [UIImage imageWithContentsOfFile:path];   
-</code></pre>
-
-<p>使用<code>imageWithContentsOfFile:</code>创建<code>UIImage</code>的时候，是直接从磁盘上加载。当收到内存警告时，<code>UIImage</code>对象会被释放，下一次绘图的时候，需要重新加载。</p>
-
-<h3>3.使用类方法<code>imageWithData:</code>创建</h3>
-
-<pre><code>+ (UIImage *)imageWithData:(NSData *)data;
-</code></pre>
-
-<p><code>data</code>是照片数据，一般是请求返回的，然后通过<code>imageWithData:</code>创建<code>UIImage</code>。实现代码如下所示：</p>
-
-<pre><code>NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://www.superqq.com/images/getqrcode.jpg"]];
-UIImage *image =[UIImage imageWithData:data]; 
-</code></pre>
-
-<h3>4.使用类方法<code>imageWithCGImage:</code>创建</h3>
-
-<pre><code>+ (UIImage *)imageWithCGImage:(CGImageRef)cgImage;
-</code></pre>
-
-<p><code>cgImage</code>是定义在QuartzCore框架中的一个结构体指针。这个结构用来创建像素位图，可以通过操作存储的像素位来编辑图片。</p>
-
-<pre><code>UIImage *image = [UIImage imageWithCGImage:cgImage];   
-</code></pre>
-
-<h3>5.使用类方法<code>imageWithCIImage:</code>创建</h3>
-
-<pre><code>+ (UIImage *)imageWithCIImage:(CIImage *)ciImage NS_AVAILABLE_IOS(5_0);
-</code></pre>
-
-<p><code>CIImage</code>是<code>CoreImage</code>框架中最基本代表图像的对象，在<code>CIImage</code>被<code>CIContext</code>渲染出来之前，他是依赖于滤镜链的，滤镜是不会更改<code>CIImage</code>中的图像数据。</p>
-
-<pre><code> UIImage *image = [UIImage imageWithCGImage:ciImage];   
-</code></pre>
-
-<p>以上四种方法都是<code>UIImage</code>的类方法，使用<code>UIImage</code>的初始化方法也是可以创建<code>UIImage</code>对象的大家可以进<code>UIImage</code>详细了解一下。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -1510,23 +1250,23 @@ UIImage *image =[UIImage imageWithData:data];
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/08/24/avfoundation-gpuimage-find/">AVFoundation和 GPUImage初探</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/23/ios-android-social-sdk/">iOS/Android开发社交SDK列表</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/22/development-ios-reward/">iOS开发征稿启示（打赏归作者所有）</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/08/21/sina-animation/">一句代码添加新浪弹出框动画</a>
       </li>
     
       <li class="post">
         <a href="/blog/2015/08/18/ios-development-refresh-uitableview/">iOS开发小技巧：刷新UITableView</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/12/realization-circular-gradient-progress/">环形渐变进度条实现</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/11/color-tabbar-switch-animation/">彩色TabBar切换动画实现</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/10/coremotion-framework-use-accelerometer/">CoreMotion框架中加速度计使用简明教程</a>
       </li>
     
   </ul>
