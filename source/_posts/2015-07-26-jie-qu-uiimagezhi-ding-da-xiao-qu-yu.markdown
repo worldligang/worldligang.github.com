@@ -17,6 +17,8 @@ description: 从服务器获取到一张照片，只需要显示他的左半部�
 
 ###UIImage+Crop.h
 
+<!--more-->
+
 	#import <UIKit/UIKit.h>
 	
 	typedef NS_ENUM(NSInteger, XYCropImageStyle){

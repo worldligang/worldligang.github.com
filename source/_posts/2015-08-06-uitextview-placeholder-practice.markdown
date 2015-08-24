@@ -24,6 +24,8 @@ description: 我们都知道iOS开发中的UITextField有个placeholder属性，
 3. 在结束编辑的代理方法里在设置`placeholder`。
 	
 	
+<!--more-->
+
 	
 ##实现方法
 

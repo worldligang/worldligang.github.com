@@ -18,6 +18,8 @@ description: 本篇文章将会介绍如何将多个UIImage合并成一个UIImag
 
 本篇文章将会介绍如何将多个`UIImage`合并成一个`UIImage`。听起来似乎有点晕晕乎乎的，这个可以合并吗？答案是肯定的。我们拿两个`UIImage`来举例。
 
+<!--more-->
+
 ##创建两个UIImage
 	
 	UIImage *image1 = [UIImage imageNamed:@"iOSDevTip"];

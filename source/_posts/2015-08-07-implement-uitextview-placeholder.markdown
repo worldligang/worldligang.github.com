@@ -13,6 +13,8 @@ iOS开发微信公众号上的iOS技术文章，都将发布在[刚刚在线](ht
 
 上一篇文章[UITextView实现placeholder的猥琐做法](http://www.superqq.com/blog/2015/08/06/uitextview-placeholder-practice/)讲了关于`UITextView`的`placeholder`实现原理。大家都一致认为做法比较猥琐。
 
+<!--more-->
+
 那么，这一次我将简单的封装一个`UITextView`。暂且取名叫`GGPlaceholderTextView`，GG前缀看着有点任性的哈。
 
 ##GGPlaceholderTextView简介

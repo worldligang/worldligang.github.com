@@ -16,6 +16,8 @@ description: 在iOS4之前加速度计是由UIAccelerometer来采集数据的，
 
 在iOS4之前加速度计是由`UIAccelerometer`来采集数据的，现在都是用`CoreMotion`来处理。两种使用都比较简单，相对来说`UIAccelerometer`更简单一些。本文将分享两者的用法。
 
+<!--more-->
+
 ##加速度计原理
 
 ![Accelerometer.png](http://images.90159.com/08/Accelerometer.png)

@@ -17,6 +17,8 @@ description: Alamofire是Swift语言的HTTP网络开发工具包,相当于Swift�
 ##Swift Alamofire 简介
 
 
+<!--more-->
+
 ![Alamofire: Elegant Networking in Swift](https://raw.githubusercontent.com/Alamofire/Alamofire/assets/alamofire.png)
 
 Alamofire是 Swift 语言的 HTTP 网络开发工具包,相当于Swift实现[AFNetworking](http://www.superqq.com/blog/2014/11/07/ioswang-luo-bian-cheng-zhi-afnetworkingshi-yong/)版本。

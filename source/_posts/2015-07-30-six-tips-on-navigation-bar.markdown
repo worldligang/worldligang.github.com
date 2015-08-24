@@ -20,6 +20,8 @@ description: UINavigationBar和UINavigationItem是iOS开发中常用的控件。
 
 设置方法：
 	       
+<!--more-->
+
 	[self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
 
 `UIBarStyle`的样式：	

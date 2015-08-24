@@ -18,6 +18,8 @@ Xcode 6.4
 iOS 8.4
 效果图：
 
+<!--more-->
+
 ![1.1TabBar-1.gif](http://images.90159.com/08/1.1TabBar-1.gif)
 
 源码下载地址：

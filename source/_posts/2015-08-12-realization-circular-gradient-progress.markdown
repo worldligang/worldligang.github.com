@@ -21,6 +21,8 @@ iOS 8.3
 
 效果图：
 
+<!--more-->
+
 ![1](http://images.90159.com/08/result.gif)
 
 源码下载地址：[LoopProgressDemo](https://github.com/saitjr/LoopProgressDemo.git)

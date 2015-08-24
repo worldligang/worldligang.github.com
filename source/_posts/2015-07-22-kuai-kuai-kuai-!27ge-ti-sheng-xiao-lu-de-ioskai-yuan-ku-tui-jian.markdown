@@ -17,6 +17,8 @@ description: 我热爱开源，更喜爱那些花费宝贵的业余时间来创�
 
 在本文末尾你可以找到一个长文慎入版本——一个只包含题目与项目链接的简单列表。如果你觉得这篇文章有用的话，请把它分享给其他做iOS开发的小伙伴们，好酒也怕巷子深。
 
+<!--more-->
+
 ###1. <a href="https://github.com/dzenbot/DZNEmptyDataSet" target="_blank" title=“DZNEmptyDataSet”>DZNEmptyDataSet</a>
 
 DZNEmptyDataSet算是一个很标准的iOS内建方式，适合用来处理空的table view和collection view。默认情况下，如果你的table view为空，屏幕就为空，这样一来用户体验并不理想。

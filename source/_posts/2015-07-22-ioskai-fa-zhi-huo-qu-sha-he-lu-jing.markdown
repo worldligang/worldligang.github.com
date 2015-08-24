@@ -21,6 +21,8 @@ description: iOS开发之沙盒机制（SandBox)详细讲解了沙盒的一些�
     NSString *directory = NSHomeDirectory();
     NSLog(@"directory:%@", directory);
 
+<!--more-->
+
 控制台输出：    
 
 	2015-07-22 00:40:16.185 iOSStrongDemo[1605:555658] directory:/var/mobile/Containers/Data/Application/F9418815-51A9-4A0A-A76C-6FD37C400928

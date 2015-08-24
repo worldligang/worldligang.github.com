@@ -16,6 +16,8 @@ UITableView对于iOS开发者来说一定不会陌生，很有可能你的APP很
 
 今天我们来看看如何刷新UITableView的，一般情况下，刷新UITableView，我们会直接调用reloadData方法。
 
+<!--more-->
+
 ##刷新UITableView
 
 	[self.tableView reloadData];

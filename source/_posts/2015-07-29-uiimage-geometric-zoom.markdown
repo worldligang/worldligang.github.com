@@ -21,6 +21,8 @@ description: 前面讲了截取UIImage指定大小区域，很方便的截取`UI
 
 	worldligang@163.com
 
+<!--more-->
+
 前面讲了[截取UIImage指定大小区域](http://www.superqq.com/blog/2015/07/26/jie-qu-uiimagezhi-ding-da-xiao-qu-yu/)，很方便的截取`UIImage`。今天要和大家分享的是`UIImage`的缩放。
 
 两种缩放:

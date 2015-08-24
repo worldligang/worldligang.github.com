@@ -13,6 +13,8 @@ description: 基本上每个iOSAPP里面都有导航，比如微信、QQ、支�
 
 iOS系统导航栏中有`leftBarButtonItem`和`rightBarButtonItem`，我们可以根据自己的需求来自定义这两个`UIBarButtonItem`。
 
+<!--more-->
+
 ##四种创建方法
 
 系统提供了四种创建的方法：

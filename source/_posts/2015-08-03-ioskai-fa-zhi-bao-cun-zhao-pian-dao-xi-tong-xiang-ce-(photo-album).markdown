@@ -23,6 +23,8 @@ description: 保存照片到系统相册这个功能很多社交类的APP都有�
     imageView.image = self.image;
     [self.view addSubview:imageView];
     
+<!--more-->
+
 ##创建UIButton
 
 创建`UIButton`并绑定`actionClick:`事件:

@@ -21,6 +21,8 @@ NSFileManager是一个单列类，也是一个文件管理器。可以通过NSFi
 	    return path;
 	}
 	
+<!--more-->
+
 ###创建文件夹
 	
 	-(void)createDirectory{

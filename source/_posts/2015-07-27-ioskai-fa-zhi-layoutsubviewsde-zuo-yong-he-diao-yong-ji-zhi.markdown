@@ -17,6 +17,8 @@ description: 在UIView里面有一个方法`layoutSubviews`，这个方法具体
 	
 我们先来看看苹果官方文档的解释：
 	
+<!--more-->
+
 	The default implementation of this method does nothing on iOS 5.1 and earlier. Otherwise, the default implementation uses any constraints you have set to determine the size and position of any subviews.
 	
 	Subclasses can override this method as needed to perform more precise layout of their subviews. You should override this method only if the autoresizing and constraint-based behaviors of the subviews do not offer the behavior you want. You can use your implementation to set the frame rectangles of your subviews directly.
