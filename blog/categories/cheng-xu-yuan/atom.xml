@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 程序员 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/cheng-xu-yuan/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-27T11:10:38+08:00</updated>
+  <updated>2015-08-27T11:35:32+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -75,7 +75,7 @@
 
 <p>我没有看网上替换内存跳的教程，因为我觉得应该没有什么难度。苹果电脑的内存条紧挨着电池的位置，我看到内存条上面也有个小架子。于是，我很熟练的把上面的两个螺丝卸掉，然后试图去拿掉小架子，这个时候我发现根本拿不动。</p>
 
-<p>再仔细看看，发现内存条两侧分别有一个固定的小条子。上下拉动没有反应。直接去口内存条也扣不掉。既然拿不掉也不能硬拿，搜了一下苹果官方的教程MacBook Pro：如何拆卸或安装内存<a href="https://support.apple.com/zh-cn/HT1270">https://support.apple.com/zh-cn/HT1270</a></p>
+<p>再仔细看看，发现内存条两侧分别有一个固定的小条子。上下拉动没有反应。直接去口内存条也扣不掉。既然拿不掉也不能硬拿，搜了一下苹果官方的教程MacBook Pro：如何拆卸或安装内存<a href="https://support.apple.com/zh-cn/HT1270" target="_blank" title=“https://support.apple.com/zh-cn/HT1270”><a href="https://support.apple.com/zh-cn/HT1270">https://support.apple.com/zh-cn/HT1270</a></a></p>
 
 <p>步骤很详细，安装苹果官方的教程，我把两个内存条替换好了。别高兴太早，事情远没有想象的那么简单。新装的SSD固态硬盘是没有系统的。</p>
 
@@ -85,7 +85,7 @@
 
 <p>接着尝试，把老硬盘的系统恢复的新的SSD固态硬盘上。由于老硬盘里面的东西比较多，于是我进入老硬盘的系统删了很多资料。让他能够小于240G。然后对老硬盘进行分区，试了很多次，分区一直失败。最终不得不放弃这个方法。</p>
 
-<p>最后一招，做个启动盘。这里有教程<a href="http://bbs.feng.com/read-htm-tid-7057977.html">http://bbs.feng.com/read-htm-tid-7057977.html</a></p>
+<p>最后一招，做个启动盘。这里有教程<a href="http://bbs.feng.com/read-htm-tid-7057977.html" target="_blank" title=“http://bbs.feng.com/read-htm-tid-7057977.html”><a href="http://bbs.feng.com/read-htm-tid-7057977.html">http://bbs.feng.com/read-htm-tid-7057977.html</a></a></p>
 
 <p>有5个多G，幸亏我家是100M得光纤，下载速度还挺快。下载完成之后，我把新的SSD固态硬盘分了一个10几G的空间出来，做启动盘使用。</p>
 
