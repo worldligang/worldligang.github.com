@@ -16,7 +16,6 @@ UITableView对于iOS开发者来说一定不会陌生，很有可能你的APP很
 
 今天我们来看看如何刷新UITableView的，一般情况下，刷新UITableView，我们会直接调用reloadData方法。
 
-<!--more-->
 
 ##刷新UITableView
 
@@ -40,6 +39,7 @@ reloadData是刷新整个UITableView，有时候，我们可能需要局部刷�
 
 上面这段代码是刷新第0个section。
 
+<!--more-->
 ##刷新动画
 
 刷新UITableView还有几个动画：

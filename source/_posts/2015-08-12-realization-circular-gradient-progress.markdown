@@ -21,7 +21,6 @@ iOS 8.3
 
 效果图：
 
-<!--more-->
 
 ![1](http://images.90159.com/08/result.gif)
 
@@ -47,6 +46,7 @@ iOS 8.3
 	colorLayer.mask = colorMaskLayer;
 	blueView.layer.mask = blueMaskLayer;
 
+<!--more-->
 视图层级图如下：
 
 ![1](http://images.90159.com/08/ios-implement-loop-progress-1.png)

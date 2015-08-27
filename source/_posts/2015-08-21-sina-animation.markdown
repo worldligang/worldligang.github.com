@@ -18,7 +18,6 @@ description:  新浪的背景动画效果是有一个透明渐变的过程，并
 3.动画进行时对用户交互的处理
 4.`UIControl` 的 `event` 类型
 
-<!--more-->
 
 ##一、背景的毛玻璃效果
 
@@ -48,6 +47,7 @@ description:  新浪的背景动画效果是有一个透明渐变的过程，并
                          saturationDeltaFactor:1 
                                      maskImage:nil];//因为OC没有命名空间，避免你的程序中使用到了这个分类导致冲突，我加了前缀
 
+<!--more-->
 最终的显示效果很不错，我将模糊程度尽量的调节到与新浪微博一致了，不过在这个过程中，我发现当我频繁的进行弹出操作时，内存会不断攀升如下图：
 ![演示3](http://7xkdhe.com1.z0.glb.clouddn.com/sinaAnimation3.png)
 内存暴增的原因肯定是因为刚才的截图或者毛玻璃效果导致的，我们来用 `Instruments` 的 `Allocations` 来进行内存分析，找出元凶。

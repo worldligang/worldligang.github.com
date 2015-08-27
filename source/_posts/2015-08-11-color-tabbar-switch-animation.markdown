@@ -18,7 +18,6 @@ Xcode 6.4
 iOS 8.4
 效果图：
 
-<!--more-->
 
 ![1.1TabBar-1.gif](http://images.90159.com/08/1.1TabBar-1.gif)
 
@@ -63,6 +62,8 @@ TColorfulTabBar.m
 	    } 
 	}
 	
+<!--more-->
+
 ####2. 添加彩色视图的遮罩colorfulMaskView
 
 之所以这里的遮罩使用的是UIView而不是CAShapeLayer或者CALayer，原因如下：
