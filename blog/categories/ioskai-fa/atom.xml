@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-27T10:45:32+08:00</updated>
+  <updated>2015-08-27T11:10:38+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -23,9 +23,6 @@
 <p>首先，非常感谢您的支持和一路陪伴！经过一年多的发展，iOS开发（iOSDevTip）微信公众号的订阅用户越来越多，已经超过10000人。这是一件好事，也是对iOS开发公众号价值的体现。</p>
 
 <p>这一年多的时间里，我每天都在为寻求一篇好的iOS开发文章而努力。这个过程有快乐也有艰辛。每天做一件事，说起来不难，真要坚持下来，不是那么容易的一件事情。我说这些，并不是要证明自己有多厉害。为了寻求好的文章，我会经常阅读大量的博文，上各大程序员门户网站。有时，会因为发现一篇好的文章而庆幸不已；有时，也会因为找不到文章而心里焦急。</p>
-
-<!--more-->
-
 
 <p>后来，我建立了自己的博客<a href="http://www.superqq.com/">刚刚在线</a>：www.superqq.com 。有时间，我就会写一些技术文章分享在上面。也会把文章同步到iOS开发公众号上。</p>
 
@@ -47,6 +44,9 @@
 <p>从阅读量上来看，还是挺不错的。虽然赞赏金额不多吧，但也算是有一点点回报。七夕那天夜里，我找到作者毕洪博给他发了一个红包。哈哈！</p>
 
 <p>如果您是一名iOS开发者，如果您有自己的博客，如果您喜欢分享，那就快行动吧！把您的优秀文章投稿给我，我将会把您的文章推送在iOS开发微信公众号上，分享给更多的iOS开发者。</p>
+
+<!--more-->
+
 
 <h2>投稿方式</h2>
 
@@ -92,9 +92,6 @@
 
 <p>今天我们来看看如何刷新UITableView的，一般情况下，刷新UITableView，我们会直接调用reloadData方法。</p>
 
-<!--more-->
-
-
 <h2>刷新UITableView</h2>
 
 <pre><code>[self.tableView reloadData];
@@ -117,6 +114,9 @@
 </code></pre>
 
 <p>上面这段代码是刷新第0个section。</p>
+
+<!--more-->
+
 
 <h2>刷新动画</h2>
 
@@ -149,9 +149,6 @@
 
 <p>在iOS4之前加速度计是由<code>UIAccelerometer</code>来采集数据的，现在都是用<code>CoreMotion</code>来处理。两种使用都比较简单，相对来说<code>UIAccelerometer</code>更简单一些。本文将分享两者的用法。</p>
 
-<!--more-->
-
-
 <h2>加速度计原理</h2>
 
 <p><img src="http://images.90159.com/08/Accelerometer.png" alt="Accelerometer.png" /></p>
@@ -176,6 +173,9 @@ accelerometer.updateInterval = 0.1;
     NSLog(@"x -&gt; %f y - &gt; %f z -&gt; %f",accelerometer.x,accelerometer.y,accelerometer.z);
 }
 </code></pre>
+
+<!--more-->
+
 
 <h2>CoreMotion加速度计</h2>
 

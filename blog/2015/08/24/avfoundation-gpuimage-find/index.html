@@ -101,9 +101,6 @@
 
 <p>最近在做视频相关的东西，然后熟悉了一下AVFoundation框架，以及强大的开源库GPUImage。在这里记录这个过程中遇到的一些问题，以及解决的方法。</p>
 
-<!--more-->
-
-
 <h3>AVFoundation的一些基本概念</h3>
 
 <p>根据苹果的官方文档，AVFoundation是用来播放和创建实时的视听媒体数据的框架，同时提供Objective-C接口来操作这些视听数据，比如编辑，旋转，重编码。本文着重讲的是视频的录制和编辑和GPUImage的一些简单使用，其他的都是一笔带过。来看下苹果文档的一个框架图。</p>
@@ -126,6 +123,9 @@
 
 <p>简单的播放可以使用MPMoviePlayerController或者MPMovieViewController就行,简单的录
 制可以直接使用UIImagePickerController。同样简单的声音播放直接使用AVAudioPlayer，简单的录制直接使用AVAduioRecorder。如果你想要有更多的操作，可使用各种复杂的方式来控制播放，比如在同一时刻为同一个asset的不同片段使用不同的分辨率渲染，playitem来管理asset的呈现状态和方式,playitemtrack管理asset中的轨道（track）状态。</p>
+
+<!--more-->
+
 
 <p>在AVFoudation框架中最核心的类就是AVAsset，他是由一系列的媒体数据组成的，包括但不限于:时间、大小(size)、标题、字幕等。其中每一个单独的媒体数据称为轨道(track)。同样剪辑操作中，AVMutableComposition是一个核心类。</p>
 

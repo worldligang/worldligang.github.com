@@ -106,9 +106,6 @@
 3.动画进行时对用户交互的处理
 4.<code>UIControl</code> 的 <code>event</code> 类型</p>
 
-<!--more-->
-
-
 <h2>一、背景的毛玻璃效果</h2>
 
 <p>对新浪微博中弹出动画背景的思路分析：</p>
@@ -135,6 +132,9 @@
                      saturationDeltaFactor:1 
                                  maskImage:nil];//因为OC没有命名空间，避免你的程序中使用到了这个分类导致冲突，我加了前缀
 </code></pre>
+
+<!--more-->
+
 
 <p>最终的显示效果很不错，我将模糊程度尽量的调节到与新浪微博一致了，不过在这个过程中，我发现当我频繁的进行弹出操作时，内存会不断攀升如下图：
 <img src="http://7xkdhe.com1.z0.glb.clouddn.com/sinaAnimation3.png" alt="演示3" />

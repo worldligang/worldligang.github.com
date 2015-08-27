@@ -105,9 +105,6 @@
 
 <p>在iOS4之前加速度计是由<code>UIAccelerometer</code>来采集数据的，现在都是用<code>CoreMotion</code>来处理。两种使用都比较简单，相对来说<code>UIAccelerometer</code>更简单一些。本文将分享两者的用法。</p>
 
-<!--more-->
-
-
 <h2>加速度计原理</h2>
 
 <p><img src="http://images.90159.com/08/Accelerometer.png" alt="Accelerometer.png" /></p>
@@ -132,6 +129,9 @@ accelerometer.updateInterval = 0.1;
     NSLog(@"x -&gt; %f y - &gt; %f z -&gt; %f",accelerometer.x,accelerometer.y,accelerometer.z);
 }
 </code></pre>
+
+<!--more-->
+
 
 <h2>CoreMotion加速度计</h2>
 

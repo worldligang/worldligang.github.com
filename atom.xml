@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-27T10:45:32+08:00</updated>
+  <updated>2015-08-27T11:10:38+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -45,6 +45,9 @@
 <p><img src="http://images.90159.com/08/ssdsave2.jpg" alt="ssdsave1" /></p>
 
 <p>我不是来给创见和金士顿大广告的，只是告诉大家我用的是什么。收到货之后，夜里下班回到家里，就开始折腾我的电脑。</p>
+
+<!--more-->
+
 
 <h2>替换SSD固态硬盘</h2>
 
@@ -114,9 +117,6 @@
 
 <p>最近在做视频相关的东西，然后熟悉了一下AVFoundation框架，以及强大的开源库GPUImage。在这里记录这个过程中遇到的一些问题，以及解决的方法。</p>
 
-<!--more-->
-
-
 <h3>AVFoundation的一些基本概念</h3>
 
 <p>根据苹果的官方文档，AVFoundation是用来播放和创建实时的视听媒体数据的框架，同时提供Objective-C接口来操作这些视听数据，比如编辑，旋转，重编码。本文着重讲的是视频的录制和编辑和GPUImage的一些简单使用，其他的都是一笔带过。来看下苹果文档的一个框架图。</p>
@@ -139,6 +139,9 @@
 
 <p>简单的播放可以使用MPMoviePlayerController或者MPMovieViewController就行,简单的录
 制可以直接使用UIImagePickerController。同样简单的声音播放直接使用AVAudioPlayer，简单的录制直接使用AVAduioRecorder。如果你想要有更多的操作，可使用各种复杂的方式来控制播放，比如在同一时刻为同一个asset的不同片段使用不同的分辨率渲染，playitem来管理asset的呈现状态和方式,playitemtrack管理asset中的轨道（track）状态。</p>
+
+<!--more-->
+
 
 <p>在AVFoudation框架中最核心的类就是AVAsset，他是由一系列的媒体数据组成的，包括但不限于:时间、大小(size)、标题、字幕等。其中每一个单独的媒体数据称为轨道(track)。同样剪辑操作中，AVMutableComposition是一个核心类。</p>
 
@@ -366,9 +369,6 @@ NSURL *fileURL = ...;    //存放位置
 
 <p>友盟社会化分享组件，可以让移动应用快速具备社会化分享、登录、评论、喜欢等功能，并提供实时、全面的社会化数据统计分析服务。指南将会手把手教你使用社会化组件SDK，用5分钟为APP增加新浪微博、腾讯微博、人人网分享功能。</p>
 
-<!--more-->
-
-
 <h2></br></h2>
 
 <h3>ShareSDK</h3>
@@ -384,6 +384,9 @@ NSURL *fileURL = ...;    //存放位置
 <p><a href="http://developer.baidu.com/soc/share"target="_blank"title="进入官网">进入官网</a></p>
 
 <p>百度社会化分享组件集成多种热门社会化媒体平台，开发者可将此组件集成到自己的移动应用中，用户即可方便地对应用中的内容分享到新浪微博、Qzone、腾讯微博、开心网等各大热门社会化媒体平台中。</p>
+
+<!--more-->
+
 
 <h2></br></h2>
 
@@ -434,9 +437,6 @@ NSURL *fileURL = ...;    //存放位置
 
 <p>这一年多的时间里，我每天都在为寻求一篇好的iOS开发文章而努力。这个过程有快乐也有艰辛。每天做一件事，说起来不难，真要坚持下来，不是那么容易的一件事情。我说这些，并不是要证明自己有多厉害。为了寻求好的文章，我会经常阅读大量的博文，上各大程序员门户网站。有时，会因为发现一篇好的文章而庆幸不已；有时，也会因为找不到文章而心里焦急。</p>
 
-<!--more-->
-
-
 <p>后来，我建立了自己的博客<a href="http://www.superqq.com/">刚刚在线</a>：www.superqq.com 。有时间，我就会写一些技术文章分享在上面。也会把文章同步到iOS开发公众号上。</p>
 
 <p>随着订阅用户的增多，大家对文章内容的需求也越来越高。由于我一个人的力量毕竟有限，可能无法满足所有人的需求。订阅iOS开发的用户不乏一些大牛，所以我想发动大家的力量，一起来为优质的iOS开发文章而努力。</p>
@@ -457,6 +457,9 @@ NSURL *fileURL = ...;    //存放位置
 <p>从阅读量上来看，还是挺不错的。虽然赞赏金额不多吧，但也算是有一点点回报。七夕那天夜里，我找到作者毕洪博给他发了一个红包。哈哈！</p>
 
 <p>如果您是一名iOS开发者，如果您有自己的博客，如果您喜欢分享，那就快行动吧！把您的优秀文章投稿给我，我将会把您的文章推送在iOS开发微信公众号上，分享给更多的iOS开发者。</p>
+
+<!--more-->
+
 
 <h2>投稿方式</h2>
 
@@ -505,9 +508,6 @@ NSURL *fileURL = ...;    //存放位置
 3.动画进行时对用户交互的处理
 4.<code>UIControl</code> 的 <code>event</code> 类型</p>
 
-<!--more-->
-
-
 <h2>一、背景的毛玻璃效果</h2>
 
 <p>对新浪微博中弹出动画背景的思路分析：</p>
@@ -534,6 +534,9 @@ NSURL *fileURL = ...;    //存放位置
                      saturationDeltaFactor:1 
                                  maskImage:nil];//因为OC没有命名空间，避免你的程序中使用到了这个分类导致冲突，我加了前缀
 </code></pre>
+
+<!--more-->
+
 
 <p>最终的显示效果很不错，我将模糊程度尽量的调节到与新浪微博一致了，不过在这个过程中，我发现当我频繁的进行弹出操作时，内存会不断攀升如下图：
 <img src="http://7xkdhe.com1.z0.glb.clouddn.com/sinaAnimation3.png" alt="演示3" />
@@ -733,9 +736,6 @@ Xcode -> Product -> Profile -> Allocations， 开启之后我们来使用右下�
 
 <p>今天我们来看看如何刷新UITableView的，一般情况下，刷新UITableView，我们会直接调用reloadData方法。</p>
 
-<!--more-->
-
-
 <h2>刷新UITableView</h2>
 
 <pre><code>[self.tableView reloadData];
@@ -758,6 +758,9 @@ Xcode -> Product -> Profile -> Allocations， 开启之后我们来使用右下�
 </code></pre>
 
 <p>上面这段代码是刷新第0个section。</p>
+
+<!--more-->
+
 
 <h2>刷新动画</h2>
 
@@ -794,9 +797,6 @@ Xcode -> Product -> Profile -> Allocations， 开启之后我们来使用右下�
 
 <p>效果图：</p>
 
-<!--more-->
-
-
 <p><img src="http://images.90159.com/08/result.gif" alt="1" /></p>
 
 <p>源码下载地址：<a href="https://github.com/saitjr/LoopProgressDemo.git">LoopProgressDemo</a></p>
@@ -823,6 +823,9 @@ Xcode -> Product -> Profile -> Allocations， 开启之后我们来使用右下�
 colorLayer.mask = colorMaskLayer;
 blueView.layer.mask = blueMaskLayer;
 </code></pre>
+
+<!--more-->
+
 
 <p>视图层级图如下：</p>
 
@@ -986,9 +989,6 @@ Xcode 6.4
 iOS 8.4
 效果图：</p>
 
-<!--more-->
-
-
 <p><img src="http://images.90159.com/08/1.1TabBar-1.gif" alt="1.1TabBar-1.gif" /></p>
 
 <p>源码下载地址：
@@ -1031,6 +1031,9 @@ iOS 8.4
     } 
 }
 </code></pre>
+
+<!--more-->
+
 
 <h4>2. 添加彩色视图的遮罩colorfulMaskView</h4>
 
@@ -1140,9 +1143,6 @@ TColorfulTabBar.m</p>
 
 <p>在iOS4之前加速度计是由<code>UIAccelerometer</code>来采集数据的，现在都是用<code>CoreMotion</code>来处理。两种使用都比较简单，相对来说<code>UIAccelerometer</code>更简单一些。本文将分享两者的用法。</p>
 
-<!--more-->
-
-
 <h2>加速度计原理</h2>
 
 <p><img src="http://images.90159.com/08/Accelerometer.png" alt="Accelerometer.png" /></p>
@@ -1167,6 +1167,9 @@ accelerometer.updateInterval = 0.1;
     NSLog(@"x -&gt; %f y - &gt; %f z -&gt; %f",accelerometer.x,accelerometer.y,accelerometer.z);
 }
 </code></pre>
+
+<!--more-->
+
 
 <h2>CoreMotion加速度计</h2>
 

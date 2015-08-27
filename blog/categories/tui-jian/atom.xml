@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 推荐 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/tui-jian/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-27T10:45:32+08:00</updated>
+  <updated>2015-08-27T11:10:38+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -21,9 +21,6 @@
     <content type="html"><![CDATA[<p>文章来自：<a href="http://vonglo.me/2014/08/24/AVFoundation%E5%92%8C-GPUImage%E5%88%9D%E6%8E%A2/" target="_blank" title=“AVFoundation和 GPUImage初探”>AVFoundation和 GPUImage初探</a></p>
 
 <p>最近在做视频相关的东西，然后熟悉了一下AVFoundation框架，以及强大的开源库GPUImage。在这里记录这个过程中遇到的一些问题，以及解决的方法。</p>
-
-<!--more-->
-
 
 <h3>AVFoundation的一些基本概念</h3>
 
@@ -47,6 +44,9 @@
 
 <p>简单的播放可以使用MPMoviePlayerController或者MPMovieViewController就行,简单的录
 制可以直接使用UIImagePickerController。同样简单的声音播放直接使用AVAudioPlayer，简单的录制直接使用AVAduioRecorder。如果你想要有更多的操作，可使用各种复杂的方式来控制播放，比如在同一时刻为同一个asset的不同片段使用不同的分辨率渲染，playitem来管理asset的呈现状态和方式,playitemtrack管理asset中的轨道（track）状态。</p>
+
+<!--more-->
+
 
 <p>在AVFoudation框架中最核心的类就是AVAsset，他是由一系列的媒体数据组成的，包括但不限于:时间、大小(size)、标题、字幕等。其中每一个单独的媒体数据称为轨道(track)。同样剪辑操作中，AVMutableComposition是一个核心类。</p>
 
@@ -277,9 +277,6 @@ NSURL *fileURL = ...;    //存放位置
 3.动画进行时对用户交互的处理
 4.<code>UIControl</code> 的 <code>event</code> 类型</p>
 
-<!--more-->
-
-
 <h2>一、背景的毛玻璃效果</h2>
 
 <p>对新浪微博中弹出动画背景的思路分析：</p>
@@ -306,6 +303,9 @@ NSURL *fileURL = ...;    //存放位置
                      saturationDeltaFactor:1 
                                  maskImage:nil];//因为OC没有命名空间，避免你的程序中使用到了这个分类导致冲突，我加了前缀
 </code></pre>
+
+<!--more-->
+
 
 <p>最终的显示效果很不错，我将模糊程度尽量的调节到与新浪微博一致了，不过在这个过程中，我发现当我频繁的进行弹出操作时，内存会不断攀升如下图：
 <img src="http://7xkdhe.com1.z0.glb.clouddn.com/sinaAnimation3.png" alt="演示3" />
@@ -511,9 +511,6 @@ Xcode -> Product -> Profile -> Allocations， 开启之后我们来使用右下�
 
 <p>效果图：</p>
 
-<!--more-->
-
-
 <p><img src="http://images.90159.com/08/result.gif" alt="1" /></p>
 
 <p>源码下载地址：<a href="https://github.com/saitjr/LoopProgressDemo.git">LoopProgressDemo</a></p>
@@ -540,6 +537,9 @@ Xcode -> Product -> Profile -> Allocations， 开启之后我们来使用右下�
 colorLayer.mask = colorMaskLayer;
 blueView.layer.mask = blueMaskLayer;
 </code></pre>
+
+<!--more-->
+
 
 <p>视图层级图如下：</p>
 
@@ -703,9 +703,6 @@ Xcode 6.4
 iOS 8.4
 效果图：</p>
 
-<!--more-->
-
-
 <p><img src="http://images.90159.com/08/1.1TabBar-1.gif" alt="1.1TabBar-1.gif" /></p>
 
 <p>源码下载地址：
@@ -748,6 +745,9 @@ iOS 8.4
     } 
 }
 </code></pre>
+
+<!--more-->
+
 
 <h4>2. 添加彩色视图的遮罩colorfulMaskView</h4>
 
