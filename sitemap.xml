@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://www.superqq.com/blog/2015/08/27/macbook-replace-ssd-solid-state/</loc>
+    <lastmod>2015-08-27T10:42:34+08:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>http://www.superqq.com/blog/2015/08/24/avfoundation-gpuimage-find/</loc>
     <lastmod>2015-08-24T11:21:01+08:00</lastmod>
     <priority>0.8</priority>
@@ -662,31 +667,31 @@
   </url>
   <url>
     <loc>http://www.superqq.com/404.html</loc>
-    <lastmod>2015-08-25T16:20:40+08:00</lastmod>
+    <lastmod>2015-08-27T10:45:32+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://www.superqq.com/blog/archives/</loc>
-    <lastmod>2015-08-25T16:20:40+08:00</lastmod>
+    <lastmod>2015-08-27T10:45:32+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://www.superqq.com/</loc>
-    <lastmod>2015-08-25T16:20:40+08:00</lastmod>
+    <lastmod>2015-08-27T10:45:32+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://www.superqq.com/about/</loc>
-    <lastmod>2015-08-25T16:20:40+08:00</lastmod>
+    <lastmod>2015-08-27T10:45:32+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://www.superqq.com/ios/</loc>
-    <lastmod>2015-08-25T16:20:40+08:00</lastmod>
+    <lastmod>2015-08-27T10:45:32+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>

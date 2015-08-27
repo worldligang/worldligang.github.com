@@ -81,6 +81,207 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/01/22/jie-jue-mwphotobrowserzhong-de-sdwebimagejia-zai-da-tu-dao-zhi-de-nei-cun-jing-gao-wen-ti/">解决MWPhotoBrowser中的SDWebImage加载大图导致的内存警告问题</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-22T11:23:21+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:23 am</span></time>
+        
+        
+          | <a href="/blog/2015/01/22/jie-jue-mwphotobrowserzhong-de-sdwebimagejia-zai-da-tu-dao-zhi-de-nei-cun-jing-gao-wen-ti/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>MWPhotoBrowser是一个非常不错的照片浏览器，在github的star接近3000个，<a href="https://github.com/mwaterfall/MWPhotoBrowser.git"target="_blank"title="进入官网">MWPhotoBrowser下载</a></p>
+
+<p>MWPhotoBrowser来加载小图1M以下的都应该不会有内存警告的问题。如果遇到大图，3M、4M、5M的大图，很有可能导致内存警告。最近我就遇到这个问题，很是头疼。来回滑动查看照片内存飙到100M以上：</p>
+
+<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlykHge8gs1dCibkoTYXiatCCTMGicKA3aLRCFW6HzgMFvlzGiagwGrEN6hSw6Lt8y13WuFZORDic4hWbRsg/640" /></a></p>
+
+<p>网上查了很多资料，都没有解决问题。</p>
+
+<p>我们来看一下MWPhotoBrowser，其实MWPhotoBrowser用的是SDWebImage来下载图片的。<a href=" https://github.com/rs/SDWebImage.git"target="_blank"title="进入官网">SDWebImage下载</a></p>
+
+<p>在github看到SDWebImage的介绍，后面说到：</p>
+
+<pre><code>Future Enhancements
+
+    LRU memory cache cleanup instead of reset on memory warning
+</code></pre>
+
+<p>看到这个真是欲哭无泪啊。</p>
+
+<p>再去看看SDWebImage的，有个人提问了：</p>
+
+<pre><code>How to disable "memory cache"?  I don't want memory cache,  it used a lot of memory and got memory waring easily,  disk is enough for me...
+</code></pre>
+
+<p>有人回答：</p>
+
+<pre><code>There is no way to disable the memory cache. But the cache is designed to flush itself when you get a memory warning, so you shouldn't need to worry it.
+</code></pre>
+
+<p>说的是SDWebImage遇到内存警告会自动释放内存，但是这还是解决不了问题，加载大图的时候，内存会突然蹦到100多M，在4s及以下的手机上跑，再就挂了。</p>
+
+<p>还是没有解决内存警告的问题。怎么办呢？</p>
+
+<p>我是这么解决的：</p>
+
+<p>SDWebImage有一个SDWebImageDownloaderOperation类来执行下载操作的。里面有个下载完成的方法：</p>
+
+<pre><code>- (void)connectionDidFinishLoading:(NSURLConnection *)aConnection {
+   SDWebImageDownloaderCompletedBlock completionBlock = self.completedBlock;
+   @synchronized(self) {
+       CFRunLoopStop(CFRunLoopGetCurrent());
+       self.thread = nil;
+       self.connection = nil;
+       [[NSNotificationCenter defaultCenter] postNotificationName:SDWebImageDownloadStopNotification object:nil];
+   }
+
+   if (![[NSURLCache sharedURLCache] cachedResponseForRequest:_request]) {
+       responseFromCached = NO;
+   }
+
+   if (completionBlock)
+   {
+       if (self.options &amp; SDWebImageDownloaderIgnoreCachedResponse &amp;&amp; responseFromCached) {
+           completionBlock(nil, nil, nil, YES);
+       }
+       else {
+           UIImage *image = [UIImage sd_imageWithData:self.imageData];
+           NSString *key = [[SDWebImageManager sharedManager] cacheKeyForURL:self.request.URL];
+           image = [self scaledImageForKey:key image:image];
+
+           // Do not force decoding animated GIFs
+           if (!image.images) {
+               image = [UIImage decodedImageWithImage:image];
+           }
+           if (CGSizeEqualToSize(image.size, CGSizeZero)) {
+               completionBlock(nil, nil, [NSError errorWithDomain:@"SDWebImageErrorDomain" code:0 userInfo:@{NSLocalizedDescriptionKey : @"Downloaded image has 0 pixels"}], YES);
+           }
+           else {
+               completionBlock(image, self.imageData, nil, YES);
+           }
+       }
+   }
+   self.completionBlock = nil;
+   [self done];
+}
+</code></pre>
+
+<p>其中，UIImage *image = [UIImage sd_imageWithData:self.imageData];就是将data转换成image。</p>
+
+<p>再看看sd_imageWithData:这个方法：</p>
+
+<pre><code>+ (UIImage *)sd_imageWithData:(NSData *)data {
+   UIImage *image;
+   NSString *imageContentType = [NSData sd_contentTypeForImageData:data];
+   if ([imageContentType isEqualToString:@"image/gif"]) {
+       image = [UIImage sd_animatedGIFWithData:data];
+   }
+#ifdef SD_WEBP
+   else if ([imageContentType isEqualToString:@"image/webp"])
+   {
+       image = [UIImage sd_imageWithWebPData:data];
+   }
+#endif
+   else {
+       image = [[UIImage alloc] initWithData:data];
+       UIImageOrientation orientation = [self sd_imageOrientationFromImageData:data];
+       if (orientation != UIImageOrientationUp) {
+           image = [UIImage imageWithCGImage:image.CGImage
+                                       scale:image.scale
+                                 orientation:orientation];
+       }
+   }
+
+
+   return image;
+}
+</code></pre>
+
+<p>这个方法在UIImage+MultiFormat里面，是UIImage的一个类别处理。这句话很重要image = [[UIImage alloc] initWithData:data]; SDWebImage把下载下来的data直接转成image，然后没做等比缩放直接存起来使用。所以，我们只需要在这边做处理即可：</p>
+
+<p>UIImage+MultiFormat添加一个方法：</p>
+
+<pre><code>+(UIImage *)compressImageWith:(UIImage *)image
+{
+   float imageWidth = image.size.width;
+   float imageHeight = image.size.height;
+   float width = 640;
+   float height = image.size.height/(image.size.width/width);
+
+   float widthScale = imageWidth /width;
+   float heightScale = imageHeight /height;
+
+   // 创建一个bitmap的context
+   // 并把它设置成为当前正在使用的context
+   UIGraphicsBeginImageContext(CGSizeMake(width, height));
+
+   if (widthScale &gt; heightScale) {
+       [image drawInRect:CGRectMake(0, 0, imageWidth /heightScale , height)];
+   }
+   else {
+       [image drawInRect:CGRectMake(0, 0, width , imageHeight /widthScale)];
+   }
+
+   // 从当前context中创建一个改变大小后的图片
+   UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+   // 使当前的context出堆栈
+   UIGraphicsEndImageContext();
+
+   return newImage;
+
+}
+</code></pre>
+
+<p>然后在：image = [[UIImage alloc] initWithData:data];下面调用以下：</p>
+
+<pre><code>if (data.length/1024 &gt; 1024) {
+           image = [self compressImageWith:image];
+       }
+</code></pre>
+
+<p>当data大于1M的时候做压缩处理。革命尚未成功，还需要一步处理。在SDWebImageDownloaderOperation的connectionDidFinishLoading方法里面的：</p>
+
+<pre><code>  UIImage *image = [UIImage sd_imageWithData:self.imageData];
+
+  //将等比压缩过的image在赋在转成data赋给self.imageData
+  NSData *data = UIImageJPEGRepresentation(image, 1);
+  self.imageData =  [NSMutableData dataWithData:data];
+</code></pre>
+
+<p>大工告成，我们来看一下效果吧：</p>
+
+<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlykHge8gs1dCibkoTYXiatCCTMekY5MbfNibjW49ibygpHP440kOuxIVngeEXZLnYCUlSfIhW61x7T6OHQ/640" /></a>
+​</p>
+
+<p>果然问题得以解决。</p>
+
+<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/01/19/ioskai-fa-zhi-uisearchbarchu-tan/">iOS开发之UISearchBar初探</a></h1>
     
     
@@ -1026,7 +1227,7 @@ UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds]
 
 <p><a href="http://twitter.com/bradlarson">@bradlarson</a></p>
 
-<p><a href="&#x6d;&#x61;&#105;&#108;&#x74;&#111;&#58;&#99;&#x6f;&#x6e;&#x74;&#x61;&#99;&#116;&#64;&#x73;&#117;&#110;&#115;&#101;&#x74;&#x6c;&#x61;&#107;&#101;&#x73;&#x6f;&#x66;&#x74;&#x77;&#97;&#114;&#x65;&#46;&#99;&#111;&#109;">&#99;&#111;&#x6e;&#x74;&#x61;&#99;&#116;&#x40;&#x73;&#x75;&#x6e;&#x73;&#x65;&#x74;&#108;&#x61;&#107;&#101;&#x73;&#x6f;&#102;&#x74;&#119;&#x61;&#x72;&#101;&#46;&#99;&#111;&#109;</a></p>
+<p><a href="&#x6d;&#97;&#x69;&#108;&#116;&#111;&#58;&#99;&#x6f;&#110;&#116;&#x61;&#x63;&#116;&#x40;&#x73;&#x75;&#x6e;&#115;&#x65;&#116;&#x6c;&#x61;&#x6b;&#101;&#115;&#x6f;&#x66;&#116;&#119;&#97;&#114;&#x65;&#x2e;&#99;&#x6f;&#x6d;">&#99;&#x6f;&#110;&#116;&#x61;&#x63;&#116;&#x40;&#x73;&#x75;&#x6e;&#115;&#x65;&#116;&#108;&#97;&#107;&#x65;&#115;&#111;&#x66;&#x74;&#119;&#x61;&#x72;&#101;&#46;&#x63;&#x6f;&#x6d;</a></p>
 
 <h2>Overview</h2>
 
@@ -2219,115 +2420,6 @@ movieFile.audioEncodingTarget = movieWriter;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/01/06/vvdocumenter-xcode/">VVDocumenter-Xcode</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-01-06T13:44:56+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:44 pm</span></time>
-        
-        
-          | <a href="/blog/2015/01/06/vvdocumenter-xcode/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-
-<p> <a href="https://github.com/worldligang/VVDocumenter-Xcode.git"target="_blank"title="源代码">源代码</a></p>
-
-<h1>VVDocumenter-Xcode <a href="https://travis-ci.org/onevcat/VVDocumenter-Xcode"><img src="https://api.travis-ci.org/onevcat/VVDocumenter-Xcode.svg" alt="Build Status" /></a> <a href="https://flattr.com/submit/auto?user_id=onevcat&url=https%3A%2F%2Fgithub.com%2Fonevcat%2FVVDocumenter-Xcode" target="_blank"><img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0"></a></h1>
-
-<hr />
-
-<h2>What is this?</h2>
-
-<p>Writing document is so important for developing, but it is really painful with Xcode. Think about how much time you are wasting in pressing &lsquo;*&rsquo; or &lsquo;/&rsquo;, and typing the parameters again and again. Now, you can find the method (or any code) you want to document to, and type in <code>///</code>, the document will be generated for you and all params and return will be extracted into a Javadoc style, which is compatible with <a href="https://github.com/tomaz/appledoc">appledoc</a>, <a href="http://www.stack.nl/~dimitri/doxygen/">Doxygen</a> and <a href="https://developer.apple.com/library/mac/documentation/DeveloperTools/Conceptual/HeaderDoc/intro/intro.html">HeaderDoc</a>. You can just fill the inline placeholder tokens to finish your document.</p>
-
-<p>Here is an image which can show what it exactly does.</p>
-
-<p><img src="https://raw.github.com/onevcat/VVDocumenter-Xcode/master/ScreenShot.gif" alt="Screenshot" /></p>
-
-<blockquote><p>By the way, it also supports <a href="https://developer.apple.com/swift/">Swift</a> now. Cheers!</p></blockquote>
-
-<p><img src="https://raw.github.com/onevcat/VVDocumenter-Xcode/master/vvdocumenter-swift.gif" alt="Screenshot" /></p>
-
-<h2>How to install and use?</h2>
-
-<p><del>The best way of installing is by <a href="http://alcatraz.io">Alcatraz</a>. Install Alcatraz followed by the instruction, restart your Xcode and press <code>⇧⌘9</code>. You can find <code>VVDocumenter-Xcode</code> in the list and click the icon on left to install.</del> Some users reported the setting panel <a href="https://github.com/supermarin/Alcatraz/issues/196">can not be opened</a> if installing from Alcatraz, so I suggest to build the plugin yourself until this issue get fixed.</p>
-
-<p>If you do not like the Alcatraz way, you can also clone the repo. Then build the <code>VVDocumenter-Xcode</code> target in the Xcode project and the plug-in will automatically be installed in <code>~/Library/Application Support/Developer/Shared/Xcode/Plug-ins</code>. Relaunch Xcode and type in <code>///</code> above any code you want to write a document to.</p>
-
-<p>If you want to use other text beside of <code>///</code> to trigger the document insertion, you can find a setting panel by clicking <code>VVDocument</code> in the Window menu of Xcode. You can also find some other useful options there, including setting using spaces instead of tab in the panel or changing the format of generated documentation.</p>
-
-<h2>Xcode version?</h2>
-
-<p>This plug-in is supported in Xcode 5 and 6 (current beta). From Xcode 5, Apple added a UUID-verification to all plugins to ensure the stability when Xcode gets updated. The value of <code>DVTPlugInCompatibilityUUIDs</code> in project plist should contains current UUID of Xcode version, or the plugin does not work. Once you update your Xcode, the plugin might be disabled and you should check the newest version and built it again.</p>
-
-<p>The default deployment target is 10.8. If you want to use it in a earlier OS version, you should change OS X Deployment Target (in project info setting) to your system version.</p>
-
-<h2>Swift Support</h2>
-
-<p>Yes, this plugin supports documentation for Swift now. Check <a href="http://nshipster.com/swift-documentation/">this post</a> from @mattt to see how to write the documentation for swift. By using <code>VVDocumenter-Xcode</code>, you can just type <code>///</code> to make the magic happen.</p>
-
-<h2>Limitations and Future</h2>
-
-<p>The plugin is using simulation of keyboard event to insert the doc comments for you. So it is depending the keyboard shortcut of Xcode. These two kinds of operation are being used:</p>
-
-<ul>
-<li>Delete to Beginning of the Line (⌘⌫)</li>
-<li>Paste (⌘V)</li>
-</ul>
-
-
-<p>If you have modified these two shortcuts in your Xcode, the newset version of the plugin would not work correctly. Instead, you can use a earlier version such as <a href="https://github.com/onevcat/VVDocumenter-Xcode/tree/03c4169ff79b618b9fd3db93dd96652a522ad3e0">this one(commit 03c4169ff7)</a>. Be causion you may suffer an <a href="https://github.com/onevcat/VVDocumenter-Xcode/issues/3">undo and redo issue </a>.</p>
-
-<p><code>VVDocumenter-Xcode</code> is now using regular expression to extract things needed, which is not the best way to do such thing. A better approach could be using the AST, and I also have a plan to do it later if I have some more time :)</p>
-
-<h2>License</h2>
-
-<p>VVDocumenter is published under MIT License</p>
-
-<pre><code>Copyright (c) 2014 Wei Wang (@onevcat)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to use,
-copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
-Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/11">&larr; Older</a>
@@ -2355,6 +2447,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/08/27/macbook-replace-ssd-solid-state/">2012年MacBook更换SSD固态硬盘和16G内存条</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/08/24/avfoundation-gpuimage-find/">AVFoundation和 GPUImage初探</a>
       </li>
     
@@ -2368,10 +2464,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     
       <li class="post">
         <a href="/blog/2015/08/21/sina-animation/">一句代码添加新浪弹出框动画</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/18/ios-development-refresh-uitableview/">iOS开发小技巧：刷新UITableView</a>
       </li>
     
   </ul>
