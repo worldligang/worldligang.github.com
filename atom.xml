@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-23T11:51:14+08:00</updated>
+  <updated>2015-08-31T23:23:58+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,351 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[2012年MacBook更换SSD固态硬盘和16G内存条]]></title>
+    <link href="http://www.superqq.com/blog/2015/08/27/macbook-replace-ssd-solid-state/"/>
+    <updated>2015-08-27T10:42:34+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/08/27/macbook-replace-ssd-solid-state</id>
+    <content type="html"><![CDATA[<h2>我的2012年MacBook</h2>
+
+<p>我的电脑是2012年的MacBook Pro（13-inch, 2012 年中），是那种比较厚的一款。当时买的时候官网，标价是8888元。我是在新蛋网上买的，新蛋网有活动只需要7888元即可购买。</p>
+
+<p>电脑配置：处理器是2.5 GHz Intel Core i5，内存是两个2G，也就是4G。配置在现在来看，那简直是太Low了。但是对于当时一直用黑苹果的我来说，这就是圣物。贴个图给大家看看：</p>
+
+<p><img src="http://images.90159.com/08/ssdsave1.jpg" alt="ssdsave1" /></p>
+
+<p>这就是比较厚的13-inch的电脑，看起来还是比较笨重的。我用电脑还是比较爱惜的，一直保护的很好。基本上没有什么损伤。</p>
+
+<p>但是，随之使用年限的增长，电脑反应速度越来越慢了。打开xcode、火狐、Chrome、印象比较、QQ等几个软件，电脑反应速度明显很慢。</p>
+
+<p>有时候调试个程序，反应好半天。想想就是一件痛苦的事情，大好时光都浪费在等电脑反应上。浏览器也经常卡死，有时候编辑好的东西没来得及保持，浏览器突然就没有反应了。</p>
+
+<p>总之，电脑性能差的一塌糊涂。最近听朋友说换个SSD固态硬盘电脑反应会快很多，如果是2012年的电脑还可以升级内存。</p>
+
+<p>本来我是准备把这个笔记本处理掉，再买一个配置好一些的笔记本。听朋友这样一说，觉得还是自己买个SSD固态硬盘换上，比较换算。</p>
+
+<h2>购买SSD固态硬盘和内存条</h2>
+
+<p>说换就换吧，于是在京东和淘宝上查了查，品类太多看的我都晕晕乎乎的。网上买东西其实我一点都不喜欢，选来选去不知道选哪一个好。</p>
+
+<p>最后，在朋友的推荐下。我买的是牌子是创见（Transcend）240G的SSD固态硬盘，价格是999元。内存条我看了苹果官网的介绍，说的是MacBook Pro（13 英寸，2012 年中）最大支持8G内存。但是网上有人说，他们装了16G的，没有什么兼容上的问题。所以我也买了金士顿苹果专用内存条两个8G，一共638元。</p>
+
+<p><img src="http://images.90159.com/08/ssdsave2.jpg" alt="ssdsave1" /></p>
+
+<p>我不是来给创见和金士顿大广告的，只是告诉大家我用的是什么。收到货之后，夜里下班回到家里，就开始折腾我的电脑。</p>
+
+<!--more-->
+
+
+<h2>替换SSD固态硬盘</h2>
+
+<p>拆开创见的SSD固态硬盘，里面自带的有小螺丝刀，还有硬盘的外接壳。我先把硬盘装进外接壳，然后连接电脑。可以识别出来，此时这就是一个移动硬盘。</p>
+
+<p>我想把原来电脑的资料通过磁盘工具恢复到新买的创见硬盘上，但是发现我电脑里面存的资料已经远大于240G。于是，我想先把硬盘换上吧。以后慢慢把有用的资料拷贝过来。</p>
+
+<p>我简单说一下替换SSD固态硬盘的步骤吧</p>
+
+<h3>拆卸后盖</h3>
+
+<p>用创见送的螺丝刀，把后盖上所有的螺丝都卸掉。MacBook后盖上有10个螺丝，不知道苹果设计是个有何寓意，难道是十全十美的意思，我只是猜测的。</p>
+
+<h3>取出原有硬盘</h3>
+
+<p>电脑后盖卸掉之后，找到硬盘的位置。在硬盘的侧面有一个固定的小架子，上面有两个小螺丝。卸掉这两个小螺丝之后，拿掉小架子。慢慢拽硬盘上预留的带子，拔掉硬盘前面的线，一定要慢慢的。</p>
+
+<h3>安装SSD固态硬盘</h3>
+
+<p>既然可以取出来，那么安装的方法也很简单。接头插好，把硬盘放入正确的位置。最后，别忘了用小架子把硬盘给固定住。</p>
+
+<p>更换SSD固态硬盘没有什么难度。但是换内存条的时候，还是有一些小难度的。可能是因为我很少或者说从来都没有接触过的原因。</p>
+
+<h2>替换内存条</h2>
+
+<p>我没有看网上替换内存跳的教程，因为我觉得应该没有什么难度。苹果电脑的内存条紧挨着电池的位置，我看到内存条上面也有个小架子。于是，我很熟练的把上面的两个螺丝卸掉，然后试图去拿掉小架子，这个时候我发现根本拿不动。</p>
+
+<p>再仔细看看，发现内存条两侧分别有一个固定的小条子。上下拉动没有反应。直接去口内存条也扣不掉。既然拿不掉也不能硬拿，搜了一下苹果官方的教程MacBook Pro：如何拆卸或安装内存<a href="https://support.apple.com/zh-cn/HT1270" target="_blank" title=“https://support.apple.com/zh-cn/HT1270”><a href="https://support.apple.com/zh-cn/HT1270">https://support.apple.com/zh-cn/HT1270</a></a></p>
+
+<p>步骤很详细，安装苹果官方的教程，我把两个内存条替换好了。别高兴太早，事情远没有想象的那么简单。新装的SSD固态硬盘是没有系统的。</p>
+
+<h2>装系统</h2>
+
+<p>我对装系统不是特别了解，一开始我尝试直接启动电脑，同时按住command+option+r会进入苹果官方的安装界面。这个需要下驱动，还需要下载苹果系统，整个过程估计没有个大半条肯定是搞不定的。</p>
+
+<p>接着尝试，把老硬盘的系统恢复的新的SSD固态硬盘上。由于老硬盘里面的东西比较多，于是我进入老硬盘的系统删了很多资料。让他能够小于240G。然后对老硬盘进行分区，试了很多次，分区一直失败。最终不得不放弃这个方法。</p>
+
+<p>最后一招，做个启动盘。这里有教程<a href="http://bbs.feng.com/read-htm-tid-7057977.html" target="_blank" title=“http://bbs.feng.com/read-htm-tid-7057977.html”><a href="http://bbs.feng.com/read-htm-tid-7057977.html">http://bbs.feng.com/read-htm-tid-7057977.html</a></a></p>
+
+<p>有5个多G，幸亏我家是100M得光纤，下载速度还挺快。下载完成之后，我把新的SSD固态硬盘分了一个10几G的空间出来，做启动盘使用。</p>
+
+<p>利用磁盘工具的恢复功能，把你下载的系统恢复到新的分区上。记住：磁盘源选择你下载的系统，目的磁盘是新的分区。</p>
+
+<p>完成之后，重启电脑，接下来都是傻瓜式操作。用了大概半个小时左右才把系统装好。这个时候看看，抬头看看电脑右上角的时间，发现已经2点了。
+试用一下</p>
+
+<p>花了一两千块和几个小时的时间折腾出来的电脑反应到底怎么样呢？其实我也迫不及待看一看，完全没有困意。简单使用了一下：速度确实很快，基本上没有遇到卡的情况。基本上达到我的要求，不枉费我花得钱和时间。</p>
+
+<p>前面说MacBook Pro（13 英寸，2012 年中）最大支持8G内存，我特意看了一下内存：</p>
+
+<p><img src="http://images.90159.com/08/ssdsave3.jpg" alt="ssdsave1" /></p>
+
+<p>在看看存储：</p>
+
+<p><img src="http://images.90159.com/08/ssdsave4.jpg" alt="ssdsave1" /></p>
+
+<p>终于搞定了，这下子电脑速度提高了不少，也节省了买电脑的钱，真心不错！</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[AVFoundation和 GPUImage初探]]></title>
+    <link href="http://www.superqq.com/blog/2015/08/24/avfoundation-gpuimage-find/"/>
+    <updated>2015-08-24T11:21:01+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/08/24/avfoundation-gpuimage-find</id>
+    <content type="html"><![CDATA[<p>文章来自：<a href="http://vonglo.me/2014/08/24/AVFoundation%E5%92%8C-GPUImage%E5%88%9D%E6%8E%A2/" target="_blank" title=“AVFoundation和 GPUImage初探”>AVFoundation和 GPUImage初探</a></p>
+
+<p>最近在做视频相关的东西，然后熟悉了一下AVFoundation框架，以及强大的开源库GPUImage。在这里记录这个过程中遇到的一些问题，以及解决的方法。</p>
+
+<h3>AVFoundation的一些基本概念</h3>
+
+<p>根据苹果的官方文档，AVFoundation是用来播放和创建实时的视听媒体数据的框架，同时提供Objective-C接口来操作这些视听数据，比如编辑，旋转，重编码。本文着重讲的是视频的录制和编辑和GPUImage的一些简单使用，其他的都是一笔带过。来看下苹果文档的一个框架图。</p>
+
+<p><img src="http://images.90159.com/08/frameworksBlockDiagram_2x.png" alt="1" /></p>
+
+<h4>相关类</h4>
+
+<ul>
+<li><code>AVAsset</code></li>
+<li><code>AVAssetTrack</code></li>
+<li><code>AVComposition</code></li>
+<li><code>AVVideoComposition</code></li>
+<li><code>AVAudioMix</code></li>
+<li><code>AVMutableAudioMixInputParameter</code></li>
+<li><code>AVMutableVideoCompositionInstrution</code></li>
+<li><code>AVMutableVideoCompositionLayerInstrution</code></li>
+</ul>
+
+
+<p>简单的播放可以使用MPMoviePlayerController或者MPMovieViewController就行,简单的录
+制可以直接使用UIImagePickerController。同样简单的声音播放直接使用AVAudioPlayer，简单的录制直接使用AVAduioRecorder。如果你想要有更多的操作，可使用各种复杂的方式来控制播放，比如在同一时刻为同一个asset的不同片段使用不同的分辨率渲染，playitem来管理asset的呈现状态和方式,playitemtrack管理asset中的轨道（track）状态。</p>
+
+<!--more-->
+
+
+<p>在AVFoudation框架中最核心的类就是AVAsset，他是由一系列的媒体数据组成的，包括但不限于:时间、大小(size)、标题、字幕等。其中每一个单独的媒体数据称为轨道(track)。同样剪辑操作中，AVMutableComposition是一个核心类。</p>
+
+<p><img src="http://images.90159.com/08/asset-track.png" alt="4" /></p>
+
+<p>这里又一个重要的东西就是CMTime,它是一个结构体，定义如下:</p>
+
+<p>typedef struct
+{
+    CMTimeValue    value;      <br/>
+    CMTimeScale    timescale;  <br/>
+    CMTimeFlags    flags;      <br/>
+    CMTimeEpoch    epoch;      <br/>
+} CMTime;
+通常时间是等于value/timescale的，所以两个有相同时间的CMTime它们的timescale并不一定相同。关于更多CMTime的内容可以看<a href="https://developer.apple.com/library/ios/documentation/CoreMedia/Reference/CMTime/Reference/reference.html#//apple_ref/doc/uid/TP40009748">这里</a>。</p>
+
+<h3>进阶</h3>
+
+<h4>视频的录制</h4>
+
+<p>这里用的是系统原生录制,关于录制通常用到的几个类就是AVCaptureDevice、
+AVCaptureSession、AVCaptureDeviceInput、AVCaptureOutput,同样，来看一张图。</p>
+
+<p><img src="http://images.90159.com/08/capture.png" alt="2" /></p>
+
+<p>一般来说，如果你想修改视频的相关信息，如拍摄地点等，可以拿到output的metadata来修改。大致代码如下:</p>
+
+<pre><code>NSMutableArray *array = [output.metadta mutableCopy];
+AVMutableMetadataItem *item = [[AVMutableMetadataItem alloc] init];
+item.keyspace = ...;
+item.key = ...;
+item.value = ...;
+[array addObject:item];
+output.metadata = array;
+</code></pre>
+
+<p>如果录制时候想要得到指定的视频size必须先指定分辨率，像这样</p>
+
+<pre><code>if ([session canSetSessionPreset:AVCaptureSessionPreset640x480]){ 
+
+    session.sessionPreset = AVCaptureSessionPreset640x480;
+}
+else {
+    //设置失败
+}
+</code></pre>
+
+<p>切换摄像头或其他输入源必须在beginConfiguration和commitConfiguration之间来处理，大致是这样</p>
+
+<pre><code>[session beginConfiguration];
+//移除某个输入源
+//再添加某个输入源
+//再为新添加的输入源进行必要的相关设置
+//...其他操作
+[session commitConfiguration];
+</code></pre>
+
+<p>如果想对实时视频帧进行相关的渲染操作,通过 setSampleBufferDelegate:queue:方法来为output设置代理，同时必须指定queue，代理方法将会在这些queue上面被调用。可以在自己的类里面实现AVCaptureVideoDataOutput的协议方法,通过实现
+captureOutput:didOutputSampleBuffer:fromConnection:来拿到视频的每一帧，默认情况下这些视频帧会被用最有效的格式来输出到output,当然也可以在拍摄之前就为output进行相关设置。</p>
+
+<pre><code>AVCaptureVideoDataOutput *videoDataOutput = [AVCaptureVideoDataOutput new];
+NSDictionary *newSettings =@{ (NSString *)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA) };
+videoDataOutput.videoSettings = newSettings;
+</code></pre>
+
+<p>说了这么多，感觉很虚，还是直接上代码，将以上部分衔接起来</p>
+
+<pre><code>//自定义方法，小演示只添加了视频，没有添加声音，添加声音类似
+- (void)yourCustomMethodName{
+    AVCaptureSession *session = [[AVCaptureSession alloc] init];
+    if ([session canSetSessionPreset:AVCaptureSessionPreset640x480]){ 
+
+            session.sessionPreset = AVCaptureSessionPreset640x480;
+        }
+        else {
+            //设置失败
+        }
+    AVCaptureDevice *device =
+            [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+
+    NSError *error = nil;
+    AVCaptureDeviceInput *input =
+            [AVCaptureDeviceInput deviceInputWithDevice:device error:&amp;error];
+    if (!input) {
+        // Handle the error appropriately.
+    }
+    if(session canAddInput:input){
+        [session addInput:input];
+    }
+    AVCaptureVideoDataOutput *output = [[AVCaptureVideoDataOutput alloc] init];
+    if(session canAddOutput:output){
+        [session addOutput:output];
+    }
+    output.videoSettings =@{ (NSString *)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA) };
+    //设置帧率(FPS),每秒15帧
+    output.minFrameDuration = CMTimeMake(1, 15);
+    dispatch_queue_t queue = dispatch_queue_create("CustomQueue", NULL);
+    [output setSampleBufferDelegate:self queue:queue];
+    dispatch_release(queue)
+    NSString *mediaType = AVMediaTypeVideo;
+
+ //用来显示录制的实时画面
+    AVCaptureVideoPreviewLayer *captureVideoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:session];
+    [self.view.layer addSublayer:captureVideoPreviewLayer];
+
+    //用户是否允许启用摄像头
+    [AVCaptureDevice requestAccessForMediaType:mediaType completionHandler:^(BOOL granted) {
+        if (granted)
+        {
+            //Granted access to mediaType
+            [self setDeviceAuthorized:YES];
+            [session startRunning];
+        }
+        else
+        {
+            //Not granted access to mediaType
+            dispatch_async(dispatch_get_main_queue(), ^{
+            [[[UIAlertView alloc] initWithTitle:@"AVCam!"
+                                        message:@"AVCam doesn't have permission to use Camera, please change privacy settings"
+                                       delegate:self
+                              cancelButtonTitle:@"OK"
+                              otherButtonTitles:nil] show];
+                    [self setDeviceAuthorized:NO];
+            });
+        }
+    }];
+}
+
+//协议方法,获取每一帧，将每一帧转换成图片，你也可以进行其他的渲染操作
+- (void)captureOutput:(AVCaptureOutput *)captureOutput
+         didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
+         fromConnection:(AVCaptureConnection *)connection {
+
+    UIImage *image = imageFromSampleBuffer(sampleBuffer);
+}
+</code></pre>
+
+<p>上面演示了如何取得每一帧实时画面,如果想要直接存成视频可使用AVCaptureMovieFileOutput,如下</p>
+
+<pre><code>AVCaptureMovieFileOutput *movieFileOutput = [[AVCaptureMovieFileOutput alloc] init];
+NSURL *fileURL = ...;    //存放位置
+//指定代理
+[aMovieFileOutput startRecordingToOutputFileURL:fileURL recordingDelegate:delete];
+//也可以为其指定outputSettings
+同样代理必须实现协议方法captureOutput:didFinishRecordingToOutputFileAtURL:fromConnections:error:,
+</code></pre>
+
+<p>当然还有其他各种具体的设置，如对焦、曝光、闪光灯以及白平衡等等均可以通过KVO来设置，每次设置前都加一个判断，是否支持指定模式,在这里不做详细叙述了,这里你可以看到<a href="https://developer.apple.com/library/ios/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/04_MediaCapture.html#//apple_ref/doc/uid/TP40010188-CH5-SW14">更多</a>。</p>
+
+<h4>视频的剪辑</h4>
+
+<p>视频的剪辑包括但不限于:裁剪、旋转(改变transform)、添加水印、添加字幕、合并等。关于剪辑，无非就是取出视频中的轨道(视频和音频),然后对轨道进行一系列的操作变可以得到各种想要的效果。首先我们先来看下面一张图</p>
+
+<p><img src="http://images.90159.com/08/composition.png" alt="3" /></p>
+
+<p>AVMutableComposition是整个视频剪辑过程中的一个核心，下面着重讲解这个类。AVMutableComposition和AVAsset一样含有多个视/音频轨道，但是更重要的是，它可以将多个AVAssetTrack合并到一起，比如在视频合并时，可以直接将多段视频拼接到一个轨道(AVMutableCompositonTrcak)，音频也一样。通过借助AVMutableVideoComposition和AVMutableAudioMix来设置每一段的视/音频的属性，从而达到想要的视听效果，比如视频切换处的淡入淡出，声音的渐变，字幕等等。
+关于上图的解释:首先通过将asset里面的轨道加载到composition的各轨道，然后通过audioMix和videoComposition对某个轨道进行对应操作,设置其相关属性。其中要用到的具体方法可以参见<a href="https://developer.apple.com/library/ios/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/03_Editing.html#//apple_ref/doc/uid/TP40010188-CH8-SW1">这里</a>。</p>
+
+<p>其中图中1，2，3用到的方法为</p>
+
+<pre><code>[1]
+[mutableComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid]
+[2]
+[AVMutableAudioMixInputParameters audioMixInputParametersWithTrack:mutableCompositionAudioTrack];`
+[3]
+[AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:mutableCompositionVideoTrack]
+</code></pre>
+
+<p>关于视频的剪辑的代码可以参见苹果给出的官方<a href="https://developer.apple.com/library/ios/samplecode/AVSimpleEditoriOS/Introduction/Intro.html#//apple_ref/doc/uid/DTS40012797">Demo</a>以及Raywendrich上的两篇文章<a href="http://www.raywenderlich.com/13418/how-to-play-record-edit-videos-in-ios">1</a>,<a href="http://www.raywenderlich.com/30200/avfoundation-tutorial-adding-overlays-and-animations-to-videos">2</a>。</p>
+
+<h3>GPUImage</h3>
+
+<p>什么?!你没听说过GPUImage?!那你赶紧去看看它的<a href="https://github.com/BradLarson/GPUImage/blob/master/README.md#overview">相关介绍</a>。GPUImage是一个基于OpenGL ES的一个强大的图像/视频处理库,封装好了各种滤镜同时也可以编写自定义的滤镜。至于他到底是如何强大,用了就知道。在这篇文章不是为了介绍它，而是列出一些我在使用过程中遇到的问题和解决方法。</p>
+
+<h4>分段录制</h4>
+
+<p>在使用GPUImageVideoCamera来录制的时候,可能需要分段录制,在GPUImage给出的视频录制Demo中直接只是录制一次，然而有时候需求可能是要录制多次，如果此时按照Demo的方法每次录制都要创建一个movieWriter,这样子的话每次都会在重新创建movieWriter并将它设置为videoCamera的audioEncodingTarget时候，界面都会卡顿一下，这是什么原因呢？因为videoCamera默认是不录制声音的，而每次创建movieWriter的时候都用到了movieWriter.hasAudioTrack = YES;,吊用这个之后videoCamera会自动去添加声音输入源,准备一些数据，所以这个过程会导致界面卡顿一下？这该怎么办呢？如果你有进到videoCamera的头文件去看的话你会发现这么一个方法和它的注释</p>
+
+<pre><code>//Add audio capture to the session. Adding inputs and outputs freezes 
+//the capture session momentarily, so you can use this method to add 
+//the audio inputs and outputs early, if you’re going to set the 
+//audioEncodingTarget later. Returns YES is the audio inputs and 
+//outputs were added, or NO if they had already been added.
+
+-(BOOL)addAudioInputsAndOutputs;
+</code></pre>
+
+<p>注释的大意是:录制的时候添加声音,添加输入源和输出源会暂时会使录制暂时卡住,所以在要使用声音的情况下要先调用该方法来防止录制被卡住。这不刚好就解决了上面的这个问题吗？所以问题就迎刃而解了,因为没看到这个,走了不少弯路,浪费了好长时间。</p>
+
+<p>关于分段录制,可能有这么一个需求就是所有片段都是存于一个文件中而不是录制完成后将各段合并到一个视频文件中。这两个东西或许会帮到你<a href="http://blog.csdn.net/whf727/article/details/18702643">分段录制的实现</a>,<a href="https://github.com/leanlyne/GPUImageExtend">GPUImageExtend</a>。前者是基于系统的分段录制的实现,后者是GPUImageMoiveWriter的一个子类。</p>
+
+<h4>所见即所得</h4>
+
+<p>在录制的时候,使用GPUImageView来显示,因为给GPUImageView设置的大小是320*320的,如果不设置它的填充模式(fillMode)它是默认使用kGPUImageFillModePreserveAspectRatio即保持长宽比,其余空白处使用背景色填充,如果要设置成方形就得使用kGPUImageFillModePreserveAspectRatioAndFill,但是这个时候问题又来了假设你是用的录制分辨率是960x540,显示的画面则只会显示中间的540x540的画面,这个时候如果movieWriter的size设置为540x540,则最后保存的视频是失真的因为960被压到了540，整个画面变扁了。这个时候有两种解决方案</p>
+
+<ul>
+<li>1.使用GPUImageCropFilter,通过设置其cropRegion来裁出中间540x540部分。关于cropRegion要注意它是一个CGRect,它对坐标系做了一个归一化处理,所以让所有的取值都在0.0~1.0范围内,比如960x540裁剪至中间540x540部分则cropRegion为(0,((960-540)/2)/960,1,540/960)</li>
+<li>2.改变videoComposition的perferTransfom使其只显示中间的540x540。
+这样就完成了所见即所得。</li>
+</ul>
+
+
+<p>关于GPUImage的实时滤镜添加或给已存在的视频添加滤镜,Demo都给出了详细过程,依葫芦画瓢即可。有一点要注意的是,在一些操作完成的时候注意removeTarget,还有就是在使用movieFile来播放已存在视频并添加滤镜的时候是没有声音的,这是这个库的一个缺陷,Github上有人提了这个<a href="https://github.com/BradLarson/GPUImage/issues/458">issue</a>和<a href="https://gist.github.com/pgodino/3819907">一些解决办法</a>。同时在用movieFile处理视频的时候在切换滤镜的时候最好先cancelProcessing不然会有黑屏或卡顿现象出现。同样如果你是用老版本的GPUImage的时候,可能会遇到第一帧是红色的现象,有人提出这个issue后,作者修复了这个bug,切换到最新版的时候就不会有这种情况发生。发生这种情况的原因是视频掉帧,导致音频和视频不同步。</p>
+
+<h3>总结</h3>
+
+<p>AVFoundation还是有很多东西去做深层次的挖掘,GPUImage也是一样,有了这个强大的库,解决一些事情节省了大量时间。这次仅仅是一个小小的尝试,对于很多东西都是浅尝则止,文中难免会有错误,欢迎在评论中指正。如果你在使用GPUImage和AVFoundation有什么好的心得或者对一些问题有相应的解决方案,不妨在评论中分享一下。</p>
+
+<hr />
+
+<p>版权声明：我已将本文在微信公众平台的发表权「独家代理」给 iOS开发（ iOSDevTip ） 微信公众号。扫下方二维码即可关注「iOS 开发」：</p>
+
+<p><img src="http://images.90159.com/icon/iOSDevTip.jpg" alt="iOSDevTip" /></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS/Android开发社交SDK列表]]></title>
@@ -39,6 +384,9 @@
 <p><a href="http://developer.baidu.com/soc/share"target="_blank"title="进入官网">进入官网</a></p>
 
 <p>百度社会化分享组件集成多种热门社会化媒体平台，开发者可将此组件集成到自己的移动应用中，用户即可方便地对应用中的内容分享到新浪微博、Qzone、腾讯微博、开心网等各大热门社会化媒体平台中。</p>
+
+<!--more-->
+
 
 <h2></br></h2>
 
@@ -109,6 +457,9 @@
 <p>从阅读量上来看，还是挺不错的。虽然赞赏金额不多吧，但也算是有一点点回报。七夕那天夜里，我找到作者毕洪博给他发了一个红包。哈哈！</p>
 
 <p>如果您是一名iOS开发者，如果您有自己的博客，如果您喜欢分享，那就快行动吧！把您的优秀文章投稿给我，我将会把您的文章推送在iOS开发微信公众号上，分享给更多的iOS开发者。</p>
+
+<!--more-->
+
 
 <h2>投稿方式</h2>
 
@@ -183,6 +534,9 @@
                      saturationDeltaFactor:1 
                                  maskImage:nil];//因为OC没有命名空间，避免你的程序中使用到了这个分类导致冲突，我加了前缀
 </code></pre>
+
+<!--more-->
+
 
 <p>最终的显示效果很不错，我将模糊程度尽量的调节到与新浪微博一致了，不过在这个过程中，我发现当我频繁的进行弹出操作时，内存会不断攀升如下图：
 <img src="http://7xkdhe.com1.z0.glb.clouddn.com/sinaAnimation3.png" alt="演示3" />
@@ -405,6 +759,9 @@ Xcode -> Product -> Profile -> Allocations， 开启之后我们来使用右下�
 
 <p>上面这段代码是刷新第0个section。</p>
 
+<!--more-->
+
+
 <h2>刷新动画</h2>
 
 <p>刷新UITableView还有几个动画：</p>
@@ -466,6 +823,9 @@ Xcode -> Product -> Profile -> Allocations， 开启之后我们来使用右下�
 colorLayer.mask = colorMaskLayer;
 blueView.layer.mask = blueMaskLayer;
 </code></pre>
+
+<!--more-->
+
 
 <p>视图层级图如下：</p>
 
@@ -672,6 +1032,9 @@ iOS 8.4
 }
 </code></pre>
 
+<!--more-->
+
+
 <h4>2. 添加彩色视图的遮罩colorfulMaskView</h4>
 
 <p>之所以这里的遮罩使用的是UIView而不是CAShapeLayer或者CALayer，原因如下：</p>
@@ -805,6 +1168,9 @@ accelerometer.updateInterval = 0.1;
 }
 </code></pre>
 
+<!--more-->
+
+
 <h2>CoreMotion加速度计</h2>
 
 <p>首先需要引入<code>#import &lt;CoreMotion/CoreMotion.h&gt;</code>，直接通过<code>block</code>回调，然后处理三个轴的数据。代码如下：</p>
@@ -843,6 +1209,9 @@ if (motionManager.accelerometerAvailable) {
 <p><img src="http://7xkkjz.com1.z0.glb.clouddn.com/MK-1.png" alt="Pic-MK-1" /></p>
 
 <p>乍一看上去是挺好挺美观的 不同的人会显示不同的头像 可是当人扎堆的时候 问题就来了</p>
+
+<!--more-->
+
 
 <p><img src="http://7xkkjz.com1.z0.glb.clouddn.com/MK-2.png" alt="Pic-MK-2" /></p>
 
@@ -1090,6 +1459,9 @@ if (motionManager.accelerometerAvailable) {
 <p><a href="http://blog.sunnyxx.com/2015/07/04/ios-interview/">《招聘一个靠谱的 iOS》</a>—参考答案（上）</p>
 
 <p>说明：面试题来源是<a href="http://weibo.com/u/1364395395">微博@我就叫Sunny怎么了</a>的这篇博文：<a href="http://blog.sunnyxx.com/2015/07/04/ios-interview/">《招聘一个靠谱的 iOS》</a>，其中共55题，除第一题为纠错题外，其他54道均为简答题。</p>
+
+<!--more-->
+
 
 <p>出题者简介： 孙源（sunnyxx），目前就职于百度，负责百度知道 iOS 客户端的开发工作，对技术喜欢刨根问底和总结最佳实践，热爱分享和开源，维护一个叫 forkingdog 的开源小组。</p>
 
@@ -2492,6 +2864,9 @@ runtime部分主要参考<a href="https://developer.apple.com/library/mac/docume
 
 <p>上一篇文章<a href="http://www.superqq.com/blog/2015/08/06/uitextview-placeholder-practice/">UITextView实现placeholder的猥琐做法</a>讲了关于<code>UITextView</code>的<code>placeholder</code>实现原理。大家都一致认为做法比较猥琐。</p>
 
+<!--more-->
+
+
 <p>那么，这一次我将简单的封装一个<code>UITextView</code>。暂且取名叫<code>GGPlaceholderTextView</code>，GG前缀看着有点任性的哈。</p>
 
 <h2>GGPlaceholderTextView简介</h2>
@@ -2616,6 +2991,9 @@ textView.placeholder = @"关注微信公众号iOS开发：iOSDevTip";
 </ol>
 
 
+<!--more-->
+
+
 <h2>实现方法</h2>
 
 <h3>创建UITextView</h3>
@@ -2698,6 +3076,9 @@ tapGesture.numberOfTouchesRequired = 1; //点击手指数
 
 <p>本篇文章将会介绍如何将多个<code>UIImage</code>合并成一个<code>UIImage</code>。听起来似乎有点晕晕乎乎的，这个可以合并吗？答案是肯定的。我们拿两个<code>UIImage</code>来举例。</p>
 
+<!--more-->
+
+
 <h2>创建两个UIImage</h2>
 
 <pre><code>UIImage *image1 = [UIImage imageNamed:@"iOSDevTip"];
@@ -2738,6 +3119,9 @@ UIGraphicsEndImageContext();
 <p>保存照片还可以用<code>ALAssetsLibrary</code>，<code>ALAssetsLibrary</code>提供了我们对iOS设备中的相片、视频的访问，是连接应用程序和相册之间访问的一个桥梁。</p>
 
 <p>接下来，我们来详细讲解一下关于系统相册权限获取、保存照片、创建自己的相簿等等功能。</p>
+
+<!--more-->
+
 
 <h2>创建自己的相簿</h2>
 
@@ -2971,6 +3355,9 @@ imageView.image = self.image;
 [self.view addSubview:imageView];
 </code></pre>
 
+<!--more-->
+
+
 <h2>创建UIButton</h2>
 
 <p>创建<code>UIButton</code>并绑定<code>actionClick:</code>事件:</p>
@@ -3026,6 +3413,9 @@ button.frame = CGRectMake( 100, 300, SCREEN.width - 200, 40);
     <content type="html"><![CDATA[<p>基本上每个iOS APP里面都有导航，比如微信、QQ、支付宝。导航可以很方便地帮助我们管理视图控制器（UIViewController）。导航的重要性不言而喻，基本上是每一位iOS初学者都要接触到的问题。</p>
 
 <p>iOS系统导航栏中有<code>leftBarButtonItem</code>和<code>rightBarButtonItem</code>，我们可以根据自己的需求来自定义这两个<code>UIBarButtonItem</code>。</p>
+
+<!--more-->
+
 
 <h2>四种创建方法</h2>
 
@@ -3150,6 +3540,9 @@ self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustom
 
 <p>说实话，电影院里看电影就是跟手机上看感觉不一样。在电影院里，很多人坐在一起看电影有氛围，还是大屏幕带来的视觉感。而手机还是显得比较low。</p>
 
+<!--more-->
+
+
 <h2>第一次购票看电影</h2>
 
 <p>这个周六和老婆一起到电影院看了两场电影，分别是《大圣归来》和《捉妖记》。两部电影拍的都不错，好像也是最近比较热播的两部电影。</p>
@@ -3174,6 +3567,9 @@ self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustom
     <content type="html"><![CDATA[<blockquote><p>今天是八一建军节，中国人民解放军建军纪念日。心里不由自主地升起一份爱国之情。</p></blockquote>
 
 <p>我的网站<a href="http://www.superqq.com/">刚刚在线</a>去年九月份正式上线的，马上快一周年啦！作为一个技术型的博客网站，<a href="http://www.superqq.com/">刚刚在线</a>成长速度还是蛮快的。</p>
+
+<!--more-->
+
 
 <h2>刚刚在线排名</h2>
 
@@ -3234,6 +3630,9 @@ duoshuo_short_name: superqq
 <p>有人会指出文章里有错误的地方，真的很感激他们，非常的认真；有人会对文章说出自己的见解，加深自己的印象，同时，也能帮助到其他的朋友；有人也会在评论里，提出一些问题，但是鉴于评论的字数限制，只能简单的回答一下。</p>
 
 <p>在昨天的文章评论里面，有一个朋友提出了一个问题，关于微信导航栏的。</p>
+
+<!--more-->
+
 
 <h2>问题分析和解答</h2>
 
@@ -3314,203 +3713,6 @@ _tabBarController = [[AKTabBarController alloc] initWithTabBarHeight:50 position
 <p><img src="https://github.com/alikaragoz/AKTabBarController/raw/master/Screenshots/iphone-portrait.png" alt="1" /></p>
 
 <p>这里只是简单的讲解一下。大家闲的时候，如果有兴趣的话，可以自己动手来熟练关于<code>AKTabBarController</code>更多的功能。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[关于导航栏的六个小技巧]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/30/six-tips-on-navigation-bar/"/>
-    <updated>2015-07-30T00:13:43+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/30/six-tips-on-navigation-bar</id>
-    <content type="html"><![CDATA[<p><code>UINavigationBar</code>和<code>UINavigationItem</code>是iOS开发中常用的控件。今天给大家介绍一下六个关于导航栏的小技巧。</p>
-
-<h2>1.设置导航栏标题</h2>
-
-<pre><code>self.title = @"iOS开发：iOSDevTip";
-</code></pre>
-
-<h2>2.设置导航栏样式</h2>
-
-<p>设置方法：</p>
-
-<pre><code>[self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
-</code></pre>
-
-<p><code>UIBarStyle</code>的样式：</p>
-
-<pre><code>typedef NS_ENUM(NSInteger, UIBarStyle) {
-    UIBarStyleDefault          = 0,
-    UIBarStyleBlack            = 1,
-
-    UIBarStyleBlackOpaque      = 1, // Deprecated. Use UIBarStyleBlack
-    UIBarStyleBlackTranslucent = 2, // Deprecated. Use UIBarStyleBlack and set the translucent property to YES
-};
-</code></pre>
-
-<p><code>UIBarStyleDefault</code>是默认样式，<code>UIBarStyleBlack</code>是黑色不透明。<code>UIBarStyleBlackOpaque</code>和<code>UIBarStyleBlackTranslucent</code>这两个已经废弃了。</p>
-
-<p>如果想设置导航栏透明，可以加上下面这句代码：</p>
-
-<pre><code>self.navigationController.navigationBar.translucent = YES;
-</code></pre>
-
-<h2>3.修改返回按钮title</h2>
-
-<pre><code>self.navigationItem.title = @"test";
-</code></pre>
-
-<h2>4.隐藏返回按钮title</h2>
-
-<p>比较笨的方法是：</p>
-
-<pre><code>self.navigationItem.title = @"";
-</code></pre>
-
-<p>还可以这样设置：</p>
-
-<pre><code>[[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
-</code></pre>
-
-<h2>5.设置leftBarButtonItem</h2>
-
-<pre><code>self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"back" style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
-
-- (void)back:(id)sender
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-</code></pre>
-
-<h2>6.左滑返回手势失效了怎么办</h2>
-
-<p>如果按上一步设置<code>leftBarButtonItem</code>之后，左滑返回手势就会失效。设置一下<code>UIGestureRecognizerDelegate</code>代理即可：</p>
-
-<pre><code>self.navigationController.interactivePopGestureRecognizer.delegate = self;
-</code></pre>
-
-<p>以上是六个关于导航栏的小技巧。更多iOS开发相关的技术，请关注我的微信公众号iOS开发：<strong>iOSDevTip</strong></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS开发之UIImage等比缩放]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/29/uiimage-geometric-zoom/"/>
-    <updated>2015-07-29T00:01:15+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/29/uiimage-geometric-zoom</id>
-    <content type="html"><![CDATA[<h2>评论功能真不错</h2>
-
-<p>评论开通后，果然有很多人吐槽。谢谢大家的支持和关爱，如果有做的不到的地方，还请海涵。毕竟我一个人的力量是有限的，我会尽自己最大的努力大家准备一些干货。</p>
-
-<p>有些内容可能都是比较基础的，记住：不积跬步无以至千里，不积小流无以成江海。我想这个道理大家都懂，在为大家准备文章的过程中，对我来说也是一次学习成长。</p>
-
-<p>大家可以继续吐槽！微信的评论就是一个沟通的渠道，也是一篇文章的延续。你也可以在评论中写一些你对iOS开发的见解，说不定就会对他人有帮助。</p>
-
-<p>很高兴，已经有好几位iOS开发的朋友答应以后会写文章投稿给我。在这里，我再强调一下：如果你有好的技术文章一定要投稿给我噢！投稿邮箱：</p>
-
-<pre><code>worldligang@163.com
-</code></pre>
-
-<p>前面讲了<a href="http://www.superqq.com/blog/2015/07/26/jie-qu-uiimagezhi-ding-da-xiao-qu-yu/">截取UIImage指定大小区域</a>，很方便的截取<code>UIImage</code>。今天要和大家分享的是<code>UIImage</code>的缩放。</p>
-
-<p>两种缩放:</p>
-
-<ol>
-<li>缩放到指定大小，也就是指定的<code>size</code>.</li>
-<li>等比缩放。</li>
-</ol>
-
-
-<h2>缩放到指定大小</h2>
-
-<pre><code>- (UIImage*)imageCompressWithSimple:(UIImage*)image scaledToSize:(CGSize)size
-{
-    UIGraphicsBeginImageContext(size);
-    [image drawInRect:CGRectMake(0,0,size.width,size.height)];
-    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return newImage;
-}
-</code></pre>
-
-<h2>等比缩放</h2>
-
-<h3>通过缩放系数</h3>
-
-<pre><code>- (UIImage*)imageCompressWithSimple:(UIImage*)image scale:(float)scale
-{
-    CGSize size = image.size;
-    CGFloat width = size.width;
-    CGFloat height = size.height;
-    CGFloat scaledWidth = width * scale;
-    CGFloat scaledHeight = height * scale;
-    UIGraphicsBeginImageContext(size); // this will crop
-    [image drawInRect:CGRectMake(0,0,scaledWidth,scaledHeight)];
-    UIImage* newImage= UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return newImage;
-}
-</code></pre>
-
-<p><code>scale</code>是缩放系数  。</p>
-
-<h3>通过计算得到缩放系数</h3>
-
-<pre><code>- (UIImage*)imageByScalingAndCroppingForSize:(CGSize)targetSize
-{
-
-    UIImage *sourceImage = [UIImage imageNamed:@"test.jpg"];
-    UIImage *newImage = nil;
-    CGSize imageSize = sourceImage.size;
-    CGFloat width = imageSize.width;
-    CGFloat height = imageSize.height;
-    CGFloat targetWidth = targetSize.width;
-    CGFloat targetHeight = targetSize.height;
-    CGFloat scaleFactor = 0.0;
-    CGFloat scaledWidth = targetWidth;
-    CGFloat scaledHeight = targetHeight;
-    CGPoint thumbnailPoint = CGPointMake(0.0,0.0);
-
-    if (CGSizeEqualToSize(imageSize, targetSize) == NO)
-    {
-        CGFloat widthFactor = targetWidth / width;
-        CGFloat heightFactor = targetHeight / height;
-        if (widthFactor &gt; heightFactor)
-            scaleFactor = widthFactor; // scale to fit height
-        else
-            scaleFactor = heightFactor; // scale to fit width
-
-        scaledWidth= width * scaleFactor;
-        scaledHeight = height * scaleFactor;
-        // center the image
-        if (widthFactor &gt; heightFactor)
-        {
-            thumbnailPoint.y = (targetHeight - scaledHeight) * 0.5;
-        }
-        else if (widthFactor &lt; heightFactor)
-        {
-            thumbnailPoint.x = (targetWidth - scaledWidth) * 0.5;
-        }
-    }
-
-    UIGraphicsBeginImageContext(targetSize); // this will crop
-    CGRect thumbnailRect = CGRectZero;
-    thumbnailRect.origin = thumbnailPoint;
-    thumbnailRect.size.width= scaledWidth;
-    thumbnailRect.size.height = scaledHeight;
-    [sourceImage drawInRect:thumbnailRect];
-    newImage = UIGraphicsGetImageFromCurrentImageContext();
-
-    if(newImage == nil)
-        NSLog(@"could not scale image");
-    //pop the context to get back to the default
-    UIGraphicsEndImageContext();
-
-    return newImage;
-
-}
-</code></pre>
-
-<p>很久之前写了一篇文章<a href="http://www.superqq.com/blog/2015/01/22/jie-jue-mwphotobrowserzhong-de-sdwebimagejia-zai-da-tu-dao-zhi-de-nei-cun-jing-gao-wen-ti/">解决MWPhotoBrowser中的SDWebImage加载大图导致的内存警告问题</a>。这个我记得当时从服务器拿到的照片大概有10几M的样子，加载出来会导致内存警告。所以我当时通过修改SDWebImage源码，就是把下载下来的照片进行缩放，内存就降下来了。一般情况下应该不会加载这么大的照片的，用户要是知道，早把你的APP给删掉了。</p>
 ]]></content>
   </entry>
   

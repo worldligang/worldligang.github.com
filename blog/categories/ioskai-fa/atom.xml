@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-23T11:51:14+08:00</updated>
+  <updated>2015-08-31T23:23:58+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -44,6 +44,9 @@
 <p>从阅读量上来看，还是挺不错的。虽然赞赏金额不多吧，但也算是有一点点回报。七夕那天夜里，我找到作者毕洪博给他发了一个红包。哈哈！</p>
 
 <p>如果您是一名iOS开发者，如果您有自己的博客，如果您喜欢分享，那就快行动吧！把您的优秀文章投稿给我，我将会把您的文章推送在iOS开发微信公众号上，分享给更多的iOS开发者。</p>
+
+<!--more-->
+
 
 <h2>投稿方式</h2>
 
@@ -112,6 +115,9 @@
 
 <p>上面这段代码是刷新第0个section。</p>
 
+<!--more-->
+
+
 <h2>刷新动画</h2>
 
 <p>刷新UITableView还有几个动画：</p>
@@ -168,6 +174,9 @@ accelerometer.updateInterval = 0.1;
 }
 </code></pre>
 
+<!--more-->
+
+
 <h2>CoreMotion加速度计</h2>
 
 <p>首先需要引入<code>#import &lt;CoreMotion/CoreMotion.h&gt;</code>，直接通过<code>block</code>回调，然后处理三个轴的数据。代码如下：</p>
@@ -202,6 +211,9 @@ if (motionManager.accelerometerAvailable) {
     <content type="html"><![CDATA[<p>iOS开发微信公众号上的iOS技术文章，都将发布在<a href="http://www.superqq.com/">刚刚在线</a>。所以大家可以到我的网站上查看之前的文章，也可以在底部的精彩文章查看历史文章。</p>
 
 <p>上一篇文章<a href="http://www.superqq.com/blog/2015/08/06/uitextview-placeholder-practice/">UITextView实现placeholder的猥琐做法</a>讲了关于<code>UITextView</code>的<code>placeholder</code>实现原理。大家都一致认为做法比较猥琐。</p>
+
+<!--more-->
+
 
 <p>那么，这一次我将简单的封装一个<code>UITextView</code>。暂且取名叫<code>GGPlaceholderTextView</code>，GG前缀看着有点任性的哈。</p>
 
@@ -325,6 +337,9 @@ textView.placeholder = @"关注微信公众号iOS开发：iOSDevTip";
 <li>在开始编辑的代理方法里清除<code>placeholder</code>。</li>
 <li>在结束编辑的代理方法里在设置<code>placeholder</code>。</li>
 </ol>
+
+
+<!--more-->
 
 
 <h2>实现方法</h2>
