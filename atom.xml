@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-08-27T11:35:32+08:00</updated>
+  <updated>2015-09-01T09:28:23+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,89 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[UITablView上下滑动控制底部按钮的出现和消失]]></title>
+    <link href="http://www.superqq.com/blog/2015/09/01/uitablview-up-down-slide/"/>
+    <updated>2015-09-01T00:49:19+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/09/01/uitablview-up-down-slide</id>
+    <content type="html"><![CDATA[<p>今天我们一起来做一个好玩的功能，通过UITablView上下滑动控制底部按钮的出现和消失。先来看看效果：</p>
+
+<h2>需求分析</h2>
+
+<p>要做一个这样的功能，对你来说应该不难，实现的方式也有很多。我们来分析一下要实现那几个小功能点：</p>
+
+<ul>
+<li>UITablView向上滑动，底部按钮消失</li>
+<li>UITablView向下滑动，底部按钮出现</li>
+<li>UITablView滑动到底部，底部按钮出现</li>
+</ul>
+
+
+<p>主要就是这三个小功能点。那么很简单，我们只需要判断UITablView是往上滑动，还是往下滑动，以及判断UITablView是否滑动到底部即可。</p>
+
+<h2>代码实现</h2>
+
+<h3>创建一个底部按钮</h3>
+
+<pre><code>self.bottomButton = [UIButton buttonWithType:UIButtonTypeCustom];
+self.bottomButton.frame = CGRectMake(SCREEN.width / 2 - 25, SCREEN.height - 50, 50, 50);
+[self.bottomButton setBackgroundImage:[UIImage imageNamed:@"bottom"] forState:UIControlStateNormal];
+[self.view addSubview:self.bottomButton];
+</code></pre>
+
+<p>既然是控制按钮的出现和消失，首先要创建一个底部按钮。SCREEN是个宏定义：</p>
+
+<pre><code>#define SCREEN [UIScreen mainScreen].bounds.size
+</code></pre>
+
+<h3>判断UITablView上下滑动</h3>
+
+<p>我们都知道，UITablView是继承UIScrollView的。所以UIScrollView的代理方法在UITablView是可以使用的。要判断UITablView上下滑动，我们需要实现UIScrollView的scrollViewDidScroll:代理方法：</p>
+
+<pre><code>-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (scrollView.contentOffset.y &gt; self.offsetY &amp;&amp; scrollView.contentOffset.y &gt; 0) {//向上滑动
+
+    }else if (scrollView.contentOffset.y &lt; self.offsetY ){//向上滑动
+
+    }
+    self.offsetY = scrollView.contentOffset.y;//将当前位移变成缓存位移
+}
+</code></pre>
+
+<!--more-->
+
+
+<h3>判断UITablView滑动到底部</h3>
+
+<p>也是在scrollViewDidScroll:这个方法里面判断：</p>
+
+<pre><code> //判断滑动到底部
+if (scrollView.contentOffset.y == scrollView.contentSize.height - self.tableView.frame.size.height) {
+
+}
+</code></pre>
+
+<h3>按钮消失和出现</h3>
+
+<pre><code>//按钮消失
+[UIView transitionWithView:self.bottomButton duration:0.1 options:UIViewAnimationOptionTransitionNone animations:^{
+            self.bottomButton.frame = CGRectMake(SCREEN.width / 2 - 25, SCREEN.height, 50, 50);
+        } completion:NULL];
+
+//按钮出现        
+[UIView transitionWithView:self.bottomButton duration:0.1 options:UIViewAnimationOptionTransitionNone animations:^{
+  self.bottomButton.frame = CGRectMake(SCREEN.width / 2 - 25, SCREEN.height - 50, 50, 50);
+  } completion:NULL];
+</code></pre>
+
+<p>按钮消失其实就是移除屏幕，这里我加了一个旋转的过度动画，需要什么动画效果都可以选择。按钮出现就是把按钮的frame设置到初始化时候的frame即可。</p>
+
+<p>这样我们就实现了通过UITablView上下滑动控制底部按钮的出现和消失。代码我已经上传的github，下载地址还是<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
+
+<p>如果你觉得文章还不错，请分享给你的同学和朋友，欢迎推荐他们关注iOS开发：iOSDevTip 公众号。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[2012年MacBook更换SSD固态硬盘和16G内存条]]></title>
@@ -3617,102 +3700,6 @@ duoshuo_short_name: superqq
 <h2>网站有评论必回复噢</h2>
 
 <p>既然网站评论已经成功接入，大家以后有什么问题，或者需要交流的可以直接在网站上评论。虽然，每天有很多少要做，但是我依然会抽出时间来看看大家提的评论，一起探讨，一起成长。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[AKTabBarController：类似微信的第三方库]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/31/aktabbarcontroller-similar-to-wechat-library/"/>
-    <updated>2015-07-31T00:28:53+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/31/aktabbarcontroller-similar-to-wechat-library</id>
-    <content type="html"><![CDATA[<p>自从有了评论之后，就可以很方便的和大家交流。以前都是我一个人默默的发文章，看不出大家对文章的看法。评论开通之后，就可以很快速的获取大家对文章的看法。</p>
-
-<p>有人会指出文章里有错误的地方，真的很感激他们，非常的认真；有人会对文章说出自己的见解，加深自己的印象，同时，也能帮助到其他的朋友；有人也会在评论里，提出一些问题，但是鉴于评论的字数限制，只能简单的回答一下。</p>
-
-<p>在昨天的文章评论里面，有一个朋友提出了一个问题，关于微信导航栏的。</p>
-
-<!--more-->
-
-
-<h2>问题分析和解答</h2>
-
-<p><strong>问：</strong></p>
-
-<pre><code>自定义导航栏怎么写？就像微信那样，tabBar的四个界面切换导航栏都不变化
-</code></pre>
-
-<p><strong>答：</strong></p>
-
-<pre><code>github上搜索AKTabBarController
-</code></pre>
-
-<p>其实，这位朋友的问题不是关于自定义导航栏，我觉得他可能是想问微信底部的<code>TabBar</code>和导航结合使用是如何实现的。</p>
-
-<p>记得之前在github看到过有一个类似微信的框架（算不上框架，我们就这么简单的叫一下）。就是<a href="https://github.com/alikaragoz/AKTabBarController">AKTabBarController</a>。</p>
-
-<p><code>AKTabBarController</code>是一个非常不错的第三方。在github上有663个<code>star</code>，使用方法也不是很复杂，下面我们简单的看一下。</p>
-
-<h2>如何导入到项目中</h2>
-
-<p><code>AKTabBarController</code>是支持<a href="http://www.superqq.com/blog/2014/10/16/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/">CocoaPods</a>导入的。想理解CocoaPods的请点击：<a href="http://www.superqq.com/blog/2014/10/16/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/">CocoaPods安装和使用教程</a>。在你的Podfile文件中加入：</p>
-
-<pre><code>platform :ios
-
-pod 'AKTabBarController'
-</code></pre>
-
-<p>添加成功之后，在终端执行：</p>
-
-<pre><code>pod install 
-</code></pre>
-
-<h2>如何使用AKTabBarController</h2>
-
-<p>安装成功之后，在你想用的地方导入头文件：</p>
-
-<pre><code>#import "AKTabBarController.h"
-</code></pre>
-
-<p>然后，创建<code>tabBar</code></p>
-
-<pre><code>// Create and initialize the height of the tab bar to 50px.
-_tabBarController = [[AKTabBarController alloc] initWithTabBarHeight:50];
-
-// Create and initialize with specific height and position atop the view controller
-_tabBarController = [[AKTabBarController alloc] initWithTabBarHeight:50 position:AKTabBarPositionTop];
-
-// Adding the view controllers to manage.
-[_tabBarController setViewControllers:@[[[FirstViewController alloc] init], [[SecondViewController alloc] init], [[ThirdViewController alloc] init], [[FourthViewController alloc] init]]]];  
-</code></pre>
-
-<p>关于更多AKTabBarController的用法，请访问：**<a href="https://github.com/alikaragoz/AKTabBarController**">https://github.com/alikaragoz/AKTabBarController**</a></p>
-
-<h2>功能简介</h2>
-
-<pre><code>• 自适应竖屏和横屏模式，tab 上的图标会根据竖屏和横屏模式自动缩放大小以适应tab的高度。
-
-• 自定义 tab bar 的高度；
-
-• 当进入下个视图时，可以自动隐藏tab bar；
-
-• 可以只显示图片，而不显示文字；并且当 tab bar 的高度太小时，可以自动缩放图片以及隐藏文字；
-
-• 只需要一张图片来表示 tab 被选择和非选择模式。即tab 被选中时的高光是用CoreGraphics绘制的，不需要额外的图片。
-
-• 选择不同 tab 时的动画切换效果用的是淡入淡出（cross fade）的效果. 
-
-• 支持预渲染图像
-
-• 支持设置tabBar字体。
-</code></pre>
-
-<h2>实际效果</h2>
-
-<p>最终实现的效果如下所示：</p>
-
-<p><img src="https://github.com/alikaragoz/AKTabBarController/raw/master/Screenshots/iphone-portrait.png" alt="1" /></p>
-
-<p>这里只是简单的讲解一下。大家闲的时候，如果有兴趣的话，可以自己动手来熟练关于<code>AKTabBarController</code>更多的功能。</p>
 ]]></content>
   </entry>
   
