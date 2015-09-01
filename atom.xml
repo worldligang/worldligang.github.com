@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-09-01T09:28:23+08:00</updated>
+  <updated>2015-09-01T09:38:35+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -19,6 +19,8 @@
     <updated>2015-09-01T00:49:19+08:00</updated>
     <id>http://www.superqq.com/blog/2015/09/01/uitablview-up-down-slide</id>
     <content type="html"><![CDATA[<p>今天我们一起来做一个好玩的功能，通过UITablView上下滑动控制底部按钮的出现和消失。先来看看效果：</p>
+
+<p><img src="http://images.90159.com/09/bottombutton.gif" alt="1" /></p>
 
 <h2>需求分析</h2>
 
