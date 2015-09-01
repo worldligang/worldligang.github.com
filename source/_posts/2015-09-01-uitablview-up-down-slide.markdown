@@ -11,6 +11,8 @@ description: 今天我们一起来做一个好玩的功能，通过UITablView上
 
 今天我们一起来做一个好玩的功能，通过UITablView上下滑动控制底部按钮的出现和消失。先来看看效果：
 
+![1](http://images.90159.com/09/bottombutton.gif)
+
 
 ##需求分析
 
