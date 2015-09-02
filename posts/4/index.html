@@ -81,6 +81,55 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/07/24/nsfilemanagerwen-jian-cao-zuo-de-shi-ge-xiao-gong-neng/">NSFileManager文件操作的十个小功能</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-24T00:14:03+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:14 am</span></time>
+        
+        
+          | <a href="/blog/2015/07/24/nsfilemanagerwen-jian-cao-zuo-de-shi-ge-xiao-gong-neng/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>NSFileManager是一个单列类，也是一个文件管理器。可以通过NSFileManager创建文件夹、创建文件、写文件、读文件内容等等基本功能。</p>
+
+<p>下面将介绍NSFileManager文件操作的十个小功能。我们在Documents里面进行举例，首先是获取Documents的路径。这个在<a href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-%28sandbox/">iOS开发之沙盒机制（SandBox)</a>已经详细讲解过了。获取Documents路径方法如下：</p>
+
+<pre><code>- (NSString *)getDocumentsPath
+{
+    //获取Documents路径
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *path = [paths objectAtIndex:0];
+    NSLog(@"path:%@", path);
+    return path;
+}
+</code></pre>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/07/24/nsfilemanagerwen-jian-cao-zuo-de-shi-ge-xiao-gong-neng/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/07/23/ru-he-cha-kan-zhen-ji-de-sha-he-(tu-wen-jiao-cheng-)/">如何查看真机的沙盒（图文教程）</a></h1>
     
     
@@ -484,11 +533,11 @@ Objective-C 没有消失，但是现在用一个慢慢失去关注的语言来�
 
 <p><strong>林翔宇</strong>
 - <a href="http://linxiangyu.org">http://linxiangyu.org</a>
-- <a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#x6f;&#58;&#108;&#x69;&#110;&#120;&#105;&#x61;&#110;&#103;&#x79;&#x75;&#64;&#110;&#117;&#x70;&#x74;&#101;&#x72;&#46;&#x6f;&#114;&#x67;">&#x6c;&#105;&#x6e;&#120;&#x69;&#97;&#x6e;&#x67;&#x79;&#117;&#x40;&#110;&#117;&#x70;&#116;&#x65;&#114;&#46;&#111;&#x72;&#x67;</a>
+- <a href="&#109;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#108;&#105;&#x6e;&#x78;&#x69;&#97;&#x6e;&#103;&#x79;&#117;&#x40;&#x6e;&#x75;&#112;&#x74;&#x65;&#114;&#x2e;&#111;&#114;&#103;">&#108;&#x69;&#110;&#120;&#x69;&#x61;&#110;&#x67;&#x79;&#x75;&#x40;&#x6e;&#117;&#112;&#116;&#x65;&#114;&#x2e;&#111;&#114;&#103;</a>
 - <a href="http://github.com/oa414">http://github.com/oa414</a></p>
 
 <p><strong>庞博</strong>
-- <a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#x3a;&#x62;&#x6f;&#x70;&#97;&#x6e;&#103;&#64;&#115;&#111;&#104;&#117;&#x2d;&#105;&#x6e;&#x63;&#46;&#x63;&#111;&#x6d;">&#x62;&#111;&#x70;&#97;&#x6e;&#x67;&#64;&#x73;&#111;&#104;&#117;&#x2d;&#x69;&#110;&#99;&#46;&#x63;&#111;&#109;</a>
+- <a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#111;&#58;&#x62;&#111;&#112;&#97;&#x6e;&#103;&#64;&#115;&#111;&#104;&#x75;&#x2d;&#105;&#110;&#99;&#46;&#x63;&#x6f;&#x6d;">&#x62;&#111;&#112;&#x61;&#110;&#x67;&#x40;&#x73;&#111;&#x68;&#x75;&#45;&#105;&#110;&#99;&#46;&#x63;&#x6f;&#x6d;</a>
 - <a href="https://github.com/heistings">https://github.com/heistings</a></p>
 
 <p>翻译已得到原作者许可，并且会在更加完善后申请合并到原文仓库。</p>
@@ -867,52 +916,6 @@ NSLog(@"text:%@",text);
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/16/cheng-xu-yuan-:xuan-dui-fang-xiang-chi-xu-nu-li/">程序员：选对方向持续努力</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-16T22:24:25+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:24 pm</span></time>
-        
-        
-          | <a href="/blog/2015/07/16/cheng-xu-yuan-:xuan-dui-fang-xiang-chi-xu-nu-li/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>今天下班的时候，乘电梯的空打开了一篇文章：一个人，2年时间，做了一个价值1亿美金的网站。文章写得很精彩，非常吸引我。不一会电梯就到了，我依然抱着手机边走边看。</p>
-
-<p>到了我的小电动车旁边（公司离家不远，经常骑电动车上班），文章还没有看完。我就坐在电动车上，依然爱不释手的看着。边看边想：创始人真是太厉害了。</p>
-
-<p>能够吸引我的文章不少，能够这么吸引我的文章不多。建议大家抽时间也看看这篇文章，或许能激发出你的灵感，成就一番事业也说不定。</p>
-
-<h2>方向正确持续努力</h2>
-
-<p>文章里说的网站是：<strong>viralnova.com</strong> 只有创始人一个是全职员工，其他两位是兼职的。网站成立大概两年时间，每天有200万独立访问用户，月入十万美金。世界排名376位。</p>
-
-<p>看到这样的数据真的令人振奋，如果我有一个这样的网站，那就不用上班啦。这也不是没有可能。在国内也有个人做网站比较厉害的，比如说：<strong>卢松松</strong> 国内独立博客大牛。估计每个月也能赚不少钱吧。</p>
-
-<p>不能只看到他们的成绩，更要了解他们背后两年如一日、六年如一日的坚持和努力。有想法的人也许很多，能够坚持将想法付出行动的人就不多了。所以成功者总是少数。选对方向持续努力也许就是成功不二法则。</p>
-
-<p>作为一名程序员你的方向是什么呢？我们都应该这样问一下自己，不能每天漫无目的的坚持。马云不是说了嘛：梦想还是要有的，万一实现了呢。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/5">&larr; Older</a>
@@ -940,6 +943,10 @@ NSLog(@"text:%@",text);
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/09/02/manicure-salary-heigher-programmer/">程序员月入过万已经不再是神话</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/09/01/uitablview-up-down-slide/">UITablView上下滑动控制底部按钮的出现和消失</a>
       </li>
     
@@ -953,10 +960,6 @@ NSLog(@"text:%@",text);
     
       <li class="post">
         <a href="/blog/2015/08/23/ios-android-social-sdk/">iOS/Android开发社交SDK列表</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/22/development-ios-reward/">iOS开发征稿启示（打赏归作者所有）</a>
       </li>
     
   </ul>

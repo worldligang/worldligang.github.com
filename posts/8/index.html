@@ -81,6 +81,379 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-17T14:24:04+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:24 pm</span></time>
+        
+        
+          | <a href="/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>注：本节有点长，并且有些难度，希望大家有毅力看下去。</p>
+
+<p>一个适配器允许接口不兼容的类在一起工作。它把它自己包裹成一个对象，公开一个与这个对象相互作用的标准接口。</p>
+
+<p>如果你熟习<strong>适配器模式</strong>，你会注意到苹果实施它的时候有一点不同的习惯─苹果使用协议 (protocols)。你可能熟习像 UITableViewDelegate, UIScrollViewDelegate, NSCoding 和 NSCopying 这样的协议。例子，NSCopying 的协议 (protocol)，任何类都可以提供这样一个标准的复制方法。</p>
+
+<h3>如何使用适配器模式</h3>
+
+<p>我们提到的滚动区域是这样的：</p>
+
+<p><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2013/08/protocol1.png" alt="1" /></p>
+
+<p>现在开始，在项目导航的 View 文件夹上右击鼠标，选择 New File…，用 iOS\Cocoa Touch\Object-C class 模板创建一个新类。新类的名字叫 HorizontalScroller，选择它的子类为 UIView。</p>
+
+<p>打开 HorizontalScroller.h 文件在 @end 后面插入如下代码：</p>
+
+<pre><code>@protocol HorizontalScrollerDelegate &lt;NSObject&gt;
+// methods declaration goes in here
+@end
+</code></pre>
+
+<p>这里定义一个 HorizontalScrollerDelegate 名字的协议，它继承于 NSObject 协议，同样的这是继承它父类的一个 Objective-C 类。符合 NSObject 协议，这是一个很好的做法─或者遵照 NSObject 协议。这能使你从定义的 NSObject 发送消息到 HorizontalScroller 的代理。你将会看到为什么这很重要。</p>
+
+<p>定义个代理执行的方法，要在 @protocol 和 @end 之间，它们分为必要方法和可选方法。添加下面协议方法：</p>
+
+<pre><code>@required
+// 询问 delegate 在滚动区域里有多少个视图要被显示
+- (NSInteger)numberOfViewsForHorizontalScroller:    (HorizontalScroller*)scroller;
+
+// 返回索引是 index 的视图
+- (UIView*)horizontalScroller:(HorizontalScroller*)scroller viewAtIndex:(int)index;
+
+// 当索引是 index 的视图被点击了，通知 delegate 
+- (void)horizontalScroller:(HorizontalScroller*)scroller clickedViewAtIndex:(int)index;
+
+@optional
+// 通知 delegate，显示初始化时索引是 Index 的视图。这个方法是可选的
+// ask the delegate for the index of the initial view to display. this method is optional
+// 如果没有被 delegate 执行，默认值是 0
+- (NSInteger)initialViewIndexForHorizontalScroller:(HorizontalScroller*)scroller;
+</code></pre>
+
+<p>这里我们必选的和可选的方法我们都定义了。必选方法一定要被代理执行，它通常包含一些类必须要执行的数据。这里，必选方法是获取视图的数量，当前显示视图的索引和当视图被点击的时候执行的操作。可选方法这里是初始化视图；如果没有执行 HorizontalScroller 将会显示第一个索引的视图。</p>
+
+<p>接下来，你需要在 HorizontalScroller 内部定义你的新代理。但是协议的定义在类的定义下面，因此在这点上它是不可见的。你该怎么办？</p>
+
+<p>解决办法就是在前面声明协议以便于编译器（和Xcode）知道这个协议是可用的。好了，在 @interface 上面加入下面代码：</p>
+
+<pre><code>@protocol HorizontalScrollerDelegate;
+</code></pre>
+
+<p>还是 HorizontalScroller.h，在 @interface 和 @end 之间加入下面代码：</p>
+
+<pre><code>@property (weak) id&lt;HorizontalScrollerDelegate&gt; delegate;
+- (void)reload;
+</code></pre>
+
+<p>这个属性被定义成为一个 weak。这是为了防止循环 retain。如果一个类保持一个强指针(strong pointer)指向它的委托(delegate)，同时委托也保持一个强指针指向这个类，在释放类所占用的内存时会造成 app 内存泄漏。</p>
+
+<p>id 的意思是把这个代理指定给一个类，它遵照 HorizontalScrollerDelegate，给你一些类型安全。</p>
+
+<p>reload 方法是模仿 UITableView 类的 relaodData；它重新加载所有数据用来创建一个水平移动视图。</p>
+
+<p>用下面代码替换 HorizontalScroller.m 的内容：</p>
+
+<pre><code>#import “HorizontalScroller.m”
+
+#define VIEW_PADDING 10
+#define VIEW_DIMENSIONS 100
+#define VIEW_OFFSET 100
+
+@interface HorizontalScroller () &lt;UIScrollViewDelegate&gt;
+@end
+
+@implementation HorizontalScroller
+{
+    UIScrollView *scroller;
+}
+@end
+</code></pre>
+
+<p>来解释下每块代码：</p>
+
+<ol>
+<li>常量定义，在设计时间可以方便修改布局。在滚动视图内，每个图片的大小在一个 100×100 内边距为 10 点(point) 的矩形内。</li>
+<li>HorizontalScroller 遵照 UIScrollViewDelegate 协议。因为 HorizontalScroller 使用一个 UIScrollView 来滚动专辑封面，它需要知道用户什么时候停止滚动。</li>
+<li>创建一个包含图片的滚动视图。</li>
+</ol>
+
+
+<p>接下来你需要执行初始化。添加下面的方法：</p>
+
+<pre><code>- (id)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        scroller = [[UIScrollerView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        scroller.delegate = self;
+        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarger:self action:@select(scrollerTapped:)];
+        [scroller addGestureRecognizer:tapRecognizer];
+    }
+    return self;
+}
+</code></pre>
+
+<p>HorizontalScroller 将被滚动视图整个填充。如果一个专辑封面被点击，UITapGestureRecognizer 将会监听它上面的事件。如果有，它会通知 HorizontalScroller 的代理。</p>
+
+<p>现在添加下面方法：</p>
+
+<pre><code>- (void)scrollerTapped:(UITapGestureRecognizer*)gesture
+{
+    CGPoint location = [gesture locationInView:gesture.view];
+    // we can’t use an enumerator here, because we don’t want to enumerate over ALL of the UIScrollView subviews.
+    // we want to enumerate only the subview that we added
+    for (int index=0; index&lt;[self.delegate numberOfViewForHorizontalScroller:self]; index++) {
+        UIView *view = scroller.subviews[index];
+        if (CGRectContainsPoint(view.frame, location)) {
+            [self.delegate horizontalScroller:self clickedViewAtIndex:index];
+            [scroller setContentOffset:CGPointMake(view.frame.origin.x - self.frame.size.width/2 + view.frame.size.width/2, 0) animated:YES];
+            break;
+        }
+    }
+}
+</code></pre>
+
+<p>手势操作就如同传入的一个参数，可以从 locationInView: 获取定位信息。</p>
+
+<p>接下来，调用委托的 numberOfViewForHorizontalScroller: 方法。它必须遵照 HorizontalScrollerDelegate 的协议安全发送消息，否则 HorizontalScroller 实例的代理是没法使用这些信息。</p>
+
+<p>滚动视图里的每个视图，用 CGRectContainsPoint 执行一个点击测试，找到那个被点击的视图。当视图被找到，发送给委托一个消息 horizontalScroller:clickedViewAtIndex:。当你跳出这个循环后，设置被点击的视图滚动到视图中间。</p>
+
+<p>现在添加下面的代码，用来刷新滚动视图(scroller):</p>
+
+<pre><code>- (void)reload
+{
+    // 1 - nothing to load if there’s no delegate
+    if (self.delegate == nil) return;
+
+    // 2 - remover all subviews
+    [scroller.subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [obj removeFromSuperview];
+    }
+
+    // 3 - xValue is the starting point of the views inside the scroller
+    CGFloat xValue = VIEWS_OFFSET;
+    for (int i=0; i&lt;[self.delegate numberOfViewsForHorizontalScroller:self]; i++) {
+        // 4 - add a view at the right position
+        xValue += VIEW_PADDING;
+        UIView *view = [self.delegate horizontalScroller:self viewAtIndex:i]
+        view.frame = CGRectMake(xValue, VIEW_PADDING, VIEW_DIMENSIONS, VIEW_DIMENSIONS);
+        xValue += VIEW_DIMENSIONS + VIEW_PADDING;
+    }
+
+    // 5
+    [scroller setContentSize:CGSizeMake(xValue+VIEWS_OFFSET, self.frame.size.height)];
+
+    // 6 - if an initial view is defined, center the scroller on it
+    if (self.delegate respondsToSelector:@select(initialViewIndexForHorizontalScroller:)]) {
+        int initialView = [self.delegate initialViewIndexForHorizontalScroller:self];
+        [scroller setContentOffset:CGPointMake(initialView*(VIEW_DIMENSIONS+(2*VIEW_PADDING)), 0) animated:YES];
+    }
+}
+</code></pre>
+
+<p>能过代码一步步来讨论：</p>
+
+<ol>
+<li>如果没有代理，这里什么事情也不做。</li>
+<li>移除之前添加的所有的子视图。</li>
+<li>给所有视图设置一个偏移(offset)位置。现在的是 100，但是通过顶部的 #define，它很容易修改。</li>
+<li>HorizontalScroller 通过它的委托一次请求一个视图，用之前定义的 padding 值把它们依次的一个个放置下来。</li>
+<li>当所有的视图都生成好，通过设置滚动视图内容的偏移量以达到用户能过滚动可以看到所有专辑封面的目的。</li>
+<li>HorizontalScroller 的委托需要验证是否响应了 initialViewIndexForHorizontalScroller: 方法。这个验证是必需的，因为这个特别的协议方法是可选性的。如果代理没有执行这个方法，它的默认值会是 0。最终，通过委托，这块代码会在滚动视图中间设置一个初始化好的视图。</li>
+</ol>
+
+
+<p>当数据发生改变的时候执行 reload 方法。当添加 HorizontalScroller 到别个一个视图时，你同样可以执行这个方法。在 HorizontalScroller.m 添加下面的代码替换后面的方案：</p>
+
+<pre><code>- (void)didMoveToSuperview
+{
+    [self reload];
+} 
+</code></pre>
+
+<p>当它要添加一个子视图的时候，didMoveToSuperview 会发送消息给视图。这时正好可以更新滚动视图的内容。</p>
+
+<p>HorizontalScroller 的最后一个难题就是，如何设置你看到的专辑总是在滚动视图的中间。为了这些，当用户通过他们的手指拖动滚动视图的时候你就需要做一些计算了。</p>
+
+<p>添加下面方法（同样在 HorizontalScroller.m）：</p>
+
+<pre><code>- (void)centerCurrentView {
+    int xFinal = scroller.contentOffset.x + (VIEWS_OFFSET/2) + VIEW_PADDING;
+    int viewIndex = xFinal / (VIEW_DIMENSIONS + (2*VIEW_PADDING));
+    xFinal = viewIndex * (VIEW_DIMENSIONS+(2*VIEW_PADDING));
+    [scroller setContentOffset:CGPointMake(xFinal, 0) animated:YES];
+    [self.delegate horizontalScroller:self clickedViewAtIndex:viewIndex];
+}
+</code></pre>
+
+<p>上面的代码通过滚动视图的当前偏移量，外观尺寸，内边距来计算当前视图离中心的距离。最后一行非常重要：当一个视图居中后，你需要通知委托你选择的视图改变了。</p>
+
+<p>为了侦测用户在滚动视图内完成拖拽的动作，你需要添加 UIScrollViewDelegate 方法：</p>
+
+<pre><code>- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    if (!decelerate)
+    {
+        [self centerCurrentView];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    [self centerCurrentView];
+}
+</code></pre>
+
+<p>当用户完成拖拽的时候 scrollViewDidEndDragging:willDecelerate: 通知委托。如果滚动视图没有停止滚动， decelerate 参数会返回 true。当滚动结束，系统将会调用 scrollViewDidEndDecelerating。当用户拖动滚动当前视图后，两种情况，我们都需要调用一个新方法来使当前视图居中。</p>
+
+<p>HorizontalScroller 现在可以使用了。浏览你刚刚写的代码；这里没有一处提到 Album 和 AlbumView 类。这非常棒，说明这个新的滚动视图是真正的完全独立的和可重用的。</p>
+
+<p>Build 项目，确保所有的代码编译正确。</p>
+
+<p>现在 HorizontalScroller 完成了，是时候在你的 APP 中使用了。打开 ViewController.m 添加如下引用：</p>
+
+<pre><code>#import “HorizontalScroller.h”
+#import “AlbumView.h”
+</code></pre>
+
+<p>给 ViewController 添加 HorizontalScrollerDelegate：</p>
+
+<p>@interf<!---->ace ViewController () &lt;UITableViewDataSource, UITableViewDelegate, HorizontalScroller></p>
+
+<p>在类的扩展里为水平滚动视图添加如下实例变量：</p>
+
+<p>Horizonta<!---->lScroller *scroller;</p>
+
+<p>现在你可以执行代理方法了；你会惊奇的发现只需要几行代码你就能实现很多功能。</p>
+
+<p>在 ViewController.m 添加如下代码：</p>
+
+<pre><code>#pragma mark - HorizontalScrollerDelegate methods
+- (void)horizontalScroller:(HorizontalScroller *)scroller clickedViewAtIndex:(int)index
+{
+    currentAlbumIndex = index;
+    [self showDataForAlbumAtIndex:index];
+}
+</code></pre>
+
+<p>这里设置一个变量用来存储当前的专辑，然后调用 showDataForAlbumAtIndex: 显示一个新专辑的数据。</p>
+
+<p>提示：一般在方法代码的前面放置 #pragma mark 指示符。编译器会忽略这一行，当你在使用 Xcode 的跳转工具栏(Xcode’s jump bar)查看你的方法列表时，你会看到一个分隔符和个加粗的指示标题。在 Xcode 里，这可以帮助你很容易的组织代码。</p>
+
+<p>下面，添加如下代码：</p>
+
+<pre><code>- (NSInteger)numberOfViewsForHorizontalScroller:(HorizontalScroller *)scroller
+{
+    return allAlbums.count;
+}
+</code></pre>
+
+<p>这里，协议方法返回滚动视图里的视图数量。因为滚动视图需要显示所有的专辑封面，这个 count 是所有专辑的数目。</p>
+
+<p>现在，添加这些代码：</p>
+
+<pre><code>- (UIView *)horizontalScroller:(HorizontalScroller *)scroller viewAtIndex:(ini)index
+{
+    Album *album = allAlbums[index];
+    return [[Album alloc] initWithFrame:CGRectMake(0, 0, 100, 100) albumCover:album.coverUrl];
+}
+</code></pre>
+
+<p>这里你创建了一个新 AlbumView，然后交给 HorizontalScroller 使用。</p>
+
+<p>就是这样，通过三个这么短的方法就可以显示一个漂亮的滚动视图。</p>
+
+<p>实际上，你仍需要创建一个真正的滚动视图，然后添加到你的主视图上，但是在这之前，先添加下面的方法：</p>
+
+<pre><code>- (void)reloadScroller
+{
+    allAlbums = [[LibraryAPI sharedInstance] getAlbums];
+    if (currentAlbumIndex &lt; 0) currentAlbumIndex = 0;
+    else if (currentAlbumIndex &gt;=allAlbum.count) currentAlbumIndex = allAlbum.count - 1;
+    [scroller reload];
+
+    [self showDataFroAlbumAtIndex:currentAlbumIndex;
+}
+</code></pre>
+
+<p>这个方法从 LibraryAPI 加载专辑数据，然后以当前视图的索引值为基础设置显示当前的图片。 如果当前视图的索引小于零，意味着当前没有选择视图，显示列表里的第一张专辑。否则显示最后一张专辑。</p>
+
+<p>现在，在 viewDidLoad 里 [self showDataForAlbumIndex:0] 前面添加下面代码来初始化滚动视图：</p>
+
+<pre><code>scroller  = [[HorizontalScroller alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 120)];
+scroller.backgroundColor = [UIColor colorWithRed:0.24f greed:0.35f blue:0.49f alpha:1];
+scroller.delegate = self;
+[self.view addSubview:scroller];
+
+[self reloadScroller];
+</code></pre>
+
+<p>上面的代码创建了一个 HorizontalScroller 的实例，设置了它的背景颜色和委托，添加滚动视图到主视图上，在滚动视图的子视图上加载专辑数据。</p>
+
+<pre><code>提示：如果一个协议变得很大，里面有很多方法，你应该考虑把它们分散到几个小的协议里去。UITableViewDelegate 和 UITableViewDataSource 就是一个很好的例子，因为它们都是 UITablveView 的协议。设计协议的时候，最好一个名称引导一个功能。
+</code></pre>
+
+<p>构建和运行你的项目，你会看到一个新的很了不起的水平滚动视图：</p>
+
+<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2013/08/design-patterns-3-298x320.png" alt="2" /></p>
+
+<p>啊嗯，等等。水平滚动的视图已经有了，可是专辑封面在哪里？</p>
+
+<p>对了，你还没有代码来执行下载图片的功能。你需要添加一个下载图片的方法。查检 LibraryAPI 服务的所有接口，这里需要添加一个新的方法。不管怎样，现在还有几件事情需要考虑：</p>
+
+<ol>
+<li>AlbumView 并没没有通过 LibraryAPI 立即工作。你没有给视图添加通信逻辑。</li>
+<li>相同的原因，LibraryAPI 并不认识 AlbumView。</li>
+<li>LibraryAPI 需要通知 AlbumView，一旦封面下载完成，AlbumView 就会显示它。</li>
+</ol>
+
+
+<p>听起来这是一个难题？不用害怕，你将要学习如何使用观察者模式 (Observer pattern)。</p>
+
+<p><strong>设计模式系列文章</strong>：</p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/">iOS 设计模式系列：Facade – 外观模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/">iOS 设计模式系列：Observer – 观察者模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/">iOS 设计模式系列：Archiving – 归档模式</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></h1>
     
     
@@ -1699,76 +2072,6 @@ community can help you solve it.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/05/29/macxia-dot-gitconfigpei-zhi-bie-ming-alias/">mac下.gitconfig配置别名alias</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-05-29T13:01:00+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:01 pm</span></time>
-        
-        
-          | <a href="/blog/2015/05/29/macxia-dot-gitconfigpei-zhi-bie-ming-alias/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在多人协作开发时，一般用git来进行代码管理。git有一些命令如：git pull 、 git push等等，这些命令可以设置alias，也就是缩写。如：git pull 是 git pl， git push 是 git ps。可以根据个人习惯进行修改。</p>
-
-<p>修改别名alias步骤如下：</p>
-
-<h4>1,进入根目录</h4>
-
-<pre><code>$ cd
-</code></pre>
-
-<h4>2,查看根目录下面的文件</h4>
-
-<pre><code>$ ls -la
-</code></pre>
-
-<p>查看一下有没有.gitconfig文件。</p>
-
-<h4>3，编辑.gitconfig</h4>
-
-<pre><code>$ vi .gitconfig
-</code></pre>
-
-<p>添加如下：</p>
-
-<pre><code>[alias]
-co = checkout
-ci = commit
-st = status
-pl = pull
-ps = push
-dt = difftool
-l = log --stat
-cp = cherry-pick
-ca = commit -a
-b = branch
-</code></pre>
-
-<p>具体可以根据个人习惯进行添加修改。</p>
-
-<blockquote><p>关注公众号iOS开发：iOSDevTip</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/9">&larr; Older</a>
@@ -1796,6 +2099,10 @@ b = branch
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/09/02/manicure-salary-heigher-programmer/">程序员月入过万已经不再是神话</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/09/01/uitablview-up-down-slide/">UITablView上下滑动控制底部按钮的出现和消失</a>
       </li>
     
@@ -1809,10 +2116,6 @@ b = branch
     
       <li class="post">
         <a href="/blog/2015/08/23/ios-android-social-sdk/">iOS/Android开发社交SDK列表</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/22/development-ios-reward/">iOS开发征稿启示（打赏归作者所有）</a>
       </li>
     
   </ul>
