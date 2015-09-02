@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-09-01T00:51:26+08:00</updated>
+  <updated>2015-09-03T00:57:01+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -14,11 +14,44 @@
 
   
   <entry>
+    <title type="html"><![CDATA[程序员月入过万已经不再是神话]]></title>
+    <link href="http://www.superqq.com/blog/2015/09/02/manicure-salary-heigher-programmer/"/>
+    <updated>2015-09-02T11:15:01+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/09/02/manicure-salary-heigher-programmer</id>
+    <content type="html"><![CDATA[<h2>创业英雄汇</h2>
+
+<p>最近看了CCTV 2 财经频道的《创业英雄汇》，可能有人还没有看过这个节目。简单介绍一下：《CCTV中国青年创业实战公开课—创业英雄汇》这是一档全新模式、极致化表达的新型创业服务节目。播出时段：财经频道 周五22：10～23：10。建议有创业想法的童鞋，可以好好看一下，说不定可以激发一些灵感！</p>
+
+<p>我看的这一期是20150821。创业导师分别是聚美优品的CEO陈欧和英才杂志社的社长宋立新。陈欧最经典的一句话应该就是：我是陈欧，我为自己代言！之前，没有认真了解过陈欧，只是简答的看了一下关于陈欧的创业故事。通过这次《创业英雄汇》节目，感觉的陈欧确实挺有个人魅力。</p>
+
+<h2>美甲师 VS 程序员</h2>
+
+<p>第一位上台的创业者叫于明山，一位大叔界别的创业者。他的项目是“美道家”，致力于打造专业上门美容服务平台。服务对线就是女性，美容师也都是女性。美女美容师上门服务，听起来就是一个不错的项目。（我们这些屌丝程序员，估计享受不到这种服务啦！）</p>
+
+<p>在导师考核环节，陈欧大概了解了一下“美道家”的美容师上的收入大概是多少。随后，陈欧说：一个好的美甲师，或者一个美容师，挣的钱甚至比一个程序员还高。我前一段时间听说有一个美甲师，甚至挣到五万到七万，这基本上是一个CEO的工资了。</p>
+
+<p>一个美甲师能月入五万到七万，那还干什么程序员啊。想想就觉得还是程序员苦逼，以后再也不说程序员的工资高了。都不好意思说了，人家美甲师就比你高，而且人家还是自由职业者。</p>
+
+<p>前段时间，听人说他们做优步一月轻轻松松月入五六万。优步每个月做够规定的单数，额外奖励7000元。经常在新闻上看到，哪里的司机刷单也你能月入多少多少。（不公平啊！）</p>
+
+<h2>出路在哪里？</h2>
+
+<p>真的是三百六十行，行行出状元啊！作为程序员，三四年工作经验，大概也就是一两万的工资吧。也许你的工资很高，但是加班肯定也不少。</p>
+
+<p>在这个全名创业的浪潮下，我们程序员不能再闲着了。有想法就去干吧，说不定能闯出一片天地。</p>
+
+<p>明天要不要辞职呢？</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[UITablView上下滑动控制底部按钮的出现和消失]]></title>
     <link href="http://www.superqq.com/blog/2015/09/01/uitablview-up-down-slide/"/>
     <updated>2015-09-01T00:49:19+08:00</updated>
     <id>http://www.superqq.com/blog/2015/09/01/uitablview-up-down-slide</id>
     <content type="html"><![CDATA[<p>今天我们一起来做一个好玩的功能，通过UITablView上下滑动控制底部按钮的出现和消失。先来看看效果：</p>
+
+<p><img src="http://images.90159.com/09/bottombutton.gif" alt="1" /></p>
 
 <h2>需求分析</h2>
 
@@ -3639,67 +3672,6 @@ self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustom
 <p>这是我第一次自己购票看电影还是不便宜的，花了我近两百元。我以前一直以为电影票就10元一张呢，搞不好还给你打个折。看来都是我想多了。</p>
 
 <p>这一次亲自购票经历，让我发现一个比较优惠的APP，叫猫眼电影，以后买电影票可以在这上面买。票价相对较便宜，我对比了一下，比其他几个知名app都要便宜。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[为刚刚在线（Octopress）添加多说评论系统]]></title>
-    <link href="http://www.superqq.com/blog/2015/08/01/octopress-add-duoshuo/"/>
-    <updated>2015-08-01T01:04:31+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/08/01/octopress-add-duoshuo</id>
-    <content type="html"><![CDATA[<blockquote><p>今天是八一建军节，中国人民解放军建军纪念日。心里不由自主地升起一份爱国之情。</p></blockquote>
-
-<p>我的网站<a href="http://www.superqq.com/">刚刚在线</a>去年九月份正式上线的，马上快一周年啦！作为一个技术型的博客网站，<a href="http://www.superqq.com/">刚刚在线</a>成长速度还是蛮快的。</p>
-
-<!--more-->
-
-
-<h2>刚刚在线排名</h2>
-
-<p>特别是最近一段时间，我一直在关注<a href="http://www.superqq.com/">刚刚在线</a>的排名，每天的进步速度非常快。这也是我持续更新的结果，百度对持续更新的网站是非常友好的。</p>
-
-<p>我用Alexa的插件看了一下<a href="http://www.superqq.com/">刚刚在线</a>的排名，全球排名：<strong>240334</strong> ， 中国区排名：<strong>14665</strong> 。我特意截了一张图给大家看一看：</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/superqqalexa.jpg" alt="superqqalexa.jpg" /></p>
-
-<p>路漫漫其修远兮，吾将上下而求索。要想取得更好的成就，仍需努力！<a href="http://www.superqq.com/">刚刚在线</a>一直有一个问题困惑着我。就是在火狐浏览器中，文章底部评论模块会出现错乱。</p>
-
-<h2>火狐评论版块错乱修复</h2>
-
-<p><a href="http://www.superqq.com/">刚刚在线</a>的评论模块用的是友言。也挺奇怪的，在其他浏览器中就好好的，唯独在火狐浏览器了会出现错乱。我知道这个问题的存在，已有一些访客反应过这个问题。但是，我一直没有找到原因。</p>
-
-<p>估计iOS开发者用火狐浏览器的人肯定不少，这个错乱问题一直在这里的话，肯定会给访客留下不好的印象。所以得尽早解决这个问题。</p>
-
-<p>既然找不到解决错乱的方法，就把友言给替换掉吧。百度搜了一下，发现国内的还有多说，评论功能还是挺不错的。我也看到很多网站在用多说。</p>
-
-<h2>把友言替换成多说</h2>
-
-<p>说换就换，多说（ **<a href="http://duoshuo.com/**">http://duoshuo.com/**</a> ）接入流程也不复杂。网上有很多教程，我简单说一下我是如何操作的。</p>
-
-<h3>1.获取站点的short_name</h3>
-
-<p>到多说的官网注册账号，并且添加你的站点。<code>short_name</code>就是添加站点的时候的多说域名框里填写的。添加站点流程如下：</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/duoshuozhuce.jpg" alt="duoshuozhuce.jpg" /></p>
-
-<h3>2.配置_config.yml</h3>
-
-<p>在 <code>_config.yml</code> 中添加</p>
-
-<pre><code># duoshuo comments
-duoshuo_comments: true
-duoshuo_short_name: superqq
-</code></pre>
-
-<p>具体配置方法请看点击<a href="http://blog.csdn.net/iosdevtip/article/details/47179709"> 为 Octopress 添加多说评论系统 </a></p>
-
-<p>ok，经过上面五小步就可以实现接入多说评论版块啦。迫不及待地想看看问题有没有解决，下过如何？赶紧部署上去，我简单的测试了一下。你可以点击<a href="http://www.superqq.com/">刚刚在线</a>，看看实现效果：</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/duoshuocomment.jpg" alt="duoshuocomment.jpg" /></p>
-
-<h2>网站有评论必回复噢</h2>
-
-<p>既然网站评论已经成功接入，大家以后有什么问题，或者需要交流的可以直接在网站上评论。虽然，每天有很多少要做，但是我依然会抽出时间来看看大家提的评论，一起探讨，一起成长。</p>
 ]]></content>
   </entry>
   

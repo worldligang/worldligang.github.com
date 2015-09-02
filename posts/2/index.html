@@ -81,6 +81,74 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/08/10/coremotion-framework-use-accelerometer/">CoreMotion框架中加速度计使用简明教程</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-10T00:37:33+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:37 am</span></time>
+        
+        
+          | <a href="/blog/2015/08/10/coremotion-framework-use-accelerometer/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>前言</h2>
+
+<p>之前有人通过iPhone的加速度计做出一个手机防盗APP，而且正是通过这个防盗APP拿到天使投资。从此以后华丽转身，公司发展的有声有色。虽然这个项目最后不怎么样，但是，确实是一个不错的想法。</p>
+
+<p>也许你不知道，每一台iPhone都内置的有加速度计。这样当用户操作手机的的时候，比如旋转手机，内置的加速度计就会做出反应。</p>
+
+<p>在iOS4之前加速度计是由<code>UIAccelerometer</code>来采集数据的，现在都是用<code>CoreMotion</code>来处理。两种使用都比较简单，相对来说<code>UIAccelerometer</code>更简单一些。本文将分享两者的用法。</p>
+
+<h2>加速度计原理</h2>
+
+<p><img src="http://images.90159.com/08/Accelerometer.png" alt="Accelerometer.png" /></p>
+
+<p>来自网络</p>
+
+<p>iPhone的加速度计有三个轴，分别是x轴、y轴、z轴，如上图所示。这是一个三维立体空间，可以捕获用户每一个角度的操作。通过这三个轴可以计算iPhone倾斜的角度，从而计算出加速度。</p>
+
+<h2>UIAccelerometer使用</h2>
+
+<p><code>UIAccelerometer</code>的使用比较简单，需要实现<code>UIAccelerometerDelegate</code>的代理方法，具体代码如下：</p>
+
+<pre><code>UIAccelerometer *accelerometer = [UIAccelerometer sharedAccelerometer];
+accelerometer.delegate = self;
+accelerometer.updateInterval = 0.1;
+</code></pre>
+
+<p>实现<code>UIAccelerometerDelegate</code>代理方法：</p>
+
+<pre><code>- (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration NS_DEPRECATED_IOS(2_0, 5_0)
+{
+    NSLog(@"x -&gt; %f y - &gt; %f z -&gt; %f",accelerometer.x,accelerometer.y,accelerometer.z);
+}
+</code></pre>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/08/10/coremotion-framework-use-accelerometer/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/08/09/performance-optimization-of-mkmapview/">一次对MKMapView的性能优化</a></h1>
     
     
@@ -468,45 +536,6 @@ imageView.image = self.image;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/01/octopress-add-duoshuo/">为刚刚在线（Octopress）添加多说评论系统</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-08-01T01:04:31+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>1:04 am</span></time>
-        
-        
-          | <a href="/blog/2015/08/01/octopress-add-duoshuo/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>今天是八一建军节，中国人民解放军建军纪念日。心里不由自主地升起一份爱国之情。</p></blockquote>
-
-<p>我的网站<a href="http://www.superqq.com/">刚刚在线</a>去年九月份正式上线的，马上快一周年啦！作为一个技术型的博客网站，<a href="http://www.superqq.com/">刚刚在线</a>成长速度还是蛮快的。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/08/01/octopress-add-duoshuo/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -534,6 +563,10 @@ imageView.image = self.image;
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/09/02/manicure-salary-heigher-programmer/">程序员月入过万已经不再是神话</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/09/01/uitablview-up-down-slide/">UITablView上下滑动控制底部按钮的出现和消失</a>
       </li>
     
@@ -547,10 +580,6 @@ imageView.image = self.image;
     
       <li class="post">
         <a href="/blog/2015/08/23/ios-android-social-sdk/">iOS/Android开发社交SDK列表</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/22/development-ios-reward/">iOS开发征稿启示（打赏归作者所有）</a>
       </li>
     
   </ul>
