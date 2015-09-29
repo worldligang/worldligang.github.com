@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-09-24T00:12:45+08:00</updated>
+  <updated>2015-09-29T15:09:51+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,37 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[报错：You Must Rebuild It With Bitcode Enabled (Xcode Setting ENABLE_BITCODE)（解决方案）]]></title>
+    <link href="http://www.superqq.com/blog/2015/09/29/rebuild-bitcode-enable/"/>
+    <updated>2015-09-29T15:08:00+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/09/29/rebuild-bitcode-enable</id>
+    <content type="html"><![CDATA[<p>马上就要十一放假啦！大家是不是都很期待这一天到来，哈哈。相信有不少人跟我一样，早就请三天假回家了吧。希望大家十一都玩的开心噢！</p>
+
+<p>今天在家里闲来无事，我就用Xcode7.0建一个项目。然后，引入一个第三方库，竟然运行不起来。报错如下：</p>
+
+<p><img src="http://images.90159.com/09/error1.png" alt="1" /></p>
+
+<p>我把错误提示复制出来，方便大家搜索：</p>
+
+<pre><code>ld: 'XXX' does not contain bitcode. You must rebuild it with bitcode enabled (Xcode setting ENABLE_BITCODE), obtain an updated library from the vendor, or disable bitcode for this target. for architecture arm64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+</code></pre>
+
+<p>Xcode7.0默认是开启Enable Bitcode的，如果你导入的一些第三方库在编译的时候没有Enable Bitcode 的话，就会导致报错。</p>
+
+<p>解决方法有两种：</p>
+
+<p>方法一：使用Enable Bitcode的第三方库</p>
+
+<p>方法二：将工程中的Enable Bitcode设置为NO</p>
+
+<p><img src="http://images.90159.com/09/error2.png" alt="1" /></p>
+
+<p>如果你有更好的解决方法，记得告诉我噢！</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[有关 XcodeGhost 的问题和解答]]></title>
@@ -3610,130 +3641,6 @@ button.frame = CGRectMake( 100, 300, SCREEN.width - 200, 40);
 <p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/46869740F32868C1F9769ED5FED1C7D0.png" alt="photo" /></p>
 
 <p>Demo地址:<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a> 下一篇文章，将会讲如何创建自己的相册并保存照片。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[自定义导航按钮UIBarButtonItem]]></title>
-    <link href="http://www.superqq.com/blog/2015/08/02/custom-navigation-button-uibarbuttonitem/"/>
-    <updated>2015-08-02T00:13:14+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/08/02/custom-navigation-button-uibarbuttonitem</id>
-    <content type="html"><![CDATA[<p>基本上每个iOS APP里面都有导航，比如微信、QQ、支付宝。导航可以很方便地帮助我们管理视图控制器（UIViewController）。导航的重要性不言而喻，基本上是每一位iOS初学者都要接触到的问题。</p>
-
-<p>iOS系统导航栏中有<code>leftBarButtonItem</code>和<code>rightBarButtonItem</code>，我们可以根据自己的需求来自定义这两个<code>UIBarButtonItem</code>。</p>
-
-<!--more-->
-
-
-<h2>四种创建方法</h2>
-
-<p>系统提供了四种创建的方法：</p>
-
-<pre><code>- (instancetype)initWithBarButtonSystemItem:(UIBarButtonSystemItem)systemItem target:(id)target action:(SEL)action;
-
-
-- (instancetype)initWithImage:(UIImage *)image style:(UIBarButtonItemStyle)style target:(id)target action:(SEL)action;
-
-
-- (instancetype)initWithTitle:(NSString *)title style:(UIBarButtonItemStyle)style target:(id)target action:(SEL)action;
-
-- (instancetype)initWithBarButtonSystemItem:(UIBarButtonSystemItem)systemItem target:(id)target action:(SEL)action;
-
-- (instancetype)initWithCustomView:(UIView *)customView;
-</code></pre>
-
-<h3>通过系统UIBarButtonSystemItem创建</h3>
-
-<p>自定义<code>rightBarButtonItem</code>，代码如下：</p>
-
-<pre><code>self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(right:)];
-</code></pre>
-
-<p>UIBarButtonSystemItem有以下样式可以供选择：</p>
-
-<pre><code>typedef NS_ENUM(NSInteger, UIBarButtonSystemItem) {
-    UIBarButtonSystemItemDone,
-    UIBarButtonSystemItemCancel,
-    UIBarButtonSystemItemEdit,  
-    UIBarButtonSystemItemSave,  
-    UIBarButtonSystemItemAdd,
-    UIBarButtonSystemItemFlexibleSpace,
-    UIBarButtonSystemItemFixedSpace,
-    UIBarButtonSystemItemCompose,
-    UIBarButtonSystemItemReply,
-    UIBarButtonSystemItemAction,
-    UIBarButtonSystemItemOrganize,
-    UIBarButtonSystemItemBookmarks,
-    UIBarButtonSystemItemSearch,
-    UIBarButtonSystemItemRefresh,
-    UIBarButtonSystemItemStop,
-    UIBarButtonSystemItemCamera,
-    UIBarButtonSystemItemTrash,
-    UIBarButtonSystemItemPlay,
-    UIBarButtonSystemItemPause,
-    UIBarButtonSystemItemRewind,
-    UIBarButtonSystemItemFastForward,
-#if __IPHONE_3_0 &lt;= __IPHONE_OS_VERSION_MAX_ALLOWED
-    UIBarButtonSystemItemUndo,
-    UIBarButtonSystemItemRedo,
-#endif
-#if __IPHONE_4_0 &lt;= __IPHONE_OS_VERSION_MAX_ALLOWED
-    UIBarButtonSystemItemPageCurl,
-#endif
-};
-</code></pre>
-
-<p>最后别忘了实现<code>right:</code>方法：</p>
-
-<pre><code>- (void)right:(id)sender
-{
-    NSLog(@"rightBarButtonItem");
-}
-</code></pre>
-
-<h3>自定义文字的UIBarButtonItem</h3>
-
-<p>在文章<a href="http://www.superqq.com/blog/2015/07/30/six-tips-on-navigation-bar/">关于导航栏的六个小技巧</a>的第五个技巧里面有自定义<code>rightBarButtonItem</code></p>
-
-<pre><code>self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"back" style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
-</code></pre>
-
-<p>UIBarButtonItemStyle有以下三种选择：</p>
-
-<pre><code>typedef NS_ENUM(NSInteger, UIBarButtonItemStyle) {
-    UIBarButtonItemStylePlain,
-    UIBarButtonItemStyleBordered NS_ENUM_DEPRECATED_IOS(2_0, 8_0, "Use UIBarButtonItemStylePlain when minimum deployment target is iOS7 or later"),
-    UIBarButtonItemStyleDone,
-};
-</code></pre>
-
-<p>实现<code>back:</code>方法：</p>
-
-<pre><code>- (void)back:(id)sender
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-</code></pre>
-
-<h3>自定义照片的UIBarButtonItem</h3>
-
-<pre><code>self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"test"] style:UIBarButtonItemStylePlain target:self action:@selector(right:)];
-</code></pre>
-
-<h3>自定义UIView的UIBarButtonItem</h3>
-
-<p>自定义<code>UIView</code>，然后通过<code>initWithCustomView:</code>方法来创建<code>UIBarButtonItem</code>。</p>
-
-<pre><code>UIView *testView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 60)];
-self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:testView];
-</code></pre>
-
-<p>看到有朋友在后台提问：</p>
-
-<pre><code>刚哥，我现在即需要改那个导航原生的返回图片，也要改返回文字，应该怎么改呢，求指教。
-</code></pre>
-
-<p>其实，这个就可以用<code>initWithCustomView:</code>来解决，自定义<code>UIView</code>你可以放<code>UIImageView</code>和<code>UILabel</code>。可以自定义<code>UIView</code>，那么想怎么定义都是可以的。</p>
 ]]></content>
   </entry>
   
