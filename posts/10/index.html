@@ -81,6 +81,70 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/03/27/nssortdescriptorpai-xu/">NSSortDescriptor排序</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-03-27T19:01:45+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:01 pm</span></time>
+        
+        
+          | <a href="/blog/2015/03/27/nssortdescriptorpai-xu/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>NSSortDescriptor可以实现按照对象的属性进行排序。比如我们有一个对象（LGPeople）。LGPeople有两个属性分别是名字（name）和年龄（age）。现在我们要按照LGPeople的年龄（age）来进行排序。</p>
+
+<p>代码如下：</p>
+
+<pre><code>    //按年龄排序
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"_age" ascending:NO];
+    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
+    [arrayPeople sortUsingDescriptors:sortDescriptors];
+</code></pre>
+
+<p>这样是按照年龄的降序进行排序。如果想升序的话将NO改为YES即可。如果是按照名字进行排序的话也很简单：</p>
+
+<pre><code>    //按姓名排序
+    NSSortDescriptor *sortDescriptorName = [[NSSortDescriptor alloc] initWithKey:@"_name" ascending:NO];
+    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptorName, nil];
+    [arrayPeople sortUsingDescriptors:sortDescriptors];
+</code></pre>
+
+<p>也许我们还有一种需求：先按照年龄排序，再按名字进行排序。代码如下：</p>
+
+<pre><code>    //按年龄和名字排序
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"_age" ascending:NO];
+    NSSortDescriptor *sortDescriptorName = [[NSSortDescriptor alloc] initWithKey:@"_name" ascending:NO];
+    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, sortDescriptorName, nil];
+    [_mutArrVideo sortUsingDescriptors:sortDescriptors];
+</code></pre>
+
+<p>这样相同年龄的情况下，就会按照名字进行排序。当然还可以设置两个以上的排序条件。</p>
+
+<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/03/24/zi-ji-dong-shou-chuang-jian-%5B%3F%5D-ge-dui-lie-lgqueue/">自己动手实现一个队列LGQueue</a></h1>
     
     
@@ -1331,98 +1395,6 @@ You can check out his <a href="https://github.com/Dillion/iOS-Flip-Transform">iO
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/01/07/dkcirclebutton/">DKCircleButton</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-01-07T14:48:23+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:48 pm</span></time>
-        
-        
-          | <a href="/blog/2015/01/07/dkcirclebutton/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-
-<p> <a href="https://github.com/kronik/DKCircleButton.git"target="_blank"title="源代码">源代码</a></p>
-
-<h1> DKCircleButton</h1>
-
-<p>Sources of DKCircleButton and Demo app to show circle button tap effect.</p>
-
-<h2>Download</h2>
-
-<pre><code>$ git clone https://github.com/kronik/DKCircleButton.git
-$ cd DKCircleButton/
-</code></pre>
-
-<h2>Usage</h2>
-
-<p>Please check out the demo project included.</p>
-
-<h1><img src="https://raw.github.com/kronik/DKCircleButton/master/example.gif" alt="Screenshot" /></h1>
-
-<h3>Initialization</h3>
-
-<p>Like a regular custom UIButton</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span> <span class="p">{</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">DKCircleButton</span> <span class="o">*</span><span class="n">button1</span> <span class="o">=</span> <span class="p">[[</span><span class="n">DKCircleButton</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">)];</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">button1</span><span class="p">.</span><span class="n">center</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="mi">160</span><span class="p">,</span> <span class="mi">200</span><span class="p">);</span>
-</span><span class='line'>  <span class="n">button1</span><span class="p">.</span><span class="n">titleLabel</span><span class="p">.</span><span class="n">font</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIFont</span> <span class="nl">systemFontOfSize</span><span class="p">:</span><span class="mi">22</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Toggle animation mode</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="n">button1</span><span class="p">.</span><span class="n">animateTap</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Requirements</h2>
-
-<p>Supported build target - iOS 7.x
-Earliest supported deployment target - iOS 7.0</p>
-
-<h2>License</h2>
-
-<p>DKCircleButton is available under the MIT license. See the LICENSE file for more info.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/11">&larr; Older</a>
@@ -1450,6 +1422,10 @@ Earliest supported deployment target - iOS 7.0</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/10/09/uiviewcontroller-rectedge/">UIViewController的edgesForExtendedLayout属性</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/09/29/rebuild-bitcode-enable/">报错：You Must Rebuild It With Bitcode Enabled (Xcode Setting ENABLE_BITCODE)（解决方案）</a>
       </li>
     
@@ -1463,10 +1439,6 @@ Earliest supported deployment target - iOS 7.0</p>
     
       <li class="post">
         <a href="/blog/2015/09/01/uitablview-up-down-slide/">UITablView上下滑动控制底部按钮的出现和消失</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/27/macbook-replace-ssd-solid-state/">2012年MacBook更换SSD固态硬盘和16G内存条</a>
       </li>
     
   </ul>

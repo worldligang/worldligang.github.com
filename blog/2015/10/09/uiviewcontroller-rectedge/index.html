@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>唯有坚持方能成功 - 刚刚在线</title>
+  <title>UIViewController的edgesForExtendedLayout属性 - 刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="iOS入门：坚持做一个项目，我常说一句话：不是因为有了希望才坚持，而是坚持了才有希望。我也一直用这句话来告诫自己。只要持续努力，才有成功的可能。">
-  <meta name="keywords" content="坚持, iOS入门, iOS入门教程, iOS入门项目, 刚刚在线">
+  <meta name="description" content="是不是很讨厌！其实，在iOS 7中，UIViewController引入了一个新的属性：edgesForExtendedLayout。 这个属性的默认值是UIRectEdgeAll。当你的容器是UINavigationController的shih，默认的布局就是从状态栏的顶部开始的。 &hellip;">
+  <meta name="keywords" content="edgesForExtendedLayout, UIViewController, UIRectEdgeNone, iOS开发, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/blog/2015/06/30/wei-you-jian-chi-fang-neng-cheng-gong">
+  <link rel="canonical" href="http://www.superqq.com/blog/2015/10/09/uiviewcontroller-rectedge">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -78,7 +78,7 @@
   
   <header>
     
-      <h1 class="entry-title">唯有坚持方能成功</h1>
+      <h1 class="entry-title">UIViewController的edgesForExtendedLayout属性</h1>
     
     
       <p class="meta">
@@ -87,7 +87,7 @@
 
 
 
-<time class='entry-date' datetime='2015-06-30T00:44:54+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:44 am</span></time>
+<time class='entry-date' datetime='2015-10-09T16:36:41+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:36 pm</span></time>
         
         
           | <a href="#comments">Comments</a>
@@ -97,55 +97,48 @@
   </header>
 
 
-<div class="entry-content"><p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/jianchi.jpg" alt="2" /></p>
+<div class="entry-content"><p>想必大家都遇到一种情况，明明y坐标设置的是0，但是总是被讨厌的导航栏给遮住。比如下面这个情况：</p>
 
-<p>或许这不是一篇心灵鸡汤，因为心灵鸡汤不是我的擅长;或许这就是一篇心灵鸡汤，希望能点燃你的斗志。</p>
+<pre><code>UILabel *label = [[UILabel alloc] init];
+label.frame = CGRectMake(10, 0, SCREEN.width - 20, 88);
+label.backgroundColor = [UIColor redColor];
+label.text = @"关注公众号iOS开发：iOSDevTip";
+label.textColor = [UIColor whiteColor];
+label.textAlignment = NSTextAlignmentCenter;
+[self.view addSubview:label];
+</code></pre>
 
-<h2>坚持才有希望</h2>
+<p>一起来看看效果：</p>
 
-<p>我常说一句话：不是因为有了希望才坚持，而是坚持了才有希望。我也一直用这句话来告诫自己。只要持续努力，才有成功的可能。</p>
+<p><img src="http://images.90159.com/10/RectEdge2.png" alt="RectEdge2" /></p>
 
-<p>以前，我认为如果谁能给我机会，我将会怎样怎样。我就一直等啊等，等啊等，两年三年后，好像发现没人会给我机会，反而错过很多本应该能抓住的机会。</p>
+<p>是不是很讨厌！其实，在iOS 7中，UIViewController引入了一个新的属性：edgesForExtendedLayout。 这个属性的默认值是UIRectEdgeAll。当你的容器是UINavigationController的shih，默认的布局就是从状态栏的顶部开始的。这就是为什么你设置的控件都往上漂移了66ot的原因。</p>
 
-<p>现在，我改变了这种想法。我要用自己的努力，自己的坚持，来获取更多的机会，更多的可能。</p>
+<pre><code>@property(nonatomic,assign) UIRectEdge edgesForExtendedLayout NS_AVAILABLE_IOS(7_0); // Defaults to UIRectEdgeAll
+</code></pre>
 
-<h2>iOS开发开通原创功能</h2>
+<p>那么如何解决这个问题呢？有两种方法。</p>
 
-<p>就在昨天20:11微信团队邀请我开通微信原创功能。对于我来说，这是一个值得纪念的时刻，这也是对我的努力的一种肯定。特给大家分享一下：</p>
+<h2>方法一：改变edgesForExtendedLayout</h2>
 
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/yuanchuang.png" alt="2" /></p>
+<pre><code>self.edgesForExtendedLayout = UIRectEdgeNone;
+</code></pre>
 
-<p>随着iOS开发微信微信公众号订阅的用户越来越多，让我觉得责任越来越重。</p>
+<p>将edgesForExtendedLayout属性设置为UIRectEdgeNone，这样布局就是从导航栏下面开始了。设置之后，再来看看效果：</p>
 
-<p>正在看文章的你，可能是一位技术大牛，有时候我发的文章很基础，你会觉得文章水平太低，你想阅读到更多先进的技术；也可能你是一位iOS新人，渴望阅读一些iOS进阶的文章；还可能你是一位大学生，或者是你已经上班，想转行做iOS开发，你想阅读一些如何入门的文章。</p>
+<p><img src="http://images.90159.com/10/RectEdge1.png" alt="RectEdge1" /></p>
 
-<p>这些我都知道。我也在努力去改变，去写一些真正能够帮助到大家的文章。我甚至发说说，问我的朋友，如何提高写作水平？</p>
+<h2>方法二：导航栏半透明属性设置为NO</h2>
 
-<p>后来，我发现我错了。iOS开发分享的是技术文章，不是华丽的文字。</p>
+<pre><code>@property(nonatomic,assign,getter=isTranslucent) BOOL translucent NS_AVAILABLE_IOS(3_0) UI_APPEARANCE_SELECTOR; // Default is NO on iOS 6 and earlier. Always YES if barStyle is set to UIBarStyleBlackTranslucent
+</code></pre>
 
-<p>我希望能从我的手里写出更多优秀的文章。这对于我来说，真的是一个很大的挑战。我相信，只要我坚持，我就能为大家提供更多优质的文章。</p>
+<p>在iOS 6之前（包括iOS 6）translucent默认就是NO，在iOS 7就默认是YES了。</p>
 
-<h2>iOS入门：坚持做一个项目</h2>
+<pre><code>self.navigationController.navigationBar.translucent = NO;
+</code></pre>
 
-<p>有人在微信里问我，iOS开发如何入门。我给大家讲一个，我身边的真实案例。</p>
-
-<p>我有一个朋友，我们叫他A吧。A刚来上海工作，是做Java的，在一家房地产公司。工作相对来说比较稳定，偶尔也加加班，这对程序员来说是常态。</p>
-
-<p>后来，A想学iOS开发。A是一个行动力很强的人，立马花了一万多买了一个MacBook。开始iOS学习之旅。</p>
-
-<p>A的学习方法很简单，网上下载了一些iOS入门视频。他就跟着视频里讲的，做一个新浪微博客户端。</p>
-
-<p>连续写了一个多月，终于，把新浪微博做出来。做到过程中，他遇到一些开发上的问题。就问问身边的朋友，或者百度一下，google一下。</p>
-
-<p>在解决问题的过程中，很熟练地掌握了iOS开发。过完年来了，立马换了一家公司做iOS开发的。薪资比他做Java工作要高一些。</p>
-
-<p>所以，如果你在问iOS开发如何入门，请你认认真真的写一个项目。遇到问题，一定要想办法解决它，解决问题就是学习最好的方法。</p>
-
-<h2>欢迎投稿</h2>
-
-<p>订阅iOS开发的用户不乏有一些大牛，希望你们能把自己的技术分享出来。分享既是快乐，分享既是成长。</p>
-
-<p>投稿邮箱：<strong>worldligang@163.com</strong></p>
+<p>将导航栏的半透明属性关闭掉，布局也是从导航栏下面开始了。</p>
 </div>
 
 
@@ -161,18 +154,18 @@
 
 
 
-<time class='entry-date' datetime='2015-06-30T00:44:54+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:44 am</span></time>
+<time class='entry-date' datetime='2015-10-09T16:36:41+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:36 pm</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/cheng-xu-yuan/'>程序员</a>
+    <a class='category' href='/blog/categories/ioskai-fa/'>ios开发</a>
   
 </span>
 
 
       <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
-<br>原文链接：<a href="http://www.superqq.com/blog/2015/06/30/wei-you-jian-chi-fang-neng-cheng-gong/">http://www.superqq.com/blog/2015/06/30/wei-you-jian-chi-fang-neng-cheng-gong/</a> <!-- 添加这一行代码 -->
+<br>原文链接：<a href="http://www.superqq.com/blog/2015/10/09/uiviewcontroller-rectedge/">http://www.superqq.com/blog/2015/10/09/uiviewcontroller-rectedge/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -193,10 +186,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/06/29/cgcontextrefshi-yong-jian-yao-jiao-cheng/" title="Previous Post: CGContextRef使用简要教程">&laquo; CGContextRef使用简要教程</a>
+        <a class="basic-alignment left" href="/blog/2015/09/29/rebuild-bitcode-enable/" title="Previous Post: 报错：You must rebuild it with bitcode enabled (Xcode setting ENABLE_BITCODE)（解决方案）">&laquo; 报错：You must rebuild it with bitcode enabled (Xcode setting ENABLE_BITCODE)（解决方案）</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/07/01/egocachehuan-cun-kuang-jia-xiang-xi-jiang-jie/" title="Next Post: EGOCache缓存框架详细讲解">EGOCache缓存框架详细讲解 &ra/categories.htmlquo;</a>
       
     </p>
   </footer>
@@ -206,7 +197,7 @@
   <section>
     <h1>Comments</h1>
     <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
-<div class="ds-thread" data-title="唯有坚持方能成功"></div>
+<div class="ds-thread" data-title="UIViewController的edgesForExtendedLayout属性"></div>
 <script type="text/javascript">
   var duoshuoQuery = {short_name:"superqq"};
   (function() {

@@ -81,6 +81,55 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-(photo-album)/">iOS开发之保存照片到系统相册（Photo Album）</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-03T21:43:34+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:43 pm</span></time>
+        
+        
+          | <a href="/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-(photo-album)/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>保存照片到系统相册这个功能很多社交类的APP都有的，今天我们简单讲解一下，如何将图片保存到系统相册（Photo Album）。</p>
+
+<h2>创建UIImageView</h2>
+
+<p>创建<code>UIImageView</code>是为了将照片展示出来，我们是要把<code>UIImage</code>保存到系统相册（Photo Album）:</p>
+
+<pre><code>#define SCREEN [UIScreen mainScreen].bounds.size
+
+self.image = [UIImage imageNamed:@"iOSDevTip"];
+UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake((SCREEN.width - 300) / 2, 70, 300, 150)];
+imageView.image = self.image;
+[self.view addSubview:imageView];
+</code></pre>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-(photo-album)/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/08/02/custom-navigation-button-uibarbuttonitem/">自定义导航按钮UIBarButtonItem</a></h1>
     
     
@@ -460,49 +509,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/26/jie-qu-uiimagezhi-ding-da-xiao-qu-yu/">截取UIImage指定大小区域</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-26T10:07:58+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:07 am</span></time>
-        
-        
-          | <a href="/blog/2015/07/26/jie-qu-uiimagezhi-ding-da-xiao-qu-yu/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>最近遇到这样的需求：从服务器获取到一张照片，只需要显示他的左半部分，或者中间部分等等。也就是截取UIImage指定大小区域。</p>
-
-<h2>UIImage扩展</h2>
-
-<p>我的解决方案是对<code>UIImage</code>进行扩展。通过<code>CGImageRef</code>和<code>CGImage</code>完成截取，调用的方法是：<code>CGImageCreateWithImageInRect</code>。扩展类叫<code>UIImage+Crop</code>，具体代码如下：</p>
-
-<h3>UIImage+Crop.h</h3>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/07/26/jie-qu-uiimagezhi-ding-da-xiao-qu-yu/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/4">&larr; Older</a>
@@ -530,6 +536,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/10/09/uiviewcontroller-rectedge/">UIViewController的edgesForExtendedLayout属性</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/09/29/rebuild-bitcode-enable/">报错：You Must Rebuild It With Bitcode Enabled (Xcode Setting ENABLE_BITCODE)（解决方案）</a>
       </li>
     
@@ -543,10 +553,6 @@
     
       <li class="post">
         <a href="/blog/2015/09/01/uitablview-up-down-slide/">UITablView上下滑动控制底部按钮的出现和消失</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/27/macbook-replace-ssd-solid-state/">2012年MacBook更换SSD固态硬盘和16G内存条</a>
       </li>
     
   </ul>

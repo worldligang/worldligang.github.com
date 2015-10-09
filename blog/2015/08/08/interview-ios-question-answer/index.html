@@ -177,7 +177,7 @@ float -> CGFloat
 <p> （如果抛开命名规范，假设该类真的是MVVM模式里的 ViewModel ，那么UserModel这个类可能对应的是用户注册页面，如果有特殊的业务需求，比如：login对应的应当是注册并登录的一个Button，出现login方法也可能是合理的。）</p>
 
 <ol>
-<li>doLogIn方法命名不规范：添加了多余的动词前缀。
+<li> doLogIn方法命名不规范：添加了多余的动词前缀。
 请牢记：</li>
 </ol>
 
@@ -194,7 +194,7 @@ float -> CGFloat
 </code></pre>
 
 <ol>
-<li>由于字符串值可能会改变，所以要把相关属性的“内存管理语义”声明为copy。(原因在下文有详细论述：<strong><em>用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？</em></strong>)</li>
+<li> 由于字符串值可能会改变，所以要把相关属性的“内存管理语义”声明为copy。(原因在下文有详细论述：<strong><em>用@property声明的NSString（或NSArray，NSDictionary）经常使用copy关键字，为什么？</em></strong>)</li>
 <li>“性别”(sex）属性的：该类中只给出了一种“初始化方法” (initializer)用于设置“姓名”(Name)和“年龄”(Age)的初始值，那如何对“性别”(Sex）初始化？</li>
 </ol>
 
@@ -285,7 +285,7 @@ typedef NS_ENUM(NSInteger, CYLSex) {
 <li><p><code>-(id)initUserModelWithUserName: (NSString*)name withAge:(int)age;</code>方法中方法名与参数之间多了空格。而且<code>-</code> 与<code>(id)</code>之间少了空格。</p></li>
 <li><p><code>-(id)initUserModelWithUserName: (NSString*)name withAge:(int)age;</code>方法中方法名与参数之间多了空格：<code>(NSString*)name</code>前多了空格。</p></li>
 <li><p><code>-(id)initUserModelWithUserName: (NSString*)name withAge:(int)age;</code>方法中<code>(NSString*)name</code>,应为<code>(NSString *)name</code>，少了空格。</p></li>
-<li>doLogIn方法命名不清晰：笔者猜测是login的意思，应该是粗心手误造成的。</li>
+<li> doLogIn方法命名不清晰：笔者猜测是login的意思，应该是粗心手误造成的。</li>
 <li>第二个@property中assign和nonatomic调换位置。</li>
 </ol>
 
@@ -630,8 +630,8 @@ typedef NS_ENUM(NSInteger, CYLSex) {
 <ol>
 <li>在protocol中使用property只会生成setter和getter方法声明,我们使用属性的目的,是希望遵守我协议的对象能实现该属性</li>
 <li><p>category 使用 @property 也是只会生成setter和getter方法的声明,如果我们真的需要给category增加属性的实现,需要借助于运行时的两个函数：</p></li>
-<li><p><code>objc_setAssociatedObject</code></p></li>
-<li><code>objc_getAssociatedObject</code></li>
+<li><p> <code>objc_setAssociatedObject</code></p></li>
+<li> <code>objc_getAssociatedObject</code></li>
 </ol>
 
 
@@ -1198,9 +1198,9 @@ struct objc_class {
 <ul>
 <li>所有父类的成员变量和自己的成员变量都会存放在该对象所对应的存储空间中.</li>
 <li><p>每一个对象内部都有一个isa指针,指向他的类对象,类对象中存放着本对象的</p></li>
-<li><p>对象方法列表（对象能够接收的消息列表，保存在它所对应的类对象中）</p></li>
-<li>成员变量的列表,</li>
-<li>属性列表,</li>
+<li><p> 对象方法列表（对象能够接收的消息列表，保存在它所对应的类对象中）</p></li>
+<li> 成员变量的列表,</li>
+<li> 属性列表,</li>
 </ul>
 
 
@@ -1590,6 +1590,10 @@ runtime部分主要参考<a href="https://developer.apple.com/library/mac/docume
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/10/09/uiviewcontroller-rectedge/">UIViewController的edgesForExtendedLayout属性</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/09/29/rebuild-bitcode-enable/">报错：You Must Rebuild It With Bitcode Enabled (Xcode Setting ENABLE_BITCODE)（解决方案）</a>
       </li>
     
@@ -1603,10 +1607,6 @@ runtime部分主要参考<a href="https://developer.apple.com/library/mac/docume
     
       <li class="post">
         <a href="/blog/2015/09/01/uitablview-up-down-slide/">UITablView上下滑动控制底部按钮的出现和消失</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/27/macbook-replace-ssd-solid-state/">2012年MacBook更换SSD固态硬盘和16G内存条</a>
       </li>
     
   </ul>
