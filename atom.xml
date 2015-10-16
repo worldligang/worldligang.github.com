@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-10-16T20:35:42+08:00</updated>
+  <updated>2015-10-16T20:37:45+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -51,6 +51,9 @@
 <p>串行与并行针对的是队列，而同步与异步，针对的则是线程。最大的区别在于，同步线程要阻塞当前线程，必须要等待同步线程中的任务执行完，返回以后，才能继续执行下一任务；而异步线程则是不用等待。</p>
 
 <p>仅凭这几句话还是很难理解，所以之后准备了很多案例，可以边分析边理解。</p>
+
+<!--more-->
+
 
 <h2>GCD API</h2>
 
