@@ -81,6 +81,51 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/07/28/four-create-uiimage-method/">五种创建UIImage的类方法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-28T01:08:30+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:08 am</span></time>
+        
+        
+          | <a href="/blog/2015/07/28/four-create-uiimage-method/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>iOS开发已开通评论功能</h3>
+
+<p>皇天不负有心人，iOS开发的评论功能已经被邀请开通啦。这几天一直想着，微信团队大概在月底的时候会邀请我开通评论功能。果然不出我所料。这是我收到的消息：</p>
+
+<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/weixincomment.png" alt="weixincomment.png" /></p>
+
+<p>至此，iOS开发的原创、赞赏、评论三个功能都齐啦，这也是对我辛苦努力的一种肯定。前方的路依然很漫长，我们一起努力，让iOS开发变得更好。</p>
+
+<p>既然评论功能已经开通，大家也别闲着啦！今天的文章大家一起尽情的吐槽吧！</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/07/28/four-create-uiimage-method/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/07/27/ioskai-fa-zhi-layoutsubviewsde-zuo-yong-he-diao-yong-ji-zhi/">iOS开发之layoutSubviews的作用和调用机制</a></h1>
     
     
@@ -484,85 +529,6 @@ NSLog(@"directory:%@", directory);
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-(sandbox/">iOS开发之沙盒机制（SandBox)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-20T00:36:13+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:36 am</span></time>
-        
-        
-          | <a href="/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-(sandbox/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>iOS APP可以在自己的沙盒里读写文件，但是，不可以访问其他APP的沙盒。每一个APP都是一个信息孤岛，相互是不可以进行通信的，唯独可以通过<a href="http://www.superqq.com/blog/2015/07/14/xcode6-dot-4zhu-ce-url-schemebu-zou-xiang-jie/">URL Scheme</a>。沙盒里面的文件可以是照片、声音文件、文本、属性列表等。</p>
-
-<h2>沙盒机制简介</h2>
-
-<p><strong>沙盒简述：</strong></p>
-
-<ol>
-<li>每一个APP都有一个存储空间，就是沙盒。</li>
-<li>APP之间不能相互通信。</li>
-<li>沙盒根目录结构：Documents、Library、temp。</li>
-</ol>
-
-
-<p>简述一下Documents、Library、tmp的区别：</p>
-
-<ol>
-<li><strong>Documents：</strong>用于存储用户数据，iTunes备份和恢复的时候会包括此目录，所以，苹果建议将程序中建立的或在程序中浏览到的文件数据保存在该目录下。</li>
-<li><strong>Library：</strong>包含两个子目录：Caches 和 Preferences。Caches用来存放用户需要换成的文件。Preferences是APP的偏好设置，可以通过NSUserDefaults来读取和设置。</li>
-<li><strong>tmp：</strong> 用于存放临时文件，这个可以放一些当APP退出后不再需要的文件。</li>
-</ol>
-
-
-<h2>打开模拟器沙盒方法</h2>
-
-<p><strong>方法一：前往文件夹打开</strong></p>
-
-<pre><code>/Users/ligang/Library/Application Support/iPhone Simulator/ 
-</code></pre>
-
-<p>直接在Finder->前往->前往文件夹，输入上面的内容即可。记住将ligang换成你的电脑用户名。</p>
-
-<p><strong>方法二：通过Finder一步步查找</strong></p>
-
-<p>模拟器上的APP的沙盒实在用户目录下的资源库里面，但是资源库是隐藏文件夹。所以查看沙盒之前，现将隐藏文件夹显示出来。显示隐藏文件的命令：</p>
-
-<pre><code>defaults write com.apple.finder AppleShowAllFiles -bool true
-</code></pre>
-
-<p>用心的童鞋会发现，隐藏隐藏文件的命令：</p>
-
-<pre><code>defaults write com.apple.finder AppleShowAllFiles -bool false
-</code></pre>
-
-<p>查找步骤请看图：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/sandbox.jpg" alt="sandbox" /></p>
-
-<p>关于沙盒机制（SandBox)的介绍大概就是这样，以后面试的时候万一碰到你就可以这么回答。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/5">&larr; Older</a>
@@ -590,6 +556,10 @@ NSLog(@"directory:%@", directory);
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/10/16/five-case-know-gcd/">五个案例让你明白GCD死锁</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/10/11/kill-a-programmer/">杀一个程序员不需用枪，改三次需求即可</a>
       </li>
     
@@ -603,10 +573,6 @@ NSLog(@"directory:%@", directory);
     
       <li class="post">
         <a href="/blog/2015/09/24/apple-xcodeghost-answer/">有关 XcodeGhost 的问题和解答</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/02/manicure-salary-heigher-programmer/">程序员月入过万已经不再是神话</a>
       </li>
     
   </ul>
