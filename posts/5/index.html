@@ -81,6 +81,140 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/07/22/kuai-kuai-kuai-!27ge-ti-sheng-xiao-lu-de-ioskai-yuan-ku-tui-jian/">快快快！27个提升效率的iOS开源库推荐</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-22T13:11:49+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>1:11 pm</span></time>
+        
+        
+          | <a href="/blog/2015/07/22/kuai-kuai-kuai-!27ge-ti-sheng-xiao-lu-de-ioskai-yuan-ku-tui-jian/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>CSDN移动将持续为您优选移动开发的精华内容，共同探讨移动开发的技术热点话题，涵盖移动应用、开发工具、移动游戏及引擎、智能硬件、物联网等方方面面。如果您想投稿、参与内容翻译工作，或寻求近匠报道，请发送邮件至tangxy#csdn.net（请把#改成@）。</p></blockquote>
+
+<p>我热爱开源，更喜爱那些花费宝贵的业余时间来创造奇迹的开发者们，感谢他们将自己辛苦劳动的成果无偿分享给大家。开源作者和贡献者们，你们太了不起了，感谢你们所付出的一切。</p>
+
+<p>鉴于我是收集不全会死星人，这里我根据个人喜好选取了一些iOS的开源库。这些项目的顺序完全随机，每个都棒到爆。绝大多数支持CocoaPods，所以将它们添加到你的Xcode项目中只是小事一桩。</p>
+
+<p>在本文末尾你可以找到一个长文慎入版本——一个只包含题目与项目链接的简单列表。如果你觉得这篇文章有用的话，请把它分享给其他做iOS开发的小伙伴们，好酒也怕巷子深。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/07/22/kuai-kuai-kuai-!27ge-ti-sheng-xiao-lu-de-ioskai-yuan-ku-tui-jian/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/22/ioskai-fa-zhi-huo-qu-sha-he-lu-jing/">iOS开发之获取沙盒路径</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-22T01:02:41+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>1:02 am</span></time>
+        
+        
+          | <a href="/blog/2015/07/22/ioskai-fa-zhi-huo-qu-sha-he-lu-jing/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-%28sandbox/">iOS开发之沙盒机制（SandBox)</a>详细讲解了沙盒的一些机制。在开发中，我们需要对沙盒进行操作，所以我们需要获取到沙盒路径。</p>
+
+<p>沙盒里的文件夹包括Documents、Library、tmp。这三个文件夹的作用请点击<a href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-%28sandbox/">这里</a>。接下来我们来讲解如何获取Documents、Library、tmp的路径。</p>
+
+<h3>获取沙盒根目录</h3>
+
+<p>获取沙盒根目录，直接调用NSHomeDirectory()：</p>
+
+<pre><code>//获取沙盒根目录
+NSString *directory = NSHomeDirectory();
+NSLog(@"directory:%@", directory);
+</code></pre>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/07/22/ioskai-fa-zhi-huo-qu-sha-he-lu-jing/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/21/bao-cuo-:process-launch-failed-failed-to-get-the-task-for-process-1285(jie-jue-fang-an-)/">报错：failed to Get the Task for Process 1285（解决方案）</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-21T00:16:31+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>12:16 am</span></time>
+        
+        
+          | <a href="/blog/2015/07/21/bao-cuo-:process-launch-failed-failed-to-get-the-task-for-process-1285(jie-jue-fang-an-)/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>你遇到的问题别人也遇到过</h2>
+
+<p>初接触iOS开发的童鞋估计会被真机调试搞的稀里糊涂的。在模拟器上运行什么问题没有，真机调试就会碰到各种各样的问题。</p>
+
+<p>不用担心。记住：你碰到的问题别人肯定都已经碰到过了。我们不是有百度和谷歌嘛，把你的问题描述出来，一定有解决方案的。还可以在<a href="http://zhannei.superqq.com/">刚刚在线站内搜索</a>里搜索，说不定也能帮你解决不少问题呢。</p>
+
+<p>我会经常把自己开发过程中碰到的调试问题，一一总结出来。一来是帮助自己在下一次碰到同样问题时，可以游刃有余。二来是帮助大家再碰到类似问题的时候，有一个参考的作用。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/07/21/bao-cuo-:process-launch-failed-failed-to-get-the-task-for-process-1285(jie-jue-fang-an-)/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-(sandbox/">iOS开发之沙盒机制（SandBox)</a></h1>
     
     
@@ -306,11 +440,11 @@ Objective-C 没有消失，但是现在用一个慢慢失去关注的语言来�
 
 <p><strong>林翔宇</strong>
 - <a href="http://linxiangyu.org">http://linxiangyu.org</a>
-- <a href="&#109;&#x61;&#x69;&#x6c;&#116;&#111;&#x3a;&#x6c;&#x69;&#x6e;&#x78;&#105;&#x61;&#110;&#x67;&#121;&#117;&#64;&#110;&#117;&#x70;&#x74;&#x65;&#114;&#46;&#x6f;&#114;&#103;">&#108;&#105;&#x6e;&#120;&#x69;&#97;&#x6e;&#103;&#121;&#117;&#x40;&#x6e;&#x75;&#x70;&#x74;&#101;&#x72;&#x2e;&#111;&#x72;&#x67;</a>
+- <a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#111;&#58;&#108;&#x69;&#110;&#x78;&#x69;&#97;&#110;&#103;&#x79;&#117;&#64;&#110;&#x75;&#x70;&#116;&#101;&#114;&#46;&#111;&#x72;&#103;">&#108;&#105;&#x6e;&#x78;&#x69;&#97;&#110;&#x67;&#121;&#117;&#64;&#x6e;&#117;&#x70;&#x74;&#x65;&#x72;&#x2e;&#111;&#x72;&#x67;</a>
 - <a href="http://github.com/oa414">http://github.com/oa414</a></p>
 
 <p><strong>庞博</strong>
-- <a href="&#109;&#x61;&#105;&#x6c;&#116;&#111;&#x3a;&#98;&#111;&#x70;&#97;&#x6e;&#103;&#x40;&#115;&#x6f;&#104;&#117;&#x2d;&#x69;&#110;&#x63;&#46;&#x63;&#111;&#x6d;">&#98;&#x6f;&#x70;&#97;&#110;&#103;&#x40;&#115;&#x6f;&#104;&#x75;&#x2d;&#105;&#x6e;&#99;&#46;&#99;&#x6f;&#x6d;</a>
+- <a href="&#109;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#98;&#111;&#x70;&#97;&#x6e;&#103;&#64;&#115;&#111;&#104;&#x75;&#45;&#x69;&#x6e;&#x63;&#x2e;&#99;&#111;&#109;">&#x62;&#111;&#112;&#97;&#x6e;&#x67;&#64;&#115;&#111;&#104;&#x75;&#x2d;&#105;&#110;&#99;&#x2e;&#x63;&#111;&#x6d;</a>
 - <a href="https://github.com/heistings">https://github.com/heistings</a></p>
 
 <p>翻译已得到原作者许可，并且会在更加完善后申请合并到原文仓库。</p>
@@ -895,312 +1029,6 @@ NSLog(@"text:%@",text);
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/14/xcode6-dot-4zhu-ce-url-schemebu-zou-xiang-jie/">Xcode6.4注册URL Scheme步骤详解</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-14T23:34:16+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:34 pm</span></time>
-        
-        
-          | <a href="/blog/2015/07/14/xcode6-dot-4zhu-ce-url-schemebu-zou-xiang-jie/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>好消息：微信团队邀请我的iOS开发（id：<strong>iOSDevTip</strong>）微信公众号开通赞赏功能，以后我就可以光明正大的通过文章要饭啦。你的赞赏就是我最大的动力。</p>
-
-<p>这是今天下午15：30收到的邀请：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/zanshang.png" alt="zanshang1" /></p>
-
-<h2>微信赞赏功能</h2>
-
-<p>为什么推出赞赏功能？微信公众号自2012年推出以来，一直成爆发式的增长。微信推出赞赏功能最重要的目的就是为了鼓励原创，鼓励创新。</p>
-
-<p>之前，原创功能、赞赏功能和评论功能是一起邀请开通的。现在微信团队分三次邀请。现在我的iOS开发公众号，已经被邀请开通了原创和赞赏功能，下一步争取开通评论功能。</p>
-
-<p>如果开通评论功能，我就可以更方便的和大家交流。一经邀请，我会第一时间告诉大家的。好消息，大家也知道啦。接下来继续回到正题，我们来谈谈iOS中的URL Scheme。</p>
-
-<h2>URL Scheme的作用</h2>
-
-<p>我们都知道苹果手机中的APP都有一个沙盒，APP就是一个信息孤岛，相互是不可以进行通信的。但是iOS的APP可以注册自己的URL Scheme，URL Scheme是为方便app之间互相调用而设计的。我们可以通过系统的OpenURL来打开该app，并可以传递一些参数。</p>
-
-<p>例如：你在Safari里输入www.alipay.com，就可以直接打开你的支付宝app，前提是你的手机装了<a href="http://www.superqq.com/blog/2015/07/10/zhi-fu-bao-he-wei-xin-zai-chao-xi-shang-shui-geng-sheng-%5B%3F%5D-chou/">支付宝</a>。如果你没有装支付宝，应该显示的是支付宝下载界面，点击会跳到AppStore的支付宝下载界面。</p>
-
-<p>URL Scheme必须能唯一标识一个APP，如果你设置的URL Scheme与别的APP的URL Scheme冲突时，你的APP不一定会被启动起来。因为当你的APP在安装的时候，系统里面已经注册了你的URL Scheme。</p>
-
-<p>一般情况下，是会调用先安装的app。但是iOS的系统app的URL Scheme肯定是最高的。所以我们定义URL Scheme的时候，尽量避开系统app已经定义过的URL Scheme。</p>
-
-<h2>注册URL Scheme</h2>
-
-<h3>1.在info.plist里添加URL types</h3>
-
-<p>每一个项目里面都会有一个info.plist配置文件。找到info.plist，右键选择Add Row，然后选择URL types。如图所示：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url1.jpg" alt="url1" /></p>
-
-<h3>2.添加URL Schemes</h3>
-
-<p>添加完URL types，点击展开。右键选择Add Row，添加URL Schemes：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url2.jpg" alt="url2" /></p>
-
-<h3>3.设置URL Schemes</h3>
-
-<p>设置URL Schemes为iOSDevTip</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url3.jpg" alt="url3" /></p>
-
-<h3>4.设置URL Identifier</h3>
-
-<p>URL Identifier是自定义的 URL scheme 的名字，一般采用反转域名的方法保证该名字的唯一性，比如 com.iOSStrongDemo.www</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url4.jpg" alt="url4" /></p>
-
-<h2>添加成功启动提示</h2>
-
-<p>为了方便测试，我们在AppDelegate里面添加一个UIAlertView，当app被成功打开时，会提出提示：</p>
-
-<pre><code>- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL*)url
-{
-    // 接受传过来的参数
-    NSString *text = [[url host] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"打开啦"
-                                           message:text
-                                          delegate:nil
-                                 cancelButtonTitle:@"OK"
-                                 otherButtonTitles:nil];
-    [alertView show];
-    return YES;
-}
-</code></pre>
-
-<h2>Safari启动自定义的URL Schemes APP</h2>
-
-<p>既然已经配置好URL Schemes，那么我们可以来款速测试一下，我们设置的URL Schemes是否有效。打开Safari，在地址栏里输入：iOSDevTip://</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url6.png" alt="url6" /></p>
-
-<p>果然成功打开：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url5.png" alt="url5" /></p>
-
-<p>也可以在地址栏中输入：iOSDevTip://com.iOSStrongDemo.www。也是可以打开注册了URL Schemes的APP的。</p>
-
-<h2>通过另一个APP启动注册了URL Schemes的APP</h2>
-
-<pre><code> NSString *url = @"iOSDevTip://";
-//    NSString *url = @"iOSDevTip://com.iOSStrongDemo.www";
-if ([[UIApplication sharedApplication]
-     canOpenURL:[NSURL URLWithString:url]])
-{
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
-}
-else
-{
-    NSLog(@"can not open URL scheme iOSDevTip");
-}
-</code></pre>
-
-<p>打开注册iOSDevTip的APP格式为: URL Scheme://URL identifier，直接调用URL Scheme也可打开程序, URL identifier是可选的。</p>
-
-<p>注册URL Scheme就是这么简单。下一篇会分享如何通过URL Scheme传递参数。demo下载地址：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/13/cong-apptiao-dao-she-zhi-jie-mian/">从app跳到设置界面</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-13T23:50:45+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:50 pm</span></time>
-        
-        
-          | <a href="/blog/2015/07/13/cong-apptiao-dao-she-zhi-jie-mian/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>这次去郑州主要是参加大学同学的婚礼。匆匆而来，匆匆而回。时间安排的好紧，还没有来得及多看两眼我的大好中原。</p>
-
-<p>来参加婚礼的还有其他几位同学，有的真是多年不见。见面之后相互虚寒一番，一起讨论讨论各自的近况。时间飞逝，让这样的相遇变得非常珍贵。</p>
-
-<p>这次的婚礼，别有一番风味。</p>
-
-<h2>第一次在教堂里参加婚礼</h2>
-
-<p>我的这位同学，他是一位虔诚的基督徒，他们的婚礼也理所当然的在教堂举行。教堂是一个神圣庄严的地方，虽然我不是一名基督徒，但是我依然怀有一颗虔诚的心。</p>
-
-<p>婚礼还是相当热闹的。有牧师为他们证婚，真的是很幸福。新娘也感动的眼泪都留下来了。</p>
-
-<p>婚礼结束之后，抽空拉着另外一个同学，加上新郎，我们三兄弟合了一张影。这张照片可以发给大家欣赏一下：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/hunli.png" alt="1" /></p>
-
-<p>看到这张我不由得说一句：又长胖了！好吧，闲话就絮叨这里。今天给大家分享一个小功能：从app跳到设置界面。</p>
-
-<h2>从app跳到设置界面</h2>
-
-<p>直接上代码：</p>
-
-<pre><code> NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
- if ([[UIApplication sharedApplication] canOpenURL:url]) {
-     [[UIApplication sharedApplication] openURL:url];
- }
-</code></pre>
-
-<p>上面这段代码要在iOS 8以上的系统使用。一般做智能家居app的，需要到设置界面连接wifi，但是苹果没有提供这样的接口。所以可以退而求其次，跳到系统的设置界面。</p>
-
-<p>想测试的童鞋请下载demo：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
-
-<h2>回复关键词获取相应文章</h2>
-
-<p>公众号iOS开发：<strong>iOSDevTip</strong>，已经发展一年多的时间，已经积累了很多优秀的文章。也许能帮到一些小忙。</p>
-
-<p>我告诉大家，如何找到这些优秀的文章：</p>
-
-<ol>
-<li>查看历史消息</li>
-<li>关键词回复，先回复“m”，获取目录。目录里面详细讲解了，哪些关键词对应哪些文章。</li>
-</ol>
-
-
-<p>有什么不懂得可以随时联系我，直接在后台回复就可以，也可以加我的微信：<strong>chinaligang</strong></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/13/iosti-jiao-hou-shen-qing-jia-ji-shen-he/">iOS提交后申请加急审核</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-13T23:14:17+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:14 pm</span></time>
-        
-        
-          | <a href="/blog/2015/07/13/iosti-jiao-hou-shen-qing-jia-ji-shen-he/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>之前只是听过加急审核这回事，一直也没有用到过。昨天用了下果然很给力。昨天晚上将近8点（北京时间）提交应用，今天早上上班看了下已经通过了审核，而且可以在AppStore里下载到。</p>
-
-<p>话说加急的原因比较悲催，年前一直在做老版本的更新（一直在改别人代码的bug），临过年一周多的时候说不改了，做新版本的。心里终于舒服些，开始
-自己写新版本。2月7号上班到2月18号一直在做新版本。就在经理天天催，老板经常问进度的时候，实施那边说xxx那边20号要验收，验收不过要打官司
-了……</p>
-
-<p>然后开始悲催的继续找到以前别人的代码改bug，十几个，虽说难度不是很大，但是很不爽~</p>
-
-<p>18号加班改完，19号给测试人员测试。然后我继续开始新版本。结果测试那一天了没消息，LZ很2的去找到测试去问测试完了吗？然后测试MM笑着和
-我说，呀，忘了和你说了，没问题了。
-括弧当时时间为下午6点左右，LZ当天正常下班时间是6点十几分。然后开始回来今天提交。话说提交速度那叫一个慢！没办法，启用米国VPN，速度快了很
-多，看着进度条一点一点往前走，慢慢走，慢慢走……n久后走到头。然后上面文字提示说已经提交完毕，但是进度条又回到了初始位置是怎么回事
-？！愤怒了！去iTunes connect里刷新状态提示等待提交
- = =！</p>
-
-<p>好吧，重新提交 &ndash;> 然后卡那不动了 ~~ 这米国vpn也不好用啊还是库克那服务器的原因啊。。。。</p>
-
-<p>唉，取消提交然后用Application Loader提交，打包、选择、上传，速度很慢但是一切还算是顺利。在忽上忽下、“动荡不定”的网速中终于提交成功。iTunes connect里刷新状态为等待审核。OK，终于提交了。</p>
-
-<p>竟然扯了这么多~</p>
-
-<p>下面进入正题。提交完成后进入加急审核页面。</p>
-
-<p>链接：<a href="https://developer.apple.com/appstore/contact/appreviewteam/index.html">https://developer.apple.com/appstore/contact/appreviewteam/index.html</a></p>
-
-<p>在i would like to里选择加急审核</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/jiaji1.png" alt="1" /></p>
-
-<p>然后填写相关信息。</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/jiaji2.png" alt="2" /></p>
-
-<p>App Information里填写应用名称，ID填写9位数字ID。</p>
-
-<p>继续</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/jiaji3.png" alt="3" /></p>
-
-<p>选择原因，然后填写理由。</p>
-
-<p>这里要注意的是理由一般是用户安全问题或者崩溃问题成功率会高一些（LZ写的是崩溃，不要说我是赶时间，苹果会不同意，以前版本确实有崩溃问题，只不过不多~ 这里我不多说了，你们懂的）</p>
-
-<p>还有一点要注意的是，如果是崩溃问题，你最好写上操作步骤，让审核员去重现这个问题。</p>
-
-<p>PS. 如果遇到非常时期或者人品不好遇到心情不好的审核员，请自行另行处理~</p>
-
-<p>就到这里了，继续搬砖去了~</p>
-
-<p>2014.5.10补充：</p>
-
-<p>之前听别人说一年只有两次加急的机会。一直没有尝试过，所以也没法证明是否是真的。</p>
-
-<p>昨天晚上（周五晚）由于销售要在周一的时候开始做大量推广，所以今年的第三次加急审核又开始了……</p>
-
-<p>今天早上起床后还在担心应该是没有通过，但是AppStore查看了下，已经通过了审核。</p>
-
-<p>说明之前一年只有两次加急审核的机会是不正确的。至于一年到底有多少次加急审核的机会，官方没有看到相关的说明，也不能确定次数是多少。</p>
-
-<p>如果有看到相关文档或说明的童鞋，希望能和大家分享下~</p>
-
-<p>2014.5.14补充：</p>
-
-<p>第四次加急，从提交到通过大概过了两天的时间。</p>
-
-<p>2015.6.2补充：</p>
-
-<p>加急审核说明是可以写中文的。这里感谢 @第七只蚂蚁 提供宝贵的信息。</p>
-
-<p>原文来自：<a href="http://blog.csdn.net/showhilllee/article/details/19541493">http://blog.csdn.net/showhilllee/article/details/19541493</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/6">&larr; Older</a>
@@ -1228,23 +1056,23 @@ else
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/10/20/title2/">Title2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/10/20/title/">Title</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/10/20/test/">Test</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/10/16/five-case-know-gcd/">五个案例让你明白GCD死锁</a>
       </li>
     
       <li class="post">
         <a href="/blog/2015/10/11/kill-a-programmer/">杀一个程序员不需用枪，改三次需求即可</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/10/09/uiviewcontroller-rectedge/">UIViewController的edgesForExtendedLayout属性</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/29/rebuild-bitcode-enable/">报错：You Must Rebuild It With Bitcode Enabled (Xcode Setting ENABLE_BITCODE)（解决方案）</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/24/apple-xcodeghost-answer/">有关 XcodeGhost 的问题和解答</a>
       </li>
     
   </ul>

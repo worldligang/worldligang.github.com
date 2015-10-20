@@ -81,6 +81,374 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/07/06/ioskai-fa-zi-ding-yi-shi-jian-xuan-qu-qi/">iOS开发自定义时间选取器</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-06T23:40:21+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:40 pm</span></time>
+        
+        
+          | <a href="/blog/2015/07/06/ioskai-fa-zi-ding-yi-shi-jian-xuan-qu-qi/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>又是一年的暑假日期而至，小孩子放假，都会到在外打工的父母身边。孩子想父母，父母也思念着自己的孩子。我身边的亲戚朋友的孩子 也都来了。这个暑假又该热闹起来。</p>
+
+<h2>努力什么时候都不晚</h2>
+
+<p>我有一个表妹，今年参加完高考，对自己的成绩不是特别满意。上次我回老家，刚好她给我一起来上海。准备来上海锻炼一下。</p>
+
+<p>车上我问她，准备去哪上学？她说不想上了，想打工。我没有怎么劝她，我想让她体验一下打工的生活，她就知道还是上学好。</p>
+
+<p>一个高中生，出来找工作，困难可想而知。经姐姐介绍，进了一家餐厅工作。工资也不是很高。干了两天，我问她怎么样？她说，高二要是来让我体验一下，我一定能考上一本。</p>
+
+<p>也许真的如她所说的那样，但是谁知道呢？时间也不会倒流，她也不再可能再参加一次高考了。人只有吃过苦头，才知道努力。这是件好事，大学好好把握也是一样的。</p>
+
+<p><strong>无论处于什么困境，只要知道努力，我觉得什么时候都不晚。</strong>关注<a href="http://www.superqq.com/">iOS开发</a>微信公众号：<strong>iOSDevTip</strong></p>
+
+<h2>自定义时间选取器</h2>
+
+<p>每天都随便扯扯，回到正题。今天我们做一个时间选取器，很简单，效果如下：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/time.png" alt="time" /></p>
+
+<p>我们自定义一个LGDatePickerView，在LGDatePickerView里面实现。</p>
+
+<h2>背景半透明</h2>
+
+<p>背景是半透明的，点击的灰色背景的时候，时间选取器消失。在LGDatePickerView初始化方法里，代码如下：</p>
+
+<pre><code>- (id)init
+{
+    self = [super init];
+    if (self) {
+  //背景半透明，绑定取消方法
+    UIControl *control = [[UIControl alloc] initWithFrame:SCREEN_BOUNDS];
+    control.backgroundColor = [UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:0.5f];
+    [self addSubview:control];
+    [control addTarget:self action:@selector(actionCancel:) forControlEvents:UIControlEventTouchUpInside];     
+     }
+    return self;
+}
+</code></pre>
+
+<p>绑定的actionCancel方法：</p>
+
+<pre><code>- (void)actionCancel:(id)sender
+{
+    [self removeFromSuperview];
+}
+</code></pre>
+
+<h2>确定取消按钮</h2>
+
+<p>看到上面的确定取消按钮，你会怎么做，写一个UIView上面放两个UIButton。这样做也是可以实现的。我们还可以用UIToolbar。在LGDatePickerView初始化方法里加上下面这段代码：</p>
+
+<pre><code> // Toolbar
+UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, SCREEN.height - 250, SCREEN.width, 50)];
+toolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+UIBarButtonItem *itemCancelDone = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(actionConfirm:)];
+UIBarButtonItem *itemCancel = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(actionCancel:)];
+UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+[toolbar setItems:[NSArray arrayWithObjects:itemCancel,space,itemCancelDone, nil]];
+[control addSubview:toolbar];
+</code></pre>
+
+<p>actionCancel上面已经实现了。下面实现actionConfirm方法。它有什么作用呢？</p>
+
+<ul>
+<li>点击的时候获取到时间，然后通过代理代理出去</li>
+<li><p>时间选取器消失</p>
+
+<pre><code>  - (void)actionConfirm:(id)sender
+  {
+      if ([self.delegate respondsToSelector:@selector(datePickerView:didSelectTime:)]) {
+          [self.delegate datePickerView:self didSelectTime:self.datePicker.date];
+      }
+      [self removeFromSuperview];
+  }
+</code></pre></li>
+</ul>
+
+
+<h2>代理方法</h2>
+
+<p>在LGDatePickerView.h</p>
+
+<pre><code>@protocol LGDatePickerViewDelegate &lt;NSObject&gt;
+
+- (void)datePickerView:(LGDatePickerView *)datepicker didSelectTime:(NSDate *)time;
+
+@end
+</code></pre>
+
+<h2>创建UIDatePicker</h2>
+
+<p>在LGDatePickerView.h定义一个全局变量：</p>
+
+<pre><code>@property (nonatomic, strong) UIDatePicker *datePicker;
+</code></pre>
+
+<p>在LGDatePickerView初始化方法里加上下面这段代码：</p>
+
+<pre><code>UIDatePicker *datePicker = [[UIDatePicker alloc] init];
+datePicker.backgroundColor = [UIColor whiteColor];
+datePicker.datePickerMode = UIDatePickerModeCountDownTimer;
+datePicker.date = [NSDate date];
+datePicker.frame = CGRectMake(0, SCREEN.height - 200, SCREEN.width, 220);
+[control addSubview:datePicker];
+self.datePicker = datePicker;
+</code></pre>
+
+<h2>使用LGDatePickerView</h2>
+
+<p>使用起来很简单，创建一下，然后加载self.view上面即可：</p>
+
+<pre><code>    LGDatePickerView *datePicker = [[LGDatePickerView alloc] init];
+    datePicker.delegate = self;
+    datePicker.datePicker.date = [NSDate date];
+    datePicker.frame = self.view.bounds;
+    [self.view addSubview:datePicker];
+</code></pre>
+
+<p>以上就实现了iOS开发自定义时间选取器，代码不难，有什么问题，欢迎提问哈。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/05/cheng-xu-yuan-diao-si-ni-xi-zhi-lu-bu-shi-chao-gu/">程序员屌丝逆袭之路不是炒股</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-05T23:35:57+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:35 pm</span></time>
+        
+        
+          | <a href="/blog/2015/07/05/cheng-xu-yuan-diao-si-ni-xi-zhi-lu-bu-shi-chao-gu/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近这一段时间，你身边是不是大多数人都在谈论股票？那就对了，无论走到哪都能听到，今天又绿了，我的股票跌停了，冲上5000点啦，等等之类的话。</p>
+
+<p>我还不是一个股民，一直都不是。因为不懂，不敢入市；因为有人跳楼，害怕入市；最主要的原因是，因为手里没有人民币。</p>
+
+<p>人们常说：股市有风险，入市需谨慎。但是还是很多人挤破头皮，往里进。站着进去，趴着出来；笑着进去，哭着出来。</p>
+
+<p>作为一名屌丝，谁不想逆袭呢，谁不想通过炒股赚钱呢？</p>
+
+<h2>前同事炒股翻倍</h2>
+
+<p>最近群里，有个前同事做后台的。他进了一家证劵公司，做后台。应该是年初进去上班的，刚好赶上一波牛市。他买了几只股，好像都不错。</p>
+
+<p>其中有一只股，买的时候是30左右。在60几出的。赚了几万块钱吧。想想真的很不错，啥都不干白赚几万块钱，谁看了不心动呢。说实话，我也心动。</p>
+
+<p>估计是受到他的影响，公司里有些同事也开始炒股了。当然，有的人可能早就在炒股，只是之前股市不景气，大家都不谈论罢了。</p>
+
+<p>看着别人赚钱容易，到自己了估计就难了。真的是这样，尤其是股市里面的钱，真的不是那么好赚的。通过炒股走上逆袭之路，那更是难上加难。</p>
+
+<h2>我的模拟炒股之路</h2>
+
+<p>大家都在谈论股票，我也不能闲着啊。就Appstore里面找了一个模拟炒股软件，试着玩玩看。说不定能赚。</p>
+
+<p>里面有100万，是用来模拟炒股的。反正，是假的，就随便挑了几只股票入手。一共投了30多万吧。还别说，当天就赚了一万多。突然发现自己有成为股神的潜质，哈哈。</p>
+
+<p>紧接着，第二天，第三天，每天都能赚个两三万，第五天的时候，模拟资金已高达110多万。这要是真钱，该多好啊。那我岂不是白白赚了10万块钱。所以你想想，那些有钱的人，真的是越来越有钱。随便弄一下，几百万就来了。</p>
+
+<p>与此同时，其他炒股的同事都在赚，投一万多，赚一千多。看起来还真不错。看到大家都赚钱了，我这个股票小白，模拟都能赚10万块。是不是很想入市啊。</p>
+
+<p>事情并没有想象的那么简单。随后的两三周，股票大跌，各种跌停。有的股票都快跌一半了。包括我前同事买的那个股票从60多又跌回到30多了。不过幸好，他已经抛了。</p>
+
+<p>并不是每个人都那么幸运。有的人都快损失过半了。这种过山车的股市，真让人受不了。炒股不仅有风险，还严重影响生活。与其这样，还不如好好思考如何提高自己的技术。</p>
+
+<p>再看看我的模拟炒股战绩：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/monichaogu.png" alt="gu" /></p>
+
+<h2>股市大跌之后</h2>
+
+<p>经过前面的大跌，股市下一步走向如何呢？或许会继续跌一些，但是我更愿意相信股市会涨，我也希望能涨，让更多被套牢的朋友赚点。我不是股神，无法给出精准的答案。</p>
+
+<p>也许在中国根本就不存在巴菲特口中的<strong>价值投资理论</strong>。有的只是政策市。</p>
+
+<p>股市大跌之后，我也不再想通过股市走向逆袭之路。作为一名屌丝程序员，还是安心的做个美男子，去实现更多有价值的理想吧。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/04/uibuttonzhong-de-san-ge-uiedgeinsetsshu-xing-(er-)/">UIButton中的三个UIEdgeInsets属性（二）</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-04T14:14:43+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:14 pm</span></time>
+        
+        
+          | <a href="/blog/2015/07/04/uibuttonzhong-de-san-ge-uiedgeinsetsshu-xing-(er-)/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>昨天去公司加班的人请举手，不是只有我一个吧？（😭）我觉得加班的人应该不少吧。今天周日，应该不需要去加班了。心里暗暗自喜，终于可以休息一天啦。（😄）</p>
+
+<p>说到加班，应该是程序猿心里的痛啊。不加班吧，东西做不完；加班吧，身体吃不消。作为程序猿真的不容易，每天从早忙到晚。突然有一天，六点下班，看见太阳还在等我，心里被踢有多高兴。</p>
+
+<p>弱弱的问一下：加班好不好？</p>
+
+<p>要看这个问题问谁了。如果问老板，老板肯定美滋滋的说，加班好啊，说明你有责任心，有上进心，把公司当成自己的&hellip;</p>
+
+<p>如果问我，哈哈，我当然说加班不好啦，不然会被打死的。开个玩笑。说句实话，加班肯定是不好的，尤其是对程序猿来说。每天面对电脑，每天坐着，时间长了，各种问题就凸显出来。</p>
+
+<p>但是，我说加班不好有用吗？如果我要是老板，我就直接让员工在家办公。（😊）所以大家感觉支持我吧，说不定哪天我真的&hellip;</p>
+
+<p>接着昨天的<a href="http://www.superqq.com/blog/2015/07/03/uibuttonzhong-de-san-ge-uiedgeinsetsshu-xing-%28%5B%3F%5D-%29/">UIButton中的三个UIEdgeInsets属性</a>，今天我们具体谈谈UIButton的contentEdgeInsets、titleEdgeInsets、imageEdgeInsets属性。</p>
+
+<h2>创建UIButton</h2>
+
+<pre><code>UIButton *button = [[UIButton alloc] init];
+button.frame = CGRectMake(50, 200, 200, 50);
+[button setTitle:@"我是UIButton" forState:UIControlStateNormal];
+[button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+[button setBackgroundColor:[UIColor orangeColor]];
+button.titleLabel.textAlignment = NSTextAlignmentLeft;
+button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+[self.view addSubview:button];
+</code></pre>
+
+<p>创建一个button，让button的title居左，以便观察：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button1.png" alt="1" /></p>
+
+<h2>UIButton的contentEdgeInsets属性</h2>
+
+<pre><code>@property(nonatomic)          UIEdgeInsets contentEdgeInsets UI_APPEARANCE_SELECTOR; // default is UIEdgeInsetsZero
+</code></pre>
+
+<p>contentEdgeInsets里有一个content应该指的就是UIButton的title。</p>
+
+<h3>参数含义</h3>
+
+<p>上一篇文章我们讲了UIEdgeInsets是个结构体类型。里面有四个参数，分别是：top, left, bottom, right。这四个参数表示距离上边界、左边界、下边界、右边界的距离。</p>
+
+<p>这四个参数的值可以为正值，也可以为负值。拿left举例：</p>
+
+<pre><code>left = 10; //代表以当前位置为基准，向右移动10个像素
+left = -10; //代表以当前位置为基准，向左移动10个像素
+</code></pre>
+
+<h3>向右移动20个像素</h3>
+
+<pre><code>button.contentEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 0);
+</code></pre>
+
+<p>向右移动20个像素，left = 20，就可以了。</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button2.png" alt="2" /></p>
+
+<h3>向左移动20个像素</h3>
+
+<pre><code>button.contentEdgeInsets = UIEdgeInsetsMake(0, -20, 0, 0);
+</code></pre>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button3.png" alt="2" /></p>
+
+<h2>UIButton的titleEdgeInsets属性</h2>
+
+<p>titleEdgeInsets和contentEdgeInsets的作用差不多。我们及设置contentEdgeInsets，又设置titleEdgeInsets，会怎样呢？</p>
+
+<pre><code>button.titleEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 0);
+button.contentEdgeInsets = UIEdgeInsetsMake(0, 20 , 0, 0);
+</code></pre>
+
+<p>看一下效果：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button4.png" alt="3" /></p>
+
+<h2>UIButton的titleEdgeInsets属性</h2>
+
+<h3>创建一个带照片的button</h3>
+
+<pre><code>UIButton *button = [[UIButton alloc] init];
+button.frame = CGRectMake(50, 200, 200, 200);
+[button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+[button setBackgroundColor:[UIColor orangeColor]];
+[button setImage:[UIImage imageNamed:@"test"] forState:UIControlStateNormal];
+[self.view addSubview:button];
+</code></pre>
+
+<p>运行一下：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button5.png" alt="5" /></p>
+
+<h3>向右移动50个像素</h3>
+
+<pre><code>button.imageEdgeInsets = UIEdgeInsetsMake(0, 50, 0, 0);
+</code></pre>
+
+<p>看看效果：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button6.png" alt="6" /></p>
+
+<h3>向左移动50个像素</h3>
+
+<pre><code>button.imageEdgeInsets = UIEdgeInsetsMake(0, -50, 0, 0);
+</code></pre>
+
+<p>看看效果：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button7.png" alt="7" /></p>
+
+<p>大家可以自行设置其他三个参数看看效果是怎样的，自己动手便于理解。</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="ios" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/07/03/uibuttonzhong-de-san-ge-uiedgeinsetsshu-xing-(%5B%3F%5D-)/">UIButton中的三个UIEdgeInsets属性（一）</a></h1>
     
     
@@ -911,294 +1279,6 @@ iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/26/xcodezhen-ji-diao-shi-bao-cuo-:the-application-could-not-be-verified/">Xcode真机调试报错：The Application Could Not Be Verified.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-26T15:33:34+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:33 pm</span></time>
-        
-        
-          | <a href="/blog/2015/06/26/xcodezhen-ji-diao-shi-bao-cuo-:the-application-could-not-be-verified/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p> 今天真机调试的时候遇到这个错误：</p>
-
-<pre><code>The application could not be verified.
-</code></pre>
-
-<p> 这还是第一次遇到，应该是手机上的app的证书跟现在的证书不一致导致。</p>
-
-<p> 解决方法有两个</p>
-
-<p> ###xcode中切换证书：</p>
-
-<pre><code>你手机上的app用的是哪个证书，你现在还用那个证书运行。
-</code></pre>
-
-<p> ###删除手机上的app</p>
-
-<pre><code>直接删除手机上的app，再运行就可以啦！
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/26/nsdatehe-nsstringxiang-hu-zhuan-huan/">NSDate和NSString相互转换</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-26T07:34:32+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:34 am</span></time>
-        
-        
-          | <a href="/blog/2015/06/26/nsdatehe-nsstringxiang-hu-zhuan-huan/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/2NSDate.jpg" alt="1" /></p>
-
-<p>不积小流无以成江海，不及硅步无以至千里。做<a href="http://www.superqq.com/blog/2015/01/14/ioskai-fa-zhi-shou-shi-shi-bie-hui-zong/">iOS开发</a>也是这样，平时写代码要多收集一些有用的代码，以免每次都从新来一遍，不仅浪费时间，也影响开发效率。</p>
-
-<p>有人把做app形容成盖房子，码农就是搬砖的，真的是形象无比。随着时间的推移，手里积累的优秀代码就越来越多。这样，盖起房子来，效率肯定是杠杠的。</p>
-
-<p>我也会收集一些有用的代码，有的会写在博客里，有的会写成demo放在<a href="http://www.superqq.com/blog/2014/11/19/ioskai-fa-zhong-gitfen-zhi-chuang-jian-he-guan-li/">github</a>上面，有的就很安静的躺在我的电脑里。每次我用到的时候，我都会顺手复制过来。</p>
-
-<p>今天给大家分享一些关于NSDate和NSString相互转换。百度一下，有一大推相关的方法。每次都百度，不如自己收集起来方便。</p>
-
-<h2>NSDate转NSString</h2>
-
-<p>日期转成字符串。这个虽然简单，但是我相信很多朋友初次遇到肯定束手无策。脑子里蹦出四个字：这怎么转？直接上代码：</p>
-
-<pre><code>//获取系统当前时间
-NSDate *currentDate = [NSDate date];
-//用于格式化NSDate对象
-NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//设置格式：zzz表示时区
-[dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
-//NSDate转NSString
-NSString *currentDateString = [dateFormatter stringFromDate:currentDate];
-//输出currentDateString
-NSLog(@"%@",currentDateString);
-</code></pre>
-
-<p>NSDate对象包含两个部分，日期（Date）和时间（Time）。格式化的时间字符串主要也是针对日期和时间的。NSDateFormatter是一个很常用的类，用于格式化NSDate对象，支持本地化的信息。</p>
-
-<p>NSDateFormatter常用的格式有：</p>
-
-<pre><code>yyyy-MM-dd HH:mm:ss.SSS 
-yyyy-MM-dd HH:mm:ss
-yyyy-MM-dd
-MM dd yyyy
-</code></pre>
-
-<p>NSDateFormatter格式化参数如下：</p>
-
-<pre><code>G: 公元时代，例如AD公元
-yy: 年的后2位
-yyyy: 完整年
-MM: 月，显示为1-12
-MMM: 月，显示为英文月份简写,如 Jan
-MMMM: 月，显示为英文月份全称，如 Janualy
-dd: 日，2位数表示，如02
-d: 日，1-2位显示，如 2
-EEE: 简写星期几，如Sun
-EEEE: 全写星期几，如Sunday
-aa: 上下午，AM/PM
-H: 时，24小时制，0-23
-K：时，12小时制，0-11
-m: 分，1-2位
-mm: 分，2位
-s: 秒，1-2位
-ss: 秒，2位
-S: 毫秒
-</code></pre>
-
-<h2>NSString转NSDate</h2>
-
-<p>既然NSDate可以转成NSString，毫无疑问NSString也可以转成NSDate。代码如下：</p>
-
-<pre><code>//需要转换的字符串
-NSString *dateString = @"2015-06-26 08:08:08";
- //设置转换格式
-NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
-[formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-//NSString转NSDate
-NSDate *date=[formatter dateFromString:dateString];
-</code></pre>
-
-<p>NSDate和NSString相互转换就是这么简单。</p>
-
-<h2>转换工具类</h2>
-
-<p>在项目中，我们需要用到转换的地方可能不止一处，所以建议我们定义一个工具类。在工具类里实现如下两个方法：</p>
-
-<pre><code>//NSDate转NSString
-+ (NSString *)stringFromDate:(NSDate *)date
-{
-    //获取系统当前时间
-    NSDate *currentDate = [NSDate date];
-    //用于格式化NSDate对象
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    //设置格式：zzz表示时区
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
-    //NSDate转NSString
-    NSString *currentDateString = [dateFormatter stringFromDate:currentDate];
-    //输出currentDateString
-    NSLog(@"%@",currentDateString);
-    return currentDateString;
-}
-
-//NSString转NSDate
-+ (NSDate *)dateFromString:(NSString *)string
-{
-    //需要转换的字符串
-    NSString *dateString = @"2015-06-26 08:08:08";
-    //设置转换格式
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    //NSString转NSDate
-    NSDate *date=[formatter dateFromString:dateString];
-    return date;
-}
-</code></pre>
-
-<p>有了这个工具类，妈妈再也不用担心我的转换能力啦！</p>
-
-<blockquote><p>作者李刚是刚刚在线（<a href="www.superqq.com">www.superqq.com</a>）站长，百度百家专栏作者
-iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</p></blockquote>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="2" /></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/25/ru-he-cheng-wei-%5B%3F%5D-ming-you-xiu-de-ioskai-fa-gong-cheng-shi/">如何成为一名优秀的iOS开发工程师</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-25T07:49:07+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:49 am</span></time>
-        
-        
-          | <a href="/blog/2015/06/25/ru-he-cheng-wei-%5B%3F%5D-ming-you-xiu-de-ioskai-fa-gong-cheng-shi/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/1iOSkaifa.jpg" alt="1" /></p>
-
-<p>如果你是一位专业的<strong>iOS开发工程师</strong>，你应该为自己感到自豪。因为你能在强大的iOS系统下，一展身手实现自己和他人的想法，这是一件令人无比激动的事情。</p>
-
-<p>作为一名iOS开发工程师，你一定想成为行业的佼佼者。那么，如何成为一名优秀的iOS开发工程师呢？我觉得做到以下几点，你就离优秀越来越近了。</p>
-
-<h3>提高英语水平</h3>
-
-<p>作为码农，英语水平虽然不是一个硬指标，但是，如果你的英语水平足够好，那真是如虎添翼。在公司里面，糟糕的英语表达能力也掩盖了你在软件开发技术上的优势。</p>
-
-<p>很多优秀的技术文章都是英文版本的，就像苹果官方文档一样，你看不懂你就比别人落后了一步。当这些文档被汉化，被翻译成中文，那是需要一段时间的。少则几天，多则几个月。所以与其被动等待，不如先把英语水平提上去。</p>
-
-<p>英语的重要性，不言而喻，不仅仅有助于写代码。如果万一哪一天你成为公众人物了，你是想向刘强东一样讲英语，还是想向雷布斯一样讲英语呢？我觉得你应该更想像马云一样。</p>
-
-<p>至于，如何提高英语水平，请问度娘。</p>
-
-<h3>控制代码质量</h3>
-
-<p>想成为优秀的iOS开发工程师，代码质量是很重要的一关。关于如何提高代码质量，推荐大家看一篇文章：<a href="http://www.90159.com/2015/06/17/Objective-C%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%EF%BC%9A26%E4%B8%AA%E6%96%B9%E9%9D%A2%E8%A7%A3%E5%86%B3iOS%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98/">Objective-C编码规范：26个方面解决iOS开发问题</a>，这篇文章详细的讲述了iOS开发方面的编码规范，建议大家多看一看。</p>
-
-<p>如果你能按着上面的编码规范来规范自己，我觉得最起码你代码看起来就比较整洁。这样的话，哪怕你一个月回头再来看自己的代码，应该很快就可以理解。而且，当你离开现在的公司，不至于后来的人骂你。</p>
-
-<p>没听人常说嘛：良好的习惯是成功的第一步，iOS开发者也不例外。</p>
-
-<h3>写博客分享技术</h3>
-
-<p>在csdn上看到有人问：不写博客的程序员是好程序员吗？这个问题问的其实挺好。不写博客的人也有进BAT的，BAT里面的程序员并不一定都写博客；写博客的人大部分都没有进BAT，比如像我这样的屌丝。</p>
-
-<p>但是这并不能说明什么。且看，写博客的好处在哪里？</p>
-
-<p><strong>写博客你可以交到一群志同道合的朋友</strong>。即使你们现实中从来没见过面，但是你们在互联网上有过思想的碰撞，这就已经足够了。</p>
-
-<p><strong>书写就是很好的思考</strong>。当你想熟练掌握一项技能，请将你的技术分享出来吧。</p>
-
-<p><strong>写的过程中也是学习</strong>。当你能把一项技术讲清楚，说明你已经完全理解了。</p>
-
-<p><strong>你的博客将比简历更有价值</strong>。你在各大招聘网站写简历不如你有一个有价值的博客。</p>
-
-<p>把技术分享出来，不仅帮助新人，更是提高自己，这是一种双赢。如果你写了技术文章没有好的地方可以发布，可以投稿给我：<a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#x6f;&#58;&#x77;&#x6f;&#x72;&#x6c;&#x64;&#108;&#105;&#x67;&#x61;&#x6e;&#103;&#64;&#x31;&#x36;&#x33;&#x2e;&#99;&#111;&#x6d;">&#x77;&#x6f;&#114;&#x6c;&#x64;&#x6c;&#105;&#x67;&#97;&#x6e;&#103;&#64;&#49;&#x36;&#51;&#x2e;&#99;&#111;&#x6d;</a> 我将发布在我的公众号iOS开发（<strong>iOSDevTip</strong>）上，直接分享给上万名iOS开发者。</p>
-
-<h3>看github开源项目</h3>
-
-<p>github对于程序员来说，可谓是一个金库。很多优秀的人才，都在上面开源自己的项目。这些人都是伟大的。</p>
-
-<p>当你想实现一个功能，很有可能有一些大牛已经实现了。与其我们写出蹩脚代码来实现，不如去阅读大牛们在github上的开源项目。去看大牛是怎么实现的？思路是什么？如果是你你会怎么写？经过这样的思考之后，比你自己去实现重要的多。</p>
-
-<p>如果你自己就是大牛，那就另说了。你可以实现之后，把代码分享到github，帮助更多人。</p>
-
-<h3>实现自己的想法</h3>
-
-<p>一个不想当老板的程序员不是好程序员。谁不想成为马云呢，谁不想改变世界呢。所以，你要敢想，然后通过自己的技术去实现它。</p>
-
-<p>有些人可能以为：在公司里上班，去想做个什么东西，就是对老板不忠。这是一个很严重的错误想法。</p>
-
-<p>在大公司，都是支持内部创业的。如果你有好的想法，尽管去干吧。说不定第一个天使投资人就是你的老板。屌丝逆袭说不定从此开始。</p>
-
-<p>行了，醒醒，有想法更要有行动。</p>
-
-<p>按照我们老师的话说：成为一名优秀的iOS开发工程师任重而道远！这句话也送给你。</p>
-
-<blockquote><p>作者李刚是刚刚在线（<a href="www.superqq.com">www.superqq.com</a>）站长，百度百家专栏作者
-iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</p></blockquote>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="2" /></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/8">&larr; Older</a>
@@ -1226,23 +1306,23 @@ iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/10/20/title2/">Title2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/10/20/title/">Title</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/10/20/test/">Test</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/10/16/five-case-know-gcd/">五个案例让你明白GCD死锁</a>
       </li>
     
       <li class="post">
         <a href="/blog/2015/10/11/kill-a-programmer/">杀一个程序员不需用枪，改三次需求即可</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/10/09/uiviewcontroller-rectedge/">UIViewController的edgesForExtendedLayout属性</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/29/rebuild-bitcode-enable/">报错：You Must Rebuild It With Bitcode Enabled (Xcode Setting ENABLE_BITCODE)（解决方案）</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/24/apple-xcodeghost-answer/">有关 XcodeGhost 的问题和解答</a>
       </li>
     
   </ul>

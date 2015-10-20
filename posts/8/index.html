@@ -81,6 +81,294 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/06/26/xcodezhen-ji-diao-shi-bao-cuo-:the-application-could-not-be-verified/">Xcode真机调试报错：The Application Could Not Be Verified.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-26T15:33:34+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:33 pm</span></time>
+        
+        
+          | <a href="/blog/2015/06/26/xcodezhen-ji-diao-shi-bao-cuo-:the-application-could-not-be-verified/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p> 今天真机调试的时候遇到这个错误：</p>
+
+<pre><code>The application could not be verified.
+</code></pre>
+
+<p> 这还是第一次遇到，应该是手机上的app的证书跟现在的证书不一致导致。</p>
+
+<p> 解决方法有两个</p>
+
+<p> ###xcode中切换证书：</p>
+
+<pre><code>你手机上的app用的是哪个证书，你现在还用那个证书运行。
+</code></pre>
+
+<p> ###删除手机上的app</p>
+
+<pre><code>直接删除手机上的app，再运行就可以啦！
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/26/nsdatehe-nsstringxiang-hu-zhuan-huan/">NSDate和NSString相互转换</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-26T07:34:32+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:34 am</span></time>
+        
+        
+          | <a href="/blog/2015/06/26/nsdatehe-nsstringxiang-hu-zhuan-huan/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/2NSDate.jpg" alt="1" /></p>
+
+<p>不积小流无以成江海，不及硅步无以至千里。做<a href="http://www.superqq.com/blog/2015/01/14/ioskai-fa-zhi-shou-shi-shi-bie-hui-zong/">iOS开发</a>也是这样，平时写代码要多收集一些有用的代码，以免每次都从新来一遍，不仅浪费时间，也影响开发效率。</p>
+
+<p>有人把做app形容成盖房子，码农就是搬砖的，真的是形象无比。随着时间的推移，手里积累的优秀代码就越来越多。这样，盖起房子来，效率肯定是杠杠的。</p>
+
+<p>我也会收集一些有用的代码，有的会写在博客里，有的会写成demo放在<a href="http://www.superqq.com/blog/2014/11/19/ioskai-fa-zhong-gitfen-zhi-chuang-jian-he-guan-li/">github</a>上面，有的就很安静的躺在我的电脑里。每次我用到的时候，我都会顺手复制过来。</p>
+
+<p>今天给大家分享一些关于NSDate和NSString相互转换。百度一下，有一大推相关的方法。每次都百度，不如自己收集起来方便。</p>
+
+<h2>NSDate转NSString</h2>
+
+<p>日期转成字符串。这个虽然简单，但是我相信很多朋友初次遇到肯定束手无策。脑子里蹦出四个字：这怎么转？直接上代码：</p>
+
+<pre><code>//获取系统当前时间
+NSDate *currentDate = [NSDate date];
+//用于格式化NSDate对象
+NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//设置格式：zzz表示时区
+[dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
+//NSDate转NSString
+NSString *currentDateString = [dateFormatter stringFromDate:currentDate];
+//输出currentDateString
+NSLog(@"%@",currentDateString);
+</code></pre>
+
+<p>NSDate对象包含两个部分，日期（Date）和时间（Time）。格式化的时间字符串主要也是针对日期和时间的。NSDateFormatter是一个很常用的类，用于格式化NSDate对象，支持本地化的信息。</p>
+
+<p>NSDateFormatter常用的格式有：</p>
+
+<pre><code>yyyy-MM-dd HH:mm:ss.SSS 
+yyyy-MM-dd HH:mm:ss
+yyyy-MM-dd
+MM dd yyyy
+</code></pre>
+
+<p>NSDateFormatter格式化参数如下：</p>
+
+<pre><code>G: 公元时代，例如AD公元
+yy: 年的后2位
+yyyy: 完整年
+MM: 月，显示为1-12
+MMM: 月，显示为英文月份简写,如 Jan
+MMMM: 月，显示为英文月份全称，如 Janualy
+dd: 日，2位数表示，如02
+d: 日，1-2位显示，如 2
+EEE: 简写星期几，如Sun
+EEEE: 全写星期几，如Sunday
+aa: 上下午，AM/PM
+H: 时，24小时制，0-23
+K：时，12小时制，0-11
+m: 分，1-2位
+mm: 分，2位
+s: 秒，1-2位
+ss: 秒，2位
+S: 毫秒
+</code></pre>
+
+<h2>NSString转NSDate</h2>
+
+<p>既然NSDate可以转成NSString，毫无疑问NSString也可以转成NSDate。代码如下：</p>
+
+<pre><code>//需要转换的字符串
+NSString *dateString = @"2015-06-26 08:08:08";
+ //设置转换格式
+NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
+[formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+//NSString转NSDate
+NSDate *date=[formatter dateFromString:dateString];
+</code></pre>
+
+<p>NSDate和NSString相互转换就是这么简单。</p>
+
+<h2>转换工具类</h2>
+
+<p>在项目中，我们需要用到转换的地方可能不止一处，所以建议我们定义一个工具类。在工具类里实现如下两个方法：</p>
+
+<pre><code>//NSDate转NSString
++ (NSString *)stringFromDate:(NSDate *)date
+{
+    //获取系统当前时间
+    NSDate *currentDate = [NSDate date];
+    //用于格式化NSDate对象
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    //设置格式：zzz表示时区
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
+    //NSDate转NSString
+    NSString *currentDateString = [dateFormatter stringFromDate:currentDate];
+    //输出currentDateString
+    NSLog(@"%@",currentDateString);
+    return currentDateString;
+}
+
+//NSString转NSDate
++ (NSDate *)dateFromString:(NSString *)string
+{
+    //需要转换的字符串
+    NSString *dateString = @"2015-06-26 08:08:08";
+    //设置转换格式
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    //NSString转NSDate
+    NSDate *date=[formatter dateFromString:dateString];
+    return date;
+}
+</code></pre>
+
+<p>有了这个工具类，妈妈再也不用担心我的转换能力啦！</p>
+
+<blockquote><p>作者李刚是刚刚在线（<a href="www.superqq.com">www.superqq.com</a>）站长，百度百家专栏作者
+iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</p></blockquote>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="2" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/25/ru-he-cheng-wei-%5B%3F%5D-ming-you-xiu-de-ioskai-fa-gong-cheng-shi/">如何成为一名优秀的iOS开发工程师</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-25T07:49:07+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:49 am</span></time>
+        
+        
+          | <a href="/blog/2015/06/25/ru-he-cheng-wei-%5B%3F%5D-ming-you-xiu-de-ioskai-fa-gong-cheng-shi/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/1iOSkaifa.jpg" alt="1" /></p>
+
+<p>如果你是一位专业的<strong>iOS开发工程师</strong>，你应该为自己感到自豪。因为你能在强大的iOS系统下，一展身手实现自己和他人的想法，这是一件令人无比激动的事情。</p>
+
+<p>作为一名iOS开发工程师，你一定想成为行业的佼佼者。那么，如何成为一名优秀的iOS开发工程师呢？我觉得做到以下几点，你就离优秀越来越近了。</p>
+
+<h3>提高英语水平</h3>
+
+<p>作为码农，英语水平虽然不是一个硬指标，但是，如果你的英语水平足够好，那真是如虎添翼。在公司里面，糟糕的英语表达能力也掩盖了你在软件开发技术上的优势。</p>
+
+<p>很多优秀的技术文章都是英文版本的，就像苹果官方文档一样，你看不懂你就比别人落后了一步。当这些文档被汉化，被翻译成中文，那是需要一段时间的。少则几天，多则几个月。所以与其被动等待，不如先把英语水平提上去。</p>
+
+<p>英语的重要性，不言而喻，不仅仅有助于写代码。如果万一哪一天你成为公众人物了，你是想向刘强东一样讲英语，还是想向雷布斯一样讲英语呢？我觉得你应该更想像马云一样。</p>
+
+<p>至于，如何提高英语水平，请问度娘。</p>
+
+<h3>控制代码质量</h3>
+
+<p>想成为优秀的iOS开发工程师，代码质量是很重要的一关。关于如何提高代码质量，推荐大家看一篇文章：<a href="http://www.90159.com/2015/06/17/Objective-C%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%EF%BC%9A26%E4%B8%AA%E6%96%B9%E9%9D%A2%E8%A7%A3%E5%86%B3iOS%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98/">Objective-C编码规范：26个方面解决iOS开发问题</a>，这篇文章详细的讲述了iOS开发方面的编码规范，建议大家多看一看。</p>
+
+<p>如果你能按着上面的编码规范来规范自己，我觉得最起码你代码看起来就比较整洁。这样的话，哪怕你一个月回头再来看自己的代码，应该很快就可以理解。而且，当你离开现在的公司，不至于后来的人骂你。</p>
+
+<p>没听人常说嘛：良好的习惯是成功的第一步，iOS开发者也不例外。</p>
+
+<h3>写博客分享技术</h3>
+
+<p>在csdn上看到有人问：不写博客的程序员是好程序员吗？这个问题问的其实挺好。不写博客的人也有进BAT的，BAT里面的程序员并不一定都写博客；写博客的人大部分都没有进BAT，比如像我这样的屌丝。</p>
+
+<p>但是这并不能说明什么。且看，写博客的好处在哪里？</p>
+
+<p><strong>写博客你可以交到一群志同道合的朋友</strong>。即使你们现实中从来没见过面，但是你们在互联网上有过思想的碰撞，这就已经足够了。</p>
+
+<p><strong>书写就是很好的思考</strong>。当你想熟练掌握一项技能，请将你的技术分享出来吧。</p>
+
+<p><strong>写的过程中也是学习</strong>。当你能把一项技术讲清楚，说明你已经完全理解了。</p>
+
+<p><strong>你的博客将比简历更有价值</strong>。你在各大招聘网站写简历不如你有一个有价值的博客。</p>
+
+<p>把技术分享出来，不仅帮助新人，更是提高自己，这是一种双赢。如果你写了技术文章没有好的地方可以发布，可以投稿给我：<a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x77;&#x6f;&#x72;&#x6c;&#100;&#108;&#x69;&#x67;&#97;&#x6e;&#x67;&#x40;&#x31;&#x36;&#51;&#x2e;&#x63;&#111;&#x6d;">&#119;&#x6f;&#x72;&#108;&#100;&#108;&#x69;&#x67;&#x61;&#110;&#103;&#x40;&#x31;&#x36;&#51;&#x2e;&#99;&#111;&#109;</a> 我将发布在我的公众号iOS开发（<strong>iOSDevTip</strong>）上，直接分享给上万名iOS开发者。</p>
+
+<h3>看github开源项目</h3>
+
+<p>github对于程序员来说，可谓是一个金库。很多优秀的人才，都在上面开源自己的项目。这些人都是伟大的。</p>
+
+<p>当你想实现一个功能，很有可能有一些大牛已经实现了。与其我们写出蹩脚代码来实现，不如去阅读大牛们在github上的开源项目。去看大牛是怎么实现的？思路是什么？如果是你你会怎么写？经过这样的思考之后，比你自己去实现重要的多。</p>
+
+<p>如果你自己就是大牛，那就另说了。你可以实现之后，把代码分享到github，帮助更多人。</p>
+
+<h3>实现自己的想法</h3>
+
+<p>一个不想当老板的程序员不是好程序员。谁不想成为马云呢，谁不想改变世界呢。所以，你要敢想，然后通过自己的技术去实现它。</p>
+
+<p>有些人可能以为：在公司里上班，去想做个什么东西，就是对老板不忠。这是一个很严重的错误想法。</p>
+
+<p>在大公司，都是支持内部创业的。如果你有好的想法，尽管去干吧。说不定第一个天使投资人就是你的老板。屌丝逆袭说不定从此开始。</p>
+
+<p>行了，醒醒，有想法更要有行动。</p>
+
+<p>按照我们老师的话说：成为一名优秀的iOS开发工程师任重而道远！这句话也送给你。</p>
+
+<blockquote><p>作者李刚是刚刚在线（<a href="www.superqq.com">www.superqq.com</a>）站长，百度百家专栏作者
+iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</p></blockquote>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="2" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/06/21/ios-she-ji-mo-shi-xi-lie-:command-ming-ling-mo-shi/">iOS 设计模式系列：Command – 命令模式</a></h1>
     
     
@@ -1425,436 +1713,6 @@ scroller.delegate = self;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/">iOS 设计模式系列：Facade – 外观模式</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-15T10:06:20+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:06 am</span></time>
-        
-        
-          | <a href="/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>目前你有 PersistencyManager 来在本地存储专辑数据，HTTPClient 处理远程通信。项目中其它的类跟这些逻辑都没关。</p>
-
-<p>执行这个<a href="http://www.superqq.com/blog/2015/03/21/dan-li-mo-shi-de-xie-fa/">模式</a>，只有 LibraryAPI 来保存 PersistencyManager 和 HTTPClient 的实例。之后，LibraryAPI 将会公开一个简单的 API 来访问这些服务。</p>
-
-<pre><code>提示：通常，单例存在 app 的整个生命周期。不需一直使用很多指针指向其它对象，因为她们直到程序关闭后才会被释放。   
-</code></pre>
-
-<p>这个设计就像下图：</p>
-
-<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2013/08/design-patterns-facade-uml-480x71.png" alt="icon" /></p>
-
-<p>LibraryAPI 将会公开给其它代码，但是它隐藏了 APP 中 HTTPClient 和 PersistencyManager 的复杂部分。</p>
-
-<p>打开 LibraryAPI.h，在顶部引入面文件：</p>
-
-<pre><code>#import "Album.h"
-</code></pre>
-
-<p>接下来，在 LibraryAPI.h下面添加如下方法：</p>
-
-<pre><code>- (NSArray*)getAlbums;
-- (void)addAlbum:(Album*)album atIndex:(int)index;
-- (void)deleteAlbumAtIndex:(int)index;
-</code></pre>
-
-<p>现在，这些方法都公开给了其它类。</p>
-
-<p>在 LibraryAPI.m 文件引入如下两个文件：</p>
-
-<pre><code>#import "PersistencyManager.h"
-#import "HTTPClient.h"
-</code></pre>
-
-<p>只有在这个地方你才会需要引入这些类。记住：你的 API 将会是你「复杂」系统的唯一的接入点。</p>
-
-<p>现在添加一些私有属性在你的类的扩展里（在 @implementation 上面）</p>
-
-<pre><code>@interface LibraryAPI () {
-    PersistencyManager *persistencyManager;
-    HTTPClient *httpClient;
-    BOOL isOnline;
-}
-@end
-</code></pre>
-
-<p>isOnline 用来判断，如果专辑列表数据发生变化是否能够更新到服务器，例如添加或者删除专辑。</p>
-
-<p>你现在需要在 init 方法中初始化这些变量，在 LibraryAPI.m 中添加下面代码：</p>
-
-<pre><code>- (id)init
-{
-    self = [super init];
-    if (self) {
-        persistencyManager = [[PersistencyManager alloc] init];
-        httpClient = [[HTTPClient alloc] init];
-        isOnline = NO;
-    }
-    return self;
-}
-</code></pre>
-
-<p>这个 HTTP 客户端在这里并不真正的工作，它只是在外观设计里面起一个示范用法的作用，所以 isOnline 永远是 NO 了。</p>
-
-<p>接下来，在 LibraryAPI.m 里面添加下面三个方法：</p>
-
-<pre><code>- (NSArray*)getAlbums
-{
-    return [persistencyManager getAlbums];
-}
-
-- (void)addAlbum:(Album*)album atIndex:(int)index
-{
-    [persistencyManager addAlbum:album atIndex:index];
-    if (isOnline)
-    {
-        [httpClient postRequest:@"/api/addAlbum" body:[album description]];
-    }
-}
-
-- (void)deleteAlbumAtIndex:(int)index
-{
-    [persistencyManager deleteAlbumAtIndex:index];
-    if (isOnline)
-    {
-        [httpClient postRequest:@"/api/deleteAlbum" body:[@(index) description]];
-    }
-}
-</code></pre>
-
-<p>看一下 addAlbum:atIndex:。这个类首先更新本地数据，如果联网，它再更新远端服务器。这就是外观设计的长处；当一些系统外的类添加了一个新专辑，它不知道─也不需要知道─复杂的内部系统。</p>
-
-<pre><code>提示：当在你的子系统里设计一个外观类的时候，记住没有任何东西可能阻止客户访问这些「隐藏」类。要多写些防御性的代码，不要想当然的认为所有客户都会用同样的方式使用你的外观类。
-</code></pre>
-
-<p>运行你的程序，你会看一个黑底空白内容的屏幕，像下面这样：</p>
-
-<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2013/09/2013-09-01_12-08-44-211x320.png" alt="icon1" /></p>
-
-<p>你需要在屏幕上显示一些专辑数据─这就需要使用到下面一个设计模式：装饰器 (Decorator)。</p>
-
-<p><strong>设计模式系列文章</strong>：</p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/">iOS 设计模式系列：Facade – 外观模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/">iOS 设计模式系列：Observer – 观察者模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/">iOS 设计模式系列：Archiving – 归档模式</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-13T08:21:55+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:21 am</span></time>
-        
-        
-          | <a href="/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.superqq.com/blog/2015/03/21/dan-li-mo-shi-de-xie-fa/">单例设计模式</a>确切的说就是一个类只有一个实例，有一个全局的接口来访问这个实例。当第一次载入的时候，它通常使用延时加载的方法创建单一实例。</p>
-
-<pre><code>提示：苹果大量的使用了这种方法。例子：[NSUserDefaults standerUserDefaults], [UIApplication sharedApplication], [UIScreen mainScreen], [NSFileManager defaultManager] 都返回一个单一对象。
-</code></pre>
-
-<p>你可能想知道你为什么要关心一个类有多个的实例。代码和内存都很便宜，不是吗？</p>
-
-<p>在一些情况下，一个类只有一个实例是有意义的。例如，这里没有必要有多个登录实例，除非你一次想写入多个日志文件。或者，一个全局的配置类文件：它可以很容易的很安全的执行一个公共资源，这样的一个配置文件，要比同时修改多个配置类文件好很多。</p>
-
-<h3>如何使用单例模式</h3>
-
-<p>请看下面的图片</p>
-
-<p><img src="http://cdn3.raywenderlich.com/wp-content/uploads/2013/08/singleton.png" alt="icon" /></p>
-
-<p>上面的图片显示的是一个登录类，它有一个属性（这个单一实例），有两个方法：sharedInstance 和 init。</p>
-
-<p>首先一个客户端(client)发送 sharedInstance 信息，但是属性 instance 还没有初始化，所以你要先给这个类创建一个实例。</p>
-
-<p>然后你调用 sharedInstance，instance 会马上返回初始化的值。这个逻辑最终只会返回一个实例。</p>
-
-<p>你需要执行这个模式来创建单例类来管理所有的专辑数据。</p>
-
-<p>你需要注意在项目里有一个叫 API 文件夹，给你的 APP 提供服务的所有类都需要放在这里。在这个文件夹里用 iOS\Cocoa Touch\Object-C class 创建一个新类。类的名字叫 LibraryAPI，子类选择 NSObject。</p>
-
-<p>打开 LibraryAPI.h 文件用下面的代码替换里面的内容：</p>
-
-<pre><code>@interface LibraryAPI: NSObject
-+ (LibraryAPI*)sharedInstance;
-@end
-</code></pre>
-
-<p>现在打开 LibraryAPI.m 文件，在 @implentation 后面添加如下方法：</p>
-
-<pre><code>+ (LibraryAPI*)sharedInstance 
-{
-    // 1
-    static LibraryAPI *_sharedInstance = nil;
-
-    // 2 
-    static dispatch_once_t oncePredicate; 
-
-    // 3
-    dispatch_once(&amp;nocePredicate, ^{
-        _sharedInstance = [[LibraryAPI alloc] init];
-    });
-    return _sharedInstance;
-}
-</code></pre>
-
-<p>在这个短方法中做了这些事情：</p>
-
-<ul>
-<li>在这个类中，声明一个静态变量来保存这个实例，保证它是一个全局可用的变量。</li>
-<li>声明一个静态这是 dispatch_one_t，确保这些初始化代码只能被执行一次。</li>
-<li>使用 Grand Central Dispatch（GCD）执行一个 block 来初始化 LibraryAPI 实例。这是单例设计模式的关键所在：一个类只能被实例化一次。</li>
-</ul>
-
-
-<p>接下来执行 sharedInstance，在 dispatch_once block 里的代码是不会被执行的（当它已经被执行过一次后），它会返回之前创建的 LibraryAPI 实例。</p>
-
-<pre><code>提示：想了解更多关于 GCD 和使用它，请点击这里的教程 Multithreading and Grand Central Dispatch，如何使用 Blocks 在这里。
-</code></pre>
-
-<p>你现在有一个单例对象来管理专辑了。下一步就是创建一个类用来保存你的专辑数据了。</p>
-
-<p>用 iOS\Cocoa Touch\Object-C class 在 API 文件夹下创建一个新的类，名字叫 PersistencyManager，子类选择 NSObject。</p>
-
-<p>打开 PersistencyManager.h，在顶部引入面文件：</p>
-
-<pre><code>#import "Album.h"
-</code></pre>
-
-<p>然后在 @interface 后面加入下面代码：</p>
-
-<pre><code>- (NSArray *)getAlbums;
-- (void)addAlbums:(Album*)album atIndex:(int)index;
-- (void)deleteAlbumAtIndex:(int)index;
-</code></pre>
-
-<p>上面的三个方法都需要跟专辑的数据相结合。</p>
-
-<p>打开 PersistencyManager.m，在 @implementation 上面添加如下代码：</p>
-
-<pre><code>@interface PersistencyManager () {
-    NSMutableArray *albums;
-}
-</code></pre>
-
-<p>上面的代码是给类添加了一个扩展，这是另一种给类添加私有方法和私有属性的方法，类外面的成员是看不到这些的。这里，你声明了一个 NSMutableArray 来保存专辑的数据。这是一个可变数组，你可以很容易的添加和删除专辑。</p>
-
-<p>现在在 @implementation 下面添加实现代码：</p>
-
-<pre><code>- (id)init {
-    self = [super init];
-    if (self) {
-        albums = [NSMutableArray arrayWithArray:@[[[Album alloc] initWithTitle:@"Best of Bowie" artist:@"David Bowie" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_david%20bowie_best%20of%20bowie.png" year:@"1992"],
-        [[Album alloc] initWithTitle:@"It's My Life" artist:@"No Doubt" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_no%20doubt_its%20my%20life%20%20bathwater.png" year:@"2003"],
-                [[Album alloc] initWithTitle:@"Nothing Like The Sun" artist:@"Sting" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_sting_nothing%20like%20the%20sun.png" year:@"1999"],
-            [[Album alloc] initWithTitle:@"Staring at the Sun" artist:@"U2" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_u2_staring%20at%20the%20sun.png" year:@"2000"],
-                [[Album alloc] initWithTitle:@"American Pie" artist:@"Madonna" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_madonna_american%20pie.png" year:@"2000"]]];
-    }
-    return self;
-}
-</code></pre>
-
-<p>在 init 里你在数组中加入了 5 张专辑。如果上面的专辑你不喜欢，你可以随意替换成你喜欢的。:]</p>
-
-<p>现存在 PersistencyManager.m 添加下面三个方法：</p>
-
-<pre><code>- (NSArray*)getAlbums
-{
-        return albums;
-}
-
-- (void)addAlbum:(Album*)album atIndex:(int)index
-{
-        if (albums.count &gt;= index)
-            [albums insertObject:album atIndex:index];
-        else
-        [albums addObject:album];
-}
-
-- (void)deleteAlbumAtIndex:(int)index
-{
-        [albums removeObjectAtIndex:index];
-}
-</code></pre>
-
-<p>这些方法是获取，添加，删除专辑。</p>
-
-<p>Build 你的项目，确保所有的代码都能正确编译。</p>
-
-<p>现在，你也许想知道为什么会有一个 PersistencyManager 类，因为它都不是单例类。不要着急，接下来第二步，外观设计模式(Facade design patten) 将会探讨 LibraryAPI 和 PersistencyManager 之间的关系。</p>
-
-<p><strong>设计模式系列文章</strong>：</p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/">iOS 设计模式系列：Facade – 外观模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/">iOS 设计模式系列：Observer – 观察者模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/">iOS 设计模式系列：Archiving – 归档模式</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-11T13:41:20+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:41 pm</span></time>
-        
-        
-          | <a href="/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2013/07/mvcking.png" alt="icon" /></p>
-
-<p>模型(Model) 视图(View) 控制器(Controller) (<a href="http://www.superqq.com/blog/2014/11/10/qian-xi-mvche-shuo-mei-de-guo-cheng/">MVC</a>) 是 Cocoa 中的一种行为模块，并且也是所有 Cocoa 设计模式中使用最多的。在程序中按照它们的角色来分类这些对象并且鼓励你的基础代码也按照这个来划分。</p>
-
-<p>这三种角色是：</p>
-
-<ul>
-<li>模型：这是一种暂时保存你程序数据和定义如何操作它的对象。一个例子，在你的程序中 Album 类就是一个模型。</li>
-<li>视图：这种对象是控制模型里的数据如何显示出来的，用户也可操作这些对象；事实上，包含所有的 UIView 和他们的子类。在你的程序中视图是 AlbumView 类。</li>
-<li>控制器：控制器是一个中介者协调所有的工作。他使数据从模型传出来然后显示在视图上，监听事件，在必要的时候操作数据。你能猜到哪个类你的控制器吗？对了，它就是 ViewController。</li>
-</ul>
-
-
-<p>在你的程序中一个好的设计模式的实现意味者所有的对象都在这些群组中。</p>
-
-<p>下图很好的描述了视图和模型之间的通信过程：</p>
-
-<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2013/07/mvc0.png" alt="icon" /></p>
-
-<p>当有数据发生改变的时候模型通知控制器，然后控制器更新视图数据。 反过来，当用户在视图执行一些操作后，视图会通知控制器，如果有需要或是要取回请求数据，控制器也会更新模型或者。</p>
-
-<p>你可能想我为什么不能丢掉控制器，在同一个类里实现视图和模型，这样看起来更简单。</p>
-
-<p>归根结底，这是为是分离代码和提高代码的可重用性。理想状态下视图应该完全从模型中分离出来。如果视图不依赖一个特殊的模型来实现，那么另外一个模型就可以重复利用这个视图显示一些其它不同的数据。</p>
-
-<p>举一个例子，在将来某一天你想在你的音乐库中加入一些电影或者一些书，你可以继续使用原来的 AlbumView 视图来显示这个电影或者图书对象。此外，如果你想创建一个新项目，这个项目中的一些东西跟音乐专辑有关，你可以很简单的拿来重用 Album 类，因为它不依赖于其它任何视图。这就是 MVC 的精髓所在。</p>
-
-<h3>如何使用 MVC 模式</h3>
-
-<p>首先，你要保证在你的项目中任何一个类都有一个控制器，一个模型，一个视图，一个类中的函数不能有两种作用。到目前为至，你已经完成了一项很棒的工作，创建了一个 Album 类和一个 AlbumView 类。</p>
-
-<p>第二步，根据这些方法的作用你应该创建三个文件夹，来存放不同类别的代码，每种类型一个文件夹。</p>
-
-<p>在菜单上选择 File\New\Group (或者按 Command+Option+N) ，创建名称为 Model，重复上面的动作，创建 View 和 Controller 文件夹。</p>
-
-<p>现在拖动 Album.h 和 Album.m 文件到 Model 文件夹。拖动 AlbumView.h 和 AlbumView.m 文件到 View 文件夹，最后拖动 ViewController.h 和 ViewController.m 文件到 Controller 文件夹中。</p>
-
-<p>现在，项目文件的结构目录应该是这个样子的：</p>
-
-<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2013/07/mvc2-255x320.png" alt="icon" /></p>
-
-<p>如果没有其它的文件漂在外面，你的项目看起来已经非常棒了。显然你还可能有其它的文件夹和类，但是你程序的核心内容应该包含在这三个分类中。</p>
-
-<p>现在你的文件已经组织好了，你需要从其它地方获取专辑数据了。你需要创建一个 API 类用来管理你的代码的数据来源 — 现在是机会开始讨论下一个设计模式了 — 单例模式(The Singleton Pattern)。</p>
-
-<p><strong>设计模式系列文章</strong>：</p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/">iOS 设计模式系列：Facade – 外观模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/">iOS 设计模式系列：Observer – 观察者模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/">iOS 设计模式系列：Archiving – 归档模式</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/9">&larr; Older</a>
@@ -1882,23 +1740,23 @@ scroller.delegate = self;
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/10/20/title2/">Title2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/10/20/title/">Title</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/10/20/test/">Test</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/10/16/five-case-know-gcd/">五个案例让你明白GCD死锁</a>
       </li>
     
       <li class="post">
         <a href="/blog/2015/10/11/kill-a-programmer/">杀一个程序员不需用枪，改三次需求即可</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/10/09/uiviewcontroller-rectedge/">UIViewController的edgesForExtendedLayout属性</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/29/rebuild-bitcode-enable/">报错：You Must Rebuild It With Bitcode Enabled (Xcode Setting ENABLE_BITCODE)（解决方案）</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/24/apple-xcodeghost-answer/">有关 XcodeGhost 的问题和解答</a>
       </li>
     
   </ul>
