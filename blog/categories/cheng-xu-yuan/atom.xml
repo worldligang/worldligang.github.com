@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 程序员 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/cheng-xu-yuan/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-10-20T17:10:46+08:00</updated>
+  <updated>2015-10-20T21:07:32+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,58 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Mac Adobe Photoshop CS6 破解教程(图文)]]></title>
+    <link href="http://www.superqq.com/blog/2015/10/20/mac-adobe-photoshop-crack/"/>
+    <updated>2015-10-20T21:05:12+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/10/20/mac-adobe-photoshop-crack</id>
+    <content type="html"><![CDATA[<p>看到网上很多童鞋发帖咨询如何破解 Mac Adobe Photoshop CS6 ，今天刚好换电脑，我又下载了一个Photoshop，并且成功破解。我把破解过程记录一下，希望能帮助到更多童鞋。</p>
+
+<h2>下载Adobe Photoshop CS6</h2>
+
+<p>如果你找不到下载地址，我教你一个简单的，在百度里面搜索Photoshop:</p>
+
+<p><img src="http://images.90159.com/10/ps1.png" alt="ps1" /></p>
+
+<p>看到了吧，上面还显示一行绿色字体：已通过百度安全认证，请放心使用！所以不需要到这到那去找下载地址了。</p>
+
+<h2>安装Adobe Photoshop CS6</h2>
+
+<p>下载完成之后，双击解压，找到install：</p>
+
+<p><img src="http://images.90159.com/10/ps5.png" alt="ps1" /></p>
+
+<p>别急，这个时候请务必断网！然后，再去点击试用：</p>
+
+<p><img src="http://images.90159.com/10/ps2.png" alt="ps1" /></p>
+
+<p>接受协议：</p>
+
+<p><img src="http://images.90159.com/10/ps3.png" alt="ps1" /></p>
+
+<p>进入安装界面：</p>
+
+<p><img src="http://images.90159.com/10/ps4.png" alt="ps1" /></p>
+
+<!--more-->
+
+
+<h2>破解Adobe Photoshop CS6</h2>
+
+<p>下载amtlib.framework，百度云盘地址放出来会被和谐，所以我把下载地址放到公众号iOS开发：iOSDevTip  关注之后回复：ps 即可获取！</p>
+
+<p>在“应用程序”文件夹，找到Adobe Photoshop CS6文件夹，在里面找到Adobe Photoshop CS6.app，右键选择“显示包内容” 。</p>
+
+<p><img src="http://images.90159.com/10/ps6.png" alt="ps1" /></p>
+
+<p>找到contents/framework文件夹，把刚才解压得到的amtlib.framework拷贝进去，替换整个文件夹。</p>
+
+<p><img src="http://images.90159.com/10/ps7.png" alt="ps1" /></p>
+
+<p>恭喜你，破解完成！如果破解过程中遇到问题，可以加我微信：chinaligang 如果有时间我很乐意把你解决噢！</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[杀一个程序员不需用枪，改三次需求即可]]></title>
@@ -265,67 +317,6 @@
 <p>这是我第一次自己购票看电影还是不便宜的，花了我近两百元。我以前一直以为电影票就10元一张呢，搞不好还给你打个折。看来都是我想多了。</p>
 
 <p>这一次亲自购票经历，让我发现一个比较优惠的APP，叫猫眼电影，以后买电影票可以在这上面买。票价相对较便宜，我对比了一下，比其他几个知名app都要便宜。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[为刚刚在线（Octopress）添加多说评论系统]]></title>
-    <link href="http://www.superqq.com/blog/2015/08/01/octopress-add-duoshuo/"/>
-    <updated>2015-08-01T01:04:31+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/08/01/octopress-add-duoshuo</id>
-    <content type="html"><![CDATA[<blockquote><p>今天是八一建军节，中国人民解放军建军纪念日。心里不由自主地升起一份爱国之情。</p></blockquote>
-
-<p>我的网站<a href="http://www.superqq.com/">刚刚在线</a>去年九月份正式上线的，马上快一周年啦！作为一个技术型的博客网站，<a href="http://www.superqq.com/">刚刚在线</a>成长速度还是蛮快的。</p>
-
-<!--more-->
-
-
-<h2>刚刚在线排名</h2>
-
-<p>特别是最近一段时间，我一直在关注<a href="http://www.superqq.com/">刚刚在线</a>的排名，每天的进步速度非常快。这也是我持续更新的结果，百度对持续更新的网站是非常友好的。</p>
-
-<p>我用Alexa的插件看了一下<a href="http://www.superqq.com/">刚刚在线</a>的排名，全球排名：<strong>240334</strong> ， 中国区排名：<strong>14665</strong> 。我特意截了一张图给大家看一看：</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/superqqalexa.jpg" alt="superqqalexa.jpg" /></p>
-
-<p>路漫漫其修远兮，吾将上下而求索。要想取得更好的成就，仍需努力！<a href="http://www.superqq.com/">刚刚在线</a>一直有一个问题困惑着我。就是在火狐浏览器中，文章底部评论模块会出现错乱。</p>
-
-<h2>火狐评论版块错乱修复</h2>
-
-<p><a href="http://www.superqq.com/">刚刚在线</a>的评论模块用的是友言。也挺奇怪的，在其他浏览器中就好好的，唯独在火狐浏览器了会出现错乱。我知道这个问题的存在，已有一些访客反应过这个问题。但是，我一直没有找到原因。</p>
-
-<p>估计iOS开发者用火狐浏览器的人肯定不少，这个错乱问题一直在这里的话，肯定会给访客留下不好的印象。所以得尽早解决这个问题。</p>
-
-<p>既然找不到解决错乱的方法，就把友言给替换掉吧。百度搜了一下，发现国内的还有多说，评论功能还是挺不错的。我也看到很多网站在用多说。</p>
-
-<h2>把友言替换成多说</h2>
-
-<p>说换就换，多说（ **<a href="http://duoshuo.com/**">http://duoshuo.com/**</a> ）接入流程也不复杂。网上有很多教程，我简单说一下我是如何操作的。</p>
-
-<h3>1.获取站点的short_name</h3>
-
-<p>到多说的官网注册账号，并且添加你的站点。<code>short_name</code>就是添加站点的时候的多说域名框里填写的。添加站点流程如下：</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/duoshuozhuce.jpg" alt="duoshuozhuce.jpg" /></p>
-
-<h3>2.配置_config.yml</h3>
-
-<p>在 <code>_config.yml</code> 中添加</p>
-
-<pre><code># duoshuo comments
-duoshuo_comments: true
-duoshuo_short_name: superqq
-</code></pre>
-
-<p>具体配置方法请看点击<a href="http://blog.csdn.net/iosdevtip/article/details/47179709"> 为 Octopress 添加多说评论系统 </a></p>
-
-<p>ok，经过上面五小步就可以实现接入多说评论版块啦。迫不及待地想看看问题有没有解决，下过如何？赶紧部署上去，我简单的测试了一下。你可以点击<a href="http://www.superqq.com/">刚刚在线</a>，看看实现效果：</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/duoshuocomment.jpg" alt="duoshuocomment.jpg" /></p>
-
-<h2>网站有评论必回复噢</h2>
-
-<p>既然网站评论已经成功接入，大家以后有什么问题，或者需要交流的可以直接在网站上评论。虽然，每天有很多少要做，但是我依然会抽出时间来看看大家提的评论，一起探讨，一起成长。</p>
 ]]></content>
   </entry>
   
