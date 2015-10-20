@@ -81,188 +81,6 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/27/macbook-replace-ssd-solid-state/">2012年MacBook更换SSD固态硬盘和16G内存条</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-08-27T10:42:34+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:42 am</span></time>
-        
-        
-          | <a href="/blog/2015/08/27/macbook-replace-ssd-solid-state/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>我的2012年MacBook</h2>
-
-<p>我的电脑是2012年的MacBook Pro（13-inch, 2012 年中），是那种比较厚的一款。当时买的时候官网，标价是8888元。我是在新蛋网上买的，新蛋网有活动只需要7888元即可购买。</p>
-
-<p>电脑配置：处理器是2.5 GHz Intel Core i5，内存是两个2G，也就是4G。配置在现在来看，那简直是太Low了。但是对于当时一直用黑苹果的我来说，这就是圣物。贴个图给大家看看：</p>
-
-<p><img src="http://images.90159.com/08/ssdsave1.jpg" alt="ssdsave1" /></p>
-
-<p>这就是比较厚的13-inch的电脑，看起来还是比较笨重的。我用电脑还是比较爱惜的，一直保护的很好。基本上没有什么损伤。</p>
-
-<p>但是，随之使用年限的增长，电脑反应速度越来越慢了。打开xcode、火狐、Chrome、印象比较、QQ等几个软件，电脑反应速度明显很慢。</p>
-
-<p>有时候调试个程序，反应好半天。想想就是一件痛苦的事情，大好时光都浪费在等电脑反应上。浏览器也经常卡死，有时候编辑好的东西没来得及保持，浏览器突然就没有反应了。</p>
-
-<p>总之，电脑性能差的一塌糊涂。最近听朋友说换个SSD固态硬盘电脑反应会快很多，如果是2012年的电脑还可以升级内存。</p>
-
-<p>本来我是准备把这个笔记本处理掉，再买一个配置好一些的笔记本。听朋友这样一说，觉得还是自己买个SSD固态硬盘换上，比较换算。</p>
-
-<h2>购买SSD固态硬盘和内存条</h2>
-
-<p>说换就换吧，于是在京东和淘宝上查了查，品类太多看的我都晕晕乎乎的。网上买东西其实我一点都不喜欢，选来选去不知道选哪一个好。</p>
-
-<p>最后，在朋友的推荐下。我买的是牌子是创见（Transcend）240G的SSD固态硬盘，价格是999元。内存条我看了苹果官网的介绍，说的是MacBook Pro（13 英寸，2012 年中）最大支持8G内存。但是网上有人说，他们装了16G的，没有什么兼容上的问题。所以我也买了金士顿苹果专用内存条两个8G，一共638元。</p>
-
-<p><img src="http://images.90159.com/08/ssdsave2.jpg" alt="ssdsave1" /></p>
-
-<p>我不是来给创见和金士顿大广告的，只是告诉大家我用的是什么。收到货之后，夜里下班回到家里，就开始折腾我的电脑。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/08/27/macbook-replace-ssd-solid-state/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/24/avfoundation-gpuimage-find/">AVFoundation和 GPUImage初探</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-08-24T11:21:01+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:21 am</span></time>
-        
-        
-          | <a href="/blog/2015/08/24/avfoundation-gpuimage-find/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>文章来自：<a href="http://vonglo.me/2014/08/24/AVFoundation%E5%92%8C-GPUImage%E5%88%9D%E6%8E%A2/" target="_blank" title=“AVFoundation和 GPUImage初探”>AVFoundation和 GPUImage初探</a></p>
-
-<p>最近在做视频相关的东西，然后熟悉了一下AVFoundation框架，以及强大的开源库GPUImage。在这里记录这个过程中遇到的一些问题，以及解决的方法。</p>
-
-<h3>AVFoundation的一些基本概念</h3>
-
-<p>根据苹果的官方文档，AVFoundation是用来播放和创建实时的视听媒体数据的框架，同时提供Objective-C接口来操作这些视听数据，比如编辑，旋转，重编码。本文着重讲的是视频的录制和编辑和GPUImage的一些简单使用，其他的都是一笔带过。来看下苹果文档的一个框架图。</p>
-
-<p><img src="http://images.90159.com/08/frameworksBlockDiagram_2x.png" alt="1" /></p>
-
-<h4>相关类</h4>
-
-<ul>
-<li><code>AVAsset</code></li>
-<li><code>AVAssetTrack</code></li>
-<li><code>AVComposition</code></li>
-<li><code>AVVideoComposition</code></li>
-<li><code>AVAudioMix</code></li>
-<li><code>AVMutableAudioMixInputParameter</code></li>
-<li><code>AVMutableVideoCompositionInstrution</code></li>
-<li><code>AVMutableVideoCompositionLayerInstrution</code></li>
-</ul>
-
-
-<p>简单的播放可以使用MPMoviePlayerController或者MPMovieViewController就行,简单的录
-制可以直接使用UIImagePickerController。同样简单的声音播放直接使用AVAudioPlayer，简单的录制直接使用AVAduioRecorder。如果你想要有更多的操作，可使用各种复杂的方式来控制播放，比如在同一时刻为同一个asset的不同片段使用不同的分辨率渲染，playitem来管理asset的呈现状态和方式,playitemtrack管理asset中的轨道（track）状态。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/08/24/avfoundation-gpuimage-find/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/23/ios-android-social-sdk/">iOS/Android开发社交SDK列表</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-08-23T11:48:48+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:48 am</span></time>
-        
-        
-          | <a href="/blog/2015/08/23/ios-android-social-sdk/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>友盟社会化分享</h3>
-
-<p><a href="http://www.umeng.com/social"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>友盟社会化分享组件，可以让移动应用快速具备社会化分享、登录、评论、喜欢等功能，并提供实时、全面的社会化数据统计分析服务。指南将会手把手教你使用社会化组件SDK，用5分钟为APP增加新浪微博、腾讯微博、人人网分享功能。</p>
-
-<h2></br></h2>
-
-<h3>ShareSDK</h3>
-
-<p><a href="www.mob.com"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>ShareSDK是为iOS、Android的App提供社会化功能的一个组件，开发者仅需10分钟即可集成到自己的App中，它不仅支持国内外40多家的主流社交平台，帮助开发者轻松实现社会化分享、登录、关注、获得用户资料、获取好友列表等主流的社会化功能，还有强大的社会化统计分析管理后台，可以实时了解用户、信息流、回流率、传播效率等数据，有效地指导移动App的日常运营与推广，同时为App引入更多的社会化流量</p>
-
-<h2></br></h2>
-
-<h3>百度社会化分享</h3>
-
-<p><a href="http://developer.baidu.com/soc/share"target="_blank"title="进入官网">进入官网</a></p>
-
-<p>百度社会化分享组件集成多种热门社会化媒体平台，开发者可将此组件集成到自己的移动应用中，用户即可方便地对应用中的内容分享到新浪微博、Qzone、腾讯微博、开心网等各大热门社会化媒体平台中。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/08/23/ios-android-social-sdk/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
       <h1 class="entry-title"><a href="/blog/2015/08/22/development-ios-reward/">iOS开发征稿启示（打赏归作者所有）</a></h1>
     
     
@@ -725,6 +543,138 @@ accelerometer.updateInterval = 0.1;
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/08/interview-ios-question-answer/">《招聘一个靠谱的iOS》面试题参考答案（上）</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-08T00:16:38+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:16 am</span></time>
+        
+        
+          | <a href="/blog/2015/08/08/interview-ios-question-answer/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>推荐理由：最近比较🔥的关于iOS开发面试题的文章。简单喵了一眼，感觉很不错，作者sunnyxx也是个大牛。特此推荐！</p></blockquote>
+
+<p><a href="http://blog.sunnyxx.com/2015/07/04/ios-interview/">《招聘一个靠谱的 iOS》</a>—参考答案（上）</p>
+
+<p>说明：面试题来源是<a href="http://weibo.com/u/1364395395">微博@我就叫Sunny怎么了</a>的这篇博文：<a href="http://blog.sunnyxx.com/2015/07/04/ios-interview/">《招聘一个靠谱的 iOS》</a>，其中共55题，除第一题为纠错题外，其他54道均为简答题。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/08/08/interview-ios-question-answer/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/07/implement-uitextview-placeholder/">实现placeholder属性的UITextView</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-07T00:27:43+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:27 am</span></time>
+        
+        
+          | <a href="/blog/2015/08/07/implement-uitextview-placeholder/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>iOS开发微信公众号上的iOS技术文章，都将发布在<a href="http://www.superqq.com/">刚刚在线</a>。所以大家可以到我的网站上查看之前的文章，也可以在底部的精彩文章查看历史文章。</p>
+
+<p>上一篇文章<a href="http://www.superqq.com/blog/2015/08/06/uitextview-placeholder-practice/">UITextView实现placeholder的猥琐做法</a>讲了关于<code>UITextView</code>的<code>placeholder</code>实现原理。大家都一致认为做法比较猥琐。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/08/07/implement-uitextview-placeholder/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/06/uitextview-placeholder-practice/">UITextView实现placeholder的猥琐做法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-06T21:37:38+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:37 pm</span></time>
+        
+        
+          | <a href="/blog/2015/08/06/uitextview-placeholder-practice/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>我经常写一些<a href="http://www.superqq.com/">iOS开发</a>的小技巧，为了在自己需要的时候能用得上，也希望能对正在看文章的你一些帮助，亦或是引发一些思考。</p>
+
+<p>如果你觉得文章对你有帮助，请多多分享。你身边一定有很多做iOS开发的朋友，希望你能把我的iOS开发：<strong>iOSDevTip</strong>推荐给你的朋友。不甚感激！</p>
+
+<p>我们都知道iOS开发中的<code>UITextField</code>有个<code>placeholder</code>属性，<code>placeholder</code>可以很方便引导用户输入。但是<code>UITextView</code>却没有<code>placeholder</code>属性。</p>
+
+<h2>猥琐法分析</h2>
+
+<p>如何让<code>UITextView</code>也有<code>placeholder</code>功能呢？今天给各位分享一个比较猥琐的做法。思路大概是这样的：</p>
+
+<ol>
+<li>把<code>UITextView</code>的<code>text</code>当<code>placeholder</code>使用。</li>
+<li>在开始编辑的代理方法里清除<code>placeholder</code>。</li>
+<li>在结束编辑的代理方法里在设置<code>placeholder</code>。</li>
+</ol>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/08/06/uitextview-placeholder-practice/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -752,23 +702,23 @@ accelerometer.updateInterval = 0.1;
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/10/20/title2/">Title2</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/10/20/title/">Title</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/10/20/test/">Test</a>
-      </li>
-    
-      <li class="post">
         <a href="/blog/2015/10/16/five-case-know-gcd/">五个案例让你明白GCD死锁</a>
       </li>
     
       <li class="post">
         <a href="/blog/2015/10/11/kill-a-programmer/">杀一个程序员不需用枪，改三次需求即可</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/10/09/uiviewcontroller-rectedge/">UIViewController的edgesForExtendedLayout属性</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/29/rebuild-bitcode-enable/">报错：You Must Rebuild It With Bitcode Enabled (Xcode Setting ENABLE_BITCODE)（解决方案）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/24/apple-xcodeghost-answer/">有关 XcodeGhost 的问题和解答</a>
       </li>
     
   </ul>
