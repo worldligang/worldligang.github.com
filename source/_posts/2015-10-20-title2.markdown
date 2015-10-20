@@ -1,0 +1,7 @@
+---
+layout: post
+title: "title2"
+date: 2015-10-20 14:00:40 +0800
+comments: true
+categories: 
+---
