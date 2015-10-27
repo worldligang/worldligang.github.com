@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>截取UIImage指定大小区域 - 刚刚在线</title>
+  <title>从产品经理的角度算一算，做一个app需要花多少钱？ - 刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="从服务器获取到一张照片，只需要显示他的左半部分，或者中间部分等等。也就是截取UIImage指定大小区域。">
-  <meta name="keywords" content="截取UIImage, iOS UIImage, UIImage, iOS开发, 刚刚在线">
+  <meta name="description" content="作为互联网从业者，被外行的朋友们问及最多的问题是，“做一个网站需要多少钱？”或者“做一个APP需要多少钱？”。作为做过完整网站项目和APP的人，今天从产品经理的角度，一起来算一下中小型APP从无到有需要做哪些工作，以及为达成使命，需要付出多少金钱代价。">
+  <meta name="keywords" content="APP, 做一个app,产品经理, iOS开发, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/blog/2015/07/26/jie-qu-uiimagezhi-ding-da-xiao-qu-yu">
+  <link rel="canonical" href="http://www.superqq.com/blog/2015/10/27/product-manager-calculate-app">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -78,7 +78,7 @@
   
   <header>
     
-      <h1 class="entry-title">截取UIImage指定大小区域</h1>
+      <h1 class="entry-title">从产品经理的角度算一算，做一个app需要花多少钱？</h1>
     
     
       <p class="meta">
@@ -87,7 +87,7 @@
 
 
 
-<time class='entry-date' datetime='2015-07-26T10:07:58+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:07 am</span></time>
+<time class='entry-date' datetime='2015-10-27T14:41:46+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:41 pm</span></time>
         
         
           | <a href="#comments">Comments</a>
@@ -97,119 +97,85 @@
   </header>
 
 
-<div class="entry-content"><p>最近遇到这样的需求：从服务器获取到一张照片，只需要显示他的左半部分，或者中间部分等等。也就是截取UIImage指定大小区域。</p>
+<div class="entry-content"><blockquote><p>作为互联网从业者，被外行的朋友们问及最多的问题是，“做一个网站需要多少钱？”或者“做一个APP需要多少钱？”。作为做过完整网站项目和APP的人，今天从产品经理的角度，一起来算一下中小型APP从无到有需要做哪些工作，以及为达成使命，需要付出多少金钱代价。</p></blockquote>
 
-<h2>UIImage扩展</h2>
+<p>以下内容的前提是：深圳、移动互联网方向。包含研发一个新产品过程中一些常见的工作，并非十全十美。</p>
 
-<p>我的解决方案是对<code>UIImage</code>进行扩展。通过<code>CGImageRef</code>和<code>CGImage</code>完成截取，调用的方法是：<code>CGImageCreateWithImageInRect</code>。扩展类叫<code>UIImage+Crop</code>，具体代码如下：</p>
+<p>首先假设在做APP之前我们已经有了一个成熟的团队（这是非常幸运的前提，很多产品研发进度极其缓慢的原因之一就是在过程中不断在招人），团队的结构以架构师兼后台开发1名+安卓1名+iOS开发1名+产品经理1名+前端开发1名+设计师1名。你可能也发现了这些人员配备都是单点的，一旦有人生病或请假，某个职位就会缺失，项目进度就会拖后，所以我们大约配备2个浮动名额，也就是，初始团队大概有8名，我们假设团队平均工资在13000左右（憋惊讶，深圳需要这个数，还是比较低的。。。），需要给员工缴纳五险一金，详见下表（假设我们是老实善良的公司，公积金按最低标准缴纳）：</p>
 
-<h3>UIImage+Crop.h</h3>
+<p><img src="http://images.90159.com/10/product.jpg" alt="product" /></p>
 
-<!--more-->
+<p><strong>除工资的部分，还要平均为每个员工多缴纳 3653元的五险一金支出，员工部分的支出是 （13000+3653）*8=133224元/月。</strong></p>
 
+<p>好，有了团队，下一步要解决的是工作场所的问题，8人团队可以选择创业孵化器（前提是你能找到孵化器）或者中低端的办公场所（这类的办公场所，深圳大约是120元/㎡，大约100平米）。这里有必要稍微提以下孵化器，孵化器的租金会比较便宜（或者不要钱），在接纳创业团队之前一般会签署协议，需要以场地作为股权置换条件，或者是优先投资权，是否划算，得创业团队自己掂量。算上水电、物业，一个月15000左右算比较省了。</p>
 
-<pre><code>#import &lt;UIKit/UIKit.h&gt;
+<p>有了场地和团队，接下来置换办公耗材、宽带之类的（假设电脑自己带），普通的人体工程学椅子价格在150元左右，如果不买工程学椅子也可以，用普通的椅子，加上桌子平摊成本，桌椅需要200左右的成本，这算一次性付出。拍脑袋，6000元可以搞定吧。</p>
 
-typedef NS_ENUM(NSInteger, XYCropImageStyle){
-    XYCropImageStyleRight               =0,      // 右半部分
-    XYCropImageStyleCenter              =1,      // 中间部分
-    XYCropImageStyleLeft                =2,      // 左半部分
-    XYCropImageStyleRightOneOfThird     =3,      // 右侧三分之一部分
-    XYCropImageStyleCenterOneOfThird    =4,      // 中间三分之一部分
-    XYCropImageStyleLeftOneOfThird      =5,      // 左侧三分之一部分
-    XYCropImageStyleRightQuarter        =6,      // 右侧四分之一部分
-    XYCropImageStyleCenterRightQuarter  =7,      // 中间右侧四分之一部分
-    XYCropImageStyleCenterLeftQuarter   =8,      // 中间左侧四分之一部分
-    XYCropImageStyleLeftQuarter         =9,      // 左侧四分之一部分
-};
+<p>唔，人、场地、作案工具齐活了，开始进入正题吧。</p>
 
-@interface UIImage (Crop)
-- (UIImage *)imageByCroppingWithStyle:(XYCropImageStyle)style;
+<h3>一、产品定位、扯皮、早期工作准备阶段。</h3>
 
-@end
+<p>做APP之前一般会有个老板，老板大概知道自己想要什么功能（对，老板一般不知道自己要做什么东西，需求是什么，产品定位是什么），这时候产品经理要出马了，跟老板各种扯皮、厘清需求、找产品定位，这里大概扯吧个两周，好说歹说会把产品的定位、一期的需求想清楚（期间架构师可以开始构思产品的技术架构了，未能正式开工）。</p>
+
+<p>产品定位以及早期的需求确定出来之后，需要想个产品的名字、需求调研、竞品调研分析、注册域名、购置服务器以及周边基础能力（如CDN存储、短信服务、消息推送等）、商标（未注册商标、很多团队就是吃了这个亏）、抢注域名、设计logo，这里在老板不中途改变想法、变更产品需求和定位的前提下，最起码扯一周，这时候产品的原型、技术架构的雏形也出来了，基本可以进入真刀真枪的干活了。这一步假设域名不需要花大价钱购买，全部费用算起来拍脑袋10000元/年 可以搞定。</p>
+
+<h3>二、产品版本策划、架构设计阶段。</h3>
+
+<p>看似一切都准备就绪之后，产品开始整理需求，按照需求优先级规划版本。架构师按照产品的发展方向构想，开始着手进入开发环境、生产环境部署、基础代码研发阶段。</p>
+
+<p>很有必要提一下的是，做APP比较常见的两种功能实现方式有native原生和webview 方式，这两种方式的优劣不在本文的讨论范围，一般为了保证体验，以原生的方式为主，webview的方式为辅。以原生的方式做开发，版本是尤为重要的。其一，APP开发完成之后，需要把上架到APP store（假设我们只上iOS和安卓），iOS 的APP Store 有冗长的应用审核周期，你必须提前把往后几个中小版本的功能规划好了才不至于在这个环节自乱阵脚；其二，你的APP安装到用户的手机上时你肯定希望他大部分时候运行的都是最新的版本，如果你的版本更新过于频繁，用户也会烦。</p>
+
+<p>看起来过程似乎非常顺利，产品经理把产品的思路厘清之后，开始准备产品V1.0 的规划。</p>
+
+<p>新产品从无到有常见的工作：</p>
+
+<pre><code>（1）产品官网，产品官网是产品、公司、团队的脸面，让用户进入之后能以最快的速度了解你的定位以及产品特性，也就是什么样的人在为解决什么样的问题，做着什么样的事情。
+
+（2）用户协议。是的，如果用户要注册、使用你的产品，你得起草你的用户协议，跟律师或法务不断沟通调整。
+
+（3）种子用户。嗯，你要思考你的第一批种子用户从哪里来，如何组织，怎么管理，他们是检验你产品的第一群人，对于验证你的产品定位、发现产品问题、提升产品体验来说至关重要。
+
+（4）基础数据上报规划。你要知道产品一旦发布，在对用户行为一无所知的情况下，需要收集什么数据来优化、调整你的产品设计，思考你的产品方向。
+
+（5）UI设计与交互标准制定。不能保证产品的UI以及交互一上线就有让用户觉得惊艳的效果，但是必须保证UI/交互在一致性上没有问题。
+
+（6）后台管理系统。如论是查看数据还是内容管理，后台管理系统是你工作的有效辅助，也不能少。
+
+（7）APP。这是你的产品的重中之重，密切观察跟踪。
+
+（8）。。。
 </code></pre>
 
-<h3>UIImage+Crop.m</h3>
+<p>如果一切顺利，那么在3-6个月之后，你的APP第一版应该有了第一个雏形了。</p>
 
-<pre><code>#import "UIImage+Crop.h"
+<h3>三、内部测试、打磨阶段。</h3>
 
-@implementation UIImage (Crop)
+<p>在这个阶段，你要跟设计、研发、种子用户之间保持密切沟通，不断收集问题、发现问题、优化、解决问题，期间可能需要发布1-3个beta子版本。同时，你要想办法保持种子用户的活跃与配合的激情，这是一项艰巨的工作，谁做谁知道。</p>
 
-- (UIImage *)imageByCroppingWithStyle:(XYCropImageStyle)style
-{
-    CGRect rect;
-    switch (style) {
-        case XYCropImageStyleLeft:
-            rect = CGRectMake(0, 0, self.size.width/2, self.size.height);
-            break;
-        case XYCropImageStyleCenter:
-            rect = CGRectMake(self.size.width/4, 0, self.size.width/2, self.size.height);
-            break;
-        case XYCropImageStyleRight:
-            rect = CGRectMake(self.size.width/2, 0, self.size.width/2, self.size.height);
-            break;
-        case XYCropImageStyleLeftOneOfThird:
-            rect = CGRectMake(0, 0, self.size.width/3, self.size.height);
-            break;
-        case XYCropImageStyleCenterOneOfThird:
-            rect = CGRectMake(self.size.width/3, 0, self.size.width/3, self.size.height);
-            break;
-        case XYCropImageStyleRightOneOfThird:
-            rect = CGRectMake(self.size.width/3*2, 0, self.size.width/3, self.size.height);
-            break;
-        case XYCropImageStyleLeftQuarter:
-            rect = CGRectMake(0, 0, self.size.width/4, self.size.height);
-            break;
-        case XYCropImageStyleCenterLeftQuarter:
-            rect = CGRectMake(self.size.width/4, 0, self.size.width/4, self.size.height);
-            break;
-        case XYCropImageStyleCenterRightQuarter:
-            rect = CGRectMake(self.size.width/4*2, 0, self.size.width/4, self.size.height);
-            break;
-        case XYCropImageStyleRightQuarter:
-            rect = CGRectMake(self.size.width/4*3, 0, self.size.width/4, self.size.height);
-            break;
-        default:
-            break;
-    }
-    CGImageRef imageRef = self.CGImage;
-    CGImageRef imagePartRef = CGImageCreateWithImageInRect(imageRef, rect);
-    UIImage *cropImage = [UIImage imageWithCGImage:imagePartRef];
-    CGImageRelease(imagePartRef);
-    return cropImage;
-}
+<h3>四、发布阶段</h3>
+
+<p>发布的时候，不算渠道宣传费用，不打广告，上线iOS APP Store 需要注册开发者账号，购买证书，也需要花费一定的费用，不多，也就99美元/年。</p>
+
+<p>如果你做得多一些，找安全团队帮你做安全评估，这里也要花上一些钱，这里就不算了。至于负载均衡、加速技术什么的，你的APP刚上线，应该用不上。</p>
+
+<p>6个月的时间，算快，一个APP从无到有需要的费用大概这么算：</p>
+
+<pre><code>人工费用：    133224元*6个月 ≈ 80 w。
+
+场地租金： 15000元*6个月 = 9w。
+
+办公耗材+桌椅支出：1w。
+
+服务器、域名、周边IT基础费用：2w。
 </code></pre>
 
-<h2>实际运用</h2>
+<p>大约算下来，不算营销费用，第一个版本，你需要准备100w。</p>
 
-<p>简单测试一下，看看有没有实现我们想要的效果。首先，先加载一个完整的UIImageView。这个应该不难。代码如下：</p>
+<p>是的，当有人问题做一个APP需要多少钱时，你可以回答一个不太复杂的APP，从无到有做出来，半年第一个版本出来，需要100万。</p>
 
-<pre><code>UIImageView *imgView = [[UIImageView alloc] init];
-imgView.frame = CGRectMake((SCREEN.width - 226) / 2, 100, 226, 106);
-UIImage *image = [UIImage imageNamed:@"ganggang"];
-imgView.image = image;
-[self.view addSubview:imgView];
-</code></pre>
+<p>当别人做出很赞的东西，我们常感慨“啊，这个东西我早想到了”，作为程序员或产品经理，想到了并不是什么值得骄傲的事情，重要的是：做出来，是的，执行力很重要。</p>
 
-<p>运行一下：</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/jiequing.png" alt="jiequing" /></p>
-
-<p>要对UIImage进行裁剪，首先导入头文件：</p>
-
-<pre><code>#import "UIImage+Crop.h"
-</code></pre>
-
-<p>在上面<code>UIImage *image = [UIImage imageNamed:@"ganggang"];</code>这段代码之后加上下面这句：</p>
-
-<pre><code>image = [image imageByCroppingWithStyle:XYCropImageStyleLeft];
-</code></pre>
-
-<p><code>XYCropImageStyleLeft</code>是截取照片的左半部分。效果如下：</p>
-
-<p><img src="http://7xkkk9.com1.z0.glb.clouddn.com/jiequed.png" alt="jiequed" /></p>
-
-<p>截取成功，还可以截取其他区域的，只需要传入不同的<code>XYCropImageStyle</code>即可实现。以上代码依然在<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a>里。</p>
+<blockquote><p>本文作者 @歪，微信公众号：程序员和产品经理（ID：devpdm） 来源：鸟哥笔记（ID：niaoge8）</p></blockquote>
 </div>
 
 
@@ -225,18 +191,18 @@ imgView.image = image;
 
 
 
-<time class='entry-date' datetime='2015-07-26T10:07:58+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:07 am</span></time>
+<time class='entry-date' datetime='2015-10-27T14:41:46+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:41 pm</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/ioskai-fa/'>ios开发</a>
+    <a class='category' href='/blog/categories/cheng-xu-yuan/'>程序员</a>
   
 </span>
 
 
       <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
-<br>原文链接：<a href="http://www.superqq.com/blog/2015/07/26/jie-qu-uiimagezhi-ding-da-xiao-qu-yu/">http://www.superqq.com/blog/2015/07/26/jie-qu-uiimagezhi-ding-da-xiao-qu-yu/</a> <!-- 添加这一行代码 -->
+<br>原文链接：<a href="http://www.superqq.com/blog/2015/10/27/product-manager-calculate-app/">http://www.superqq.com/blog/2015/10/27/product-manager-calculate-app/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -257,10 +223,8 @@ imgView.image = image;
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/07/25/cheng-xu-yuan-:zhe-ge-zhou-mo-bu-jia-ban/" title="Previous Post: 程序员：这个周末不加班">&laquo; 程序员：这个周末不加班</a>
+        <a class="basic-alignment left" href="/blog/2015/10/20/mac-adobe-photoshop-crack/" title="Previous Post: Mac Adobe Photoshop CS6 破解教程(图文)">&laquo; Mac Adobe Photoshop CS6 破解教程(图文)</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/07/27/ioskai-fa-zhi-layoutsubviewsde-zuo-yong-he-diao-yong-ji-zhi/" title="Next Post: iOS开发之layoutSubviews的作用和调用机制">iOS开发之layoutSubviews的作用和调用机制 &ra/categories.htmlquo;</a>
       
     </p>
   </footer>
@@ -270,7 +234,7 @@ imgView.image = image;
   <section>
     <h1>Comments</h1>
     <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
-<div class="ds-thread" data-title="截取UIImage指定大小区域"></div>
+<div class="ds-thread" data-title="从产品经理的角度算一算，做一个app需要花多少钱？"></div>
 <script type="text/javascript">
   var duoshuoQuery = {short_name:"superqq"};
   (function() {
