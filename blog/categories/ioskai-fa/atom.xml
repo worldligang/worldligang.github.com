@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-10-27T21:18:59+08:00</updated>
+  <updated>2015-10-28T13:15:06+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,71 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[两个非常不错的自定义UIAlertView第三方类库]]></title>
-    <link href="http://www.superqq.com/blog/2015/10/27/two-nice-alert/"/>
-    <updated>2015-10-27T21:16:28+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/10/27/two-nice-alert</id>
-    <content type="html"><![CDATA[<p>UIAlertView大家都不陌生了。UIAlertView不可以添加控件，比如说：UILabel、UITextView等等，所以遇到这个需求，一般都要自定义UIAlertView来解决。</p>
-
-<p>我再github上找到了两个非常错的自定义UIAlertView第三方类库，分别是：LMAlertView和CustomIOSAlertView。</p>
-
-<h2>LMAlertView使用简介</h2>
-
-<p><a href="https://github.com/lmcd/LMAlertView">LMAlertView</a>在github上有610个star。说明这个第三方的UIAlertView还不错，我大概看了一下用法也比较简单。</p>
-
-<p>来看看两个个案例效果：</p>
-
-<p><img src="https://camo.githubusercontent.com/eb9242282b703a847c5ca45ef47462ec507ba573/687474703a2f2f6c6d63642e6d652f4c4d416c657274566965772d637573746f6d4032782e706e67" alt="1" /></p>
-
-<p><img src="https://camo.githubusercontent.com/b1c95e3be84a8d277e1c542ca768b3bdebe043a6/687474703a2f2f6c6d63642e6d652f4c4d416c657274566965772d7265766965774032782e706e673f33" alt="2" /></p>
-
-<h3>用CocoaPods安装LMAlertView</h3>
-
-<pre><code>pod 'LMAlertView'
-</code></pre>
-
-<h3>使用案例</h3>
-
-<pre><code>LMAlertView *alertView = [[LMAlertView alloc] initWithTitle:@"iOSDevTip"
-                                        message:@"关注一下"
-                                       delegate:nil
-                              cancelButtonTitle:@"ok"
-                              otherButtonTitles:nil];
-
-// Add your subviews here to customise
-UIView *contentView = alertView.contentView;
-
-[alertView show];   
-</code></pre>
-
-<p>LMAlertView还保持着UIAlertView的创建方法，作者还比较用心。</p>
-
-<h2>CustomIOSAlertView使用简介</h2>
-
-<p><a href="https://github.com/wimagguc/ios-custom-alertview">CustomIOSAlertView</a>比LMAlertView的star还多一些，有861个。同样我们先看一下效果：</p>
-
-<p><img src="https://github.com/wimagguc/ios-custom-alertview/raw/master/Docs/screen.png" alt="3" /></p>
-
-<h3>用CocoaPods安装CustomIOSAlertView</h3>
-
-<pre><code>pod 'CustomIOSAlertView', '~&gt; 0.9.3'
-</code></pre>
-
-<h3>使用案例</h3>
-
-<pre><code>CustomIOSAlertView *alertView = [[CustomIOSAlertView alloc] init];  UIView *customView ..;
-
-[alertView setContainerView:customView];
-[alertView show];
-</code></pre>
-
-<p>CustomIOSAlertView可以设置代理，还可以通过block来实现按钮的点击事件。功能相对比较齐全。</p>
-
-<p>喜欢的童鞋可以star一下，以备不时之需。如果你觉得不错，记得分享给更多朋友哈，谢谢！</p>
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[UIViewController的edgesForExtendedLayout属性]]></title>
@@ -309,6 +244,61 @@ if (scrollView.contentOffset.y == scrollView.contentSize.height - self.tableView
 </code></pre>
 
 <p>如果对投稿有什么疑问，欢迎加我微信：chinaligang，详细了解一下。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发小技巧：刷新UITableView]]></title>
+    <link href="http://www.superqq.com/blog/2015/08/18/ios-development-refresh-uitableview/"/>
+    <updated>2015-08-18T15:25:58+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/08/18/ios-development-refresh-uitableview</id>
+    <content type="html"><![CDATA[<blockquote><p>我创建了iOS开发博主联盟群：<strong>364679270</strong>，有博客的朋友欢迎加入。一起打造一个优质的iOS技术分享社群。</p></blockquote>
+
+<p>UITableView对于iOS开发者来说一定不会陌生，很有可能你的APP很多界面都用到它。关于UITableView的文章，想必已经不计其数，没事可以多看看。特别是UITableView优化的文章，非常值得仔细琢磨一番。</p>
+
+<p>今天我们来看看如何刷新UITableView的，一般情况下，刷新UITableView，我们会直接调用reloadData方法。</p>
+
+<h2>刷新UITableView</h2>
+
+<pre><code>[self.tableView reloadData];
+</code></pre>
+
+<p>reloadData是刷新整个UITableView，有时候，我们可能需要局部刷新。比如：只刷新一个cell、只刷新一个section等等。这个时候在调用reloadData方法，虽然用户看不出来，但是有些浪费资源。</p>
+
+<h2>刷新局部cell</h2>
+
+<pre><code> NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+ [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationFade];
+</code></pre>
+
+<p>这样就可以很方便的刷新第一个section的第一个cell。虽然看起来代码多了，但是确实比较节省资源。尽量少的刷新，也是UITableView的一种优化。</p>
+
+<h2>局部刷新section</h2>
+
+<pre><code>NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
+[self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
+</code></pre>
+
+<p>上面这段代码是刷新第0个section。</p>
+
+<!--more-->
+
+
+<h2>刷新动画</h2>
+
+<p>刷新UITableView还有几个动画：</p>
+
+<pre><code>typedef NS_ENUM(NSInteger, UITableViewRowAnimation) {
+    UITableViewRowAnimationFade,   //淡入淡出
+    UITableViewRowAnimationRight,  //从右滑入         // slide in from right (or out to right)
+    UITableViewRowAnimationLeft,   //从左滑入
+    UITableViewRowAnimationTop,     //从上滑入
+    UITableViewRowAnimationBottom,  //从下滑入
+    UITableViewRowAnimationNone,            // available in iOS 3.0
+    UITableViewRowAnimationMiddle,          // available in iOS 3.2.  attempts to keep cell centered in the space it will/did occupy
+    UITableViewRowAnimationAutomatic = 100  // available in iOS 5.0.  chooses an appropriate animation style for you
+};
+</code></pre>
 ]]></content>
   </entry>
   

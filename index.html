@@ -81,7 +81,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/10/27/two-nice-alert/">两个非常不错的自定义UIAlertView第三方类库</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/10/28/20-years-programmers/">20年的老程序员对新入行的朋友的一些建议</a></h1>
     
     
       <p class="meta">
@@ -90,75 +90,36 @@
 
 
 
-<time class='entry-date' datetime='2015-10-27T21:16:28+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:16 pm</span></time>
+<time class='entry-date' datetime='2015-10-28T13:09:57+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:09 pm</span></time>
         
         
-          | <a href="/blog/2015/10/27/two-nice-alert/#comments">Comments</a>
+          | <a href="/blog/2015/10/28/20-years-programmers/#comments">Comments</a>
          
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>UIAlertView大家都不陌生了。UIAlertView不可以添加控件，比如说：UILabel、UITextView等等，所以遇到这个需求，一般都要自定义UIAlertView来解决。</p>
+  <div class="entry-content"><p>从事编程这一行也已经20年了，到今天为止，有关编程方面的知识我也写了六七门课程了，教授课程的时间也已超过了1000小时，下面我所说的全部是我多年来的实践的经验之谈。</p>
 
-<p>我再github上找到了两个非常错的自定义UIAlertView第三方类库，分别是：LMAlertView和CustomIOSAlertView。</p>
+<h2>◆编程真的不是一件容易的事</h2>
 
-<h2>LMAlertView使用简介</h2>
+<p>不管你多喜欢或是多会编程，在学习和解决问题上总会碰到障碍。工作的时间越久就越能明白这个道理。不过这倒是一个让人进步的机会，因为你要一直不断的学习才能很好的解决你面前的难题。如果你已不有了进取心，那么当遇到难道无法解决时你就会想要放弃。</p>
 
-<p><a href="https://github.com/lmcd/LMAlertView">LMAlertView</a>在github上有610个star。说明这个第三方的UIAlertView还不错，我大概看了一下用法也比较简单。</p>
+<h2>◆编程也是最让人沮丧的事情</h2>
 
-<p>来看看两个个案例效果：</p>
+<p>正常的编程过程都是这样的：尝试、失败、学习、思考、灵感、成功。在这个漫长的过程中，常有人会感到沮丧也是很正常的事，如果最终成功了，那么接下来你会想挑战更难的项目，当然，之前的沮丧就会从新而来，又是一个从新学习的机会，在这个过程中，我们要懂得调整好心态，从新从发。</p>
 
-<p><img src="https://camo.githubusercontent.com/eb9242282b703a847c5ca45ef47462ec507ba573/687474703a2f2f6c6d63642e6d652f4c4d416c657274566965772d637573746f6d4032782e706e67" alt="1" /></p>
+<h2>◆办法总是要比困难多</h2>
 
-<p><img src="https://camo.githubusercontent.com/b1c95e3be84a8d277e1c542ca768b3bdebe043a6/687474703a2f2f6c6d63642e6d652f4c4d416c657274566965772d7265766965774032782e706e673f33" alt="2" /></p>
+<p>经过不断的学习，我们的编程技术会越来越强，对自己也会更加自信。每个人小时候都会有大大小小的闯祸经历，但随着我们的成长和能力的增强，我们很少再去办错事情了。而如今我们也有办法解决我们所犯的错。</p>
 
-<h3>用CocoaPods安装LMAlertView</h3>
-
-<pre><code>pod 'LMAlertView'
-</code></pre>
-
-<h3>使用案例</h3>
-
-<pre><code>LMAlertView *alertView = [[LMAlertView alloc] initWithTitle:@"iOSDevTip"
-                                        message:@"关注一下"
-                                       delegate:nil
-                              cancelButtonTitle:@"ok"
-                              otherButtonTitles:nil];
-
-// Add your subviews here to customise
-UIView *contentView = alertView.contentView;
-
-[alertView show];   
-</code></pre>
-
-<p>LMAlertView还保持着UIAlertView的创建方法，作者还比较用心。</p>
-
-<h2>CustomIOSAlertView使用简介</h2>
-
-<p><a href="https://github.com/wimagguc/ios-custom-alertview">CustomIOSAlertView</a>比LMAlertView的star还多一些，有861个。同样我们先看一下效果：</p>
-
-<p><img src="https://github.com/wimagguc/ios-custom-alertview/raw/master/Docs/screen.png" alt="3" /></p>
-
-<h3>用CocoaPods安装CustomIOSAlertView</h3>
-
-<pre><code>pod 'CustomIOSAlertView', '~&gt; 0.9.3'
-</code></pre>
-
-<h3>使用案例</h3>
-
-<pre><code>CustomIOSAlertView *alertView = [[CustomIOSAlertView alloc] init];  UIView *customView ..;
-
-[alertView setContainerView:customView];
-[alertView show];
-</code></pre>
-
-<p>CustomIOSAlertView可以设置代理，还可以通过block来实现按钮的点击事件。功能相对比较齐全。</p>
-
-<p>喜欢的童鞋可以star一下，以备不时之需。如果你觉得不错，记得分享给更多朋友哈，谢谢！</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/10/28/20-years-programmers/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -210,65 +171,12 @@ UIView *contentView = alertView.contentView;
 
 <p>产品定位以及早期的需求确定出来之后，需要想个产品的名字、需求调研、竞品调研分析、注册域名、购置服务器以及周边基础能力（如CDN存储、短信服务、消息推送等）、商标（未注册商标、很多团队就是吃了这个亏）、抢注域名、设计logo，这里在老板不中途改变想法、变更产品需求和定位的前提下，最起码扯一周，这时候产品的原型、技术架构的雏形也出来了，基本可以进入真刀真枪的干活了。这一步假设域名不需要花大价钱购买，全部费用算起来拍脑袋10000元/年 可以搞定。</p>
 
-<h3>二、产品版本策划、架构设计阶段。</h3>
-
-<p>看似一切都准备就绪之后，产品开始整理需求，按照需求优先级规划版本。架构师按照产品的发展方向构想，开始着手进入开发环境、生产环境部署、基础代码研发阶段。</p>
-
-<p>很有必要提一下的是，做APP比较常见的两种功能实现方式有native原生和webview 方式，这两种方式的优劣不在本文的讨论范围，一般为了保证体验，以原生的方式为主，webview的方式为辅。以原生的方式做开发，版本是尤为重要的。其一，APP开发完成之后，需要把上架到APP store（假设我们只上iOS和安卓），iOS 的APP Store 有冗长的应用审核周期，你必须提前把往后几个中小版本的功能规划好了才不至于在这个环节自乱阵脚；其二，你的APP安装到用户的手机上时你肯定希望他大部分时候运行的都是最新的版本，如果你的版本更新过于频繁，用户也会烦。</p>
-
-<p>看起来过程似乎非常顺利，产品经理把产品的思路厘清之后，开始准备产品V1.0 的规划。</p>
-
-<p>新产品从无到有常见的工作：</p>
-
-<pre><code>（1）产品官网，产品官网是产品、公司、团队的脸面，让用户进入之后能以最快的速度了解你的定位以及产品特性，也就是什么样的人在为解决什么样的问题，做着什么样的事情。
-
-（2）用户协议。是的，如果用户要注册、使用你的产品，你得起草你的用户协议，跟律师或法务不断沟通调整。
-
-（3）种子用户。嗯，你要思考你的第一批种子用户从哪里来，如何组织，怎么管理，他们是检验你产品的第一群人，对于验证你的产品定位、发现产品问题、提升产品体验来说至关重要。
-
-（4）基础数据上报规划。你要知道产品一旦发布，在对用户行为一无所知的情况下，需要收集什么数据来优化、调整你的产品设计，思考你的产品方向。
-
-（5）UI设计与交互标准制定。不能保证产品的UI以及交互一上线就有让用户觉得惊艳的效果，但是必须保证UI/交互在一致性上没有问题。
-
-（6）后台管理系统。如论是查看数据还是内容管理，后台管理系统是你工作的有效辅助，也不能少。
-
-（7）APP。这是你的产品的重中之重，密切观察跟踪。
-
-（8）。。。
-</code></pre>
-
-<p>如果一切顺利，那么在3-6个月之后，你的APP第一版应该有了第一个雏形了。</p>
-
-<h3>三、内部测试、打磨阶段。</h3>
-
-<p>在这个阶段，你要跟设计、研发、种子用户之间保持密切沟通，不断收集问题、发现问题、优化、解决问题，期间可能需要发布1-3个beta子版本。同时，你要想办法保持种子用户的活跃与配合的激情，这是一项艰巨的工作，谁做谁知道。</p>
-
-<h3>四、发布阶段</h3>
-
-<p>发布的时候，不算渠道宣传费用，不打广告，上线iOS APP Store 需要注册开发者账号，购买证书，也需要花费一定的费用，不多，也就99美元/年。</p>
-
-<p>如果你做得多一些，找安全团队帮你做安全评估，这里也要花上一些钱，这里就不算了。至于负载均衡、加速技术什么的，你的APP刚上线，应该用不上。</p>
-
-<p>6个月的时间，算快，一个APP从无到有需要的费用大概这么算：</p>
-
-<pre><code>人工费用：    133224元*6个月 ≈ 80 w。
-
-场地租金： 15000元*6个月 = 9w。
-
-办公耗材+桌椅支出：1w。
-
-服务器、域名、周边IT基础费用：2w。
-</code></pre>
-
-<p>大约算下来，不算营销费用，第一个版本，你需要准备100w。</p>
-
-<p>是的，当有人问题做一个APP需要多少钱时，你可以回答一个不太复杂的APP，从无到有做出来，半年第一个版本出来，需要100万。</p>
-
-<p>当别人做出很赞的东西，我们常感慨“啊，这个东西我早想到了”，作为程序员或产品经理，想到了并不是什么值得骄傲的事情，重要的是：做出来，是的，执行力很重要。</p>
-
-<blockquote><p>本文作者 @歪，微信公众号：程序员和产品经理（ID：devpdm） 来源：鸟哥笔记（ID：niaoge8）</p></blockquote>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/10/27/product-manager-calculate-app/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -875,7 +783,7 @@ self.bottomButton.frame = CGRectMake(SCREEN.width / 2 - 25, SCREEN.height - 50, 
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/10/27/two-nice-alert/">两个非常不错的自定义UIAlertView第三方类库</a>
+        <a href="/blog/2015/10/28/20-years-programmers/">20年的老程序员对新入行的朋友的一些建议</a>
       </li>
     
       <li class="post">
