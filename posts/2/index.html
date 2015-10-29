@@ -81,6 +81,87 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/09/01/uitablview-up-down-slide/">UITablView上下滑动控制底部按钮的出现和消失</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-01T00:49:19+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>12:49 am</span></time>
+        
+        
+          | <a href="/blog/2015/09/01/uitablview-up-down-slide/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天我们一起来做一个好玩的功能，通过UITablView上下滑动控制底部按钮的出现和消失。先来看看效果：</p>
+
+<p><img src="http://images.90159.com/09/bottombutton.gif" alt="1" /></p>
+
+<h2>需求分析</h2>
+
+<p>要做一个这样的功能，对你来说应该不难，实现的方式也有很多。我们来分析一下要实现那几个小功能点：</p>
+
+<ul>
+<li>UITablView向上滑动，底部按钮消失</li>
+<li>UITablView向下滑动，底部按钮出现</li>
+<li>UITablView滑动到底部，底部按钮出现</li>
+</ul>
+
+
+<p>主要就是这三个小功能点。那么很简单，我们只需要判断UITablView是往上滑动，还是往下滑动，以及判断UITablView是否滑动到底部即可。</p>
+
+<h2>代码实现</h2>
+
+<h3>创建一个底部按钮</h3>
+
+<pre><code>self.bottomButton = [UIButton buttonWithType:UIButtonTypeCustom];
+self.bottomButton.frame = CGRectMake(SCREEN.width / 2 - 25, SCREEN.height - 50, 50, 50);
+[self.bottomButton setBackgroundImage:[UIImage imageNamed:@"bottom"] forState:UIControlStateNormal];
+[self.view addSubview:self.bottomButton];
+</code></pre>
+
+<p>既然是控制按钮的出现和消失，首先要创建一个底部按钮。SCREEN是个宏定义：</p>
+
+<pre><code>#define SCREEN [UIScreen mainScreen].bounds.size
+</code></pre>
+
+<h3>判断UITablView上下滑动</h3>
+
+<p>我们都知道，UITablView是继承UIScrollView的。所以UIScrollView的代理方法在UITablView是可以使用的。要判断UITablView上下滑动，我们需要实现UIScrollView的scrollViewDidScroll:代理方法：</p>
+
+<pre><code>-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (scrollView.contentOffset.y &gt; self.offsetY &amp;&amp; scrollView.contentOffset.y &gt; 0) {//向上滑动
+
+    }else if (scrollView.contentOffset.y &lt; self.offsetY ){//向上滑动
+
+    }
+    self.offsetY = scrollView.contentOffset.y;//将当前位移变成缓存位移
+}
+</code></pre>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/09/01/uitablview-up-down-slide/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/08/27/macbook-replace-ssd-solid-state/">2012年MacBook更换SSD固态硬盘和16G内存条</a></h1>
     
     
@@ -682,49 +763,6 @@ accelerometer.updateInterval = 0.1;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/09/performance-optimization-of-mkmapview/">一次对MKMapView的性能优化</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-08-09T13:18:21+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:18 pm</span></time>
-        
-        
-          | <a href="/blog/2015/08/09/performance-optimization-of-mkmapview/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>前言</h2>
-
-<p>最近做的项目主要是LBS这块 主打成员定位功能 我们的UI设计是这样的</p>
-
-<p><img src="http://7xkkjz.com1.z0.glb.clouddn.com/MK-1.png" alt="Pic-MK-1" /></p>
-
-<p>乍一看上去是挺好挺美观的 不同的人会显示不同的头像 可是当人扎堆的时候 问题就来了</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/08/09/performance-optimization-of-mkmapview/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -752,6 +790,10 @@ accelerometer.updateInterval = 0.1;
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/10/29/programmer-job-raise/">一次皆大欢喜的程序员跳槽加薪</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/10/28/20-years-programmers/">20年的老程序员对新入行的朋友的一些建议</a>
       </li>
     
@@ -765,10 +807,6 @@ accelerometer.updateInterval = 0.1;
     
       <li class="post">
         <a href="/blog/2015/10/16/five-case-know-gcd/">五个案例让你明白GCD死锁</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/10/11/kill-a-programmer/">杀一个程序员不需用枪，改三次需求即可</a>
       </li>
     
   </ul>
