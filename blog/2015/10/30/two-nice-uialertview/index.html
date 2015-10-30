@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>杀一个程序员不需用枪，改三次需求即可 - 刚刚在线</title>
+  <title>两个非常不错的自定义UIAlertView第三方类库 - 刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="杀一个程序员不需用枪，改三次需求即可。栈和队列的区别是啥? 吃多了拉就是队列;吃多了吐就是栈。">
-  <meta name="keywords" content="程序员, 需求, 产品经理, iOS开发, 刚刚在线">
+  <meta name="description" content="UIAlertView大家都不陌生了。UIAlertView不可以添加控件，比如说：UILabel、UITextView等等，所以遇到这个需求，一般都要自定义UIAlertView来解决。">
+  <meta name="keywords" content="UIAlertView, LMAlertView,CustomIOSAlertView , iOS开发, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/blog/2015/10/11/kill-a-programmer">
+  <link rel="canonical" href="http://www.superqq.com/blog/2015/10/30/two-nice-uialertview">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -78,7 +78,7 @@
   
   <header>
     
-      <h1 class="entry-title">杀一个程序员不需用枪，改三次需求即可</h1>
+      <h1 class="entry-title">两个非常不错的自定义UIAlertView第三方类库</h1>
     
     
       <p class="meta">
@@ -87,7 +87,7 @@
 
 
 
-<time class='entry-date' datetime='2015-10-11T16:47:09+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:47 pm</span></time>
+<time class='entry-date' datetime='2015-10-30T10:08:00+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:08 am</span></time>
         
         
           | <a href="#comments">Comments</a>
@@ -97,97 +97,63 @@
   </header>
 
 
-<div class="entry-content"><p>1、栈和队列的区别是啥? 吃多了拉就是队列;吃多了吐就是栈。</p>
+<div class="entry-content"><p>UIAlertView大家都不陌生了。UIAlertView不可以添加控件，比如说：UILabel、UITextView等等，所以遇到这个需求，一般都要自定义UIAlertView来解决。</p>
 
-<p>2、世界上最遥远的距离不是生与死，而是你亲手制造的BUG就在你眼前，你却怎么都找不到她。</p>
+<p>我再github上找到了两个非常错的自定义UIAlertView第三方类库，分别是：LMAlertView和CustomIOSAlertView。</p>
 
-<p>3、《c++程序设计语言》比《c程序设计语言》厚了几倍。。。果然有了对象就麻烦很多。</p>
+<h2>LMAlertView使用简介</h2>
 
-<p>4、怎么使用面向对象的方式变得富有?继承。</p>
+<p><a href="https://github.com/lmcd/LMAlertView">LMAlertView</a>在github上有610个star。说明这个第三方的UIAlertView还不错，我大概看了一下用法也比较简单。</p>
 
-<p>5、为什么程序员总是分不清万圣节和圣诞节?因为 Oct 31 == Dec 25。</p>
+<p>来看看两个个案例效果：</p>
 
-<p>6、Keyboard not found &hellip; press F1 to continue</p>
+<p><img src="https://camo.githubusercontent.com/eb9242282b703a847c5ca45ef47462ec507ba573/687474703a2f2f6c6d63642e6d652f4c4d416c657274566965772d637573746f6d4032782e706e67" alt="1" /></p>
 
-<p>7、提交代码不写注释的人，XX就跟注释一样长。</p>
+<p><img src="https://camo.githubusercontent.com/b1c95e3be84a8d277e1c542ca768b3bdebe043a6/687474703a2f2f6c6d63642e6d652f4c4d416c657274566965772d7265766965774032782e706e673f33" alt="2" /></p>
 
-<p>8、杀一个程序员不需要用枪，改三次需求就可以了。</p>
+<h3>用CocoaPods安装LMAlertView</h3>
 
-<p>9、服务器按功能可以分为：数据库服务器，web服务器，cache服务器，下片儿服务器等等。</p>
+<pre><code>pod 'LMAlertView'
+</code></pre>
 
-<p>10、四个2B青年掐架。</p>
+<h3>使用案例</h3>
 
-<p>A：你丫等着，我爹是敏感词!</p>
+<pre><code>LMAlertView *alertView = [[LMAlertView alloc] initWithTitle:@"iOSDevTip"
+                                        message:@"关注一下"
+                                       delegate:nil
+                              cancelButtonTitle:@"ok"
+                              otherButtonTitles:nil];
 
-<p>B：Cao你大爷!你丫牛B神马，我爹在网上搜索根本无法显示!!</p>
+// Add your subviews here to customise
+UIView *contentView = alertView.contentView;
 
-<p>C： 我爹404 not found!!!</p>
+[alertView show];   
+</code></pre>
 
-<p>D：我爹Connection Reset !!!!</p>
+<p>LMAlertView还保持着UIAlertView的创建方法，作者还比较用心。</p>
 
-<p>11、一同学问我，软件外包是什么。解释了几句还没明白，遂想了一下：包工头知道吧?顿悟！</p>
+<h2>CustomIOSAlertView使用简介</h2>
 
-<p>12、十行代码九个警告八个错误竟然敢说七日精通六天学会五湖四海也不见如此三心二意之项目经理简直一等下流。</p>
+<p><a href="https://github.com/wimagguc/ios-custom-alertview">CustomIOSAlertView</a>比LMAlertView的star还多一些，有861个。同样我们先看一下效果：</p>
 
-<p>13、一个程序猿在肉店买了1公斤肉，回家一称，他不高兴的跑回肉店对老板说：少了24克……</p>
+<p><img src="https://github.com/wimagguc/ios-custom-alertview/raw/master/Docs/screen.png" alt="3" /></p>
 
-<p>14、网络聊天的时候，想表达对方是猪，一般人会打“xxx你这个猪。”，程序员会打 xxx.isPig = TRUE。</p>
+<h3>用CocoaPods安装CustomIOSAlertView</h3>
 
-<p>15、两个程序员，一个技术精湛，思维严谨，认真负责，Bug极少，至今单身;一个技术一般，吊儿郎当，Bug一堆，经常被测试MM叫到她旁边，接受批评，后来成了她男朋友。</p>
+<pre><code>pod 'CustomIOSAlertView', '~&gt; 0.9.3'
+</code></pre>
 
-<p>16、宝宝数学很好，2岁就可以从1数到10了。后来，我告诉他0比1还小。</p>
+<h3>使用案例</h3>
 
-<p>今天吃饺子，我说：“宝宝，你数数你想吃几个饺子?”</p>
+<pre><code>CustomIOSAlertView *alertView = [[CustomIOSAlertView alloc] init];  UIView *customView ..;
 
-<p>“0，1，2，3。”一边说着一边拿起一个饺子，“这是第0个。”</p>
+[alertView setContainerView:customView];
+[alertView show];
+</code></pre>
 
-<p>老婆怒吼：“下一代还是做程序员的命!”</p>
+<p>CustomIOSAlertView可以设置代理，还可以通过block来实现按钮的点击事件。功能相对比较齐全。</p>
 
-<p>17、程序员找不到对象，一般有三种情况：</p>
-
-<p>● C#、JAVA都有对象，但是经常找不到对象。</p>
-
-<p>● ASM C直接没有对象。</p>
-
-<p>● javascript都是伪对象，最多算暧昧。</p>
-
-<p>但C++日子一直都好过，因为C++是多继承，富二代呀!!!</p>
-
-<p>18、程序猿：我的第一个问题是，对于我第二个和第三个问题，你可不可以只用‘能’和‘不能’来回答?</p>
-
-<p>老板：“OK!”</p>
-
-<p>我的第二个问题是，如果我的第三个问题是我能不能涨工资?那么你对于我的第三个问题的答案能不能和第二个问题的答案一样?</p>
-
-<p>老板：。。。。。。</p>
-
-<p>19、假如生活欺骗了你，找50个程序员问问为什么编程；</p>
-
-<p>假如生活让你想死，找50个程序员问问BUG改完了没有;</p>
-
-<p>假如你觉得生活拮据，找50个程序员问问工资涨了没有;假如你觉得活着无聊，找50个程序员问问他们一天都干了什么!</p>
-
-<p>20、c程序员看不起c++程序员， c++程序员看不起java程序员， java程序员看不起c#程序员，c#程序员看不起美工， 周末了，美工带着妹子出去约会了…一群傻X程序员还在加班!</p>
-
-<p>21、客户被绑，蒙眼，惊问：“想干什么?”</p>
-
-<p>对方不语，鞭笞之，客户求饶：“别打，要钱?”</p>
-
-<p>又一鞭，“十万够不?”</p>
-
-<p>又鞭，“一百万?”</p>
-
-<p>又一鞭。客户崩溃：“你们TMD到底要啥?”</p>
-
-<p>“要什么?我帮你做项目，写代码的时候也很想知道你TMD到底想要啥!”</p>
-
-<p>22、“这位同学，请问你知道《边城》吗?”“呸!别跟我提编程，老子这辈子最讨厌的就是编程!”</p>
-
-<p>23、摘自雷登书屋数据处理字典： 死循环: n.,见无限循环。 无限循环：n.,见死循环。</p>
-
-<p>24、一个人正吸着雪茄，吐着烟圈。他女朋友生气了发飙道，“你没看见包装盒上的警告么?吸烟有害健康!” 那人回答道：“我是程序员。我们不关心警告，只关心错误。”</p>
-
-<p>来源：豆夫脑</p>
+<p>喜欢的童鞋可以star一下，以备不时之需。如果你觉得不错，记得分享给更多朋友哈，谢谢！</p>
 </div>
 
 
@@ -203,18 +169,18 @@
 
 
 
-<time class='entry-date' datetime='2015-10-11T16:47:09+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:47 pm</span></time>
+<time class='entry-date' datetime='2015-10-30T10:08:00+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:08 am</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/cheng-xu-yuan/'>程序员</a>
+    <a class='category' href='/blog/categories/ioskai-fa/'>ios开发</a>
   
 </span>
 
 
       <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
-<br>原文链接：<a href="http://www.superqq.com/blog/2015/10/11/kill-a-programmer/">http://www.superqq.com/blog/2015/10/11/kill-a-programmer/</a> <!-- 添加这一行代码 -->
+<br>原文链接：<a href="http://www.superqq.com/blog/2015/10/30/two-nice-uialertview/">http://www.superqq.com/blog/2015/10/30/two-nice-uialertview/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -235,10 +201,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/10/09/uiviewcontroller-rectedge/" title="Previous Post: UIViewController的edgesForExtendedLayout属性">&laquo; UIViewController的edgesForExtendedLayout属性</a>
+        <a class="basic-alignment left" href="/blog/2015/10/29/programmer-job-raise/" title="Previous Post: 一次皆大欢喜的程序员跳槽加薪">&laquo; 一次皆大欢喜的程序员跳槽加薪</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/10/16/five-case-know-gcd/" title="Next Post: 五个案例让你明白GCD死锁">五个案例让你明白GCD死锁 &ra/categories.htmlquo;</a>
       
     </p>
   </footer>
@@ -248,7 +212,7 @@
   <section>
     <h1>Comments</h1>
     <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
-<div class="ds-thread" data-title="杀一个程序员不需用枪，改三次需求即可"></div>
+<div class="ds-thread" data-title="两个非常不错的自定义UIAlertView第三方类库"></div>
 <script type="text/javascript">
   var duoshuoQuery = {short_name:"superqq"};
   (function() {

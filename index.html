@@ -81,6 +81,94 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/10/30/two-nice-uialertview/">两个非常不错的自定义UIAlertView第三方类库</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-30T10:08:00+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:08 am</span></time>
+        
+        
+          | <a href="/blog/2015/10/30/two-nice-uialertview/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>UIAlertView大家都不陌生了。UIAlertView不可以添加控件，比如说：UILabel、UITextView等等，所以遇到这个需求，一般都要自定义UIAlertView来解决。</p>
+
+<p>我再github上找到了两个非常错的自定义UIAlertView第三方类库，分别是：LMAlertView和CustomIOSAlertView。</p>
+
+<h2>LMAlertView使用简介</h2>
+
+<p><a href="https://github.com/lmcd/LMAlertView">LMAlertView</a>在github上有610个star。说明这个第三方的UIAlertView还不错，我大概看了一下用法也比较简单。</p>
+
+<p>来看看两个个案例效果：</p>
+
+<p><img src="https://camo.githubusercontent.com/eb9242282b703a847c5ca45ef47462ec507ba573/687474703a2f2f6c6d63642e6d652f4c4d416c657274566965772d637573746f6d4032782e706e67" alt="1" /></p>
+
+<p><img src="https://camo.githubusercontent.com/b1c95e3be84a8d277e1c542ca768b3bdebe043a6/687474703a2f2f6c6d63642e6d652f4c4d416c657274566965772d7265766965774032782e706e673f33" alt="2" /></p>
+
+<h3>用CocoaPods安装LMAlertView</h3>
+
+<pre><code>pod 'LMAlertView'
+</code></pre>
+
+<h3>使用案例</h3>
+
+<pre><code>LMAlertView *alertView = [[LMAlertView alloc] initWithTitle:@"iOSDevTip"
+                                        message:@"关注一下"
+                                       delegate:nil
+                              cancelButtonTitle:@"ok"
+                              otherButtonTitles:nil];
+
+// Add your subviews here to customise
+UIView *contentView = alertView.contentView;
+
+[alertView show];   
+</code></pre>
+
+<p>LMAlertView还保持着UIAlertView的创建方法，作者还比较用心。</p>
+
+<h2>CustomIOSAlertView使用简介</h2>
+
+<p><a href="https://github.com/wimagguc/ios-custom-alertview">CustomIOSAlertView</a>比LMAlertView的star还多一些，有861个。同样我们先看一下效果：</p>
+
+<p><img src="https://github.com/wimagguc/ios-custom-alertview/raw/master/Docs/screen.png" alt="3" /></p>
+
+<h3>用CocoaPods安装CustomIOSAlertView</h3>
+
+<pre><code>pod 'CustomIOSAlertView', '~&gt; 0.9.3'
+</code></pre>
+
+<h3>使用案例</h3>
+
+<pre><code>CustomIOSAlertView *alertView = [[CustomIOSAlertView alloc] init];  UIView *customView ..;
+
+[alertView setContainerView:customView];
+[alertView show];
+</code></pre>
+
+<p>CustomIOSAlertView可以设置代理，还可以通过block来实现按钮的点击事件。功能相对比较齐全。</p>
+
+<p>喜欢的童鞋可以star一下，以备不时之需。如果你觉得不错，记得分享给更多朋友哈，谢谢！</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/10/29/programmer-job-raise/">一次皆大欢喜的程序员跳槽加薪</a></h1>
     
     
@@ -670,60 +758,6 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/09/02/manicure-salary-heigher-programmer/">程序员月入过万已经不再是神话</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-09-02T11:15:01+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:15 am</span></time>
-        
-        
-          | <a href="/blog/2015/09/02/manicure-salary-heigher-programmer/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>创业英雄汇</h2>
-
-<p>最近看了CCTV 2 财经频道的《创业英雄汇》，可能有人还没有看过这个节目。简单介绍一下：《CCTV中国青年创业实战公开课—创业英雄汇》这是一档全新模式、极致化表达的新型创业服务节目。播出时段：财经频道 周五22：10～23：10。建议有创业想法的童鞋，可以好好看一下，说不定可以激发一些灵感！</p>
-
-<p>我看的这一期是20150821。创业导师分别是聚美优品的CEO陈欧和英才杂志社的社长宋立新。陈欧最经典的一句话应该就是：我是陈欧，我为自己代言！之前，没有认真了解过陈欧，只是简答的看了一下关于陈欧的创业故事。通过这次《创业英雄汇》节目，感觉的陈欧确实挺有个人魅力。</p>
-
-<h2>美甲师 VS 程序员</h2>
-
-<p>第一位上台的创业者叫于明山，一位大叔界别的创业者。他的项目是“美道家”，致力于打造专业上门美容服务平台。服务对线就是女性，美容师也都是女性。美女美容师上门服务，听起来就是一个不错的项目。（我们这些屌丝程序员，估计享受不到这种服务啦！）</p>
-
-<p>在导师考核环节，陈欧大概了解了一下“美道家”的美容师上的收入大概是多少。随后，陈欧说：一个好的美甲师，或者一个美容师，挣的钱甚至比一个程序员还高。我前一段时间听说有一个美甲师，甚至挣到五万到七万，这基本上是一个CEO的工资了。</p>
-
-<p>一个美甲师能月入五万到七万，那还干什么程序员啊。想想就觉得还是程序员苦逼，以后再也不说程序员的工资高了。都不好意思说了，人家美甲师就比你高，而且人家还是自由职业者。</p>
-
-<p>前段时间，听人说他们做优步一月轻轻松松月入五六万。优步每个月做够规定的单数，额外奖励7000元。经常在新闻上看到，哪里的司机刷单也你能月入多少多少。（不公平啊！）</p>
-
-<h2>出路在哪里？</h2>
-
-<p>真的是三百六十行，行行出状元啊！作为程序员，三四年工作经验，大概也就是一两万的工资吧。也许你的工资很高，但是加班肯定也不少。</p>
-
-<p>在这个全名创业的浪潮下，我们程序员不能再闲着了。有想法就去干吧，说不定能闯出一片天地。</p>
-
-<p>明天要不要辞职呢？</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -749,6 +783,10 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/10/30/two-nice-uialertview/">两个非常不错的自定义UIAlertView第三方类库</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/10/29/programmer-job-raise/">一次皆大欢喜的程序员跳槽加薪</a>
       </li>
     
@@ -762,10 +800,6 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
     
       <li class="post">
         <a href="/blog/2015/10/20/mac-adobe-photoshop-crack/">Mac Adobe Photoshop CS6 破解教程(图文)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/10/16/five-case-know-gcd/">五个案例让你明白GCD死锁</a>
       </li>
     
   </ul>
