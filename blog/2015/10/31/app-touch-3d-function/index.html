@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>iOS开发之获取沙盒路径 - 刚刚在线</title>
+  <title>为自己的应用配备上 3D Touch 功能 - 刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="iOS开发之沙盒机制（SandBox)详细讲解了沙盒的一些机制。在开发中，我们需要对沙盒进行操作，所以我们需要获取到沙盒路径。">
-  <meta name="keywords" content="沙盒机制, 沙盒路径, 沙盒, iOS开发, 刚刚在线">
+  <meta name="description" content="随着 iPhone 6s 以及 iPhone 6s Plus 的发布，开发者们现在就可以为自己的应用配备上 3D Touch 功能了，从而给界面交互方式开启一个新的维度。">
+  <meta name="keywords" content="3D Touch, 应用,iPhone 6s Plus , iOS开发, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/blog/2015/07/22/ioskai-fa-zhi-huo-qu-sha-he-lu-jing">
+  <link rel="canonical" href="http://www.superqq.com/blog/2015/10/31/app-touch-3d-function">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -78,7 +78,7 @@
   
   <header>
     
-      <h1 class="entry-title">iOS开发之获取沙盒路径</h1>
+      <h1 class="entry-title">为自己的应用配备上 3D Touch 功能</h1>
     
     
       <p class="meta">
@@ -87,7 +87,7 @@
 
 
 
-<time class='entry-date' datetime='2015-07-22T01:02:41+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>1:02 am</span></time>
+<time class='entry-date' datetime='2015-10-31T10:35:24+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>10:35 am</span></time>
         
         
           | <a href="#comments">Comments</a>
@@ -97,84 +97,32 @@
   </header>
 
 
-<div class="entry-content"><p><a href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-%28sandbox/">iOS开发之沙盒机制（SandBox)</a>详细讲解了沙盒的一些机制。在开发中，我们需要对沙盒进行操作，所以我们需要获取到沙盒路径。</p>
+<div class="entry-content"><p>随着 iPhone 6s 以及 iPhone 6s Plus 的发布，开发者们现在就可以为自己的应用配备上 3D Touch 功能了，从而给界面交互方式开启一个新的维度。</p>
 
-<p>沙盒里的文件夹包括Documents、Library、tmp。这三个文件夹的作用请点击<a href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-%28sandbox/">这里</a>。接下来我们来讲解如何获取Documents、Library、tmp的路径。</p>
+<p>正如苹果所言，开发者可以通过非常简单的 API 来使用 3D Touch ，从根本上来说，也就是 UITouch 的一个简单的新属性。</p>
 
-<h3>获取沙盒根目录</h3>
-
-<p>获取沙盒根目录，直接调用NSHomeDirectory()：</p>
-
-<pre><code>//获取沙盒根目录
-NSString *directory = NSHomeDirectory();
-NSLog(@"directory:%@", directory);
+<pre><code>override func touchesBegan(touches: Set&lt;UITouch&gt;, withEvent event: UIEvent?) {
+     guard let touch = touches.first else { return }
+     if traitCollection.forceTouchCapability == .Available {
+        println("Touch pressure is \(touch.force), maximum possible force is \(touch.maximumPossibleForce)")
+     }
+}
 </code></pre>
 
-<!--more-->
+<p>这个新的 API 可以让应用发挥出巨大的潜力，比如说游戏中的额外控制选项、绘图应用中的细粒度(fine-grained)控制，甚至是用来替代我们在 iOS 设备中使用过的长按操作(tap-and-hold)的极佳选择。</p>
 
+<p>除了 UITouch 中新增的 API 外，苹果还为应用提供了两个用来增加3D Touch 功能的类集：UIPreviewAction 和 UIApplicationShortcutItem。</p>
 
-<p>控制台输出：</p>
+<p>UIPreviewAction允许开发者在用户使用 3D Touch 功能触控一个 UI 元素的时候，快速地在一个新的预览窗口中显示某些内容。这种快速浏览应用特定内容的方式真的非常棒，比如说我们可以快速预览邮件信息、照片，甚至是网页内容，而无需弹出一个完整的视图控制器。</p>
 
-<pre><code>2015-07-22 00:40:16.185 iOSStrongDemo[1605:555658] directory:/var/mobile/Containers/Data/Application/F9418815-51A9-4A0A-A76C-6FD37C400928
-</code></pre>
+<p>UIApplicationShortcutItem对象能够让 iOS 主屏幕激活一项令人惊叹的新特性。当用户使用 3D Touch 按下某个应用的图标时，一个选项列表就会被弹出，允许用户快速跳转至应用的特定部分，或者执行某项应用内的功能。</p>
 
-<p>这个是真机的路径，大家有时间的话可以看看模拟器的根目录路径。</p>
+<p><img src="http://images.90159.com/10/touch.jpg" alt="touch" /></p>
 
-<h3>获取Documents路径</h3>
+<p>总而言之，3D Touch 的引入给 iOS 设备解锁了一个全新的交互方式，并且将会给接下来的 iOS 应用带来新一代的创新。关于3D Touch 的实例代码和相关信息可以在苹果开发者网站的3D Touch网页上找到，祝你好运！</p>
 
-<p>获取Documents路径如下：</p>
-
-<pre><code>//获取Documents路径
-NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-NSString *path = [paths objectAtIndex:0];
-NSLog(@"path:%@", path);
-</code></pre>
-
-<p>控制台输出：</p>
-
-<pre><code>2015-07-22 00:41:41.397 iOSStrongDemo[1613:556159] path:/var/mobile/Containers/Data/Application/A62B886B-A8F0-4215-B59D-1F505C3997BD/Documents
-</code></pre>
-
-<p>获取Documents文件夹目录,第一个参数是说明获取Doucments文件夹目录，第二个参数说明是在当前应用沙盒中获取。</p>
-
-<h3>获取Library路径</h3>
-
-<pre><code>//获取Library路径
-NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-NSString *path = [paths objectAtIndex:0];
-NSLog(@"path：%@", path);
-</code></pre>
-
-<p>控制台输出：</p>
-
-<pre><code>2015-07-22 00:43:15.803 iOSStrongDemo[1619:556638] /var/mobile/Containers/Data/Application/17300507-4643-4DE7-BC68-E13DB19C8D98/Library
-</code></pre>
-
-<h3>获取Caches路径</h3>
-
-<pre><code>//获取Caches路径
-NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-NSString *path = [paths objectAtIndex:0];
-NSLog(@"path：%@", path);
-</code></pre>
-
-<p>控制台输出：</p>
-
-<pre><code>2015-07-22 00:44:31.383 iOSStrongDemo[1626:557083] path：/var/mobile/Containers/Data/Application/1E945B52-E29D-4041-A489-1AA1B11BB960/Library/Caches
-</code></pre>
-
-<h3>获取tmp路径</h3>
-
-<pre><code>NSString *tmp = NSTemporaryDirectory();
-NSLog(@"tmp：%@", tmp);
-</code></pre>
-
-<p>控制台输出：</p>
-
-<pre><code>2015-07-22 00:46:07.846 iOSStrongDemo[1632:557537] tmp：/private/var/mobile/Containers/Data/Application/4BE02307-1CC5-47E8-BEA8-CEBB7ED5A402/tmp/
-</code></pre>
-
-<p>以上是iOS开发中获取沙盒路径的方法，也许还有更好的获取方法等待我们去发现。后面我们还会讲到关于在沙盒里进行读写文件操作。</p>
+<p>作者：Tim Oliver
+@TimOliverAU — iComics创始人</p>
 </div>
 
 
@@ -190,18 +138,18 @@ NSLog(@"tmp：%@", tmp);
 
 
 
-<time class='entry-date' datetime='2015-07-22T01:02:41+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>1:02 am</span></time>
+<time class='entry-date' datetime='2015-10-31T10:35:24+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>10:35 am</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/ioskai-fa/'>ios开发</a>
+    <a class='category' href='/blog/categories/tui-jian/'>推荐</a>
   
 </span>
 
 
       <br>来源：刚刚在线（微信：iOSDevTip），欢迎分享本文，转载请保留出处！
-<br>原文链接：<a href="http://www.superqq.com/blog/2015/07/22/ioskai-fa-zhi-huo-qu-sha-he-lu-jing/">http://www.superqq.com/blog/2015/07/22/ioskai-fa-zhi-huo-qu-sha-he-lu-jing/</a> <!-- 添加这一行代码 -->
+<br>原文链接：<a href="http://www.superqq.com/blog/2015/10/31/app-touch-3d-function/">http://www.superqq.com/blog/2015/10/31/app-touch-3d-function/</a> <!-- 添加这一行代码 -->
     </p>
     
       <!-- JiaThis Button BEGIN -->
@@ -222,10 +170,8 @@ NSLog(@"tmp：%@", tmp);
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/07/21/bao-cuo-:process-launch-failed-failed-to-get-the-task-for-process-1285(jie-jue-fang-an-)/" title="Previous Post: 报错：failed to get the task for process 1285（解决方案）">&laquo; 报错：failed to get the task for process 1285（解决方案）</a>
+        <a class="basic-alignment left" href="/blog/2015/10/30/two-nice-uialertview/" title="Previous Post: 两个非常不错的自定义UIAlertView第三方类库">&laquo; 两个非常不错的自定义UIAlertView第三方类库</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/07/22/kuai-kuai-kuai-!27ge-ti-sheng-xiao-lu-de-ioskai-yuan-ku-tui-jian/" title="Next Post: 快快快！27个提升效率的iOS开源库推荐">快快快！27个提升效率的iOS开源库推荐 &ra/categories.htmlquo;</a>
       
     </p>
   </footer>
@@ -235,7 +181,7 @@ NSLog(@"tmp：%@", tmp);
   <section>
     <h1>Comments</h1>
     <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
-<div class="ds-thread" data-title="iOS开发之获取沙盒路径"></div>
+<div class="ds-thread" data-title="为自己的应用配备上 3D Touch 功能"></div>
 <script type="text/javascript">
   var duoshuoQuery = {short_name:"superqq"};
   (function() {

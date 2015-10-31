@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 推荐 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/tui-jian/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-10-30T10:25:48+08:00</updated>
+  <updated>2015-10-31T10:38:35+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,40 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[为自己的应用配备上 3D Touch 功能]]></title>
+    <link href="http://www.superqq.com/blog/2015/10/31/app-touch-3d-function/"/>
+    <updated>2015-10-31T10:35:24+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/10/31/app-touch-3d-function</id>
+    <content type="html"><![CDATA[<p>随着 iPhone 6s 以及 iPhone 6s Plus 的发布，开发者们现在就可以为自己的应用配备上 3D Touch 功能了，从而给界面交互方式开启一个新的维度。</p>
+
+<p>正如苹果所言，开发者可以通过非常简单的 API 来使用 3D Touch ，从根本上来说，也就是 UITouch 的一个简单的新属性。</p>
+
+<pre><code>override func touchesBegan(touches: Set&lt;UITouch&gt;, withEvent event: UIEvent?) {
+     guard let touch = touches.first else { return }
+     if traitCollection.forceTouchCapability == .Available {
+        println("Touch pressure is \(touch.force), maximum possible force is \(touch.maximumPossibleForce)")
+     }
+}
+</code></pre>
+
+<p>这个新的 API 可以让应用发挥出巨大的潜力，比如说游戏中的额外控制选项、绘图应用中的细粒度(fine-grained)控制，甚至是用来替代我们在 iOS 设备中使用过的长按操作(tap-and-hold)的极佳选择。</p>
+
+<p>除了 UITouch 中新增的 API 外，苹果还为应用提供了两个用来增加3D Touch 功能的类集：UIPreviewAction 和 UIApplicationShortcutItem。</p>
+
+<p>UIPreviewAction允许开发者在用户使用 3D Touch 功能触控一个 UI 元素的时候，快速地在一个新的预览窗口中显示某些内容。这种快速浏览应用特定内容的方式真的非常棒，比如说我们可以快速预览邮件信息、照片，甚至是网页内容，而无需弹出一个完整的视图控制器。</p>
+
+<p>UIApplicationShortcutItem对象能够让 iOS 主屏幕激活一项令人惊叹的新特性。当用户使用 3D Touch 按下某个应用的图标时，一个选项列表就会被弹出，允许用户快速跳转至应用的特定部分，或者执行某项应用内的功能。</p>
+
+<p><img src="http://images.90159.com/10/touch.jpg" alt="touch" /></p>
+
+<p>总而言之，3D Touch 的引入给 iOS 设备解锁了一个全新的交互方式，并且将会给接下来的 iOS 应用带来新一代的创新。关于3D Touch 的实例代码和相关信息可以在苹果开发者网站的3D Touch网页上找到，祝你好运！</p>
+
+<p>作者：Tim Oliver
+@TimOliverAU — iComics创始人</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[五个案例让你明白GCD死锁]]></title>
@@ -886,203 +920,6 @@ Xcode -> Product -> Profile -> Allocations， 开启之后我们来使用右下�
 <p><img src="http://images.90159.com/icon/iOSDevTip.jpg" alt="iOSDevTip" /></p>
 
 <p>原文链接：<a href="http://bihongbo.com/2015/08/19/sinaAnimation/">http://bihongbo.com/2015/08/19/sinaAnimation/</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[环形渐变进度条实现]]></title>
-    <link href="http://www.superqq.com/blog/2015/08/12/realization-circular-gradient-progress/"/>
-    <updated>2015-08-12T01:12:05+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/08/12/realization-circular-gradient-progress</id>
-    <content type="html"><![CDATA[<p>之前有人在找渐变进度条的效果，闲来无事就顺手写了一个，然后画了视图层级，方便讲解。</p>
-
-<p>环境信息：</p>
-
-<p>Mac OS X 10.10.3</p>
-
-<p>Xcode 6.3.1</p>
-
-<p>iOS 8.3</p>
-
-<p>效果图：</p>
-
-<p><img src="http://images.90159.com/08/result.gif" alt="1" /></p>
-
-<p>源码下载地址：<a href="https://github.com/saitjr/LoopProgressDemo.git">LoopProgressDemo</a></p>
-
-<p>正文</p>
-
-<h2>一、视图层级</h2>
-
-<p>首先需要搞定的就是视图层级关系。可以看到，</p>
-
-<pre><code>1. 背景是有透明度的蓝色(blueView)
-
-2. 需要一个从绿-&gt;黄-&gt;红的渐变色，那个这里我采用的是Layer(colorLayer)
-
-3. blueView和colorLayer他们的表现状态都是环形的，所以还需要环形的遮罩
-
-4. 蓝色的环并没有变，而渐变色的环却在时刻变化，所以需要两个遮罩，一个给蓝色(blueMaskLayer)，一个给渐变色(colorMaskLayer)
-</code></pre>
-
-<p>从上面的分析可以看出，现在需要几个变量以及他们的关系如下：</p>
-
-<pre><code>[viewController.view addSubView:blueView];
-[blueView.layer addSubLayer:colorLayer];
-colorLayer.mask = colorMaskLayer;
-blueView.layer.mask = blueMaskLayer;
-</code></pre>
-
-<!--more-->
-
-
-<p>视图层级图如下：</p>
-
-<p><img src="http://images.90159.com/08/ios-implement-loop-progress-1.png" alt="1" /></p>
-
-<h2>二、根据视图层级来实现</h2>
-
-<p>搞清楚了层级，接着就应该逐个实现了。</p>
-
-<ol>
-<li>有透明度的蓝色视图blueView</li>
-</ol>
-
-
-<p>ViewController.m</p>
-
-<p>BlueView *blueView = [[BlueView alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
-blueView.center = self.view.center;
-blueView.backgroundColor = [UIColor blueColor]; // 我这里没有给透明度
-[self.view addSubView:blueView];</p>
-
-<ol>
-<li>渐变图层colorLayer</li>
-</ol>
-
-
-<p>因为系统没有提供根据路径渐变的实现方法，所以只能采用曲线救国的方式来画。那么我所使用的方法是：在左边画一个从下往上为绿->黄的渐变Layer（leftLayer），然后右边画一个从下往上为红->黄的渐变Layer（rightLayer）。</p>
-
-<p>效果图如下：</p>
-
-<p><img src="http://images.90159.com/08/ios-implement-loop-progress-2.png" alt="1" /></p>
-
-<p>渐变色</p>
-
-<p>但是这种方式效果不是很好，因为黄绿色和橘红色的分界太明显，所以最好设置一个渐变的范围。</p>
-
-<p>效果图如下：</p>
-
-<p><img src="http://images.90159.com/08/ios-implement-loop-progress-3.png" alt="1" /></p>
-
-<p>设置渐变范围的渐变色</p>
-
-<p>实现代码：</p>
-
-<p>BlueView.m</p>
-
-<pre><code>- (void)setupColorLayer {
-    self.colorLayer = [CAShapeLayer layer];
-    self.colorLayer.frame = self.bounds;
-    [self.layer addSublayer:self.colorLayer];
-
-    CAGradientLayer *leftLayer = [CAGradientLayer layer];
-    leftLayer.frame = CGRectMake(0, 0, self.bounds.size.width / 2, self.bounds.size.height);
-    // 分段设置渐变色
-    leftLayer.locations = @[@0.3, @0.9, @1];
-    leftLayer.colors = @[(id)[UIColor yellowColor].CGColor, (id)[UIColor greenColor].CGColor];
-    [self.colorLayer addSublayer:leftLayer];
-
-    CAGradientLayer *rightLayer = [CAGradientLayer layer];
-    rightLayer.frame = CGRectMake(self.bounds.size.width / 2, 0, self.bounds.size.width / 2, self.bounds.size.height);
-    rightLayer.locations = @[@0.3, @0.9, @1];
-    rightLayer.colors = @[(id)[UIColor yellowColor].CGColor, (id)[UIColor redColor].CGColor];
-    [self.colorLayer addSublayer:rightLayer];
-}
-</code></pre>
-
-<ol>
-<li>渐变图层的环形遮罩colorMaskLayer</li>
-</ol>
-
-
-<p>因为渐变图层环形遮罩和蓝色视图的环形遮罩样式都是一样的，所以可以将环形遮罩的创建代码封装出来：</p>
-
-<p>BlueView.m</p>
-
-<pre><code>- (CAShapeLayer *)generateMaskLayer {
-
-    CAShapeLayer *layer = [CAShapeLayer layer];
-    layer.frame = self.bounds;
-
-    // 创建一个圆心为父视图中点的圆，半径为父视图宽的2/5，起始角度是从-240°到60°
-    UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.bounds.size.width / 2, self.bounds.size.height / 2) radius:self.bounds.size.width / 2.5 startAngle:-3 / 4 * M_PI endAngle:1 / 3 * M_PI clockwise:YES];
-    layer.lineWidth = 20;
-    layer.path = path.CGPath;
-    layer.fillColor = [UIColor clearColor].CGColor; // 填充色为透明（不设置为黑色）
-    layer.strokeColor = [UIColor blackColor].CGColor; // 随便设置一个边框颜色
-    layer.lineCap = kCALineCapRound; // 设置线为圆角
-    return layer;
-}
-</code></pre>
-
-<p>设置渐变色环形遮罩层</p>
-
-<p>BlueView.m</p>
-
-<pre><code>- (void)setupColorMaskLayer {
-
-    CAShapeLayer *layer = [self generateMaskLayer];
-    layer.lineWidth = 20.5; // 渐变遮罩线宽较大，防止蓝色遮罩有边露出来
-    self.colorLayer.mask = layer;
-
-    self.colorMaskLayer = [CAShapeLayer layer];
-    self.colorMaskLayer = layer;
-}
-</code></pre>
-
-<ol>
-<li>blueView的环形遮罩blueMaskLayer</li>
-</ol>
-
-
-<p>BlueView.m</p>
-
-<pre><code>- (void)setupBlueMaskLayer {
-
-    CAShapeLayer *layer = [self generateMaskLayer];
-    self.layer.mask = layer;
-    self.blueMaskLayer = layer;
-}
-</code></pre>
-
-<ol>
-<li>设置百分比</li>
-</ol>
-
-
-<p>设置渐变色所占的百分比，其实就是改变colorMaskLayer的范围，系统提供了一个方法可以直接根据百分比来修改。</p>
-
-<pre><code>self.colorMaskLayer.strokeEnd = 0.5;
-</code></pre>
-
-<p>到此，整个效果就已经完成了，接下来说一下回弹动画。</p>
-
-<h2>三、设置回弹动画</h2>
-
-<p>我所使用的是pop库中的POPSpringAnimation，这个效果比较Q弹，加在进度条上刚好。要加动画，只需要把上面的修改strokeEnd的代码换成一下方法就可以了：</p>
-
-<pre><code>- (void)animationWithStrokeEnd:(CGFloat)strokeEnd {
-
-    POPSpringAnimation *strokeAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPShapeLayerStrokeEnd];
-    strokeAnimation.toValue = @(strokeEnd);
-    strokeAnimation.springBounciness = 12.f;
-    strokeAnimation.removedOnCompletion = NO;
-    [self.colorMaskLayer pop_addAnimation:strokeAnimation forKey:@"layerStrokeAnimation"];
-}
-</code></pre>
-
-<p>来源：<a href="http://www.brighttj.com/ios/ios-implement-loop-progress.html">http://www.brighttj.com/ios/ios-implement-loop-progress.html</a></p>
 ]]></content>
   </entry>
   
