@@ -81,6 +81,124 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/03/24/zi-ji-dong-shou-chuang-jian-%5B%3F%5D-ge-dui-lie-lgqueue/">自己动手实现一个队列LGQueue</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-03-24T17:13:39+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:13 pm</span></time>
+        
+        
+          | <a href="/blog/2015/03/24/zi-ji-dong-shou-chuang-jian-%5B%3F%5D-ge-dui-lie-lgqueue/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>iOS系统没有提供queue容器，如果想用，需要手动自己来写一个：</p>
+
+<p>.h</p>
+
+<pre><code>//
+//  LGQueue.h
+//  AntsSportApp
+//
+//  Created by ligang on 15/3/24.
+//  Copyright (c) 2015年 ligang. All rights reserved.
+//
+
+#import &lt;Foundation/Foundation.h&gt;
+
+@interface LGQueue : NSObject
+
+@property (nonatomic, strong) NSMutableArray *queue;
+
+@property (nonatomic, readonly) NSInteger count;
+
+- (void)enterQueue:(id)object;
+- (id)exitQueue;
+- (void)clear;
+
+
+
+@end
+</code></pre>
+
+<p>.m</p>
+
+<pre><code>//
+//  LGQueue.m
+//  AntsSportApp
+//
+//  Created by ligang on 15/3/24.
+//  Copyright (c) 2015年 ligang. All rights reserved.
+//
+
+#import "LGQueue.h"
+
+@implementation LGQueue
+
+- (id)init
+{
+    if ( self = [super init] ) {
+
+        self.queue = [[NSMutableArray alloc] init];
+        _count = 0;
+
+    }
+    return self;
+}
+
+- (void)enterQueue:(id)object
+{
+    [self.queue addObject:object];
+    _count = self.queue.count;
+}
+
+
+- (id)exitQueue
+{
+    if ( self.queue.count == 0 )  return nil;
+
+    id object = [self.queue objectAtIndex:0];
+    [self.queue removeObjectAtIndex:0];
+    _count = self.queue.count;
+
+    return object;
+
+}
+
+
+- (void)clear
+{
+    [self.queue removeAllObjects];
+    _count = 0;
+}
+
+@end
+</code></pre>
+
+<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/03/21/dan-li-mo-shi-de-xie-fa/">单例模式的两种写法</a></h1>
     
     
@@ -1305,92 +1423,6 @@ Earliest supported deployment target - iOS 7.0</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/01/07/twittercover/">TwitterCover</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-01-07T13:20:17+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:20 pm</span></time>
-        
-        
-          | <a href="/blog/2015/01/07/twittercover/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-
-<p> <a href="https://github.com/cyndibaby905/TwitterCover.git"target="_blank"title="源代码">源代码</a></p>
-
-<p> ## TwitterCover ##</p>
-
-<p>TwitterCover is a parallax top view with real time blur effect to any UIScrollView, inspired by Twitter for iOS.</p>
-
-<p>Completely created using UIKit framework.</p>
-
-<p>Easy to drop into your project.</p>
-
-<p>You can add this feature to your own project, <code>TwitterCover</code> is easy-to-use.</p>
-
-<h2>Requirements</h2>
-
-<p>TwitterCover requires Xcode 5, targeting either iOS 5.0 and above, ARC-enabled.</p>
-
-<h2>How to use</h2>
-
-<p>Drag UIScrollView+TwitterCover.h amd UIScrollView+TwitterCover.m files to your project.</p>
-
-<p>No other frameworks required.</p>
-
-<pre><code>#import "UIScrollView+TwitterCover.h"
-
-UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-[scrollView addTwitterCoverWithImage:[UIImage imageNamed:@"cover.png"]];
-</code></pre>
-
-<p>And do not forget to remove it in your dealloc method, otherwise memory leaks:</p>
-
-<pre><code>[scrollView removeTwitterCoverView];    
-</code></pre>
-
-<h2>How it looks</h2>
-
-<p><img src="https://raw.github.com/cyndibaby905/TwitterCover/master/TwitterCover.gif" /></a></p>
-
-<h2>Lincense</h2>
-
-<p><code>TwitterCover</code> is available under the MIT license. See the LICENSE file for more info.</p>
-
-<p><strong>更多源代码：</strong></p>
-
-<p><a href="http://www.superqq.com/blog/2015/01/07/dkcirclebutton/">DKCircleButton</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/01/06/vvdocumenter-xcode/">VVDocumenter-Xcode</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/01/07/hackernews/">HackerNews</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/01/06/gpuimage/">GPUImage</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/12">&larr; Older</a>
@@ -1418,6 +1450,10 @@ UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds]
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/11/01/humor-code-world/">程序猿的幽默趣图，你并不懂他们的真正世界</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/10/31/app-touch-3d-function/">为自己的应用配备上 3D Touch 功能</a>
       </li>
     
@@ -1431,10 +1467,6 @@ UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds]
     
       <li class="post">
         <a href="/blog/2015/10/28/20-years-programmers/">20年的老程序员对新入行的朋友的一些建议</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/10/27/product-manager-calculate-app/">从产品经理的角度算一算，做一个app需要花多少钱？</a>
       </li>
     
   </ul>

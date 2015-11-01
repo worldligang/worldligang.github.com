@@ -81,6 +81,60 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/11/01/humor-code-world/">程序猿的幽默趣图，你并不懂他们的真正世界</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-01T13:22:00+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>1:22 pm</span></time>
+        
+        
+          | <a href="/blog/2015/11/01/humor-code-world/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>作为程序员 ，你不能错过的幽默！</p></blockquote>
+
+<h3>1、旁人眼中的程序猿和真实世界的程序猿。</h3>
+
+<p><img src="http://images.90159.com/11/humor1.gif" alt="humor1" /></p>
+
+<h3>2、多线程的理论和现实。</h3>
+
+<p><img src="http://images.90159.com/11/humor2.jpg" alt="humor2" /></p>
+
+<h3>3、你是这样的还是那样的BUG？</h3>
+
+<p><img src="http://images.90159.com/11/humor3.gif" alt="humor3" /></p>
+
+<h3>4、我想重构，但又怕重构后，从此程序就不能再正常&hellip;&hellip;..</h3>
+
+<p><img src="http://images.90159.com/11/humor4.jpg" alt="humor4" /></p>
+
+<h3>5、客户的期望VS最终产品</h3>
+
+<p><img src="http://images.90159.com/11/humor5.gif" alt="humor5" /></p>
+
+<p>来自：网络</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/10/31/app-touch-3d-function/">为自己的应用配备上 3D Touch 功能</a></h1>
     
     
@@ -660,60 +714,6 @@ label.textAlignment = NSTextAlignmentCenter;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/09/29/rebuild-bitcode-enable/">报错：You Must Rebuild It With Bitcode Enabled (Xcode Setting ENABLE_BITCODE)（解决方案）</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-09-29T15:08:00+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:08 pm</span></time>
-        
-        
-          | <a href="/blog/2015/09/29/rebuild-bitcode-enable/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>马上就要十一放假啦！大家是不是都很期待这一天到来，哈哈。相信有不少人跟我一样，早就请三天假回家了吧。希望大家十一都玩的开心噢！</p>
-
-<p>今天在家里闲来无事，我就用Xcode7.0建一个项目。然后，引入一个第三方库，竟然运行不起来。报错如下：</p>
-
-<p><img src="http://images.90159.com/09/error1.png" alt="1" /></p>
-
-<p>我把错误提示复制出来，方便大家搜索：</p>
-
-<pre><code>ld: 'XXX' does not contain bitcode. You must rebuild it with bitcode enabled (Xcode setting ENABLE_BITCODE), obtain an updated library from the vendor, or disable bitcode for this target. for architecture arm64
-clang: error: linker command failed with exit code 1 (use -v to see invocation)
-</code></pre>
-
-<p>Xcode7.0默认是开启Enable Bitcode的，如果你导入的一些第三方库在编译的时候没有Enable Bitcode 的话，就会导致报错。</p>
-
-<p>解决方法有两种：</p>
-
-<p>方法一：使用Enable Bitcode的第三方库</p>
-
-<p>方法二：将工程中的Enable Bitcode设置为NO</p>
-
-<p><img src="http://images.90159.com/09/error2.png" alt="1" /></p>
-
-<p>如果你有更好的解决方法，记得告诉我噢！</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -739,6 +739,10 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/11/01/humor-code-world/">程序猿的幽默趣图，你并不懂他们的真正世界</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/10/31/app-touch-3d-function/">为自己的应用配备上 3D Touch 功能</a>
       </li>
     
@@ -752,10 +756,6 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
     
       <li class="post">
         <a href="/blog/2015/10/28/20-years-programmers/">20年的老程序员对新入行的朋友的一些建议</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/10/27/product-manager-calculate-app/">从产品经理的角度算一算，做一个app需要花多少钱？</a>
       </li>
     
   </ul>
