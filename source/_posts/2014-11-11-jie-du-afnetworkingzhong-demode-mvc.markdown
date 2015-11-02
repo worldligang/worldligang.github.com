@@ -12,16 +12,16 @@ Demo的下载地址：<a href=""></a><a href="https://github.com/AFNetworking/AF
 
 打开Demo：
 
-<img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlylDJt3FABXaQmFVO4Hqm1zNzeQGY2kKVSJ9CtQR7HWcsKelE6nuLauFQMdWtO2L90ccabibh5v1yeg/640">
+<img src="http://images.90159.com/11/mvc1.jpg">
 
 
 现实的功能，就是一个简易的微博timeline界面：
 
-<img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlylDJt3FABXaQmFVO4Hqm1zNW4svNoeQPlAsBHJ40YJeiaUib7ia5Hdgo9Yf5YBee5zZ1lDbXphGCHibCQ/640">
+<img src="http://images.90159.com/11/mvc2.jpg">
 
 项目预览：
 
-<img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlylDJt3FABXaQmFVO4Hqm1zNFUp9X2kpra3gqd98Qh4Yn1RhnHsIKcI46TP97BVKbvJicpvYoUd5tuA/640">
+<img src="http://images.90159.com/11/mvc3.jpg">
 
 
 用到的第三方：AFNetworking 和 UIKit+AFNetworking

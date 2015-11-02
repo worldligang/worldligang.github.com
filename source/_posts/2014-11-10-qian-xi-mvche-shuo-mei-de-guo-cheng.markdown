@@ -15,7 +15,7 @@ MVC 全名是Model View Controller，是模型(model)－视图(view)－控制器
 
 图解MVC（斯坦福公开课的课件）
 
-<img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlyntSNHaU7eaCHkcL3pjib2pNyjgWU7BF1D1YgmicwMFpFuefvttAe7fEwCu8TTmkmfkRtAO0Hvt1HfA/640">
+<img src="http://images.90159.com/11/mvc.png">
 
 看了上面的MVC定义和图解，对MVC有了初步的了解，特别是斯坦福这个课件，讲的非常到位。但是在实际开发过程中，却感觉离MVC的标准越来越远。
 
@@ -24,7 +24,7 @@ MVC 全名是Model View Controller，是模型(model)－视图(view)－控制器
 特别是C（我们就把UIViewController当做C来看，网上有对C的其他解释）显得别急臃肿。有时候C里面代码几千行（并不是说代码过千就是不符合MVC），C干了很多M干的事，同时也干了很多V要干的事。
 
 这几天我看了一个项目（AFNetworking的作者写的DEMO，大家可以到github上下载），觉得MVC用的非常到位。每一步都是很周到，M和C的对接，V和C的对接，做到非常到位。
-
+<!--more-->
 对于MVC，我说说我的理解，俗一点讲：媒婆说没得过程。M -> 男人 ， V -> 女人 ， C -> 媒婆。
 
 C（媒婆） 要给 M（男人） 介绍个女朋友 V （女人），C 是一个桥梁起着对接的作用， M 和 V 本是不认识的两个人，不能直接沟通。

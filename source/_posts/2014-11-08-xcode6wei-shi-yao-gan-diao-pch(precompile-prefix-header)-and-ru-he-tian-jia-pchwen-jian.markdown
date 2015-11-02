@@ -28,17 +28,17 @@ StackOverFlow上讨论的已经比较清晰了
 
 1，Command+N，打开新建文件窗口：ios->other->PCH file，创建一个pch文件：“工程名-Prefix.pch”：
 
-<img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlynoFBbyWveMYy6wticicsiasX3njmTFhaLX2E5bcJ6nCw3eqnuhNokuWGOpnj2VfFebls5132y2cDI6g/0">
+<img src="http://images.90159.com/11/pch1.png">
 
 2，将building setting中的precompile header选项的路径添加“$(SRCROOT)/项目名称/pch文件名”（例如：$(SRCROOT)/LotteryFive/LotteryFive-Prefix.pch）
 
-<img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlynoFBbyWveMYy6wticicsiasX38btBBs0AT3s6kGic99kpGDMk9bJ4ctI8bQRL7ahnavlDqm21QDTfWBA/0">
+<img src="http://images.90159.com/11/pch2.png">
 
 可以了，编译一下程序，如果有错误检查一下添加的路径是否正确。
 
 3，将Precompile Prefix Header为YES，预编译后的pch文件会被缓存起来，可以提高编译速度
 
-<img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlynoFBbyWveMYy6wticicsiasX35f55EbKxXYqghNKeE4o3YLYTvRyQzdMMcVaQmmkNE68hZypyI24lQQ/0">
+<img src="http://images.90159.com/11/pch3.png">
 
 
 
