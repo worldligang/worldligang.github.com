@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-11-12T18:22:18+08:00</updated>
+  <updated>2015-11-12T18:24:59+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -18,9 +18,7 @@
     <link href="http://www.superqq.com/blog/2015/11/12/remote-notification-error/"/>
     <updated>2015-11-12T18:21:17+08:00</updated>
     <id>http://www.superqq.com/blog/2015/11/12/remote-notification-error</id>
-    <content type="html"><![CDATA[<h1>add &ldquo;remote-notification&rdquo; to the list of your supported UIBackgroundModes in your Info.plist.解决方案</h1>
-
-<p>做推送的童鞋可能会遇到这样的问题，控制台会打印一句话：</p>
+    <content type="html"><![CDATA[<p>做推送的童鞋可能会遇到这样的问题，控制台会打印一句话：</p>
 
 <p>You&rsquo;ve implemented -[<UIApplicationDelegate> application:didReceiveRemoteNotification:fetchCompletionHandler:], but you still need to add &ldquo;remote-notification&rdquo; to the list of your supported UIBackgroundModes in your Info.plist.</p>
 
