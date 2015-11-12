@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-11-02T13:25:58+08:00</updated>
+  <updated>2015-11-12T18:22:18+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,29 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Add "Remote-notification" to the List of Your Supported UIBackgroundModes in Your Info.plist.解决方案]]></title>
+    <link href="http://www.superqq.com/blog/2015/11/12/remote-notification-error/"/>
+    <updated>2015-11-12T18:21:17+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/11/12/remote-notification-error</id>
+    <content type="html"><![CDATA[<h1>add &ldquo;remote-notification&rdquo; to the list of your supported UIBackgroundModes in your Info.plist.解决方案</h1>
+
+<p>做推送的童鞋可能会遇到这样的问题，控制台会打印一句话：</p>
+
+<p>You&rsquo;ve implemented -[<UIApplicationDelegate> application:didReceiveRemoteNotification:fetchCompletionHandler:], but you still need to add &ldquo;remote-notification&rdquo; to the list of your supported UIBackgroundModes in your Info.plist.</p>
+
+<p>解决办法：</p>
+
+<p><img src="http://images.90159.com/11/error1.png" alt="error1" /></p>
+
+<p>这个时候再去看看Info.plist文件：</p>
+
+<p><img src="http://images.90159.com/11/error2.png" alt="error2" /></p>
+
+<p>再次运行，问题就解决啦！</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[两个非常不错的自定义UIAlertView第三方类库]]></title>
@@ -244,74 +267,6 @@ if (scrollView.contentOffset.y == scrollView.contentSize.height - self.tableView
 <p>这样我们就实现了通过UITablView上下滑动控制底部按钮的出现和消失。代码我已经上传的github，下载地址还是<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
 
 <p>如果你觉得文章还不错，请分享给你的同学和朋友，欢迎推荐他们关注iOS开发：iOSDevTip 公众号。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS开发征稿启示（打赏归作者所有）]]></title>
-    <link href="http://www.superqq.com/blog/2015/08/22/development-ios-reward/"/>
-    <updated>2015-08-22T00:45:26+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/08/22/development-ios-reward</id>
-    <content type="html"><![CDATA[<h2>iOS开发订阅用户突破10000人</h2>
-
-<p>首先，非常感谢您的支持和一路陪伴！经过一年多的发展，iOS开发（iOSDevTip）微信公众号的订阅用户越来越多，已经超过10000人。这是一件好事，也是对iOS开发公众号价值的体现。</p>
-
-<p>这一年多的时间里，我每天都在为寻求一篇好的iOS开发文章而努力。这个过程有快乐也有艰辛。每天做一件事，说起来不难，真要坚持下来，不是那么容易的一件事情。我说这些，并不是要证明自己有多厉害。为了寻求好的文章，我会经常阅读大量的博文，上各大程序员门户网站。有时，会因为发现一篇好的文章而庆幸不已；有时，也会因为找不到文章而心里焦急。</p>
-
-<p>后来，我建立了自己的博客<a href="http://www.superqq.com/">刚刚在线</a>：www.superqq.com 。有时间，我就会写一些技术文章分享在上面。也会把文章同步到iOS开发公众号上。</p>
-
-<p>随着订阅用户的增多，大家对文章内容的需求也越来越高。由于我一个人的力量毕竟有限，可能无法满足所有人的需求。订阅iOS开发的用户不乏一些大牛，所以我想发动大家的力量，一起来为优质的iOS开发文章而努力。</p>
-
-<h2>毕洪博投稿文章情况</h2>
-
-<p>七夕那天，作者毕洪博投稿<a href="http://www.superqq.com/blog/2015/08/21/sina-animation/"> 一句代码添加新浪弹出框动画 </a>得到了不错的反响，我把主数据给大家看看：</p>
-
-<pre><code>图文阅读：1695
-原文阅读：19   
-转发+收藏：193
-文章发布日期：2015-08-20
-评论人数：5
-赞赏人数：3
-赞赏金额：9元
-</code></pre>
-
-<p>从阅读量上来看，还是挺不错的。虽然赞赏金额不多吧，但也算是有一点点回报。七夕那天夜里，我找到作者毕洪博给他发了一个红包。哈哈！</p>
-
-<p>如果您是一名iOS开发者，如果您有自己的博客，如果您喜欢分享，那就快行动吧！把您的优秀文章投稿给我，我将会把您的文章推送在iOS开发微信公众号上，分享给更多的iOS开发者。</p>
-
-<!--more-->
-
-
-<h2>投稿方式</h2>
-
-<pre><code>投稿邮箱：worldligang@163.com
-个人微信：chinaligang
-投稿格式：markdown格式
-博主联盟群：364679270
-</code></pre>
-
-<p>因为微信上面不方便阅读代码，但是支持markdown语法转换。所以投稿的时候，最好是markdown格式的。投稿之后，请记得加我的个人微信，以便我将打赏的钱转账给您。如果你有自己的博客，欢迎加入博主联盟群。</p>
-
-<h2>版权申明</h2>
-
-<ul>
-<li><p>微信公众号规定打赏必须是原创文章，所以希望您能将你的文章在微信公众平台的发表权「独家代理」iOS开发（ iOSDevTip ） 微信公众号。这样我就可以对您的文章申明原创和开通打赏功能。文章的版权依然归您所有，你可以将文章发布在你的博客、微博上。</p></li>
-<li><p>为了证明我得到您的授权，您需要在您的文章底部加上如下申明：</p>
-
-<p>  版权声明：我已将本文在微信公众平台的发表权「独家代理」给 iOS开发（ iOSDevTip ） 微信公众号。扫下方二维码即可关注「iOS 开发」：</p>
-
-<p>  <img src="http://images.90159.com/icon/iOSDevTip.jpg" alt="iOSDevTip" /></p></li>
-</ul>
-
-
-<p>申明markdown格式为：</p>
-
-<pre><code>    版权声明：我已将本文在微信公众平台的发表权「独家代理」给 iOS开发（ iOSDevTip ） 微信公众号。扫下方二维码即可关注「iOS 开发」：
-
-    ![iOSDevTip](http://images.90159.com/icon/iOSDevTip.jpg)    
-</code></pre>
-
-<p>如果对投稿有什么疑问，欢迎加我微信：chinaligang，详细了解一下。</p>
 ]]></content>
   </entry>
   
