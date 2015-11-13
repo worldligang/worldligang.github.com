@@ -81,6 +81,185 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/06/21/ios-she-ji-mo-shi-xi-lie-:command-ming-ling-mo-shi/">iOS 设计模式系列：Command – 命令模式</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-21T23:39:03+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>11:39 pm</span></time>
+        
+        
+          | <a href="/blog/2015/06/21/ios-she-ji-mo-shi-xi-lie-:command-ming-ling-mo-shi/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>命令模式</strong>封装一个请求或行为作为一个对象。封装的请求比原的更加灵活，可以在对象之间传递，储存，动态修改，或放入一个队列。苹果的Target-Action调用机制已经实现了命令模式。</p>
+
+<p>你可以查看跟多关于<a href="https://developer.apple.com/library/ios/documentation/General/Conceptual/CocoaEncyclopedia/Target-Action/Target-Action.html">Target-Action</a>的苹果官方文档，
+NSInvocation包含一个target对象，一个方法和一些参数。这个对象可以按需要动态修改。这是一个非常好的命令模式的列子。减少发送对象和接受对象之间的操作，直接写成一个请求或请求链。</p>
+
+<h3>如何用命令模式</h3>
+
+<p>调用之前，你需要设置取消动作的框架。所以你需要定义一个UIToolBar和NSMutableArray保存需要撤销的堆栈。</p>
+
+<p>添加代码到ViewController.m 文件：</p>
+
+<pre><code>    UIToolbar *toolbar;
+// We will use this array as a stack to push and pop operation for the undo option
+    NSMutableArray *undoStack;
+</code></pre>
+
+<p>创建一个toolbar将显示新的动作按钮，以及一个数组作为命令队列。</p>
+
+<p>将下面的代码添加到viewDidLoad：</p>
+
+<pre><code>  toolbar = [[UIToolbar alloc] init];
+UIBarButtonItem *undoItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemUndo target:self action:@selector(undoAction)];
+undoItem.enabled = NO;
+UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+UIBarButtonItem *delete = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteAlbum)];
+[toolbar setItems:@[undoItem,space,delete]];
+[self.view addSubview:toolbar];
+undoStack = [[NSMutableArray alloc] init];
+</code></pre>
+
+<p>上面的代码创建了一个toolbar和两个按钮，它还创建一个空的撤消堆栈。这里的撤销按钮被禁用因为撤销栈为空。</p>
+
+<p>将下面代码添加到ViewController.m：</p>
+
+<pre><code>- (void)viewWillLayoutSubviews
+{
+    toolbar.frame = CGRectMake(0, self.view.frame.size.height-44, self.view.frame.size.width, 44);
+    dataTable.frame = CGRectMake(0, 130, self.view.frame.size.width, self.view.frame.size.height - 200);
+}
+</code></pre>
+
+<p>在ViewController.m增加三个方法：增加、删除、撤销。</p>
+
+<p>增加一个新专辑代码如下：</p>
+
+<pre><code>- (void)addAlbum:(Album*)album atIndex:(int)index
+{
+    [[LibraryAPI sharedInstance] addAlbum:album atIndex:index];
+    currentAlbumIndex = index;
+    [self reloadScroller];
+}
+</code></pre>
+
+<p>在这里你添加相册，将其设置为当前专辑索引，并重新加载。</p>
+
+<p>接下来就是删除方法：</p>
+
+<pre><code>- (void)deleteAlbum
+{
+    // 1
+    Album *deletedAlbum = allAlbums[currentAlbumIndex];
+
+    // 2
+    NSMethodSignature *sig = [self methodSignatureForSelector:@selector(addAlbum:atIndex:)];
+    NSInvocation *undoAction = [NSInvocation invocationWithMethodSignature:sig];
+    [undoAction setTarget:self];
+    [undoAction setSelector:@selector(addAlbum:atIndex:)];
+    [undoAction setArgument:&amp;deletedAlbum atIndex:2];
+    [undoAction setArgument:&amp;currentAlbumIndex atIndex:3];
+    [undoAction retainArguments];
+
+    // 3
+    [undoStack addObject:undoAction];
+
+    // 4
+    [[LibraryAPI sharedInstance] deleteAlbumAtIndex:currentAlbumIndex];
+    [self reloadScroller];
+
+    // 5
+    [toolbar.items[0] setEnabled:YES];
+}
+</code></pre>
+
+<p>这是一段新的令人激动的代码，讲解如下：</p>
+
+<ol>
+<li>得到要删除的专辑信息</li>
+<li>Define an object of type NSMethodSignature to create the NSInvocation, which will be used to reverse the delete action if the user later decides to undo a deletion. The NSInvocation needs to know three things: The selector (what message to send), the target (who to send the message to) and the arguments of the message. In this example the message sent is delete’s opposite since when you undo a deletion, you need to add back the deleted album.</li>
+<li>After the undoAction has been created you add it to the undoStack. This action will be added to the end of the array, just as in a normal stack.</li>
+<li>Use LibraryAPI to delete the album from the data structure and reload the scroller.</li>
+<li><p>Since there’s an action in the undo stack, you need to enable the undo button.</p>
+
+<pre><code> 提示: With NSInvocation, you need to keep the following points in mind:
+
+ The arguments must be passed by pointer.
+ The arguments start at index 2; indices 0 and 1 are reserved for the target and the selector.
+ If there’s a chance that the arguments will be deallocated, then you should call retainArguments.
+</code></pre></li>
+</ol>
+
+
+<p>最后，添加撤销方法：</p>
+
+<pre><code>- (void)undoAction
+{
+    if (undoStack.count &gt; 0)
+    {
+        NSInvocation *undoAction = [undoStack lastObject];
+        [undoStack removeLastObject];
+        [undoAction invoke];
+    }
+
+    if (undoStack.count == 0)
+    {
+        [toolbar.items[0] setEnabled:NO];
+    }
+}
+</code></pre>
+
+<p>这个撤销操作是取消栈里最后一个对象，This object is always of type NSInvocation and can be invoked by calling … invoke. This invokes the command you created earlier when the album was deleted, and adds the deleted album back to the album list. Since you also deleted the last object in the stack when you “popped” it, you now check to see if the stack is empty. If it is, that means there are no more actions to undo. So you disable the Undo button.</p>
+
+<p>运行你的app，测试撤销功能，删除一个专辑（或两个）然后点击撤销按钮看看效果：</p>
+
+<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2013/08/design-pattern-stage4.png" alt="1" /></p>
+
+<p>这也是一个很好的地方来测试是否你的相册数据保留会变化。现在，如果你删除一个专辑，app退到后台，并终止应用程序，在下次启动应用程序显示的专辑列表不会有删除专辑信息。</p>
+
+<p>这里的源代码完成的项目：<a href="cdn2.raywenderlich.com/wp-content/uploads/2013/08/BlueLibrary-final.zip">最后bluelibrary</a></p>
+
+<p><strong>设计模式系列文章</strong>：</p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/">iOS 设计模式系列：Facade – 外观模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/">iOS 设计模式系列：Observer – 观察者模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/">iOS 设计模式系列：Archiving – 归档模式</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/">iOS 设计模式系列：Archiving – 归档模式</a></h1>
     
     
@@ -1676,179 +1855,6 @@ scroller.delegate = self;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-10T15:10:13+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:10 pm</span></time>
-        
-        
-          | <a href="/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>原文地址：<a href="http://www.raywenderlich.com/46988/ios-design-patterns">iOS Design Patterns</a></p>
-
-<p>原文作者：Eli Ganem</p>
-
-<blockquote><p>有些专业词汇很难翻译准确，就不翻译了。如果英文阅读没有障碍，还是鼓励大家都读原作。</p></blockquote>
-
-<p>iOS 设计模式 – 你大概经常听过这样的术语，但是你知道它的真正意思吗？虽然大部分开发者都同意设计模式很重要，但是关于这方面的文章却很少，开发者在写代码的时候，有时候并不会去花很多时间去考虑设计模式。</p>
-
-<p>设计模式的功能是在软件设计当中是解决一些重复的公共问题。他们是一些模板来帮助你更容易的书写代码和复用你的代码。他们还可能帮助你创建低耦合的代码，你可以很轻松的修改和替换其中的组件。</p>
-
-<p>如果你已经很熟习设计模式了，我这里有一些好的建议。首先，你已经使用了大量由 Cocoa 创建 iOS 设计模式，同时最好的练习就是去使用她们。第二，这个教程将带给你全面了解所有最新的 iOS 设计模式，她们一般都是由 Cocoa 编写的。</p>
-
-<p>这个教程被分成几个小节。在每一个小节里， 你都能在下面读到说明：</p>
-
-<ul>
-<li>什么是设计模式</li>
-<li>为什么你应该用她</li>
-<li>怎么用，在哪里用，在使用当中如何注意一些常见的陷阱</li>
-</ul>
-
-
-<p>在这个教程中，你将要创建一个音乐库的 APP，它能够显示你的音乐专辑和一些相关信息。</p>
-
-<p>在开发这个 APP 的过程当中，你将会了解到很多常见的 Cocoa 设计模式。</p>
-
-<ul>
-<li>创建 (Creational)：单例 (Singleton)和抽象工厂 (Abstract Factory)</li>
-<li>结构 (Structural)：MVC，装饰器 (Decorator)，适配器 （Adapter)，外观 (Facade)和复合器 (Composite)</li>
-<li>行为 (Behavioral)：观察者 (Observer)，备忘录 (Memento)，责任链 (Chain of Responsibility)和命令 (Command)</li>
-</ul>
-
-
-<p>不要被带偏了，这只是一篇理论文章；你将会在你的音乐 APP 中使用很多的设计模式。在这个教程的最后，你的 APP 看来应该是像这个样子的：</p>
-
-<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2013/07/finalapp-180x320.png" alt="icon" /></p>
-
-<h3>入门指南</h3>
-
-<p>下载 <a href="http://cdn2.raywenderlich.com/wp-content/uploads/2013/07/BlueLibrary-Starter.zip" target="_blank" title="启动项目">启动项目</a>，从 ZIP 文件中提取文件，用 Xcode 打开 BlueLibrary.xcodeproj。</p>
-
-<p>这没有多少文件，仅仅只有一个默认的 ViewController 文件和一个空的可执行的简单 HTTP 客户端。</p>
-
-<pre><code>提示：你知道吗，当你创建一个新的 Xcode 项目的时候，你的代码已经使用被设计模式？MVC，代理，协议，单例模式 ─ 这些你都能免费得到！:]
-</code></pre>
-
-<p>在你开始研究第一个设计模式时，你必须创建两个类用于存储和显示专集数据。</p>
-
-<p>从”File\New\File…”（或者使用快捷键 Command + N）。选择 iOS > Cocoa Touch，然后选择 Objective-C class 后点击 Next。设置类的名称为 Album，子类为 NSObject。点击 Next 创建。</p>
-
-<p>打开 Album.h 文件，在 @interface 和 @end 这间添加下面的属性和方法原型：</p>
-
-<pre><code>@propery (nonatomic, copy, readonly) NSString *title, *artist, * genre, *coverUrl, *year;
-- (id)initWithTitle:(NSString *)title artist:(NSString *)artist coverUrl:(NSString *)coverUrl year:(NSString *)year;
-</code></pre>
-
-<p>注意这里的所有属性都是 readonly，Album 对象被创建后是不能够被修改的。</p>
-
-<p>这个方法是用来初始化对象的。当你创建一个新专辑时，需要提供专辑名称，作者，封面 URL 和年份。</p>
-
-<p>现在打开 Album.m 文件然后在 @implementation 和 @end 之间加入如下代码：</p>
-
-<pre><code>- (id)initWithTitle:(NSString*)title artist:(NSString*)artist coverUrl:(NSString*)coverUrl
-{
-    self = [super init];
-    _title = title;
-    _artist = artist;
-    _coverUrl = coverUrl;
-    _year = year;
-    _genre = @"Pop";
-    return self;
-}
-</code></pre>
-
-<p>这里没有什么复杂的，只是一个简单的创建 Album 实例的初始化方法。</p>
-
-<p>现次从菜单 File\New\File 选择中 Cocoa Touch，然后选择 Object-C class，点击 Next。设置类的名称为 AlbumView，子类为 UIView。点击 Next 创建文件。</p>
-
-<pre><code>提示：如果你会使用快捷键，创建这些会更容易，Command+N 创建新文件，Command+Option+N 创建新的文件夹，Command+B 创建新项目，Command+R 运行项目。
-</code></pre>
-
-<p>打开 AlbumView.h，在 @interface 和 @end 中 添加一个方法原型</p>
-
-<pre><code>- (id)initWithFrame:(CGRect)fram albumCover:(NSString*)albumCover;
-</code></pre>
-
-<p>现在打开 AlbumView.m 文件，用下面代码替换 @implementaton 后面的所有代码：</p>
-
-<pre><code>@implementation AlbumView
-{
-    UIImageView *coverImage;
-    UIActivityIndicatorView *indicator;
-}
-
-- (id)initWithFrame:(CGRect)frame albumCover:(NSString*)albumCover
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        self.backgroundColor = [UIColor blackColor];
-        // the coverImage has a 5 pixels margin from its frame
-        coverImage = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, frame.size.width-10, frame.size.height-10)];
-        [self addSubview:coverImage];
-
-        indicator = [[UIActivityIndicatorView alloc] init];
-        indicator.center = self.center;
-        indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
-        [indicator startAnimating];
-        [self addSubview:indicator];
-        }
-    return self;
-}
-
-@end
-</code></pre>
-
-<p>第一个需要注意的地方是 coverImage 是一个实例变量。这个变量代表专集的封面图片。第二个变量是一个提示器，在封面图片开始下载的时候提示用户正在下载。</p>
-
-<p>在初始化的过程中你需要设置背景为黑色，创建一个比封面图片大 5px 的图片视图，再创建和添加一个活动指示器。</p>
-
-<pre><code>提示：为什么私有变量定义在执行文件而不是定义在接口文件？这是因为其它外部类不需要知道 AlbumView 类里的这些变量，这些变量只会在这个类的内部方法中使用到。如果你要开发一些库或者框架给别的开发者使用，遵守这个习俗是非常重要的。
-</code></pre>
-
-<p>Build 你的项目确保所有代码都能构运行。没有问题？你的第一个设计模式已经准备好了。</p>
-
-<p><strong>设计模式系列文章</strong>：</p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/">iOS 设计模式系列：Facade – 外观模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/">iOS 设计模式系列：Observer – 观察者模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/">iOS 设计模式系列：Archiving – 归档模式</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/10">&larr; Older</a>
@@ -1876,7 +1882,11 @@ scroller.delegate = self;
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/11/12/remote-notification-error/">Add &#8220;Remote-notification&#8221; to the List of Your Supported UIBackgroundModes in Your Info.plist.解决方案</a>
+        <a href="/blog/2015/11/13/ios-submit-using-idfa/">iOS提交审核：您的 App 正在使用广告标识符 (IDFA)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/11/12/remote-notification-error/">远程推送控制台提示Add “Remote-notification”&#8230;解决方案</a>
       </li>
     
       <li class="post">
@@ -1889,10 +1899,6 @@ scroller.delegate = self;
     
       <li class="post">
         <a href="/blog/2015/10/31/app-touch-3d-function/">为自己的应用配备上 3D Touch 功能</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/10/30/two-nice-uialertview/">两个非常不错的自定义UIAlertView第三方类库</a>
       </li>
     
   </ul>

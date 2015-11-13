@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-11-12T18:24:59+08:00</updated>
+  <updated>2015-11-13T10:35:48+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -14,7 +14,62 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Add "Remote-notification" to the List of Your Supported UIBackgroundModes in Your Info.plist.解决方案]]></title>
+    <title type="html"><![CDATA[iOS提交审核：您的 App 正在使用广告标识符 (IDFA)]]></title>
+    <link href="http://www.superqq.com/blog/2015/11/13/ios-submit-using-idfa/"/>
+    <updated>2015-11-13T10:34:12+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/11/13/ios-submit-using-idfa</id>
+    <content type="html"><![CDATA[<p>提交审核也是iOS开发者必备技能之一。关于提交审核的教程数不胜数，不会的童鞋赶紧尝试一下吧！</p>
+
+<p>这篇文章我们来解决一个问题，关于IDFA的：</p>
+
+<pre><code>您的 App 正在使用广告标识符 (IDFA)。您必须先提供关于 IDFA 的使用信息或将其从 App 中移除，然后再上传您的二进制文件。
+</code></pre>
+
+<p>从14年2月初开始，Apple开始拒绝采集IDFA(identifier for advertising)而未集成任何广告服务的应用进入AppStore。怎么看自己的项目是否采集了IDFA呢？方法很简单，大家去看framework，看看有没有一个framework叫AdSupport.framework。</p>
+
+<p>如果有，那就惨了，上两张图看看：</p>
+
+<p><img src="http://images.90159.com/11/idfa1.png" alt="idfa1" /></p>
+
+<p>如果你选择了“否”：</p>
+
+<p><img src="http://images.90159.com/11/idfa2.png" alt="idfa2" /></p>
+
+<h2>方案一：重新下载xcode</h2>
+
+<ol>
+<li>如果你的xcode不是最新版本的，建议下载最新版本的。重新打包后，再次提交审核。</li>
+<li>如果你的xcode不是正规渠道下载的，建议从苹果官方下载。</li>
+</ol>
+
+
+<p>有朋友尝试过方案一，问题得到解决。如果解决不了，还有方案二。</p>
+
+<h2>方案二：检测哪里用到IDFA</h2>
+
+<p>首先cd到你的工程目录下，然后执行命令：</p>
+
+<pre><code>grep -r advertisingIdentifier .
+</code></pre>
+
+<p>果然找到了罪魁祸首，原来是SinaWeiboSDK/libWeiboSDK.a</p>
+
+<p><img src="http://images.90159.com/11/idfa3.png" alt="idfa3" /></p>
+
+<p>ios9之后新浪微博分享可使用的前提是加入ADSupport.framework,打包提交后一直报您的 App 正在使用广告标识符 (IDFA)。您必须先提供关于 IDFA 的使用信息或将其从app中移除，再上传二进制文件。</p>
+
+<p>找到了源头，那么接下来怎么做就简单了。</p>
+
+<ol>
+<li>承认使用了IDFA，然后选择相应的选项。</li>
+<li>移除SinaWeiboSDK/libWeiboSDK.a，分享还是可以成功的。</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[远程推送控制台提示Add “Remote-notification”...解决方案]]></title>
     <link href="http://www.superqq.com/blog/2015/11/12/remote-notification-error/"/>
     <updated>2015-11-12T18:21:17+08:00</updated>
     <id>http://www.superqq.com/blog/2015/11/12/remote-notification-error</id>
@@ -180,91 +235,6 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
 <p><img src="http://images.90159.com/09/error2.png" alt="1" /></p>
 
 <p>如果你有更好的解决方法，记得告诉我噢！</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[UITablView上下滑动控制底部按钮的出现和消失]]></title>
-    <link href="http://www.superqq.com/blog/2015/09/01/uitablview-up-down-slide/"/>
-    <updated>2015-09-01T00:49:19+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/09/01/uitablview-up-down-slide</id>
-    <content type="html"><![CDATA[<p>今天我们一起来做一个好玩的功能，通过UITablView上下滑动控制底部按钮的出现和消失。先来看看效果：</p>
-
-<p><img src="http://images.90159.com/09/bottombutton.gif" alt="1" /></p>
-
-<h2>需求分析</h2>
-
-<p>要做一个这样的功能，对你来说应该不难，实现的方式也有很多。我们来分析一下要实现那几个小功能点：</p>
-
-<ul>
-<li>UITablView向上滑动，底部按钮消失</li>
-<li>UITablView向下滑动，底部按钮出现</li>
-<li>UITablView滑动到底部，底部按钮出现</li>
-</ul>
-
-
-<p>主要就是这三个小功能点。那么很简单，我们只需要判断UITablView是往上滑动，还是往下滑动，以及判断UITablView是否滑动到底部即可。</p>
-
-<h2>代码实现</h2>
-
-<h3>创建一个底部按钮</h3>
-
-<pre><code>self.bottomButton = [UIButton buttonWithType:UIButtonTypeCustom];
-self.bottomButton.frame = CGRectMake(SCREEN.width / 2 - 25, SCREEN.height - 50, 50, 50);
-[self.bottomButton setBackgroundImage:[UIImage imageNamed:@"bottom"] forState:UIControlStateNormal];
-[self.view addSubview:self.bottomButton];
-</code></pre>
-
-<p>既然是控制按钮的出现和消失，首先要创建一个底部按钮。SCREEN是个宏定义：</p>
-
-<pre><code>#define SCREEN [UIScreen mainScreen].bounds.size
-</code></pre>
-
-<h3>判断UITablView上下滑动</h3>
-
-<p>我们都知道，UITablView是继承UIScrollView的。所以UIScrollView的代理方法在UITablView是可以使用的。要判断UITablView上下滑动，我们需要实现UIScrollView的scrollViewDidScroll:代理方法：</p>
-
-<pre><code>-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    if (scrollView.contentOffset.y &gt; self.offsetY &amp;&amp; scrollView.contentOffset.y &gt; 0) {//向上滑动
-
-    }else if (scrollView.contentOffset.y &lt; self.offsetY ){//向上滑动
-
-    }
-    self.offsetY = scrollView.contentOffset.y;//将当前位移变成缓存位移
-}
-</code></pre>
-
-<!--more-->
-
-
-<h3>判断UITablView滑动到底部</h3>
-
-<p>也是在scrollViewDidScroll:这个方法里面判断：</p>
-
-<pre><code> //判断滑动到底部
-if (scrollView.contentOffset.y == scrollView.contentSize.height - self.tableView.frame.size.height) {
-
-}
-</code></pre>
-
-<h3>按钮消失和出现</h3>
-
-<pre><code>//按钮消失
-[UIView transitionWithView:self.bottomButton duration:0.1 options:UIViewAnimationOptionTransitionNone animations:^{
-            self.bottomButton.frame = CGRectMake(SCREEN.width / 2 - 25, SCREEN.height, 50, 50);
-        } completion:NULL];
-
-//按钮出现        
-[UIView transitionWithView:self.bottomButton duration:0.1 options:UIViewAnimationOptionTransitionNone animations:^{
-  self.bottomButton.frame = CGRectMake(SCREEN.width / 2 - 25, SCREEN.height - 50, 50, 50);
-  } completion:NULL];
-</code></pre>
-
-<p>按钮消失其实就是移除屏幕，这里我加了一个旋转的过度动画，需要什么动画效果都可以选择。按钮出现就是把按钮的frame设置到初始化时候的frame即可。</p>
-
-<p>这样我们就实现了通过UITablView上下滑动控制底部按钮的出现和消失。代码我已经上传的github，下载地址还是<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
-
-<p>如果你觉得文章还不错，请分享给你的同学和朋友，欢迎推荐他们关注iOS开发：iOSDevTip 公众号。</p>
 ]]></content>
   </entry>
   

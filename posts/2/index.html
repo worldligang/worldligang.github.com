@@ -81,6 +81,75 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/10/16/five-case-know-gcd/">五个案例让你明白GCD死锁</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-16T20:29:42+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:29 pm</span></time>
+        
+        
+          | <a href="/blog/2015/10/16/five-case-know-gcd/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><pre><code>作者：brighttj（@saitjr
+
+网址：http://www.brighttj.com/ios/ios-gcd-deadlock.html
+</code></pre>
+
+<p>死锁一直都是在使用多线程时，需要注意的一个问题。以前对同步、异步，串行、并行只有一个模糊的概念，想想也是时候整理一下了。再看看之前的博客，已经很久没有干货了【说得好像之前有干货一样】，所以，这篇博客，我尽最大努力，也借鉴了很多其他博客中的例子，来讲解GCD死锁问题。</p>
+
+<p>环境信息：</p>
+
+<p>Mac OS X 10.10.5</p>
+
+<p>Xcode 6.4</p>
+
+<p>iOS  8.4</p>
+
+<h2>串行与并行</h2>
+
+<p>在使用GCD的时候，我们会把需要处理的任务放到Block中，然后将任务追加到相应的队列里面，这个队列，叫做Dispatch Queue。然而，存在于两种Dispatch Queue，一种是要等待上一个执行完，再执行下一个的Serial Dispatch Queue，这叫做串行队列；另一种，则是不需要上一个执行完，就能执行下一个的Concurrent Dispatch Queue，叫做并行队列。这两种，均遵循FIFO原则。</p>
+
+<pre><code>举一个简单的例子，在三个任务中输出1、2、3，串行队列输出是有序的1、2、3，但是并行队列的先后顺序就不一定了。
+</code></pre>
+
+<p>那么，并行队列又是怎么在执行呢？</p>
+
+<p>虽然可以同时多个任务的处理，但是并行队列的处理量，还是要根据当前系统状态来。如果当前系统状态最多处理2个任务，那么1、2会排在前面，3什么时候操作，就看1或者2谁先完成，然后3接在后面。</p>
+
+<p>串行和并行就简单说到这里，关于它们的技术点其实还有很多，可以自行了解。</p>
+
+<h2>同步与异步</h2>
+
+<p>串行与并行针对的是队列，而同步与异步，针对的则是线程。最大的区别在于，同步线程要阻塞当前线程，必须要等待同步线程中的任务执行完，返回以后，才能继续执行下一任务；而异步线程则是不用等待。</p>
+
+<p>仅凭这几句话还是很难理解，所以之后准备了很多案例，可以边分析边理解。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/10/16/five-case-know-gcd/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/10/11/kill-a-programmer/">杀一个程序员不需用枪，改三次需求即可</a></h1>
     
     
@@ -702,68 +771,6 @@ self.bottomButton.frame = CGRectMake(SCREEN.width / 2 - 25, SCREEN.height - 50, 
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/22/development-ios-reward/">iOS开发征稿启示（打赏归作者所有）</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-08-22T00:45:26+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>12:45 am</span></time>
-        
-        
-          | <a href="/blog/2015/08/22/development-ios-reward/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>iOS开发订阅用户突破10000人</h2>
-
-<p>首先，非常感谢您的支持和一路陪伴！经过一年多的发展，iOS开发（iOSDevTip）微信公众号的订阅用户越来越多，已经超过10000人。这是一件好事，也是对iOS开发公众号价值的体现。</p>
-
-<p>这一年多的时间里，我每天都在为寻求一篇好的iOS开发文章而努力。这个过程有快乐也有艰辛。每天做一件事，说起来不难，真要坚持下来，不是那么容易的一件事情。我说这些，并不是要证明自己有多厉害。为了寻求好的文章，我会经常阅读大量的博文，上各大程序员门户网站。有时，会因为发现一篇好的文章而庆幸不已；有时，也会因为找不到文章而心里焦急。</p>
-
-<p>后来，我建立了自己的博客<a href="http://www.superqq.com/">刚刚在线</a>：www.superqq.com 。有时间，我就会写一些技术文章分享在上面。也会把文章同步到iOS开发公众号上。</p>
-
-<p>随着订阅用户的增多，大家对文章内容的需求也越来越高。由于我一个人的力量毕竟有限，可能无法满足所有人的需求。订阅iOS开发的用户不乏一些大牛，所以我想发动大家的力量，一起来为优质的iOS开发文章而努力。</p>
-
-<h2>毕洪博投稿文章情况</h2>
-
-<p>七夕那天，作者毕洪博投稿<a href="http://www.superqq.com/blog/2015/08/21/sina-animation/"> 一句代码添加新浪弹出框动画 </a>得到了不错的反响，我把主数据给大家看看：</p>
-
-<pre><code>图文阅读：1695
-原文阅读：19   
-转发+收藏：193
-文章发布日期：2015-08-20
-评论人数：5
-赞赏人数：3
-赞赏金额：9元
-</code></pre>
-
-<p>从阅读量上来看，还是挺不错的。虽然赞赏金额不多吧，但也算是有一点点回报。七夕那天夜里，我找到作者毕洪博给他发了一个红包。哈哈！</p>
-
-<p>如果您是一名iOS开发者，如果您有自己的博客，如果您喜欢分享，那就快行动吧！把您的优秀文章投稿给我，我将会把您的文章推送在iOS开发微信公众号上，分享给更多的iOS开发者。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/08/22/development-ios-reward/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -791,7 +798,11 @@ self.bottomButton.frame = CGRectMake(SCREEN.width / 2 - 25, SCREEN.height - 50, 
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/11/12/remote-notification-error/">Add &#8220;Remote-notification&#8221; to the List of Your Supported UIBackgroundModes in Your Info.plist.解决方案</a>
+        <a href="/blog/2015/11/13/ios-submit-using-idfa/">iOS提交审核：您的 App 正在使用广告标识符 (IDFA)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/11/12/remote-notification-error/">远程推送控制台提示Add “Remote-notification”&#8230;解决方案</a>
       </li>
     
       <li class="post">
@@ -804,10 +815,6 @@ self.bottomButton.frame = CGRectMake(SCREEN.width / 2 - 25, SCREEN.height - 50, 
     
       <li class="post">
         <a href="/blog/2015/10/31/app-touch-3d-function/">为自己的应用配备上 3D Touch 功能</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/10/30/two-nice-uialertview/">两个非常不错的自定义UIAlertView第三方类库</a>
       </li>
     
   </ul>

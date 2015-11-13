@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-11-12T18:24:59+08:00</updated>
+  <updated>2015-11-13T10:35:48+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -14,7 +14,62 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Add "Remote-notification" to the List of Your Supported UIBackgroundModes in Your Info.plist.解决方案]]></title>
+    <title type="html"><![CDATA[iOS提交审核：您的 App 正在使用广告标识符 (IDFA)]]></title>
+    <link href="http://www.superqq.com/blog/2015/11/13/ios-submit-using-idfa/"/>
+    <updated>2015-11-13T10:34:12+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/11/13/ios-submit-using-idfa</id>
+    <content type="html"><![CDATA[<p>提交审核也是iOS开发者必备技能之一。关于提交审核的教程数不胜数，不会的童鞋赶紧尝试一下吧！</p>
+
+<p>这篇文章我们来解决一个问题，关于IDFA的：</p>
+
+<pre><code>您的 App 正在使用广告标识符 (IDFA)。您必须先提供关于 IDFA 的使用信息或将其从 App 中移除，然后再上传您的二进制文件。
+</code></pre>
+
+<p>从14年2月初开始，Apple开始拒绝采集IDFA(identifier for advertising)而未集成任何广告服务的应用进入AppStore。怎么看自己的项目是否采集了IDFA呢？方法很简单，大家去看framework，看看有没有一个framework叫AdSupport.framework。</p>
+
+<p>如果有，那就惨了，上两张图看看：</p>
+
+<p><img src="http://images.90159.com/11/idfa1.png" alt="idfa1" /></p>
+
+<p>如果你选择了“否”：</p>
+
+<p><img src="http://images.90159.com/11/idfa2.png" alt="idfa2" /></p>
+
+<h2>方案一：重新下载xcode</h2>
+
+<ol>
+<li>如果你的xcode不是最新版本的，建议下载最新版本的。重新打包后，再次提交审核。</li>
+<li>如果你的xcode不是正规渠道下载的，建议从苹果官方下载。</li>
+</ol>
+
+
+<p>有朋友尝试过方案一，问题得到解决。如果解决不了，还有方案二。</p>
+
+<h2>方案二：检测哪里用到IDFA</h2>
+
+<p>首先cd到你的工程目录下，然后执行命令：</p>
+
+<pre><code>grep -r advertisingIdentifier .
+</code></pre>
+
+<p>果然找到了罪魁祸首，原来是SinaWeiboSDK/libWeiboSDK.a</p>
+
+<p><img src="http://images.90159.com/11/idfa3.png" alt="idfa3" /></p>
+
+<p>ios9之后新浪微博分享可使用的前提是加入ADSupport.framework,打包提交后一直报您的 App 正在使用广告标识符 (IDFA)。您必须先提供关于 IDFA 的使用信息或将其从app中移除，再上传二进制文件。</p>
+
+<p>找到了源头，那么接下来怎么做就简单了。</p>
+
+<ol>
+<li>承认使用了IDFA，然后选择相应的选项。</li>
+<li>移除SinaWeiboSDK/libWeiboSDK.a，分享还是可以成功的。</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[远程推送控制台提示Add “Remote-notification”...解决方案]]></title>
     <link href="http://www.superqq.com/blog/2015/11/12/remote-notification-error/"/>
     <updated>2015-11-12T18:21:17+08:00</updated>
     <id>http://www.superqq.com/blog/2015/11/12/remote-notification-error</id>
@@ -1590,74 +1645,6 @@ NSURL *fileURL = ...;    //存放位置
 <h2></br></h2>
 
 <p>有<a href="http://www.superqq.com/">刚刚在线</a>整理，转载请注明来源。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS开发征稿启示（打赏归作者所有）]]></title>
-    <link href="http://www.superqq.com/blog/2015/08/22/development-ios-reward/"/>
-    <updated>2015-08-22T00:45:26+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/08/22/development-ios-reward</id>
-    <content type="html"><![CDATA[<h2>iOS开发订阅用户突破10000人</h2>
-
-<p>首先，非常感谢您的支持和一路陪伴！经过一年多的发展，iOS开发（iOSDevTip）微信公众号的订阅用户越来越多，已经超过10000人。这是一件好事，也是对iOS开发公众号价值的体现。</p>
-
-<p>这一年多的时间里，我每天都在为寻求一篇好的iOS开发文章而努力。这个过程有快乐也有艰辛。每天做一件事，说起来不难，真要坚持下来，不是那么容易的一件事情。我说这些，并不是要证明自己有多厉害。为了寻求好的文章，我会经常阅读大量的博文，上各大程序员门户网站。有时，会因为发现一篇好的文章而庆幸不已；有时，也会因为找不到文章而心里焦急。</p>
-
-<p>后来，我建立了自己的博客<a href="http://www.superqq.com/">刚刚在线</a>：www.superqq.com 。有时间，我就会写一些技术文章分享在上面。也会把文章同步到iOS开发公众号上。</p>
-
-<p>随着订阅用户的增多，大家对文章内容的需求也越来越高。由于我一个人的力量毕竟有限，可能无法满足所有人的需求。订阅iOS开发的用户不乏一些大牛，所以我想发动大家的力量，一起来为优质的iOS开发文章而努力。</p>
-
-<h2>毕洪博投稿文章情况</h2>
-
-<p>七夕那天，作者毕洪博投稿<a href="http://www.superqq.com/blog/2015/08/21/sina-animation/"> 一句代码添加新浪弹出框动画 </a>得到了不错的反响，我把主数据给大家看看：</p>
-
-<pre><code>图文阅读：1695
-原文阅读：19   
-转发+收藏：193
-文章发布日期：2015-08-20
-评论人数：5
-赞赏人数：3
-赞赏金额：9元
-</code></pre>
-
-<p>从阅读量上来看，还是挺不错的。虽然赞赏金额不多吧，但也算是有一点点回报。七夕那天夜里，我找到作者毕洪博给他发了一个红包。哈哈！</p>
-
-<p>如果您是一名iOS开发者，如果您有自己的博客，如果您喜欢分享，那就快行动吧！把您的优秀文章投稿给我，我将会把您的文章推送在iOS开发微信公众号上，分享给更多的iOS开发者。</p>
-
-<!--more-->
-
-
-<h2>投稿方式</h2>
-
-<pre><code>投稿邮箱：worldligang@163.com
-个人微信：chinaligang
-投稿格式：markdown格式
-博主联盟群：364679270
-</code></pre>
-
-<p>因为微信上面不方便阅读代码，但是支持markdown语法转换。所以投稿的时候，最好是markdown格式的。投稿之后，请记得加我的个人微信，以便我将打赏的钱转账给您。如果你有自己的博客，欢迎加入博主联盟群。</p>
-
-<h2>版权申明</h2>
-
-<ul>
-<li><p>微信公众号规定打赏必须是原创文章，所以希望您能将你的文章在微信公众平台的发表权「独家代理」iOS开发（ iOSDevTip ） 微信公众号。这样我就可以对您的文章申明原创和开通打赏功能。文章的版权依然归您所有，你可以将文章发布在你的博客、微博上。</p></li>
-<li><p>为了证明我得到您的授权，您需要在您的文章底部加上如下申明：</p>
-
-<p>  版权声明：我已将本文在微信公众平台的发表权「独家代理」给 iOS开发（ iOSDevTip ） 微信公众号。扫下方二维码即可关注「iOS 开发」：</p>
-
-<p>  <img src="http://images.90159.com/icon/iOSDevTip.jpg" alt="iOSDevTip" /></p></li>
-</ul>
-
-
-<p>申明markdown格式为：</p>
-
-<pre><code>    版权声明：我已将本文在微信公众平台的发表权「独家代理」给 iOS开发（ iOSDevTip ） 微信公众号。扫下方二维码即可关注「iOS 开发」：
-
-    ![iOSDevTip](http://images.90159.com/icon/iOSDevTip.jpg)    
-</code></pre>
-
-<p>如果对投稿有什么疑问，欢迎加我微信：chinaligang，详细了解一下。</p>
 ]]></content>
   </entry>
   
