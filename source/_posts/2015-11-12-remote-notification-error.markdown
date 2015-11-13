@@ -1,6 +1,6 @@
 ---
 layout: post
-title: add "remote-notification" to the list of your supported UIBackgroundModes in your Info.plist.解决方案
+title:  远程推送控制台提示Add “Remote-notification”...解决方案 
 date: 2015-11-12 18:21:17 +0800
 comments: true
 categories: iOS开发
