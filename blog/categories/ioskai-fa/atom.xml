@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-11-19T00:47:00+08:00</updated>
+  <updated>2015-11-27T23:30:35+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,108 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[一组功能丰富的iOS组件:YYKit]]></title>
+    <link href="http://www.superqq.com/blog/2015/11/27/ios-rich-components-yykit/"/>
+    <updated>2015-11-27T23:27:37+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/11/27/ios-rich-components-yykit</id>
+    <content type="html"><![CDATA[<p>项目地址：<a href="https://github.com/ibireme/YYKit">https://github.com/ibireme/YYKit</a></p>
+
+<h1>中文介绍</h1>
+
+<p>YYKit 是一组庞大、功能丰富的 iOS 组件。</p>
+
+<p>为了尽量复用代码，这个项目中的某些组件之间有比较强的依赖关系。为了方便其他开发者使用，我从中拆分出以下独立组件：</p>
+
+<ul>
+<li><a href="https://github.com/ibireme/YYModel">YYModel</a> — 高性能的 iOS JSON 模型框架。</li>
+<li><a href="https://github.com/ibireme/YYCache">YYCache</a> — 高性能的 iOS 缓存框架。</li>
+<li><a href="https://github.com/ibireme/YYImage">YYImage</a> — 功能强大的 iOS 图像框架。</li>
+<li><a href="https://github.com/ibireme/YYWebImage">YYWebImage</a> — 高性能的 iOS 异步图像加载框架。</li>
+<li><a href="https://github.com/ibireme/YYText">YYText</a> — 功能强大的 iOS 富文本框架。</li>
+<li></li>
+<li><a href="https://github.com/ibireme/YYKeyboardManager">YYKeyboardManager</a> — iOS 键盘监听管理工具。</li>
+<li><a href="https://github.com/ibireme/YYDispatchQueuePool">YYDispatchQueuePool</a> — iOS 全局并发队列管理工具。</li>
+<li><a href="https://github.com/ibireme/YYAsyncLayer">YYAsyncLayer</a> — iOS 异步绘制与显示的工具。</li>
+<li><a href="https://github.com/ibireme/YYCategories">YYCategories</a> — 功能丰富的 Category 类型工具库。</li>
+</ul>
+
+
+<h1>演示项目</h1>
+
+<p>查看并运行 <code>Demo/YYKitDemo.xcodeproj</code></p>
+
+<p><img src="https://raw.github.com/ibireme/YYKit/master/Demo/Snapshots/twitter.png" width="320"><br/>
+<img src="https://raw.github.com/ibireme/YYKit/master/Demo/Snapshots/weibo.png" width="320"> <img src="https://raw.github.com/ibireme/YYKit/master/Demo/Snapshots/weibo_compose.png" width="320"></p>
+
+<h1>安装</h1>
+
+<h3>CocoaPods</h3>
+
+<ol>
+<li>在 Podfile 中添加  <code>pod "YYKit"</code>。</li>
+<li>执行 <code>pod install</code> 或 <code>pod update</code>。</li>
+<li>导入 \&lt;YYKit/YYKit.h>。</li>
+</ol>
+
+
+<h3>Carthage</h3>
+
+<ol>
+<li>在 Cartfile 中添加 <code>github "ibireme/YYKit"</code>。</li>
+<li>执行 <code>carthage update --platform ios</code> 并将生成的 framework 添加到你的工程。</li>
+<li>导入 \&lt;YYKit/YYKit.h>。</li>
+<li>注意: carthage framework 并没有包含 webp 组件。如果你需要支持 webp，可以用 CocoaPods 安装，或者手动安装。</li>
+</ol>
+
+
+<h3>手动安装</h3>
+
+<ol>
+<li>下载 YYKit 文件夹内的所有内容。</li>
+<li>将 YYKit 内的源文件添加(拖放)到你的工程。</li>
+<li>为 <code>NSObject+YYAddForARC.m</code> 和 <code>NSThread+YYAdd.m</code> 添加编译参数 <code>-fno-objc-arc</code>。</li>
+<li>链接以下 frameworks:
+
+<ul>
+<li>UIKit</li>
+<li>CoreFoundation</li>
+<li>CoreText</li>
+<li>CoreGraphics</li>
+<li>CoreImage</li>
+<li>QuartzCore</li>
+<li>ImageIO</li>
+<li>AssetsLibrary</li>
+<li>Accelerate</li>
+<li>MobileCoreServices</li>
+<li>SystemConfiguration</li>
+<li>sqlite3</li>
+<li>libz</li>
+</ul>
+</li>
+<li>如果你需要支持 WebP，可以将 <code>Vendor/WebP.framework</code>(静态库) 加入你的工程。</li>
+<li>导入 <code>YYKit.h</code>。</li>
+</ol>
+
+
+<h1>文档</h1>
+
+<p>你可以在 <a href="http://cocoadocs.org/docsets/YYKit/">CocoaDocs</a> 查看在线 API 文档，也可以用 <a href="https://github.com/tomaz/appledoc">appledoc</a> 本地生成文档。</p>
+
+<h1>系统要求</h1>
+
+<p>该项目最低支持 iOS 6.0。</p>
+
+<h1>关于</h1>
+
+<p>我希望调用 API 时，有着和调用系统自带 API 一样的体验，所以我并没有为 Category 方法添加前缀。我已经用工具扫描过这个项目中的 API，确保没有对系统 API 产生影响。我知道没有前缀的 Category 可能会带来麻烦，所以如果你只需要其中部分功能，请先查看上面那些拆分出来的子项目。</p>
+
+<h1>许可证</h1>
+
+<p>YYKit 使用 MIT 许可证，详情见 LICENSE 文件。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS提交审核：您的 App 正在使用广告标识符 (IDFA)]]></title>
@@ -30,6 +132,9 @@
 <p>如果有，那就惨了，上两张图看看：</p>
 
 <p><img src="http://images.90159.com/11/idfa1.png" alt="idfa1" /></p>
+
+<!--more-->
+
 
 <p>如果你选择了“否”：</p>
 
@@ -80,6 +185,9 @@
 <p>解决办法：</p>
 
 <p><img src="http://images.90159.com/11/error1.png" alt="error1" /></p>
+
+<!--more-->
+
 
 <p>这个时候再去看看Info.plist文件：</p>
 
@@ -204,37 +312,6 @@ label.textAlignment = NSTextAlignmentCenter;
 </code></pre>
 
 <p>将导航栏的半透明属性关闭掉，布局也是从导航栏下面开始了。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[报错：You Must Rebuild It With Bitcode Enabled (Xcode Setting ENABLE_BITCODE)（解决方案）]]></title>
-    <link href="http://www.superqq.com/blog/2015/09/29/rebuild-bitcode-enable/"/>
-    <updated>2015-09-29T15:08:00+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/09/29/rebuild-bitcode-enable</id>
-    <content type="html"><![CDATA[<p>马上就要十一放假啦！大家是不是都很期待这一天到来，哈哈。相信有不少人跟我一样，早就请三天假回家了吧。希望大家十一都玩的开心噢！</p>
-
-<p>今天在家里闲来无事，我就用Xcode7.0建一个项目。然后，引入一个第三方库，竟然运行不起来。报错如下：</p>
-
-<p><img src="http://images.90159.com/09/error1.png" alt="1" /></p>
-
-<p>我把错误提示复制出来，方便大家搜索：</p>
-
-<pre><code>ld: 'XXX' does not contain bitcode. You must rebuild it with bitcode enabled (Xcode setting ENABLE_BITCODE), obtain an updated library from the vendor, or disable bitcode for this target. for architecture arm64
-clang: error: linker command failed with exit code 1 (use -v to see invocation)
-</code></pre>
-
-<p>Xcode7.0默认是开启Enable Bitcode的，如果你导入的一些第三方库在编译的时候没有Enable Bitcode 的话，就会导致报错。</p>
-
-<p>解决方法有两种：</p>
-
-<p>方法一：使用Enable Bitcode的第三方库</p>
-
-<p>方法二：将工程中的Enable Bitcode设置为NO</p>
-
-<p><img src="http://images.90159.com/09/error2.png" alt="1" /></p>
-
-<p>如果你有更好的解决方法，记得告诉我噢！</p>
 ]]></content>
   </entry>
   

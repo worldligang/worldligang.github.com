@@ -81,6 +81,131 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/11/27/ios-rich-components-yykit/">一组功能丰富的iOS组件:YYKit</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-27T23:27:37+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:27 pm</span></time>
+        
+        
+          | <a href="/blog/2015/11/27/ios-rich-components-yykit/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>项目地址：<a href="https://github.com/ibireme/YYKit">https://github.com/ibireme/YYKit</a></p>
+
+<h1>中文介绍</h1>
+
+<p>YYKit 是一组庞大、功能丰富的 iOS 组件。</p>
+
+<p>为了尽量复用代码，这个项目中的某些组件之间有比较强的依赖关系。为了方便其他开发者使用，我从中拆分出以下独立组件：</p>
+
+<ul>
+<li><a href="https://github.com/ibireme/YYModel">YYModel</a> — 高性能的 iOS JSON 模型框架。</li>
+<li><a href="https://github.com/ibireme/YYCache">YYCache</a> — 高性能的 iOS 缓存框架。</li>
+<li><a href="https://github.com/ibireme/YYImage">YYImage</a> — 功能强大的 iOS 图像框架。</li>
+<li><a href="https://github.com/ibireme/YYWebImage">YYWebImage</a> — 高性能的 iOS 异步图像加载框架。</li>
+<li><a href="https://github.com/ibireme/YYText">YYText</a> — 功能强大的 iOS 富文本框架。</li>
+<li></li>
+<li><a href="https://github.com/ibireme/YYKeyboardManager">YYKeyboardManager</a> — iOS 键盘监听管理工具。</li>
+<li><a href="https://github.com/ibireme/YYDispatchQueuePool">YYDispatchQueuePool</a> — iOS 全局并发队列管理工具。</li>
+<li><a href="https://github.com/ibireme/YYAsyncLayer">YYAsyncLayer</a> — iOS 异步绘制与显示的工具。</li>
+<li><a href="https://github.com/ibireme/YYCategories">YYCategories</a> — 功能丰富的 Category 类型工具库。</li>
+</ul>
+
+
+<h1>演示项目</h1>
+
+<p>查看并运行 <code>Demo/YYKitDemo.xcodeproj</code></p>
+
+<p><img src="https://raw.github.com/ibireme/YYKit/master/Demo/Snapshots/twitter.png" width="320"><br/>
+<img src="https://raw.github.com/ibireme/YYKit/master/Demo/Snapshots/weibo.png" width="320"> <img src="https://raw.github.com/ibireme/YYKit/master/Demo/Snapshots/weibo_compose.png" width="320"></p>
+
+<h1>安装</h1>
+
+<h3>CocoaPods</h3>
+
+<ol>
+<li>在 Podfile 中添加  <code>pod "YYKit"</code>。</li>
+<li>执行 <code>pod install</code> 或 <code>pod update</code>。</li>
+<li>导入 \&lt;YYKit/YYKit.h>。</li>
+</ol>
+
+
+<h3>Carthage</h3>
+
+<ol>
+<li>在 Cartfile 中添加 <code>github "ibireme/YYKit"</code>。</li>
+<li>执行 <code>carthage update --platform ios</code> 并将生成的 framework 添加到你的工程。</li>
+<li>导入 \&lt;YYKit/YYKit.h>。</li>
+<li>注意: carthage framework 并没有包含 webp 组件。如果你需要支持 webp，可以用 CocoaPods 安装，或者手动安装。</li>
+</ol>
+
+
+<h3>手动安装</h3>
+
+<ol>
+<li>下载 YYKit 文件夹内的所有内容。</li>
+<li>将 YYKit 内的源文件添加(拖放)到你的工程。</li>
+<li>为 <code>NSObject+YYAddForARC.m</code> 和 <code>NSThread+YYAdd.m</code> 添加编译参数 <code>-fno-objc-arc</code>。</li>
+<li>链接以下 frameworks:
+
+<ul>
+<li>UIKit</li>
+<li>CoreFoundation</li>
+<li>CoreText</li>
+<li>CoreGraphics</li>
+<li>CoreImage</li>
+<li>QuartzCore</li>
+<li>ImageIO</li>
+<li>AssetsLibrary</li>
+<li>Accelerate</li>
+<li>MobileCoreServices</li>
+<li>SystemConfiguration</li>
+<li>sqlite3</li>
+<li>libz</li>
+</ul>
+</li>
+<li>如果你需要支持 WebP，可以将 <code>Vendor/WebP.framework</code>(静态库) 加入你的工程。</li>
+<li>导入 <code>YYKit.h</code>。</li>
+</ol>
+
+
+<h1>文档</h1>
+
+<p>你可以在 <a href="http://cocoadocs.org/docsets/YYKit/">CocoaDocs</a> 查看在线 API 文档，也可以用 <a href="https://github.com/tomaz/appledoc">appledoc</a> 本地生成文档。</p>
+
+<h1>系统要求</h1>
+
+<p>该项目最低支持 iOS 6.0。</p>
+
+<h1>关于</h1>
+
+<p>我希望调用 API 时，有着和调用系统自带 API 一样的体验，所以我并没有为 Category 方法添加前缀。我已经用工具扫描过这个项目中的 API，确保没有对系统 API 产生影响。我知道没有前缀的 Category 可能会带来麻烦，所以如果你只需要其中部分功能，请先查看上面那些拆分出来的子项目。</p>
+
+<h1>许可证</h1>
+
+<p>YYKit 使用 MIT 许可证，详情见 LICENSE 文件。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/11/19/create-high-efficiency-ios-group/">打造高效率iOS开发实战交流VIP群</a></h1>
     
     
@@ -117,47 +242,12 @@
 </ol>
 
 
-<h2>为什么要建立付费群？</h2>
-
-<p>我是公众号iOS开发：iOSDevTip 的小编，同时，我也是一名iOS开发者。在做iOS开发初期，我也加入了一些iOS开发的交流群，但是效果跟大家预想的一样，提问题很少有人回答。我也尝试过去一些网站提问题，但是效果也不好，很久才会有人回答，或者干脆没人回答。</p>
-
-<p>后来，我也尝试建立免费的iOS开发交流群，试图为大家搭建一个学习交流的平台。大概有十几个群，加起来也有几千人了。但是，后来我都屏蔽了。为什么呢？因为这是一个免费的群，谁都可以进来，最后不得不变成了一个广告群，最后成为一个死群。</p>
-
-<p>所以，这一次我要建立一个收费群，相当于增加了一个小小的门槛，这样想发广告的人就会被阻挡在外面了。</p>
-
-<h2>哪些人可以进来？</h2>
-
-<p>因为这是一个iOS开发技术交流群，所以主要面向两大群体。第一种是正在学习iOS开发（无论你是在培训还是自学）朋友，你在学习iOS开发的时候，遇到不懂的问题，可以通过此群来解决。第二种是刚入行不久的iOS开发者，在平时开发过程中遇到一些没有接触过的点，比如说真机调试证书、推送、AppStore上架等等，可以加入本群，一起交流成长。</p>
-
-<p>很简单，遇到技术问题。你是愿意自己花几天的时间来琢磨，还是愿意加入iOS开发实战交流VIP群听取前人的经验？自己琢磨，不一定琢磨的出来。很多想学习iOS开发的朋友，就是因为遇到各种各样的问题，不能得到很好地解决，最后放弃了iOS开发这个行业。</p>
-
-<p>编程最重要的就是思想，如果你一直写代码不思考很难有所进步，干一年之后发现没什么太大的变化，那就真的只是一个搬砖的。如果一群人在一起交流，相互分享经验，技术必然会得到提高，很多问题就会迎刃而解。</p>
-
-<blockquote><p>定价：150元/年（2015/11/16——2016/11/15）</p></blockquote>
-
-<h2>为什么是这个价位？</h2>
-
-<p>第一，这是一个iOS开发技术交流群，帮助大家提升iOS开发技术以及解决开发过程中遇到的问题。</p>
-
-<p>第二，我想做这个群的时候，我也咨询了好几位朋友。他们都说这个价位太低了，每天还不到5毛钱。回答技术问题是非常浪费时间的。但是我不这么认为，费用只是一个门槛，打造一个高效率的实战交流群才是真正的目标。所以综合考虑，我选择了150元。</p>
-
-<p>第三，建立这个群并不是以盈利为目的的，更多的是想跟大家一起交流技术，解决问题。我在开发过程中也会遇到一些问题，可以跟大家一起交流分享，也提升自己的技术。这也是我选择这个价格的一些原因。</p>
-
-<p>第四，这两天我也做了一个调查，有17%的童鞋愿意付费500-1000加入VIP群。但大多数童鞋还是希望价格在100左右。</p>
-
-<p>基本也就这么多原因吧，所以定了这个价格。如果还有不明白的地方，欢迎留言提问。</p>
-
-<blockquote><p>支付方式：微信（私人号：chinaligang）转账或者支付宝1606535851@qq.com</p></blockquote>
-
-<p>支付完成之后，请加我微信（私人号：chinaligang）告知，确定成功之后，我会拉你进群。</p>
-
-<p>来吧，愿大家除了思维上、技术上有所提高，更能成为网络上无话不谈的知心朋友！</p>
-
-<p>也希望所有有缘能相聚于此群中的朋友，不仅仅把此群当成一个社群，而需要当成一个家！一起成长，一起进步！</p>
-
-<p>注：群里除了会分享一些技术上的经验，有关iOS开发最新的视频教程也都会先在群里进行分享。</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/11/19/create-high-efficiency-ios-group/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -200,42 +290,12 @@
 
 <p><img src="http://images.90159.com/11/idfa1.png" alt="idfa1" /></p>
 
-<p>如果你选择了“否”：</p>
-
-<p><img src="http://images.90159.com/11/idfa2.png" alt="idfa2" /></p>
-
-<h2>方案一：重新下载xcode</h2>
-
-<ol>
-<li>如果你的xcode不是最新版本的，建议下载最新版本的。重新打包后，再次提交审核。</li>
-<li>如果你的xcode不是正规渠道下载的，建议从苹果官方下载。</li>
-</ol>
-
-
-<p>有朋友尝试过方案一，问题得到解决。如果解决不了，还有方案二。</p>
-
-<h2>方案二：检测哪里用到IDFA</h2>
-
-<p>首先cd到你的工程目录下，然后执行命令：</p>
-
-<pre><code>grep -r advertisingIdentifier .
-</code></pre>
-
-<p>果然找到了罪魁祸首，原来是SinaWeiboSDK/libWeiboSDK.a</p>
-
-<p><img src="http://images.90159.com/11/idfa3.png" alt="idfa3" /></p>
-
-<p>ios9之后新浪微博分享可使用的前提是加入ADSupport.framework,打包提交后一直报您的 App 正在使用广告标识符 (IDFA)。您必须先提供关于 IDFA 的使用信息或将其从app中移除，再上传二进制文件。</p>
-
-<p>找到了源头，那么接下来怎么做就简单了。</p>
-
-<ol>
-<li>承认使用了IDFA，然后选择相应的选项。</li>
-<li>移除SinaWeiboSDK/libWeiboSDK.a，分享还是可以成功的。</li>
-</ol>
-
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/11/13/ios-submit-using-idfa/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -273,13 +333,12 @@
 
 <p><img src="http://images.90159.com/11/error1.png" alt="error1" /></p>
 
-<p>这个时候再去看看Info.plist文件：</p>
-
-<p><img src="http://images.90159.com/11/error2.png" alt="error2" /></p>
-
-<p>再次运行，问题就解决啦！</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/11/12/remote-notification-error/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -584,63 +643,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/10/27/product-manager-calculate-app/">从产品经理的角度算一算，做一个app需要花多少钱？</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-10-27T14:41:46+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:41 pm</span></time>
-        
-        
-          | <a href="/blog/2015/10/27/product-manager-calculate-app/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>作为互联网从业者，被外行的朋友们问及最多的问题是，“做一个网站需要多少钱？”或者“做一个APP需要多少钱？”。作为做过完整网站项目和APP的人，今天从产品经理的角度，一起来算一下中小型APP从无到有需要做哪些工作，以及为达成使命，需要付出多少金钱代价。</p></blockquote>
-
-<p>以下内容的前提是：深圳、移动互联网方向。包含研发一个新产品过程中一些常见的工作，并非十全十美。</p>
-
-<p>首先假设在做APP之前我们已经有了一个成熟的团队（这是非常幸运的前提，很多产品研发进度极其缓慢的原因之一就是在过程中不断在招人），团队的结构以架构师兼后台开发1名+安卓1名+iOS开发1名+产品经理1名+前端开发1名+设计师1名。你可能也发现了这些人员配备都是单点的，一旦有人生病或请假，某个职位就会缺失，项目进度就会拖后，所以我们大约配备2个浮动名额，也就是，初始团队大概有8名，我们假设团队平均工资在13000左右（憋惊讶，深圳需要这个数，还是比较低的。。。），需要给员工缴纳五险一金，详见下表（假设我们是老实善良的公司，公积金按最低标准缴纳）：</p>
-
-<p><img src="http://images.90159.com/10/product.jpg" alt="product" /></p>
-
-<p><strong>除工资的部分，还要平均为每个员工多缴纳 3653元的五险一金支出，员工部分的支出是 （13000+3653）*8=133224元/月。</strong></p>
-
-<p>好，有了团队，下一步要解决的是工作场所的问题，8人团队可以选择创业孵化器（前提是你能找到孵化器）或者中低端的办公场所（这类的办公场所，深圳大约是120元/㎡，大约100平米）。这里有必要稍微提以下孵化器，孵化器的租金会比较便宜（或者不要钱），在接纳创业团队之前一般会签署协议，需要以场地作为股权置换条件，或者是优先投资权，是否划算，得创业团队自己掂量。算上水电、物业，一个月15000左右算比较省了。</p>
-
-<p>有了场地和团队，接下来置换办公耗材、宽带之类的（假设电脑自己带），普通的人体工程学椅子价格在150元左右，如果不买工程学椅子也可以，用普通的椅子，加上桌子平摊成本，桌椅需要200左右的成本，这算一次性付出。拍脑袋，6000元可以搞定吧。</p>
-
-<p>唔，人、场地、作案工具齐活了，开始进入正题吧。</p>
-
-<h3>一、产品定位、扯皮、早期工作准备阶段。</h3>
-
-<p>做APP之前一般会有个老板，老板大概知道自己想要什么功能（对，老板一般不知道自己要做什么东西，需求是什么，产品定位是什么），这时候产品经理要出马了，跟老板各种扯皮、厘清需求、找产品定位，这里大概扯吧个两周，好说歹说会把产品的定位、一期的需求想清楚（期间架构师可以开始构思产品的技术架构了，未能正式开工）。</p>
-
-<p>产品定位以及早期的需求确定出来之后，需要想个产品的名字、需求调研、竞品调研分析、注册域名、购置服务器以及周边基础能力（如CDN存储、短信服务、消息推送等）、商标（未注册商标、很多团队就是吃了这个亏）、抢注域名、设计logo，这里在老板不中途改变想法、变更产品需求和定位的前提下，最起码扯一周，这时候产品的原型、技术架构的雏形也出来了，基本可以进入真刀真枪的干活了。这一步假设域名不需要花大价钱购买，全部费用算起来拍脑袋10000元/年 可以搞定。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/10/27/product-manager-calculate-app/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -666,6 +668,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/11/27/ios-rich-components-yykit/">一组功能丰富的iOS组件:YYKit</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/11/19/create-high-efficiency-ios-group/">打造高效率iOS开发实战交流VIP群</a>
       </li>
     
@@ -679,10 +685,6 @@
     
       <li class="post">
         <a href="/blog/2015/11/02/salary-programmer-avoid-pit/">月薪3万的程序员都避开了哪些坑</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/11/01/humor-code-world/">程序猿的幽默趣图，你并不懂他们的真正世界</a>
       </li>
     
   </ul>
