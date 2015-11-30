@@ -18,6 +18,7 @@ You've implemented -[<UIApplicationDelegate> application:didReceiveRemoteNotific
 解决办法：
 
 ![error1](http://images.90159.com/11/error1.png)
+<!--more-->
 
 这个时候再去看看Info.plist文件：
 

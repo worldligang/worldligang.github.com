@@ -21,6 +21,7 @@ description: 从14年2月初开始，Apple开始拒绝采集IDFA(identifier for 
 如果有，那就惨了，上两张图看看：
 
 ![idfa1](http://images.90159.com/11/idfa1.png)
+<!--more-->
 
 如果你选择了“否”：
 
