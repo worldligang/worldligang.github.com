@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-11-27T23:33:06+08:00</updated>
+  <updated>2015-11-30T22:17:04+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,118 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发之如何跳到系统设置里的WiFi界面]]></title>
+    <link href="http://www.superqq.com/blog/2015/11/30/jump-to-setting-wifi/"/>
+    <updated>2015-11-30T22:14:58+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/11/30/jump-to-setting-wifi</id>
+    <content type="html"><![CDATA[<p>之前以为，苹果不支持直接从应用跳到系统设置里的WiFi界面。后来发现，这个小功能是可以实现的，而且实现起来并不麻烦。让我们一起来看看吧！</p>
+
+<h2>需求</h2>
+
+<p>从应用跳到系统设置里的WiFi界面有这个需求存在吗？答案是肯定的。比如以下两个例子：</p>
+
+<p>在没有网的状态下，你可能想提醒用户去设置界面连接WiFi。如果不能跳到WiFi界面，只能在APP里面做出文字提示。这样很多小白用户可能不会看提示，只会觉得APP没有做好。</p>
+
+<p>还有一种情况，做智能家居的APP，智能硬件设备自带WiFi（局域网）。如果用户没有连接设备的WiFi进入APP时，需要提示用户去设置界面连接WiFi。</p>
+
+<p>以上这两种情况只是举个例子，这个小功能的用处还是很多的，大家可以自行探索。</p>
+
+<!--more-->
+
+
+<h2>实现</h2>
+
+<h3>info里面设置</h3>
+
+<p>在项目中的info.plist中添加 URL types 并设置一项URL Schemes为prefs，如下图：</p>
+
+<p><img src="http://images.90159.com/12/wifi1.png" alt="wifi1" /></p>
+
+<h3>实现代码</h3>
+
+<pre><code>NSURL *url = [NSURL URLWithString:@"prefs:root=WIFI"];
+if ([[UIApplication sharedApplication] canOpenURL:url])
+{
+    [[UIApplication sharedApplication] openURL:url];
+}
+</code></pre>
+
+<h2>代码已上传iOSStrongDemo</h2>
+
+<p>代码已经push到<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a>，大家可以clone下来测试一下。</p>
+
+<p>我在这里抛砖迎玉，大家还想跳到系统设置的什么界面，可以评论留言告诉我，或者大家动手来实现更多的跳转功能！</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[打造高效率iOS开发实战交流VIP群]]></title>
+    <link href="http://www.superqq.com/blog/2015/11/19/create-high-efficiency-ios-group/"/>
+    <updated>2015-11-19T00:45:08+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/11/19/create-high-efficiency-ios-group</id>
+    <content type="html"><![CDATA[<p>大家好，我是李刚。对的，你没有听错，我就是传说中李刚的本人。今天，我决定正式启动iOS开发实战交流VIP付费群！</p>
+
+<h2>定位</h2>
+
+<p>做什么事情都应该有一个明确的定位，无论是现在工作也好，还是以后创业也罢，定位非常重要。当然，这个iOS开发实战交流VIP群也有一个定位，那就是为广大iOS开发爱好者、iOS开发初学者提供一个技术交流平台，一起提升iOS开发技术。</p>
+
+<p>具体来说：</p>
+
+<ol>
+<li>技术交流，不定期邀请一些技术牛人，分享开发经验。</li>
+<li>技术问答，有关技术问题大家可以相互帮助回答，我也会邀请一些开发经验在3年以上的朋友，免费为大家解答技术问题。 （我也会参与回答）</li>
+<li>我会把大家问的比较好的问题，整理成文档，共享给大家。算是对技术知识点的一个总结。</li>
+<li>还能交一帮愿意为价值付费的朋友，以后可以资源共享，相互帮助。</li>
+<li>群内不定期免费共享优秀的iOS开发视频教程，项目源码以及一些开发文档。</li>
+</ol>
+
+
+<!--more-->
+
+
+<h2>为什么要建立付费群？</h2>
+
+<p>我是公众号iOS开发：iOSDevTip 的小编，同时，我也是一名iOS开发者。在做iOS开发初期，我也加入了一些iOS开发的交流群，但是效果跟大家预想的一样，提问题很少有人回答。我也尝试过去一些网站提问题，但是效果也不好，很久才会有人回答，或者干脆没人回答。</p>
+
+<p>后来，我也尝试建立免费的iOS开发交流群，试图为大家搭建一个学习交流的平台。大概有十几个群，加起来也有几千人了。但是，后来我都屏蔽了。为什么呢？因为这是一个免费的群，谁都可以进来，最后不得不变成了一个广告群，最后成为一个死群。</p>
+
+<p>所以，这一次我要建立一个收费群，相当于增加了一个小小的门槛，这样想发广告的人就会被阻挡在外面了。</p>
+
+<h2>哪些人可以进来？</h2>
+
+<p>因为这是一个iOS开发技术交流群，所以主要面向两大群体。第一种是正在学习iOS开发（无论你是在培训还是自学）朋友，你在学习iOS开发的时候，遇到不懂的问题，可以通过此群来解决。第二种是刚入行不久的iOS开发者，在平时开发过程中遇到一些没有接触过的点，比如说真机调试证书、推送、AppStore上架等等，可以加入本群，一起交流成长。</p>
+
+<p>很简单，遇到技术问题。你是愿意自己花几天的时间来琢磨，还是愿意加入iOS开发实战交流VIP群听取前人的经验？自己琢磨，不一定琢磨的出来。很多想学习iOS开发的朋友，就是因为遇到各种各样的问题，不能得到很好地解决，最后放弃了iOS开发这个行业。</p>
+
+<p>编程最重要的就是思想，如果你一直写代码不思考很难有所进步，干一年之后发现没什么太大的变化，那就真的只是一个搬砖的。如果一群人在一起交流，相互分享经验，技术必然会得到提高，很多问题就会迎刃而解。</p>
+
+<blockquote><p>定价：150元/年（2015/11/16——2016/11/15）</p></blockquote>
+
+<h2>为什么是这个价位？</h2>
+
+<p>第一，这是一个iOS开发技术交流群，帮助大家提升iOS开发技术以及解决开发过程中遇到的问题。</p>
+
+<p>第二，我想做这个群的时候，我也咨询了好几位朋友。他们都说这个价位太低了，每天还不到5毛钱。回答技术问题是非常浪费时间的。但是我不这么认为，费用只是一个门槛，打造一个高效率的实战交流群才是真正的目标。所以综合考虑，我选择了150元。</p>
+
+<p>第三，建立这个群并不是以盈利为目的的，更多的是想跟大家一起交流技术，解决问题。我在开发过程中也会遇到一些问题，可以跟大家一起交流分享，也提升自己的技术。这也是我选择这个价格的一些原因。</p>
+
+<p>第四，这两天我也做了一个调查，有17%的童鞋愿意付费500-1000加入VIP群。但大多数童鞋还是希望价格在100左右。</p>
+
+<p>基本也就这么多原因吧，所以定了这个价格。如果还有不明白的地方，欢迎留言提问。</p>
+
+<blockquote><p>支付方式：微信（私人号：chinaligang）转账或者支付宝1606535851@qq.com</p></blockquote>
+
+<p>支付完成之后，请加我微信（私人号：chinaligang）告知，确定成功之后，我会拉你进群。</p>
+
+<p>来吧，愿大家除了思维上、技术上有所提高，更能成为网络上无话不谈的知心朋友！</p>
+
+<p>也希望所有有缘能相聚于此群中的朋友，不仅仅把此群当成一个社群，而需要当成一个家！一起成长，一起进步！</p>
+
+<p>注：群里除了会分享一些技术上的经验，有关iOS开发最新的视频教程也都会先在群里进行分享。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS提交审核：您的 App 正在使用广告标识符 (IDFA)]]></title>
@@ -160,87 +272,6 @@ UIView *contentView = alertView.contentView;
 <p>CustomIOSAlertView可以设置代理，还可以通过block来实现按钮的点击事件。功能相对比较齐全。</p>
 
 <p>喜欢的童鞋可以star一下，以备不时之需。如果你觉得不错，记得分享给更多朋友哈，谢谢！</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[UIViewController的edgesForExtendedLayout属性]]></title>
-    <link href="http://www.superqq.com/blog/2015/10/09/uiviewcontroller-rectedge/"/>
-    <updated>2015-10-09T16:36:41+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/10/09/uiviewcontroller-rectedge</id>
-    <content type="html"><![CDATA[<p>想必大家都遇到一种情况，明明y坐标设置的是0，但是总是被讨厌的导航栏给遮住。比如下面这个情况：</p>
-
-<pre><code>UILabel *label = [[UILabel alloc] init];
-label.frame = CGRectMake(10, 0, SCREEN.width - 20, 88);
-label.backgroundColor = [UIColor redColor];
-label.text = @"关注公众号iOS开发：iOSDevTip";
-label.textColor = [UIColor whiteColor];
-label.textAlignment = NSTextAlignmentCenter;
-[self.view addSubview:label];
-</code></pre>
-
-<p>一起来看看效果：</p>
-
-<p><img src="http://images.90159.com/10/RectEdge2.png" alt="RectEdge2" /></p>
-
-<p>是不是很讨厌！其实，在iOS 7中，UIViewController引入了一个新的属性：edgesForExtendedLayout。 这个属性的默认值是UIRectEdgeAll。当你的容器是UINavigationController的shih，默认的布局就是从状态栏的顶部开始的。这就是为什么你设置的控件都往上漂移了66ot的原因。</p>
-
-<pre><code>@property(nonatomic,assign) UIRectEdge edgesForExtendedLayout NS_AVAILABLE_IOS(7_0); // Defaults to UIRectEdgeAll
-</code></pre>
-
-<p>那么如何解决这个问题呢？有两种方法。</p>
-
-<h2>方法一：改变edgesForExtendedLayout</h2>
-
-<pre><code>self.edgesForExtendedLayout = UIRectEdgeNone;
-</code></pre>
-
-<p>将edgesForExtendedLayout属性设置为UIRectEdgeNone，这样布局就是从导航栏下面开始了。设置之后，再来看看效果：</p>
-
-<p><img src="http://images.90159.com/10/RectEdge1.png" alt="RectEdge1" /></p>
-
-<h2>方法二：导航栏半透明属性设置为NO</h2>
-
-<pre><code>@property(nonatomic,assign,getter=isTranslucent) BOOL translucent NS_AVAILABLE_IOS(3_0) UI_APPEARANCE_SELECTOR; // Default is NO on iOS 6 and earlier. Always YES if barStyle is set to UIBarStyleBlackTranslucent
-</code></pre>
-
-<p>在iOS 6之前（包括iOS 6）translucent默认就是NO，在iOS 7就默认是YES了。</p>
-
-<pre><code>self.navigationController.navigationBar.translucent = NO;
-</code></pre>
-
-<p>将导航栏的半透明属性关闭掉，布局也是从导航栏下面开始了。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[报错：You Must Rebuild It With Bitcode Enabled (Xcode Setting ENABLE_BITCODE)（解决方案）]]></title>
-    <link href="http://www.superqq.com/blog/2015/09/29/rebuild-bitcode-enable/"/>
-    <updated>2015-09-29T15:08:00+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/09/29/rebuild-bitcode-enable</id>
-    <content type="html"><![CDATA[<p>马上就要十一放假啦！大家是不是都很期待这一天到来，哈哈。相信有不少人跟我一样，早就请三天假回家了吧。希望大家十一都玩的开心噢！</p>
-
-<p>今天在家里闲来无事，我就用Xcode7.0建一个项目。然后，引入一个第三方库，竟然运行不起来。报错如下：</p>
-
-<p><img src="http://images.90159.com/09/error1.png" alt="1" /></p>
-
-<p>我把错误提示复制出来，方便大家搜索：</p>
-
-<pre><code>ld: 'XXX' does not contain bitcode. You must rebuild it with bitcode enabled (Xcode setting ENABLE_BITCODE), obtain an updated library from the vendor, or disable bitcode for this target. for architecture arm64
-clang: error: linker command failed with exit code 1 (use -v to see invocation)
-</code></pre>
-
-<p>Xcode7.0默认是开启Enable Bitcode的，如果你导入的一些第三方库在编译的时候没有Enable Bitcode 的话，就会导致报错。</p>
-
-<p>解决方法有两种：</p>
-
-<p>方法一：使用Enable Bitcode的第三方库</p>
-
-<p>方法二：将工程中的Enable Bitcode设置为NO</p>
-
-<p><img src="http://images.90159.com/09/error2.png" alt="1" /></p>
-
-<p>如果你有更好的解决方法，记得告诉我噢！</p>
 ]]></content>
   </entry>
   
