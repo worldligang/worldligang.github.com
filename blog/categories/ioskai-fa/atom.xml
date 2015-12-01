@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-11-30T22:37:33+08:00</updated>
+  <updated>2015-12-01T22:14:54+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,133 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发之如何跳到系统设置里的各种设置界面]]></title>
+    <link href="http://www.superqq.com/blog/2015/12/01/jump-setting-per-page/"/>
+    <updated>2015-12-01T22:12:54+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/12/01/jump-setting-per-page</id>
+    <content type="html"><![CDATA[<p>昨天的文章<a href="http://www.superqq.com/blog/2015/11/30/jump-to-setting-wifi/">《iOS开发之如何跳到系统设置里的WiFi界面》</a>介绍了如何从APP里跳到WiFi设置界面，很多朋友非常喜欢这样的小功能，还有朋友正想做这个功能刚好看见啦！</p>
+
+<h2>跳到更多设置界面</h2>
+
+<p>除了跳到WiFi设置界面，能不能跳到其他的设置界面呢？比如：定位服务、FaceTime、音乐等等。都是可以的，一起来看看如何实现的！</p>
+
+<!--more-->
+
+
+<h2>定位服务</h2>
+
+<p>定位服务有很多APP都有，如果用户关闭了定位，那么，我们在APP里面可以提示用户打开定位服务。点击到设置界面设置，直接跳到定位服务设置界面。代码如下：</p>
+
+<pre><code>//定位服务设置界面
+NSURL *url = [NSURL URLWithString:@"prefs:root=LOCATION_SERVICES"];
+if ([[UIApplication sharedApplication] canOpenURL:url])
+{
+    [[UIApplication sharedApplication] openURL:url];
+}
+</code></pre>
+
+<p>这样就可以跳到系统设置的定位服务界面啦！我们继续看几个列子。</p>
+
+<h2>FaceTime</h2>
+
+<pre><code>//FaceTime设置界面
+NSURL *url = [NSURL URLWithString:@"prefs:root=FACETIME"];
+if ([[UIApplication sharedApplication] canOpenURL:url])
+{
+    [[UIApplication sharedApplication] openURL:url];
+}
+</code></pre>
+
+<h2>音乐</h2>
+
+<pre><code>//音乐设置界面
+NSURL *url = [NSURL URLWithString:@"prefs:root=MUSIC"];
+if ([[UIApplication sharedApplication] canOpenURL:url])
+{
+    [[UIApplication sharedApplication] openURL:url];
+}
+</code></pre>
+
+<h2>墙纸设置界面</h2>
+
+<pre><code>//墙纸设置界面
+NSURL *url = [NSURL URLWithString:@"prefs:root=Wallpaper"];
+if ([[UIApplication sharedApplication] canOpenURL:url])
+{
+    [[UIApplication sharedApplication] openURL:url];
+}
+</code></pre>
+
+<h2>蓝牙设置界面</h2>
+
+<pre><code>//蓝牙设置界面
+NSURL *url = [NSURL URLWithString:@"prefs:root=Bluetooth"];
+if ([[UIApplication sharedApplication] canOpenURL:url])
+{
+   [[UIApplication sharedApplication] openURL:url];
+}
+</code></pre>
+
+<h2>iCloud设置界面</h2>
+
+<pre><code>//iCloud设置界面
+NSURL *url = [NSURL URLWithString:@"prefs:root=CASTLE"];
+if ([[UIApplication sharedApplication] canOpenURL:url]
+{
+   [[UIApplication sharedApplication] openURL:url];
+}
+</code></pre>
+
+<h2>参数配置</h2>
+
+<p>看到这几个例子，大家有没有发现，想跳到哪个设置界面只需要prefs:root=后面的值即可！是的，就是这样的。</p>
+
+<p>我在网上找到一个列表，可以跳到这些界面的参数配置：</p>
+
+<pre><code>About — prefs:root=General&amp;path=About
+Accessibility — prefs:root=General&amp;path=ACCESSIBILITY
+Airplane Mode On — prefs:root=AIRPLANE_MODE
+Auto-Lock — prefs:root=General&amp;path=AUTOLOCK
+Brightness — prefs:root=Brightness
+Bluetooth — prefs:root=General&amp;path=Bluetooth
+Date &amp; Time — prefs:root=General&amp;path=DATE_AND_TIME
+FaceTime — prefs:root=FACETIME
+General — prefs:root=General
+Keyboard — prefs:root=General&amp;path=Keyboard
+iCloud — prefs:root=CASTLE
+iCloud Storage &amp; Backup — prefs:root=CASTLE&amp;path=STORAGE_AND_BACKUP
+International — prefs:root=General&amp;path=INTERNATIONAL
+Location Services — prefs:root=LOCATION_SERVICES
+Music — prefs:root=MUSIC
+Music Equalizer — prefs:root=MUSIC&amp;path=EQ
+Music Volume Limit — prefs:root=MUSIC&amp;path=VolumeLimit
+Network — prefs:root=General&amp;path=Network
+Nike + iPod — prefs:root=NIKE_PLUS_IPOD
+Notes — prefs:root=NOTES
+Notification — prefs:root=NOTIFICATIONS_ID
+Phone — prefs:root=Phone
+Photos — prefs:root=Photos
+Profile — prefs:root=General&amp;path=ManagedConfigurationList
+Reset — prefs:root=General&amp;path=Reset
+Safari — prefs:root=Safari
+Siri — prefs:root=General&amp;path=Assistant
+Sounds — prefs:root=Sounds
+Software Update — prefs:root=General&amp;path=SOFTWARE_UPDATE_LINK
+Store — prefs:root=STORE
+Twitter — prefs:root=TWITTER
+Usage — prefs:root=General&amp;path=USAGE
+VPN — prefs:root=General&amp;path=Network/VPN
+Wallpaper — prefs:root=Wallpaper
+Wi-Fi — prefs:root=WIFI
+</code></pre>
+
+<p>大家可以根据自己的需求，跳到不同的设置界面。如果你喜欢这篇文章的话，欢迎分享给更多的朋友，也可以收藏起来，以备不时之需！</p>
+
+<p><a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS开发之如何跳到系统设置里的WiFi界面]]></title>
@@ -204,74 +331,6 @@ if ([[UIApplication sharedApplication] canOpenURL:url])
 <p><img src="http://images.90159.com/11/error2.png" alt="error2" /></p>
 
 <p>再次运行，问题就解决啦！</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[两个非常不错的自定义UIAlertView第三方类库]]></title>
-    <link href="http://www.superqq.com/blog/2015/10/30/two-nice-uialertview/"/>
-    <updated>2015-10-30T10:08:00+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/10/30/two-nice-uialertview</id>
-    <content type="html"><![CDATA[<p>UIAlertView大家都不陌生了。UIAlertView不可以添加控件，比如说：UILabel、UITextView等等，所以遇到这个需求，一般都要自定义UIAlertView来解决。</p>
-
-<p>我再github上找到了两个非常错的自定义UIAlertView第三方类库，分别是：LMAlertView和CustomIOSAlertView。</p>
-
-<h2>LMAlertView使用简介</h2>
-
-<p><a href="https://github.com/lmcd/LMAlertView">LMAlertView</a>在github上有610个star。说明这个第三方的UIAlertView还不错，我大概看了一下用法也比较简单。</p>
-
-<p>来看看两个个案例效果：</p>
-
-<p><img src="https://camo.githubusercontent.com/eb9242282b703a847c5ca45ef47462ec507ba573/687474703a2f2f6c6d63642e6d652f4c4d416c657274566965772d637573746f6d4032782e706e67" alt="1" /></p>
-
-<!--more-->
-
-
-<p><img src="https://camo.githubusercontent.com/b1c95e3be84a8d277e1c542ca768b3bdebe043a6/687474703a2f2f6c6d63642e6d652f4c4d416c657274566965772d7265766965774032782e706e673f33" alt="2" /></p>
-
-<h3>用CocoaPods安装LMAlertView</h3>
-
-<pre><code>pod 'LMAlertView'
-</code></pre>
-
-<h3>使用案例</h3>
-
-<pre><code>LMAlertView *alertView = [[LMAlertView alloc] initWithTitle:@"iOSDevTip"
-                                        message:@"关注一下"
-                                       delegate:nil
-                              cancelButtonTitle:@"ok"
-                              otherButtonTitles:nil];
-
-// Add your subviews here to customise
-UIView *contentView = alertView.contentView;
-
-[alertView show];   
-</code></pre>
-
-<p>LMAlertView还保持着UIAlertView的创建方法，作者还比较用心。</p>
-
-<h2>CustomIOSAlertView使用简介</h2>
-
-<p><a href="https://github.com/wimagguc/ios-custom-alertview">CustomIOSAlertView</a>比LMAlertView的star还多一些，有861个。同样我们先看一下效果：</p>
-
-<p><img src="https://github.com/wimagguc/ios-custom-alertview/raw/master/Docs/screen.png" alt="3" /></p>
-
-<h3>用CocoaPods安装CustomIOSAlertView</h3>
-
-<pre><code>pod 'CustomIOSAlertView', '~&gt; 0.9.3'
-</code></pre>
-
-<h3>使用案例</h3>
-
-<pre><code>CustomIOSAlertView *alertView = [[CustomIOSAlertView alloc] init];  UIView *customView ..;
-
-[alertView setContainerView:customView];
-[alertView show];
-</code></pre>
-
-<p>CustomIOSAlertView可以设置代理，还可以通过block来实现按钮的点击事件。功能相对比较齐全。</p>
-
-<p>喜欢的童鞋可以star一下，以备不时之需。如果你觉得不错，记得分享给更多朋友哈，谢谢！</p>
 ]]></content>
   </entry>
   
