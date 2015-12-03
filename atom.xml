@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-12-01T22:14:54+08:00</updated>
+  <updated>2015-12-03T22:26:14+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,68 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[升级Xcode7之后VVDocumenter-Xcode不能用的解决办法]]></title>
+    <link href="http://www.superqq.com/blog/2015/12/03/vvdocumenter-xcode7-not-work/"/>
+    <updated>2015-12-03T22:24:57+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/12/03/vvdocumenter-xcode7-not-work</id>
+    <content type="html"><![CDATA[<p>VVDocumenter-Xcode是Xcode上一款快速添加标准注释，并可以自动生成文档的插件。有了VVDocumenter-Xcode，规范化的注释，只需要输入三个斜线“///”就可以搞定，非常方面实用，目前已经支持Swift。</p>
+
+<p>Objective-C效果图：</p>
+
+<p><img src="http://images.90159.com/11/vvdocumenter1.gif" alt="VVDocumenter1" /></p>
+
+<p>Swift效果图：</p>
+
+<p><img src="http://images.90159.com/11/vvdocumenter2.gif" alt="VVDocumenter1" /></p>
+
+<p>从Xcode 5开始，苹果要求加入UUID证书从而保证插件的稳定性。因此Xcode版本更新之后需要在VVDocumenter-Xcode的Info.plist文件中添加Xcode的UUID。</p>
+
+<h2>步骤如下：</h2>
+
+<h3>一、查看Xcode的UUID</h3>
+
+<h4>方式1</h4>
+
+<p>在终端执行</p>
+
+<pre><code>defaults read /Applications/Xcode.app/Contents/Info DVTPlugInCompatibilityUUID
+</code></pre>
+
+<p><img src="http://images.90159.com/11/vvdocumenter3.jpg" alt="VVDocumenter1" /></p>
+
+<p>拷贝选中的字符串。</p>
+
+<h4>方式2</h4>
+
+<p>在/Applications目录中找到Xcode.app，右键”显示包内容”，进入Contents文件夹，双击Info.plist打开，找到DVTPlugInCompatibilityUUID，拷贝后面的字符串。</p>
+
+<h3>二、添加Xcode的UUID到VVDocumenter-Xcode的Info.plist文件</h3>
+
+<h4>方式1&ndash;插件已经安装完成</h4>
+
+<p>1、打开xcode插件所在的目录：~/Library/Application Support/Developer/Shared/Xcode/Plug-ins；</p>
+
+<p>2、选择已经安装的插件例如VVDocumenter-Xcode，右键”显示包内容”；</p>
+
+<p>3、找到info.plist 文件，找到DVTPlugInCompatibilityUUIDs的项目，添加一个Item，Value的值为之前Xcode的UUID，保存。</p>
+
+<p><img src="http://images.90159.com/11/vvdocumenter4.jpg" alt="VVDocumenter1" /></p>
+
+<h4>方式2&ndash;插件还未安装/重新安装</h4>
+
+<p>1、从GitHub克隆仓库到本地，在Xcode中打开项目，选择项目名称，在TAGETS下选中VVDocumenter-Xcode；</p>
+
+<p>2、选择Info，找到DVTPlugInCompatibilityUUIDs的项目，添加一个Item，Value的值为之前Xcode的UUID；</p>
+
+<p>3、Build项目，VVDocumenter-Xcode会自动安装。</p>
+
+<h3>三、重启Xcode</h3>
+
+<p>Xcode 6之后，重启Xcode时会提示“Load bundle”、 “Skip Bundle”，这里必须选择“Load bundle”，不然插件无法使用。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS开发之如何跳到系统设置里的各种设置界面]]></title>
@@ -1466,37 +1528,6 @@ When you download Xcode from the Apple Developer Program web site, the code sign
 <p>We’re working to make it faster for developers in China to download Xcode betas. To verify that their version of Xcode has not been altered, they can take the following steps posted at &lt;developer.apple.com>.</p>
 
 <p>文章来自：<a href="http://www.apple.com/cn/xcodeghost/">http://www.apple.com/cn/xcodeghost/</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[程序员月入过万已经不再是神话]]></title>
-    <link href="http://www.superqq.com/blog/2015/09/02/manicure-salary-heigher-programmer/"/>
-    <updated>2015-09-02T11:15:01+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/09/02/manicure-salary-heigher-programmer</id>
-    <content type="html"><![CDATA[<h2>创业英雄汇</h2>
-
-<p>最近看了CCTV 2 财经频道的《创业英雄汇》，可能有人还没有看过这个节目。简单介绍一下：《CCTV中国青年创业实战公开课—创业英雄汇》这是一档全新模式、极致化表达的新型创业服务节目。播出时段：财经频道 周五22：10～23：10。建议有创业想法的童鞋，可以好好看一下，说不定可以激发一些灵感！</p>
-
-<p>我看的这一期是20150821。创业导师分别是聚美优品的CEO陈欧和英才杂志社的社长宋立新。陈欧最经典的一句话应该就是：我是陈欧，我为自己代言！之前，没有认真了解过陈欧，只是简答的看了一下关于陈欧的创业故事。通过这次《创业英雄汇》节目，感觉的陈欧确实挺有个人魅力。</p>
-
-<h2>美甲师 VS 程序员</h2>
-
-<p>第一位上台的创业者叫于明山，一位大叔界别的创业者。他的项目是“美道家”，致力于打造专业上门美容服务平台。服务对线就是女性，美容师也都是女性。美女美容师上门服务，听起来就是一个不错的项目。（我们这些屌丝程序员，估计享受不到这种服务啦！）</p>
-
-<p>在导师考核环节，陈欧大概了解了一下“美道家”的美容师上的收入大概是多少。随后，陈欧说：一个好的美甲师，或者一个美容师，挣的钱甚至比一个程序员还高。我前一段时间听说有一个美甲师，甚至挣到五万到七万，这基本上是一个CEO的工资了。</p>
-
-<p>一个美甲师能月入五万到七万，那还干什么程序员啊。想想就觉得还是程序员苦逼，以后再也不说程序员的工资高了。都不好意思说了，人家美甲师就比你高，而且人家还是自由职业者。</p>
-
-<p>前段时间，听人说他们做优步一月轻轻松松月入五六万。优步每个月做够规定的单数，额外奖励7000元。经常在新闻上看到，哪里的司机刷单也你能月入多少多少。（不公平啊！）</p>
-
-<h2>出路在哪里？</h2>
-
-<p>真的是三百六十行，行行出状元啊！作为程序员，三四年工作经验，大概也就是一两万的工资吧。也许你的工资很高，但是加班肯定也不少。</p>
-
-<p>在这个全名创业的浪潮下，我们程序员不能再闲着了。有想法就去干吧，说不定能闯出一片天地。</p>
-
-<p>明天要不要辞职呢？</p>
 ]]></content>
   </entry>
   

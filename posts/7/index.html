@@ -81,6 +81,52 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/07/16/cheng-xu-yuan-:xuan-dui-fang-xiang-chi-xu-nu-li/">程序员：选对方向持续努力</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-16T22:24:25+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:24 pm</span></time>
+        
+        
+          | <a href="/blog/2015/07/16/cheng-xu-yuan-:xuan-dui-fang-xiang-chi-xu-nu-li/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天下班的时候，乘电梯的空打开了一篇文章：一个人，2年时间，做了一个价值1亿美金的网站。文章写得很精彩，非常吸引我。不一会电梯就到了，我依然抱着手机边走边看。</p>
+
+<p>到了我的小电动车旁边（公司离家不远，经常骑电动车上班），文章还没有看完。我就坐在电动车上，依然爱不释手的看着。边看边想：创始人真是太厉害了。</p>
+
+<p>能够吸引我的文章不少，能够这么吸引我的文章不多。建议大家抽时间也看看这篇文章，或许能激发出你的灵感，成就一番事业也说不定。</p>
+
+<h2>方向正确持续努力</h2>
+
+<p>文章里说的网站是：<strong>viralnova.com</strong> 只有创始人一个是全职员工，其他两位是兼职的。网站成立大概两年时间，每天有200万独立访问用户，月入十万美金。世界排名376位。</p>
+
+<p>看到这样的数据真的令人振奋，如果我有一个这样的网站，那就不用上班啦。这也不是没有可能。在国内也有个人做网站比较厉害的，比如说：<strong>卢松松</strong> 国内独立博客大牛。估计每个月也能赚不少钱吧。</p>
+
+<p>不能只看到他们的成绩，更要了解他们背后两年如一日、六年如一日的坚持和努力。有想法的人也许很多，能够坚持将想法付出行动的人就不多了。所以成功者总是少数。选对方向持续努力也许就是成功不二法则。</p>
+
+<p>作为一名程序员你的方向是什么呢？我们都应该这样问一下自己，不能每天漫无目的的坚持。马云不是说了嘛：梦想还是要有的，万一实现了呢。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/07/15/tong-guo-url-schemechuan-di-can-shu/">通过URL Scheme传递参数</a></h1>
     
     
@@ -1203,179 +1249,6 @@ textView.text = @"\r\n我的手机号不是： 13888888888 \r\n\r\n"
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/08/uiwebviewyong-fa-xiang-jie/">UIWebView用法详解及代码分享</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-08T23:52:34+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:52 pm</span></time>
-        
-        
-          | <a href="/blog/2015/07/08/uiwebviewyong-fa-xiang-jie/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>今天加入一个QQ群，也算是一个圈子，群主的要求是满足他的三个条件。经过与群主的沟通，终于得到通过，顺利加入。</p>
-
-<p>群主是一个93年的小伙，而且是河南的老乡。没想到小伙子这么有号召力。我也是偶然在我的空间发现他的，看他每天发的文章，还挺有意思。</p>
-
-<p><strong>90后的小伙子都这么厉害了，有什么理由不努力奋斗呢！</strong>多加入以下圈子，认识一下身边的牛人。说不定会有意外的收获。</p>
-
-<p>今天我们来详细UIWebView用法。UIWebView是iOS内置的浏览器控件，可以浏览网页、打开文档等 能够加载html/htm、pdf、docx、txt等格式的文件.</p>
-
-<p>用UIWebView我们就可以做一个简易的浏览器。效果如下：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/webview1.png" alt="1" /></p>
-
-<h2>创建UIWebView</h2>
-
-<p>首先创建UIWebView，这个不难，设置frame，然后添加到self.view上即可：</p>
-
-<pre><code>UIWebView *webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
-webView.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
-[self.view addSubview:webView];
-</code></pre>
-
-<h2>UIWebView加载网络地址</h2>
-
-<p>用UIWebView来加载网络地址，那我的博客：<strong><a href="http://www.superqq.com">http://www.superqq.com</a></strong> 来举例。代码如下：</p>
-
-<pre><code>NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.superqq.com"]];
-[self.view addSubview:webView];
-[webView loadRequest:request];
-</code></pre>
-
-<h2>UIWebView加载本地资源</h2>
-
-<h3>通过NSURLRequest加载</h3>
-
-<pre><code>NSString *path = [[NSBundle mainBundle] pathForResource:@"swift" ofType:@"html"];
-NSURL* url = [NSURL   fileURLWithPath:path];//创建URL
-NSURLRequest* request = [NSURLRequest requestWithURL:url];//创建NSURLRequest
-[webView loadRequest:request];//加载
-</code></pre>
-
-<h3>通过NSString加载</h3>
-
-<p>UIWebView 还支持将一个NSString对象作为源来加载。你可以为其提供一个基础URL，来指导UIWebView对象如何跟随链接和加载远程资源：</p>
-
-<pre><code>NSString *path = [[NSBundle mainBundle] pathForResource:@"index" ofType:@"html"];
-NSString *htmlString = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
-[webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:path]];
-</code></pre>
-
-<h2>自动检测电话</h2>
-
-<p>设置这个属性，如果在加载的网页中遇到电话号码，直接单击就可以拨打，非常方便：</p>
-
-<pre><code>webView.dataDetectorTypes = UIDataDetectorTypePhoneNumber;//自动检测网页上的电话号码，单击可以拨打
-</code></pre>
-
-<h2>设置代理和代理方法</h2>
-
-<p>UIWebView有五个代理方法，我们可以在不同的代理方法中，完成不同的需求。</p>
-
-<pre><code>//设置代理
-webView.delegate = self;
-
-//代理方法
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
-{
-    //返回YES，进行加载。通过UIWebViewNavigationType可以得到请求发起的原因
-    return YES;
-}
-
-- (void)webViewDidStartLoad:(UIWebView *)webView
-{
-    //开始加载，可以加上风火轮（也叫菊花）
-}
-
-- (void)webViewDidFinishLoad:(UIWebView *)webView
-{
-    //完成加载
-}
-
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
-{
-    //加载出错
-}
-</code></pre>
-
-<h2>创建加载他、停止、后退、前进按钮</h2>
-
-<p>创建四个按钮，分别是加载按钮、停止按钮、返回按钮、前进按钮：</p>
-
-<pre><code>NSArray *array = [NSArray arrayWithObjects:@"加载",@"停止",@"返回",@"前进", nil];
-    int far = (SCREEN.width - 200)/5;
-    for (int i = 0; i &lt; array.count; i++) {
-        UIButton *button = [[UIButton alloc] init];
-        button.frame = CGRectMake( (i + 1) * far + 50 * i, SCREEN.height - 60, 50, 40);
-        button.tag = 200 + i;
-        [button addTarget:self action:@selector(actionClick:) forControlEvents:UIControlEventTouchUpInside];
-        [button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-        [button setBackgroundColor:[UIColor orangeColor]];
-        [button setTitle:array[i] forState:UIControlStateNormal];
-        [self.view addSubview:button];
-    }
-</code></pre>
-
-<h2>前进后退</h2>
-
-<p>给四个按钮绑定事件，根据tag值来区分每一个点击事件：</p>
-
-<pre><code>- (void)actionClick:(UIButton *)button
-{
-    switch (button.tag) {
-        case 200:
-        {
-            [self.webView reload];//加载
-        }
-            break;
-        case 201:
-        {
-            [self.webView stopLoading];//停止加载
-        }
-            break;
-        case 202:
-        {
-            [self.webView goBack];//返回
-        }
-            break;
-        case 203:
-        {
-            [self.webView goForward];//前进
-        }
-            break;
-        default:
-            break;
-    }
-}
-</code></pre>
-
-<p>大功告成，再来看看效果：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/webview2.png" alt="2" /></p>
-
-<p>以上分享的内容我做了一个demo，需要的话可以点击这里下载：<a href="https://github.com/worldligang/UIWebViewDemo">UIWebView用法详解</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/8">&larr; Older</a>
@@ -1403,6 +1276,10 @@ webView.delegate = self;
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/12/03/vvdocumenter-xcode7-not-work/">升级Xcode7之后VVDocumenter-Xcode不能用的解决办法</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/12/01/jump-setting-per-page/">iOS开发之如何跳到系统设置里的各种设置界面</a>
       </li>
     
@@ -1416,10 +1293,6 @@ webView.delegate = self;
     
       <li class="post">
         <a href="/blog/2015/11/19/create-high-efficiency-ios-group/">打造高效率iOS开发实战交流VIP群</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/11/13/ios-submit-using-idfa/">iOS提交审核：您的 App 正在使用广告标识符 (IDFA)</a>
       </li>
     
   </ul>

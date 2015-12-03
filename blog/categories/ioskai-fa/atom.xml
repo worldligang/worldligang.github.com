@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-12-01T22:14:54+08:00</updated>
+  <updated>2015-12-03T22:26:14+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,68 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[升级Xcode7之后VVDocumenter-Xcode不能用的解决办法]]></title>
+    <link href="http://www.superqq.com/blog/2015/12/03/vvdocumenter-xcode7-not-work/"/>
+    <updated>2015-12-03T22:24:57+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/12/03/vvdocumenter-xcode7-not-work</id>
+    <content type="html"><![CDATA[<p>VVDocumenter-Xcode是Xcode上一款快速添加标准注释，并可以自动生成文档的插件。有了VVDocumenter-Xcode，规范化的注释，只需要输入三个斜线“///”就可以搞定，非常方面实用，目前已经支持Swift。</p>
+
+<p>Objective-C效果图：</p>
+
+<p><img src="http://images.90159.com/11/vvdocumenter1.gif" alt="VVDocumenter1" /></p>
+
+<p>Swift效果图：</p>
+
+<p><img src="http://images.90159.com/11/vvdocumenter2.gif" alt="VVDocumenter1" /></p>
+
+<p>从Xcode 5开始，苹果要求加入UUID证书从而保证插件的稳定性。因此Xcode版本更新之后需要在VVDocumenter-Xcode的Info.plist文件中添加Xcode的UUID。</p>
+
+<h2>步骤如下：</h2>
+
+<h3>一、查看Xcode的UUID</h3>
+
+<h4>方式1</h4>
+
+<p>在终端执行</p>
+
+<pre><code>defaults read /Applications/Xcode.app/Contents/Info DVTPlugInCompatibilityUUID
+</code></pre>
+
+<p><img src="http://images.90159.com/11/vvdocumenter3.jpg" alt="VVDocumenter1" /></p>
+
+<p>拷贝选中的字符串。</p>
+
+<h4>方式2</h4>
+
+<p>在/Applications目录中找到Xcode.app，右键”显示包内容”，进入Contents文件夹，双击Info.plist打开，找到DVTPlugInCompatibilityUUID，拷贝后面的字符串。</p>
+
+<h3>二、添加Xcode的UUID到VVDocumenter-Xcode的Info.plist文件</h3>
+
+<h4>方式1&ndash;插件已经安装完成</h4>
+
+<p>1、打开xcode插件所在的目录：~/Library/Application Support/Developer/Shared/Xcode/Plug-ins；</p>
+
+<p>2、选择已经安装的插件例如VVDocumenter-Xcode，右键”显示包内容”；</p>
+
+<p>3、找到info.plist 文件，找到DVTPlugInCompatibilityUUIDs的项目，添加一个Item，Value的值为之前Xcode的UUID，保存。</p>
+
+<p><img src="http://images.90159.com/11/vvdocumenter4.jpg" alt="VVDocumenter1" /></p>
+
+<h4>方式2&ndash;插件还未安装/重新安装</h4>
+
+<p>1、从GitHub克隆仓库到本地，在Xcode中打开项目，选择项目名称，在TAGETS下选中VVDocumenter-Xcode；</p>
+
+<p>2、选择Info，找到DVTPlugInCompatibilityUUIDs的项目，添加一个Item，Value的值为之前Xcode的UUID；</p>
+
+<p>3、Build项目，VVDocumenter-Xcode会自动安装。</p>
+
+<h3>三、重启Xcode</h3>
+
+<p>Xcode 6之后，重启Xcode时会提示“Load bundle”、 “Skip Bundle”，这里必须选择“Load bundle”，不然插件无法使用。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS开发之如何跳到系统设置里的各种设置界面]]></title>
@@ -307,30 +369,6 @@ if ([[UIApplication sharedApplication] canOpenURL:url])
 <li>移除SinaWeiboSDK/libWeiboSDK.a，分享还是可以成功的。</li>
 </ol>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[远程推送控制台提示Add “Remote-notification”...解决方案]]></title>
-    <link href="http://www.superqq.com/blog/2015/11/12/remote-notification-error/"/>
-    <updated>2015-11-12T18:21:17+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/11/12/remote-notification-error</id>
-    <content type="html"><![CDATA[<p>做推送的童鞋可能会遇到这样的问题，控制台会打印一句话：</p>
-
-<p>You&rsquo;ve implemented -[<UIApplicationDelegate> application:didReceiveRemoteNotification:fetchCompletionHandler:], but you still need to add &ldquo;remote-notification&rdquo; to the list of your supported UIBackgroundModes in your Info.plist.</p>
-
-<p>解决办法：</p>
-
-<p><img src="http://images.90159.com/11/error1.png" alt="error1" /></p>
-
-<!--more-->
-
-
-<p>这个时候再去看看Info.plist文件：</p>
-
-<p><img src="http://images.90159.com/11/error2.png" alt="error2" /></p>
-
-<p>再次运行，问题就解决啦！</p>
 ]]></content>
   </entry>
   
