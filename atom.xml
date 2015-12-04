@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-12-04T22:13:01+08:00</updated>
+  <updated>2015-12-04T22:17:16+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -24,22 +24,13 @@
 
 <p>昨天，苹果宣布：开源Swift，引起不少轰动，短短一天不到得时间，github上就有9000多star。对于广大开发者来说，真是一大福利！大家快取看看吧，一睹真容！</p>
 
-<p>swift开源地址：</p>
+<p>swift开源地址：<a href="https://github.com/apple/swift">https://github.com/apple/swift</a></p>
 
-<pre><code>https://github.com/apple/swift
-</code></pre>
+<p>官方Linux版本：<a href="https://swift.org/blog/swift-linux-port/">https://swift.org/blog/swift-linux-port/</a></p>
 
-<p>官方Linux版本：</p>
+<p>苹果官方github地址：<a href="https://github.com/apple">https://github.com/apple</a></p>
 
-<pre><code>https://swift.org/blog/swift-linux-port/
-</code></pre>
-
-<p>苹果官方github地址：</p>
-
-<pre><code>https://github.com/apple    
-</code></pre>
-
-<p><a href="https://swift.org%E6%98%AF%E8%8B%B9%E6%9E%9C%E5%AE%98%E6%96%B9%E7%9A%84%E5%BC%80%E5%8F%91%E8%80%85%E7%A4%BE%E5%8C%BA%EF%BC%8C%E8%BF%99%E9%87%8C%E6%9C%89Swift%E5%BC%80%E5%8F%91%E6%95%99%E7%A8%8B%E5%92%8C%E6%8C%87%E5%8D%97%E3%80%82%E6%98%AF%E4%B8%AA%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%A5%BD%E5%9C%B0%E6%96%B9%EF%BC%81">https://swift.org%E6%98%AF%E8%8B%B9%E6%9E%9C%E5%AE%98%E6%96%B9%E7%9A%84%E5%BC%80%E5%8F%91%E8%80%85%E7%A4%BE%E5%8C%BA%EF%BC%8C%E8%BF%99%E9%87%8C%E6%9C%89Swift%E5%BC%80%E5%8F%91%E6%95%99%E7%A8%8B%E5%92%8C%E6%8C%87%E5%8D%97%E3%80%82%E6%98%AF%E4%B8%AA%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%A5%BD%E5%9C%B0%E6%96%B9%EF%BC%81</a></p>
+<p><a href="https://swift.org">https://swift.org</a> 是苹果官方的开发者社区，这里有Swift开发教程和指南。是个学习的好地方！</p>
 ]]></content>
   </entry>
   
