@@ -81,6 +81,156 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/07/16/nsstringde-ba-tiao-shi-yong-ji-qiao/">NSString的八条实用技巧</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-16T23:07:57+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:07 pm</span></time>
+        
+        
+          | <a href="/blog/2015/07/16/nsstringde-ba-tiao-shi-yong-ji-qiao/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>有一篇文章写了：<a href="http://www.superqq.com/blog/2015/07/11/ioskai-fa-zhi-nsstringde-ji-tiao-shi-yong-ji-qiao/">iOS开发之NSString的几条实用技巧</a> ， 今天这篇，我们讲讲NSString的八条实用技巧。大家可以收藏起来，方便开发随时可以复制粘贴。</p>
+
+<h2>0.首字母大写</h2>
+
+<p>代码：</p>
+
+<pre><code>//首字母大写
+NSString *string = @"ligang";
+NSLog(@"string: %@",[string capitalizedString]);
+</code></pre>
+
+<p>打印：</p>
+
+<pre><code>2015-07-16 23:06:11.652 iOSStrongDemo[10279:3062010] string: Ligang
+</code></pre>
+
+<h2>1.分割字符串</h2>
+
+<p>代码：</p>
+
+<pre><code>//分割字符串
+NSString *string = @"This is a iOSDevTip";
+NSArray *array = [string componentsSeparatedByString:@"a"];
+NSString *string1 = [array objectAtIndex:0];
+NSString *string2 = [array objectAtIndex:1];
+NSLog(@"string1:%@  string2:%@",string1,string2);
+</code></pre>
+
+<p>打印：</p>
+
+<pre><code>2015-07-16 22:40:39.559 iOSStrongDemo[10165:3055448] string1:This is   string2: iOSDevTip
+</code></pre>
+
+<h2>2.追加字符串</h2>
+
+<p>代码：</p>
+
+<pre><code>//追加字符串
+NSMutableString *string = [[NSMutableString alloc] initWithString:@"I Love "];
+[string appendString:@"China"];
+NSLog(@"string:%@",string);
+</code></pre>
+
+<p>打印：</p>
+
+<pre><code>2015-07-16 22:42:32.305 iOSStrongDemo[10189:3056410] string:I Love China
+</code></pre>
+
+<h2>3.插入字符串</h2>
+
+<p>代码：</p>
+
+<pre><code>//插入字符串
+NSMutableString *string = [[NSMutableString alloc] initWithString:@"I China"];
+[string insertString:@"Love " atIndex:2];
+NSLog(@"string: %@",string);
+</code></pre>
+
+<p>打印：</p>
+
+<pre><code>2015-07-16 22:44:10.706 iOSStrongDemo[10206:3057014] string: I Love China
+</code></pre>
+
+<h2>4.删除字符串</h2>
+
+<p>代码：</p>
+
+<pre><code>//删除字符串
+NSMutableString *string = [[NSMutableString alloc] initWithString:@"I love China"];
+[string deleteCharactersInRange:NSMakeRange(2, 4)];
+NSLog(@"String1: %@",string);
+</code></pre>
+
+<p>打印：</p>
+
+<pre><code>2015-07-16 22:46:58.437 iOSStrongDemo[10219:3057749] String1: I  China
+</code></pre>
+
+<h2>5.判断是否包含前后缀</h2>
+
+<p>代码：</p>
+
+<pre><code>//判断是否包含前后缀
+NSString *string = @"I love China";
+BOOL isHasI = [string hasPrefix:@"I"];
+BOOL isHasChina = [string hasSuffix:@"China"];
+</code></pre>
+
+<h2>6.替换字符串</h2>
+
+<p>代码：</p>
+
+<pre><code>//替换字符串
+NSString *string = @"I love China";
+NSString *replaceString = [string stringByReplacingOccurrencesOfString:@"love" withString:@"like"];
+NSLog(@"replaceString:  %@",replaceString);
+</code></pre>
+
+<p>打印：</p>
+
+<pre><code>2015-07-16 22:56:07.405 iOSStrongDemo[10236:3059503] replaceString:  I like China
+</code></pre>
+
+<h2>7.去除字符串首尾的空格和换行符</h2>
+
+<p>代码：</p>
+
+<pre><code>//去除字符串首尾的空格和换行符
+NSString *string = @" I love China ";
+NSString *text = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+NSLog(@"text:%@",text);
+</code></pre>
+
+<p>打印：</p>
+
+<pre><code>2015-07-16 23:00:47.845 iOSStrongDemo[10265:3061013] text:I love China
+</code></pre>
+
+<p>代码已经更新，demo下载地址：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/07/16/cheng-xu-yuan-:xuan-dui-fang-xiang-chi-xu-nu-li/">程序员：选对方向持续努力</a></h1>
     
     
@@ -1141,114 +1291,6 @@ NSLog(@"logString:%@",logString);
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/09/shi-yong-uidatadetectortypeszi-dong-jian-ce-dian-hua-,-wang-zhi-he-you-xiang/">使用UIDataDetectorTypes自动检测电话、网址和邮箱</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-09T23:43:39+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:43 pm</span></time>
-        
-        
-          | <a href="/blog/2015/07/09/shi-yong-uidatadetectortypeszi-dong-jian-ce-dian-hua-,-wang-zhi-he-you-xiang/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>支付宝发布最新版本9.0，再一次引发一场撕逼大战。微信说支付宝抄袭了它，支付宝说微信一直都在抄袭自己。在我看来，微信和支付宝都抄袭了对方。对于大佬们的抄袭，我们也是司空见惯了。</p>
-
-<p>支付宝这一次更新，真是赚足了眼球，估计这也是支付宝的推广策略。就是要造势，造势有利于品牌推广。传播速度可想而知，似乎一夜之间都在谈论支付宝和微信。</p>
-
-<p>至于支付宝和微信谁能打过谁，我们拭目以待。</p>
-
-<p>上一篇文章<a href="http://www.superqq.com/blog/2015/07/08/uiwebviewyong-fa-xiang-jie/">UIWebView用法详解及代码分享</a>里面提到：</p>
-
-<pre><code>webView.dataDetectorTypes = UIDataDetectorTypePhoneNumber;//自动检测网页上的电话号码，单击可以拨打
-</code></pre>
-
-<p>接下来我们来简单讲一下，使用UIDataDetectorTypes自动检测电话、网址和邮箱。我们先来看看UIDataDetectorTypes有哪些枚举值。</p>
-
-<h2>UIDataDetectorTypes的枚举值</h2>
-
-<pre><code>typedef NS_OPTIONS(NSUInteger, UIDataDetectorTypes) {
-    UIDataDetectorTypePhoneNumber   = 1 &lt;&lt; 0,          // Phone number detection
-    UIDataDetectorTypeLink          = 1 &lt;&lt; 1,          // URL detection    
-#if __IPHONE_4_0 &lt;= __IPHONE_OS_VERSION_MAX_ALLOWED
-    UIDataDetectorTypeAddress       = 1 &lt;&lt; 2,          // Street address detection
-    UIDataDetectorTypeCalendarEvent = 1 &lt;&lt; 3,          // Event detection
-#endif    
-
-    UIDataDetectorTypeNone          = 0,               // No detection at all
-    UIDataDetectorTypeAll           = NSUIntegerMax    // All types
-};
-</code></pre>
-
-<p>NS_OPTIONS一般用来定义位移相关操作的枚举值。UIDataDetectorTypeAddress，UIDataDetectorTypeCalendarEvent不在我们考虑的范围了。</p>
-
-<p>UIWebView有dataDetectorTypes属性，UITextView也有dataDetectorTypes属性。我们来UITextView来举例。</p>
-
-<h2>创建UITextView</h2>
-
-<pre><code>UITextView *textView = [[UITextView alloc] initWithFrame:self.view.bounds];
-textView.font = [UIFont systemFontOfSize:20];
-textView.editable = NO;
-textView.text = @"\r\n我的手机号不是： 13888888888 \r\n\r\n"
-"我的博客刚刚在线网址： www.xxxxxx.com \r\n\r\n"
-"我的邮箱： worldligang@163.com \r\n\r\n";
-[self.view addSubview:textView];
-</code></pre>
-
-<p>运行起来看一下：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/UIDataDetectorTypes1.jpeg" alt="UIDataDetectorTypes1" /></p>
-
-<p>可以看出来就是一个简单的文本，电话号码，网址和邮箱都没有检测出来。下面我们来看看dataDetectorTypes作用。</p>
-
-<h2>UIDataDetectorTypePhoneNumber检测电话</h2>
-
-<pre><code>textView.dataDetectorTypes = UIDataDetectorTypePhoneNumber;
-</code></pre>
-
-<p>设置textView.dataDetectorTypes的属性，即可检测文本中的电话。效果如下所示：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/UIDataDetectorTypes2.jpeg" alt="UIDataDetectorTypes2" /></p>
-
-<h2>UIDataDetectorTypeLink检测网址和邮箱</h2>
-
-<pre><code>textView.dataDetectorTypes = UIDataDetectorTypeLink;
-</code></pre>
-
-<p>UIDataDetectorTypeLink检测网址和邮箱的。点击网址会跳转到相应的网页，点击邮箱可以调用系统的发邮件。</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/UIDataDetectorTypes3.jpeg" alt="UIDataDetectorTypes3" /></p>
-
-<h2>UIDataDetectorTypeAll检测电话、网址和邮箱</h2>
-
-<pre><code>textView.dataDetectorTypes = UIDataDetectorTypeAll;
-</code></pre>
-
-<p>UIDataDetectorTypeAll可以检测检测电话、网址和邮箱。效果如下：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/UIDataDetectorTypes4.jpeg" alt="UIDataDetectorTypes4" /></p>
-
-<p>专门写了一个iOSStrongDemo以后都在这个iOSStrongDemo里面更新内容。下载地址：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/8">&larr; Older</a>
@@ -1276,6 +1318,10 @@ textView.text = @"\r\n我的手机号不是： 13888888888 \r\n\r\n"
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/12/04/swift-source-code/">Swift开源一天Github收获15000多star</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/12/03/vvdocumenter-xcode7-not-work/">升级Xcode7之后VVDocumenter-Xcode不能用的解决办法</a>
       </li>
     
@@ -1289,10 +1335,6 @@ textView.text = @"\r\n我的手机号不是： 13888888888 \r\n\r\n"
     
       <li class="post">
         <a href="/blog/2015/11/27/ios-rich-components-yykit/">一组功能丰富的iOS组件:YYKit</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/11/19/create-high-efficiency-ios-group/">打造高效率iOS开发实战交流VIP群</a>
       </li>
     
   </ul>

@@ -81,6 +81,91 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/08/11/color-tabbar-switch-animation/">彩色TabBar切换动画实现</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-11T00:38:31+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:38 am</span></time>
+        
+        
+          | <a href="/blog/2015/08/11/color-tabbar-switch-animation/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>无意间看到一个彩色TabBar切换的设计图，感觉很不错，有空就把他实现了。
+环境信息
+Mac OS X 10.10.4
+Xcode 6.4
+iOS 8.4
+效果图：</p>
+
+<p><img src="http://images.90159.com/08/1.1TabBar-1.gif" alt="1.1TabBar-1.gif" /></p>
+
+<p>源码下载地址：
+<a href="https://github.com/saitjr/TColorfulTabBar.git">https://github.com/saitjr/TColorfulTabBar.git</a></p>
+
+<h2>一、实现分析</h2>
+
+<p>看到这个彩色切换效果的时候，我第一个反应就是在TabBar上有一个彩色的View，然后每个色块的显示都是通过mask来显示的。最终，我的具体实现也是根据这个思路来的。</p>
+
+<h4>1. 设计思想</h4>
+
+<p>为了减少侵入性（耦合），我采取的是继承UITabBar来实现，所以要集成的时候，只需要将系统的TabBar换成我写的TColorfulTabBar就可以了。</p>
+
+<p><img src="http://images.90159.com/08/1.2TabBar-2.png" alt="1.2TabBar-2.png" /></p>
+
+<h4>2. 视图层级图</h4>
+
+<h2>二、效果实现</h2>
+
+<h4>1. 添加彩色视图colorfulView</h4>
+
+<p>TColorfulTabBar.m</p>
+
+<pre><code>- (void)setupColorView {
+
+    // 初始化彩色视图，并将它加在tabbar上
+    UIView *colorView = [[UIView alloc] initWithFrame:self.bounds];
+    [self addSubview:colorView];
+    self.colorfulView = colorView;
+
+    // 彩色视图的五种颜色，这是一个UIColor数组，
+    NSArray *colors = self.itemColors;
+    CGFloat itemWidth = self.bounds.size.width / self.itemCount;
+
+    for (int i = 0; i &lt; self.itemCount; i ++) {
+
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(itemWidth * i, 0, itemWidth, self.bounds.size.height)]; 
+        view.backgroundColor = colors[i]; 
+        [self.colorfulView addSubview:view]; 
+    } 
+}
+</code></pre>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/08/11/color-tabbar-switch-animation/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/08/10/coremotion-framework-use-accelerometer/">CoreMotion框架中加速度计使用简明教程</a></h1>
     
     
@@ -495,47 +580,6 @@ imageView.image = self.image;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/02/first-watch-movie/">《大圣归来》和《捉妖记》第一次购票看电影</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-08-02T00:03:54+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>12:03 am</span></time>
-        
-        
-          | <a href="/blog/2015/08/02/first-watch-movie/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>这个周末，你看电影了吗？</p>
-
-<p>说来惭愧，我很少去电影院看电影。第一次是妹妹买票送给我看的，看的是《撒娇的女人最好命》。第二次是公司领导请我们一起看的，看的是《煎饼侠》。</p>
-
-<p>说实话，电影院里看电影就是跟手机上看感觉不一样。在电影院里，很多人坐在一起看电影有氛围，还是大屏幕带来的视觉感。而手机还是显得比较low。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/08/02/first-watch-movie/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/5">&larr; Older</a>
@@ -563,6 +607,10 @@ imageView.image = self.image;
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/12/04/swift-source-code/">Swift开源一天Github收获15000多star</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/12/03/vvdocumenter-xcode7-not-work/">升级Xcode7之后VVDocumenter-Xcode不能用的解决办法</a>
       </li>
     
@@ -576,10 +624,6 @@ imageView.image = self.image;
     
       <li class="post">
         <a href="/blog/2015/11/27/ios-rich-components-yykit/">一组功能丰富的iOS组件:YYKit</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/11/19/create-high-efficiency-ios-group/">打造高效率iOS开发实战交流VIP群</a>
       </li>
     
   </ul>
