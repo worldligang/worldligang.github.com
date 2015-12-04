@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-11-16T09:39:15+08:00</updated>
+  <updated>2015-12-04T22:06:48+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -14,57 +14,408 @@
 
   
   <entry>
-    <title type="html"><![CDATA[给你的iOS APP名称找到合适的长度&关键词]]></title>
-    <link href="http://www.superqq.com/blog/2015/11/16/find-ios-app-key-words/"/>
-    <updated>2015-11-16T09:37:20+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/11/16/find-ios-app-key-words</id>
-    <content type="html"><![CDATA[<p>今天这篇是关于iOS APP的名称长度，顺便简要说说关键词。一谈到应用程序上线就避免不了App Store Optimization (ASO)，APP的名称又是一个不可不谈的话题。</p>
+    <title type="html"><![CDATA[升级Xcode7之后VVDocumenter-Xcode不能用的解决办法]]></title>
+    <link href="http://www.superqq.com/blog/2015/12/03/vvdocumenter-xcode7-not-work/"/>
+    <updated>2015-12-03T22:24:57+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/12/03/vvdocumenter-xcode7-not-work</id>
+    <content type="html"><![CDATA[<p>VVDocumenter-Xcode是Xcode上一款快速添加标准注释，并可以自动生成文档的插件。有了VVDocumenter-Xcode，规范化的注释，只需要输入三个斜线“///”就可以搞定，非常方面实用，目前已经支持Swift。</p>
 
-<h2>一、APP名称的选择</h2>
+<p>Objective-C效果图：</p>
 
-<h3>1、仅包含应用的名称</h3>
+<p><img src="http://images.90159.com/11/vvdocumenter1.gif" alt="VVDocumenter1" /></p>
 
-<p>一般建议使用这个，因为看起来美观一点，在应用标题的里面没有包含关键词的话，有时候看起来好像很牛逼一样，因为好像不需要ASO了，不需要去堆关键词，但是这个好像对大多数来说不适用。</p>
+<p>Swift效果图：</p>
 
-<h3>2、名称中添加很多关键词</h3>
+<p><img src="http://images.90159.com/11/vvdocumenter2.gif" alt="VVDocumenter1" /></p>
 
-<p>将很多相关关键词添加到名称来争取ASO的优势，但是粗略看起来好像是不专业的，尽管这样看起来不是很美观，但是有用，所以即便是一些逼格相当高的应用依然会加关键词进去，长度和关键词的重复次数就看运营人员的心情了。</p>
+<p>从Xcode 5开始，苹果要求加入UUID证书从而保证插件的稳定性。因此Xcode版本更新之后需要在VVDocumenter-Xcode的Info.plist文件中添加Xcode的UUID。</p>
 
-<p>那么一种是干净美观，一种是包含众多关键词的名称，我们总要给他找个平衡点。这篇文章将告诉你如何为你的iOS APP找出理想的名称长度，跟之前那篇Google Play 描述的关键词密度类似。</p>
+<h2>步骤如下：</h2>
 
-<h2>二、两种类型的名称</h2>
+<h3>一、查看Xcode的UUID</h3>
 
-<p>其实每个APP都有两个名称，一个主，一个副，合起来就是一个title，你打开一个网页，在浏览器标签上看到的这个标题就是这个网页的title，一般是网站名字+文章名字，大多数是文章名在前，网站名在后。但都是有字符限制的，在iOS APP里面，iTunes Connect里，你要填进去，苹果也会给个255来限制，因为过长也没意思，所以我就在255以内寻找一个合适的点。</p>
+<h4>方式1</h4>
 
-<p>我们需要ASO的是现实在iTunes里面的那个，其实相当于总共有2个，开发者一般比较熟悉iTunes Connect，因为经常需要填写那些字段上线APP。不熟悉的自己登录进去看看，想看的自己没有APP的，那就先收藏这篇文章，备用到时候参考。</p>
+<p>在终端执行</p>
 
-<h2>三、如何找到理想的名称长度</h2>
+<pre><code>defaults read /Applications/Xcode.app/Contents/Info DVTPlugInCompatibilityUUID
+</code></pre>
 
-<p>关于最理想的长度，并不是一个固定的标准，因为对于每个APP来说要展现的关键词是不一样的，即便都通过语言描述展示一个词，也会有不一样的，比如 “查违章”，“违章查询”这两个词对一个做违章查询的APP与 “天气预报”“查天气”对应一个做天气预报的APP，都是不一样的，我不能说150个字符是最好的，因为这样说的话就是傻逼了。</p>
+<p><img src="http://images.90159.com/11/vvdocumenter3.jpg" alt="VVDocumenter1" /></p>
 
-<p>其实顺便说一下，有些开发者不知道开发什么，跟着去做一堆烂游戏，还不如去找几个这种普普通通大众的功能性APP需求好好做一个。我经常遇到开发者问做什么APP赚钱？现在做APP还能赚到钱么？做APP怎么赚钱？</p>
+<p>拷贝选中的字符串。</p>
 
-<p>这种类型的问题，我这里统一作答，做APP是赚钱的，也是不赚钱的，关键看你选什么做，怎么做，做出来的APP怎么样？如果想在AppStore里面混到钱，可以多看看别人，坚持每天下载几款APP，慢慢研究，不要急，不要觉得好像自己现在不做都被别人做了，这种想法也许不一定成熟。认真的准备，勤快的实践。下面是确定名称的时候，可以考虑到的一些因素：</p>
+<h4>方式2</h4>
 
-<h3>1、保持短一点</h3>
+<p>在/Applications目录中找到Xcode.app，右键”显示包内容”，进入Contents文件夹，双击Info.plist打开，找到DVTPlugInCompatibilityUUID，拷贝后面的字符串。</p>
 
-<p>由于较短一点的名称看起来更品牌性，包含5个以内的关键词，最好3个就行啦，三个不一样的</p>
+<h3>二、添加Xcode的UUID到VVDocumenter-Xcode的Info.plist文件</h3>
 
-<p>但是这也不是一个绝对的规则，比如你觉得几个关键词都比较类似，可以都加进去，不必要的就不用加了，不一定每个APP都要加上QQ，微信这种关键词进去。</p>
+<h4>方式1&ndash;插件已经安装完成</h4>
 
-<h3>2、注意关键词的竞争</h3>
+<p>1、打开xcode插件所在的目录：~/Library/Application Support/Developer/Shared/Xcode/Plug-ins；</p>
 
-<p>像做网页，我们搜汽车，新做一个网站是很难排上去的，因为大家都知道这类的网站已经比较成熟，已经在搜索引擎的算法上攻坚多年，已经坚挺的占领了前面的位置。在淘宝里面，商品排名，搜T恤，销量很大的已经排在前面，新宝贝排上去，短时间很困难，除非你自己有一些特殊的资源。在应用商店里面也有一些类似的算法，别人已经坚挺，我们就不一定首先从最难的词去优化，你可以通过一些工具和查询来看看竞争度，这个不能一味依靠一个工具，有些是动态的。</p>
+<p>2、选择已经安装的插件例如VVDocumenter-Xcode，右键”显示包内容”；</p>
 
-<p>之所以是动态的，这里传达给一些投机取巧的人，一些热点的东西，有些人也喜欢到AppStore里面去搜。</p>
+<p>3、找到info.plist 文件，找到DVTPlugInCompatibilityUUIDs的项目，添加一个Item，Value的值为之前Xcode的UUID，保存。</p>
 
-<h3>3、看起来有意思一点</h3>
+<p><img src="http://images.90159.com/11/vvdocumenter4.jpg" alt="VVDocumenter1" /></p>
 
-<p>这个和名称的长度是没有关系的因素，但是你在优化名称的时候，可以参考，比如你要全部的标题里面的词语最终组成一个完整的句子作为一个标题，那为什么不给自己减轻难度把截断之前的弄的舒服一点呢（手机上显示的部分）。</p>
+<h4>方式2&ndash;插件还未安装/重新安装</h4>
 
-<p>我们不能太侥幸的去和某些APP比，比如堆词语，我看到有些运营高手是这样做的，把整个当成ABC，A是主名，B是一句有吸引力的话并包含关键词，C就是一些关键词的组合了。有个东西叫组合，真的有个东西叫组合，你懂什么叫分词和组合么？不要看到别人当前的下载量评分量来判断你用此方法就可以胜出。</p>
+<p>1、从GitHub克隆仓库到本地，在Xcode中打开项目，选择项目名称，在TAGETS下选中VVDocumenter-Xcode；</p>
 
-<blockquote><p>来自：<a href="http://www.appying.com/app-store-tuiguang/aso/fdsgs/">http://www.appying.com/app-store-tuiguang/aso/fdsgs/</a></p></blockquote>
+<p>2、选择Info，找到DVTPlugInCompatibilityUUIDs的项目，添加一个Item，Value的值为之前Xcode的UUID；</p>
+
+<p>3、Build项目，VVDocumenter-Xcode会自动安装。</p>
+
+<h3>三、重启Xcode</h3>
+
+<p>Xcode 6之后，重启Xcode时会提示“Load bundle”、 “Skip Bundle”，这里必须选择“Load bundle”，不然插件无法使用。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发之如何跳到系统设置里的各种设置界面]]></title>
+    <link href="http://www.superqq.com/blog/2015/12/01/jump-setting-per-page/"/>
+    <updated>2015-12-01T22:12:54+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/12/01/jump-setting-per-page</id>
+    <content type="html"><![CDATA[<p>昨天的文章<a href="http://www.superqq.com/blog/2015/11/30/jump-to-setting-wifi/">《iOS开发之如何跳到系统设置里的WiFi界面》</a>介绍了如何从APP里跳到WiFi设置界面，很多朋友非常喜欢这样的小功能，还有朋友正想做这个功能刚好看见啦！</p>
+
+<h2>跳到更多设置界面</h2>
+
+<p>除了跳到WiFi设置界面，能不能跳到其他的设置界面呢？比如：定位服务、FaceTime、音乐等等。都是可以的，一起来看看如何实现的！</p>
+
+<!--more-->
+
+
+<h2>定位服务</h2>
+
+<p>定位服务有很多APP都有，如果用户关闭了定位，那么，我们在APP里面可以提示用户打开定位服务。点击到设置界面设置，直接跳到定位服务设置界面。代码如下：</p>
+
+<pre><code>//定位服务设置界面
+NSURL *url = [NSURL URLWithString:@"prefs:root=LOCATION_SERVICES"];
+if ([[UIApplication sharedApplication] canOpenURL:url])
+{
+    [[UIApplication sharedApplication] openURL:url];
+}
+</code></pre>
+
+<p>这样就可以跳到系统设置的定位服务界面啦！我们继续看几个列子。</p>
+
+<h2>FaceTime</h2>
+
+<pre><code>//FaceTime设置界面
+NSURL *url = [NSURL URLWithString:@"prefs:root=FACETIME"];
+if ([[UIApplication sharedApplication] canOpenURL:url])
+{
+    [[UIApplication sharedApplication] openURL:url];
+}
+</code></pre>
+
+<h2>音乐</h2>
+
+<pre><code>//音乐设置界面
+NSURL *url = [NSURL URLWithString:@"prefs:root=MUSIC"];
+if ([[UIApplication sharedApplication] canOpenURL:url])
+{
+    [[UIApplication sharedApplication] openURL:url];
+}
+</code></pre>
+
+<h2>墙纸设置界面</h2>
+
+<pre><code>//墙纸设置界面
+NSURL *url = [NSURL URLWithString:@"prefs:root=Wallpaper"];
+if ([[UIApplication sharedApplication] canOpenURL:url])
+{
+    [[UIApplication sharedApplication] openURL:url];
+}
+</code></pre>
+
+<h2>蓝牙设置界面</h2>
+
+<pre><code>//蓝牙设置界面
+NSURL *url = [NSURL URLWithString:@"prefs:root=Bluetooth"];
+if ([[UIApplication sharedApplication] canOpenURL:url])
+{
+   [[UIApplication sharedApplication] openURL:url];
+}
+</code></pre>
+
+<h2>iCloud设置界面</h2>
+
+<pre><code>//iCloud设置界面
+NSURL *url = [NSURL URLWithString:@"prefs:root=CASTLE"];
+if ([[UIApplication sharedApplication] canOpenURL:url]
+{
+   [[UIApplication sharedApplication] openURL:url];
+}
+</code></pre>
+
+<h2>参数配置</h2>
+
+<p>看到这几个例子，大家有没有发现，想跳到哪个设置界面只需要prefs:root=后面的值即可！是的，就是这样的。</p>
+
+<p>我在网上找到一个列表，可以跳到这些界面的参数配置：</p>
+
+<pre><code>About — prefs:root=General&amp;path=About
+Accessibility — prefs:root=General&amp;path=ACCESSIBILITY
+Airplane Mode On — prefs:root=AIRPLANE_MODE
+Auto-Lock — prefs:root=General&amp;path=AUTOLOCK
+Brightness — prefs:root=Brightness
+Bluetooth — prefs:root=General&amp;path=Bluetooth
+Date &amp; Time — prefs:root=General&amp;path=DATE_AND_TIME
+FaceTime — prefs:root=FACETIME
+General — prefs:root=General
+Keyboard — prefs:root=General&amp;path=Keyboard
+iCloud — prefs:root=CASTLE
+iCloud Storage &amp; Backup — prefs:root=CASTLE&amp;path=STORAGE_AND_BACKUP
+International — prefs:root=General&amp;path=INTERNATIONAL
+Location Services — prefs:root=LOCATION_SERVICES
+Music — prefs:root=MUSIC
+Music Equalizer — prefs:root=MUSIC&amp;path=EQ
+Music Volume Limit — prefs:root=MUSIC&amp;path=VolumeLimit
+Network — prefs:root=General&amp;path=Network
+Nike + iPod — prefs:root=NIKE_PLUS_IPOD
+Notes — prefs:root=NOTES
+Notification — prefs:root=NOTIFICATIONS_ID
+Phone — prefs:root=Phone
+Photos — prefs:root=Photos
+Profile — prefs:root=General&amp;path=ManagedConfigurationList
+Reset — prefs:root=General&amp;path=Reset
+Safari — prefs:root=Safari
+Siri — prefs:root=General&amp;path=Assistant
+Sounds — prefs:root=Sounds
+Software Update — prefs:root=General&amp;path=SOFTWARE_UPDATE_LINK
+Store — prefs:root=STORE
+Twitter — prefs:root=TWITTER
+Usage — prefs:root=General&amp;path=USAGE
+VPN — prefs:root=General&amp;path=Network/VPN
+Wallpaper — prefs:root=Wallpaper
+Wi-Fi — prefs:root=WIFI
+</code></pre>
+
+<p>大家可以根据自己的需求，跳到不同的设置界面。如果你喜欢这篇文章的话，欢迎分享给更多的朋友，也可以收藏起来，以备不时之需！</p>
+
+<p><a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发之如何跳到系统设置里的WiFi界面]]></title>
+    <link href="http://www.superqq.com/blog/2015/11/30/jump-to-setting-wifi/"/>
+    <updated>2015-11-30T22:14:58+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/11/30/jump-to-setting-wifi</id>
+    <content type="html"><![CDATA[<p>之前以为，苹果不支持直接从应用跳到系统设置里的WiFi界面。后来发现，这个小功能是可以实现的，而且实现起来并不麻烦。让我们一起来看看吧！</p>
+
+<h2>需求</h2>
+
+<p>从应用跳到系统设置里的WiFi界面有这个需求存在吗？答案是肯定的。比如以下两个例子：</p>
+
+<p>在没有网的状态下，你可能想提醒用户去设置界面连接WiFi。如果不能跳到WiFi界面，只能在APP里面做出文字提示。这样很多小白用户可能不会看提示，只会觉得APP没有做好。</p>
+
+<p>还有一种情况，做智能家居的APP，智能硬件设备自带WiFi（局域网）。如果用户没有连接设备的WiFi进入APP时，需要提示用户去设置界面连接WiFi。</p>
+
+<p>以上这两种情况只是举个例子，这个小功能的用处还是很多的，大家可以自行探索。</p>
+
+<!--more-->
+
+
+<h2>实现</h2>
+
+<h3>info里面设置</h3>
+
+<p>在项目中的info.plist中添加 URL types 并设置一项URL Schemes为prefs，如下图：</p>
+
+<p><img src="http://images.90159.com/12/wifi1.png" alt="wifi1" /></p>
+
+<h3>实现代码</h3>
+
+<pre><code>NSURL *url = [NSURL URLWithString:@"prefs:root=WIFI"];
+if ([[UIApplication sharedApplication] canOpenURL:url])
+{
+    [[UIApplication sharedApplication] openURL:url];
+}
+</code></pre>
+
+<h2>代码已上传iOSStrongDemo</h2>
+
+<p>代码已经push到<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a>，大家可以clone下来测试一下。</p>
+
+<p>我在这里抛砖迎玉，大家还想跳到系统设置的什么界面，可以评论留言告诉我，或者大家动手来实现更多的跳转功能！</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[一组功能丰富的iOS组件:YYKit]]></title>
+    <link href="http://www.superqq.com/blog/2015/11/27/ios-rich-components-yykit/"/>
+    <updated>2015-11-27T23:27:37+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/11/27/ios-rich-components-yykit</id>
+    <content type="html"><![CDATA[<p>项目地址：<a href="https://github.com/ibireme/YYKit">https://github.com/ibireme/YYKit</a></p>
+
+<h1>中文介绍</h1>
+
+<p>YYKit 是一组庞大、功能丰富的 iOS 组件。</p>
+
+<p>为了尽量复用代码，这个项目中的某些组件之间有比较强的依赖关系。为了方便其他开发者使用，我从中拆分出以下独立组件：</p>
+
+<ul>
+<li><a href="https://github.com/ibireme/YYModel">YYModel</a> — 高性能的 iOS JSON 模型框架。</li>
+<li><a href="https://github.com/ibireme/YYCache">YYCache</a> — 高性能的 iOS 缓存框架。</li>
+<li><a href="https://github.com/ibireme/YYImage">YYImage</a> — 功能强大的 iOS 图像框架。</li>
+<li><a href="https://github.com/ibireme/YYWebImage">YYWebImage</a> — 高性能的 iOS 异步图像加载框架。</li>
+<li><a href="https://github.com/ibireme/YYText">YYText</a> — 功能强大的 iOS 富文本框架。</li>
+<li></li>
+<li><a href="https://github.com/ibireme/YYKeyboardManager">YYKeyboardManager</a> — iOS 键盘监听管理工具。</li>
+<li><a href="https://github.com/ibireme/YYDispatchQueuePool">YYDispatchQueuePool</a> — iOS 全局并发队列管理工具。</li>
+<li><a href="https://github.com/ibireme/YYAsyncLayer">YYAsyncLayer</a> — iOS 异步绘制与显示的工具。</li>
+<li><a href="https://github.com/ibireme/YYCategories">YYCategories</a> — 功能丰富的 Category 类型工具库。</li>
+</ul>
+
+
+<!--more-->
+
+
+<h1>演示项目</h1>
+
+<p>查看并运行 <code>Demo/YYKitDemo.xcodeproj</code></p>
+
+<p><img src="https://raw.github.com/ibireme/YYKit/master/Demo/Snapshots/twitter.png" width="320"><br/>
+<img src="https://raw.github.com/ibireme/YYKit/master/Demo/Snapshots/weibo.png" width="320"> <img src="https://raw.github.com/ibireme/YYKit/master/Demo/Snapshots/weibo_compose.png" width="320"></p>
+
+<h1>安装</h1>
+
+<h3>CocoaPods</h3>
+
+<ol>
+<li>在 Podfile 中添加  <code>pod "YYKit"</code>。</li>
+<li>执行 <code>pod install</code> 或 <code>pod update</code>。</li>
+<li>导入 \&lt;YYKit/YYKit.h>。</li>
+</ol>
+
+
+<h3>Carthage</h3>
+
+<ol>
+<li>在 Cartfile 中添加 <code>github "ibireme/YYKit"</code>。</li>
+<li>执行 <code>carthage update --platform ios</code> 并将生成的 framework 添加到你的工程。</li>
+<li>导入 \&lt;YYKit/YYKit.h>。</li>
+<li>注意: carthage framework 并没有包含 webp 组件。如果你需要支持 webp，可以用 CocoaPods 安装，或者手动安装。</li>
+</ol>
+
+
+<h3>手动安装</h3>
+
+<ol>
+<li>下载 YYKit 文件夹内的所有内容。</li>
+<li>将 YYKit 内的源文件添加(拖放)到你的工程。</li>
+<li>为 <code>NSObject+YYAddForARC.m</code> 和 <code>NSThread+YYAdd.m</code> 添加编译参数 <code>-fno-objc-arc</code>。</li>
+<li>链接以下 frameworks:
+
+<ul>
+<li>UIKit</li>
+<li>CoreFoundation</li>
+<li>CoreText</li>
+<li>CoreGraphics</li>
+<li>CoreImage</li>
+<li>QuartzCore</li>
+<li>ImageIO</li>
+<li>AssetsLibrary</li>
+<li>Accelerate</li>
+<li>MobileCoreServices</li>
+<li>SystemConfiguration</li>
+<li>sqlite3</li>
+<li>libz</li>
+</ul>
+</li>
+<li>如果你需要支持 WebP，可以将 <code>Vendor/WebP.framework</code>(静态库) 加入你的工程。</li>
+<li>导入 <code>YYKit.h</code>。</li>
+</ol>
+
+
+<h1>文档</h1>
+
+<p>你可以在 <a href="http://cocoadocs.org/docsets/YYKit/">CocoaDocs</a> 查看在线 API 文档，也可以用 <a href="https://github.com/tomaz/appledoc">appledoc</a> 本地生成文档。</p>
+
+<h1>系统要求</h1>
+
+<p>该项目最低支持 iOS 6.0。</p>
+
+<h1>关于</h1>
+
+<p>我希望调用 API 时，有着和调用系统自带 API 一样的体验，所以我并没有为 Category 方法添加前缀。我已经用工具扫描过这个项目中的 API，确保没有对系统 API 产生影响。我知道没有前缀的 Category 可能会带来麻烦，所以如果你只需要其中部分功能，请先查看上面那些拆分出来的子项目。</p>
+
+<h1>许可证</h1>
+
+<p>YYKit 使用 MIT 许可证，详情见 LICENSE 文件。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[打造高效率iOS开发实战交流VIP群]]></title>
+    <link href="http://www.superqq.com/blog/2015/11/19/create-high-efficiency-ios-group/"/>
+    <updated>2015-11-19T00:45:08+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/11/19/create-high-efficiency-ios-group</id>
+    <content type="html"><![CDATA[<p>大家好，我是李刚。对的，你没有听错，我就是传说中李刚的本人。今天，我决定正式启动iOS开发实战交流VIP付费群！</p>
+
+<h2>定位</h2>
+
+<p>做什么事情都应该有一个明确的定位，无论是现在工作也好，还是以后创业也罢，定位非常重要。当然，这个iOS开发实战交流VIP群也有一个定位，那就是为广大iOS开发爱好者、iOS开发初学者提供一个技术交流平台，一起提升iOS开发技术。</p>
+
+<p>具体来说：</p>
+
+<ol>
+<li>技术交流，不定期邀请一些技术牛人，分享开发经验。</li>
+<li>技术问答，有关技术问题大家可以相互帮助回答，我也会邀请一些开发经验在3年以上的朋友，免费为大家解答技术问题。 （我也会参与回答）</li>
+<li>我会把大家问的比较好的问题，整理成文档，共享给大家。算是对技术知识点的一个总结。</li>
+<li>还能交一帮愿意为价值付费的朋友，以后可以资源共享，相互帮助。</li>
+<li>群内不定期免费共享优秀的iOS开发视频教程，项目源码以及一些开发文档。</li>
+</ol>
+
+
+<!--more-->
+
+
+<h2>为什么要建立付费群？</h2>
+
+<p>我是公众号iOS开发：iOSDevTip 的小编，同时，我也是一名iOS开发者。在做iOS开发初期，我也加入了一些iOS开发的交流群，但是效果跟大家预想的一样，提问题很少有人回答。我也尝试过去一些网站提问题，但是效果也不好，很久才会有人回答，或者干脆没人回答。</p>
+
+<p>后来，我也尝试建立免费的iOS开发交流群，试图为大家搭建一个学习交流的平台。大概有十几个群，加起来也有几千人了。但是，后来我都屏蔽了。为什么呢？因为这是一个免费的群，谁都可以进来，最后不得不变成了一个广告群，最后成为一个死群。</p>
+
+<p>所以，这一次我要建立一个收费群，相当于增加了一个小小的门槛，这样想发广告的人就会被阻挡在外面了。</p>
+
+<h2>哪些人可以进来？</h2>
+
+<p>因为这是一个iOS开发技术交流群，所以主要面向两大群体。第一种是正在学习iOS开发（无论你是在培训还是自学）朋友，你在学习iOS开发的时候，遇到不懂的问题，可以通过此群来解决。第二种是刚入行不久的iOS开发者，在平时开发过程中遇到一些没有接触过的点，比如说真机调试证书、推送、AppStore上架等等，可以加入本群，一起交流成长。</p>
+
+<p>很简单，遇到技术问题。你是愿意自己花几天的时间来琢磨，还是愿意加入iOS开发实战交流VIP群听取前人的经验？自己琢磨，不一定琢磨的出来。很多想学习iOS开发的朋友，就是因为遇到各种各样的问题，不能得到很好地解决，最后放弃了iOS开发这个行业。</p>
+
+<p>编程最重要的就是思想，如果你一直写代码不思考很难有所进步，干一年之后发现没什么太大的变化，那就真的只是一个搬砖的。如果一群人在一起交流，相互分享经验，技术必然会得到提高，很多问题就会迎刃而解。</p>
+
+<blockquote><p>定价：150元/年（2015/11/16——2016/11/15）</p></blockquote>
+
+<h2>为什么是这个价位？</h2>
+
+<p>第一，这是一个iOS开发技术交流群，帮助大家提升iOS开发技术以及解决开发过程中遇到的问题。</p>
+
+<p>第二，我想做这个群的时候，我也咨询了好几位朋友。他们都说这个价位太低了，每天还不到5毛钱。回答技术问题是非常浪费时间的。但是我不这么认为，费用只是一个门槛，打造一个高效率的实战交流群才是真正的目标。所以综合考虑，我选择了150元。</p>
+
+<p>第三，建立这个群并不是以盈利为目的的，更多的是想跟大家一起交流技术，解决问题。我在开发过程中也会遇到一些问题，可以跟大家一起交流分享，也提升自己的技术。这也是我选择这个价格的一些原因。</p>
+
+<p>第四，这两天我也做了一个调查，有17%的童鞋愿意付费500-1000加入VIP群。但大多数童鞋还是希望价格在100左右。</p>
+
+<p>基本也就这么多原因吧，所以定了这个价格。如果还有不明白的地方，欢迎留言提问。</p>
+
+<blockquote><p>支付方式：微信（私人号：chinaligang）转账或者支付宝1606535851@qq.com</p></blockquote>
+
+<p>支付完成之后，请加我微信（私人号：chinaligang）告知，确定成功之后，我会拉你进群。</p>
+
+<p>来吧，愿大家除了思维上、技术上有所提高，更能成为网络上无话不谈的知心朋友！</p>
+
+<p>也希望所有有缘能相聚于此群中的朋友，不仅仅把此群当成一个社群，而需要当成一个家！一起成长，一起进步！</p>
+
+<p>注：群里除了会分享一些技术上的经验，有关iOS开发最新的视频教程也都会先在群里进行分享。</p>
 ]]></content>
   </entry>
   
@@ -85,6 +436,9 @@
 <p>如果有，那就惨了，上两张图看看：</p>
 
 <p><img src="http://images.90159.com/11/idfa1.png" alt="idfa1" /></p>
+
+<!--more-->
+
 
 <p>如果你选择了“否”：</p>
 
@@ -135,6 +489,9 @@
 <p>解决办法：</p>
 
 <p><img src="http://images.90159.com/11/error1.png" alt="error1" /></p>
+
+<!--more-->
+
 
 <p>这个时候再去看看Info.plist文件：</p>
 
@@ -1171,467 +1528,6 @@ When you download Xcode from the Apple Developer Program web site, the code sign
 <p>We’re working to make it faster for developers in China to download Xcode betas. To verify that their version of Xcode has not been altered, they can take the following steps posted at &lt;developer.apple.com>.</p>
 
 <p>文章来自：<a href="http://www.apple.com/cn/xcodeghost/">http://www.apple.com/cn/xcodeghost/</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[程序员月入过万已经不再是神话]]></title>
-    <link href="http://www.superqq.com/blog/2015/09/02/manicure-salary-heigher-programmer/"/>
-    <updated>2015-09-02T11:15:01+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/09/02/manicure-salary-heigher-programmer</id>
-    <content type="html"><![CDATA[<h2>创业英雄汇</h2>
-
-<p>最近看了CCTV 2 财经频道的《创业英雄汇》，可能有人还没有看过这个节目。简单介绍一下：《CCTV中国青年创业实战公开课—创业英雄汇》这是一档全新模式、极致化表达的新型创业服务节目。播出时段：财经频道 周五22：10～23：10。建议有创业想法的童鞋，可以好好看一下，说不定可以激发一些灵感！</p>
-
-<p>我看的这一期是20150821。创业导师分别是聚美优品的CEO陈欧和英才杂志社的社长宋立新。陈欧最经典的一句话应该就是：我是陈欧，我为自己代言！之前，没有认真了解过陈欧，只是简答的看了一下关于陈欧的创业故事。通过这次《创业英雄汇》节目，感觉的陈欧确实挺有个人魅力。</p>
-
-<h2>美甲师 VS 程序员</h2>
-
-<p>第一位上台的创业者叫于明山，一位大叔界别的创业者。他的项目是“美道家”，致力于打造专业上门美容服务平台。服务对线就是女性，美容师也都是女性。美女美容师上门服务，听起来就是一个不错的项目。（我们这些屌丝程序员，估计享受不到这种服务啦！）</p>
-
-<p>在导师考核环节，陈欧大概了解了一下“美道家”的美容师上的收入大概是多少。随后，陈欧说：一个好的美甲师，或者一个美容师，挣的钱甚至比一个程序员还高。我前一段时间听说有一个美甲师，甚至挣到五万到七万，这基本上是一个CEO的工资了。</p>
-
-<p>一个美甲师能月入五万到七万，那还干什么程序员啊。想想就觉得还是程序员苦逼，以后再也不说程序员的工资高了。都不好意思说了，人家美甲师就比你高，而且人家还是自由职业者。</p>
-
-<p>前段时间，听人说他们做优步一月轻轻松松月入五六万。优步每个月做够规定的单数，额外奖励7000元。经常在新闻上看到，哪里的司机刷单也你能月入多少多少。（不公平啊！）</p>
-
-<h2>出路在哪里？</h2>
-
-<p>真的是三百六十行，行行出状元啊！作为程序员，三四年工作经验，大概也就是一两万的工资吧。也许你的工资很高，但是加班肯定也不少。</p>
-
-<p>在这个全名创业的浪潮下，我们程序员不能再闲着了。有想法就去干吧，说不定能闯出一片天地。</p>
-
-<p>明天要不要辞职呢？</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[UITablView上下滑动控制底部按钮的出现和消失]]></title>
-    <link href="http://www.superqq.com/blog/2015/09/01/uitablview-up-down-slide/"/>
-    <updated>2015-09-01T00:49:19+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/09/01/uitablview-up-down-slide</id>
-    <content type="html"><![CDATA[<p>今天我们一起来做一个好玩的功能，通过UITablView上下滑动控制底部按钮的出现和消失。先来看看效果：</p>
-
-<p><img src="http://images.90159.com/09/bottombutton.gif" alt="1" /></p>
-
-<h2>需求分析</h2>
-
-<p>要做一个这样的功能，对你来说应该不难，实现的方式也有很多。我们来分析一下要实现那几个小功能点：</p>
-
-<ul>
-<li>UITablView向上滑动，底部按钮消失</li>
-<li>UITablView向下滑动，底部按钮出现</li>
-<li>UITablView滑动到底部，底部按钮出现</li>
-</ul>
-
-
-<p>主要就是这三个小功能点。那么很简单，我们只需要判断UITablView是往上滑动，还是往下滑动，以及判断UITablView是否滑动到底部即可。</p>
-
-<h2>代码实现</h2>
-
-<h3>创建一个底部按钮</h3>
-
-<pre><code>self.bottomButton = [UIButton buttonWithType:UIButtonTypeCustom];
-self.bottomButton.frame = CGRectMake(SCREEN.width / 2 - 25, SCREEN.height - 50, 50, 50);
-[self.bottomButton setBackgroundImage:[UIImage imageNamed:@"bottom"] forState:UIControlStateNormal];
-[self.view addSubview:self.bottomButton];
-</code></pre>
-
-<p>既然是控制按钮的出现和消失，首先要创建一个底部按钮。SCREEN是个宏定义：</p>
-
-<pre><code>#define SCREEN [UIScreen mainScreen].bounds.size
-</code></pre>
-
-<h3>判断UITablView上下滑动</h3>
-
-<p>我们都知道，UITablView是继承UIScrollView的。所以UIScrollView的代理方法在UITablView是可以使用的。要判断UITablView上下滑动，我们需要实现UIScrollView的scrollViewDidScroll:代理方法：</p>
-
-<pre><code>-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    if (scrollView.contentOffset.y &gt; self.offsetY &amp;&amp; scrollView.contentOffset.y &gt; 0) {//向上滑动
-
-    }else if (scrollView.contentOffset.y &lt; self.offsetY ){//向上滑动
-
-    }
-    self.offsetY = scrollView.contentOffset.y;//将当前位移变成缓存位移
-}
-</code></pre>
-
-<!--more-->
-
-
-<h3>判断UITablView滑动到底部</h3>
-
-<p>也是在scrollViewDidScroll:这个方法里面判断：</p>
-
-<pre><code> //判断滑动到底部
-if (scrollView.contentOffset.y == scrollView.contentSize.height - self.tableView.frame.size.height) {
-
-}
-</code></pre>
-
-<h3>按钮消失和出现</h3>
-
-<pre><code>//按钮消失
-[UIView transitionWithView:self.bottomButton duration:0.1 options:UIViewAnimationOptionTransitionNone animations:^{
-            self.bottomButton.frame = CGRectMake(SCREEN.width / 2 - 25, SCREEN.height, 50, 50);
-        } completion:NULL];
-
-//按钮出现        
-[UIView transitionWithView:self.bottomButton duration:0.1 options:UIViewAnimationOptionTransitionNone animations:^{
-  self.bottomButton.frame = CGRectMake(SCREEN.width / 2 - 25, SCREEN.height - 50, 50, 50);
-  } completion:NULL];
-</code></pre>
-
-<p>按钮消失其实就是移除屏幕，这里我加了一个旋转的过度动画，需要什么动画效果都可以选择。按钮出现就是把按钮的frame设置到初始化时候的frame即可。</p>
-
-<p>这样我们就实现了通过UITablView上下滑动控制底部按钮的出现和消失。代码我已经上传的github，下载地址还是<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
-
-<p>如果你觉得文章还不错，请分享给你的同学和朋友，欢迎推荐他们关注iOS开发：iOSDevTip 公众号。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[2012年MacBook更换SSD固态硬盘和16G内存条]]></title>
-    <link href="http://www.superqq.com/blog/2015/08/27/macbook-replace-ssd-solid-state/"/>
-    <updated>2015-08-27T10:42:34+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/08/27/macbook-replace-ssd-solid-state</id>
-    <content type="html"><![CDATA[<h2>我的2012年MacBook</h2>
-
-<p>我的电脑是2012年的MacBook Pro（13-inch, 2012 年中），是那种比较厚的一款。当时买的时候官网，标价是8888元。我是在新蛋网上买的，新蛋网有活动只需要7888元即可购买。</p>
-
-<p>电脑配置：处理器是2.5 GHz Intel Core i5，内存是两个2G，也就是4G。配置在现在来看，那简直是太Low了。但是对于当时一直用黑苹果的我来说，这就是圣物。贴个图给大家看看：</p>
-
-<p><img src="http://images.90159.com/08/ssdsave1.jpg" alt="ssdsave1" /></p>
-
-<p>这就是比较厚的13-inch的电脑，看起来还是比较笨重的。我用电脑还是比较爱惜的，一直保护的很好。基本上没有什么损伤。</p>
-
-<p>但是，随之使用年限的增长，电脑反应速度越来越慢了。打开xcode、火狐、Chrome、印象比较、QQ等几个软件，电脑反应速度明显很慢。</p>
-
-<p>有时候调试个程序，反应好半天。想想就是一件痛苦的事情，大好时光都浪费在等电脑反应上。浏览器也经常卡死，有时候编辑好的东西没来得及保持，浏览器突然就没有反应了。</p>
-
-<p>总之，电脑性能差的一塌糊涂。最近听朋友说换个SSD固态硬盘电脑反应会快很多，如果是2012年的电脑还可以升级内存。</p>
-
-<p>本来我是准备把这个笔记本处理掉，再买一个配置好一些的笔记本。听朋友这样一说，觉得还是自己买个SSD固态硬盘换上，比较换算。</p>
-
-<h2>购买SSD固态硬盘和内存条</h2>
-
-<p>说换就换吧，于是在京东和淘宝上查了查，品类太多看的我都晕晕乎乎的。网上买东西其实我一点都不喜欢，选来选去不知道选哪一个好。</p>
-
-<p>最后，在朋友的推荐下。我买的是牌子是创见（Transcend）240G的SSD固态硬盘，价格是999元。内存条我看了苹果官网的介绍，说的是MacBook Pro（13 英寸，2012 年中）最大支持8G内存。但是网上有人说，他们装了16G的，没有什么兼容上的问题。所以我也买了金士顿苹果专用内存条两个8G，一共638元。</p>
-
-<p><img src="http://images.90159.com/08/ssdsave2.jpg" alt="ssdsave1" /></p>
-
-<p>我不是来给创见和金士顿大广告的，只是告诉大家我用的是什么。收到货之后，夜里下班回到家里，就开始折腾我的电脑。</p>
-
-<!--more-->
-
-
-<h2>替换SSD固态硬盘</h2>
-
-<p>拆开创见的SSD固态硬盘，里面自带的有小螺丝刀，还有硬盘的外接壳。我先把硬盘装进外接壳，然后连接电脑。可以识别出来，此时这就是一个移动硬盘。</p>
-
-<p>我想把原来电脑的资料通过磁盘工具恢复到新买的创见硬盘上，但是发现我电脑里面存的资料已经远大于240G。于是，我想先把硬盘换上吧。以后慢慢把有用的资料拷贝过来。</p>
-
-<p>我简单说一下替换SSD固态硬盘的步骤吧</p>
-
-<h3>拆卸后盖</h3>
-
-<p>用创见送的螺丝刀，把后盖上所有的螺丝都卸掉。MacBook后盖上有10个螺丝，不知道苹果设计是个有何寓意，难道是十全十美的意思，我只是猜测的。</p>
-
-<h3>取出原有硬盘</h3>
-
-<p>电脑后盖卸掉之后，找到硬盘的位置。在硬盘的侧面有一个固定的小架子，上面有两个小螺丝。卸掉这两个小螺丝之后，拿掉小架子。慢慢拽硬盘上预留的带子，拔掉硬盘前面的线，一定要慢慢的。</p>
-
-<h3>安装SSD固态硬盘</h3>
-
-<p>既然可以取出来，那么安装的方法也很简单。接头插好，把硬盘放入正确的位置。最后，别忘了用小架子把硬盘给固定住。</p>
-
-<p>更换SSD固态硬盘没有什么难度。但是换内存条的时候，还是有一些小难度的。可能是因为我很少或者说从来都没有接触过的原因。</p>
-
-<h2>替换内存条</h2>
-
-<p>我没有看网上替换内存跳的教程，因为我觉得应该没有什么难度。苹果电脑的内存条紧挨着电池的位置，我看到内存条上面也有个小架子。于是，我很熟练的把上面的两个螺丝卸掉，然后试图去拿掉小架子，这个时候我发现根本拿不动。</p>
-
-<p>再仔细看看，发现内存条两侧分别有一个固定的小条子。上下拉动没有反应。直接去口内存条也扣不掉。既然拿不掉也不能硬拿，搜了一下苹果官方的教程MacBook Pro：如何拆卸或安装内存<a href="https://support.apple.com/zh-cn/HT1270" target="_blank" title=“https://support.apple.com/zh-cn/HT1270”><a href="https://support.apple.com/zh-cn/HT1270">https://support.apple.com/zh-cn/HT1270</a></a></p>
-
-<p>步骤很详细，安装苹果官方的教程，我把两个内存条替换好了。别高兴太早，事情远没有想象的那么简单。新装的SSD固态硬盘是没有系统的。</p>
-
-<h2>装系统</h2>
-
-<p>我对装系统不是特别了解，一开始我尝试直接启动电脑，同时按住command+option+r会进入苹果官方的安装界面。这个需要下驱动，还需要下载苹果系统，整个过程估计没有个大半条肯定是搞不定的。</p>
-
-<p>接着尝试，把老硬盘的系统恢复的新的SSD固态硬盘上。由于老硬盘里面的东西比较多，于是我进入老硬盘的系统删了很多资料。让他能够小于240G。然后对老硬盘进行分区，试了很多次，分区一直失败。最终不得不放弃这个方法。</p>
-
-<p>最后一招，做个启动盘。这里有教程<a href="http://bbs.feng.com/read-htm-tid-7057977.html" target="_blank" title=“http://bbs.feng.com/read-htm-tid-7057977.html”><a href="http://bbs.feng.com/read-htm-tid-7057977.html">http://bbs.feng.com/read-htm-tid-7057977.html</a></a></p>
-
-<p>有5个多G，幸亏我家是100M得光纤，下载速度还挺快。下载完成之后，我把新的SSD固态硬盘分了一个10几G的空间出来，做启动盘使用。</p>
-
-<p>利用磁盘工具的恢复功能，把你下载的系统恢复到新的分区上。记住：磁盘源选择你下载的系统，目的磁盘是新的分区。</p>
-
-<p>完成之后，重启电脑，接下来都是傻瓜式操作。用了大概半个小时左右才把系统装好。这个时候看看，抬头看看电脑右上角的时间，发现已经2点了。
-试用一下</p>
-
-<p>花了一两千块和几个小时的时间折腾出来的电脑反应到底怎么样呢？其实我也迫不及待看一看，完全没有困意。简单使用了一下：速度确实很快，基本上没有遇到卡的情况。基本上达到我的要求，不枉费我花得钱和时间。</p>
-
-<p>前面说MacBook Pro（13 英寸，2012 年中）最大支持8G内存，我特意看了一下内存：</p>
-
-<p><img src="http://images.90159.com/08/ssdsave3.jpg" alt="ssdsave1" /></p>
-
-<p>在看看存储：</p>
-
-<p><img src="http://images.90159.com/08/ssdsave4.jpg" alt="ssdsave1" /></p>
-
-<p>终于搞定了，这下子电脑速度提高了不少，也节省了买电脑的钱，真心不错！</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[AVFoundation和 GPUImage初探]]></title>
-    <link href="http://www.superqq.com/blog/2015/08/24/avfoundation-gpuimage-find/"/>
-    <updated>2015-08-24T11:21:01+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/08/24/avfoundation-gpuimage-find</id>
-    <content type="html"><![CDATA[<p>文章来自：<a href="http://vonglo.me/2014/08/24/AVFoundation%E5%92%8C-GPUImage%E5%88%9D%E6%8E%A2/" target="_blank" title=“AVFoundation和 GPUImage初探”>AVFoundation和 GPUImage初探</a></p>
-
-<p>最近在做视频相关的东西，然后熟悉了一下AVFoundation框架，以及强大的开源库GPUImage。在这里记录这个过程中遇到的一些问题，以及解决的方法。</p>
-
-<h3>AVFoundation的一些基本概念</h3>
-
-<p>根据苹果的官方文档，AVFoundation是用来播放和创建实时的视听媒体数据的框架，同时提供Objective-C接口来操作这些视听数据，比如编辑，旋转，重编码。本文着重讲的是视频的录制和编辑和GPUImage的一些简单使用，其他的都是一笔带过。来看下苹果文档的一个框架图。</p>
-
-<p><img src="http://images.90159.com/08/frameworksBlockDiagram_2x.png" alt="1" /></p>
-
-<h4>相关类</h4>
-
-<ul>
-<li><code>AVAsset</code></li>
-<li><code>AVAssetTrack</code></li>
-<li><code>AVComposition</code></li>
-<li><code>AVVideoComposition</code></li>
-<li><code>AVAudioMix</code></li>
-<li><code>AVMutableAudioMixInputParameter</code></li>
-<li><code>AVMutableVideoCompositionInstrution</code></li>
-<li><code>AVMutableVideoCompositionLayerInstrution</code></li>
-</ul>
-
-
-<p>简单的播放可以使用MPMoviePlayerController或者MPMovieViewController就行,简单的录
-制可以直接使用UIImagePickerController。同样简单的声音播放直接使用AVAudioPlayer，简单的录制直接使用AVAduioRecorder。如果你想要有更多的操作，可使用各种复杂的方式来控制播放，比如在同一时刻为同一个asset的不同片段使用不同的分辨率渲染，playitem来管理asset的呈现状态和方式,playitemtrack管理asset中的轨道（track）状态。</p>
-
-<!--more-->
-
-
-<p>在AVFoudation框架中最核心的类就是AVAsset，他是由一系列的媒体数据组成的，包括但不限于:时间、大小(size)、标题、字幕等。其中每一个单独的媒体数据称为轨道(track)。同样剪辑操作中，AVMutableComposition是一个核心类。</p>
-
-<p><img src="http://images.90159.com/08/asset-track.png" alt="4" /></p>
-
-<p>这里又一个重要的东西就是CMTime,它是一个结构体，定义如下:</p>
-
-<p>typedef struct
-{
-    CMTimeValue    value;      <br/>
-    CMTimeScale    timescale;  <br/>
-    CMTimeFlags    flags;      <br/>
-    CMTimeEpoch    epoch;      <br/>
-} CMTime;
-通常时间是等于value/timescale的，所以两个有相同时间的CMTime它们的timescale并不一定相同。关于更多CMTime的内容可以看<a href="https://developer.apple.com/library/ios/documentation/CoreMedia/Reference/CMTime/Reference/reference.html#//apple_ref/doc/uid/TP40009748">这里</a>。</p>
-
-<h3>进阶</h3>
-
-<h4>视频的录制</h4>
-
-<p>这里用的是系统原生录制,关于录制通常用到的几个类就是AVCaptureDevice、
-AVCaptureSession、AVCaptureDeviceInput、AVCaptureOutput,同样，来看一张图。</p>
-
-<p><img src="http://images.90159.com/08/capture.png" alt="2" /></p>
-
-<p>一般来说，如果你想修改视频的相关信息，如拍摄地点等，可以拿到output的metadata来修改。大致代码如下:</p>
-
-<pre><code>NSMutableArray *array = [output.metadta mutableCopy];
-AVMutableMetadataItem *item = [[AVMutableMetadataItem alloc] init];
-item.keyspace = ...;
-item.key = ...;
-item.value = ...;
-[array addObject:item];
-output.metadata = array;
-</code></pre>
-
-<p>如果录制时候想要得到指定的视频size必须先指定分辨率，像这样</p>
-
-<pre><code>if ([session canSetSessionPreset:AVCaptureSessionPreset640x480]){ 
-
-    session.sessionPreset = AVCaptureSessionPreset640x480;
-}
-else {
-    //设置失败
-}
-</code></pre>
-
-<p>切换摄像头或其他输入源必须在beginConfiguration和commitConfiguration之间来处理，大致是这样</p>
-
-<pre><code>[session beginConfiguration];
-//移除某个输入源
-//再添加某个输入源
-//再为新添加的输入源进行必要的相关设置
-//...其他操作
-[session commitConfiguration];
-</code></pre>
-
-<p>如果想对实时视频帧进行相关的渲染操作,通过 setSampleBufferDelegate:queue:方法来为output设置代理，同时必须指定queue，代理方法将会在这些queue上面被调用。可以在自己的类里面实现AVCaptureVideoDataOutput的协议方法,通过实现
-captureOutput:didOutputSampleBuffer:fromConnection:来拿到视频的每一帧，默认情况下这些视频帧会被用最有效的格式来输出到output,当然也可以在拍摄之前就为output进行相关设置。</p>
-
-<pre><code>AVCaptureVideoDataOutput *videoDataOutput = [AVCaptureVideoDataOutput new];
-NSDictionary *newSettings =@{ (NSString *)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA) };
-videoDataOutput.videoSettings = newSettings;
-</code></pre>
-
-<p>说了这么多，感觉很虚，还是直接上代码，将以上部分衔接起来</p>
-
-<pre><code>//自定义方法，小演示只添加了视频，没有添加声音，添加声音类似
-- (void)yourCustomMethodName{
-    AVCaptureSession *session = [[AVCaptureSession alloc] init];
-    if ([session canSetSessionPreset:AVCaptureSessionPreset640x480]){ 
-
-            session.sessionPreset = AVCaptureSessionPreset640x480;
-        }
-        else {
-            //设置失败
-        }
-    AVCaptureDevice *device =
-            [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-
-    NSError *error = nil;
-    AVCaptureDeviceInput *input =
-            [AVCaptureDeviceInput deviceInputWithDevice:device error:&amp;error];
-    if (!input) {
-        // Handle the error appropriately.
-    }
-    if(session canAddInput:input){
-        [session addInput:input];
-    }
-    AVCaptureVideoDataOutput *output = [[AVCaptureVideoDataOutput alloc] init];
-    if(session canAddOutput:output){
-        [session addOutput:output];
-    }
-    output.videoSettings =@{ (NSString *)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA) };
-    //设置帧率(FPS),每秒15帧
-    output.minFrameDuration = CMTimeMake(1, 15);
-    dispatch_queue_t queue = dispatch_queue_create("CustomQueue", NULL);
-    [output setSampleBufferDelegate:self queue:queue];
-    dispatch_release(queue)
-    NSString *mediaType = AVMediaTypeVideo;
-
- //用来显示录制的实时画面
-    AVCaptureVideoPreviewLayer *captureVideoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:session];
-    [self.view.layer addSublayer:captureVideoPreviewLayer];
-
-    //用户是否允许启用摄像头
-    [AVCaptureDevice requestAccessForMediaType:mediaType completionHandler:^(BOOL granted) {
-        if (granted)
-        {
-            //Granted access to mediaType
-            [self setDeviceAuthorized:YES];
-            [session startRunning];
-        }
-        else
-        {
-            //Not granted access to mediaType
-            dispatch_async(dispatch_get_main_queue(), ^{
-            [[[UIAlertView alloc] initWithTitle:@"AVCam!"
-                                        message:@"AVCam doesn't have permission to use Camera, please change privacy settings"
-                                       delegate:self
-                              cancelButtonTitle:@"OK"
-                              otherButtonTitles:nil] show];
-                    [self setDeviceAuthorized:NO];
-            });
-        }
-    }];
-}
-
-//协议方法,获取每一帧，将每一帧转换成图片，你也可以进行其他的渲染操作
-- (void)captureOutput:(AVCaptureOutput *)captureOutput
-         didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
-         fromConnection:(AVCaptureConnection *)connection {
-
-    UIImage *image = imageFromSampleBuffer(sampleBuffer);
-}
-</code></pre>
-
-<p>上面演示了如何取得每一帧实时画面,如果想要直接存成视频可使用AVCaptureMovieFileOutput,如下</p>
-
-<pre><code>AVCaptureMovieFileOutput *movieFileOutput = [[AVCaptureMovieFileOutput alloc] init];
-NSURL *fileURL = ...;    //存放位置
-//指定代理
-[aMovieFileOutput startRecordingToOutputFileURL:fileURL recordingDelegate:delete];
-//也可以为其指定outputSettings
-同样代理必须实现协议方法captureOutput:didFinishRecordingToOutputFileAtURL:fromConnections:error:,
-</code></pre>
-
-<p>当然还有其他各种具体的设置，如对焦、曝光、闪光灯以及白平衡等等均可以通过KVO来设置，每次设置前都加一个判断，是否支持指定模式,在这里不做详细叙述了,这里你可以看到<a href="https://developer.apple.com/library/ios/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/04_MediaCapture.html#//apple_ref/doc/uid/TP40010188-CH5-SW14">更多</a>。</p>
-
-<h4>视频的剪辑</h4>
-
-<p>视频的剪辑包括但不限于:裁剪、旋转(改变transform)、添加水印、添加字幕、合并等。关于剪辑，无非就是取出视频中的轨道(视频和音频),然后对轨道进行一系列的操作变可以得到各种想要的效果。首先我们先来看下面一张图</p>
-
-<p><img src="http://images.90159.com/08/composition.png" alt="3" /></p>
-
-<p>AVMutableComposition是整个视频剪辑过程中的一个核心，下面着重讲解这个类。AVMutableComposition和AVAsset一样含有多个视/音频轨道，但是更重要的是，它可以将多个AVAssetTrack合并到一起，比如在视频合并时，可以直接将多段视频拼接到一个轨道(AVMutableCompositonTrcak)，音频也一样。通过借助AVMutableVideoComposition和AVMutableAudioMix来设置每一段的视/音频的属性，从而达到想要的视听效果，比如视频切换处的淡入淡出，声音的渐变，字幕等等。
-关于上图的解释:首先通过将asset里面的轨道加载到composition的各轨道，然后通过audioMix和videoComposition对某个轨道进行对应操作,设置其相关属性。其中要用到的具体方法可以参见<a href="https://developer.apple.com/library/ios/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/03_Editing.html#//apple_ref/doc/uid/TP40010188-CH8-SW1">这里</a>。</p>
-
-<p>其中图中1，2，3用到的方法为</p>
-
-<pre><code>[1]
-[mutableComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid]
-[2]
-[AVMutableAudioMixInputParameters audioMixInputParametersWithTrack:mutableCompositionAudioTrack];`
-[3]
-[AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:mutableCompositionVideoTrack]
-</code></pre>
-
-<p>关于视频的剪辑的代码可以参见苹果给出的官方<a href="https://developer.apple.com/library/ios/samplecode/AVSimpleEditoriOS/Introduction/Intro.html#//apple_ref/doc/uid/DTS40012797">Demo</a>以及Raywendrich上的两篇文章<a href="http://www.raywenderlich.com/13418/how-to-play-record-edit-videos-in-ios">1</a>,<a href="http://www.raywenderlich.com/30200/avfoundation-tutorial-adding-overlays-and-animations-to-videos">2</a>。</p>
-
-<h3>GPUImage</h3>
-
-<p>什么?!你没听说过GPUImage?!那你赶紧去看看它的<a href="https://github.com/BradLarson/GPUImage/blob/master/README.md#overview">相关介绍</a>。GPUImage是一个基于OpenGL ES的一个强大的图像/视频处理库,封装好了各种滤镜同时也可以编写自定义的滤镜。至于他到底是如何强大,用了就知道。在这篇文章不是为了介绍它，而是列出一些我在使用过程中遇到的问题和解决方法。</p>
-
-<h4>分段录制</h4>
-
-<p>在使用GPUImageVideoCamera来录制的时候,可能需要分段录制,在GPUImage给出的视频录制Demo中直接只是录制一次，然而有时候需求可能是要录制多次，如果此时按照Demo的方法每次录制都要创建一个movieWriter,这样子的话每次都会在重新创建movieWriter并将它设置为videoCamera的audioEncodingTarget时候，界面都会卡顿一下，这是什么原因呢？因为videoCamera默认是不录制声音的，而每次创建movieWriter的时候都用到了movieWriter.hasAudioTrack = YES;,吊用这个之后videoCamera会自动去添加声音输入源,准备一些数据，所以这个过程会导致界面卡顿一下？这该怎么办呢？如果你有进到videoCamera的头文件去看的话你会发现这么一个方法和它的注释</p>
-
-<pre><code>//Add audio capture to the session. Adding inputs and outputs freezes 
-//the capture session momentarily, so you can use this method to add 
-//the audio inputs and outputs early, if you’re going to set the 
-//audioEncodingTarget later. Returns YES is the audio inputs and 
-//outputs were added, or NO if they had already been added.
-
--(BOOL)addAudioInputsAndOutputs;
-</code></pre>
-
-<p>注释的大意是:录制的时候添加声音,添加输入源和输出源会暂时会使录制暂时卡住,所以在要使用声音的情况下要先调用该方法来防止录制被卡住。这不刚好就解决了上面的这个问题吗？所以问题就迎刃而解了,因为没看到这个,走了不少弯路,浪费了好长时间。</p>
-
-<p>关于分段录制,可能有这么一个需求就是所有片段都是存于一个文件中而不是录制完成后将各段合并到一个视频文件中。这两个东西或许会帮到你<a href="http://blog.csdn.net/whf727/article/details/18702643">分段录制的实现</a>,<a href="https://github.com/leanlyne/GPUImageExtend">GPUImageExtend</a>。前者是基于系统的分段录制的实现,后者是GPUImageMoiveWriter的一个子类。</p>
-
-<h4>所见即所得</h4>
-
-<p>在录制的时候,使用GPUImageView来显示,因为给GPUImageView设置的大小是320*320的,如果不设置它的填充模式(fillMode)它是默认使用kGPUImageFillModePreserveAspectRatio即保持长宽比,其余空白处使用背景色填充,如果要设置成方形就得使用kGPUImageFillModePreserveAspectRatioAndFill,但是这个时候问题又来了假设你是用的录制分辨率是960x540,显示的画面则只会显示中间的540x540的画面,这个时候如果movieWriter的size设置为540x540,则最后保存的视频是失真的因为960被压到了540，整个画面变扁了。这个时候有两种解决方案</p>
-
-<ul>
-<li>1.使用GPUImageCropFilter,通过设置其cropRegion来裁出中间540x540部分。关于cropRegion要注意它是一个CGRect,它对坐标系做了一个归一化处理,所以让所有的取值都在0.0~1.0范围内,比如960x540裁剪至中间540x540部分则cropRegion为(0,((960-540)/2)/960,1,540/960)</li>
-<li>2.改变videoComposition的perferTransfom使其只显示中间的540x540。
-这样就完成了所见即所得。</li>
-</ul>
-
-
-<p>关于GPUImage的实时滤镜添加或给已存在的视频添加滤镜,Demo都给出了详细过程,依葫芦画瓢即可。有一点要注意的是,在一些操作完成的时候注意removeTarget,还有就是在使用movieFile来播放已存在视频并添加滤镜的时候是没有声音的,这是这个库的一个缺陷,Github上有人提了这个<a href="https://github.com/BradLarson/GPUImage/issues/458">issue</a>和<a href="https://gist.github.com/pgodino/3819907">一些解决办法</a>。同时在用movieFile处理视频的时候在切换滤镜的时候最好先cancelProcessing不然会有黑屏或卡顿现象出现。同样如果你是用老版本的GPUImage的时候,可能会遇到第一帧是红色的现象,有人提出这个issue后,作者修复了这个bug,切换到最新版的时候就不会有这种情况发生。发生这种情况的原因是视频掉帧,导致音频和视频不同步。</p>
-
-<h3>总结</h3>
-
-<p>AVFoundation还是有很多东西去做深层次的挖掘,GPUImage也是一样,有了这个强大的库,解决一些事情节省了大量时间。这次仅仅是一个小小的尝试,对于很多东西都是浅尝则止,文中难免会有错误,欢迎在评论中指正。如果你在使用GPUImage和AVFoundation有什么好的心得或者对一些问题有相应的解决方案,不妨在评论中分享一下。</p>
-
-<hr />
-
-<p>版权声明：我已将本文在微信公众平台的发表权「独家代理」给 iOS开发（ iOSDevTip ） 微信公众号。扫下方二维码即可关注「iOS 开发」：</p>
-
-<p><img src="http://images.90159.com/icon/iOSDevTip.jpg" alt="iOSDevTip" /></p>
 ]]></content>
   </entry>
   

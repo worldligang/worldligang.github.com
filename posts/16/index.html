@@ -81,6 +81,425 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/11/07/xcode6-dot-1diao-shi-de-shi-hou-you-shi-can-shu-du-wei-nilzen-yao-jie-jue/">xcode6.1调试的时候有时参数都为nil怎么解决?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-11-07T09:18:04+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:18 am</span></time>
+        
+        
+          | <a href="/blog/2014/11/07/xcode6-dot-1diao-shi-de-shi-hou-you-shi-can-shu-du-wei-nilzen-yao-jie-jue/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.superqq.com/blog/2014/11/07/xcode6-dot-1diao-shi-de-shi-hou-you-shi-can-shu-du-wei-nilzen-yao-jie-jue/">xcode6.1调试的时候有时参数都为nil怎么解决?</a></p>
+
+<p>昨天我在写代码的时候，发现xcode6.1调试的时候有时参数都为nil？曾经有朋友遇到过这个问题，我一直没当回事，昨天我也碰到了：</p>
+
+<p>看下图：</p>
+
+<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlylSosnUuLhV6wTjsFzyRRxoxIUFMqUwfUBic9qDUm8IY9gJQibL0oNeGUMCKN1oVJBwnv6l5OAezkicg/640" ></p>
+
+<p>刚创建的vc 和 nav 都为nil，这给断点调试增加了很多麻烦，难道是xcode的bug吗？</p>
+
+<p>群里问问大牛，不得姐，网上有查，最终找到解决方法：</p>
+
+<p>在Project的Build Settings中把Optimization Level 设置成 None 即可。</p>
+
+<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlylSosnUuLhV6wTjsFzyRRxo44fXntXf13uoSlnLOsdTkbhHFsHXeDljz69g3JR4sEJnr5SRSLO8icQ/640" ></p>
+
+<p>在运行看一下结果：</p>
+
+<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlylSosnUuLhV6wTjsFzyRRxoHE3BZhvRDgzxlCG8ibiceSGl81ykIM58AejX3nYW5YO5aSTwTsick82Sw/640" ></p>
+
+<p>果然，有值了。小问题的解决方法，分享给大家。</p>
+
+<p>喜欢我们的内容，可以点击右上角「分享到朋友圈」</p>
+
+<p>以后大家有什么问题，可以登录<a href="http://www.iswifting.com">swift社区</a> 里面设置有问答区，会有大牛帮大家解答问题的。</p>
+
+<p>微信公众账号：iOS开发</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p>QQ群：iOS学习交流群</p>
+
+<pre><code>303868520
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/06/ioskai-fa-:uitableviewjia-zai-duo-zhang-zhao-pian-dao-zhi-nei-cun-shang-zhang-de-wen-ti/">iOS开发：UITableView加载多张照片导致内存上涨的问题</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-11-06T10:14:54+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:14 am</span></time>
+        
+        
+          | <a href="/blog/2014/11/06/ioskai-fa-:uitableviewjia-zai-duo-zhang-zhao-pian-dao-zhi-nei-cun-shang-zhang-de-wen-ti/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.superqq.com/blog/2014/11/06/ioskai-fa-:uitableviewjia-zai-duo-zhang-zhao-pian-dao-zhi-nei-cun-shang-zhang-de-wen-ti/">iOS开发：UITableView加载多张照片导致内存上涨的问题</a></p>
+
+<p>最近在写一个文件管理的页面，里面功能挺多的，有缩略图下载（socket），有文件下载（http）。</p>
+
+<p>说说缩略图下载这一块，我的UITableView的一个cell要加载四张缩略图，iPhone5s的屏幕能加载8行。大概UI上是这样布局的。（另外缩略图需要一张张下载）</p>
+
+<p>刚开始进到文件管理界面，内存占用20几M，随着缩略图不断下载下来内存在上涨，我不断的往上拉，内存一值在涨。达到一定值app出现闪退。大概是300多M的时候闪退。什么原因造成的呢？</p>
+
+<p>先看下图：</p>
+
+<p><img src="http://www.superqq.com/images/neicun1.jpg" ></p>
+
+<p>我是这样写的：建立一个对象，这个对象有一个属性是UIImage。对象保存在数组里面。大概有800多张照片。</p>
+
+<p>当缩略图没有下载下来的时候，我加载的是一张默认图片。当缩略图下载下来的时候，我就把下载下来的缩略图赋给相应对象的UIImage属性。</p>
+
+<p>cell是重用的，这样看应该是没有什么问题的。但是内存就是不断上涨，而且是不动的时候，内存不涨，上下滑动UITableView，内存不断上涨。</p>
+
+<p>我一直在思考cell是重用的，内存怎么会不断上涨呢？问题不是cell引起的，而是上面我说的那个对象的UIImage属性引起的。</p>
+
+<p>思考一下，缩略图不断下载下来， 下载下来的缩略图都赋给对象的UIImage属性，而对象又在数组里面，可想而知，800多张缩略图不断下载内存肯定上涨。</p>
+
+<p>于是，我去掉对象的UIImage属性，把下载下来的照片通过EGOCache缓存起来，加载cell上的UIImage的时候，直接从缓存里面取出来就可以了。</p>
+
+<p>代码如下：</p>
+
+<pre><code>[[EGOCache globalCache] setImage:image forKey:[NSString stringWithFormat:@"EGOImageLoader-%lu", (unsigned long)[[fmObject.path description] hash]] withTimeoutInterval:CacheingTime];
+</code></pre>
+
+<p>再次运行起来，看一下内存这一块：</p>
+
+<p><img src="http://www.superqq.com/images/neicun2.png" ></p>
+
+<p>果然，问题解决了。看来以后给对象加UIImage属性需谨慎啊！</p>
+
+<p>大家有问题可以加入iOS学习交流群：</p>
+
+<pre><code>303868520
+</code></pre>
+
+<p>微信公众账号：iOS开发</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/10/16/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/">CocoaPods安装和使用教程</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-10-16T13:43:44+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>1:43 pm</span></time>
+        
+        
+          | <a href="/blog/2014/10/16/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.superqq.com/blog/2014/10/16/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/">CocoaPods安装和使用教程</a></p>
+
+<p><a href="http://www.superqq.com/blog/2014/10/16/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/">CocoaPods</a> 是什么？</p>
+
+<p>当你开发iOS应用时，会经常使用到很多第三方开源类库，比如JSONKit，AFNetWorking等等。可能某个类库又用到其他类库，所以要使用它，必须得另外下载其他类库，而其他类库又用到其他类库，“子子孙孙无穷尽也”，这也许是比较特殊的情况。总之小编的意思就是，手动一个个去下载所需类库十分麻烦。另外一种常见情况是，你项目中用到的类库有更新，你必须得重新下载新版本，重新加入到项目中，十分麻烦。如果能有什么工具能解决这些恼人的问题，那将“善莫大焉”。所以，你需要 CocoaPods。</p>
+
+<p>CocoaPods应该是iOS最常用最有名的类库管理工具了，上述两个烦人的问题，通过cocoaPods，只需要一行命令就可以完全解决，当然前提是你必须正确设置它。重要的是，绝大部分有名的开源类库，都支持CocoaPods。所以，作为iOS程序员的我们，掌握CocoaPods的使用是必不可少的基本技能了。
+如何下载和安装CocoaPods？</p>
+
+<p>在安装CocoaPods之前，首先要在本地安装好Ruby环境。至于如何在Mac中安装好Ruby环境，请google一下，本文不再涉及。</p>
+
+<p>假如你在本地已经安装好Ruby环境，那么下载和安装CocoaPods将十分简单，只需要一行命令。在Terminator（也就是终端）中输入以下命令（注意，本文所有命令都是在终端中输入并运行的。什么，你不知道什么是终端？那请小编吃饭，小编告诉你）：</p>
+
+<pre><code>sudo gem install cocoapods
+</code></pre>
+
+<p>但是，且慢。如果你在天朝，在终端中敲入这个命令之后，会发现半天没有任何反应。原因无他，因为那堵墙阻挡了cocoapods.org。（你会问，我靠，这都要墙！是的，小编也纳闷。）</p>
+
+<p>但是，是的，又但是（不过是个可喜的“但是”）。我们可以用淘宝的Ruby镜像来访问cocoapods。按照下面的顺序在终端中敲入依次敲入命令：</p>
+
+<pre><code>$ gem sources --remove https://rubygems.org/
+//等有反应之后再敲入以下命令
+$ gem sources -a http://ruby.taobao.org/
+</code></pre>
+
+<p>为了验证你的Ruby镜像是并且仅是taobao，可以用以下命令查看：</p>
+
+<pre><code>$ gem sources -l
+</code></pre>
+
+<p>只有在终端中出现下面文字才表明你上面的命令是成功的：</p>
+
+<pre><code>*** CURRENT SOURCES ***
+
+http://ruby.taobao.org/
+</code></pre>
+
+<p>上面所有的命令完成之时，在小编的终端上是这个的样子：</p>
+
+<p><img src="http://code4app.com/photo/5273c20b6803fac658000000_1.png" ></p>
+
+<p>这时候，你再次在终端中运行：</p>
+
+<pre><code>$ sudo gem install cocoapods
+</code></pre>
+
+<p>等上十几秒钟，CocoaPods就可以在你本地下载并且安装好了，不再需要其他设置。</p>
+
+<p>敲入以上命令时，小编终端上是这个样子的（由于太长，仅截取前面一部分）：</p>
+
+<p><img src="http://code4app.com/photo/5273c20b6803fac658000000_11.png" ></p>
+
+<p>看到这里，你心里会不会说，我靠！太爽了，这么容易就可以下载并且安装好了！是的，小编也是这么想的。CocoPods就是这么简单，使用也十分简单。继续往下看吧。
+如何使用CocoaPods？</p>
+
+<p>好了，安装好CocoPods之后，接下来就是使用它。所幸，使用CocoPods和安装它一样简单，也是通过一两行命令就可以搞定。</p>
+
+<p>小编在这里用两种使用场景来具体说明如何使用CocoaPods。
+场景1：利用CocoaPods，在项目中导入AFNetworking类库</p>
+
+<p>AFNetworking类库在GitHub地址是：<a href="https://github.com/AFNetworking/AFNetworking">https://github.com/AFNetworking/AFNetworking</a></p>
+
+<p>为了确定AFNetworking是否支持CocoaPods，可以用CocoaPods的搜索功能验证一下。在终端中输入：</p>
+
+<pre><code>$ pod search AFNetworking
+</code></pre>
+
+<p><img src="http://code4app.com/photo/5273c20b6803fac658000000_12.png" ></p>
+
+<p>这说明，AFNetworking是支持CocoaPods，所以我们可以利用CocoaPods将AFNetworking导入你的项目中。</p>
+
+<p>首先，我们需要在我们的项目中加入CocoaPods的支持。你可以跟随小编的步骤，先利用Xcode创建一个名字CocoaPodsDemo的项目，用于以下的教程。创建好之</p>
+
+<p><img src="http://code4app.com/photo/5273c20b6803fac658000000_13.png" ></p>
+
+<p>上图等一下要跟项目支持CocoaPods之后的项目Xcode目录结构做对比。</p>
+
+<p>你看到这里也许会问，CocoaPods为什么能下载AFNetworking呢，而不是下载其他类库呢？这个问题的答案是，有个文件来控制CocoaPods该下载什么。这个文件就叫做“Podfile”（注意，一定得是这个文件名，而且没有后缀）。你创建一个Podfile文件，然后在里面添加你需要下载的类库，也就是告诉CocoaPods，“某某和某某和某某某，快到碗里来！”。每个项目只需要一个Podfile文件。</p>
+
+<p>好吧，废话少说，我们先创建这个神奇的PodFile。在终端中进入（cd命令）你项目所在目录，然后在当前目录下，利用vim创建Podfile，运行：</p>
+
+<pre><code>$ vim Podfile
+</code></pre>
+
+<p>然后在Podfile文件中输入以下文字：</p>
+
+<pre><code>platform :ios, '7.0'
+pod "AFNetworking", "~&gt; 2.0"
+</code></pre>
+
+<p>注意，这段文字不是小编凭空生成的，可以在AFNetworking的github页面找到。这两句文字的意思是，当前AFNetworking支持的iOS最高版本是iOS 7.0, 要下载的AFNetworking版本是2.0。</p>
+
+<p>然后保存退出。vim环境下，保存退出命令是：</p>
+
+<p>:wq</p>
+
+<p>这时候，你会发现你的项目目录中，出现一个名字为Podfile的文件，而且文件内容就是你刚刚输入的内容。注意，Podfile文件应该和你的工程文件.xcodeproj在同一个目录下。</p>
+
+<p>这时候，你就可以利用CocoPods下载AFNetworking类库了。还是在终端中的当前项目目录下，运行以下命令：</p>
+
+<pre><code>$ pod install 
+</code></pre>
+
+<p>因为是在你的项目中导入AFNetworking，这就是为什么这个命令需要你进入你的项目所在目录中运行。</p>
+
+<p>运行上述命令之后，小编的终端出现以下信息：</p>
+
+<p>EricmatoMacBook-Pro:CocoaPodsDemo ericwang$ pod install
+Analyzing dependencies
+Downloading dependencies
+Installing AFNetworking (2.0.2)
+Generating Pods project
+Integrating client project</p>
+
+<p>[!] From now on use <code>CocoaPodsDemo.xcworkspace</code>.</p>
+
+<p>注意最后一句话，意思是：以后打开项目就用 CocoaPodsDemo.xcworkspace 打开，而不是之前的.xcodeproj文件。</p>
+
+<p>你也许会郁闷，为什么会出现.xcodeproj文件呢。这正是你刚刚运行$ pod install命令产生的新文件。除了这个文件，你会发现还多了另外一个文件“Podfile.lock”和一个文件夹“Pods”。 点击 CocoaPodsDemo.xcworkspace 打开之后工程之后，项目Xcode目录结构如下图：</p>
+
+<p><img src="http://code4app.com/photo/5273c20b6803fac658000000_14.png" ></p>
+
+<p>你会惊喜地发现，AFNetwoking已经成功导入项目了（红框部分）！</p>
+
+<p>现在，你就可以开始使用AFNetworking.h啦。可以稍微测试一下，在你的项目任意代码文件中输入：</p>
+
+<pre><code>#import &lt;AFNetworking.h&gt;
+或者
+#import "AFNetworking.h"
+</code></pre>
+
+<p>然后编译，看看是否出错。如果你严格按照小编上述的步骤来，是不可能出错的啦。</p>
+
+<p>至此，CocoPods的第一个应用场景讲述完毕。别看小编写了这么多，其实过程是十分简单的。总结一下就是：</p>
+
+<p>1,先在项目中创建Podfile，Podfile的内容是你想导入的类库。一般类库的原作者会告诉你导入该类库应该如何写Podfile；
+2,运行命令：`$ pod install.</p>
+
+<p>下面，小编继续讲述第二种使用场景。
+场景2：如何正确编译运行一个包含CocoPods类库的项目</p>
+
+<p>你也许曾经遇到过（特别是新手iOS开发者）这种情况，好不容易在GitHub上找到一份代码符合自己想需求，兴冲冲下载下来，一编译，傻眼了，发现有各种各样错误。一看，原来是缺失了各种其他第三方类库。这时候莫慌，你再仔细一看，会发现你下载的代码包含了Podfile。没错，这意味着你可以用CocoaPods很方便下载所需要的类库。</p>
+
+<p>下面，小编以代码 UAAppReviewManager 为例来说明如何正确编译运行一个包含CocoPods类库的项目。</p>
+
+<p>UAAppReviewManager是一个能够让你方便地将提醒用户评分的功能加入你的应用中。当你去UAAppReviewManager的GitHub地址下载这份代码之后，打开Example工程（UAAppReviewManagerExample），编译，你会发现Xcode报告一大堆错误，基本都是说你编译的这份代码找不到某某头文件，这就意味着你要成功编译UAAppReviewManager的Example代码，必须先导入一些第三方类库。同时你会发现在UAAppReviewManagerExample文件夹下面有三个跟CocosPods相关的文件（文件夹）：Podfile，Podfile.lock和Pods，如下图：</p>
+
+<p><img src="http://code4app.com/photo/5273c20b6803fac658000000_15.png" ></p>
+
+<p>用</p>
+
+<p>这时候，打开终端，进入UAAppReviewManagerExample所在的目录，也就是和Podfile在同一目录下，和场景1一样，输入以下命令（由于已经有Podfile，所以不需要再创建Podfile）：</p>
+
+<pre><code>$ pod update
+</code></pre>
+
+<p>过几秒（也许需要十几秒，取决于你的网络状况）之后，终端出现：</p>
+
+<pre><code>Analyzing dependencies
+Fetching podspec for `UAAppReviewManager` from `../`
+Downloading dependencies
+Installing UAAppReviewManager (0.1.6)
+Generating Pods project
+Integrating client project
+
+[!] From now on use `UAAppReviewManagerExample.xcworkspace`.
+</code></pre>
+
+<p>这时候，再回到UAAppReviewManagerExample文件夹看一看，会看到多了一个文件UAAppReviewManagerExample.xcworkspace：</p>
+
+<p><img src="http://code4app.com/photo/5273c20b6803fac658000000_16.png" ></p>
+
+<p>根据终端的信息提示，你以后就需用新产生的UAAppReviewManagerExample.xcworkspace来运行这个Example代码了。</p>
+
+<p>打开UAAppReviewManagerExample.xcworkspace，编译运行，成功！如下图：</p>
+
+<p><img src="http://code4app.com/photo/5273c20b6803fac658000000_17.png" ></p>
+
+<p>注意，这里有个小问题，如果刚刚你不是输入$ pod update，而是输入$ pod install，会发现类库导入不成功，并且终端出现下面提示：</p>
+
+<pre><code>[!] Required version (UAAppReviewManager (from `../`)) not found for `UAAppReviewManager`.
+</code></pre>
+
+<p>Available versions: 0.1.6</p>
+
+<p>这里的意思大概是Podfile文件过期，类库有升级，但是Podfile没有更改。$ pod install只会按照Podfile的要求来请求类库，如果类库版本号有变化，那么将获取失败。但是 $ pod update会更新所有的类库，获取最新版本的类库。而且你会发现，如果用了 $ pod update，再用 $ pod install 就成功了。</p>
+
+<p>那你也许会问，什么时候用 $ pod install，什么时候用 $ pod update 呢，我又不知道类库有没有新版本。好吧，那你每次直接用 $ pod update 算了。或者先用 $ pod install，如果不行，再用 $ pod update。</p>
+
+<p>好了，小编就啰嗦到这里吧。上述都只是<a href="http://www.superqq.com/blog/2014/10/16/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/">CocoaPods</a> 是什么？
+的最基本用法。要继续研究CocoaPods其他高级用法.</p>
+
+<p>Code4App 原创文章。转载请注明出处：<a href="http://code4app.com/article/cocoapods-install-usage">http://code4app.com/article/cocoapods-install-usage</a></p>
+
+<p>微信公众账号：iOS开发</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/30/xie-bo-ke-de-fang-fa/">Octopress写博客的方法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-09-30T11:34:57+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:34 am</span></time>
+        
+        
+          | <a href="/blog/2014/09/30/xie-bo-ke-de-fang-fa/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.superqq.com/blog/2014/09/30/xie-bo-ke-de-fang-fa/">写博客的方法</a></p>
+
+<p>写博客的方法:</p>
+
+<pre><code>rake new_post[‘article name’] 生成博文框架，填写文章标题
+open -a Mou source/_posts/2014-10-30-xie-bo-ke-de-fang-fa.markdown  打开markdown编辑工具（比较好用，下载地址：http://25.io/mou/）
+rake generate 生成静态文件
+rake watch 检测文件变化，实时生成新内容
+rake preview 本地预览“http://localhost:4000”
+rake deploy 发布文章
+</code></pre>
+
+<p>微信公众账号：iOS开发</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p>原文链接：<a href="http://blog.leichunfeng.com/blog/2014/11/11/use-octopress-plus-github-pages-to-setup-a-personal-blog/">使用 Octopress+GitHub Pages 搭建个人博客</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/09/26/ios/">刚刚在线正式上线</a></h1>
     
     
@@ -156,23 +575,23 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/11/16/find-ios-app-key-words/">给你的iOS APP名称找到合适的长度&关键词</a>
+        <a href="/blog/2015/12/03/vvdocumenter-xcode7-not-work/">升级Xcode7之后VVDocumenter-Xcode不能用的解决办法</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/11/13/ios-submit-using-idfa/">iOS提交审核：您的 App 正在使用广告标识符 (IDFA)</a>
+        <a href="/blog/2015/12/01/jump-setting-per-page/">iOS开发之如何跳到系统设置里的各种设置界面</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/11/12/remote-notification-error/">远程推送控制台提示Add “Remote-notification”&#8230;解决方案</a>
+        <a href="/blog/2015/11/30/jump-to-setting-wifi/">iOS开发之如何跳到系统设置里的WiFi界面</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/11/02/salary-programmer-avoid-pit/">月薪3万的程序员都避开了哪些坑</a>
+        <a href="/blog/2015/11/27/ios-rich-components-yykit/">一组功能丰富的iOS组件:YYKit</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/11/01/humor-code-world/">程序猿的幽默趣图，你并不懂他们的真正世界</a>
+        <a href="/blog/2015/11/19/create-high-efficiency-ios-group/">打造高效率iOS开发实战交流VIP群</a>
       </li>
     
   </ul>

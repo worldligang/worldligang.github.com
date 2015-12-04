@@ -81,6 +81,197 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/08/10/coremotion-framework-use-accelerometer/">CoreMotion框架中加速度计使用简明教程</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-10T00:37:33+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:37 am</span></time>
+        
+        
+          | <a href="/blog/2015/08/10/coremotion-framework-use-accelerometer/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>前言</h2>
+
+<p>之前有人通过iPhone的加速度计做出一个手机防盗APP，而且正是通过这个防盗APP拿到天使投资。从此以后华丽转身，公司发展的有声有色。虽然这个项目最后不怎么样，但是，确实是一个不错的想法。</p>
+
+<p>也许你不知道，每一台iPhone都内置的有加速度计。这样当用户操作手机的的时候，比如旋转手机，内置的加速度计就会做出反应。</p>
+
+<p>在iOS4之前加速度计是由<code>UIAccelerometer</code>来采集数据的，现在都是用<code>CoreMotion</code>来处理。两种使用都比较简单，相对来说<code>UIAccelerometer</code>更简单一些。本文将分享两者的用法。</p>
+
+<h2>加速度计原理</h2>
+
+<p><img src="http://images.90159.com/08/Accelerometer.png" alt="Accelerometer.png" /></p>
+
+<p>来自网络</p>
+
+<p>iPhone的加速度计有三个轴，分别是x轴、y轴、z轴，如上图所示。这是一个三维立体空间，可以捕获用户每一个角度的操作。通过这三个轴可以计算iPhone倾斜的角度，从而计算出加速度。</p>
+
+<h2>UIAccelerometer使用</h2>
+
+<p><code>UIAccelerometer</code>的使用比较简单，需要实现<code>UIAccelerometerDelegate</code>的代理方法，具体代码如下：</p>
+
+<pre><code>UIAccelerometer *accelerometer = [UIAccelerometer sharedAccelerometer];
+accelerometer.delegate = self;
+accelerometer.updateInterval = 0.1;
+</code></pre>
+
+<p>实现<code>UIAccelerometerDelegate</code>代理方法：</p>
+
+<pre><code>- (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration NS_DEPRECATED_IOS(2_0, 5_0)
+{
+    NSLog(@"x -&gt; %f y - &gt; %f z -&gt; %f",accelerometer.x,accelerometer.y,accelerometer.z);
+}
+</code></pre>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/08/10/coremotion-framework-use-accelerometer/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/09/performance-optimization-of-mkmapview/">一次对MKMapView的性能优化</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-09T13:18:21+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:18 pm</span></time>
+        
+        
+          | <a href="/blog/2015/08/09/performance-optimization-of-mkmapview/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>前言</h2>
+
+<p>最近做的项目主要是LBS这块 主打成员定位功能 我们的UI设计是这样的</p>
+
+<p><img src="http://7xkkjz.com1.z0.glb.clouddn.com/MK-1.png" alt="Pic-MK-1" /></p>
+
+<p>乍一看上去是挺好挺美观的 不同的人会显示不同的头像 可是当人扎堆的时候 问题就来了</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/08/09/performance-optimization-of-mkmapview/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/08/interview-ios-question-answer/">《招聘一个靠谱的iOS》面试题参考答案（上）</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-08T00:16:38+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:16 am</span></time>
+        
+        
+          | <a href="/blog/2015/08/08/interview-ios-question-answer/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>推荐理由：最近比较🔥的关于iOS开发面试题的文章。简单喵了一眼，感觉很不错，作者sunnyxx也是个大牛。特此推荐！</p></blockquote>
+
+<p><a href="http://blog.sunnyxx.com/2015/07/04/ios-interview/">《招聘一个靠谱的 iOS》</a>—参考答案（上）</p>
+
+<p>说明：面试题来源是<a href="http://weibo.com/u/1364395395">微博@我就叫Sunny怎么了</a>的这篇博文：<a href="http://blog.sunnyxx.com/2015/07/04/ios-interview/">《招聘一个靠谱的 iOS》</a>，其中共55题，除第一题为纠错题外，其他54道均为简答题。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/08/08/interview-ios-question-answer/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/07/implement-uitextview-placeholder/">实现placeholder属性的UITextView</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-07T00:27:43+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:27 am</span></time>
+        
+        
+          | <a href="/blog/2015/08/07/implement-uitextview-placeholder/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>iOS开发微信公众号上的iOS技术文章，都将发布在<a href="http://www.superqq.com/">刚刚在线</a>。所以大家可以到我的网站上查看之前的文章，也可以在底部的精彩文章查看历史文章。</p>
+
+<p>上一篇文章<a href="http://www.superqq.com/blog/2015/08/06/uitextview-placeholder-practice/">UITextView实现placeholder的猥琐做法</a>讲了关于<code>UITextView</code>的<code>placeholder</code>实现原理。大家都一致认为做法比较猥琐。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/08/07/implement-uitextview-placeholder/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/08/06/uitextview-placeholder-practice/">UITextView实现placeholder的猥琐做法</a></h1>
     
     
@@ -345,180 +536,6 @@ imageView.image = self.image;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/01/octopress-add-duoshuo/">为刚刚在线（Octopress）添加多说评论系统</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-08-01T01:04:31+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>1:04 am</span></time>
-        
-        
-          | <a href="/blog/2015/08/01/octopress-add-duoshuo/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>今天是八一建军节，中国人民解放军建军纪念日。心里不由自主地升起一份爱国之情。</p></blockquote>
-
-<p>我的网站<a href="http://www.superqq.com/">刚刚在线</a>去年九月份正式上线的，马上快一周年啦！作为一个技术型的博客网站，<a href="http://www.superqq.com/">刚刚在线</a>成长速度还是蛮快的。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/08/01/octopress-add-duoshuo/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/31/aktabbarcontroller-similar-to-wechat-library/">AKTabBarController：类似微信的第三方库</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-31T00:28:53+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>12:28 am</span></time>
-        
-        
-          | <a href="/blog/2015/07/31/aktabbarcontroller-similar-to-wechat-library/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>自从有了评论之后，就可以很方便的和大家交流。以前都是我一个人默默的发文章，看不出大家对文章的看法。评论开通之后，就可以很快速的获取大家对文章的看法。</p>
-
-<p>有人会指出文章里有错误的地方，真的很感激他们，非常的认真；有人会对文章说出自己的见解，加深自己的印象，同时，也能帮助到其他的朋友；有人也会在评论里，提出一些问题，但是鉴于评论的字数限制，只能简单的回答一下。</p>
-
-<p>在昨天的文章评论里面，有一个朋友提出了一个问题，关于微信导航栏的。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/07/31/aktabbarcontroller-similar-to-wechat-library/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/30/six-tips-on-navigation-bar/">关于导航栏的六个小技巧</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-30T00:13:43+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:13 am</span></time>
-        
-        
-          | <a href="/blog/2015/07/30/six-tips-on-navigation-bar/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><code>UINavigationBar</code>和<code>UINavigationItem</code>是iOS开发中常用的控件。今天给大家介绍一下六个关于导航栏的小技巧。</p>
-
-<h2>1.设置导航栏标题</h2>
-
-<pre><code>self.title = @"iOS开发：iOSDevTip";
-</code></pre>
-
-<h2>2.设置导航栏样式</h2>
-
-<p>设置方法：</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/07/30/six-tips-on-navigation-bar/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/29/uiimage-geometric-zoom/">iOS开发之UIImage等比缩放</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-29T00:01:15+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:01 am</span></time>
-        
-        
-          | <a href="/blog/2015/07/29/uiimage-geometric-zoom/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>评论功能真不错</h2>
-
-<p>评论开通后，果然有很多人吐槽。谢谢大家的支持和关爱，如果有做的不到的地方，还请海涵。毕竟我一个人的力量是有限的，我会尽自己最大的努力大家准备一些干货。</p>
-
-<p>有些内容可能都是比较基础的，记住：不积跬步无以至千里，不积小流无以成江海。我想这个道理大家都懂，在为大家准备文章的过程中，对我来说也是一次学习成长。</p>
-
-<p>大家可以继续吐槽！微信的评论就是一个沟通的渠道，也是一篇文章的延续。你也可以在评论中写一些你对iOS开发的见解，说不定就会对他人有帮助。</p>
-
-<p>很高兴，已经有好几位iOS开发的朋友答应以后会写文章投稿给我。在这里，我再强调一下：如果你有好的技术文章一定要投稿给我噢！投稿邮箱：</p>
-
-<pre><code>worldligang@163.com
-</code></pre>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/07/29/uiimage-geometric-zoom/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/5">&larr; Older</a>
@@ -546,23 +563,23 @@ imageView.image = self.image;
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/11/16/find-ios-app-key-words/">给你的iOS APP名称找到合适的长度&关键词</a>
+        <a href="/blog/2015/12/03/vvdocumenter-xcode7-not-work/">升级Xcode7之后VVDocumenter-Xcode不能用的解决办法</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/11/13/ios-submit-using-idfa/">iOS提交审核：您的 App 正在使用广告标识符 (IDFA)</a>
+        <a href="/blog/2015/12/01/jump-setting-per-page/">iOS开发之如何跳到系统设置里的各种设置界面</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/11/12/remote-notification-error/">远程推送控制台提示Add “Remote-notification”&#8230;解决方案</a>
+        <a href="/blog/2015/11/30/jump-to-setting-wifi/">iOS开发之如何跳到系统设置里的WiFi界面</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/11/02/salary-programmer-avoid-pit/">月薪3万的程序员都避开了哪些坑</a>
+        <a href="/blog/2015/11/27/ios-rich-components-yykit/">一组功能丰富的iOS组件:YYKit</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/11/01/humor-code-world/">程序猿的幽默趣图，你并不懂他们的真正世界</a>
+        <a href="/blog/2015/11/19/create-high-efficiency-ios-group/">打造高效率iOS开发实战交流VIP群</a>
       </li>
     
   </ul>
