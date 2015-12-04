@@ -81,7 +81,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/12/03/vvdocumenter-xcode7-not-work/">升级Xcode7之后VVDocumenter-Xcode不能用的解决办法</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/11/16/find-ios-app-key-words/">给你的iOS APP名称找到合适的长度&关键词</a></h1>
     
     
       <p class="meta">
@@ -90,269 +90,65 @@
 
 
 
-<time class='entry-date' datetime='2015-12-03T22:24:57+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:24 pm</span></time>
+<time class='entry-date' datetime='2015-11-16T09:37:20+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:37 am</span></time>
         
         
-          | <a href="/blog/2015/12/03/vvdocumenter-xcode7-not-work/#comments">Comments</a>
+          | <a href="/blog/2015/11/16/find-ios-app-key-words/#comments">Comments</a>
          
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>VVDocumenter-Xcode是Xcode上一款快速添加标准注释，并可以自动生成文档的插件。有了VVDocumenter-Xcode，规范化的注释，只需要输入三个斜线“///”就可以搞定，非常方面实用，目前已经支持Swift。</p>
+  <div class="entry-content"><p>今天这篇是关于iOS APP的名称长度，顺便简要说说关键词。一谈到应用程序上线就避免不了App Store Optimization (ASO)，APP的名称又是一个不可不谈的话题。</p>
 
-<p>Objective-C效果图：</p>
+<h2>一、APP名称的选择</h2>
 
-<p><img src="http://images.90159.com/11/vvdocumenter1.gif" alt="VVDocumenter1" /></p>
+<h3>1、仅包含应用的名称</h3>
 
-<p>Swift效果图：</p>
+<p>一般建议使用这个，因为看起来美观一点，在应用标题的里面没有包含关键词的话，有时候看起来好像很牛逼一样，因为好像不需要ASO了，不需要去堆关键词，但是这个好像对大多数来说不适用。</p>
 
-<p><img src="http://images.90159.com/11/vvdocumenter2.gif" alt="VVDocumenter1" /></p>
+<h3>2、名称中添加很多关键词</h3>
 
-<p>从Xcode 5开始，苹果要求加入UUID证书从而保证插件的稳定性。因此Xcode版本更新之后需要在VVDocumenter-Xcode的Info.plist文件中添加Xcode的UUID。</p>
+<p>将很多相关关键词添加到名称来争取ASO的优势，但是粗略看起来好像是不专业的，尽管这样看起来不是很美观，但是有用，所以即便是一些逼格相当高的应用依然会加关键词进去，长度和关键词的重复次数就看运营人员的心情了。</p>
 
-<h2>步骤如下：</h2>
+<p>那么一种是干净美观，一种是包含众多关键词的名称，我们总要给他找个平衡点。这篇文章将告诉你如何为你的iOS APP找出理想的名称长度，跟之前那篇Google Play 描述的关键词密度类似。</p>
 
-<h3>一、查看Xcode的UUID</h3>
+<h2>二、两种类型的名称</h2>
 
-<h4>方式1</h4>
+<p>其实每个APP都有两个名称，一个主，一个副，合起来就是一个title，你打开一个网页，在浏览器标签上看到的这个标题就是这个网页的title，一般是网站名字+文章名字，大多数是文章名在前，网站名在后。但都是有字符限制的，在iOS APP里面，iTunes Connect里，你要填进去，苹果也会给个255来限制，因为过长也没意思，所以我就在255以内寻找一个合适的点。</p>
 
-<p>在终端执行</p>
+<p>我们需要ASO的是现实在iTunes里面的那个，其实相当于总共有2个，开发者一般比较熟悉iTunes Connect，因为经常需要填写那些字段上线APP。不熟悉的自己登录进去看看，想看的自己没有APP的，那就先收藏这篇文章，备用到时候参考。</p>
 
-<pre><code>defaults read /Applications/Xcode.app/Contents/Info DVTPlugInCompatibilityUUID
-</code></pre>
+<h2>三、如何找到理想的名称长度</h2>
 
-<p><img src="http://images.90159.com/11/vvdocumenter3.jpg" alt="VVDocumenter1" /></p>
+<p>关于最理想的长度，并不是一个固定的标准，因为对于每个APP来说要展现的关键词是不一样的，即便都通过语言描述展示一个词，也会有不一样的，比如 “查违章”，“违章查询”这两个词对一个做违章查询的APP与 “天气预报”“查天气”对应一个做天气预报的APP，都是不一样的，我不能说150个字符是最好的，因为这样说的话就是傻逼了。</p>
 
-<p>拷贝选中的字符串。</p>
+<p>其实顺便说一下，有些开发者不知道开发什么，跟着去做一堆烂游戏，还不如去找几个这种普普通通大众的功能性APP需求好好做一个。我经常遇到开发者问做什么APP赚钱？现在做APP还能赚到钱么？做APP怎么赚钱？</p>
 
-<h4>方式2</h4>
+<p>这种类型的问题，我这里统一作答，做APP是赚钱的，也是不赚钱的，关键看你选什么做，怎么做，做出来的APP怎么样？如果想在AppStore里面混到钱，可以多看看别人，坚持每天下载几款APP，慢慢研究，不要急，不要觉得好像自己现在不做都被别人做了，这种想法也许不一定成熟。认真的准备，勤快的实践。下面是确定名称的时候，可以考虑到的一些因素：</p>
 
-<p>在/Applications目录中找到Xcode.app，右键”显示包内容”，进入Contents文件夹，双击Info.plist打开，找到DVTPlugInCompatibilityUUID，拷贝后面的字符串。</p>
+<h3>1、保持短一点</h3>
 
-<h3>二、添加Xcode的UUID到VVDocumenter-Xcode的Info.plist文件</h3>
+<p>由于较短一点的名称看起来更品牌性，包含5个以内的关键词，最好3个就行啦，三个不一样的</p>
 
-<h4>方式1&ndash;插件已经安装完成</h4>
+<p>但是这也不是一个绝对的规则，比如你觉得几个关键词都比较类似，可以都加进去，不必要的就不用加了，不一定每个APP都要加上QQ，微信这种关键词进去。</p>
 
-<p>1、打开xcode插件所在的目录：~/Library/Application Support/Developer/Shared/Xcode/Plug-ins；</p>
+<h3>2、注意关键词的竞争</h3>
 
-<p>2、选择已经安装的插件例如VVDocumenter-Xcode，右键”显示包内容”；</p>
+<p>像做网页，我们搜汽车，新做一个网站是很难排上去的，因为大家都知道这类的网站已经比较成熟，已经在搜索引擎的算法上攻坚多年，已经坚挺的占领了前面的位置。在淘宝里面，商品排名，搜T恤，销量很大的已经排在前面，新宝贝排上去，短时间很困难，除非你自己有一些特殊的资源。在应用商店里面也有一些类似的算法，别人已经坚挺，我们就不一定首先从最难的词去优化，你可以通过一些工具和查询来看看竞争度，这个不能一味依靠一个工具，有些是动态的。</p>
 
-<p>3、找到info.plist 文件，找到DVTPlugInCompatibilityUUIDs的项目，添加一个Item，Value的值为之前Xcode的UUID，保存。</p>
+<p>之所以是动态的，这里传达给一些投机取巧的人，一些热点的东西，有些人也喜欢到AppStore里面去搜。</p>
 
-<p><img src="http://images.90159.com/11/vvdocumenter4.jpg" alt="VVDocumenter1" /></p>
+<h3>3、看起来有意思一点</h3>
 
-<h4>方式2&ndash;插件还未安装/重新安装</h4>
+<p>这个和名称的长度是没有关系的因素，但是你在优化名称的时候，可以参考，比如你要全部的标题里面的词语最终组成一个完整的句子作为一个标题，那为什么不给自己减轻难度把截断之前的弄的舒服一点呢（手机上显示的部分）。</p>
 
-<p>1、从GitHub克隆仓库到本地，在Xcode中打开项目，选择项目名称，在TAGETS下选中VVDocumenter-Xcode；</p>
+<p>我们不能太侥幸的去和某些APP比，比如堆词语，我看到有些运营高手是这样做的，把整个当成ABC，A是主名，B是一句有吸引力的话并包含关键词，C就是一些关键词的组合了。有个东西叫组合，真的有个东西叫组合，你懂什么叫分词和组合么？不要看到别人当前的下载量评分量来判断你用此方法就可以胜出。</p>
 
-<p>2、选择Info，找到DVTPlugInCompatibilityUUIDs的项目，添加一个Item，Value的值为之前Xcode的UUID；</p>
-
-<p>3、Build项目，VVDocumenter-Xcode会自动安装。</p>
-
-<h3>三、重启Xcode</h3>
-
-<p>Xcode 6之后，重启Xcode时会提示“Load bundle”、 “Skip Bundle”，这里必须选择“Load bundle”，不然插件无法使用。</p>
+<blockquote><p>来自：<a href="http://www.appying.com/app-store-tuiguang/aso/fdsgs/">http://www.appying.com/app-store-tuiguang/aso/fdsgs/</a></p></blockquote>
 </div>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/12/01/jump-setting-per-page/">iOS开发之如何跳到系统设置里的各种设置界面</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-12-01T22:12:54+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>10:12 pm</span></time>
-        
-        
-          | <a href="/blog/2015/12/01/jump-setting-per-page/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>昨天的文章<a href="http://www.superqq.com/blog/2015/11/30/jump-to-setting-wifi/">《iOS开发之如何跳到系统设置里的WiFi界面》</a>介绍了如何从APP里跳到WiFi设置界面，很多朋友非常喜欢这样的小功能，还有朋友正想做这个功能刚好看见啦！</p>
-
-<h2>跳到更多设置界面</h2>
-
-<p>除了跳到WiFi设置界面，能不能跳到其他的设置界面呢？比如：定位服务、FaceTime、音乐等等。都是可以的，一起来看看如何实现的！</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/12/01/jump-setting-per-page/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/11/30/jump-to-setting-wifi/">iOS开发之如何跳到系统设置里的WiFi界面</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-11-30T22:14:58+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:14 pm</span></time>
-        
-        
-          | <a href="/blog/2015/11/30/jump-to-setting-wifi/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>之前以为，苹果不支持直接从应用跳到系统设置里的WiFi界面。后来发现，这个小功能是可以实现的，而且实现起来并不麻烦。让我们一起来看看吧！</p>
-
-<h2>需求</h2>
-
-<p>从应用跳到系统设置里的WiFi界面有这个需求存在吗？答案是肯定的。比如以下两个例子：</p>
-
-<p>在没有网的状态下，你可能想提醒用户去设置界面连接WiFi。如果不能跳到WiFi界面，只能在APP里面做出文字提示。这样很多小白用户可能不会看提示，只会觉得APP没有做好。</p>
-
-<p>还有一种情况，做智能家居的APP，智能硬件设备自带WiFi（局域网）。如果用户没有连接设备的WiFi进入APP时，需要提示用户去设置界面连接WiFi。</p>
-
-<p>以上这两种情况只是举个例子，这个小功能的用处还是很多的，大家可以自行探索。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/11/30/jump-to-setting-wifi/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/11/27/ios-rich-components-yykit/">一组功能丰富的iOS组件:YYKit</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-11-27T23:27:37+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:27 pm</span></time>
-        
-        
-          | <a href="/blog/2015/11/27/ios-rich-components-yykit/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>项目地址：<a href="https://github.com/ibireme/YYKit">https://github.com/ibireme/YYKit</a></p>
-
-<h1>中文介绍</h1>
-
-<p>YYKit 是一组庞大、功能丰富的 iOS 组件。</p>
-
-<p>为了尽量复用代码，这个项目中的某些组件之间有比较强的依赖关系。为了方便其他开发者使用，我从中拆分出以下独立组件：</p>
-
-<ul>
-<li><a href="https://github.com/ibireme/YYModel">YYModel</a> — 高性能的 iOS JSON 模型框架。</li>
-<li><a href="https://github.com/ibireme/YYCache">YYCache</a> — 高性能的 iOS 缓存框架。</li>
-<li><a href="https://github.com/ibireme/YYImage">YYImage</a> — 功能强大的 iOS 图像框架。</li>
-<li><a href="https://github.com/ibireme/YYWebImage">YYWebImage</a> — 高性能的 iOS 异步图像加载框架。</li>
-<li><a href="https://github.com/ibireme/YYText">YYText</a> — 功能强大的 iOS 富文本框架。</li>
-<li></li>
-<li><a href="https://github.com/ibireme/YYKeyboardManager">YYKeyboardManager</a> — iOS 键盘监听管理工具。</li>
-<li><a href="https://github.com/ibireme/YYDispatchQueuePool">YYDispatchQueuePool</a> — iOS 全局并发队列管理工具。</li>
-<li><a href="https://github.com/ibireme/YYAsyncLayer">YYAsyncLayer</a> — iOS 异步绘制与显示的工具。</li>
-<li><a href="https://github.com/ibireme/YYCategories">YYCategories</a> — 功能丰富的 Category 类型工具库。</li>
-</ul>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/11/27/ios-rich-components-yykit/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/11/19/create-high-efficiency-ios-group/">打造高效率iOS开发实战交流VIP群</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-11-19T00:45:08+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:45 am</span></time>
-        
-        
-          | <a href="/blog/2015/11/19/create-high-efficiency-ios-group/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>大家好，我是李刚。对的，你没有听错，我就是传说中李刚的本人。今天，我决定正式启动iOS开发实战交流VIP付费群！</p>
-
-<h2>定位</h2>
-
-<p>做什么事情都应该有一个明确的定位，无论是现在工作也好，还是以后创业也罢，定位非常重要。当然，这个iOS开发实战交流VIP群也有一个定位，那就是为广大iOS开发爱好者、iOS开发初学者提供一个技术交流平台，一起提升iOS开发技术。</p>
-
-<p>具体来说：</p>
-
-<ol>
-<li>技术交流，不定期邀请一些技术牛人，分享开发经验。</li>
-<li>技术问答，有关技术问题大家可以相互帮助回答，我也会邀请一些开发经验在3年以上的朋友，免费为大家解答技术问题。 （我也会参与回答）</li>
-<li>我会把大家问的比较好的问题，整理成文档，共享给大家。算是对技术知识点的一个总结。</li>
-<li>还能交一帮愿意为价值付费的朋友，以后可以资源共享，相互帮助。</li>
-<li>群内不定期免费共享优秀的iOS开发视频教程，项目源码以及一些开发文档。</li>
-</ol>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/11/19/create-high-efficiency-ios-group/">Read on &rarr;</a>
-    </footer>
   
 
 
@@ -395,12 +191,42 @@
 
 <p><img src="http://images.90159.com/11/idfa1.png" alt="idfa1" /></p>
 
+<p>如果你选择了“否”：</p>
+
+<p><img src="http://images.90159.com/11/idfa2.png" alt="idfa2" /></p>
+
+<h2>方案一：重新下载xcode</h2>
+
+<ol>
+<li>如果你的xcode不是最新版本的，建议下载最新版本的。重新打包后，再次提交审核。</li>
+<li>如果你的xcode不是正规渠道下载的，建议从苹果官方下载。</li>
+</ol>
+
+
+<p>有朋友尝试过方案一，问题得到解决。如果解决不了，还有方案二。</p>
+
+<h2>方案二：检测哪里用到IDFA</h2>
+
+<p>首先cd到你的工程目录下，然后执行命令：</p>
+
+<pre><code>grep -r advertisingIdentifier .
+</code></pre>
+
+<p>果然找到了罪魁祸首，原来是SinaWeiboSDK/libWeiboSDK.a</p>
+
+<p><img src="http://images.90159.com/11/idfa3.png" alt="idfa3" /></p>
+
+<p>ios9之后新浪微博分享可使用的前提是加入ADSupport.framework,打包提交后一直报您的 App 正在使用广告标识符 (IDFA)。您必须先提供关于 IDFA 的使用信息或将其从app中移除，再上传二进制文件。</p>
+
+<p>找到了源头，那么接下来怎么做就简单了。</p>
+
+<ol>
+<li>承认使用了IDFA，然后选择相应的选项。</li>
+<li>移除SinaWeiboSDK/libWeiboSDK.a，分享还是可以成功的。</li>
+</ol>
+
 </div>
   
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/11/13/ios-submit-using-idfa/">Read on &rarr;</a>
-    </footer>
   
 
 
@@ -438,12 +264,13 @@
 
 <p><img src="http://images.90159.com/11/error1.png" alt="error1" /></p>
 
+<p>这个时候再去看看Info.plist文件：</p>
+
+<p><img src="http://images.90159.com/11/error2.png" alt="error2" /></p>
+
+<p>再次运行，问题就解决啦！</p>
 </div>
   
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/11/12/remote-notification-error/">Read on &rarr;</a>
-    </footer>
   
 
 
@@ -605,6 +432,206 @@
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/10/30/two-nice-uialertview/">两个非常不错的自定义UIAlertView第三方类库</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-30T10:08:00+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:08 am</span></time>
+        
+        
+          | <a href="/blog/2015/10/30/two-nice-uialertview/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>UIAlertView大家都不陌生了。UIAlertView不可以添加控件，比如说：UILabel、UITextView等等，所以遇到这个需求，一般都要自定义UIAlertView来解决。</p>
+
+<p>我再github上找到了两个非常错的自定义UIAlertView第三方类库，分别是：LMAlertView和CustomIOSAlertView。</p>
+
+<h2>LMAlertView使用简介</h2>
+
+<p><a href="https://github.com/lmcd/LMAlertView">LMAlertView</a>在github上有610个star。说明这个第三方的UIAlertView还不错，我大概看了一下用法也比较简单。</p>
+
+<p>来看看两个个案例效果：</p>
+
+<p><img src="https://camo.githubusercontent.com/eb9242282b703a847c5ca45ef47462ec507ba573/687474703a2f2f6c6d63642e6d652f4c4d416c657274566965772d637573746f6d4032782e706e67" alt="1" /></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/10/30/two-nice-uialertview/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/10/29/programmer-job-raise/">一次皆大欢喜的程序员跳槽加薪</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-29T10:49:15+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:49 am</span></time>
+        
+        
+          | <a href="/blog/2015/10/29/programmer-job-raise/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>我的朋友A君是个典型的.NET开发人员，技术不错，人品也不错，在一家小公司（姑且称为甲公司）做项目开发，是技术骨干。</p>
+
+<p>3个月前，他找到我说想跳槽，让我帮忙介绍工作。我说为什么想跳了？</p>
+
+<h2>1.为什么想离职？</h2>
+
+<p>他简单说了一下他在甲公司当时的状况：A君在甲公司做了两年多，这两年多完成了一个大项目，作为开发的核心主力，开发压力很大，特别是项目上线前的几个月是非常辛苦，几乎每晚都要加班到12点以后，周末最多只有一天休息。在最困难的时候，老板给大家大气，“大家再坚持坚持，项目上线赚钱了，就给大家涨工资，公司是绝对不会亏待大家的”，在老板豪情壮语的加薪鼓励下，大家要紧牙关拼上了。终于，半年前，项目上线了，运行也慢慢稳定了，公司赚钱也多了起来。</p>
+
+<p>是的，公司赚钱了，利润很可观，这是大家都知道的事情。但是，一两个月过去了，加薪的事情完全没影，老板就像从来没提过一样。于是，A君向人事经理说出了希望加薪的请求，最后，得到的回复（在小公司，这当然是老板的意思）：（1）A君目前的工资与外面相比，基本是持平的。（2）A君目前的工作很悠闲，工作量不饱和。</p>
+
+<p>关于（1）实际上是个难题，两个人的工资要怎么比较，几乎都是老板一个非常主观的想法。而关于（2），却是事实：由于新的项目还在调研中，所以，A君的工作暂时就轻松了不少，主要就是维护线上的系统，加加小功能，修修小bug，比较清闲。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/10/29/programmer-job-raise/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/10/28/20-years-programmers/">20年的老程序员对新入行的朋友的一些建议</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-28T13:09:57+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:09 pm</span></time>
+        
+        
+          | <a href="/blog/2015/10/28/20-years-programmers/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>从事编程这一行也已经20年了，到今天为止，有关编程方面的知识我也写了六七门课程了，教授课程的时间也已超过了1000小时，下面我所说的全部是我多年来的实践的经验之谈。</p>
+
+<h2>◆编程真的不是一件容易的事</h2>
+
+<p>不管你多喜欢或是多会编程，在学习和解决问题上总会碰到障碍。工作的时间越久就越能明白这个道理。不过这倒是一个让人进步的机会，因为你要一直不断的学习才能很好的解决你面前的难题。如果你已不有了进取心，那么当遇到难道无法解决时你就会想要放弃。</p>
+
+<h2>◆编程也是最让人沮丧的事情</h2>
+
+<p>正常的编程过程都是这样的：尝试、失败、学习、思考、灵感、成功。在这个漫长的过程中，常有人会感到沮丧也是很正常的事，如果最终成功了，那么接下来你会想挑战更难的项目，当然，之前的沮丧就会从新而来，又是一个从新学习的机会，在这个过程中，我们要懂得调整好心态，从新从发。</p>
+
+<h2>◆办法总是要比困难多</h2>
+
+<p>经过不断的学习，我们的编程技术会越来越强，对自己也会更加自信。每个人小时候都会有大大小小的闯祸经历，但随着我们的成长和能力的增强，我们很少再去办错事情了。而如今我们也有办法解决我们所犯的错。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/10/28/20-years-programmers/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/10/27/product-manager-calculate-app/">从产品经理的角度算一算，做一个app需要花多少钱？</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-27T14:41:46+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:41 pm</span></time>
+        
+        
+          | <a href="/blog/2015/10/27/product-manager-calculate-app/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>作为互联网从业者，被外行的朋友们问及最多的问题是，“做一个网站需要多少钱？”或者“做一个APP需要多少钱？”。作为做过完整网站项目和APP的人，今天从产品经理的角度，一起来算一下中小型APP从无到有需要做哪些工作，以及为达成使命，需要付出多少金钱代价。</p></blockquote>
+
+<p>以下内容的前提是：深圳、移动互联网方向。包含研发一个新产品过程中一些常见的工作，并非十全十美。</p>
+
+<p>首先假设在做APP之前我们已经有了一个成熟的团队（这是非常幸运的前提，很多产品研发进度极其缓慢的原因之一就是在过程中不断在招人），团队的结构以架构师兼后台开发1名+安卓1名+iOS开发1名+产品经理1名+前端开发1名+设计师1名。你可能也发现了这些人员配备都是单点的，一旦有人生病或请假，某个职位就会缺失，项目进度就会拖后，所以我们大约配备2个浮动名额，也就是，初始团队大概有8名，我们假设团队平均工资在13000左右（憋惊讶，深圳需要这个数，还是比较低的。。。），需要给员工缴纳五险一金，详见下表（假设我们是老实善良的公司，公积金按最低标准缴纳）：</p>
+
+<p><img src="http://images.90159.com/10/product.jpg" alt="product" /></p>
+
+<p><strong>除工资的部分，还要平均为每个员工多缴纳 3653元的五险一金支出，员工部分的支出是 （13000+3653）*8=133224元/月。</strong></p>
+
+<p>好，有了团队，下一步要解决的是工作场所的问题，8人团队可以选择创业孵化器（前提是你能找到孵化器）或者中低端的办公场所（这类的办公场所，深圳大约是120元/㎡，大约100平米）。这里有必要稍微提以下孵化器，孵化器的租金会比较便宜（或者不要钱），在接纳创业团队之前一般会签署协议，需要以场地作为股权置换条件，或者是优先投资权，是否划算，得创业团队自己掂量。算上水电、物业，一个月15000左右算比较省了。</p>
+
+<p>有了场地和团队，接下来置换办公耗材、宽带之类的（假设电脑自己带），普通的人体工程学椅子价格在150元左右，如果不买工程学椅子也可以，用普通的椅子，加上桌子平摊成本，桌椅需要200左右的成本，这算一次性付出。拍脑袋，6000元可以搞定吧。</p>
+
+<p>唔，人、场地、作案工具齐活了，开始进入正题吧。</p>
+
+<h3>一、产品定位、扯皮、早期工作准备阶段。</h3>
+
+<p>做APP之前一般会有个老板，老板大概知道自己想要什么功能（对，老板一般不知道自己要做什么东西，需求是什么，产品定位是什么），这时候产品经理要出马了，跟老板各种扯皮、厘清需求、找产品定位，这里大概扯吧个两周，好说歹说会把产品的定位、一期的需求想清楚（期间架构师可以开始构思产品的技术架构了，未能正式开工）。</p>
+
+<p>产品定位以及早期的需求确定出来之后，需要想个产品的名字、需求调研、竞品调研分析、注册域名、购置服务器以及周边基础能力（如CDN存储、短信服务、消息推送等）、商标（未注册商标、很多团队就是吃了这个亏）、抢注域名、设计logo，这里在老板不中途改变想法、变更产品需求和定位的前提下，最起码扯一周，这时候产品的原型、技术架构的雏形也出来了，基本可以进入真刀真枪的干活了。这一步假设域名不需要花大价钱购买，全部费用算起来拍脑袋10000元/年 可以搞定。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/10/27/product-manager-calculate-app/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -630,23 +657,23 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/12/03/vvdocumenter-xcode7-not-work/">升级Xcode7之后VVDocumenter-Xcode不能用的解决办法</a>
+        <a href="/blog/2015/11/16/find-ios-app-key-words/">给你的iOS APP名称找到合适的长度&关键词</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/12/01/jump-setting-per-page/">iOS开发之如何跳到系统设置里的各种设置界面</a>
+        <a href="/blog/2015/11/13/ios-submit-using-idfa/">iOS提交审核：您的 App 正在使用广告标识符 (IDFA)</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/11/30/jump-to-setting-wifi/">iOS开发之如何跳到系统设置里的WiFi界面</a>
+        <a href="/blog/2015/11/12/remote-notification-error/">远程推送控制台提示Add “Remote-notification”&#8230;解决方案</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/11/27/ios-rich-components-yykit/">一组功能丰富的iOS组件:YYKit</a>
+        <a href="/blog/2015/11/02/salary-programmer-avoid-pit/">月薪3万的程序员都避开了哪些坑</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/11/19/create-high-efficiency-ios-group/">打造高效率iOS开发实战交流VIP群</a>
+        <a href="/blog/2015/11/01/humor-code-world/">程序猿的幽默趣图，你并不懂他们的真正世界</a>
       </li>
     
   </ul>

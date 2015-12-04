@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 推荐 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/tui-jian/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-12-03T22:26:14+08:00</updated>
+  <updated>2015-11-16T09:39:15+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,61 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[给你的iOS APP名称找到合适的长度&关键词]]></title>
+    <link href="http://www.superqq.com/blog/2015/11/16/find-ios-app-key-words/"/>
+    <updated>2015-11-16T09:37:20+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/11/16/find-ios-app-key-words</id>
+    <content type="html"><![CDATA[<p>今天这篇是关于iOS APP的名称长度，顺便简要说说关键词。一谈到应用程序上线就避免不了App Store Optimization (ASO)，APP的名称又是一个不可不谈的话题。</p>
+
+<h2>一、APP名称的选择</h2>
+
+<h3>1、仅包含应用的名称</h3>
+
+<p>一般建议使用这个，因为看起来美观一点，在应用标题的里面没有包含关键词的话，有时候看起来好像很牛逼一样，因为好像不需要ASO了，不需要去堆关键词，但是这个好像对大多数来说不适用。</p>
+
+<h3>2、名称中添加很多关键词</h3>
+
+<p>将很多相关关键词添加到名称来争取ASO的优势，但是粗略看起来好像是不专业的，尽管这样看起来不是很美观，但是有用，所以即便是一些逼格相当高的应用依然会加关键词进去，长度和关键词的重复次数就看运营人员的心情了。</p>
+
+<p>那么一种是干净美观，一种是包含众多关键词的名称，我们总要给他找个平衡点。这篇文章将告诉你如何为你的iOS APP找出理想的名称长度，跟之前那篇Google Play 描述的关键词密度类似。</p>
+
+<h2>二、两种类型的名称</h2>
+
+<p>其实每个APP都有两个名称，一个主，一个副，合起来就是一个title，你打开一个网页，在浏览器标签上看到的这个标题就是这个网页的title，一般是网站名字+文章名字，大多数是文章名在前，网站名在后。但都是有字符限制的，在iOS APP里面，iTunes Connect里，你要填进去，苹果也会给个255来限制，因为过长也没意思，所以我就在255以内寻找一个合适的点。</p>
+
+<p>我们需要ASO的是现实在iTunes里面的那个，其实相当于总共有2个，开发者一般比较熟悉iTunes Connect，因为经常需要填写那些字段上线APP。不熟悉的自己登录进去看看，想看的自己没有APP的，那就先收藏这篇文章，备用到时候参考。</p>
+
+<h2>三、如何找到理想的名称长度</h2>
+
+<p>关于最理想的长度，并不是一个固定的标准，因为对于每个APP来说要展现的关键词是不一样的，即便都通过语言描述展示一个词，也会有不一样的，比如 “查违章”，“违章查询”这两个词对一个做违章查询的APP与 “天气预报”“查天气”对应一个做天气预报的APP，都是不一样的，我不能说150个字符是最好的，因为这样说的话就是傻逼了。</p>
+
+<p>其实顺便说一下，有些开发者不知道开发什么，跟着去做一堆烂游戏，还不如去找几个这种普普通通大众的功能性APP需求好好做一个。我经常遇到开发者问做什么APP赚钱？现在做APP还能赚到钱么？做APP怎么赚钱？</p>
+
+<p>这种类型的问题，我这里统一作答，做APP是赚钱的，也是不赚钱的，关键看你选什么做，怎么做，做出来的APP怎么样？如果想在AppStore里面混到钱，可以多看看别人，坚持每天下载几款APP，慢慢研究，不要急，不要觉得好像自己现在不做都被别人做了，这种想法也许不一定成熟。认真的准备，勤快的实践。下面是确定名称的时候，可以考虑到的一些因素：</p>
+
+<h3>1、保持短一点</h3>
+
+<p>由于较短一点的名称看起来更品牌性，包含5个以内的关键词，最好3个就行啦，三个不一样的</p>
+
+<p>但是这也不是一个绝对的规则，比如你觉得几个关键词都比较类似，可以都加进去，不必要的就不用加了，不一定每个APP都要加上QQ，微信这种关键词进去。</p>
+
+<h3>2、注意关键词的竞争</h3>
+
+<p>像做网页，我们搜汽车，新做一个网站是很难排上去的，因为大家都知道这类的网站已经比较成熟，已经在搜索引擎的算法上攻坚多年，已经坚挺的占领了前面的位置。在淘宝里面，商品排名，搜T恤，销量很大的已经排在前面，新宝贝排上去，短时间很困难，除非你自己有一些特殊的资源。在应用商店里面也有一些类似的算法，别人已经坚挺，我们就不一定首先从最难的词去优化，你可以通过一些工具和查询来看看竞争度，这个不能一味依靠一个工具，有些是动态的。</p>
+
+<p>之所以是动态的，这里传达给一些投机取巧的人，一些热点的东西，有些人也喜欢到AppStore里面去搜。</p>
+
+<h3>3、看起来有意思一点</h3>
+
+<p>这个和名称的长度是没有关系的因素，但是你在优化名称的时候，可以参考，比如你要全部的标题里面的词语最终组成一个完整的句子作为一个标题，那为什么不给自己减轻难度把截断之前的弄的舒服一点呢（手机上显示的部分）。</p>
+
+<p>我们不能太侥幸的去和某些APP比，比如堆词语，我看到有些运营高手是这样做的，把整个当成ABC，A是主名，B是一句有吸引力的话并包含关键词，C就是一些关键词的组合了。有个东西叫组合，真的有个东西叫组合，你懂什么叫分词和组合么？不要看到别人当前的下载量评分量来判断你用此方法就可以胜出。</p>
+
+<blockquote><p>来自：<a href="http://www.appying.com/app-store-tuiguang/aso/fdsgs/">http://www.appying.com/app-store-tuiguang/aso/fdsgs/</a></p></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[为自己的应用配备上 3D Touch 功能]]></title>
@@ -689,237 +744,6 @@ NSURL *fileURL = ...;    //存放位置
 <p>版权声明：我已将本文在微信公众平台的发表权「独家代理」给 iOS开发（ iOSDevTip ） 微信公众号。扫下方二维码即可关注「iOS 开发」：</p>
 
 <p><img src="http://images.90159.com/icon/iOSDevTip.jpg" alt="iOSDevTip" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[一句代码添加新浪弹出框动画]]></title>
-    <link href="http://www.superqq.com/blog/2015/08/21/sina-animation/"/>
-    <updated>2015-08-21T11:16:07+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/08/21/sina-animation</id>
-    <content type="html"><![CDATA[<p>新浪微博中的“加号按钮”点击后的弹出动画很有意思，每当一个人孤单寂寞冷的时候总会不停的点这个动画，终于忍不住自己撸了一个。废话不多说，直接上效果图：
-<img src="http://7xkdhe.com1.z0.glb.clouddn.com/sinaAnimation1.gif" alt="演示1" /></p>
-
-<p>首先说一下通过这个动画制作过程给大家分享的技术问题：
-1.背景的毛玻璃效果
-2.弹性动画
-3.动画进行时对用户交互的处理
-4.<code>UIControl</code> 的 <code>event</code> 类型</p>
-
-<h2>一、背景的毛玻璃效果</h2>
-
-<p>对新浪微博中弹出动画背景的思路分析：</p>
-
-<p>  新浪的背景动画效果是有一个透明渐变的过程，并且最终渐变停止之后显示的是一个带有毛玻璃（半透明模糊）效果的视图。我的模仿思路是当准备要弹出动画的时候对整个视图进行截屏操作，将截屏后的图片进行毛玻璃效果渲染，然后在视图上加一个背景 <code>UIImageView</code> 来显示这张图片，然后通过 <code>alpha</code> 动画来由透明逐渐渐变出来。</p>
-
-<h3>1.对视图进行截屏：</h3>
-
-<pre><code>    UIGraphics BeginImageContextWithOptions(size, NO, scale);
-    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage * image = UIGraphicsGetImageFromCurrentImageContext();
-</code></pre>
-
-<h3>2.截屏后加上毛玻璃效果：</h3>
-
-<p>制作毛玻璃效果有三种选择，一是 <code>iOS8</code> 后推出的 <code>UIBlurEffect</code> 和 <code>UIVisualEffectView</code> 来直接显示一个带有毛玻璃效果的 <code>View</code> 不过这种方式并不能直接生成一张带有毛玻璃效果的图片，而且它的模糊程度设置方法非常有限只有那几个枚举类型，无法满足需求。</p>
-
-<p>第二种是通过 <code>CoreImage</code> 添加滤镜的方式来实现毛玻璃效果，不过这种方式有个缺点如果滤镜使用频繁会对主线程产生影响，如果我不断频繁的重复动画效果就必须要做判断看滤镜是否正在起作用，否则会经常出现崩溃和内存泄漏问题。</p>
-
-<p>第三种我们使用苹果13年 <code>WWDC</code> 上发布的官方 <code>sample</code> 一个 <code>UIImage</code> 的分类 <code>UIImage+ImageEffects.h</code> ,它不但可以制作毛玻璃效果图片，而且可以调整模糊程度和颜色渲染。下面给出代码：</p>
-
-<pre><code>    image = [image bhb_applyBlurWithRadius:15 
-                                 tintColor:tintColor 
-                     saturationDeltaFactor:1 
-                                 maskImage:nil];//因为OC没有命名空间，避免你的程序中使用到了这个分类导致冲突，我加了前缀
-</code></pre>
-
-<!--more-->
-
-
-<p>最终的显示效果很不错，我将模糊程度尽量的调节到与新浪微博一致了，不过在这个过程中，我发现当我频繁的进行弹出操作时，内存会不断攀升如下图：
-<img src="http://7xkdhe.com1.z0.glb.clouddn.com/sinaAnimation3.png" alt="演示3" />
-内存暴增的原因肯定是因为刚才的截图或者毛玻璃效果导致的，我们来用 <code>Instruments</code> 的 <code>Allocations</code> 来进行内存分析，找出元凶。
-Xcode -> Product -> Profile -> Allocations， 开启之后我们来使用右下角的 <code>Mark generation</code>（内存快照功能，进一步了解请移步[这片文章][1]）
-<img src="http://7xkdhe.com1.z0.glb.clouddn.com/sinaAnimation4.png" alt="演示4" />
-在弹出 <code>View</code> 和移除 <code>View</code> 的两个时间点加 <code>Mark generation</code>。
-<img src="http://7xkdhe.com1.z0.glb.clouddn.com/sinaAnimation5.png" alt="演示5" />
-可以观察到，两个时间点竟然相差了4.31M，这是一个相当恐怖的数字，怪不得我点击几次弹出功能之后内存会暴增，让我们继续跟踪：
-<img src="http://7xkdhe.com1.z0.glb.clouddn.com/sinaAnimation6.png" alt="演示6" />
-<img src="http://7xkdhe.com1.z0.glb.clouddn.com/sinaAnimation7.png" alt="演示7" />
-<img src="http://7xkdhe.com1.z0.glb.clouddn.com/sinaAnimation8.png" alt="演示8" />
-跟踪到最后，我们发现大部分未释放的内存来自于绘图和位图的创建，回想我们当初做的截图操作，图片上下文开启后并没有进行关闭操作，所以在程序不断截图的过程中开启了无数的图片上下文而且不会被释放，添加下面这句关键的代码就可以解决问题（NC的我竟然连这个都忘了加-.-）：</p>
-
-<pre><code>        UIGraphicsEndImageContext();
-</code></pre>
-
-<h2>二、弹性动画</h2>
-
-<p>新浪动画中，按钮弹出的动画为弹性效果，按钮到达最终位置后不会直接停止，而是做类似弹簧的一种阻尼运动，要实现这种动画也很简单 <code>iOS7</code> 后苹果非常给力的添加了 <code>spring</code> 弹性动画的快速创建方式：</p>
-
-<pre><code>    [UIView animateWithDuration:(NSTimeInterval) 
-                          delay:(NSTimeInterval) 
-         usingSpringWithDamping:(CGFloat) 
-          initialSpringVelocity:(CGFloat) 
-                        options:(UIViewAnimationOptions) 
-                     animations:^{} 
-                     completion:^(BOOL finished) {}];
-</code></pre>
-
-<p>通过对 <code>Damping</code> 阻力和 <code>Velocity</code> 初速度的设置可以实现弹性动画动画效果如下图：
-<img src="http://7xkdhe.com1.z0.glb.clouddn.com/threeballs.gif" alt="摘自MotionDesign" /></p>
-
-<p>当然实现弹性动画还可以使用[Jonathan Willing][2]大大的 <code>JNWSpringAnimation</code> ,你可以像使用 <code>CABasicAnimation</code> 一样轻松的使用它，通过改变关键的3个属性 <code>Damping</code> 阻力， <code>stiffness</code> 硬直, <code>mass</code> 质量来改变弹性动画的效果代码如下：</p>
-
-<pre><code>    JNWSpringAnimation *scale = [JNWSpringAnimation
-    animationWithKeyPath:@"transform.translation.x"];
-    scale.damping = 7;
-    scale.stiffness = 7;
-    scale.mass = 1;
-
-    scale.fromValue = @(0);
-    scale.toValue = @(400);
-
-    [redBall.layer addAnimation:scale forKey:scale.keyPath];
-    redBall.transform = CGAffineTransformMakeTranslation(400, 0);
-</code></pre>
-
-<p>关键的三个属性对动画的影响如下图：
-<img src="http://7xkdhe.com1.z0.glb.clouddn.com/jnwdemo.gif" alt="摘自MotionDesign" /></p>
-
-<p>为了减轻项目对第三方框架的依赖，我使用了 <code>iOS7</code> 原生的 <code>spring</code> 动画，如果你想要兼容以前版本，替换成 <code>JNWSpringAnimation</code> 即可。回到新浪动画的制作，动画是6个按钮按照顺序依次出现和消失，并且点击 <code>more</code> 按钮后可以向左平移到第二屏幕，并且在第二屏幕点击 <code>叉号</code> 按钮动画会加在第二屏幕的6个按钮上。
-效果如图：
-<img src="http://7xkdhe.com1.z0.glb.clouddn.com/sinaAnimation2.gif" alt="演示2" /></p>
-
-<p>对此我使用了一个 <code>UIScrollView</code> 来承载这些按钮，并声明2个数组用来保存所有的按钮和正在显示的按钮（在屏幕上，并且需要做动画）:</p>
-
-<pre><code>    @property (nonatomic,strong) NSMutableArray * visableArray;//屏幕显示的按钮数组
-    @property (nonatomic,strong) NSMutableArray * itemsArray;//所有按钮的数组
-</code></pre>
-
-<p>这样我在给这些按钮加动画的时候就不会浪费性能，只把动画加在当前显示在屏幕的按钮上。动画依次按照一定的时间差来执行，解决的办法我是用的 <code>GCD</code> :</p>
-
-<pre><code>    [self.visableArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        BHBCustomBtn * btn = obj;
-        CGFloat x = btn.frame.origin.x;
-        CGFloat y = btn.frame.origin.y;
-        CGFloat width = btn.frame.size.width;
-        CGFloat height = btn.frame.size.height;
-        btn.frame = CGRectMake(x, [UIScreen mainScreen].bounds.size.height + y - self.frame.origin.y, width, height);
-        btn.alpha = 0.0;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(idx * 0.03 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:0.35 delay:0 usingSpringWithDamping:0.85 initialSpringVelocity:25 options:UIViewAnimationOptionCurveEaseIn animations:^{
-                btn.alpha = 1;
-                btn.frame = CGRectMake(x, y, width, height);
-            } completion:^(BOOL finished) {
-                if ([btn isEqual:[self.visableArray lastObject]]) {
-                    self.superview.superview.userInteractionEnabled = YES;
-                }
-            }];
-        });
-    }];
-</code></pre>
-
-<p>这样按钮就会依次以弹性动画的形式弹动出来了，是不是很简单，对于动画结束后所作的处理我将在下一节中说明。</p>
-
-<h2>三、动画进行时对用户交互的处理</h2>
-
-<p>动画过程中，处理用户交互的问题相当关键，视图动画中默认自动停止响应用户交互，因此当按钮进行弹性动画时，触摸它并不会生成任何事件。
-但是当你触摸加号按钮的时候，会再次进行弹出框动画，这时就会弹出两个弹出框，这是我们不希望看到的，我们可以将加号按钮的 <code>enable</code> 属性设置为 <code>YES</code> 但是这样做我们要在封装的视图内部获取外部的加号按钮，这一点违背了封装性原则，并不是一个好的设计。所以我在所有按钮的弹性动画开始时，设置：</p>
-
-<pre><code>    self.superview.superview.userInteractionEnabled = NO;
-</code></pre>
-
-<p>注意视图的层级关系，我所设计的 <code>BHBPopView</code> 内部装着一个 <code>UIScrollView</code>，而它上面放着这些按钮，所以你要找到父视图的父视图才能够统一屏蔽用户的交互行为，当所有的按钮弹性动画结束时，也就是 <code>visableArray</code> 数组最后一个按钮动画结束时，我们恢复用户的交互：</p>
-
-<pre><code>    self.superview.superview.userInteractionEnabled = YES;
-</code></pre>
-
-<p>这样当动画进行过程中，屏蔽了用户的交互，避免发生一些意外的情况。</p>
-
-<h2>四、<code>UIControl</code> 的 <code>event</code> 类型</h2>
-
-<p>注意到新浪动画里面按钮有一个放大效果，并且当你手指放上去的时候放大，手指稍微挪动，便恢复原始大小。让我们先来看一下动画：</p>
-
-<p><img src="http://7xkdhe.com1.z0.glb.clouddn.com/sinaAnimation9.gif" alt="演示9" /></p>
-
-<p>要实现这个效果只需要做一个形变动画就可以了，关键是我们如何控制它放大和恢复大小。
-思路如下：按钮是继承自 <code>UIControl</code> ，<code>UIControl</code> 有不同的事件状态：</p>
-
-<pre><code>    UIControlEventTouchDown           = 1 &lt;&lt;  0,      // 手指落在按钮的一瞬间触发
-    UIControlEventTouchDownRepeat     = 1 &lt;&lt;  1,      // 多点触碰的时候，当第二根以上的手指触摸瞬间出发
-    UIControlEventTouchDragInside     = 1 &lt;&lt;  2,      // 手指在视图范围内拖动触发
-    UIControlEventTouchDragOutside    = 1 &lt;&lt;  3,      // 手指在视图范围外拖动触发
-    UIControlEventTouchDragEnter      = 1 &lt;&lt;  4,      // 手指从视图外拖动到视图内时触发
-    UIControlEventTouchDragExit       = 1 &lt;&lt;  5,      // 手指从视图内部拖动到视图外时触发
-    UIControlEventTouchUpInside       = 1 &lt;&lt;  6,      // 手指在视图内部抬起时触发
-    UIControlEventTouchUpOutside      = 1 &lt;&lt;  7,      // 手指在视图外部抬起时触发
-    UIControlEventTouchCancel         = 1 &lt;&lt;  8,      // 取消事件，放上了太多手指或者被上锁或者电话呼叫打断。
-
-    UIControlEventValueChanged        = 1 &lt;&lt; 12,      // 当视图的值发生改变时，发送通知。
-
-    UIControlEventEditingDidBegin     = 1 &lt;&lt; 16,     // UITextField
-    UIControlEventEditingChanged      = 1 &lt;&lt; 17,
-    UIControlEventEditingDidEnd       = 1 &lt;&lt; 18,
-    UIControlEventEditingDidEndOnExit = 1 &lt;&lt; 19,     // 'return key' ending editing
-
-    UIControlEventAllTouchEvents      = 0x00000FFF,  // for touch events
-    UIControlEventAllEditingEvents    = 0x000F0000,  // for UITextField
-    UIControlEventApplicationReserved = 0x0F000000,  // range available for application use
-    UIControlEventSystemReserved      = 0xF0000000,  // range reserved for internal framework use
-    UIControlEventAllEvents           = 0xFFFFFFFF
-</code></pre>
-
-<p>我们所用到的事件是 <code>TouchDown</code> 和 <code>DragInside</code>，手指放上去触发 <code>TouchDown</code> 放大视图，在视图内部移动 <code>DragInside</code> 时恢复视图，注意按钮的作用范围是整个矩形区域包含了图片和文字，当你的手指移出图片的时候并非一定会移出按钮作用范围，所以依然会触发 <code>TouchUpInsite</code> 事件，这时候我们需要做一个属性来记录用户拖拽之后取消按钮的 <code>TouchUpInsite</code> 执行。</p>
-
-<pre><code>    @property (nonatomic,assign) BOOL btnCanceled;
-</code></pre>
-
-<p>这样我们就可以实现动画效果了，具体代码如下：</p>
-
-<pre><code>    //处理按钮有效的点击事件，当前按钮放大消失，其他按钮缩小消失，回调点击事件
-    [btn addTarget:self action:@selector(didClickBtn:) forControlEvents:UIControlEventTouchUpInside];
-    //处理手指按下事件，放大按钮
-    [btn addTarget:self action:@selector(didTouchBtn:) forControlEvents:UIControlEventTouchDown];
-    //处理手指拖动事件，恢复按钮大小
-    [btn addTarget:self action:@selector(didCancelBtn:) forControlEvents:UIControlEventTouchDragInside];
-</code></pre>
-
-<h2>总结：</h2>
-
-<p>制作类似新浪微博这种弹出框动画，我的思路是先分析逻辑，这些特效都由哪些组成，毛玻璃背景，加顶部一个 <code>logo</code> ，加中间 <code>UIScrollView</code>和上面的很多按钮,加底部工具条。研究透彻动画的执行顺序，动画执行结果有哪些分支。然后针对特效中的难点，比如毛玻璃，按钮弹性动画等等进行逐一研究攻破，最后将这些组件整合在一起变成一个好玩的动画，最后不要忘了动画的内存和性能测试。这次我模仿的新浪微博动画弹性效果并不是太理想，比起新浪原生来说不是特别一致，也希望有兴趣的你来给我一些建议优化它。最终在你的项目中加入我的弹出框动画真的只需要一句话哦：</p>
-
-<pre><code>    /**
-    *  直接显示一个popView在某个view上
-    *
-    *  @param view       父view
-    *  @param imageArray 图标数组
-    *  @param titles     标题数组
-    *  @param block      回调
-    *  @return pop视图
-    */
-    + (BHB_INSTANCETYPE)showToView:(UIView *)view andImages:(NSArray *)imageArray andTitles:(NSArray *)titles andSelectBlock:(DidSelectItemBlock)block;
-    /**
-    *  如果显示一个带more功能的，请使用此方法
-    *
-    *  @param view  父view
-    *  @param array BHBItem类型的集合
-    *  @param block 回调
-    *  @return pop视图
-    */
-    + (BHB_INSTANCETYPE)showToView:(UIView *)view withItems:(NSArray *)array andSelectBlock:(DidSelectItemBlock)block;
-</code></pre>
-
-<p>hexo出点问题修复到下半夜啊（升级到3.0太蛋疼了），现在脑子晕晕的，明天还要去新公司入职，动画中还有很多细节我不能一一分享了，欢迎大家来搞我的<a href="https://github.com/bb-coder/BHBPopView">Demo</a></p>
-
-<p>good luck!</p>
-
-<p>本文由<a href="http://www.90159.com/">程序员头条</a>管理员毕洪博原创文章，转载务必注明出处。</p>
-
-<p>版权声明：我已将本文在微信公众平台的发表权「独家代理」给 iOS开发（ iOSDevTip ） 微信公众号。扫下方二维码即可关注「iOS 开发」：</p>
-
-<p><img src="http://images.90159.com/icon/iOSDevTip.jpg" alt="iOSDevTip" /></p>
-
-<p>原文链接：<a href="http://bihongbo.com/2015/08/19/sinaAnimation/">http://bihongbo.com/2015/08/19/sinaAnimation/</a></p>
 ]]></content>
   </entry>
   
