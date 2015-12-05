@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-12-05T20:08:36+08:00</updated>
+  <updated>2015-12-05T20:15:15+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -27,6 +27,9 @@
 <p>今天给大家分享Git使用教程：</p>
 
 <h2>Git是什么？</h2>
+
+<!--more-->
+
 
 <p>Git是一款免费、开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。作为一名iOS开发者，应该掌握！当然，也有朋友用SVN来管理，SVN也是有相应的命令。</p>
 
