@@ -81,6 +81,60 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/09/29/rebuild-bitcode-enable/">报错：You Must Rebuild It With Bitcode Enabled (Xcode Setting ENABLE_BITCODE)（解决方案）</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-29T15:08:00+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:08 pm</span></time>
+        
+        
+          | <a href="/blog/2015/09/29/rebuild-bitcode-enable/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>马上就要十一放假啦！大家是不是都很期待这一天到来，哈哈。相信有不少人跟我一样，早就请三天假回家了吧。希望大家十一都玩的开心噢！</p>
+
+<p>今天在家里闲来无事，我就用Xcode7.0建一个项目。然后，引入一个第三方库，竟然运行不起来。报错如下：</p>
+
+<p><img src="http://images.90159.com/09/error1.png" alt="1" /></p>
+
+<p>我把错误提示复制出来，方便大家搜索：</p>
+
+<pre><code>ld: 'XXX' does not contain bitcode. You must rebuild it with bitcode enabled (Xcode setting ENABLE_BITCODE), obtain an updated library from the vendor, or disable bitcode for this target. for architecture arm64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+</code></pre>
+
+<p>Xcode7.0默认是开启Enable Bitcode的，如果你导入的一些第三方库在编译的时候没有Enable Bitcode 的话，就会导致报错。</p>
+
+<p>解决方法有两种：</p>
+
+<p>方法一：使用Enable Bitcode的第三方库</p>
+
+<p>方法二：将工程中的Enable Bitcode设置为NO</p>
+
+<p><img src="http://images.90159.com/09/error2.png" alt="1" /></p>
+
+<p>如果你有更好的解决方法，记得告诉我噢！</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/09/24/apple-xcodeghost-answer/">有关 XcodeGhost 的问题和解答</a></h1>
     
     
@@ -650,80 +704,6 @@ self.bottomButton.frame = CGRectMake(SCREEN.width / 2 - 25, SCREEN.height - 50, 
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/12/realization-circular-gradient-progress/">环形渐变进度条实现</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-08-12T01:12:05+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:12 am</span></time>
-        
-        
-          | <a href="/blog/2015/08/12/realization-circular-gradient-progress/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>之前有人在找渐变进度条的效果，闲来无事就顺手写了一个，然后画了视图层级，方便讲解。</p>
-
-<p>环境信息：</p>
-
-<p>Mac OS X 10.10.3</p>
-
-<p>Xcode 6.3.1</p>
-
-<p>iOS 8.3</p>
-
-<p>效果图：</p>
-
-<p><img src="http://images.90159.com/08/result.gif" alt="1" /></p>
-
-<p>源码下载地址：<a href="https://github.com/saitjr/LoopProgressDemo.git">LoopProgressDemo</a></p>
-
-<p>正文</p>
-
-<h2>一、视图层级</h2>
-
-<p>首先需要搞定的就是视图层级关系。可以看到，</p>
-
-<pre><code>1. 背景是有透明度的蓝色(blueView)
-
-2. 需要一个从绿-&gt;黄-&gt;红的渐变色，那个这里我采用的是Layer(colorLayer)
-
-3. blueView和colorLayer他们的表现状态都是环形的，所以还需要环形的遮罩
-
-4. 蓝色的环并没有变，而渐变色的环却在时刻变化，所以需要两个遮罩，一个给蓝色(blueMaskLayer)，一个给渐变色(colorMaskLayer)
-</code></pre>
-
-<p>从上面的分析可以看出，现在需要几个变量以及他们的关系如下：</p>
-
-<pre><code>[viewController.view addSubView:blueView];
-[blueView.layer addSubLayer:colorLayer];
-colorLayer.mask = colorMaskLayer;
-blueView.layer.mask = blueMaskLayer;
-</code></pre>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/08/12/realization-circular-gradient-progress/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/4">&larr; Older</a>
@@ -751,6 +731,10 @@ blueView.layer.mask = blueMaskLayer;
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/12/05/git-use-video-ppt/">VIP群福利：Git使用教程（视频+PPT）</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/12/04/swift-source-code/">Swift开源一天Github收获15000多star</a>
       </li>
     
@@ -764,10 +748,6 @@ blueView.layer.mask = blueMaskLayer;
     
       <li class="post">
         <a href="/blog/2015/11/30/jump-to-setting-wifi/">iOS开发之如何跳到系统设置里的WiFi界面</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/11/27/ios-rich-components-yykit/">一组功能丰富的iOS组件:YYKit</a>
       </li>
     
   </ul>

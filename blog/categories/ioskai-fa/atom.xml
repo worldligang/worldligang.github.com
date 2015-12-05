@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-12-04T22:17:16+08:00</updated>
+  <updated>2015-12-05T20:08:36+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,78 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[VIP群福利：Git使用教程（视频+PPT）]]></title>
+    <link href="http://www.superqq.com/blog/2015/12/05/git-use-video-ppt/"/>
+    <updated>2015-12-05T20:07:12+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/12/05/git-use-video-ppt</id>
+    <content type="html"><![CDATA[<p>天才帝一步应用源代码分享到<a href="http://www.superqq.com/blog/2015/11/19/create-high-efficiency-ios-group/">iOS开发实战交流VIP群</a>，已经有不少朋友下载。这个APP也是一个小小的想法，希望能激发大家的灵感，做出更多有意义的属于自己的APP。</p>
+
+<p>iOS开发实战交流VIP群已经有几百位朋友加入，这里是一个非常不错的交流平台，欢迎更多朋友加入！详情点击这里。</p>
+
+<p>愿大家除了思维上、技术上有所提高，更能成为网络上无话不谈的知心朋友！</p>
+
+<p>今天给大家分享Git使用教程：</p>
+
+<h2>Git是什么？</h2>
+
+<p>Git是一款免费、开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。作为一名iOS开发者，应该掌握！当然，也有朋友用SVN来管理，SVN也是有相应的命令。</p>
+
+<p>在使用Git之前，我还用过最笨的办法通过手动来管理代码。管理起来相当不便，尤其是团队多人开发时，根本无法用手动来管理代码。</p>
+
+<p>直到接触的Git，才感受到它的强大。Git其实没有大家想象的那么难，刚开始接触的时候，可能不知道如何下手。当你真正的用一段时间之后，你会掌握一些常用的命令，比如：git status、git commit -m “message”、也会理解里面的一些术语，比如仓库、分支等等。</p>
+
+<h2>Git视频教程</h2>
+
+<p>为了帮助大家快速上手Git，上周录制了一期视频教程《Git使用教程》已经上传到iOS开发实战交流VIP群。欢迎大家到群文件里面下载。</p>
+
+<p>视频里面有讲到用Homebrew来安装Git，大家电脑上如果没有装Homebrew，可以通过下面的命令来安装：</p>
+
+<pre><code>ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+</code></pre>
+
+<p>Homebrew的官方：</p>
+
+<pre><code>http://brew.sh/
+</code></pre>
+
+<p>如果在看视频教程中，遇到问题，可以到VIP群里讨论。来吧，一起征服Git！</p>
+
+<h2>PPT截图</h2>
+
+<p>PPT里面整理了Git的常用命令、别名设置、一些资料网站等等，我把PPT里面的内容整理出来，大家一起学习：</p>
+
+<p><img src="http://images.90159.com/git/1.png" alt="1" />
+<img src="http://images.90159.com/git/2.png" alt="1" />
+<img src="http://images.90159.com/git/3.png" alt="1" />
+<img src="http://images.90159.com/git/4.png" alt="1" />
+<img src="http://images.90159.com/git/5.png" alt="1" />
+<img src="http://images.90159.com/git/6.png" alt="1" />
+<img src="http://images.90159.com/git/7.png" alt="1" />
+<img src="http://images.90159.com/git/8.png" alt="1" />
+<img src="http://images.90159.com/git/9.png" alt="1" />
+<img src="http://images.90159.com/git/10.png" alt="1" />
+<img src="http://images.90159.com/git/11.png" alt="1" />
+<img src="http://images.90159.com/git/12.png" alt="1" />
+<img src="http://images.90159.com/git/13.png" alt="1" />
+<img src="http://images.90159.com/git/14.png" alt="1" />
+<img src="http://images.90159.com/git/15.png" alt="1" />
+<img src="http://images.90159.com/git/16.png" alt="1" />
+<img src="http://images.90159.com/git/17.png" alt="1" />
+<img src="http://images.90159.com/git/18.png" alt="1" />
+<img src="http://images.90159.com/git/19.png" alt="1" />
+<img src="http://images.90159.com/git/20.png" alt="1" />
+<img src="http://images.90159.com/git/21.png" alt="1" />
+<img src="http://images.90159.com/git/22.png" alt="1" />
+<img src="http://images.90159.com/git/23.png" alt="1" />
+<img src="http://images.90159.com/git/24.png" alt="1" />
+<img src="http://images.90159.com/git/25.png" alt="1" />
+<img src="http://images.90159.com/git/26.png" alt="1" />
+<img src="http://images.90159.com/git/27.png" alt="1" />
+<img src="http://images.90159.com/git/28.png" alt="1" /></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[升级Xcode7之后VVDocumenter-Xcode不能用的解决办法]]></title>
@@ -311,64 +383,6 @@ if ([[UIApplication sharedApplication] canOpenURL:url])
 <p>也希望所有有缘能相聚于此群中的朋友，不仅仅把此群当成一个社群，而需要当成一个家！一起成长，一起进步！</p>
 
 <p>注：群里除了会分享一些技术上的经验，有关iOS开发最新的视频教程也都会先在群里进行分享。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS提交审核：您的 App 正在使用广告标识符 (IDFA)]]></title>
-    <link href="http://www.superqq.com/blog/2015/11/13/ios-submit-using-idfa/"/>
-    <updated>2015-11-13T10:34:12+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/11/13/ios-submit-using-idfa</id>
-    <content type="html"><![CDATA[<p>提交审核也是iOS开发者必备技能之一。关于提交审核的教程数不胜数，不会的童鞋赶紧尝试一下吧！</p>
-
-<p>这篇文章我们来解决一个问题，关于IDFA的：</p>
-
-<pre><code>您的 App 正在使用广告标识符 (IDFA)。您必须先提供关于 IDFA 的使用信息或将其从 App 中移除，然后再上传您的二进制文件。
-</code></pre>
-
-<p>从14年2月初开始，Apple开始拒绝采集IDFA(identifier for advertising)而未集成任何广告服务的应用进入AppStore。怎么看自己的项目是否采集了IDFA呢？方法很简单，大家去看framework，看看有没有一个framework叫AdSupport.framework。</p>
-
-<p>如果有，那就惨了，上两张图看看：</p>
-
-<p><img src="http://images.90159.com/11/idfa1.png" alt="idfa1" /></p>
-
-<!--more-->
-
-
-<p>如果你选择了“否”：</p>
-
-<p><img src="http://images.90159.com/11/idfa2.png" alt="idfa2" /></p>
-
-<h2>方案一：重新下载xcode</h2>
-
-<ol>
-<li>如果你的xcode不是最新版本的，建议下载最新版本的。重新打包后，再次提交审核。</li>
-<li>如果你的xcode不是正规渠道下载的，建议从苹果官方下载。</li>
-</ol>
-
-
-<p>有朋友尝试过方案一，问题得到解决。如果解决不了，还有方案二。</p>
-
-<h2>方案二：检测哪里用到IDFA</h2>
-
-<p>首先cd到你的工程目录下，然后执行命令：</p>
-
-<pre><code>grep -r advertisingIdentifier .
-</code></pre>
-
-<p>果然找到了罪魁祸首，原来是SinaWeiboSDK/libWeiboSDK.a</p>
-
-<p><img src="http://images.90159.com/11/idfa3.png" alt="idfa3" /></p>
-
-<p>ios9之后新浪微博分享可使用的前提是加入ADSupport.framework,打包提交后一直报您的 App 正在使用广告标识符 (IDFA)。您必须先提供关于 IDFA 的使用信息或将其从app中移除，再上传二进制文件。</p>
-
-<p>找到了源头，那么接下来怎么做就简单了。</p>
-
-<ol>
-<li>承认使用了IDFA，然后选择相应的选项。</li>
-<li>移除SinaWeiboSDK/libWeiboSDK.a，分享还是可以成功的。</li>
-</ol>
-
 ]]></content>
   </entry>
   

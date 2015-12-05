@@ -81,6 +81,72 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/06/05/ios-kvogai-shu-yu-shi-jian/">iOS KVO概述</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-05T11:06:59+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:06 am</span></time>
+        
+        
+          | <a href="/blog/2015/06/05/ios-kvogai-shu-yu-shi-jian/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>面试中经常会被问到：什么是KVO？这个问题既然出现概率这么大，那么我们就来详细讲一讲到底什么是KVO。下次再有面试官问你的时候，你就可以娓娓道来，以彰显高逼格</p></blockquote>
+
+<h2>概述</h2>
+
+<p>问：什么是KVO？</p>
+
+<p>答：KVO是Key-Value Observing的缩写。它提供一种机制，当指定的对象的属性被修改后，则对象就会接受到通知。简单的说就是每次指定的被观察的对象的属性被修改后，KVO就会自动通知相应的观察者了。</p>
+
+<p>如果你能这样回答，面试官一定不会说你错的，这就是KVO的原理。但是如果你能说出KVO的好处，那一定能赢得面试官的刮目相看。比如：</p>
+
+<ul>
+<li>使用KVO最直接的好处就是可以减少代码量。</li>
+<li>KVO是<strong>观察者</strong>设计模式中的一种，有利于业务逻辑于视图控制之间的解耦。</li>
+</ul>
+
+
+<p>更深刻的了解KVO，你可以动手写一个小demo思路如下：</p>
+
+<ul>
+<li>定义一个对象People，分别有name和age属性</li>
+<li>监听People的age属性</li>
+<li>定义一个UIButton，在button的点击方法里面，去改变People的age。</li>
+<li>你就可以收到age改变时发出来的通知</li>
+<li>在对象销毁的时候，移除通知。</li>
+</ul>
+
+
+<p>iOS面试汇总：</p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/04/mian-shi-guan-wen-xian-zai-gong-zi-shi-duo-shao-gai-zen-yao-hui-da/">面试官问现在工资是多少该怎么回答?</a></p>
+
+<ul>
+<li>关注公众号iOS开发：<strong>iOSDevTip</strong> 获取更多面试技巧。</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/06/04/mian-shi-guan-wen-xian-zai-gong-zi-shi-duo-shao-gai-zen-yao-hui-da/">面试官问现在工资是多少该怎么回答?</a></h1>
     
     
@@ -1492,124 +1558,6 @@ socketServe.socket.userData = SocketOfflineByServer;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/03/24/zi-ji-dong-shou-chuang-jian-%5B%3F%5D-ge-dui-lie-lgqueue/">自己动手实现一个队列LGQueue</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-03-24T17:13:39+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:13 pm</span></time>
-        
-        
-          | <a href="/blog/2015/03/24/zi-ji-dong-shou-chuang-jian-%5B%3F%5D-ge-dui-lie-lgqueue/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>iOS系统没有提供queue容器，如果想用，需要手动自己来写一个：</p>
-
-<p>.h</p>
-
-<pre><code>//
-//  LGQueue.h
-//  AntsSportApp
-//
-//  Created by ligang on 15/3/24.
-//  Copyright (c) 2015年 ligang. All rights reserved.
-//
-
-#import &lt;Foundation/Foundation.h&gt;
-
-@interface LGQueue : NSObject
-
-@property (nonatomic, strong) NSMutableArray *queue;
-
-@property (nonatomic, readonly) NSInteger count;
-
-- (void)enterQueue:(id)object;
-- (id)exitQueue;
-- (void)clear;
-
-
-
-@end
-</code></pre>
-
-<p>.m</p>
-
-<pre><code>//
-//  LGQueue.m
-//  AntsSportApp
-//
-//  Created by ligang on 15/3/24.
-//  Copyright (c) 2015年 ligang. All rights reserved.
-//
-
-#import "LGQueue.h"
-
-@implementation LGQueue
-
-- (id)init
-{
-    if ( self = [super init] ) {
-
-        self.queue = [[NSMutableArray alloc] init];
-        _count = 0;
-
-    }
-    return self;
-}
-
-- (void)enterQueue:(id)object
-{
-    [self.queue addObject:object];
-    _count = self.queue.count;
-}
-
-
-- (id)exitQueue
-{
-    if ( self.queue.count == 0 )  return nil;
-
-    id object = [self.queue objectAtIndex:0];
-    [self.queue removeObjectAtIndex:0];
-    _count = self.queue.count;
-
-    return object;
-
-}
-
-
-- (void)clear
-{
-    [self.queue removeAllObjects];
-    _count = 0;
-}
-
-@end
-</code></pre>
-
-<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/12">&larr; Older</a>
@@ -1637,6 +1585,10 @@ socketServe.socket.userData = SocketOfflineByServer;
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/12/05/git-use-video-ppt/">VIP群福利：Git使用教程（视频+PPT）</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/12/04/swift-source-code/">Swift开源一天Github收获15000多star</a>
       </li>
     
@@ -1650,10 +1602,6 @@ socketServe.socket.userData = SocketOfflineByServer;
     
       <li class="post">
         <a href="/blog/2015/11/30/jump-to-setting-wifi/">iOS开发之如何跳到系统设置里的WiFi界面</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/11/27/ios-rich-components-yykit/">一组功能丰富的iOS组件:YYKit</a>
       </li>
     
   </ul>
