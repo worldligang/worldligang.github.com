@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 源代码 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/yuan-dai-ma/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-12-05T20:15:15+08:00</updated>
+  <updated>2015-12-06T20:24:39+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,122 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[一个弹性侧滑菜单]]></title>
+    <link href="http://www.superqq.com/blog/2015/12/06/an-elastic-sliding-menu/"/>
+    <updated>2015-12-06T20:19:51+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/12/06/an-elastic-sliding-menu</id>
+    <content type="html"><![CDATA[<pre><code>地址：https://github.com/lilei644/LLSlideMenu
+
+作者lilei644
+</code></pre>
+
+<h1>LLSlideMenu</h1>
+
+<p>This is a spring slide menu for iOS apps<br>
+一个弹性侧滑菜单<br><br>
+弹性动画原理借鉴该<a href="https://github.com/KittenYang/KYAnimatedPageControl">项目</a>中阻尼函数实现</p>
+
+<!--more-->
+
+
+<h2>Preview预览</h2>
+
+<p><img src="http://images.90159.com/12/sliding.gif" alt="Preview" /></p>
+
+<h2>Installation &nbsp;安装</h2>
+
+<ul>
+<li>pod
+<code>
+  1.pod "LLSlideMenu"
+  2.pod install       // 若获取失败请重新 pod setup
+  3.#import "LLSlideMenu.h"
+</code></li>
+<li>Common
+<code>
+  1.Add "LLSlideMenu" files to your Project   // 直接导入“LLSlideMenu”文件夹到项目中
+  2.#import "LLSlideMenu.h"
+</code></li>
+</ul>
+
+
+<h2>Usage &nbsp;用法</h2>
+
+<ul>
+<li>Init &nbsp;初始化
+<code>
+LLSlideMune *slideMenu = [[LLSlideMune alloc] init];
+[self.view addSubview:slideMenu];
+</code></li>
+<li>Base Property &nbsp;基本属性
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 设置菜单宽度  menu width
+</span><span class='line'>_slideMenu.ll_menuWidth = 200.f;&lt;/li&gt;
+</span><span class='line'>&lt;/ul&gt;
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;// 设置菜单背景色  background color
+</span><span class='line'>_slideMenu.ll_menuBackgroundColor = [UIColor redColor];&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;// 设置菜单背景图片  background image
+</span><span class='line'>_slideMenu.ll_menuBackgroundImage = [UIImage imageNamed:@&ldquo;image&rdquo;];&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;// 背景色或背景图片设置一个即可  background image and color select one&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;* Open or Close &amp;nbsp;打开或关闭
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;[&lt;em&gt;slideMenu ll_openSlideMenu];      // 打开  open
+</span><span class='line'>[&lt;/em&gt;slideMenu ll_closeSlideMenu];     // 关闭  close
+</span><span class='line'>&lt;code&gt;
+</span><span class='line'>* GestureRecognizer &amp;nbsp;手势监听
+</span><span class='line'>&lt;/code&gt;
+</span><span class='line'>&lt;em&gt;slideMenu.ll_distance = 100.f;     // 拉伸距离  pulling distance
+</span><span class='line'>&lt;code&gt;
+</span><span class='line'>* Spring and Frames &amp;nbsp;弹力和关键帧设置（可控制弹性效果和时间）
+</span><span class='line'>&lt;/code&gt;
+</span><span class='line'>&lt;/em&gt;slideMenu.ll_springDamping = 20;       // 阻力
+</span><span class='line'>&lt;em&gt;slideMenu.ll_springVelocity = 15;      // 速度
+</span><span class='line'>&lt;/em&gt;slideMenu.ll_springFramesNum = 60;     // 关键帧数量</span></code></pre></td></tr></table></div></figure></p>
+
+<h2>Requirements &nbsp;版本要求</h2>
+
+<p>IOS 6.0 Above</p>
+
+<h2>License</h2>
+
+<p>LLSlideMenu is provided under the MIT license. See LICENSE file for details.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[一组功能丰富的iOS组件:YYKit]]></title>
@@ -803,71 +919,6 @@ You can check out his <a href="https://github.com/Dillion/iOS-Flip-Transform">iO
 <p><a href="http://www.superqq.com/blog/2015/01/06/gpuimage/">GPUImage</a></p>
 
 <p><a href="http://www.superqq.com/blog/2015/01/06/pop/">Pop</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[DKCircleButton]]></title>
-    <link href="http://www.superqq.com/blog/2015/01/07/dkcirclebutton/"/>
-    <updated>2015-01-07T14:48:23+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/01/07/dkcirclebutton</id>
-    <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-
-<p> <a href="https://github.com/kronik/DKCircleButton.git"target="_blank"title="源代码">源代码</a></p>
-
-<h1> DKCircleButton</h1>
-
-<p>Sources of DKCircleButton and Demo app to show circle button tap effect.</p>
-
-<h2>Download</h2>
-
-<pre><code>$ git clone https://github.com/kronik/DKCircleButton.git
-$ cd DKCircleButton/
-</code></pre>
-
-<h2>Usage</h2>
-
-<p>Please check out the demo project included.</p>
-
-<h1><img src="https://raw.github.com/kronik/DKCircleButton/master/example.gif" alt="Screenshot" /></h1>
-
-<h3>Initialization</h3>
-
-<p>Like a regular custom UIButton
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span> <span class="p">{</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLoad</span><span class="p">];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="n">DKCircleButton</span> <span class="o">*</span><span class="n">button1</span> <span class="o">=</span> <span class="p">[[</span><span class="n">DKCircleButton</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">)];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="n">button1</span><span class="p">.</span><span class="n">center</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="mi">160</span><span class="p">,</span> <span class="mi">200</span><span class="p">);</span>
-</span><span class='line'>  <span class="n">button1</span><span class="p">.</span><span class="n">titleLabel</span><span class="p">.</span><span class="n">font</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIFont</span> <span class="nl">systemFontOfSize</span><span class="p">:</span><span class="mi">22</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<h3>Toggle animation mode</h3>
-
-<pre><code class="objective-c">  button1.animateTap = NO;
-</code></pre>
-
-<h2>Requirements</h2>
-
-<p>Supported build target - iOS 7.x
-Earliest supported deployment target - iOS 7.0</p>
-
-<h2>License</h2>
-
-<p>DKCircleButton is available under the MIT license. See the LICENSE file for more info.</p>
 ]]></content>
   </entry>
   

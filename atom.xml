@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-12-05T20:15:15+08:00</updated>
+  <updated>2015-12-06T20:24:39+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,139 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[一个弹性侧滑菜单]]></title>
+    <link href="http://www.superqq.com/blog/2015/12/06/an-elastic-sliding-menu/"/>
+    <updated>2015-12-06T20:19:51+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/12/06/an-elastic-sliding-menu</id>
+    <content type="html"><![CDATA[<pre><code>地址：https://github.com/lilei644/LLSlideMenu
+
+作者lilei644
+</code></pre>
+
+<h1>LLSlideMenu</h1>
+
+<p>This is a spring slide menu for iOS apps<br>
+一个弹性侧滑菜单<br><br>
+弹性动画原理借鉴该<a href="https://github.com/KittenYang/KYAnimatedPageControl">项目</a>中阻尼函数实现</p>
+
+<!--more-->
+
+
+<h2>Preview预览</h2>
+
+<p><img src="http://images.90159.com/12/sliding.gif" alt="Preview" /></p>
+
+<h2>Installation &nbsp;安装</h2>
+
+<ul>
+<li>pod</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>1.pod "LLSlideMenu"
+</span><span class='line'>2.pod install       // 若获取失败请重新 pod setup
+</span><span class='line'>3.#import "LLSlideMenu.h"</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Common</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>1.Add "LLSlideMenu" files to your Project   // 直接导入“LLSlideMenu”文件夹到项目中
+</span><span class='line'>2.#import "LLSlideMenu.h"</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Usage &nbsp;用法</h2>
+
+<ul>
+<li>Init &nbsp;初始化</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>LLSlideMune *slideMenu = [[LLSlideMune alloc] init];
+</span><span class='line'>[self.view addSubview:slideMenu];</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Base Property &nbsp;基本属性</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 设置菜单宽度  menu width
+</span><span class='line'>_slideMenu.ll_menuWidth = 200.f;
+</span><span class='line'>
+</span><span class='line'>// 设置菜单背景色  background color
+</span><span class='line'>_slideMenu.ll_menuBackgroundColor = [UIColor redColor];
+</span><span class='line'>
+</span><span class='line'>// 设置菜单背景图片  background image
+</span><span class='line'>_slideMenu.ll_menuBackgroundImage = [UIImage imageNamed:@"image"];
+</span><span class='line'>
+</span><span class='line'>// 背景色或背景图片设置一个即可  background image and color select one
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Open or Close &nbsp;打开或关闭</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[_slideMenu ll_openSlideMenu];      // 打开  open
+</span><span class='line'>[_slideMenu ll_closeSlideMenu];     // 关闭  close</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>GestureRecognizer &nbsp;手势监听</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>_slideMenu.ll_distance = 100.f;     // 拉伸距离  pulling distance</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Spring and Frames &nbsp;弹力和关键帧设置（可控制弹性效果和时间）</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>_slideMenu.ll_springDamping = 20;       // 阻力
+</span><span class='line'>_slideMenu.ll_springVelocity = 15;      // 速度
+</span><span class='line'>_slideMenu.ll_springFramesNum = 60;     // 关键帧数量</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Requirements &nbsp;版本要求</h2>
+
+<p>IOS 6.0 Above</p>
+
+<h2>License</h2>
+
+<p>LLSlideMenu is provided under the MIT license. See LICENSE file for details.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[VIP群福利：Git使用教程（视频+PPT）]]></title>
@@ -1451,56 +1584,6 @@ http://www.cnblogs.com/tangbinblog/p/4133481.html
 <p>24、一个人正吸着雪茄，吐着烟圈。他女朋友生气了发飙道，“你没看见包装盒上的警告么?吸烟有害健康!” 那人回答道：“我是程序员。我们不关心警告，只关心错误。”</p>
 
 <p>来源：豆夫脑</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[UIViewController的edgesForExtendedLayout属性]]></title>
-    <link href="http://www.superqq.com/blog/2015/10/09/uiviewcontroller-rectedge/"/>
-    <updated>2015-10-09T16:36:41+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/10/09/uiviewcontroller-rectedge</id>
-    <content type="html"><![CDATA[<p>想必大家都遇到一种情况，明明y坐标设置的是0，但是总是被讨厌的导航栏给遮住。比如下面这个情况：</p>
-
-<pre><code>UILabel *label = [[UILabel alloc] init];
-label.frame = CGRectMake(10, 0, SCREEN.width - 20, 88);
-label.backgroundColor = [UIColor redColor];
-label.text = @"关注公众号iOS开发：iOSDevTip";
-label.textColor = [UIColor whiteColor];
-label.textAlignment = NSTextAlignmentCenter;
-[self.view addSubview:label];
-</code></pre>
-
-<p>一起来看看效果：</p>
-
-<p><img src="http://images.90159.com/10/RectEdge2.png" alt="RectEdge2" /></p>
-
-<p>是不是很讨厌！其实，在iOS 7中，UIViewController引入了一个新的属性：edgesForExtendedLayout。 这个属性的默认值是UIRectEdgeAll。当你的容器是UINavigationController的shih，默认的布局就是从状态栏的顶部开始的。这就是为什么你设置的控件都往上漂移了66ot的原因。</p>
-
-<pre><code>@property(nonatomic,assign) UIRectEdge edgesForExtendedLayout NS_AVAILABLE_IOS(7_0); // Defaults to UIRectEdgeAll
-</code></pre>
-
-<p>那么如何解决这个问题呢？有两种方法。</p>
-
-<h2>方法一：改变edgesForExtendedLayout</h2>
-
-<pre><code>self.edgesForExtendedLayout = UIRectEdgeNone;
-</code></pre>
-
-<p>将edgesForExtendedLayout属性设置为UIRectEdgeNone，这样布局就是从导航栏下面开始了。设置之后，再来看看效果：</p>
-
-<p><img src="http://images.90159.com/10/RectEdge1.png" alt="RectEdge1" /></p>
-
-<h2>方法二：导航栏半透明属性设置为NO</h2>
-
-<pre><code>@property(nonatomic,assign,getter=isTranslucent) BOOL translucent NS_AVAILABLE_IOS(3_0) UI_APPEARANCE_SELECTOR; // Default is NO on iOS 6 and earlier. Always YES if barStyle is set to UIBarStyleBlackTranslucent
-</code></pre>
-
-<p>在iOS 6之前（包括iOS 6）translucent默认就是NO，在iOS 7就默认是YES了。</p>
-
-<pre><code>self.navigationController.navigationBar.translucent = NO;
-</code></pre>
-
-<p>将导航栏的半透明属性关闭掉，布局也是从导航栏下面开始了。</p>
 ]]></content>
   </entry>
   
