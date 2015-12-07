@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-12-06T20:24:39+08:00</updated>
+  <updated>2015-12-07T23:31:50+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,122 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS9横竖屏设置的处理方法和实例讲解]]></title>
+    <link href="http://www.superqq.com/blog/2015/12/07/ios9-interface-orientation/"/>
+    <updated>2015-12-07T23:30:03+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/12/07/ios9-interface-orientation</id>
+    <content type="html"><![CDATA[<p>在一般的视频类APP播放的时候都会支持横屏，这样做的好处就是便于观看。你的项目中支持横屏吗？我们一起了解一下，在iOS9中横竖屏设置的处理方法吧！</p>
+
+<h2>支持横竖屏配置</h2>
+
+<p>在iOS6以后，如果APP需要支持横屏，需要在xcode设置中General里面进行勾选配置：</p>
+
+<!--more-->
+
+
+<p><img src="http://images.90159.com/12/orientation1.png" alt="orientation1" /></p>
+
+<p>配置完成之后，我们可以看一下Info.plist里面的Supported interface orientations选项也相应的改变了。如下图：</p>
+
+<p><img src="http://images.90159.com/12/orientation2.png" alt="orientation2" /></p>
+
+<p>当然，我们也可以直接在Info.plist进行配置。</p>
+
+<h2>支持横竖屏方法</h2>
+
+<p>在iOS6之前我们可以直接用这个方法进行配置：</p>
+
+<pre><code>- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation NS_DEPRECATED_IOS(2_0, 6_0) __TVOS_PROHIBITED;
+</code></pre>
+
+<p>在iOS6之后，这个方法被NS_DEPRECATED_IOS，也就是废弃掉了。废弃了这个方法，苹果相应的也给出了新的方法来代替：</p>
+
+<pre><code>// New Autorotation support.
+- (BOOL)shouldAutorotate NS_AVAILABLE_IOS(6_0) __TVOS_PROHIBITED;
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations NS_AVAILABLE_IOS(6_0) __TVOS_PROHIBITED;
+</code></pre>
+
+<p>我们可以看到iOS6之前是一个方法，在iOS6之后变成两个方法了，一个是是否旋转的方法，一个是支持的方向的方法。</p>
+
+<h2>实例一：</h2>
+
+<p>假设：我们ViewController是直接加载window的self.window.rootViewController上面的。代码如下：</p>
+
+<pre><code>- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // Override point for customization after application launch.
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    ViewController *vc = [[ViewController alloc] init];
+    self.window.rootViewController = vc;
+    [self.window makeKeyAndVisible];
+    return YES;
+}
+</code></pre>
+
+<p>如果我们要是想支持上面General里勾选的方向（竖屏、横屏向左已经横屏向右）该如何实现呢？首先，我们应该设置让他支持旋转，然后在设置支持的方向。代码如下：</p>
+
+<pre><code>//支持旋转
+-(BOOL)shouldAutorotate{
+   return YES;
+}
+//支持的方向
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+</code></pre>
+
+<p>其中UIInterfaceOrientationMask是一个枚举：</p>
+
+<pre><code>typedef NS_OPTIONS(NSUInteger, UIInterfaceOrientationMask) {
+    UIInterfaceOrientationMaskPortrait = (1 &lt;&lt; UIInterfaceOrientationPortrait),
+    UIInterfaceOrientationMaskLandscapeLeft = (1 &lt;&lt; UIInterfaceOrientationLandscapeLeft),
+    UIInterfaceOrientationMaskLandscapeRight = (1 &lt;&lt; UIInterfaceOrientationLandscapeRight),
+    UIInterfaceOrientationMaskPortraitUpsideDown = (1 &lt;&lt; UIInterfaceOrientationPortraitUpsideDown),
+    UIInterfaceOrientationMaskLandscape = (UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight),
+    UIInterfaceOrientationMaskAll = (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight | UIInterfaceOrientationMaskPortraitUpsideDown),
+    UIInterfaceOrientationMaskAllButUpsideDown = (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight),
+} __TVOS_PROHIBITED;    
+</code></pre>
+
+<p>可以根据自己的需求来选择。上面我们说了假设这个条件，如果rootViewController上导航，我们直接在ViewController里面设置，这个方法就不灵了。（大家可以自己测试一下）</p>
+
+<h2>实例二：</h2>
+
+<p>为什么是导航上面的方法就不灵了呢？原因很简单，我们没有设置导航支持的方向。别忘了UINavigationController也是UIViewController的子类。需要受到同样的待遇的。</p>
+
+<p>如何设置呢？我们可以创建一个UINavigationController的子类，假设叫GGPublicNavigationViewController。然后，我们在GGPublicNavigationViewController.m文件里面也实现着两个方法：</p>
+
+<pre><code>//支持旋转
+-(BOOL)shouldAutorotate{
+   return YES;
+}
+//支持的方向
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+</code></pre>
+
+<p>这样设置之后，即使我们push进去的UIViewController没有实现上面的连个方法，也是可以支持横屏的。也就是说，我们push的所有都支持横屏。这个做法是不是很暴力！</p>
+
+<h2>实例三：</h2>
+
+<p>有些童鞋会问了，如何控制每个界面支持的方向呢？这也是可以办到的，在GGPublicNavigationViewController不能写死支持哪个。我们可以这么写：</p>
+
+<pre><code>-(BOOL)shouldAutorotate{
+    return [self.topViewController shouldAutorotate];
+}
+//支持的方向
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return [self.topViewController supportedInterfaceOrientations];;
+}
+</code></pre>
+
+<p>self.topViewController是当前导航显示的UIViewController，这样就可以控制每个UIViewController所支持的方向啦！</p>
+
+<p>好啦，关于iOS9中横竖屏的处理就说这么多吧！（其实iOS7、iOS8也是这么设置的）如果你觉得文章还不错，分享一下吧！</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[VIP群福利：Git使用教程（视频+PPT）]]></title>
@@ -319,73 +435,6 @@ if ([[UIApplication sharedApplication] canOpenURL:url])
 <p>代码已经push到<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a>，大家可以clone下来测试一下。</p>
 
 <p>我在这里抛砖迎玉，大家还想跳到系统设置的什么界面，可以评论留言告诉我，或者大家动手来实现更多的跳转功能！</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[打造高效率iOS开发实战交流VIP群]]></title>
-    <link href="http://www.superqq.com/blog/2015/11/19/create-high-efficiency-ios-group/"/>
-    <updated>2015-11-19T00:45:08+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/11/19/create-high-efficiency-ios-group</id>
-    <content type="html"><![CDATA[<p>大家好，我是李刚。对的，你没有听错，我就是传说中李刚的本人。今天，我决定正式启动iOS开发实战交流VIP付费群！</p>
-
-<h2>定位</h2>
-
-<p>做什么事情都应该有一个明确的定位，无论是现在工作也好，还是以后创业也罢，定位非常重要。当然，这个iOS开发实战交流VIP群也有一个定位，那就是为广大iOS开发爱好者、iOS开发初学者提供一个技术交流平台，一起提升iOS开发技术。</p>
-
-<p>具体来说：</p>
-
-<ol>
-<li>技术交流，不定期邀请一些技术牛人，分享开发经验。</li>
-<li>技术问答，有关技术问题大家可以相互帮助回答，我也会邀请一些开发经验在3年以上的朋友，免费为大家解答技术问题。 （我也会参与回答）</li>
-<li>我会把大家问的比较好的问题，整理成文档，共享给大家。算是对技术知识点的一个总结。</li>
-<li>还能交一帮愿意为价值付费的朋友，以后可以资源共享，相互帮助。</li>
-<li>群内不定期免费共享优秀的iOS开发视频教程，项目源码以及一些开发文档。</li>
-</ol>
-
-
-<!--more-->
-
-
-<h2>为什么要建立付费群？</h2>
-
-<p>我是公众号iOS开发：iOSDevTip 的小编，同时，我也是一名iOS开发者。在做iOS开发初期，我也加入了一些iOS开发的交流群，但是效果跟大家预想的一样，提问题很少有人回答。我也尝试过去一些网站提问题，但是效果也不好，很久才会有人回答，或者干脆没人回答。</p>
-
-<p>后来，我也尝试建立免费的iOS开发交流群，试图为大家搭建一个学习交流的平台。大概有十几个群，加起来也有几千人了。但是，后来我都屏蔽了。为什么呢？因为这是一个免费的群，谁都可以进来，最后不得不变成了一个广告群，最后成为一个死群。</p>
-
-<p>所以，这一次我要建立一个收费群，相当于增加了一个小小的门槛，这样想发广告的人就会被阻挡在外面了。</p>
-
-<h2>哪些人可以进来？</h2>
-
-<p>因为这是一个iOS开发技术交流群，所以主要面向两大群体。第一种是正在学习iOS开发（无论你是在培训还是自学）朋友，你在学习iOS开发的时候，遇到不懂的问题，可以通过此群来解决。第二种是刚入行不久的iOS开发者，在平时开发过程中遇到一些没有接触过的点，比如说真机调试证书、推送、AppStore上架等等，可以加入本群，一起交流成长。</p>
-
-<p>很简单，遇到技术问题。你是愿意自己花几天的时间来琢磨，还是愿意加入iOS开发实战交流VIP群听取前人的经验？自己琢磨，不一定琢磨的出来。很多想学习iOS开发的朋友，就是因为遇到各种各样的问题，不能得到很好地解决，最后放弃了iOS开发这个行业。</p>
-
-<p>编程最重要的就是思想，如果你一直写代码不思考很难有所进步，干一年之后发现没什么太大的变化，那就真的只是一个搬砖的。如果一群人在一起交流，相互分享经验，技术必然会得到提高，很多问题就会迎刃而解。</p>
-
-<blockquote><p>定价：150元/年（2015/11/16——2016/11/15）</p></blockquote>
-
-<h2>为什么是这个价位？</h2>
-
-<p>第一，这是一个iOS开发技术交流群，帮助大家提升iOS开发技术以及解决开发过程中遇到的问题。</p>
-
-<p>第二，我想做这个群的时候，我也咨询了好几位朋友。他们都说这个价位太低了，每天还不到5毛钱。回答技术问题是非常浪费时间的。但是我不这么认为，费用只是一个门槛，打造一个高效率的实战交流群才是真正的目标。所以综合考虑，我选择了150元。</p>
-
-<p>第三，建立这个群并不是以盈利为目的的，更多的是想跟大家一起交流技术，解决问题。我在开发过程中也会遇到一些问题，可以跟大家一起交流分享，也提升自己的技术。这也是我选择这个价格的一些原因。</p>
-
-<p>第四，这两天我也做了一个调查，有17%的童鞋愿意付费500-1000加入VIP群。但大多数童鞋还是希望价格在100左右。</p>
-
-<p>基本也就这么多原因吧，所以定了这个价格。如果还有不明白的地方，欢迎留言提问。</p>
-
-<blockquote><p>支付方式：微信（私人号：chinaligang）转账或者支付宝1606535851@qq.com</p></blockquote>
-
-<p>支付完成之后，请加我微信（私人号：chinaligang）告知，确定成功之后，我会拉你进群。</p>
-
-<p>来吧，愿大家除了思维上、技术上有所提高，更能成为网络上无话不谈的知心朋友！</p>
-
-<p>也希望所有有缘能相聚于此群中的朋友，不仅仅把此群当成一个社群，而需要当成一个家！一起成长，一起进步！</p>
-
-<p>注：群里除了会分享一些技术上的经验，有关iOS开发最新的视频教程也都会先在群里进行分享。</p>
 ]]></content>
   </entry>
   

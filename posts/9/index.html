@@ -81,6 +81,128 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/07/02/uibuttonwen-zi-ju-zuo-xian-shi/">UIButton文字居左显示</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-02T22:18:01+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:18 pm</span></time>
+        
+        
+          | <a href="/blog/2015/07/02/uibuttonwen-zi-ju-zuo-xian-shi/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>题外话：时间依旧过的很快，不知不觉2015年就过去一半了。感觉自己好像没有大的改变，只能感叹时间飞逝，却不能有所收获。</p>
+
+<p>我从来都不是一个安于现状的人，改变自己的想法从未停止过。我想大多数人都跟我有类似的想法。但是为什么很难有所成就呢？我觉得最重要的原因就是，<strong>只是想一下，而没有去行动</strong>。</p>
+
+<p>这是一个全民创业的时代，不把握机会，只能错过。错过的机会，越多遗憾就越多。有句话说：<strong>老了之后，回想人生，不会因为自己做过什么而后悔，而会因为自己没有做过什么而遗憾。</strong>不想给人生留下遗憾，所以努力去尝试是唯一的选择。</p>
+
+<p>随便感慨一下。每天上班太舒服了，淡忘了自己的理想，借此提醒一下自己。</p>
+
+<p>来来，收回思路，今天我们来讲如何让UIButton文字居左显示？我们都应该写过让UILabel的text居左显示。代码也非常简单。</p>
+
+<h2>UILabel文字居左显示</h2>
+
+<p>实现文字居左显示代码如下：</p>
+
+<pre><code>UILabel *label = [[UILabel alloc] init];
+label.frame = CGRectMake(50, 100, 200, 50);
+label.text = @"我是label";
+label.textAlignment = NSTextAlignmentLeft;
+label.backgroundColor = [UIColor orangeColor];
+[self.view addSubview:label];
+</code></pre>
+
+<p>运行起来看一下效果：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/labelleft.png" alt="1" /></p>
+
+<p>label.backgroundColor = [UIColor orangeColor];设置label的背景颜色方便我们参考。你是不是这样做的。依次类推UIButton也很简单，你肯定能想到。我们来看看。</p>
+
+<h2>UIButton文字居左显示</h2>
+
+<h3>创建UIButton</h3>
+
+<pre><code>UIButton *button = [[UIButton alloc] init];
+//设置坐标
+button.frame = CGRectMake(100, 100, 100, 50);
+//设置标题
+[button setTitle:@"我是UIButton" forState:UIControlStateNormal];
+//设置标题颜色
+[button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+//设置背景颜色    
+[button setBackgroundColor:[UIColor orangeColor]];
+[self.view addSubview:button];
+</code></pre>
+
+<p>以上代码是创建一个button，设置坐标、标题、和标题颜色。</p>
+
+<h3>让文字居左</h3>
+
+<p>按照UILabel文字居左的写法，UIButton应该这么写：</p>
+
+<pre><code> button.titleLabel.textAlignment = NSTextAlignmentLeft;
+</code></pre>
+
+<p>运行一下看一下效果：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/buttonnoleft.png" alt="2" /></p>
+
+<p>我们发现UIButton的文字还是居中显示。竟然没有居左显示，怎么办呢？进UIButton看看，还有哪些属性。很快发现：</p>
+
+<pre><code>@property(nonatomic) UIControlContentHorizontalAlignment contentHorizontalAlignment; // how to position content hozontally inside control. default is center
+
+typedef NS_ENUM(NSInteger, UIControlContentHorizontalAlignment) {
+    UIControlContentHorizontalAlignmentCenter = 0,
+    UIControlContentHorizontalAlignmentLeft   = 1,
+    UIControlContentHorizontalAlignmentRight  = 2,
+    UIControlContentHorizontalAlignmentFill   = 3,
+};
+</code></pre>
+
+<h3>设置contentHorizontalAlignment</h3>
+
+<pre><code>button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+</code></pre>
+
+<p>再次运行起来看效果：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/buttonleft.png" alt="3" /></p>
+
+<p>果然可以，是不是看着居左显示很难看，太靠边了。很简单，设置UIButton的titleEdgeInsets属性：</p>
+
+<pre><code>button.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+</code></pre>
+
+<p>这样button的title就距左边10个像素的距离。</p>
+
+<p>居右显示就很简单了：</p>
+
+<pre><code>button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+</code></pre>
+
+<p>ok，UIButton文字居左显示完成了。更多iOS技术请点击<a href="www.superqq.com">刚刚在线</a> : <strong>www.superqq.com</strong></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/07/02/egocacheru-he-jian-ce-huan-cun-shi-jian-guo-qi/">EGOCache如何检测缓存时间过期</a></h1>
     
     
@@ -964,7 +1086,7 @@ iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</
 
 <p><strong>你的博客将比简历更有价值</strong>。你在各大招聘网站写简历不如你有一个有价值的博客。</p>
 
-<p>把技术分享出来，不仅帮助新人，更是提高自己，这是一种双赢。如果你写了技术文章没有好的地方可以发布，可以投稿给我：<a href="&#109;&#97;&#105;&#108;&#x74;&#x6f;&#58;&#119;&#111;&#x72;&#x6c;&#x64;&#x6c;&#x69;&#103;&#x61;&#110;&#x67;&#x40;&#49;&#54;&#51;&#x2e;&#x63;&#x6f;&#x6d;">&#119;&#x6f;&#114;&#108;&#x64;&#108;&#105;&#x67;&#97;&#x6e;&#x67;&#64;&#49;&#x36;&#x33;&#x2e;&#x63;&#x6f;&#109;</a> 我将发布在我的公众号iOS开发（<strong>iOSDevTip</strong>）上，直接分享给上万名iOS开发者。</p>
+<p>把技术分享出来，不仅帮助新人，更是提高自己，这是一种双赢。如果你写了技术文章没有好的地方可以发布，可以投稿给我：<a href="&#x6d;&#97;&#x69;&#108;&#116;&#x6f;&#x3a;&#x77;&#111;&#114;&#108;&#100;&#108;&#105;&#x67;&#x61;&#x6e;&#103;&#64;&#49;&#x36;&#x33;&#46;&#x63;&#x6f;&#109;">&#119;&#111;&#x72;&#x6c;&#x64;&#108;&#x69;&#103;&#x61;&#x6e;&#x67;&#64;&#x31;&#x36;&#51;&#x2e;&#x63;&#111;&#x6d;</a> 我将发布在我的公众号iOS开发（<strong>iOSDevTip</strong>）上，直接分享给上万名iOS开发者。</p>
 
 <h3>看github开源项目</h3>
 
@@ -1176,171 +1298,6 @@ undoStack = [[NSMutableArray alloc] init];
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/">iOS 设计模式系列：Archiving – 归档模式</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-20T06:54:13+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>6:54 am</span></time>
-        
-        
-          | <a href="/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>备忘录模式</strong>就是苹果中一种归档形式。它能够把对象转化成一种数据流，在不依赖于外部类的私有属性的情况下来存储和取出数据。你可以在 iOS 6 by Tutorials 这本书的第 16 章读到更多的相关信息。或者这里 Apple’s Archives and Serializations Programming Guide。</p>
-
-<h3>如何使用归档 Archiving</h3>
-
-<p>首先，你需要声明 Album，用 NSCoding 协议来归档数据。打开 Album.h 文件，修改 @ interface 行如下：</p>
-
-<pre><code>@interface Album : NSObject &lt;NSCoding&gt;
-</code></pre>
-
-<p>在 Album.m 添加下面两个方法：</p>
-
-<pre><code>- (void)encodeWithCode:(NSCode *)aCoder
-{
-    [aCode encodeObject:self.year forKey:@“year”];
-    [aCode encodeObject:self.title forKey:@“album”];
-    [aCode encodeObject:self.artist forKey:@“artist”];
-    [aCode encodeObject:self.coverUrl forKey:@“cover_url”];     [aCode encodeObject:self.genre forKey:@“genre”];
-}
-
-- (id)initWithCode:(NSCode *)aDecoder
-{
-    self = [super init];
-    if (self) {
-        _year = [aDecoder decodeObjectForKey:@“year”];
-        _title = [aDecoder decodeObjectForKey:@“album”];
-        _artist = [aDecoder decodeObjectForKey:@“artist”];
-        _coverUrl = [aDecoder decodeObjectForKey:@“cover_url”];
-        _genre = [aDecoder decodeObjectForKey:@“genre”];
-    }
-    return self;
-}
-</code></pre>
-
-<p>当你存档这个类的实例时调用 encodeWithCoder:。相反，当你通过解档来创建一个 Album 实例时，需要调用 iniWithCode: 。就这么简单，非常强大。</p>
-
-<p>现在 Album 类可以存档了，添加的代码实际上是存储和加载专辑列表的。</p>
-
-<p>在 PersistencyManger.h 里添加下面方法：</p>
-
-<pre><code>- (void)saveAlbums;
-</code></pre>
-
-<p>当存储专辑的时候调用些方法。</p>
-
-<p>现在，在 PersistencyManger.m 里添加方法实现：</p>
-
-<pre><code>- (void)saveAlbums
-{
-    NSString *filename = [NSHomeDirectory() stringByAppendingString:@“/Document/albums.bin”];
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:albums];
-    [data writeToFile:filename atomically:YES];
-}
-</code></pre>
-
-<p>NSKeyedArchiver 把专辑数组存档进一个叫 album.bin 的文件里。</p>
-
-<p>当你存档的一个对象包含另一个对象的时候，存档自动递归的把子对象、子对象的子对象一并存储。在这个实例里，存储的是一个专辑实例的数组。因为数组和 Album 都支持 NSCopying 的接口，数组里的东西都会被自动存档。</p>
-
-<p>现在用下面代码替换 PersistencyManger.m 里的 init 方法：</p>
-
-<pre><code>- (id)init
-{
-    self = [super init];
-    if (self) {
-        NSData *data = [NSData dataWithContentsOfFile:[NSHomeDirectory() stringByAppendString:@“/Document/albums.bin”]];
-        albums = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-        if (albums == nil) {
-            albums = [NSMutableArray arrayWithArray:
-                 @[[[Album alloc] initWithTitle:@"Best of Bowie" artist:@"David Bowie" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_david%20bowie_best%20of%20bowie.png" year:@"1992"],
-                 [[Album alloc] initWithTitle:@"It's My Life" artist:@"No Doubt" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_no%20doubt_its%20my%20life%20%20bathwater.png" year:@"2003"],
-                 [[Album alloc] initWithTitle:@"Nothing Like The Sun" artist:@"Sting" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_sting_nothing%20like%20the%20sun.png" year:@"1999"],
-                 [[Album alloc] initWithTitle:@"Staring at the Sun" artist:@"U2" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_u2_staring%20at%20the%20sun.png" year:@"2000"],
-                 [[Album alloc] initWithTitle:@"American Pie" artist:@"Madonna" coverUrl:@"http://www.coversproject.com/static/thumbs/album/album_madonna_american%20pie.png" year:@"2000"]]];
-                [self saveAlbums];
-        }
-    }
-    return self;
-}
-</code></pre>
-
-<p>在新代码里，如果文件存在，NSKeyedUnarchiver 就从文件加载专辑数据。如果不存在，它就创建专辑数据，然后立即存储，为下一次启动 app 使用。</p>
-
-<p>当然你也可以在 app 后台运行的时候再存储专辑数据。现在它看起来不是很有必要，但如果你在稍后添加修改专辑数据呢？你需要确保所有的数据修改都会被存储。</p>
-
-<p>在 LibraryAPI.h 添加下面的方法</p>
-
-<pre><code>- (void)saveAlbums;
-</code></pre>
-
-<p>因为程序的所以有服务都需要通过 LibraryAPI 提供，这就是程序为什么需要 PersistenrcyManger 来存储专辑数据。</p>
-
-<p>现在在 LibraryAPI.m 中添加实现方法：</p>
-
-<pre><code>- (void)saveAlbums
-{
-    [persistencyManger saveAlbums];
-}
-</code></pre>
-
-<p>这里是从 LibraryAPI 调用 PersistencyManger 来存储专辑。</p>
-
-<p>在 ViewController.m 文件 saveCurrentState 的后面添加下面代码：</p>
-
-<p>[[LibraryAPI sharedInstance] saveAlbums];</p>
-
-<p>上面的代码是每当 ViewController 存储当前状态时，使用 LibraryAPI 来存储专辑数据。</p>
-
-<p>构建你的 app，检查所有的都能正确编译。</p>
-
-<p>不幸的是，没有一种简单的方法来验证数据是否被正确的创建。你可以在 Finder 里检查模拟器下当前 app 的 Documents 文件夹，来看看专辑数据文件是否被创建，但是为了查看其它变化你还需要添加一些数据来改变专辑数据。</p>
-
-<p>但是，为了修改数据，假使为了删除专辑而需要临时添加一个删除选项，但这个选项并不会一直在你的库中存在？此外，由于误操作，错误的删除了一个专辑，但如果给这个操作添加一个撤消选项不是很好吗？</p>
-
-<p>现在是时候讨论最后一个设计模式了：<a href="http://www.superqq.com/blog/2015/06/21/ios-she-ji-mo-shi-xi-lie-:command-ming-ling-mo-shi/">命令 Command</a>。</p>
-
-<p><strong>设计模式系列文章</strong>：</p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/">iOS 设计模式系列：Facade – 外观模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/">iOS 设计模式系列：Observer – 观察者模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/">iOS 设计模式系列：Archiving – 归档模式</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/10">&larr; Older</a>
@@ -1368,6 +1325,10 @@ undoStack = [[NSMutableArray alloc] init];
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/12/07/ios9-interface-orientation/">iOS9横竖屏设置的处理方法和实例讲解</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/12/06/an-elastic-sliding-menu/">一个弹性侧滑菜单</a>
       </li>
     
@@ -1381,10 +1342,6 @@ undoStack = [[NSMutableArray alloc] init];
     
       <li class="post">
         <a href="/blog/2015/12/03/vvdocumenter-xcode7-not-work/">升级Xcode7之后VVDocumenter-Xcode不能用的解决办法</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/01/jump-setting-per-page/">iOS开发之如何跳到系统设置里的各种设置界面</a>
       </li>
     
   </ul>

@@ -6,14 +6,14 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>NSFileManager文件操作的十个小功能 - 刚刚在线</title>
+  <title>iOS9横竖屏设置的处理方法和实例讲解 - 刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="NSFileManager是一个单列类，也是一个文件管理器。可以通过NSFileManager创建文件夹、创建文件、写文件、读文件内容等等基本功能。">
-  <meta name="keywords" content="文件操作, iOS NSFileManager, NSFileManager, iOS开发, 刚刚在线">
+  <meta name="description" content="在一般的视频类APP播放的时候都会支持横屏，这样做的好处就是便于观看。你的项目中支持横屏吗？我们一起了解一下，在iOS9中横竖屏设置的处理方法吧！">
+  <meta name="keywords" content="横竖屏, 横屏,iOS9横屏  , iOS开发, 刚刚在线">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/blog/2015/07/24/nsfilemanagerwen-jian-cao-zuo-de-shi-ge-xiao-gong-neng">
+  <link rel="canonical" href="http://www.superqq.com/blog/2015/12/07/ios9-interface-orientation">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -78,7 +78,7 @@
   
   <header>
     
-      <h1 class="entry-title">NSFileManager文件操作的十个小功能</h1>
+      <h1 class="entry-title">iOS9横竖屏设置的处理方法和实例讲解</h1>
     
     
       <p class="meta">
@@ -87,7 +87,7 @@
 
 
 
-<time class='entry-date' datetime='2015-07-24T00:14:03+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:14 am</span></time>
+<time class='entry-date' datetime='2015-12-07T23:30:03+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:30 pm</span></time>
         
         
           | <a href="#comments">Comments</a>
@@ -97,174 +97,114 @@
   </header>
 
 
-<div class="entry-content"><p>NSFileManager是一个单列类，也是一个文件管理器。可以通过NSFileManager创建文件夹、创建文件、写文件、读文件内容等等基本功能。</p>
+<div class="entry-content"><p>在一般的视频类APP播放的时候都会支持横屏，这样做的好处就是便于观看。你的项目中支持横屏吗？我们一起了解一下，在iOS9中横竖屏设置的处理方法吧！</p>
 
-<p>下面将介绍NSFileManager文件操作的十个小功能。我们在Documents里面进行举例，首先是获取Documents的路径。这个在<a href="http://www.superqq.com/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-%28sandbox/">iOS开发之沙盒机制（SandBox)</a>已经详细讲解过了。获取Documents路径方法如下：</p>
+<h2>支持横竖屏配置</h2>
 
-<pre><code>- (NSString *)getDocumentsPath
-{
-    //获取Documents路径
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *path = [paths objectAtIndex:0];
-    NSLog(@"path:%@", path);
-    return path;
-}
-</code></pre>
+<p>在iOS6以后，如果APP需要支持横屏，需要在xcode设置中General里面进行勾选配置：</p>
 
 <!--more-->
 
 
-<h3>创建文件夹</h3>
+<p><img src="http://images.90159.com/12/orientation1.png" alt="orientation1" /></p>
 
-<pre><code>-(void)createDirectory{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *iOSDirectory = [documentsPath stringByAppendingPathComponent:@"iOS"];
-    BOOL isSuccess = [fileManager createDirectoryAtPath:iOSDirectory withIntermediateDirectories:YES attributes:nil error:nil];
-    if (isSuccess) {
-        NSLog(@"success");
-    } else {
-        NSLog(@"fail");
-    }
+<p>配置完成之后，我们可以看一下Info.plist里面的Supported interface orientations选项也相应的改变了。如下图：</p>
+
+<p><img src="http://images.90159.com/12/orientation2.png" alt="orientation2" /></p>
+
+<p>当然，我们也可以直接在Info.plist进行配置。</p>
+
+<h2>支持横竖屏方法</h2>
+
+<p>在iOS6之前我们可以直接用这个方法进行配置：</p>
+
+<pre><code>- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation NS_DEPRECATED_IOS(2_0, 6_0) __TVOS_PROHIBITED;
+</code></pre>
+
+<p>在iOS6之后，这个方法被NS_DEPRECATED_IOS，也就是废弃掉了。废弃了这个方法，苹果相应的也给出了新的方法来代替：</p>
+
+<pre><code>// New Autorotation support.
+- (BOOL)shouldAutorotate NS_AVAILABLE_IOS(6_0) __TVOS_PROHIBITED;
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations NS_AVAILABLE_IOS(6_0) __TVOS_PROHIBITED;
+</code></pre>
+
+<p>我们可以看到iOS6之前是一个方法，在iOS6之后变成两个方法了，一个是是否旋转的方法，一个是支持的方向的方法。</p>
+
+<h2>实例一：</h2>
+
+<p>假设：我们ViewController是直接加载window的self.window.rootViewController上面的。代码如下：</p>
+
+<pre><code>- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // Override point for customization after application launch.
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    ViewController *vc = [[ViewController alloc] init];
+    self.window.rootViewController = vc;
+    [self.window makeKeyAndVisible];
+    return YES;
 }
 </code></pre>
 
-<h3>创建文件</h3>
+<p>如果我们要是想支持上面General里勾选的方向（竖屏、横屏向左已经横屏向右）该如何实现呢？首先，我们应该设置让他支持旋转，然后在设置支持的方向。代码如下：</p>
 
-<pre><code>-(void)createFile{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    BOOL isSuccess = [fileManager createFileAtPath:iOSPath contents:nil attributes:nil];
-    if (isSuccess) {
-        NSLog(@"success");
-    } else {
-        NSLog(@"fail");
-    }
+<pre><code>//支持旋转
+-(BOOL)shouldAutorotate{
+   return YES;
+}
+//支持的方向
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 </code></pre>
 
-<h3>写文件</h3>
+<p>其中UIInterfaceOrientationMask是一个枚举：</p>
 
-<pre><code>-(void)writeFile{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    NSString *content = @"我要写数据啦";
-    BOOL isSuccess = [content writeToFile:iOSPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    if (isSuccess) {
-        NSLog(@"write success");
-    } else {
-        NSLog(@"write fail");
-    }
+<pre><code>typedef NS_OPTIONS(NSUInteger, UIInterfaceOrientationMask) {
+    UIInterfaceOrientationMaskPortrait = (1 &lt;&lt; UIInterfaceOrientationPortrait),
+    UIInterfaceOrientationMaskLandscapeLeft = (1 &lt;&lt; UIInterfaceOrientationLandscapeLeft),
+    UIInterfaceOrientationMaskLandscapeRight = (1 &lt;&lt; UIInterfaceOrientationLandscapeRight),
+    UIInterfaceOrientationMaskPortraitUpsideDown = (1 &lt;&lt; UIInterfaceOrientationPortraitUpsideDown),
+    UIInterfaceOrientationMaskLandscape = (UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight),
+    UIInterfaceOrientationMaskAll = (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight | UIInterfaceOrientationMaskPortraitUpsideDown),
+    UIInterfaceOrientationMaskAllButUpsideDown = (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight),
+} __TVOS_PROHIBITED;    
+</code></pre>
+
+<p>可以根据自己的需求来选择。上面我们说了假设这个条件，如果rootViewController上导航，我们直接在ViewController里面设置，这个方法就不灵了。（大家可以自己测试一下）</p>
+
+<h2>实例二：</h2>
+
+<p>为什么是导航上面的方法就不灵了呢？原因很简单，我们没有设置导航支持的方向。别忘了UINavigationController也是UIViewController的子类。需要受到同样的待遇的。</p>
+
+<p>如何设置呢？我们可以创建一个UINavigationController的子类，假设叫GGPublicNavigationViewController。然后，我们在GGPublicNavigationViewController.m文件里面也实现着两个方法：</p>
+
+<pre><code>//支持旋转
+-(BOOL)shouldAutorotate{
+   return YES;
+}
+//支持的方向
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 </code></pre>
 
-<h3>读取文件内容</h3>
+<p>这样设置之后，即使我们push进去的UIViewController没有实现上面的连个方法，也是可以支持横屏的。也就是说，我们push的所有都支持横屏。这个做法是不是很暴力！</p>
 
-<pre><code>-(void)readFileContent{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    NSString *content = [NSString stringWithContentsOfFile:iOSPath encoding:NSUTF8StringEncoding error:nil];
-    NSLog(@"read success: %@",content);
+<h2>实例三：</h2>
+
+<p>有些童鞋会问了，如何控制每个界面支持的方向呢？这也是可以办到的，在GGPublicNavigationViewController不能写死支持哪个。我们可以这么写：</p>
+
+<pre><code>-(BOOL)shouldAutorotate{
+    return [self.topViewController shouldAutorotate];
+}
+//支持的方向
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return [self.topViewController supportedInterfaceOrientations];;
 }
 </code></pre>
 
-<h3>判断文件是否存在</h3>
+<p>self.topViewController是当前导航显示的UIViewController，这样就可以控制每个UIViewController所支持的方向啦！</p>
 
-<pre><code>- (BOOL)isSxistAtPath:(NSString *)filePath{
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL isExist = [fileManager fileExistsAtPath:filePath];
-    return isExist;
-}
-</code></pre>
-
-<h3>计算文件大小</h3>
-
-<pre><code>- (unsigned long long)fileSizeAtPath:(NSString *)filePath{
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL isExist = [fileManager fileExistsAtPath:filePath];
-    if (isExist){
-        unsigned long long fileSize = [[fileManager attributesOfItemAtPath:filePath error:nil] fileSize];
-        return fileSize;
-    } else {
-        NSLog(@"file is not exist");
-        return 0;
-    }
-}
-</code></pre>
-
-<h3>计算整个文件夹中所有文件大小</h3>
-
-<pre><code>- (unsigned long long)folderSizeAtPath:(NSString*)folderPath{
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL isExist = [fileManager fileExistsAtPath:folderPath];
-    if (isExist){
-        NSEnumerator *childFileEnumerator = [[fileManager subpathsAtPath:folderPath] objectEnumerator];
-        unsigned long long folderSize = 0;
-        NSString *fileName = @"";
-        while ((fileName = [childFileEnumerator nextObject]) != nil){
-            NSString* fileAbsolutePath = [folderPath stringByAppendingPathComponent:fileName];
-            folderSize += [self fileSizeAtPath:fileAbsolutePath];
-        }
-        return folderSize / (1024.0 * 1024.0);
-    } else {
-        NSLog(@"file is not exist");
-        return 0;
-    }
-}
-</code></pre>
-
-<h3>删除文件</h3>
-
-<pre><code>-(void)deleteFile{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    BOOL isSuccess = [fileManager removeItemAtPath:iOSPath error:nil];
-    if (isSuccess) {
-        NSLog(@"delete success");
-    }else{
-        NSLog(@"delete fail");
-    }
-}
-</code></pre>
-
-<h3>移动文件</h3>
-
-<pre><code>- (void)moveFileName
-{
-    NSString *documentsPath =[self getDocumentsPath];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *filePath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    NSString *moveToPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    BOOL isSuccess = [fileManager moveItemAtPath:filePath toPath:moveToPath error:nil];
-    if (isSuccess) {
-        NSLog(@"rename success");
-    }else{
-        NSLog(@"rename fail");
-    }
-}
-</code></pre>
-
-<h3>重命名</h3>
-
-<pre><code>- (void)renameFileName
-{
-    //通过移动该文件对文件重命名
-    NSString *documentsPath =[self getDocumentsPath];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *filePath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-    NSString *moveToPath = [documentsPath stringByAppendingPathComponent:@"rename.txt"];
-    BOOL isSuccess = [fileManager moveItemAtPath:filePath toPath:moveToPath error:nil];
-    if (isSuccess) {
-        NSLog(@"rename success");
-    }else{
-        NSLog(@"rename fail");
-    }
-}
-</code></pre>
-
-<p>以上文件操作代码都在<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a>，可以直接通过git拉下来进行测试。关于NSFileManager的用法还有很多，一起接续探索吧！</p>
+<p>好啦，关于iOS9中横竖屏的处理就说这么多吧！（其实iOS7、iOS8也是这么设置的）如果你觉得文章还不错，分享一下吧！</p>
 </div>
 
 
@@ -280,7 +220,7 @@
 
 
 
-<time class='entry-date' datetime='2015-07-24T00:14:03+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:14 am</span></time>
+<time class='entry-date' datetime='2015-12-07T23:30:03+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:30 pm</span></time>
       
 
 <span class="categories">
@@ -291,7 +231,7 @@
 
 
       </p>
-本文出处刚刚在线：<a href="http://www.superqq.com/blog/2015/07/24/nsfilemanagerwen-jian-cao-zuo-de-shi-ge-xiao-gong-neng/">http://www.superqq.com/blog/2015/07/24/nsfilemanagerwen-jian-cao-zuo-de-shi-ge-xiao-gong-neng/</a>
+本文出处刚刚在线：<a href="http://www.superqq.com/blog/2015/12/07/ios9-interface-orientation/">http://www.superqq.com/blog/2015/12/07/ios9-interface-orientation/</a>
 </p>
 自由转载-请在开头注明本文出处。
 </p>
@@ -316,10 +256,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/07/23/ru-he-cha-kan-zhen-ji-de-sha-he-(tu-wen-jiao-cheng-)/" title="Previous Post: 如何查看真机的沙盒（图文教程）">&laquo; 如何查看真机的沙盒（图文教程）</a>
+        <a class="basic-alignment left" href="/blog/2015/12/06/an-elastic-sliding-menu/" title="Previous Post: 一个弹性侧滑菜单">&laquo; 一个弹性侧滑菜单</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/07/25/ioskai-fa-zhi-sha-he-he-wen-jian-cao-zuo-(hui-zong-)/" title="Next Post: iOS开发之沙盒和文件操作（汇总）">iOS开发之沙盒和文件操作（汇总） &ra/categories.htmlquo;</a>
       
     </p>
   </footer>
@@ -329,7 +267,7 @@
   <section>
     <h1>Comments</h1>
     <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
-<div class="ds-thread" data-title="NSFileManager文件操作的十个小功能"></div>
+<div class="ds-thread" data-title="iOS9横竖屏设置的处理方法和实例讲解"></div>
 <script type="text/javascript">
   var duoshuoQuery = {short_name:"superqq"};
   (function() {

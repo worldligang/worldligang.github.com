@@ -81,6 +81,165 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/07/11/ioskai-fa-zhi-nsstringde-ji-tiao-shi-yong-ji-qiao/">iOS开发之NSString的几条实用技巧</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-11T22:57:21+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:57 pm</span></time>
+        
+        
+          | <a href="/blog/2015/07/11/ioskai-fa-zhi-nsstringde-ji-tiao-shi-yong-ji-qiao/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>这两天上海台风“灿鸿”来袭，又是刮风，又是下雨。这雨已经连下好多天了，再不出太阳人都发霉了。不过无论再怎么样，也不要让天气破坏了心情。</p>
+
+<p>台风来了，刚好我要走了。周六一大早5点就爬起来，雨下的不小，风也特别大。我是7点多的动车。从我家过去大概需要一个半小时的时间。所以得提前起来，省的匆匆忙忙。</p>
+
+<h2>使用Uber的感受</h2>
+
+<p>我还一直担心，这天气可能连车都打不到。抱着尝试的心态，我打开了Uber，为什么打开的是Uber，而不是滴滴，也不是快的呢。因为我的Uber上还有优惠劵，而且还有一个重要的原因，Uber上面的人民优步，不仅价格比出租车便宜，而且服务态度那也是相当好的。</p>
+
+<p>看来我的担心是多余的。我打开Uber点了打车，不到10s，就有司机抢单成功。我连目的地都没有来得及输入，这也是滴滴和快的不具备的。这一点我觉得真的比较人性。因为很多司机都是看距离抢单的，Uber这样做估计就是杜绝这样的事情发生。</p>
+
+<p>我并不说给Uber打广告的，再说了Uber也没给我钱。我之前一直用的都是滴滴和快的。我说的都是事实，大家可以自己尝试尝试。</p>
+
+<p>写这篇文章时，我刚到郑州，在同学安顿的宾馆里。虽然奔波了一天，有些疲惫。还是要给大家准备一些NSString的小技巧。希望你能把iOS开发：<strong>iOSDevTip</strong> 介绍给更多你身边的朋友，这就是对我最大的支持。</p>
+
+<h2>NSString的几条小技巧</h2>
+
+<h3>创建字符串</h3>
+
+<p><strong>常量字符串</strong></p>
+
+<pre><code>NSString *string = @"i am an iOSDevTip!";
+</code></pre>
+
+<p><strong>常用创建方法</strong></p>
+
+<pre><code>NSString *string = [[NSString alloc] init];
+
+string = @"i am an iOSDevTip too!";
+</code></pre>
+
+<p><strong>用initWithString创建字符串</strong></p>
+
+<pre><code>NSString *string = [[NSString alloc] initWithString:@"iOSDevTip is here!"];
+</code></pre>
+
+<h3>格式化创建字符串</h3>
+
+<p><strong>int格式化字符串</strong></p>
+
+<pre><code>int age = 20;
+NSString *personAge = [NSString stringWithFormat:@"this person age is %d",age];
+</code></pre>
+
+<p>既然int格式化字符串，那么float、double等，也可以格式化字符串。</p>
+
+<p><strong>NSString格式化字符串</strong></p>
+
+<pre><code>NSString *name = @"iOSDevTip";
+NSString *personName = [NSString stringWithFormat:@"this person name is %@",name];
+</code></pre>
+
+<h3>字符串比较</h3>
+
+<p><strong>isEqualToString方法比较</strong></p>
+
+<pre><code>//比较字符串
+NSString *stingOne = @"This is an iOSDevTip!";
+NSString *stringTwo = @"This is an iOSDevTip!";
+BOOL result = [stingOne isEqualToString:stringTwo];
+</code></pre>
+
+<p><strong>compare方法比较</strong></p>
+
+<pre><code>BOOL result = [stingOne compare:stringTwo] == NSOrderedSame;
+</code></pre>
+
+<p>compare:方法返回值类型为NSComparisonResult。而NSComparisonResult有下面几个枚举值。</p>
+
+<pre><code>typedef NS_ENUM(NSInteger, NSComparisonResult) {NSOrderedAscending = -1L, NSOrderedSame, NSOrderedDescending};
+</code></pre>
+
+<h3>字符串大小写转换</h3>
+
+<p><strong>小写转大写</strong></p>
+
+<pre><code> NSString *string = @"This is an iOSDevTip!";
+[string lowercaseString];
+</code></pre>
+
+<p><strong>大写转小写</strong></p>
+
+<pre><code>NSString *string = @"This is an iOSDevTip!";
+[string uppercaseString];
+</code></pre>
+
+<h3>截取字符串</h3>
+
+<p><strong>substringToIndex截取字符串</strong></p>
+
+<pre><code>NSString *string = @"This is a operation string!";
+NSString *subToString = [string substringToIndex:6];
+</code></pre>
+
+<p>截取的subToString为This i</p>
+
+<p><strong>substringFromIndex截取字符串</strong></p>
+
+<pre><code>NSString *subFromString = [string substringFromIndex:6];
+</code></pre>
+
+<p>截取的subFromString为s a operation string!</p>
+
+<p><strong>substringWithRange截取字符串</strong></p>
+
+<pre><code>NSString *rangeString = [string substringWithRange:NSMakeRange(6, 3)];
+</code></pre>
+
+<p>截取的rangeString为s a!</p>
+
+<h3>判断字符串是否包含另一个字符串</h3>
+
+<p><strong>rangeOfString判断</strong></p>
+
+<pre><code>NSString *string1 = @"This is a iOSDevTip";
+NSString *string2 = @"iOSDevTip";
+NSRange range = [string1 rangeOfString:string2];
+NSInteger location = range.location;
+NSInteger leight = range.length;
+NSString *logString = [[NSString alloc] initWithString:[NSString stringWithFormat:@"Location:%ld,Leight:%ld",location,leight]];
+NSLog(@"logString:%@",logString);
+</code></pre>
+
+<p>打印出来：</p>
+
+<pre><code>iOSStrongDemo[8837:2221170] logString:Location:10,Leight:9
+</code></pre>
+
+<p>如果Leight为0，说明不包含。还有更多关于NSString的用法，大家一起探索吧。代码下载地址：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/07/10/ioskai-fa-zhi-nstimershi-yong-chu-tan/">iOS开发之NSTimer使用初探</a></h1>
     
     
@@ -1095,128 +1254,6 @@ button.frame = CGRectMake(50, 200, 200, 200);
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/02/uibuttonwen-zi-ju-zuo-xian-shi/">UIButton文字居左显示</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-02T22:18:01+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:18 pm</span></time>
-        
-        
-          | <a href="/blog/2015/07/02/uibuttonwen-zi-ju-zuo-xian-shi/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>题外话：时间依旧过的很快，不知不觉2015年就过去一半了。感觉自己好像没有大的改变，只能感叹时间飞逝，却不能有所收获。</p>
-
-<p>我从来都不是一个安于现状的人，改变自己的想法从未停止过。我想大多数人都跟我有类似的想法。但是为什么很难有所成就呢？我觉得最重要的原因就是，<strong>只是想一下，而没有去行动</strong>。</p>
-
-<p>这是一个全民创业的时代，不把握机会，只能错过。错过的机会，越多遗憾就越多。有句话说：<strong>老了之后，回想人生，不会因为自己做过什么而后悔，而会因为自己没有做过什么而遗憾。</strong>不想给人生留下遗憾，所以努力去尝试是唯一的选择。</p>
-
-<p>随便感慨一下。每天上班太舒服了，淡忘了自己的理想，借此提醒一下自己。</p>
-
-<p>来来，收回思路，今天我们来讲如何让UIButton文字居左显示？我们都应该写过让UILabel的text居左显示。代码也非常简单。</p>
-
-<h2>UILabel文字居左显示</h2>
-
-<p>实现文字居左显示代码如下：</p>
-
-<pre><code>UILabel *label = [[UILabel alloc] init];
-label.frame = CGRectMake(50, 100, 200, 50);
-label.text = @"我是label";
-label.textAlignment = NSTextAlignmentLeft;
-label.backgroundColor = [UIColor orangeColor];
-[self.view addSubview:label];
-</code></pre>
-
-<p>运行起来看一下效果：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/labelleft.png" alt="1" /></p>
-
-<p>label.backgroundColor = [UIColor orangeColor];设置label的背景颜色方便我们参考。你是不是这样做的。依次类推UIButton也很简单，你肯定能想到。我们来看看。</p>
-
-<h2>UIButton文字居左显示</h2>
-
-<h3>创建UIButton</h3>
-
-<pre><code>UIButton *button = [[UIButton alloc] init];
-//设置坐标
-button.frame = CGRectMake(100, 100, 100, 50);
-//设置标题
-[button setTitle:@"我是UIButton" forState:UIControlStateNormal];
-//设置标题颜色
-[button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-//设置背景颜色    
-[button setBackgroundColor:[UIColor orangeColor]];
-[self.view addSubview:button];
-</code></pre>
-
-<p>以上代码是创建一个button，设置坐标、标题、和标题颜色。</p>
-
-<h3>让文字居左</h3>
-
-<p>按照UILabel文字居左的写法，UIButton应该这么写：</p>
-
-<pre><code> button.titleLabel.textAlignment = NSTextAlignmentLeft;
-</code></pre>
-
-<p>运行一下看一下效果：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/buttonnoleft.png" alt="2" /></p>
-
-<p>我们发现UIButton的文字还是居中显示。竟然没有居左显示，怎么办呢？进UIButton看看，还有哪些属性。很快发现：</p>
-
-<pre><code>@property(nonatomic) UIControlContentHorizontalAlignment contentHorizontalAlignment; // how to position content hozontally inside control. default is center
-
-typedef NS_ENUM(NSInteger, UIControlContentHorizontalAlignment) {
-    UIControlContentHorizontalAlignmentCenter = 0,
-    UIControlContentHorizontalAlignmentLeft   = 1,
-    UIControlContentHorizontalAlignmentRight  = 2,
-    UIControlContentHorizontalAlignmentFill   = 3,
-};
-</code></pre>
-
-<h3>设置contentHorizontalAlignment</h3>
-
-<pre><code>button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-</code></pre>
-
-<p>再次运行起来看效果：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/buttonleft.png" alt="3" /></p>
-
-<p>果然可以，是不是看着居左显示很难看，太靠边了。很简单，设置UIButton的titleEdgeInsets属性：</p>
-
-<pre><code>button.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
-</code></pre>
-
-<p>这样button的title就距左边10个像素的距离。</p>
-
-<p>居右显示就很简单了：</p>
-
-<pre><code>button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
-</code></pre>
-
-<p>ok，UIButton文字居左显示完成了。更多iOS技术请点击<a href="www.superqq.com">刚刚在线</a> : <strong>www.superqq.com</strong></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/9">&larr; Older</a>
@@ -1244,6 +1281,10 @@ typedef NS_ENUM(NSInteger, UIControlContentHorizontalAlignment) {
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/12/07/ios9-interface-orientation/">iOS9横竖屏设置的处理方法和实例讲解</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/12/06/an-elastic-sliding-menu/">一个弹性侧滑菜单</a>
       </li>
     
@@ -1257,10 +1298,6 @@ typedef NS_ENUM(NSInteger, UIControlContentHorizontalAlignment) {
     
       <li class="post">
         <a href="/blog/2015/12/03/vvdocumenter-xcode7-not-work/">升级Xcode7之后VVDocumenter-Xcode不能用的解决办法</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/01/jump-setting-per-page/">iOS开发之如何跳到系统设置里的各种设置界面</a>
       </li>
     
   </ul>
