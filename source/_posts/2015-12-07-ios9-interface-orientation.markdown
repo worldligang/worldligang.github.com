@@ -9,7 +9,7 @@ description: 在一般的视频类APP播放的时候都会支持横屏，这样�
 
 ---
 
-
+原文：[http://www.superqq.com/blog/2015/12/07/ios9-interface-orientation/](http://www.superqq.com/blog/2015/12/07/ios9-interface-orientation/)
 
 在一般的视频类APP播放的时候都会支持横屏，这样做的好处就是便于观看。你的项目中支持横屏吗？我们一起了解一下，在iOS9中横竖屏设置的处理方法吧！
 
