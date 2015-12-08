@@ -81,6 +81,54 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/11/13/ios-submit-using-idfa/">iOS提交审核：您的 App 正在使用广告标识符 (IDFA)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-13T10:34:12+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:34 am</span></time>
+        
+        
+          | <a href="/blog/2015/11/13/ios-submit-using-idfa/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>提交审核也是iOS开发者必备技能之一。关于提交审核的教程数不胜数，不会的童鞋赶紧尝试一下吧！</p>
+
+<p>这篇文章我们来解决一个问题，关于IDFA的：</p>
+
+<pre><code>您的 App 正在使用广告标识符 (IDFA)。您必须先提供关于 IDFA 的使用信息或将其从 App 中移除，然后再上传您的二进制文件。
+</code></pre>
+
+<p>从14年2月初开始，Apple开始拒绝采集IDFA(identifier for advertising)而未集成任何广告服务的应用进入AppStore。怎么看自己的项目是否采集了IDFA呢？方法很简单，大家去看framework，看看有没有一个framework叫AdSupport.framework。</p>
+
+<p>如果有，那就惨了，上两张图看看：</p>
+
+<p><img src="http://images.90159.com/11/idfa1.png" alt="idfa1" /></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/11/13/ios-submit-using-idfa/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/11/12/remote-notification-error/">远程推送控制台提示Add “Remote-notification”&#8230;解决方案</a></h1>
     
     
@@ -538,75 +586,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/10/16/five-case-know-gcd/">五个案例让你明白GCD死锁</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-10-16T20:29:42+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:29 pm</span></time>
-        
-        
-          | <a href="/blog/2015/10/16/five-case-know-gcd/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><pre><code>作者：brighttj（@saitjr
-
-网址：http://www.brighttj.com/ios/ios-gcd-deadlock.html
-</code></pre>
-
-<p>死锁一直都是在使用多线程时，需要注意的一个问题。以前对同步、异步，串行、并行只有一个模糊的概念，想想也是时候整理一下了。再看看之前的博客，已经很久没有干货了【说得好像之前有干货一样】，所以，这篇博客，我尽最大努力，也借鉴了很多其他博客中的例子，来讲解GCD死锁问题。</p>
-
-<p>环境信息：</p>
-
-<p>Mac OS X 10.10.5</p>
-
-<p>Xcode 6.4</p>
-
-<p>iOS  8.4</p>
-
-<h2>串行与并行</h2>
-
-<p>在使用GCD的时候，我们会把需要处理的任务放到Block中，然后将任务追加到相应的队列里面，这个队列，叫做Dispatch Queue。然而，存在于两种Dispatch Queue，一种是要等待上一个执行完，再执行下一个的Serial Dispatch Queue，这叫做串行队列；另一种，则是不需要上一个执行完，就能执行下一个的Concurrent Dispatch Queue，叫做并行队列。这两种，均遵循FIFO原则。</p>
-
-<pre><code>举一个简单的例子，在三个任务中输出1、2、3，串行队列输出是有序的1、2、3，但是并行队列的先后顺序就不一定了。
-</code></pre>
-
-<p>那么，并行队列又是怎么在执行呢？</p>
-
-<p>虽然可以同时多个任务的处理，但是并行队列的处理量，还是要根据当前系统状态来。如果当前系统状态最多处理2个任务，那么1、2会排在前面，3什么时候操作，就看1或者2谁先完成，然后3接在后面。</p>
-
-<p>串行和并行就简单说到这里，关于它们的技术点其实还有很多，可以自行了解。</p>
-
-<h2>同步与异步</h2>
-
-<p>串行与并行针对的是队列，而同步与异步，针对的则是线程。最大的区别在于，同步线程要阻塞当前线程，必须要等待同步线程中的任务执行完，返回以后，才能继续执行下一任务；而异步线程则是不用等待。</p>
-
-<p>仅凭这几句话还是很难理解，所以之后准备了很多案例，可以边分析边理解。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/10/16/five-case-know-gcd/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -634,6 +613,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/12/08/some-experiences-https/">关于启用 HTTPS 的一些经验分享</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/12/07/ios9-interface-orientation/">iOS9横竖屏设置的处理方法和实例讲解</a>
       </li>
     
@@ -647,10 +630,6 @@
     
       <li class="post">
         <a href="/blog/2015/12/04/swift-source-code/">Swift开源一天Github收获15000多star</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/03/vvdocumenter-xcode7-not-work/">升级Xcode7之后VVDocumenter-Xcode不能用的解决办法</a>
       </li>
     
   </ul>

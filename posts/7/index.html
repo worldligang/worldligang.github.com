@@ -81,6 +81,85 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-(sandbox/">iOS开发之沙盒机制（SandBox)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-20T00:36:13+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:36 am</span></time>
+        
+        
+          | <a href="/blog/2015/07/20/ioskai-fa-zhi-sha-he-ji-zhi-(sandbox/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>iOS APP可以在自己的沙盒里读写文件，但是，不可以访问其他APP的沙盒。每一个APP都是一个信息孤岛，相互是不可以进行通信的，唯独可以通过<a href="http://www.superqq.com/blog/2015/07/14/xcode6-dot-4zhu-ce-url-schemebu-zou-xiang-jie/">URL Scheme</a>。沙盒里面的文件可以是照片、声音文件、文本、属性列表等。</p>
+
+<h2>沙盒机制简介</h2>
+
+<p><strong>沙盒简述：</strong></p>
+
+<ol>
+<li>每一个APP都有一个存储空间，就是沙盒。</li>
+<li>APP之间不能相互通信。</li>
+<li>沙盒根目录结构：Documents、Library、temp。</li>
+</ol>
+
+
+<p>简述一下Documents、Library、tmp的区别：</p>
+
+<ol>
+<li><strong>Documents：</strong>用于存储用户数据，iTunes备份和恢复的时候会包括此目录，所以，苹果建议将程序中建立的或在程序中浏览到的文件数据保存在该目录下。</li>
+<li><strong>Library：</strong>包含两个子目录：Caches 和 Preferences。Caches用来存放用户需要换成的文件。Preferences是APP的偏好设置，可以通过NSUserDefaults来读取和设置。</li>
+<li><strong>tmp：</strong> 用于存放临时文件，这个可以放一些当APP退出后不再需要的文件。</li>
+</ol>
+
+
+<h2>打开模拟器沙盒方法</h2>
+
+<p><strong>方法一：前往文件夹打开</strong></p>
+
+<pre><code>/Users/ligang/Library/Application Support/iPhone Simulator/ 
+</code></pre>
+
+<p>直接在Finder->前往->前往文件夹，输入上面的内容即可。记住将ligang换成你的电脑用户名。</p>
+
+<p><strong>方法二：通过Finder一步步查找</strong></p>
+
+<p>模拟器上的APP的沙盒实在用户目录下的资源库里面，但是资源库是隐藏文件夹。所以查看沙盒之前，现将隐藏文件夹显示出来。显示隐藏文件的命令：</p>
+
+<pre><code>defaults write com.apple.finder AppleShowAllFiles -bool true
+</code></pre>
+
+<p>用心的童鞋会发现，隐藏隐藏文件的命令：</p>
+
+<pre><code>defaults write com.apple.finder AppleShowAllFiles -bool false
+</code></pre>
+
+<p>查找步骤请看图：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/sandbox.jpg" alt="sandbox" /></p>
+
+<p>关于沙盒机制（SandBox)的介绍大概就是这样，以后面试的时候万一碰到你就可以这么回答。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/07/19/cheng-xu-yuan-tou-tiao-:cheng-xu-yuan-guan-xin-de-,cai-shi-tou-tiao-!/">程序员头条：程序员关心的，才是头条！</a></h1>
     
     
@@ -227,11 +306,11 @@ Objective-C 没有消失，但是现在用一个慢慢失去关注的语言来�
 
 <p><strong>林翔宇</strong>
 - <a href="http://linxiangyu.org">http://linxiangyu.org</a>
-- <a href="&#109;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#x6c;&#105;&#110;&#120;&#x69;&#97;&#x6e;&#103;&#x79;&#x75;&#x40;&#x6e;&#117;&#x70;&#116;&#101;&#x72;&#46;&#x6f;&#114;&#x67;">&#x6c;&#105;&#110;&#x78;&#105;&#97;&#110;&#x67;&#121;&#117;&#64;&#110;&#x75;&#112;&#x74;&#x65;&#x72;&#x2e;&#111;&#114;&#103;</a>
+- <a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#111;&#58;&#x6c;&#105;&#110;&#120;&#x69;&#97;&#110;&#103;&#x79;&#x75;&#64;&#x6e;&#x75;&#x70;&#116;&#101;&#x72;&#x2e;&#x6f;&#114;&#x67;">&#108;&#105;&#x6e;&#120;&#x69;&#97;&#x6e;&#103;&#121;&#x75;&#64;&#110;&#x75;&#112;&#116;&#101;&#114;&#46;&#x6f;&#x72;&#103;</a>
 - <a href="http://github.com/oa414">http://github.com/oa414</a></p>
 
 <p><strong>庞博</strong>
-- <a href="&#x6d;&#97;&#105;&#108;&#116;&#x6f;&#58;&#x62;&#x6f;&#x70;&#x61;&#x6e;&#103;&#64;&#x73;&#111;&#x68;&#x75;&#45;&#x69;&#x6e;&#99;&#46;&#99;&#x6f;&#109;">&#x62;&#111;&#112;&#97;&#110;&#103;&#64;&#115;&#111;&#x68;&#x75;&#45;&#105;&#x6e;&#99;&#x2e;&#99;&#111;&#109;</a>
+- <a href="&#109;&#97;&#105;&#108;&#116;&#x6f;&#x3a;&#x62;&#x6f;&#112;&#97;&#x6e;&#x67;&#64;&#115;&#x6f;&#x68;&#x75;&#x2d;&#105;&#x6e;&#99;&#x2e;&#x63;&#111;&#x6d;">&#x62;&#111;&#x70;&#97;&#x6e;&#x67;&#64;&#x73;&#111;&#x68;&#117;&#x2d;&#105;&#x6e;&#99;&#46;&#x63;&#x6f;&#109;</a>
 - <a href="https://github.com/heistings">https://github.com/heistings</a></p>
 
 <p>翻译已得到原作者许可，并且会在更加完善后申请合并到原文仓库。</p>
@@ -1122,232 +1201,6 @@ else
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/12/ios-zhong-de-nstimer/">iOS 中的 NSTimer</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-12T21:02:51+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:02 pm</span></time>
-        
-        
-          | <a href="/blog/2015/07/12/ios-zhong-de-nstimer/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>之前的一篇文章：<a href="http://www.superqq.com/blog/2015/07/10/ioskai-fa-zhi-nstimershi-yong-chu-tan/">iOS开发之NSTimer使用初探</a> 讲的是比较基础的知识。今天给大家分享一篇来自Why的“iOS 中的 NSTimer”，讲的就比较深入一些。</p></blockquote>
-
-<p>前阵子在整理公司项目的时候，发现老代码在使用 NSTimer 时出现了内存泄露。然后整理了一些 NSTimer 的相关内容。比较简单，各位见笑啦。</p>
-
-<h2>NSTimer</h2>
-
-<h3>fire</h3>
-
-<p>我们先用 NSTimer 来做个简单的计时器，每隔5秒钟在控制台输出 Fire 。比较想当然的做法是这样的：</p>
-
-<pre><code>@interface DetailViewController ()
-@property (nonatomic, weak) NSTimer *timer;
-@end
-
-@implementation DetailViewController
-- (IBAction)fireButtonPressed:(id)sender {
-    _timer = [NSTimer scheduledTimerWithTimeInterval:3.0f
-                                              target:self
-                                            selector:@selector(timerFire:)
-                                            userInfo:nil
-                                             repeats:YES];
-    [_timer fire];
-}
-
--(void)timerFire:(id)userinfo {
-    NSLog(@"Fire");
-}
-@end
-</code></pre>
-
-<p>运行之后确实在控制台每隔3秒钟输出一次 Fire ，然而当我们从这个界面跳转到其他界面的时候却发现：控制台还在源源不断的输出着 Fire 。看来 Timer 并没有停止。</p>
-
-<h3>invalidate</h3>
-
-<p>既然没有停止，那我们在 DemoViewController 的 dealloc 里加上 invalidate 的方法：</p>
-
-<pre><code>-(void)dealloc {
-    [_timer invalidate];
-    NSLog(@"%@ dealloc", NSStringFromClass([self class]));
-}
-</code></pre>
-
-<p>再次运行，还是没有停止。原因是 Timer 添加到 Runloop 的时候，会被 Runloop 强引用：</p>
-
-<pre><code>Note in particular that run loops maintain strong references to their timers, so you don’t have to maintain your own strong reference to a timer after you have added it to a run loop.
-</code></pre>
-
-<p>然后 Timer 又会有一个对 Target 的强引用（也就是 self ）：</p>
-
-<pre><code>Target is the object to which to send the message specified by aSelector when the timer fires. The timer maintains a strong reference to target until it (the timer) is invalidated.
-</code></pre>
-
-<p>也就是说 NSTimer 强引用了 self ，导致 self 一直不能被释放掉，所以也就走不到 self 的 dealloc 里。</p>
-
-<p>既然如此，那我们可以再加个 invalidate 按钮：</p>
-
-<pre><code>- (IBAction)invalidateButtonPressed:(id)sender {
-    [_timer invalidate];
-}
-</code></pre>
-
-<p>嗯这样就可以了。（在 SOF 上有人说该在 invalidate 之后执行 _timer = nil ，未能理解为什么，如果你知道原因可以告诉我：）</p>
-
-<p>在 invalidate 方法的文档里还有这这样一段话：</p>
-
-<pre><code>You must send this message from the thread on which the timer was installed. If you send this message from another thread, the input source associated with the timer may not be removed from its run loop, which could prevent the thread from exiting properly.
-</code></pre>
-
-<p>NSTimer 在哪个线程创建就要在哪个线程停止，否则会导致资源不能被正确的释放。看起来各种坑还不少。</p>
-
-<h3>dealloc</h3>
-
-<p>那么问题来了：如果我就是想让这个 NSTimer 一直输出，直到 DemoViewController 销毁了才停止，我该如何让它停止呢？</p>
-
-<ol>
-<li>NSTimer 被 Runloop 强引用了，如果要释放就要调用 invalidate 方法。</li>
-<li>但是我想在 DemoViewController 的 dealloc 里调用 invalidate 方法，但是 self 被 NSTimer 强引用了。</li>
-<li>所以我还是要释放 NSTimer 先，然而不调用 invalidate 方法就不能释放它。</li>
-<li>然而你不进入到 dealloc 方法里我又不能调用 invalidate 方法。</li>
-<li>嗯…</li>
-</ol>
-
-
-<p><img src="http://ww4.sinaimg.cn/large/61d238c7gw1ettf9re22uj20fu08owf3.jpg" alt="1" /></p>
-
-<h2>HWWeakTimer</h2>
-
-<h3>weakSelf</h3>
-
-<p>问题的关键就在于 self 被 NSTimer 强引用了，如果我们能打破这个强引用问题自然而然就解决了。所以一个很简单的想法就是：weakSelf：</p>
-
-<pre><code>__weak typeof(self) weakSelf = self;
-_timer = [NSTimer scheduledTimerWithTimeInterval:3.0f
-                                          target:weakSelf
-                                        selector:@selector(timerFire:)
-                                        userInfo:nil
-                                         repeats:YES];
-</code></pre>
-
-<p>然而这并没有什么卵用，这里的 <strong>weak 和 </strong>strong 唯一的区别就是：如果在这两行代码执行的期间 self 被释放了， NSTimer 的 target 会变成 nil 。</p>
-
-<h3>target</h3>
-
-<p>既然没办法通过 __weak 把 self 抽离出来，我们可以造个假的 target 给 NSTimer 。这个假的 target 类似于一个中间的代理人，它做的唯一的工作就是挺身而出接下了 NSTimer 的强引用。类声明如下：</p>
-
-<pre><code>@interface HWWeakTimerTarget : NSObject
-@property (nonatomic, weak) id target;
-@property (nonatomic, assign) SEL selector;
-@property (nonatomic, weak) NSTimer* timer;
-@end
-
-@implementation HWWeakTimerTarget
-- (void) fire:(NSTimer *)timer {
-    if(self.target) {
-        [self.target performSelector:self.selector withObject:timer.userInfo];
-    } else {
-        [self.timer invalidate];
-    }
-}
-@end
-</code></pre>
-
-<p>然后我们再封装个假的 scheduledTimerWithTimeInterval 方法，但是在调用的时候已经偷梁换柱了：</p>
-
-<pre><code>+ (NSTimer *) scheduledTimerWithTimeInterval:(NSTimeInterval)interval
-                                      target:(id)aTarget
-                                    selector:(SEL)aSelector
-                                    userInfo:(id)userInfo
-                                     repeats:(BOOL)repeats {
-    HWWeakTimerTarget* timerTarget = [[HWWeakTimerTarget alloc] init];
-    timerTarget.target = aTarget;
-    timerTarget.selector = aSelector;
-    timerTarget.timer = [NSTimer scheduledTimerWithTimeInterval:interval
-                                                         target:timerTarget
-                                                       selector:@selector(fire:)
-                                                       userInfo:userInfo
-                                                        repeats:repeats];
-    return timerTarget.timer;
-}
-</code></pre>
-
-<p>再次运行，问题解决。</p>
-
-<h3>block</h3>
-
-<p>如果能用 block 来调用 NSTimer 那岂不是更好了。我们可以这样来实现：</p>
-
-<pre><code>+ (NSTimer *)scheduledTimerWithTimeInterval:(NSTimeInterval)interval
-                                      block:(HWTimerHandler)block
-                                   userInfo:(id)userInfo
-                                    repeats:(BOOL)repeats {
-    return [self scheduledTimerWithTimeInterval:interval
-                                         target:self
-                                       selector:@selector(_timerBlockInvoke:)
-                                       userInfo:@[[block copy], userInfo]
-                                        repeats:repeats];
-}
-
-+ (void)_timerBlockInvoke:(NSArray*)userInfo {
-    HWTimerHandler block = userInfo[0];
-    id info = userInfo[1];
-    // or `!block ?: block();` @sunnyxx
-    if (block) {
-        block(info);
-    }
-}
-</code></pre>
-
-<p>这样我们就可以直接在 block 里写相关逻辑了：</p>
-
-<pre><code>- (IBAction)fireButtonPressed:(id)sender {
-    _timer = [HWWeakTimer scheduledTimerWithTimeInterval:3.0f block:^(id userInfo) {
-        NSLog(@"%@", userInfo);
-    } userInfo:@"Fire" repeats:YES];
-    [_timer fire];
-}
-</code></pre>
-
-<p>嗯就是这样。</p>
-
-<h3>More</h3>
-
-<p>把上面的的代码简单的封装到了 <a href="https://github.com/ChatGame/HWWeakTimer">HWWeakTimer</a> 中，欢迎试用。</p>
-
-<p>参考文献:</p>
-
-<ul>
-<li><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSTimer_Class/">NStimer</a></li>
-<li><a href="http://stackoverflow.com/questions/15170518/how-to-stop-invalidate-nstimer">How to stop/invalidate NStimer</a></li>
-<li><a href="http://stackoverflow.com/questions/16821736/weak-reference-to-nstimer-target-to-prevent-retain-cycle">Weak Reference to NSTimer Target To Prevent Retain Cycle</a></li>
-<li><a href="http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown">performSelector may cause a leak because its selector is unknown</a></li>
-</ul>
-
-
-<p>原文链接：<a href="http://blog.callmewhy.com/2015/07/06/weak-timer-in-ios/">http://blog.callmewhy.com/2015/07/06/weak-timer-in-ios/</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/8">&larr; Older</a>
@@ -1375,6 +1228,10 @@ _timer = [NSTimer scheduledTimerWithTimeInterval:3.0f
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/12/08/some-experiences-https/">关于启用 HTTPS 的一些经验分享</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/12/07/ios9-interface-orientation/">iOS9横竖屏设置的处理方法和实例讲解</a>
       </li>
     
@@ -1388,10 +1245,6 @@ _timer = [NSTimer scheduledTimerWithTimeInterval:3.0f
     
       <li class="post">
         <a href="/blog/2015/12/04/swift-source-code/">Swift开源一天Github收获15000多star</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/03/vvdocumenter-xcode7-not-work/">升级Xcode7之后VVDocumenter-Xcode不能用的解决办法</a>
       </li>
     
   </ul>

@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-12-07T23:31:50+08:00</updated>
+  <updated>2015-12-08T21:56:43+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -14,11 +14,167 @@
 
   
   <entry>
+    <title type="html"><![CDATA[关于启用 HTTPS 的一些经验分享]]></title>
+    <link href="http://www.superqq.com/blog/2015/12/08/some-experiences-https/"/>
+    <updated>2015-12-08T21:54:20+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/12/08/some-experiences-https</id>
+    <content type="html"><![CDATA[<p><img src="http://images.90159.com/12/https.jpg" alt="https" /></p>
+
+<p>随着国内网络环境的持续恶化，各种篡改和劫持层出不穷，越来越多的网站选择了全站 HTTPS。HTTPS 通过 TLS 层和证书机制提供了内容加密、身份认证和数据完整性三大功能，可以有效防止数据被查看或篡改，以及防止中间人冒充。本文分享一些启用 HTTPS 过程中的经验，重点是如何与一些新出的安全规范配合使用。至于 HTTPS 的部署及优化，之前写过很多，本文不重复了。</p>
+
+<!--more-->
+
+
+<h2>理解 Mixed Content</h2>
+
+<p>HTTPS 网页中加载的 HTTP 资源被称之为 Mixed Content(混合内容)，不同浏览器对 Mixed Content 有不一样的处理规则。</p>
+
+<h2>早期的 IE</h2>
+
+<p>早期的 IE 在发现 Mixed Content 请求时，会弹出「是否只查看安全传送的网页内容?」这样一个模态对话框，一旦用户选择「是」，所有 Mixed Content 资源都不会加载;选择「否」，所有资源都加载。</p>
+
+<h2>比较新的 IE</h2>
+
+<p>比较新的 IE 将模态对话框改为页面底部的提示条，没有之前那么干扰用户。而且默认会加载图片类 Mixed Content，其它如 JavaScript、CSS 等资源还是会根据用户选择来决定是否加载。</p>
+
+<h2>现代浏览器</h2>
+
+<p>现代浏览器(Chrome、Firefox、Safari、Microsoft Edge)，基本上都遵守了 W3C 的 Mixed Content 规范，将 Mixed Content 分为Optionally-blockable 和 Blockable 两类：</p>
+
+<p>Optionally-blockable 类 Mixed Content 包含那些危险较小，即使被中间人篡改也无大碍的资源。现代浏览器默认会加载这类资源，同时会在控制台打印警告信息。这类资源包括：</p>
+
+<pre><code>通过  标签加载的图片(包括 SVG 图片);
+
+通过 &lt;img&gt; 标签加载的图片（包括 SVG 图片）；
+
+通过 &lt;video&gt; / &lt;audio&gt; 和 &lt;source&gt; 标签加载的视频或音频；
+
+预读的（Prefetched）资源；
+</code></pre>
+
+<h2>预读的(Prefetched)资源;</h2>
+
+<p>除此之外所有的 Mixed Content 都是 Blockable，浏览器必须禁止加载这类资源。所以现代浏览器中，对于 HTTPS 页面中的 JavaScript、CSS 等 HTTP 资源，一律不加载，直接在控制台打印错误信息。</p>
+
+<h2>移动浏览器</h2>
+
+<p>前面所说都是桌面浏览器的行为，移动端情况比较复杂，当前大部分移动浏览器默认都允许加载 Mixed Content。也就是说，对于移动浏览器来说，HTTPS 中的 HTTP 资源，无论是图片还是 JavaScript、CSS，默认都会加载。</p>
+
+<p>一般选择了全站 HTTPS，就要避免出现 Mixed Content，页面所有资源请求都走 HTTPS 协议才能保证所有平台所有浏览器下都没有问题。</p>
+
+<h2>合理使用 CSP</h2>
+
+<p>CSP，全称是 Content Security Policy，它有非常多的指令，用来实现各种各样与页面内容安全相关的功能。</p>
+
+<pre><code>block-all-mixed-content
+</code></pre>
+
+<p>前面说过，对于 HTTPS 中的图片等 Optionally-blockable 类 HTTP 资源，现代浏览器默认会加载。图片类资源被劫持，通常不会有太大的问题，但也有一些风险，例如很多网页按钮是用图片实现的，中间人把这些图片改掉，也会干扰用户使用。</p>
+
+<p>通过 CSP 的 block-all-mixed-content 指令，可以让页面进入对混合内容的严格检测(Strict Mixed Content Checking)模式。在这种模式下，所有非 HTTPS 资源都不允许加载。跟其它所有 CSP 规则一样，可以通过以下两种方式启用这个指令：</p>
+
+<h2>HTTP 响应头方式：</h2>
+
+<pre><code>Content-Security-Policy: block-all-mixed-content 
+</code></pre>
+
+<p><meta>标签方式：</p>
+
+<pre><code>&lt;meta http-equiv="Content-Security-Policy" content="block-all-mixed-content"&gt; 
+
+
+upgrade-insecure-requests
+</code></pre>
+
+<p>历史悠久的大站在往 HTTPS 迁移的过程中，工作量往往非常巨大，尤其是将所有资源都替换为 HTTPS 这一步，很容易产生疏漏。即使所有代码都确认没有问题，很可能某些从数据库读取的字段中还存在 HTTP 链接。</p>
+
+<p>而通过 upgrade-insecure-requests 这个 CSP 指令，可以让浏览器帮忙做这个转换。启用这个策略后，有两个变化：</p>
+
+<pre><code>页面所有 HTTP 资源，会被替换为 HTTPS 地址再发起请求;
+
+页面所有站内链接，点击后会被替换为 HTTPS 地址再跳转;
+</code></pre>
+
+<p>跟其它所有 CSP 规则一样，这个指令也有两种方式来启用，具体格式请参考上一节。需要注意的是 upgrade-insecure-requests 只替换协议部分，所以只适用于 HTTP/HTTPS 域名和路径完全一致的场景。</p>
+
+<h2>合理使用 HSTS</h2>
+
+<p>在网站全站 HTTPS 后，如果用户手动敲入网站的 HTTP 地址，或者从其它地方点击了网站的 HTTP 链接，依赖于服务端 301/302 跳转才能使用 HTTPS 服务。而第一次的 HTTP 请求就有可能被劫持，导致请求无法到达服务器，从而构成 HTTPS 降级劫持。</p>
+
+<h2>HSTS 基本使用</h2>
+
+<p>这个问题可以通过 HSTS(HTTP Strict Transport Security，RFC6797)来解决。HSTS 是一个响应头，格式如下：</p>
+
+<pre><code>Strict-Transport-Security: max-age=expireTime [; includeSubDomains] [; preload] 
+</code></pre>
+
+<p>max-age，单位是秒，用来告诉浏览器在指定时间内，这个网站必须通过 HTTPS 协议来访问。也就是对于这个网站的 HTTP 地址，浏览器需要先在本地替换为 HTTPS 之后再发送请求。</p>
+
+<p>includeSubDomains，可选参数，如果指定这个参数，表明这个网站所有子域名也必须通过 HTTPS 协议来访问。</p>
+
+<p>preload，可选参数，后面再介绍它的作用。</p>
+
+<p>HSTS 这个响应头只能用于 HTTPS 响应;网站必须使用默认的 443 端口;必须使用域名，不能是 IP。而且启用 HSTS 之后，一旦网站证书错误，用户无法选择忽略。</p>
+
+<p>HSTS Preload List</p>
+
+<p>可以看到 HSTS 可以很好的解决 HTTPS 降级攻击，但是对于 HSTS 生效前的首次 HTTP 请求，依然无法避免被劫持。浏览器厂商们为了解决这个问题，提出了 HSTS Preload List 方案：内置一份列表，对于列表中的域名，即使用户之前没有访问过，也会使用 HTTPS 协议;列表可以定期更新。</p>
+
+<p>目前这个 Preload List 由 Google Chrome 维护，Chrome、Firefox、Safari、IE 11 和 Microsoft Edge 都在使用。如果要想把自己的域名加进这个列表，首先需要满足以下条件：</p>
+
+<pre><code>拥有合法的证书(如果使用 SHA-1 证书，过期时间必须早于 2016 年);
+
+将所有 HTTP 流量重定向到 HTTPS;
+
+确保所有子域名都启用了 HTTPS;
+
+输出 HSTS 响应头：
+
+max-age 不能低于 18 周(10886400 秒);
+
+必须指定 includeSubdomains 参数;
+
+必须指定 preload 参数;
+</code></pre>
+
+<p>即便满足了上述所有条件，也不一定能进入 HSTS Preload Lis。通过 Chrome 的 chrome://net-internals/#hsts 工具，可以查询某个网站是否在 Preload List 之中，还可以手动把某个域名加到本机 Preload List。</p>
+
+<p>对于 HSTS 以及 HSTS Preload List，我的建议是只要你不能确保永远提供 HTTPS 服务，就不要启用。因为一旦 HSTS 生效，你再想把网站重定向为 HTTP，之前的老用户会被无限重定向，唯一的办法是换新域名。</p>
+
+<h2>CDN 安全</h2>
+
+<p>对于大站来说，全站迁移到 HTTPS 后还是得用 CDN，只是必须选择支持 HTTPS 的 CDN 了。如果使用第三方 CDN，安全方面有一些需要考虑的地方。</p>
+
+<h2>合理使用 SRI</h2>
+
+<p>HTTPS 可以防止数据在传输中被篡改，合法的证书也可以起到验证服务器身份的作用，但是如果 CDN 服务器被入侵，导致静态文件在服务器上被篡改，HTTPS 也无能为力。</p>
+
+<p>W3C 的 SRI(Subresource Integrity)规范可以用来解决这个问题。SRI 通过在页面引用资源时指定资源的摘要签名，来实现让浏览器验证资源是否被篡改的目的。只要页面不被篡改，SRI 策略就是可靠的。</p>
+
+<p>SRI 并不是 HTTPS 专用，但如果主页面被劫持，攻击者可以轻松去掉资源摘要，从而失去浏览器的 SRI 校验机制。</p>
+
+<h2>了解 Keyless SSL</h2>
+
+<p>另外一个问题是，在使用第三方 CDN 的 HTTPS 服务时，如果要使用自己的域名，需要把对应的证书私钥给第三方，这也是一件风险很高的事情。</p>
+
+<p>CloudFlare 公司针对这种场景研发了 Keyless SSL 技术。你可以不把证书私钥给第三方，改为提供一台实时计算的 Key Server 即可。CDN 要用到私钥时，通过加密通道将必要的参数传给 Key Server，由 Key Server 算出结果并返回即可。整个过程中，私钥都保管在自己的 Key Server 之中，不会暴露给第三方。</p>
+
+<p>CloudFlare 的这套机制已经开源，如需了解详情，可以查看他们官方博客的这篇文章：Keyless SSL: The Nitty Gritty Technical Details。</p>
+
+<p>好了，本文先就写到这里，需要注意的是本文提到的 CSP、HSTS 以及 SRI 等策略都只有最新的浏览器才支持，详细的支持度可以去 CanIUse 查。切换到 HTTPS 之后，在性能优化上有很多新工作要做，这部分内容我在之前的博客中写过很多，这里不再重复，只说最重要的一点：既然都 HTTPS 了，赶紧上 HTTP/2 才是正道。</p>
+
+<p>内容来源：Jerry Qu的小站</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[iOS9横竖屏设置的处理方法和实例讲解]]></title>
     <link href="http://www.superqq.com/blog/2015/12/07/ios9-interface-orientation/"/>
     <updated>2015-12-07T23:30:03+08:00</updated>
     <id>http://www.superqq.com/blog/2015/12/07/ios9-interface-orientation</id>
-    <content type="html"><![CDATA[<p>在一般的视频类APP播放的时候都会支持横屏，这样做的好处就是便于观看。你的项目中支持横屏吗？我们一起了解一下，在iOS9中横竖屏设置的处理方法吧！</p>
+    <content type="html"><![CDATA[<p>原文：<a href="http://www.superqq.com/blog/2015/12/07/ios9-interface-orientation/">http://www.superqq.com/blog/2015/12/07/ios9-interface-orientation/</a></p>
+
+<p>在一般的视频类APP播放的时候都会支持横屏，这样做的好处就是便于观看。你的项目中支持横屏吗？我们一起了解一下，在iOS9中横竖屏设置的处理方法吧！</p>
 
 <h2>支持横竖屏配置</h2>
 
@@ -1298,309 +1454,6 @@ A和B成为了好朋友，除了经常探讨技术外，还经常一起讨论这
 <p><img src="http://images.90159.com/10/ps7.png" alt="ps1" /></p>
 
 <p>恭喜你，破解完成！如果破解过程中遇到问题，可以加我微信：chinaligang 如果有时间我很乐意把你解决噢！</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[五个案例让你明白GCD死锁]]></title>
-    <link href="http://www.superqq.com/blog/2015/10/16/five-case-know-gcd/"/>
-    <updated>2015-10-16T20:29:42+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/10/16/five-case-know-gcd</id>
-    <content type="html"><![CDATA[<pre><code>作者：brighttj（@saitjr
-
-网址：http://www.brighttj.com/ios/ios-gcd-deadlock.html
-</code></pre>
-
-<p>死锁一直都是在使用多线程时，需要注意的一个问题。以前对同步、异步，串行、并行只有一个模糊的概念，想想也是时候整理一下了。再看看之前的博客，已经很久没有干货了【说得好像之前有干货一样】，所以，这篇博客，我尽最大努力，也借鉴了很多其他博客中的例子，来讲解GCD死锁问题。</p>
-
-<p>环境信息：</p>
-
-<p>Mac OS X 10.10.5</p>
-
-<p>Xcode 6.4</p>
-
-<p>iOS  8.4</p>
-
-<h2>串行与并行</h2>
-
-<p>在使用GCD的时候，我们会把需要处理的任务放到Block中，然后将任务追加到相应的队列里面，这个队列，叫做Dispatch Queue。然而，存在于两种Dispatch Queue，一种是要等待上一个执行完，再执行下一个的Serial Dispatch Queue，这叫做串行队列；另一种，则是不需要上一个执行完，就能执行下一个的Concurrent Dispatch Queue，叫做并行队列。这两种，均遵循FIFO原则。</p>
-
-<pre><code>举一个简单的例子，在三个任务中输出1、2、3，串行队列输出是有序的1、2、3，但是并行队列的先后顺序就不一定了。
-</code></pre>
-
-<p>那么，并行队列又是怎么在执行呢？</p>
-
-<p>虽然可以同时多个任务的处理，但是并行队列的处理量，还是要根据当前系统状态来。如果当前系统状态最多处理2个任务，那么1、2会排在前面，3什么时候操作，就看1或者2谁先完成，然后3接在后面。</p>
-
-<p>串行和并行就简单说到这里，关于它们的技术点其实还有很多，可以自行了解。</p>
-
-<h2>同步与异步</h2>
-
-<p>串行与并行针对的是队列，而同步与异步，针对的则是线程。最大的区别在于，同步线程要阻塞当前线程，必须要等待同步线程中的任务执行完，返回以后，才能继续执行下一任务；而异步线程则是不用等待。</p>
-
-<p>仅凭这几句话还是很难理解，所以之后准备了很多案例，可以边分析边理解。</p>
-
-<!--more-->
-
-
-<h2>GCD API</h2>
-
-<p>GCD API很多，这里仅介绍本文用到的。</p>
-
-<ol>
-<li><p>系统标准提供的两个队列</p>
-
-<pre><code> // 全局队列，也是一个并行队列
-
- dispatch_get_global_queue 
-
- // 主队列，在主线程中运行，因为主线程只有一个，所以这是一个串行队列
-
- dispatch_get_main_queue 
-</code></pre></li>
-<li><p>除此之外，还可以自己生成队列</p>
-
-<pre><code> // 从DISPATCH_QUEUE_SERIAL看出，这是串行队列
-
- dispatch_queue_create("com.demo.serialQueue", DISPATCH_QUEUE_SERIAL) 
-
- // 同理，这是一个并行队列
-
- dispatch_queue_create("com.demo.concurrentQueue", DISPATCH_QUEUE_CONCURRENT) 
-</code></pre></li>
-</ol>
-
-
-<p>接下来是同步与异步线程的创建：</p>
-
-<pre><code>dispatch_sync(..., ^(block)) // 同步线程
-
-dispatch_async(..., ^(block)) // 异步线程
-</code></pre>
-
-<h2>案例与分析</h2>
-
-<p>假设你已经基本了解了上面提到的知识，接下来进入案例讲解阶段。</p>
-
-<h2>案例一：</h2>
-
-<pre><code>NSLog(@"1"); // 任务1
-
-dispatch_sync(dispatch_get_main_queue(), ^{
-
-    NSLog(@"2"); // 任务2
-
-});
-
-NSLog(@"3"); // 任务3
-</code></pre>
-
-<p>结果，控制台输出：</p>
-
-<pre><code>1
-</code></pre>
-
-<p>分析：</p>
-
-<pre><code>dispatch_sync表示是一个同步线程；
-
-dispatch_get_main_queue表示运行在主线程中的主队列；
-
-任务2是同步线程的任务。
-</code></pre>
-
-<p>首先执行任务1，这是肯定没问题的，只是接下来，程序遇到了同步线程，那么它会进入等待，等待任务2执行完，然后执行任务3。但这是队列，有任务来，当然会将任务加到队尾，然后遵循FIFO原则执行任务。那么，现在任务2就会被加到最后，任务3排在了任务2前面，问题来了：</p>
-
-<pre><code>任务3要等任务2执行完才能执行，任务2由排在任务3后面，意味着任务2要在任务3执行完才能执行，所以他们进入了互相等待的局面。【既然这样，那干脆就卡在这里吧】这就是死锁。
-</code></pre>
-
-<p><img src="http://www.brighttj.com/wp-content/uploads/2015/09/gcd-deadlock-1.png" alt="deadlock" /></p>
-
-<h2>案例二：</h2>
-
-<pre><code>NSLog(@"1"); // 任务1
-
-dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-
-    NSLog(@"2"); // 任务2
-
-});
-
-NSLog(@"3"); // 任务3
-</code></pre>
-
-<p>结果，控制台输出：</p>
-
-<pre><code>1
-
-2
-
-3
-</code></pre>
-
-<p>分析：</p>
-
-<p>首先执行任务1，接下来会遇到一个同步线程，程序会进入等待。等待任务2执行完成以后，才能继续执行任务3。从dispatch_get_global_queue可以看出，任务2被加入到了全局的并行队列中，当并行队列执行完任务2以后，返回到主队列，继续执行任务3。</p>
-
-<p><img src="http://www.brighttj.com/wp-content/uploads/2015/09/gcd-deadlock-2.png" alt="2" /></p>
-
-<h2>案例三：</h2>
-
-<pre><code>dispatch_queue_t queue = dispatch_queue_create("com.demo.serialQueue", DISPATCH_QUEUE_SERIAL);
-
-NSLog(@"1"); // 任务1
-
-dispatch_async(queue, ^{
-
-    NSLog(@"2"); // 任务2
-
-    dispatch_sync(queue, ^{  
-
-        NSLog(@"3"); // 任务3
-
-    });
-
-    NSLog(@"4"); // 任务4
-
-});
-
-NSLog(@"5"); // 任务5
-</code></pre>
-
-<p>结果，控制台输出：</p>
-
-<pre><code>1
-
-5
-
-2
-
-// 5和2的顺序不一定
-</code></pre>
-
-<p>分析：</p>
-
-<p>这个案例没有使用系统提供的串行或并行队列，而是自己通过dispatch_queue_create函数创建了一个DISPATCH_QUEUE_SERIAL的串行队列。</p>
-
-<pre><code>执行任务1；
-
-遇到异步线程，将【任务2、同步线程、任务4】加入串行队列中。因为是异步线程，所以在主线程中的任务5不必等待异步线程中的所有任务完成；
-
-因为任务5不必等待，所以2和5的输出顺序不能确定；
-
-任务2执行完以后，遇到同步线程，这时，将任务3加入串行队列；
-
-又因为任务4比任务3早加入串行队列，所以，任务3要等待任务4完成以后，才能执行。但是任务3所在的同步线程会阻塞，所以任务4必须等任务3执行完以后再执行。这就又陷入了无限的等待中，造成死锁。
-</code></pre>
-
-<p><img src="http://www.brighttj.com/wp-content/uploads/2015/09/gcd-deadlock-3.png" alt="3" /></p>
-
-<h2>案例四：</h2>
-
-<pre><code>NSLog(@"1"); // 任务1
-
-dispatch_async(dispatch_get_global_queue(0, 0), ^{
-
-    NSLog(@"2"); // 任务2
-
-    dispatch_sync(dispatch_get_main_queue(), ^{
-
-        NSLog(@"3"); // 任务3
-
-    });
-
-    NSLog(@"4"); // 任务4
-
-});
-
-NSLog(@"5"); // 任务5
-</code></pre>
-
-<p>结果，控制台输出：</p>
-
-<pre><code>1
-
-2
-
-5
-
-3
-
-4
-
-// 5和2的顺序不一定
-</code></pre>
-
-<p>分析：</p>
-
-<p>首先，将【任务1、异步线程、任务5】加入Main Queue中，异步线程中的任务是：【任务2、同步线程、任务4】。</p>
-
-<p>所以，先执行任务1，然后将异步线程中的任务加入到Global Queue中，因为异步线程，所以任务5不用等待，结果就是2和5的输出顺序不一定。</p>
-
-<p>然后再看异步线程中的任务执行顺序。任务2执行完以后，遇到同步线程。将同步线程中的任务加入到Main Queue中，这时加入的任务3在任务5的后面。</p>
-
-<p>当任务3执行完以后，没有了阻塞，程序继续执行任务4。</p>
-
-<p>从以上的分析来看，得到的几个结果：1最先执行；2和5顺序不一定；4一定在3后面。</p>
-
-<p><img src="http://www.brighttj.com/wp-content/uploads/2015/09/gcd-deadlock-4.png" alt="4" /></p>
-
-<h2>案例五：</h2>
-
-<pre><code>dispatch_async(dispatch_get_global_queue(0, 0), ^{
-
-    NSLog(@"1"); // 任务1
-
-    dispatch_sync(dispatch_get_main_queue(), ^{
-
-        NSLog(@"2"); // 任务2
-
-    });
-
-    NSLog(@"3"); // 任务3
-
-});
-
-NSLog(@"4"); // 任务4
-
-while (1) {
-
-}
-
-NSLog(@"5"); // 任务5
-</code></pre>
-
-<p>结果，控制台输出：</p>
-
-<pre><code>1
-
-4
-
-// 1和4的顺序不一定
-</code></pre>
-
-<p>分析：</p>
-
-<p>和上面几个案例的分析类似，先来看看都有哪些任务加入了Main Queue：【异步线程、任务4、死循环、任务5】。</p>
-
-<p>在加入到Global Queue异步线程中的任务有：【任务1、同步线程、任务3】。</p>
-
-<p>第一个就是异步线程，任务4不用等待，所以结果任务1和任务4顺序不一定。</p>
-
-<p>任务4完成后，程序进入死循环，Main Queue阻塞。但是加入到Global Queue的异步线程不受影响，继续执行任务1后面的同步线程。</p>
-
-<p>同步线程中，将任务2加入到了主线程，并且，任务3等待任务2完成以后才能执行。这时的主线程，已经被死循环阻塞了。所以任务2无法执行，当然任务3也无法执行，在死循环后的任务5也不会执行。</p>
-
-<p>最终，只能得到1和4顺序不定的结果。</p>
-
-<p><img src="http://www.brighttj.com/wp-content/uploads/2015/09/gcd-deadlock-5.png" alt="5" /></p>
-
-<h2>参考</h2>
-
-<pre><code>http://www.jianshu.com/p/0b0d9b1f1f19
-
-http://www.cnblogs.com/tangbinblog/p/4133481.html
-</code></pre>
 ]]></content>
   </entry>
   
