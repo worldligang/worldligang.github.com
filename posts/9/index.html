@@ -81,6 +81,149 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/07/04/uibuttonzhong-de-san-ge-uiedgeinsetsshu-xing-(er-)/">UIButton中的三个UIEdgeInsets属性（二）</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-04T14:14:43+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:14 pm</span></time>
+        
+        
+          | <a href="/blog/2015/07/04/uibuttonzhong-de-san-ge-uiedgeinsetsshu-xing-(er-)/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>昨天去公司加班的人请举手，不是只有我一个吧？（😭）我觉得加班的人应该不少吧。今天周日，应该不需要去加班了。心里暗暗自喜，终于可以休息一天啦。（😄）</p>
+
+<p>说到加班，应该是程序猿心里的痛啊。不加班吧，东西做不完；加班吧，身体吃不消。作为程序猿真的不容易，每天从早忙到晚。突然有一天，六点下班，看见太阳还在等我，心里被踢有多高兴。</p>
+
+<p>弱弱的问一下：加班好不好？</p>
+
+<p>要看这个问题问谁了。如果问老板，老板肯定美滋滋的说，加班好啊，说明你有责任心，有上进心，把公司当成自己的&hellip;</p>
+
+<p>如果问我，哈哈，我当然说加班不好啦，不然会被打死的。开个玩笑。说句实话，加班肯定是不好的，尤其是对程序猿来说。每天面对电脑，每天坐着，时间长了，各种问题就凸显出来。</p>
+
+<p>但是，我说加班不好有用吗？如果我要是老板，我就直接让员工在家办公。（😊）所以大家感觉支持我吧，说不定哪天我真的&hellip;</p>
+
+<p>接着昨天的<a href="http://www.superqq.com/blog/2015/07/03/uibuttonzhong-de-san-ge-uiedgeinsetsshu-xing-%28%5B%3F%5D-%29/">UIButton中的三个UIEdgeInsets属性</a>，今天我们具体谈谈UIButton的contentEdgeInsets、titleEdgeInsets、imageEdgeInsets属性。</p>
+
+<h2>创建UIButton</h2>
+
+<pre><code>UIButton *button = [[UIButton alloc] init];
+button.frame = CGRectMake(50, 200, 200, 50);
+[button setTitle:@"我是UIButton" forState:UIControlStateNormal];
+[button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+[button setBackgroundColor:[UIColor orangeColor]];
+button.titleLabel.textAlignment = NSTextAlignmentLeft;
+button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+[self.view addSubview:button];
+</code></pre>
+
+<p>创建一个button，让button的title居左，以便观察：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button1.png" alt="1" /></p>
+
+<h2>UIButton的contentEdgeInsets属性</h2>
+
+<pre><code>@property(nonatomic)          UIEdgeInsets contentEdgeInsets UI_APPEARANCE_SELECTOR; // default is UIEdgeInsetsZero
+</code></pre>
+
+<p>contentEdgeInsets里有一个content应该指的就是UIButton的title。</p>
+
+<h3>参数含义</h3>
+
+<p>上一篇文章我们讲了UIEdgeInsets是个结构体类型。里面有四个参数，分别是：top, left, bottom, right。这四个参数表示距离上边界、左边界、下边界、右边界的距离。</p>
+
+<p>这四个参数的值可以为正值，也可以为负值。拿left举例：</p>
+
+<pre><code>left = 10; //代表以当前位置为基准，向右移动10个像素
+left = -10; //代表以当前位置为基准，向左移动10个像素
+</code></pre>
+
+<h3>向右移动20个像素</h3>
+
+<pre><code>button.contentEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 0);
+</code></pre>
+
+<p>向右移动20个像素，left = 20，就可以了。</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button2.png" alt="2" /></p>
+
+<h3>向左移动20个像素</h3>
+
+<pre><code>button.contentEdgeInsets = UIEdgeInsetsMake(0, -20, 0, 0);
+</code></pre>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button3.png" alt="2" /></p>
+
+<h2>UIButton的titleEdgeInsets属性</h2>
+
+<p>titleEdgeInsets和contentEdgeInsets的作用差不多。我们及设置contentEdgeInsets，又设置titleEdgeInsets，会怎样呢？</p>
+
+<pre><code>button.titleEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 0);
+button.contentEdgeInsets = UIEdgeInsetsMake(0, 20 , 0, 0);
+</code></pre>
+
+<p>看一下效果：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button4.png" alt="3" /></p>
+
+<h2>UIButton的titleEdgeInsets属性</h2>
+
+<h3>创建一个带照片的button</h3>
+
+<pre><code>UIButton *button = [[UIButton alloc] init];
+button.frame = CGRectMake(50, 200, 200, 200);
+[button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+[button setBackgroundColor:[UIColor orangeColor]];
+[button setImage:[UIImage imageNamed:@"test"] forState:UIControlStateNormal];
+[self.view addSubview:button];
+</code></pre>
+
+<p>运行一下：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button5.png" alt="5" /></p>
+
+<h3>向右移动50个像素</h3>
+
+<pre><code>button.imageEdgeInsets = UIEdgeInsetsMake(0, 50, 0, 0);
+</code></pre>
+
+<p>看看效果：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button6.png" alt="6" /></p>
+
+<h3>向左移动50个像素</h3>
+
+<pre><code>button.imageEdgeInsets = UIEdgeInsetsMake(0, -50, 0, 0);
+</code></pre>
+
+<p>看看效果：</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/button7.png" alt="7" /></p>
+
+<p>大家可以自行设置其他三个参数看看效果是怎样的，自己动手便于理解。</p>
+
+<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="ios" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/07/03/uibuttonzhong-de-san-ge-uiedgeinsetsshu-xing-(%5B%3F%5D-)/">UIButton中的三个UIEdgeInsets属性（一）</a></h1>
     
     
@@ -1104,101 +1247,6 @@ iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/25/ru-he-cheng-wei-%5B%3F%5D-ming-you-xiu-de-ioskai-fa-gong-cheng-shi/">如何成为一名优秀的iOS开发工程师</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-25T07:49:07+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:49 am</span></time>
-        
-        
-          | <a href="/blog/2015/06/25/ru-he-cheng-wei-%5B%3F%5D-ming-you-xiu-de-ioskai-fa-gong-cheng-shi/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/1iOSkaifa.jpg" alt="1" /></p>
-
-<p>如果你是一位专业的<strong>iOS开发工程师</strong>，你应该为自己感到自豪。因为你能在强大的iOS系统下，一展身手实现自己和他人的想法，这是一件令人无比激动的事情。</p>
-
-<p>作为一名iOS开发工程师，你一定想成为行业的佼佼者。那么，如何成为一名优秀的iOS开发工程师呢？我觉得做到以下几点，你就离优秀越来越近了。</p>
-
-<h3>提高英语水平</h3>
-
-<p>作为码农，英语水平虽然不是一个硬指标，但是，如果你的英语水平足够好，那真是如虎添翼。在公司里面，糟糕的英语表达能力也掩盖了你在软件开发技术上的优势。</p>
-
-<p>很多优秀的技术文章都是英文版本的，就像苹果官方文档一样，你看不懂你就比别人落后了一步。当这些文档被汉化，被翻译成中文，那是需要一段时间的。少则几天，多则几个月。所以与其被动等待，不如先把英语水平提上去。</p>
-
-<p>英语的重要性，不言而喻，不仅仅有助于写代码。如果万一哪一天你成为公众人物了，你是想向刘强东一样讲英语，还是想向雷布斯一样讲英语呢？我觉得你应该更想像马云一样。</p>
-
-<p>至于，如何提高英语水平，请问度娘。</p>
-
-<h3>控制代码质量</h3>
-
-<p>想成为优秀的iOS开发工程师，代码质量是很重要的一关。关于如何提高代码质量，推荐大家看一篇文章：<a href="http://www.90159.com/2015/06/17/Objective-C%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%EF%BC%9A26%E4%B8%AA%E6%96%B9%E9%9D%A2%E8%A7%A3%E5%86%B3iOS%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98/">Objective-C编码规范：26个方面解决iOS开发问题</a>，这篇文章详细的讲述了iOS开发方面的编码规范，建议大家多看一看。</p>
-
-<p>如果你能按着上面的编码规范来规范自己，我觉得最起码你代码看起来就比较整洁。这样的话，哪怕你一个月回头再来看自己的代码，应该很快就可以理解。而且，当你离开现在的公司，不至于后来的人骂你。</p>
-
-<p>没听人常说嘛：良好的习惯是成功的第一步，iOS开发者也不例外。</p>
-
-<h3>写博客分享技术</h3>
-
-<p>在csdn上看到有人问：不写博客的程序员是好程序员吗？这个问题问的其实挺好。不写博客的人也有进BAT的，BAT里面的程序员并不一定都写博客；写博客的人大部分都没有进BAT，比如像我这样的屌丝。</p>
-
-<p>但是这并不能说明什么。且看，写博客的好处在哪里？</p>
-
-<p><strong>写博客你可以交到一群志同道合的朋友</strong>。即使你们现实中从来没见过面，但是你们在互联网上有过思想的碰撞，这就已经足够了。</p>
-
-<p><strong>书写就是很好的思考</strong>。当你想熟练掌握一项技能，请将你的技术分享出来吧。</p>
-
-<p><strong>写的过程中也是学习</strong>。当你能把一项技术讲清楚，说明你已经完全理解了。</p>
-
-<p><strong>你的博客将比简历更有价值</strong>。你在各大招聘网站写简历不如你有一个有价值的博客。</p>
-
-<p>把技术分享出来，不仅帮助新人，更是提高自己，这是一种双赢。如果你写了技术文章没有好的地方可以发布，可以投稿给我：<a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#x6f;&#58;&#119;&#x6f;&#114;&#x6c;&#x64;&#x6c;&#105;&#103;&#97;&#x6e;&#103;&#x40;&#49;&#54;&#x33;&#46;&#99;&#x6f;&#x6d;">&#x77;&#x6f;&#x72;&#108;&#100;&#108;&#x69;&#x67;&#97;&#x6e;&#103;&#64;&#x31;&#54;&#51;&#46;&#x63;&#x6f;&#109;</a> 我将发布在我的公众号iOS开发（<strong>iOSDevTip</strong>）上，直接分享给上万名iOS开发者。</p>
-
-<h3>看github开源项目</h3>
-
-<p>github对于程序员来说，可谓是一个金库。很多优秀的人才，都在上面开源自己的项目。这些人都是伟大的。</p>
-
-<p>当你想实现一个功能，很有可能有一些大牛已经实现了。与其我们写出蹩脚代码来实现，不如去阅读大牛们在github上的开源项目。去看大牛是怎么实现的？思路是什么？如果是你你会怎么写？经过这样的思考之后，比你自己去实现重要的多。</p>
-
-<p>如果你自己就是大牛，那就另说了。你可以实现之后，把代码分享到github，帮助更多人。</p>
-
-<h3>实现自己的想法</h3>
-
-<p>一个不想当老板的程序员不是好程序员。谁不想成为马云呢，谁不想改变世界呢。所以，你要敢想，然后通过自己的技术去实现它。</p>
-
-<p>有些人可能以为：在公司里上班，去想做个什么东西，就是对老板不忠。这是一个很严重的错误想法。</p>
-
-<p>在大公司，都是支持内部创业的。如果你有好的想法，尽管去干吧。说不定第一个天使投资人就是你的老板。屌丝逆袭说不定从此开始。</p>
-
-<p>行了，醒醒，有想法更要有行动。</p>
-
-<p>按照我们老师的话说：成为一名优秀的iOS开发工程师任重而道远！这句话也送给你。</p>
-
-<blockquote><p>作者李刚是刚刚在线（<a href="www.superqq.com">www.superqq.com</a>）站长，百度百家专栏作者
-iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</p></blockquote>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/ios.png" alt="2" /></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/10">&larr; Older</a>
@@ -1230,6 +1278,10 @@ iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</
       </li>
     
       <li class="post">
+        <a href="/blog/2015/12/08/programmer-must-humor/">程序员的幽默你一定懂得</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/12/07/ios9-interface-orientation/">iOS9横竖屏设置的处理方法和实例讲解</a>
       </li>
     
@@ -1239,10 +1291,6 @@ iOS工程师非著名自媒体，微信公众号iOS开发：iOSDevTip运营者</
     
       <li class="post">
         <a href="/blog/2015/12/05/git-use-video-ppt/">VIP群福利：Git使用教程（视频+PPT）</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/04/swift-source-code/">Swift开源一天Github收获15000多star</a>
       </li>
     
   </ul>
