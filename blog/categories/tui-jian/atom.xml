@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 推荐 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/tui-jian/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-12-10T21:18:39+08:00</updated>
+  <updated>2015-12-10T21:21:13+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,125 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[半年的iOS代码生活]]></title>
+    <link href="http://www.superqq.com/blog/2015/12/10/ios-code-life-half-year/"/>
+    <updated>2015-12-10T21:16:24+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/12/10/ios-code-life-half-year</id>
+    <content type="html"><![CDATA[<p>在高考大军中拼杀过，也在大学校园中荒芜过，曾经低迷消沉，也常满怀壮志…… 但是最多的还是被称为小伙子以及自称为iOS工程师！博主就是这种喜闻乐见的这类人，实习一年后在2015年的毕业季顺利拿到了自己向往的一家创业公司的offer，也许相比很多毕业季的同学职场上顺利许多，但当深夜来临，显示器熄灭后望着荧幕出神的时候，毕业季我错过了很多也许一辈子都不会再相见的同学们的合影。半年里真正领略到了企业项目的开发的艰辛，以及团队协作的魅力，有太多太多的要说，终将其汇成一句话：哥加班半年后终于回来了！</p>
+
+<!--more-->
+
+
+<p><img src="http://daiweilai.github.io/img/post/2015-11-11-pic1.png" alt="1" /></p>
+
+<p>半年时间，反正撸啊撸段位已经是万劫不复了，iOS9一发布加班的觉悟早有了，潜伏的XCodeGhost也被拎出来了，各种被脱裤的同行大佬们也是尿了一地，哥也被吓了一哆嗦，赶忙修改了1024的账号密码…… 2015年就是伴随这些琐事发展着，但是博主作为一个初入职场半年的工作总结当然不会是简单地流水账。</p>
+
+<p>我知道你们都惦记着什么是1024，1024就是，呵呵，就是一款妈妈都说好玩的游戏啊~。</p>
+
+<h2>学习</h2>
+
+<pre><code>干挨踢的学会学习远比你死背一个功能的代码来的有用。
+</code></pre>
+
+<p>在iOS学习中去尝试体会Cocoa模式，多留意Cocoa中的框架的类，他们的命名都有规范，相似抽象的对象会有相似的方法或者写法，比如：Mutable的类可能都有addXX、appendXX方法，Set、Array类型的类可能都会有enumerateXX的遍历方法……，又比如一个类的功能如果注重过程的话，苹果会选择使用delegate的方式，注重结果的话则会使用block ，学会总结比较、触类旁通、举一反三！</p>
+
+<p>如果你能做到对Cocoa模式很熟悉的话，那么最新的3DTouch功能直接看类的头文件就会用了。</p>
+
+<p>并且，第三方优秀的、热门的库都会遵循这一套编写规范，所以使用起来或者修改起来也才能够游刃有余！除了<a href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa</a>之流除外。。</p>
+
+<pre><code>学习时候看一本书远没有敲一个项目来的有效果。
+</code></pre>
+
+<p>看书的时候总是会犯一个毛病，就是一看就懂，一写就懵。所以学习技术，我更推荐的是实践检真知！敲出来的代码才是学习到的，因为你在电脑前，你遇到不懂的你可以立刻Google，看到感兴趣的新类可以直接option+左键查看文档或者command+左键直接摆出头文件一览无遗！</p>
+
+<p>当然<a href="https://developer.apple.com/wwdc/">WWDC</a>别忘了看看，这是iOS最前沿的技术教学，即使听不懂也没关系，把音频外放，同事问你：哇，你听得懂呀。你微微一笑答道：听不懂。留下认真聆听却似享受的一道背影给同事，那可是满满的逼格。。呵呵，其实不然，视频中有大量PPT，有关键字，拿出来Google一番，再敲打一番，肯定你心中会觉得不虚此举哈，这样也锻炼了英文水平，这样的一波绝逼不亏呀。</p>
+
+<p>说到英文，这个是技术进阶的基础，不要畏惧，刚开始看一篇英文文档可能花费你一天的时间，但是这才是第一手资料！国内译者的水平毕竟参差不齐，谬误在所难免，而且二手的资料，对于充满处女情结的你能接受么？能忍么？所以百度还是用来搜搜绯闻、床照之流就好，技术索引真不是它的强项，搜出来的东西都是deprecated的，实在浪费感情。</p>
+
+<p><a href="http://nshipster.com/">NSHipster</a>、<a href="https://www.objc.io/">Objc.io</a> ……都是不错的去处，大量的紧巴巴的干货，他们都有中文版，但是最新的资料的中文版还是会相对滞后。</p>
+
+<p>再一个就是大婶们的博客，一天不读都浑身难受！</p>
+
+<p>之前拜阅<a href="http://blog.devtang.com/">唐巧Boy</a>的新书的时候，有一个博客列表非常不错，强势插入我的Feedly列表，我自己也有一些关注的大婶也加入了列表当中，这里给出分享OPML拿去玩。</p>
+
+<p>沙龙、研讨什么的可以适当参加，看看荧幕外的世界，不要老说没有搞iOS的姑娘。</p>
+
+<h2>团队</h2>
+
+<p>讲一个故事：从前有个产品经理，他修改了3次需求，第二天他死了。</p>
+
+<p>博主只想说的是，若不是博主心慈，我想我公司的产品经理已经死完后投胎又死一百次了。</p>
+
+<p>我们都知道项目完成的水平直接由团队中是否有高效的协作而决定，也许有很多程序员长期的孤高冷艳惯了，他们说自己不需要团队！自己一个人就可以搞定一切，自己是UI、UE、产品、编码、测试甚至后端一条龙拿下，但是你将没有女朋友！！！</p>
+
+<p>团队协作远比个人的英雄主义更有魅力，个人认为！</p>
+
+<p>当下的快速迭代的大环境下，企业级开发下英雄主义是不太可取也不太可行的，所以融入团队，学会交流是工作顺利进展的保证；</p>
+
+<p>当然团队协作中是否高效是否愉快就需要交流技巧了，每个人都有自恋的情节，即使是自己的工作技能也是如此，所以世界上存在着各种鄙视链</p>
+
+<p><img src="http://daiweilai.github.io/img/post/2015-11-11-pic2.jpg" alt="2" /></p>
+
+<p>举一个简单地例子吧</p>
+
+<p>公司常见撕逼的三个部门：研发部、产品部、市场部</p>
+
+<p>研发的看不起产品、市场，觉得他们都不懂技术，只是天马行空，遇到Bug还大惊小怪……</p>
+
+<p>产品的觉得自己的设计是天才的设定，参考了社会伦理学，色彩心理学，严格的人体工学设计……反驳自己的都是傻逼……</p>
+
+<p>市场的觉得自己深入客户，自己才是最了解这个产品市场的，所产品应该按自己的市场为导向，颜色不对，字体客户肯定不喜欢，改改改……</p>
+
+<p>在排除消极因素，投机倒把的极个别人存在，团队中的成员还是希望共同的目标能够完美的实现的，也就是说其实我们的“争吵”也是为了更好的产品，但是“争吵”的度确实很难把握，难免就因为工作却伤了私下的感情，这也是离职中众多原因之一，频繁的离职却会使得你的职业生涯成长增加时间成本，所以更好的工作方式是“学会交流”。</p>
+
+<p>“学会交流”不单单是工作中用到，这也是我们的一生的学问！</p>
+
+<p>例如有时候，产品部门不是很负责任的频繁变更需求，这可苦了研发的成员，你便可以玩笑似的给他讲一个故事：从前有个产品经理，他修改了3次需求……，我想这样的诙谐即会是的工作氛围愉悦许多也可能让产品的同事知道自己不负责任行为的影响。</p>
+
+<p>但是需求变更，这个是研发一直要面对课题，所以你必须学会“预置性开发”，预置性包括使用一些优秀的设计模式的使用降低模块间的耦合，增加系统维护的灵活性，也可以有类似Placeholder的编码技巧，来随时应对不期而遇的需求变更，具体的做法，这也许需要另开一篇博文来讲述。</p>
+
+<h2>健康</h2>
+
+<p>如果还没有升职加薪，当上总经理，出任CTO，迎娶白富美，走向人生巅峰。却出师未捷身先死，这个都不太好玩，身边的同事以及博主自己都有或多或少的职业病产生了，博主躬亲力行地验证了一个道理：樯橹灰飞烟灭！别说撸代码还真的很带感，根本停不下来，所以最后颈椎，肩膀就是各种不适。说多都是泪，不过后来博主秉承了国人”先污染后治理”的方针，总算把身子调过来了，秘笈如下：</p>
+
+<ul>
+<li>练此功，不强制自宫</li>
+<li>好吧，这才是第一条，”不可久坐”x循环3次！！很重要，久坐流入脑子的血液会增加，从而造成下肢浮肿。由于久坐只限于局部肌肉活动，缺乏全身较大肌群动作，时间一长，久不动作的肌肉会逐步萎缩，机能衰退，还会使心、肺的后备能力降低，不能适应肌肉活动对血液循环和氧气供应的要求，一动就会心跳气急。肌肉长期不活动，热量消耗少，会加重脂肪和糖的代谢障碍，导致身体过分肥胖、动脉硬化及糖尿病。而且久坐一般皮肤质量较差，长时间静坐，受压血液流通不畅，易引起臂部瘙痒和隐痛，伏案工作者更甚，长期下去易导致颈椎炎，肩周炎，腰椎突出，脊柱变弯……我编不下去了，就问你怕不怕！！！所以多起身活动往非技术部走走，不然就会生病的哟(认不出雌性生物了)。</li>
+<li>坐姿</li>
+</ul>
+
+
+<p><img src="http://daiweilai.github.io/img/post/2015-11-11-pic3.jpg" alt="3" /></p>
+
+<ul>
+<li>尝试全键盘操作，多记记几个快捷键世界就安静了，反正博主的magic mouse干电池已扣，什么你的是最新款的鼠标没干电池？那为了你的健康着想拿给博主用吧，可减少手腕以及肩膀劳损的风险。这里分享一个Mac屏幕效率工具SizeUp 可减少鼠标的使用！</li>
+<li>运动运动运动！不要在被人黑了，老是被黑码农，油头垢面，肾虚患者……有意思么？我们是改变世界的工程师！不要再穿拖鞋上班了！！大家薪水都不低，穿得体面点吧。你可以和博主一样帅的。</li>
+<li>努力陪伴回你身边一直陪伴着你的人，那使你的精神最远是最佳的状态！什么？那就多打打电话给你妈妈吧，那是最美的人。</li>
+</ul>
+
+
+<h2>追求</h2>
+
+<p>不要担心30岁要转行，不要认为30K就是终点，不要一天工作30个小时。保持初心。</p>
+
+<pre><code>O ever youthful,O ever weeping.
+</code></pre>
+
+<h2>后记</h2>
+
+<p>博主新开了一个博客系统，托管在了Github.io上，喜闻乐见的Jekll加借鉴<del>(抄袭)</del>的精美主题构建而成，反正样子应该还看得过去，如果有朋友有兴趣想了解iOS程序员为何日撸万行代码？数百奇巧淫技如何施展？无数干货为何频频送出？究竟编译器背后又隐藏着什么？这一切的背后是技术与生活的碰撞还是高效与投机的权衡？我真TM编不下去了，欢迎前往 [任意门]围观。</p>
+
+<p>严肃地，如果你刚开始学习iOS开发或许可以从博主这里得到一些半干货。</p>
+
+<p>生活愉快！</p>
+
+<blockquote><p>来自戴伟来的投稿</p>
+
+<p>博客地址：<a href="http://daiweilai.github.io/">http://daiweilai.github.io/</a></p></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[关于启用 HTTPS 的一些经验分享]]></title>
@@ -593,256 +712,6 @@ When you download Xcode from the Apple Developer Program web site, the code sign
 <p>We’re working to make it faster for developers in China to download Xcode betas. To verify that their version of Xcode has not been altered, they can take the following steps posted at &lt;developer.apple.com>.</p>
 
 <p>文章来自：<a href="http://www.apple.com/cn/xcodeghost/">http://www.apple.com/cn/xcodeghost/</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[AVFoundation和 GPUImage初探]]></title>
-    <link href="http://www.superqq.com/blog/2015/08/24/avfoundation-gpuimage-find/"/>
-    <updated>2015-08-24T11:21:01+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/08/24/avfoundation-gpuimage-find</id>
-    <content type="html"><![CDATA[<p>文章来自：<a href="http://vonglo.me/2014/08/24/AVFoundation%E5%92%8C-GPUImage%E5%88%9D%E6%8E%A2/" target="_blank" title=“AVFoundation和 GPUImage初探”>AVFoundation和 GPUImage初探</a></p>
-
-<p>最近在做视频相关的东西，然后熟悉了一下AVFoundation框架，以及强大的开源库GPUImage。在这里记录这个过程中遇到的一些问题，以及解决的方法。</p>
-
-<h3>AVFoundation的一些基本概念</h3>
-
-<p>根据苹果的官方文档，AVFoundation是用来播放和创建实时的视听媒体数据的框架，同时提供Objective-C接口来操作这些视听数据，比如编辑，旋转，重编码。本文着重讲的是视频的录制和编辑和GPUImage的一些简单使用，其他的都是一笔带过。来看下苹果文档的一个框架图。</p>
-
-<p><img src="http://images.90159.com/08/frameworksBlockDiagram_2x.png" alt="1" /></p>
-
-<h4>相关类</h4>
-
-<ul>
-<li><code>AVAsset</code></li>
-<li><code>AVAssetTrack</code></li>
-<li><code>AVComposition</code></li>
-<li><code>AVVideoComposition</code></li>
-<li><code>AVAudioMix</code></li>
-<li><code>AVMutableAudioMixInputParameter</code></li>
-<li><code>AVMutableVideoCompositionInstrution</code></li>
-<li><code>AVMutableVideoCompositionLayerInstrution</code></li>
-</ul>
-
-
-<p>简单的播放可以使用MPMoviePlayerController或者MPMovieViewController就行,简单的录
-制可以直接使用UIImagePickerController。同样简单的声音播放直接使用AVAudioPlayer，简单的录制直接使用AVAduioRecorder。如果你想要有更多的操作，可使用各种复杂的方式来控制播放，比如在同一时刻为同一个asset的不同片段使用不同的分辨率渲染，playitem来管理asset的呈现状态和方式,playitemtrack管理asset中的轨道（track）状态。</p>
-
-<!--more-->
-
-
-<p>在AVFoudation框架中最核心的类就是AVAsset，他是由一系列的媒体数据组成的，包括但不限于:时间、大小(size)、标题、字幕等。其中每一个单独的媒体数据称为轨道(track)。同样剪辑操作中，AVMutableComposition是一个核心类。</p>
-
-<p><img src="http://images.90159.com/08/asset-track.png" alt="4" /></p>
-
-<p>这里又一个重要的东西就是CMTime,它是一个结构体，定义如下:</p>
-
-<p>typedef struct
-{
-    CMTimeValue    value;      <br/>
-    CMTimeScale    timescale;  <br/>
-    CMTimeFlags    flags;      <br/>
-    CMTimeEpoch    epoch;      <br/>
-} CMTime;
-通常时间是等于value/timescale的，所以两个有相同时间的CMTime它们的timescale并不一定相同。关于更多CMTime的内容可以看<a href="https://developer.apple.com/library/ios/documentation/CoreMedia/Reference/CMTime/Reference/reference.html#//apple_ref/doc/uid/TP40009748">这里</a>。</p>
-
-<h3>进阶</h3>
-
-<h4>视频的录制</h4>
-
-<p>这里用的是系统原生录制,关于录制通常用到的几个类就是AVCaptureDevice、
-AVCaptureSession、AVCaptureDeviceInput、AVCaptureOutput,同样，来看一张图。</p>
-
-<p><img src="http://images.90159.com/08/capture.png" alt="2" /></p>
-
-<p>一般来说，如果你想修改视频的相关信息，如拍摄地点等，可以拿到output的metadata来修改。大致代码如下:</p>
-
-<pre><code>NSMutableArray *array = [output.metadta mutableCopy];
-AVMutableMetadataItem *item = [[AVMutableMetadataItem alloc] init];
-item.keyspace = ...;
-item.key = ...;
-item.value = ...;
-[array addObject:item];
-output.metadata = array;
-</code></pre>
-
-<p>如果录制时候想要得到指定的视频size必须先指定分辨率，像这样</p>
-
-<pre><code>if ([session canSetSessionPreset:AVCaptureSessionPreset640x480]){ 
-
-    session.sessionPreset = AVCaptureSessionPreset640x480;
-}
-else {
-    //设置失败
-}
-</code></pre>
-
-<p>切换摄像头或其他输入源必须在beginConfiguration和commitConfiguration之间来处理，大致是这样</p>
-
-<pre><code>[session beginConfiguration];
-//移除某个输入源
-//再添加某个输入源
-//再为新添加的输入源进行必要的相关设置
-//...其他操作
-[session commitConfiguration];
-</code></pre>
-
-<p>如果想对实时视频帧进行相关的渲染操作,通过 setSampleBufferDelegate:queue:方法来为output设置代理，同时必须指定queue，代理方法将会在这些queue上面被调用。可以在自己的类里面实现AVCaptureVideoDataOutput的协议方法,通过实现
-captureOutput:didOutputSampleBuffer:fromConnection:来拿到视频的每一帧，默认情况下这些视频帧会被用最有效的格式来输出到output,当然也可以在拍摄之前就为output进行相关设置。</p>
-
-<pre><code>AVCaptureVideoDataOutput *videoDataOutput = [AVCaptureVideoDataOutput new];
-NSDictionary *newSettings =@{ (NSString *)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA) };
-videoDataOutput.videoSettings = newSettings;
-</code></pre>
-
-<p>说了这么多，感觉很虚，还是直接上代码，将以上部分衔接起来</p>
-
-<pre><code>//自定义方法，小演示只添加了视频，没有添加声音，添加声音类似
-- (void)yourCustomMethodName{
-    AVCaptureSession *session = [[AVCaptureSession alloc] init];
-    if ([session canSetSessionPreset:AVCaptureSessionPreset640x480]){ 
-
-            session.sessionPreset = AVCaptureSessionPreset640x480;
-        }
-        else {
-            //设置失败
-        }
-    AVCaptureDevice *device =
-            [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-
-    NSError *error = nil;
-    AVCaptureDeviceInput *input =
-            [AVCaptureDeviceInput deviceInputWithDevice:device error:&amp;error];
-    if (!input) {
-        // Handle the error appropriately.
-    }
-    if(session canAddInput:input){
-        [session addInput:input];
-    }
-    AVCaptureVideoDataOutput *output = [[AVCaptureVideoDataOutput alloc] init];
-    if(session canAddOutput:output){
-        [session addOutput:output];
-    }
-    output.videoSettings =@{ (NSString *)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA) };
-    //设置帧率(FPS),每秒15帧
-    output.minFrameDuration = CMTimeMake(1, 15);
-    dispatch_queue_t queue = dispatch_queue_create("CustomQueue", NULL);
-    [output setSampleBufferDelegate:self queue:queue];
-    dispatch_release(queue)
-    NSString *mediaType = AVMediaTypeVideo;
-
- //用来显示录制的实时画面
-    AVCaptureVideoPreviewLayer *captureVideoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:session];
-    [self.view.layer addSublayer:captureVideoPreviewLayer];
-
-    //用户是否允许启用摄像头
-    [AVCaptureDevice requestAccessForMediaType:mediaType completionHandler:^(BOOL granted) {
-        if (granted)
-        {
-            //Granted access to mediaType
-            [self setDeviceAuthorized:YES];
-            [session startRunning];
-        }
-        else
-        {
-            //Not granted access to mediaType
-            dispatch_async(dispatch_get_main_queue(), ^{
-            [[[UIAlertView alloc] initWithTitle:@"AVCam!"
-                                        message:@"AVCam doesn't have permission to use Camera, please change privacy settings"
-                                       delegate:self
-                              cancelButtonTitle:@"OK"
-                              otherButtonTitles:nil] show];
-                    [self setDeviceAuthorized:NO];
-            });
-        }
-    }];
-}
-
-//协议方法,获取每一帧，将每一帧转换成图片，你也可以进行其他的渲染操作
-- (void)captureOutput:(AVCaptureOutput *)captureOutput
-         didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
-         fromConnection:(AVCaptureConnection *)connection {
-
-    UIImage *image = imageFromSampleBuffer(sampleBuffer);
-}
-</code></pre>
-
-<p>上面演示了如何取得每一帧实时画面,如果想要直接存成视频可使用AVCaptureMovieFileOutput,如下</p>
-
-<pre><code>AVCaptureMovieFileOutput *movieFileOutput = [[AVCaptureMovieFileOutput alloc] init];
-NSURL *fileURL = ...;    //存放位置
-//指定代理
-[aMovieFileOutput startRecordingToOutputFileURL:fileURL recordingDelegate:delete];
-//也可以为其指定outputSettings
-同样代理必须实现协议方法captureOutput:didFinishRecordingToOutputFileAtURL:fromConnections:error:,
-</code></pre>
-
-<p>当然还有其他各种具体的设置，如对焦、曝光、闪光灯以及白平衡等等均可以通过KVO来设置，每次设置前都加一个判断，是否支持指定模式,在这里不做详细叙述了,这里你可以看到<a href="https://developer.apple.com/library/ios/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/04_MediaCapture.html#//apple_ref/doc/uid/TP40010188-CH5-SW14">更多</a>。</p>
-
-<h4>视频的剪辑</h4>
-
-<p>视频的剪辑包括但不限于:裁剪、旋转(改变transform)、添加水印、添加字幕、合并等。关于剪辑，无非就是取出视频中的轨道(视频和音频),然后对轨道进行一系列的操作变可以得到各种想要的效果。首先我们先来看下面一张图</p>
-
-<p><img src="http://images.90159.com/08/composition.png" alt="3" /></p>
-
-<p>AVMutableComposition是整个视频剪辑过程中的一个核心，下面着重讲解这个类。AVMutableComposition和AVAsset一样含有多个视/音频轨道，但是更重要的是，它可以将多个AVAssetTrack合并到一起，比如在视频合并时，可以直接将多段视频拼接到一个轨道(AVMutableCompositonTrcak)，音频也一样。通过借助AVMutableVideoComposition和AVMutableAudioMix来设置每一段的视/音频的属性，从而达到想要的视听效果，比如视频切换处的淡入淡出，声音的渐变，字幕等等。
-关于上图的解释:首先通过将asset里面的轨道加载到composition的各轨道，然后通过audioMix和videoComposition对某个轨道进行对应操作,设置其相关属性。其中要用到的具体方法可以参见<a href="https://developer.apple.com/library/ios/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/03_Editing.html#//apple_ref/doc/uid/TP40010188-CH8-SW1">这里</a>。</p>
-
-<p>其中图中1，2，3用到的方法为</p>
-
-<pre><code>[1]
-[mutableComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid]
-[2]
-[AVMutableAudioMixInputParameters audioMixInputParametersWithTrack:mutableCompositionAudioTrack];`
-[3]
-[AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:mutableCompositionVideoTrack]
-</code></pre>
-
-<p>关于视频的剪辑的代码可以参见苹果给出的官方<a href="https://developer.apple.com/library/ios/samplecode/AVSimpleEditoriOS/Introduction/Intro.html#//apple_ref/doc/uid/DTS40012797">Demo</a>以及Raywendrich上的两篇文章<a href="http://www.raywenderlich.com/13418/how-to-play-record-edit-videos-in-ios">1</a>,<a href="http://www.raywenderlich.com/30200/avfoundation-tutorial-adding-overlays-and-animations-to-videos">2</a>。</p>
-
-<h3>GPUImage</h3>
-
-<p>什么?!你没听说过GPUImage?!那你赶紧去看看它的<a href="https://github.com/BradLarson/GPUImage/blob/master/README.md#overview">相关介绍</a>。GPUImage是一个基于OpenGL ES的一个强大的图像/视频处理库,封装好了各种滤镜同时也可以编写自定义的滤镜。至于他到底是如何强大,用了就知道。在这篇文章不是为了介绍它，而是列出一些我在使用过程中遇到的问题和解决方法。</p>
-
-<h4>分段录制</h4>
-
-<p>在使用GPUImageVideoCamera来录制的时候,可能需要分段录制,在GPUImage给出的视频录制Demo中直接只是录制一次，然而有时候需求可能是要录制多次，如果此时按照Demo的方法每次录制都要创建一个movieWriter,这样子的话每次都会在重新创建movieWriter并将它设置为videoCamera的audioEncodingTarget时候，界面都会卡顿一下，这是什么原因呢？因为videoCamera默认是不录制声音的，而每次创建movieWriter的时候都用到了movieWriter.hasAudioTrack = YES;,吊用这个之后videoCamera会自动去添加声音输入源,准备一些数据，所以这个过程会导致界面卡顿一下？这该怎么办呢？如果你有进到videoCamera的头文件去看的话你会发现这么一个方法和它的注释</p>
-
-<pre><code>//Add audio capture to the session. Adding inputs and outputs freezes 
-//the capture session momentarily, so you can use this method to add 
-//the audio inputs and outputs early, if you’re going to set the 
-//audioEncodingTarget later. Returns YES is the audio inputs and 
-//outputs were added, or NO if they had already been added.
-
--(BOOL)addAudioInputsAndOutputs;
-</code></pre>
-
-<p>注释的大意是:录制的时候添加声音,添加输入源和输出源会暂时会使录制暂时卡住,所以在要使用声音的情况下要先调用该方法来防止录制被卡住。这不刚好就解决了上面的这个问题吗？所以问题就迎刃而解了,因为没看到这个,走了不少弯路,浪费了好长时间。</p>
-
-<p>关于分段录制,可能有这么一个需求就是所有片段都是存于一个文件中而不是录制完成后将各段合并到一个视频文件中。这两个东西或许会帮到你<a href="http://blog.csdn.net/whf727/article/details/18702643">分段录制的实现</a>,<a href="https://github.com/leanlyne/GPUImageExtend">GPUImageExtend</a>。前者是基于系统的分段录制的实现,后者是GPUImageMoiveWriter的一个子类。</p>
-
-<h4>所见即所得</h4>
-
-<p>在录制的时候,使用GPUImageView来显示,因为给GPUImageView设置的大小是320*320的,如果不设置它的填充模式(fillMode)它是默认使用kGPUImageFillModePreserveAspectRatio即保持长宽比,其余空白处使用背景色填充,如果要设置成方形就得使用kGPUImageFillModePreserveAspectRatioAndFill,但是这个时候问题又来了假设你是用的录制分辨率是960x540,显示的画面则只会显示中间的540x540的画面,这个时候如果movieWriter的size设置为540x540,则最后保存的视频是失真的因为960被压到了540，整个画面变扁了。这个时候有两种解决方案</p>
-
-<ul>
-<li>1.使用GPUImageCropFilter,通过设置其cropRegion来裁出中间540x540部分。关于cropRegion要注意它是一个CGRect,它对坐标系做了一个归一化处理,所以让所有的取值都在0.0~1.0范围内,比如960x540裁剪至中间540x540部分则cropRegion为(0,((960-540)/2)/960,1,540/960)</li>
-<li>2.改变videoComposition的perferTransfom使其只显示中间的540x540。
-这样就完成了所见即所得。</li>
-</ul>
-
-
-<p>关于GPUImage的实时滤镜添加或给已存在的视频添加滤镜,Demo都给出了详细过程,依葫芦画瓢即可。有一点要注意的是,在一些操作完成的时候注意removeTarget,还有就是在使用movieFile来播放已存在视频并添加滤镜的时候是没有声音的,这是这个库的一个缺陷,Github上有人提了这个<a href="https://github.com/BradLarson/GPUImage/issues/458">issue</a>和<a href="https://gist.github.com/pgodino/3819907">一些解决办法</a>。同时在用movieFile处理视频的时候在切换滤镜的时候最好先cancelProcessing不然会有黑屏或卡顿现象出现。同样如果你是用老版本的GPUImage的时候,可能会遇到第一帧是红色的现象,有人提出这个issue后,作者修复了这个bug,切换到最新版的时候就不会有这种情况发生。发生这种情况的原因是视频掉帧,导致音频和视频不同步。</p>
-
-<h3>总结</h3>
-
-<p>AVFoundation还是有很多东西去做深层次的挖掘,GPUImage也是一样,有了这个强大的库,解决一些事情节省了大量时间。这次仅仅是一个小小的尝试,对于很多东西都是浅尝则止,文中难免会有错误,欢迎在评论中指正。如果你在使用GPUImage和AVFoundation有什么好的心得或者对一些问题有相应的解决方案,不妨在评论中分享一下。</p>
-
-<hr />
-
-<p>版权声明：我已将本文在微信公众平台的发表权「独家代理」给 iOS开发（ iOSDevTip ） 微信公众号。扫下方二维码即可关注「iOS 开发」：</p>
-
-<p><img src="http://images.90159.com/icon/iOSDevTip.jpg" alt="iOSDevTip" /></p>
 ]]></content>
   </entry>
   
