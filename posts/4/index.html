@@ -81,6 +81,68 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/08/24/avfoundation-gpuimage-find/">AVFoundation和 GPUImage初探</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-24T11:21:01+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:21 am</span></time>
+        
+        
+          | <a href="/blog/2015/08/24/avfoundation-gpuimage-find/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>文章来自：<a href="http://vonglo.me/2014/08/24/AVFoundation%E5%92%8C-GPUImage%E5%88%9D%E6%8E%A2/" target="_blank" title=“AVFoundation和 GPUImage初探”>AVFoundation和 GPUImage初探</a></p>
+
+<p>最近在做视频相关的东西，然后熟悉了一下AVFoundation框架，以及强大的开源库GPUImage。在这里记录这个过程中遇到的一些问题，以及解决的方法。</p>
+
+<h3>AVFoundation的一些基本概念</h3>
+
+<p>根据苹果的官方文档，AVFoundation是用来播放和创建实时的视听媒体数据的框架，同时提供Objective-C接口来操作这些视听数据，比如编辑，旋转，重编码。本文着重讲的是视频的录制和编辑和GPUImage的一些简单使用，其他的都是一笔带过。来看下苹果文档的一个框架图。</p>
+
+<p><img src="http://images.90159.com/08/frameworksBlockDiagram_2x.png" alt="1" /></p>
+
+<h4>相关类</h4>
+
+<ul>
+<li><code>AVAsset</code></li>
+<li><code>AVAssetTrack</code></li>
+<li><code>AVComposition</code></li>
+<li><code>AVVideoComposition</code></li>
+<li><code>AVAudioMix</code></li>
+<li><code>AVMutableAudioMixInputParameter</code></li>
+<li><code>AVMutableVideoCompositionInstrution</code></li>
+<li><code>AVMutableVideoCompositionLayerInstrution</code></li>
+</ul>
+
+
+<p>简单的播放可以使用MPMoviePlayerController或者MPMovieViewController就行,简单的录
+制可以直接使用UIImagePickerController。同样简单的声音播放直接使用AVAudioPlayer，简单的录制直接使用AVAduioRecorder。如果你想要有更多的操作，可使用各种复杂的方式来控制播放，比如在同一时刻为同一个asset的不同片段使用不同的分辨率渲染，playitem来管理asset的呈现状态和方式,playitemtrack管理asset中的轨道（track）状态。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/08/24/avfoundation-gpuimage-find/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/08/23/ios-android-social-sdk/">iOS/Android开发社交SDK列表</a></h1>
     
     
@@ -641,45 +703,6 @@ accelerometer.updateInterval = 0.1;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/07/implement-uitextview-placeholder/">实现placeholder属性的UITextView</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-08-07T00:27:43+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:27 am</span></time>
-        
-        
-          | <a href="/blog/2015/08/07/implement-uitextview-placeholder/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>iOS开发微信公众号上的iOS技术文章，都将发布在<a href="http://www.superqq.com/">刚刚在线</a>。所以大家可以到我的网站上查看之前的文章，也可以在底部的精彩文章查看历史文章。</p>
-
-<p>上一篇文章<a href="http://www.superqq.com/blog/2015/08/06/uitextview-placeholder-practice/">UITextView实现placeholder的猥琐做法</a>讲了关于<code>UITextView</code>的<code>placeholder</code>实现原理。大家都一致认为做法比较猥琐。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/08/07/implement-uitextview-placeholder/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/5">&larr; Older</a>
@@ -707,6 +730,10 @@ accelerometer.updateInterval = 0.1;
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/12/10/ios-code-life-half-year/">半年的iOS代码生活</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/12/09/programmer-must-humor/">程序员的幽默你一定懂得</a>
       </li>
     
@@ -720,10 +747,6 @@ accelerometer.updateInterval = 0.1;
     
       <li class="post">
         <a href="/blog/2015/12/06/an-elastic-sliding-menu/">一个弹性侧滑菜单</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/05/git-use-video-ppt/">VIP群福利：Git使用教程（视频+PPT）</a>
       </li>
     
   </ul>
