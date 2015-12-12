@@ -81,6 +81,114 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/05/22/iosxie-yi-li-mian-ke-yi-ding-yi-cheng-yuan-bian-liang-he-shu-xing-ma-%3F/">iOS协议里面可以定义成员变量和属性吗？</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-05-22T11:08:18+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:08 am</span></time>
+        
+        
+          | <a href="/blog/2015/05/22/iosxie-yi-li-mian-ke-yi-ding-yi-cheng-yuan-bian-liang-he-shu-xing-ma-%3F/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>关注iOS开发：iOSDevTip</p></blockquote>
+
+<p>在CSDN上看到有人提的问题，觉得很有价值，先看代码：</p>
+
+<pre><code>@protocol CAMediaTiming
+
+/* The begin time of the object, in relation to its parent object, if
+ * applicable. Defaults to 0. */
+
+@property CFTimeInterval beginTime;
+
+/* The basic duration of the object. Defaults to 0. */
+
+@property CFTimeInterval duration;
+
+/* The rate of the layer. Used to scale parent time to local time, e.g.
+ * if rate is 2, local time progresses twice as fast as parent time.
+ * Defaults to 1. */
+
+@property float speed;
+
+/* Additional offset in active local time. i.e. to convert from parent
+ * time tp to active local time t: t = (tp - begin) * speed + offset.
+ * One use of this is to "pause" a layer by setting `speed' to zero and
+ * `offset' to a suitable value. Defaults to 0. */
+
+@property CFTimeInterval timeOffset;
+
+/* The repeat count of the object. May be fractional. Defaults to 0. */
+
+@property float repeatCount;
+
+/* The repeat duration of the object. Defaults to 0. */
+
+@property CFTimeInterval repeatDuration;
+
+/* When true, the object plays backwards after playing forwards. Defaults
+ * to NO. */
+
+@property BOOL autoreverses;
+
+/* Defines how the timed object behaves outside its active duration.
+ * Local time may be clamped to either end of the active duration, or
+ * the element may be removed from the presentation. The legal values
+ * are `backwards', `forwards', `both' and `removed'. Defaults to
+ * `removed'. */
+
+@property(copy) NSString *fillMode;
+
+@end
+</code></pre>
+
+<h3>问题：</h3>
+
+<p>上面那个协议时苹果自带的，为什么里面定义了成员变量呢？</p>
+
+<h3>网友回答：</h3>
+
+<p>这只是在头文件中声明，编译器是不会自动生成实例变量的，也就是说你可以用一个对象去实现这个协议，但是你不自己存储的话实例变量的话，访问同样会崩溃：
+self.fillModel = @&ldquo;test&rdquo;; // unrecognized selector</p>
+
+<h3>追问</h3>
+
+<p>你好，也就是说我需要这样：</p>
+
+<pre><code>@interface MyClass : NSObject &lt; CAMediaTiming &gt;
+@property CFTimeInterval beginTime;
+@end
+</code></pre>
+
+<p>这样才可以么？
+也就是@protocol能声明，不能定义变量么？</p>
+
+<h3>网友回答</h3>
+
+<p>协议声明出来的是方法，虽然看起来是属性，其实只有 getter、setter 这两个方法，内部是没有实例变量的，并且你不能去重定义它，只能在 getter、setter 里处理
+​</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/05/14/iosdi-tu-ding-wei-shi-yong-xiao-ji-qiao/">iOS地图定位使用几个小功能</a></h1>
     
     
@@ -1413,91 +1521,6 @@ static LGManagerCenter *managerCenter;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/01/29/ioskai-fa-xia-zai-wen-jian-su-du-ji-suan/">iOS开发下载文件速度计算</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-01-29T10:40:38+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:40 am</span></time>
-        
-        
-          | <a href="/blog/2015/01/29/ioskai-fa-xia-zai-wen-jian-su-du-ji-suan/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>当我们写下载界面的时候，需要向用户展示每秒下载多少KB，这个时候就需要计算速度。如下：</p>
-
-<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlykfVEtYcoETGMzCaNgWWfvvjjxmJYIj9ibjNHHmn7f1oOTgEbcTstj44G2EjdqRjeMxSqdJfVaAibPA/640" /></a></p>
-
-<p>我用的是AFNetworking来做下载的，我们拿AFHTTPRequestOperation来举列，AFHTTPRequestOperation中有个方法：</p>
-
-<pre><code>- (void)setDownloadProgressBlock:(void (^)(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead))block
-</code></pre>
-
-<p>这个方法读取导数据之后通过block回调。计算速度就是在这个block里面完成的。</p>
-
-<p>需要定义一个下载对象：DownTask。DownTask需要有的属性：totalRead（一秒读取的数据）、speed（速度）、date（记录上一秒计算之后的时间）。注意：这里的一秒不是严格意义上的一秒，有可能大于一秒，我们计算的是平均速度，所以不会误差太大。</p>
-
-<pre><code>        //计算一秒中的速度
-        downTask.totalRead += bytesRead;
-
-        //获取当前时间
-        NSDate *currentDate = [NSDate date];
-
-        //当前时间和上一秒时间做对比，大于等于一秒就去计算
-        if ([currentDate timeIntervalSinceDate:downTask.date] &gt;= 1) {
-            //时间差
-            double time = [currentDate timeIntervalSinceDate:downTask.date];
-
-            //计算速度
-            long long speed = downTask.total/time;
-
-            //把速度转成KB或M
-            downTask.speed = [downTask formatByteCount:speed];
-
-            //维护变量，将计算过的清零
-            downTask.totalRead = 0.0;
-
-            //维护变量，记录这次计算的时间
-
-            downTask.date = currentDate;
-</code></pre>
-
-<p>其中， downTask.speed = [downTask formatByteCount:speed];是用来将字节转化成我们需要的KB或M。用到的是：NSByteCountFormatter，具体实现如下：</p>
-
-<pre><code>- (NSString*)formatByteCount:(long long)size
-{
-    return [NSByteCountFormatter stringFromByteCount:size countStyle:NSByteCountFormatterCountStyleFile];
-}
-</code></pre>
-
-<p>这个方法是放在下载对象DownTask里面的。</p>
-
-<p>以上就是我计算下载速度的方法。希望能给你带来帮助。</p>
-
-<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/13">&larr; Older</a>
@@ -1525,6 +1548,10 @@ static LGManagerCenter *managerCenter;
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/12/12/apple-commit-7-day/">苹果公司即将放假7天暂停APP提交审核</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/12/11/mbmotion-great-effect/">非常棒的特效-MBMotion</a>
       </li>
     
@@ -1538,10 +1565,6 @@ static LGManagerCenter *managerCenter;
     
       <li class="post">
         <a href="/blog/2015/12/08/some-experiences-https/">关于启用 HTTPS 的一些经验分享</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/07/ios9-interface-orientation/">iOS9横竖屏设置的处理方法和实例讲解</a>
       </li>
     
   </ul>
