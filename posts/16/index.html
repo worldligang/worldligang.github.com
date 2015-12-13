@@ -81,6 +81,87 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/11/19/ioskai-fa-zhong-gitfen-zhi-chuang-jian-he-guan-li/">iOS开发中git分支创建和管理</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-11-19T10:19:00+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:19 am</span></time>
+        
+        
+          | <a href="/blog/2014/11/19/ioskai-fa-zhong-gitfen-zhi-chuang-jian-he-guan-li/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.superqq.com/">iOS开发中git分支创建和管理</a></p>
+
+<p>创建分支</p>
+
+<pre><code>$ git branch testing
+</code></pre>
+
+<p>切换到testing分支</p>
+
+<pre><code>$ git checkout testing
+</code></pre>
+
+<p>查看本地分支</p>
+
+<pre><code>$ git branch
+</code></pre>
+
+<p>查看远程分支</p>
+
+<pre><code>$ git branch -a
+</code></pre>
+
+<p>删除本地分支</p>
+
+<pre><code>$ git branch -D testing
+</code></pre>
+
+<p>提交本地分支到远程</p>
+
+<p>1，切换到要提交的分支</p>
+
+<pre><code>$ git checkout testing
+</code></pre>
+
+<p>2，提交到远程</p>
+
+<pre><code>$ git push origin testing
+</code></pre>
+
+<p>删除远程分支</p>
+
+<pre><code>$git push origin :branch-name
+</code></pre>
+
+<p>冒号前面的空格不能少，原理是把一个空分支push到server上，相当于删除该分支。</p>
+
+<p>iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/11/18/cocoapodsxiang-jie-zhi-zhi-zuo-pian/">CocoaPods详解之&#8212;-制作篇</a></h1>
     
     
@@ -1513,72 +1594,6 @@ Content-Type: application/json
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/11/07/xcode6-dot-1diao-shi-de-shi-hou-you-shi-can-shu-du-wei-nilzen-yao-jie-jue/">xcode6.1调试的时候有时参数都为nil怎么解决?</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-11-07T09:18:04+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:18 am</span></time>
-        
-        
-          | <a href="/blog/2014/11/07/xcode6-dot-1diao-shi-de-shi-hou-you-shi-can-shu-du-wei-nilzen-yao-jie-jue/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.superqq.com/blog/2014/11/07/xcode6-dot-1diao-shi-de-shi-hou-you-shi-can-shu-du-wei-nilzen-yao-jie-jue/">xcode6.1调试的时候有时参数都为nil怎么解决?</a></p>
-
-<p>昨天我在写代码的时候，发现xcode6.1调试的时候有时参数都为nil？曾经有朋友遇到过这个问题，我一直没当回事，昨天我也碰到了：</p>
-
-<p>看下图：</p>
-
-<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlylSosnUuLhV6wTjsFzyRRxoxIUFMqUwfUBic9qDUm8IY9gJQibL0oNeGUMCKN1oVJBwnv6l5OAezkicg/640" ></p>
-
-<p>刚创建的vc 和 nav 都为nil，这给断点调试增加了很多麻烦，难道是xcode的bug吗？</p>
-
-<p>群里问问大牛，不得姐，网上有查，最终找到解决方法：</p>
-
-<p>在Project的Build Settings中把Optimization Level 设置成 None 即可。</p>
-
-<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlylSosnUuLhV6wTjsFzyRRxo44fXntXf13uoSlnLOsdTkbhHFsHXeDljz69g3JR4sEJnr5SRSLO8icQ/640" ></p>
-
-<p>在运行看一下结果：</p>
-
-<p><img src="http://mmbiz.qpic.cn/mmbiz/8RTSPr4mlylSosnUuLhV6wTjsFzyRRxoHE3BZhvRDgzxlCG8ibiceSGl81ykIM58AejX3nYW5YO5aSTwTsick82Sw/640" ></p>
-
-<p>果然，有值了。小问题的解决方法，分享给大家。</p>
-
-<p>喜欢我们的内容，可以点击右上角「分享到朋友圈」</p>
-
-<p>以后大家有什么问题，可以登录<a href="http://www.iswifting.com">swift社区</a> 里面设置有问答区，会有大牛帮大家解答问题的。</p>
-
-<p>微信公众账号：iOS开发</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-
-<p>QQ群：iOS学习交流群</p>
-
-<pre><code>303868520
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/17">&larr; Older</a>
@@ -1606,7 +1621,11 @@ Content-Type: application/json
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/12/12/apple-commit-7-day/">苹果公司即将放假7天暂停APP提交审核</a>
+        <a href="/blog/2015/12/13/write-code-48-year/">Write Code 48 Year</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/12/apple-commit-7-day/">苹果公司即将放假8天暂停APP提交审核</a>
       </li>
     
       <li class="post">
@@ -1619,10 +1638,6 @@ Content-Type: application/json
     
       <li class="post">
         <a href="/blog/2015/12/09/programmer-must-humor/">程序员的幽默你一定懂得</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/08/some-experiences-https/">关于启用 HTTPS 的一些经验分享</a>
       </li>
     
   </ul>

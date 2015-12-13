@@ -81,7 +81,58 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/12/12/apple-commit-7-day/">苹果公司即将放假7天暂停APP提交审核</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/12/13/write-code-48-year/">Write Code 48 Year</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-12-13T00:00:00+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
+        
+        
+          | <a href="/blog/2015/12/13/write-code-48-year/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><hr />
+
+<p>layout: post
+title:  我已经写了48年代码了，我感觉我还能写下去
+date: 2015-12-13 19:42:20 +0800
+comments: true
+categories: 程序员
+keywords: 程序员, iOS开发,程序员幽默  , iOS开发, 刚刚在线
+description: 随便实现的特效，正在不断丰富中…目前实现的效果列表。MBMotionActionSheet</p>
+
+<hr />
+
+<p>这是来自quroa的问题：Why-aren&rsquo;t-there-a-lot-of-old-programmers-at-software-companies下的一个回答。</p>
+
+<p>很多人会疑问是不是程序员最后只能转管理，是不是到了中年之后就应该放弃编程。看到这个回答后很受触动，尽力翻译出来，有不恰当的地方欢迎指出。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/12/13/write-code-48-year/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/12/12/apple-commit-7-day/">苹果公司即将放假8天暂停APP提交审核</a></h1>
     
     
       <p class="meta">
@@ -100,7 +151,7 @@
   </header>
 
 
-  <div class="entry-content"><p>圣诞节对于美国人来说是一个重要的节日。每年的圣诞节苹果公司都会全员放假7天时间，时间2015年12月22日之2015年12月29日。今年也不例外。</p>
+  <div class="entry-content"><p>圣诞节对于美国人来说是一个重要的节日。每年的圣诞节苹果公司都会全员放假8天时间，时间2015年12月22日之2015年12月29日。今年也不例外。</p>
 
 <p>昨天登录苹果开发者平台: <a href="http://developer.apple.com">http://developer.apple.com</a> 就有提示：</p>
 
@@ -460,91 +511,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/12/03/vvdocumenter-xcode7-not-work/">升级Xcode7之后VVDocumenter-Xcode不能用的解决办法</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-12-03T22:24:57+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:24 pm</span></time>
-        
-        
-          | <a href="/blog/2015/12/03/vvdocumenter-xcode7-not-work/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>VVDocumenter-Xcode是Xcode上一款快速添加标准注释，并可以自动生成文档的插件。有了VVDocumenter-Xcode，规范化的注释，只需要输入三个斜线“///”就可以搞定，非常方面实用，目前已经支持Swift。</p>
-
-<p>Objective-C效果图：</p>
-
-<p><img src="http://images.90159.com/11/vvdocumenter1.gif" alt="VVDocumenter1" /></p>
-
-<p>Swift效果图：</p>
-
-<p><img src="http://images.90159.com/11/vvdocumenter2.gif" alt="VVDocumenter1" /></p>
-
-<p>从Xcode 5开始，苹果要求加入UUID证书从而保证插件的稳定性。因此Xcode版本更新之后需要在VVDocumenter-Xcode的Info.plist文件中添加Xcode的UUID。</p>
-
-<h2>步骤如下：</h2>
-
-<h3>一、查看Xcode的UUID</h3>
-
-<h4>方式1</h4>
-
-<p>在终端执行</p>
-
-<pre><code>defaults read /Applications/Xcode.app/Contents/Info DVTPlugInCompatibilityUUID
-</code></pre>
-
-<p><img src="http://images.90159.com/11/vvdocumenter3.jpg" alt="VVDocumenter1" /></p>
-
-<p>拷贝选中的字符串。</p>
-
-<h4>方式2</h4>
-
-<p>在/Applications目录中找到Xcode.app，右键”显示包内容”，进入Contents文件夹，双击Info.plist打开，找到DVTPlugInCompatibilityUUID，拷贝后面的字符串。</p>
-
-<h3>二、添加Xcode的UUID到VVDocumenter-Xcode的Info.plist文件</h3>
-
-<h4>方式1&ndash;插件已经安装完成</h4>
-
-<p>1、打开xcode插件所在的目录：~/Library/Application Support/Developer/Shared/Xcode/Plug-ins；</p>
-
-<p>2、选择已经安装的插件例如VVDocumenter-Xcode，右键”显示包内容”；</p>
-
-<p>3、找到info.plist 文件，找到DVTPlugInCompatibilityUUIDs的项目，添加一个Item，Value的值为之前Xcode的UUID，保存。</p>
-
-<p><img src="http://images.90159.com/11/vvdocumenter4.jpg" alt="VVDocumenter1" /></p>
-
-<h4>方式2&ndash;插件还未安装/重新安装</h4>
-
-<p>1、从GitHub克隆仓库到本地，在Xcode中打开项目，选择项目名称，在TAGETS下选中VVDocumenter-Xcode；</p>
-
-<p>2、选择Info，找到DVTPlugInCompatibilityUUIDs的项目，添加一个Item，Value的值为之前Xcode的UUID；</p>
-
-<p>3、Build项目，VVDocumenter-Xcode会自动安装。</p>
-
-<h3>三、重启Xcode</h3>
-
-<p>Xcode 6之后，重启Xcode时会提示“Load bundle”、 “Skip Bundle”，这里必须选择“Load bundle”，不然插件无法使用。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -570,7 +536,11 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/12/12/apple-commit-7-day/">苹果公司即将放假7天暂停APP提交审核</a>
+        <a href="/blog/2015/12/13/write-code-48-year/">Write Code 48 Year</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/12/apple-commit-7-day/">苹果公司即将放假8天暂停APP提交审核</a>
       </li>
     
       <li class="post">
@@ -583,10 +553,6 @@
     
       <li class="post">
         <a href="/blog/2015/12/09/programmer-must-humor/">程序员的幽默你一定懂得</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/08/some-experiences-https/">关于启用 HTTPS 的一些经验分享</a>
       </li>
     
   </ul>

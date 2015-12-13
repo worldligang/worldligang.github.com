@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-12-12T19:54:29+08:00</updated>
+  <updated>2015-12-13T19:43:39+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -14,11 +14,53 @@
 
   
   <entry>
-    <title type="html"><![CDATA[苹果公司即将放假7天暂停APP提交审核]]></title>
+    <title type="html"><![CDATA[Write Code 48 Year]]></title>
+    <link href="http://www.superqq.com/blog/2015/12/13/write-code-48-year/"/>
+    <updated>2015-12-13T00:00:00+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/12/13/write-code-48-year</id>
+    <content type="html"><![CDATA[<hr />
+
+<p>layout: post
+title:  我已经写了48年代码了，我感觉我还能写下去
+date: 2015-12-13 19:42:20 +0800
+comments: true
+categories: 程序员
+keywords: 程序员, iOS开发,程序员幽默  , iOS开发, 刚刚在线
+description: 随便实现的特效，正在不断丰富中…目前实现的效果列表。MBMotionActionSheet</p>
+
+<hr />
+
+<p>这是来自quroa的问题：Why-aren&rsquo;t-there-a-lot-of-old-programmers-at-software-companies下的一个回答。</p>
+
+<p>很多人会疑问是不是程序员最后只能转管理，是不是到了中年之后就应该放弃编程。看到这个回答后很受触动，尽力翻译出来，有不恰当的地方欢迎指出。</p>
+
+<!--more-->
+
+
+<p>下 个星期我就69岁了。我从1967年开始编程。到现在已经48年了，从COBOL一直写到jQuery。我已经忘掉的编程语言比很多程序员这辈子遇到的还 多。我现在自己接一些项目，因为作为一个员工我完全是个工作狂，即使在我已经三十多岁的时候。我永远不会再去做一份每天工作8小时的传统编程工作。</p>
+
+<p>我 已经写了两三百万行或者四百万行代码，我觉得我至少要写到&hellip;额，算了，无所谓。代码写的再多也没有什么意义，除非，这个代码对你关心的人们产生了好的 影响。（原文是： a positive impact on people I care about，和《硅谷》里的make world a better place 真是异曲同工）</p>
+
+<p>变老带来的一个好处是，我不会再相信那些有一个点子就能改变世界的二逼想法。我只想把我应该做的工作做好，然后交给用户一个体验更好的产品。</p>
+
+<p>但 是一个老年程序员有一个非常明显的缺点。这个世界变化的非常快，而且越来越快。15年前，我投身C++，然后我很精通它。大概4年前，我开始沉迷于 jQuery，同时学习怎么把jQuery和C#混在一起（hook jQuery and C#）去快速实现一个用户界面。3年前我从公司退休，于是我又开始关注C#并且沉迷于WordPress。现在是Drupal（php的一个框架）。趋势 就是学习一样新东西对我而言越来越难。我现在还在尝试用本地存储和 Web Workers写一个WordPress插件，调试这些真的让我有点累。</p>
+
+<p>但是我真正要坚持的是要不断的编程，不要停，因为我真的热爱编程，其实我也只会这么一件事。不像人际交往、建立社交圈是我最近二十几年才开始尝试去做。</p>
+
+<p>所以左脑用于编程，右脑用于处理人际关系让我保持着生活的平衡。这肯定因为我已经和一个美丽的女人结婚四十多年，我和我的三个孩子也有着非常和睦的关系。</p>
+
+<p>我给自己设立了一个目标，至少要写50年（到2017年6月）。然后在70岁的时候成为Mankind Project &amp; New Warriors Training Adventure项目联合领袖。非常有挑战性。几年以后你可以再来看看我做的怎么样。</p>
+
+<p>来自：<a href="http://www.jianshu.com/p/285421a867c9">http://www.jianshu.com/p/285421a867c9</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[苹果公司即将放假8天暂停APP提交审核]]></title>
     <link href="http://www.superqq.com/blog/2015/12/12/apple-commit-7-day/"/>
     <updated>2015-12-12T19:52:50+08:00</updated>
     <id>http://www.superqq.com/blog/2015/12/12/apple-commit-7-day</id>
-    <content type="html"><![CDATA[<p>圣诞节对于美国人来说是一个重要的节日。每年的圣诞节苹果公司都会全员放假7天时间，时间2015年12月22日之2015年12月29日。今年也不例外。</p>
+    <content type="html"><![CDATA[<p>圣诞节对于美国人来说是一个重要的节日。每年的圣诞节苹果公司都会全员放假8天时间，时间2015年12月22日之2015年12月29日。今年也不例外。</p>
 
 <p>昨天登录苹果开发者平台: <a href="http://developer.apple.com">http://developer.apple.com</a> 就有提示：</p>
 
@@ -1386,74 +1428,6 @@ if ([[UIApplication sharedApplication] canOpenURL:url])
 
 <p>作者：Tim Oliver
 @TimOliverAU — iComics创始人</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[两个非常不错的自定义UIAlertView第三方类库]]></title>
-    <link href="http://www.superqq.com/blog/2015/10/30/two-nice-uialertview/"/>
-    <updated>2015-10-30T10:08:00+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/10/30/two-nice-uialertview</id>
-    <content type="html"><![CDATA[<p>UIAlertView大家都不陌生了。UIAlertView不可以添加控件，比如说：UILabel、UITextView等等，所以遇到这个需求，一般都要自定义UIAlertView来解决。</p>
-
-<p>我再github上找到了两个非常错的自定义UIAlertView第三方类库，分别是：LMAlertView和CustomIOSAlertView。</p>
-
-<h2>LMAlertView使用简介</h2>
-
-<p><a href="https://github.com/lmcd/LMAlertView">LMAlertView</a>在github上有610个star。说明这个第三方的UIAlertView还不错，我大概看了一下用法也比较简单。</p>
-
-<p>来看看两个个案例效果：</p>
-
-<p><img src="https://camo.githubusercontent.com/eb9242282b703a847c5ca45ef47462ec507ba573/687474703a2f2f6c6d63642e6d652f4c4d416c657274566965772d637573746f6d4032782e706e67" alt="1" /></p>
-
-<!--more-->
-
-
-<p><img src="https://camo.githubusercontent.com/b1c95e3be84a8d277e1c542ca768b3bdebe043a6/687474703a2f2f6c6d63642e6d652f4c4d416c657274566965772d7265766965774032782e706e673f33" alt="2" /></p>
-
-<h3>用CocoaPods安装LMAlertView</h3>
-
-<pre><code>pod 'LMAlertView'
-</code></pre>
-
-<h3>使用案例</h3>
-
-<pre><code>LMAlertView *alertView = [[LMAlertView alloc] initWithTitle:@"iOSDevTip"
-                                        message:@"关注一下"
-                                       delegate:nil
-                              cancelButtonTitle:@"ok"
-                              otherButtonTitles:nil];
-
-// Add your subviews here to customise
-UIView *contentView = alertView.contentView;
-
-[alertView show];   
-</code></pre>
-
-<p>LMAlertView还保持着UIAlertView的创建方法，作者还比较用心。</p>
-
-<h2>CustomIOSAlertView使用简介</h2>
-
-<p><a href="https://github.com/wimagguc/ios-custom-alertview">CustomIOSAlertView</a>比LMAlertView的star还多一些，有861个。同样我们先看一下效果：</p>
-
-<p><img src="https://github.com/wimagguc/ios-custom-alertview/raw/master/Docs/screen.png" alt="3" /></p>
-
-<h3>用CocoaPods安装CustomIOSAlertView</h3>
-
-<pre><code>pod 'CustomIOSAlertView', '~&gt; 0.9.3'
-</code></pre>
-
-<h3>使用案例</h3>
-
-<pre><code>CustomIOSAlertView *alertView = [[CustomIOSAlertView alloc] init];  UIView *customView ..;
-
-[alertView setContainerView:customView];
-[alertView show];
-</code></pre>
-
-<p>CustomIOSAlertView可以设置代理，还可以通过block来实现按钮的点击事件。功能相对比较齐全。</p>
-
-<p>喜欢的童鞋可以star一下，以备不时之需。如果你觉得不错，记得分享给更多朋友哈，谢谢！</p>
 ]]></content>
   </entry>
   
