@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-12-14T21:04:19+08:00</updated>
+  <updated>2015-12-14T21:05:40+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -14,23 +14,11 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Write Code 48 Year]]></title>
-    <link href="http://www.superqq.com/blog/2015/12/13/write-code-48-year/"/>
-    <updated>2015-12-13T00:00:00+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/12/13/write-code-48-year</id>
-    <content type="html"><![CDATA[<hr />
-
-<p>layout: post
-title: 我已经写了48年代码了，我感觉我还能写下去
-date: 2015-12-13 19:42:20 +0800
-comments: true
-categories: 程序员
-keywords: 程序员, iOS开发,程序员幽默, iOS开发, 刚刚在线
-description: 很多人会疑问是不是程序员最后只能转管理，是不是到了中年之后就应该放弃编程。看到这个回答后很受触动，尽力翻译出来，有不恰当的地方欢迎指出。</p>
-
-<hr />
-
-<p>这是来自quroa的问题：Why-aren&rsquo;t-there-a-lot-of-old-programmers-at-software-companies下的一个回答。</p>
+    <title type="html"><![CDATA[我已经写了48年代码了，我感觉我还能写下去]]></title>
+    <link href="http://www.superqq.com/blog/2015/12/12/write-code-48-year/"/>
+    <updated>2015-12-12T19:52:50+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/12/12/write-code-48-year</id>
+    <content type="html"><![CDATA[<p>这是来自quroa的问题：Why-aren&rsquo;t-there-a-lot-of-old-programmers-at-software-companies下的一个回答。</p>
 
 <p>很多人会疑问是不是程序员最后只能转管理，是不是到了中年之后就应该放弃编程。看到这个回答后很受触动，尽力翻译出来，有不恰当的地方欢迎指出。</p>
 
