@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-12-14T21:05:40+08:00</updated>
+  <updated>2015-12-15T23:16:15+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,99 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[推荐：iOS开发面试题整理（一）]]></title>
+    <link href="http://www.superqq.com/blog/2015/12/15/ios-dev-interview/"/>
+    <updated>2015-12-15T23:09:50+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/12/15/ios-dev-interview</id>
+    <content type="html"><![CDATA[<p>年底了估计有朋友已经坐不住了，前面有一篇文章介绍<a href="http://mp.weixin.qq.com/s?__biz=MzA3NzM0NzkxMQ==&amp;mid=402358456&amp;idx=1&amp;sn=0494a7313998527e7950f936a24e9ce7#rd">《 年底程序猿迁徙的5大理由，你占了几个？ 》</a>。你是不是也占几个呢？</p>
+
+<p>跳槽不可避免会遇到面试，有些公司会找一些奇葩的面试题来坑我们。所以我们不得不做好防备、提前备战，怎么感觉跟备考一样呢？</p>
+
+<!--more-->
+
+
+<p>我不得不遗憾的告诉你，这比备考重要多了。面试题做不好，很有可能错过一次大好机会。很早之前我收集了很多面试题，以后都分享出来。大家如果手里有不错的面试题目，可以直接发给我，我的邮箱：<strong>worldligang@163.com</strong>，我也会分享给大家！</p>
+
+<p>本文挡会持续更新，欢迎关注公众号iOS开发：iOSDevTip 关注之后回复：面试</p>
+
+<p><img src="http://images.90159.com/icon/newteiba.png" alt="newteiba.png" /></p>
+
+<h2>1. Object-C有多继承吗？没有的话用什么代替？</h2>
+
+<p>cocoa 中所有的类都是NSObject 的子类</p>
+
+<p>多继承在这里是用protocol 委托代理 来实现的 你不用去考虑繁琐的多继承 ,虚基类的概念. ood的多态特性 在 obj-c 中通过委托来实现.</p>
+
+<h2>2. Object-C有私有方法吗？私有变量呢？</h2>
+
+<p>objective-c – 类里面的方法只有两种, 静态方法和实例方法. 这似乎就不是完整的面向对象了,按照OO的原则就是一个对象只暴露有用的东西. 如果没有了私有方法的话, 对于一些小范围的代码重用就不那么顺手了.</p>
+
+<p>在类里面声名一个私有方法</p>
+
+<pre><code>@interface Controller : NSObject { NSString *something; } 
++ (void)thisIsAStaticMethod; – (void)thisIsAnInstanceMethod;
+ @end
+
+@interface Controller (private) 
+- (void)thisIsAPrivateMethod; 
+- @end
+</code></pre>
+
+<p>@private可以用来修饰私有变量</p>
+
+<p>在Objective‐C中，所有实例变量默认都是私有的，所有实例方法默认都是公有的</p>
+
+<h2>3. #import和#include的区别，@class代表什么？</h2>
+
+<p>@class一般用于头文件中需要声明该类的某个实例变量的时候用到，在m文件中还是需要使用#import‘</p>
+
+<p>而#import比起#include的好处就是不会引起重复包含</p>
+
+<h2>4. 线程和进程的区别？</h2>
+
+<p>进程和线程都是由操作系统所体会的程序运行的基本单元，系统利用该基本单元实现系统对应用的并发性。</p>
+
+<p>进程和线程的主要差别在于它们是不同的操作系统资源管理方式。进程有独立的地址空间，一个进程崩溃后，在保护模式下不会对其它进程产生影响，而线程只是一个进程中的不同执行路径。线程有自己的堆栈和局部变量，但线程之间没有单独的地址空间，一个线程死掉就等于整个进程死掉，所以多进程的程序要比多线程的程序健壮，但在进程切换时，耗费资源较大，效率要差一些。但对于一些要求同时进行并且又要共享某些变量的并发操作，只能用线程，不能用进程。</p>
+
+<h2>5. 堆和栈的区别？</h2>
+
+<p>管理方式：对于栈来讲，是由编译器自动管理，无需我们手工控制；对于堆来说，释放工作由程序员控制，容易产生memory leak。 申请大小：</p>
+
+<p>栈：在Windows下,栈是向低地址扩展的数据结构，是一块连续的内存的区域。这句话的意思是栈顶的地址和栈的最大容量是系统预先规定好的，在WINDOWS下，栈的大小是2M（也有的说是1M，总之是一个编译时就确定的常数），如果申请的空间超过栈的剩余空间时，将提示overflow。因此，能从栈获得的空间较小。</p>
+
+<p>堆：堆是向高地址扩展的数据结构，是不连续的内存区域。这是由于系统是用链表来存储的空闲内存地址的，自然是不连续的，而链表的遍历方向是由低地址向高地址。堆的大小受限于计算机系统中有效的虚拟内存。由此可见，堆获得的空间比较灵活，也比较大。</p>
+
+<p>碎片问题：对于堆来讲，频繁的new/delete势必会造成内存空间的不连续，从而造成大量的碎片，使程序效率降低。对于栈来讲，则不会存在这个问题，因为栈是先进后出的队列，他们是如此的一一对应，以至于永远都不可能有一个内存块从栈中间弹出</p>
+
+<p>分配方式：堆都是动态分配的，没有静态分配的堆。栈有2种分配方式：静态分配和动态分配。静态分配是编译器完成的，比如局部变量的分配。动态分配由alloca函数进行分配，但是栈的动态分配和堆是不同的，他的动态分配是由编译器进行释放，无需我们手工实现。 分配效率：栈是机器系统提供的数据结构，计算机会在底层对栈提供支持：分配专门的寄存器存放栈的地址，压栈出栈都有专门的指令执行，这就决定了栈的效率比较高。堆则是C/C++函数库提供的，它的机制是很复杂的。</p>
+
+<h2>6. Object-C的内存管理？</h2>
+
+<p>1.当你使用new,alloc和copy方法创建一个对象时,该对象的保留计数器值为1.当你不再使用该对象时,你要负责向该对象发送一条release或autorelease消息.这样,该对象将在使用寿命结束时被销毁.</p>
+
+<p>2.当你通过任何其他方法获得一个对象时,则假设该对象的保留计数器值为1,而且已经被设置为自动释放,你不需要执行任何操作来确保该对象被清理.如果你打算在一段时间内拥有该对象,则需要保留它并确保在操作完成时释放它.</p>
+
+<p>3.如果你保留了某个对象,你需要(最终)释放或自动释放该对象.必须保持retain方法和release方法的使用次数相等.</p>
+
+<h2>7 浅复制和深复制的区别？</h2>
+
+<p>答案：浅层复制：只复制指向对象的指针，而不复制引用对象本身。</p>
+
+<p>深层复制：复制引用对象本身。</p>
+
+<p>意思就是说我有个A对象，复制一份后得到A_copy对象后，对于浅复制来说，A和A_copy指向的是同一个内存资源，复制的只不过是是一个指针，对象本身资源
+还是只有一份，那如果我们对A_copy执行了修改操作,那么发现A引用的对象同样被修改，这其实违背了我们复制拷贝的一个思想。深复制就好理解了,内存中存在了
+两份独立对象本身。</p>
+
+<p>用网上一哥们通俗的话将就是：</p>
+
+<p>浅复制好比你和你的影子，你完蛋，你的影子也完蛋</p>
+
+<p>深复制好比你和你的克隆人，你完蛋，你的克隆人还活着。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[我已经写了48年代码了，我感觉我还能写下去]]></title>
@@ -1382,40 +1475,6 @@ if ([[UIApplication sharedApplication] canOpenURL:url])
 <p><img src="http://images.90159.com/11/humor5.gif" alt="humor5" /></p>
 
 <p>来自：网络</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[为自己的应用配备上 3D Touch 功能]]></title>
-    <link href="http://www.superqq.com/blog/2015/10/31/app-touch-3d-function/"/>
-    <updated>2015-10-31T10:35:24+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/10/31/app-touch-3d-function</id>
-    <content type="html"><![CDATA[<p>随着 iPhone 6s 以及 iPhone 6s Plus 的发布，开发者们现在就可以为自己的应用配备上 3D Touch 功能了，从而给界面交互方式开启一个新的维度。</p>
-
-<p>正如苹果所言，开发者可以通过非常简单的 API 来使用 3D Touch ，从根本上来说，也就是 UITouch 的一个简单的新属性。</p>
-
-<pre><code>override func touchesBegan(touches: Set&lt;UITouch&gt;, withEvent event: UIEvent?) {
-     guard let touch = touches.first else { return }
-     if traitCollection.forceTouchCapability == .Available {
-        println("Touch pressure is \(touch.force), maximum possible force is \(touch.maximumPossibleForce)")
-     }
-}
-</code></pre>
-
-<p>这个新的 API 可以让应用发挥出巨大的潜力，比如说游戏中的额外控制选项、绘图应用中的细粒度(fine-grained)控制，甚至是用来替代我们在 iOS 设备中使用过的长按操作(tap-and-hold)的极佳选择。</p>
-
-<p>除了 UITouch 中新增的 API 外，苹果还为应用提供了两个用来增加3D Touch 功能的类集：UIPreviewAction 和 UIApplicationShortcutItem。</p>
-
-<p>UIPreviewAction允许开发者在用户使用 3D Touch 功能触控一个 UI 元素的时候，快速地在一个新的预览窗口中显示某些内容。这种快速浏览应用特定内容的方式真的非常棒，比如说我们可以快速预览邮件信息、照片，甚至是网页内容，而无需弹出一个完整的视图控制器。</p>
-
-<p>UIApplicationShortcutItem对象能够让 iOS 主屏幕激活一项令人惊叹的新特性。当用户使用 3D Touch 按下某个应用的图标时，一个选项列表就会被弹出，允许用户快速跳转至应用的特定部分，或者执行某项应用内的功能。</p>
-
-<p><img src="http://images.90159.com/10/touch.jpg" alt="touch" /></p>
-
-<p>总而言之，3D Touch 的引入给 iOS 设备解锁了一个全新的交互方式，并且将会给接下来的 iOS 应用带来新一代的创新。关于3D Touch 的实例代码和相关信息可以在苹果开发者网站的3D Touch网页上找到，祝你好运！</p>
-
-<p>作者：Tim Oliver
-@TimOliverAU — iComics创始人</p>
 ]]></content>
   </entry>
   

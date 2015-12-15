@@ -81,6 +81,63 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/11/24/ioskai-fa-:gitchuang-jian-cang-ku/">iOS开发：git创建仓库</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-11-24T09:17:38+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:17 am</span></time>
+        
+        
+          | <a href="/blog/2014/11/24/ioskai-fa-:gitchuang-jian-cang-ku/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>从 Git 中移除某个文件</p>
+
+<pre><code>rm test.txt
+
+git rm test.txt
+</code></pre>
+
+<p>添加远程仓库</p>
+
+<pre><code>$ git remote origin $ git remote add pb git://github.com/paulboone/ticgit.git $ git remote -v origin  git://github.com/schacon/ticgit.git pb  git://github.com/paulboone/ticgit.git
+</code></pre>
+
+<p>远程仓库的删除和重命名</p>
+
+<pre><code>$ git remote rename pb paul $ git remote origin paul
+</code></pre>
+
+<p>碰到远端仓库服务器迁移，或者原来的克隆镜像不再使用，又或者某个参与者不再贡献代码，那么需要移除对应的远端仓库，可以运行 git remote rm 命令：</p>
+
+<pre><code>$ git remote rm paul $ git remote origin 
+</code></pre>
+
+<p>我的微信公众号：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/11/19/ioskai-fa-zhong-gitfen-zhi-chuang-jian-he-guan-li/">iOS开发中git分支创建和管理</a></h1>
     
     
@@ -1338,262 +1395,6 @@ Integrating client project
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/11/07/ioswang-luo-bian-cheng-zhi-afnetworkingshi-yong/">iOS网络编程之AFNetworking使用</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-11-07T11:07:32+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:07 am</span></time>
-        
-        
-          | <a href="/blog/2014/11/07/ioswang-luo-bian-cheng-zhi-afnetworkingshi-yong/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.superqq.com/blog/2014/11/07/ioswang-luo-bian-cheng-zhi-afnetworkingshi-yong/">iOS网络编程之AFNetworking使用</a></p>
-
-<p>现在大家都喜欢用AFNetworking，因为有人维护。看来一下官方文档，把使用的代码简单罗列一下：</p>
-
-<p>首先通过<a href="http://www.superqq.com/blog/2014/10/16/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/">CocoaPods</a>(没用过的看这篇文章)把AFNetworking拉下来</p>
-
-<p>Podfile</p>
-
-<pre><code>platform :ios, '7.0'
-pod "AFNetworking", "~&gt; 2.0"
-</code></pre>
-
-<p>方法一：GET 请求</p>
-
-<pre><code>AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-[manager GET:@"http://example.com/resources.json" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-    NSLog(@"JSON: %@", responseObject);
-} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-    NSLog(@"Error: %@", error);
-}];
-</code></pre>
-
-<p>方法二：POST 请求</p>
-
-<pre><code>AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-NSDictionary *parameters = @{@"foo": @"bar"};
-[manager POST:@"http://example.com/resources.json" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-    NSLog(@"JSON: %@", responseObject);
-} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-    NSLog(@"Error: %@", error);
-}];
-</code></pre>
-
-<p>方法三：POST Multi-Part Request</p>
-
-<pre><code>AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-NSDictionary *parameters = @{@"foo": @"bar"};
-NSURL *filePath = [NSURL fileURLWithPath:@"file://path/to/image.png"];
-[manager POST:@"http://example.com/resources.json" parameters:parameters constructingBodyWithBlock:^(id&lt;AFMultipartFormData&gt; formData) {
-    [formData appendPartWithFileURL:filePath name:@"image" error:nil];
-} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-    NSLog(@"Success: %@", responseObject);
-} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-    NSLog(@"Error: %@", error);
-}];
-</code></pre>
-
-<p>方法四：创建一个下载文件任务</p>
-
-<pre><code>NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-
-NSURL *URL = [NSURL URLWithString:@"http://example.com/download.zip"];
-NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-
-NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-    NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
-    return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
-} completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-    NSLog(@"File downloaded to: %@", filePath);
-}];
-[downloadTask resume];
-</code></pre>
-
-<p>方法五：创建一个上传文件任务</p>
-
-<pre><code>NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-
-NSURL *URL = [NSURL URLWithString:@"http://example.com/upload"];
-NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-
-NSURL *filePath = [NSURL fileURLWithPath:@"file://path/to/image.png"];
-NSURLSessionUploadTask *uploadTask = [manager uploadTaskWithRequest:request fromFile:filePath progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-    if (error) {
-        NSLog(@"Error: %@", error);
-    } else {
-        NSLog(@"Success: %@ %@", response, responseObject);
-    }
-}];
-[uploadTask resume];
-</code></pre>
-
-<p>方法六：创建一个上传文件任务并显示进度</p>
-
-<pre><code>NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:@"http://example.com/upload" parameters:nil constructingBodyWithBlock:^(id&lt;AFMultipartFormData&gt; formData) {
-        [formData appendPartWithFileURL:[NSURL fileURLWithPath:@"file://path/to/image.jpg"] name:@"file" fileName:@"filename.jpg" mimeType:@"image/jpeg" error:nil];
-    } error:nil];
-
-AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-NSProgress *progress = nil;
-
-NSURLSessionUploadTask *uploadTask = [manager uploadTaskWithStreamedRequest:request progress:&amp;progress completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-    if (error) {
-        NSLog(@"Error: %@", error);
-    } else {
-        NSLog(@"%@ %@", response, responseObject);
-    }
-}];
-[uploadTask resume];
-</code></pre>
-
-<p>方法七：创建一个上传数据data任务</p>
-
-<pre><code>NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-
-NSURL *URL = [NSURL URLWithString:@"http://example.com/upload"];
-NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-
-NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-    if (error) {
-        NSLog(@"Error: %@", error);
-    } else {
-        NSLog(@"%@ %@", response, responseObject);
-    }
-}];
-[dataTask resume];
-</code></pre>
-
-<p>方法八：获取网络状态</p>
-
-<pre><code>[[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-    NSLog(@"Reachability: %@", AFStringFromNetworkReachabilityStatus(status));
-}]; 
-</code></pre>
-
-<p>方法九： HTTP Manager Reachability</p>
-
-<pre><code>NSURL *baseURL = [NSURL URLWithString:@"http://example.com/"];
-AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
-
-NSOperationQueue *operationQueue = manager.operationQueue;
-[manager.reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-    switch (status) {
-        case AFNetworkReachabilityStatusReachableViaWWAN:
-        case AFNetworkReachabilityStatusReachableViaWiFi:
-            [operationQueue setSuspended:NO];
-            break;
-        case AFNetworkReachabilityStatusNotReachable:
-        default:
-            [operationQueue setSuspended:YES];
-            break;
-    }
-}];
-
-[manager.reachabilityManager startMonitoring];
-</code></pre>
-
-<p>方法十：AFHTTPRequestOperation的GET请求</p>
-
-<pre><code>NSURL *URL = [NSURL URLWithString:@"http://example.com/resources/123.json"];
-NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-op.responseSerializer = [AFJSONResponseSerializer serializer];
-[op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-    NSLog(@"JSON: %@", responseObject);
-} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-    NSLog(@"Error: %@", error);
-}];
-[[NSOperationQueue mainQueue] addOperation:op];  
-</code></pre>
-
-<p>方法十一：Batch of Operations</p>
-
-<pre><code>NSMutableArray *mutableOperations = [NSMutableArray array];
-for (NSURL *fileURL in filesToUpload) {
-    NSURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:@"http://example.com/upload" parameters:nil constructingBodyWithBlock:^(id&lt;AFMultipartFormData&gt; formData) {
-        [formData appendPartWithFileURL:fileURL name:@"images[]" error:nil];
-    }];
-
-    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-
-    [mutableOperations addObject:operation];
-}
-
-NSArray *operations = [AFURLConnectionOperation batchOfRequestOperations:@[...] progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations) {
-    NSLog(@"%lu of %lu complete", numberOfFinishedOperations, totalNumberOfOperations);
-} completionBlock:^(NSArray *operations) {
-    NSLog(@"All operations in batch complete");
-}];
-[[NSOperationQueue mainQueue] addOperations:operations waitUntilFinished:NO];
-</code></pre>
-
-<p>方法十二：获取请求的一些信息(我也没有用过，不太常用)</p>
-
-<p>Request Serialization</p>
-
-<p>Request serializers create requests from URL strings, encoding parameters as either a query string or HTTP body.</p>
-
-<pre><code>NSString *URLString = @"http://example.com";
-NSDictionary *parameters = @{@"foo": @"bar", @"baz": @[@1, @2, @3]};
-</code></pre>
-
-<p>Query String Parameter Encoding</p>
-
-<pre><code>[[AFHTTPRequestSerializer serializer] requestWithMethod:@"GET" URLString:URLString parameters:parameters error:nil];
-
-GET http://example.com?foo=bar&amp;baz[]=1&amp;baz[]=2&amp;baz[]=3
-</code></pre>
-
-<p>URL Form Parameter Encoding</p>
-
-<pre><code>[[AFHTTPRequestSerializer serializer] requestWithMethod:@"POST" URLString:URLString parameters:parameters];
-
-POST http://example.com/
-Content-Type: application/x-www-form-urlencoded
-
-foo=bar&amp;baz[]=1&amp;baz[]=2&amp;baz[]=3
-</code></pre>
-
-<p>JSON Parameter Encoding</p>
-
-<pre><code>[[AFJSONRequestSerializer serializer] requestWithMethod:@"POST" URLString:URLString parameters:parameters];
-
-POST http://example.com/
-Content-Type: application/json
-
-{"foo": "bar", "baz": [1,2,3]}
-</code></pre>
-
-<p>我的微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/17">&larr; Older</a>
@@ -1621,6 +1422,10 @@ Content-Type: application/json
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/12/15/ios-dev-interview/">推荐：iOS开发面试题整理（一）</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/12/12/write-code-48-year/">我已经写了48年代码了，我感觉我还能写下去</a>
       </li>
     
@@ -1634,10 +1439,6 @@ Content-Type: application/json
     
       <li class="post">
         <a href="/blog/2015/12/10/ios-code-life-half-year/">半年的iOS代码生活</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/09/programmer-must-humor/">程序员的幽默你一定懂得</a>
       </li>
     
   </ul>

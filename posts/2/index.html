@@ -81,6 +81,50 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/12/04/swift-source-code/">Swift开源一天Github收获15000多star</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-12-04T22:10:48+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:10 pm</span></time>
+        
+        
+          | <a href="/blog/2015/12/04/swift-source-code/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>快，快，快！动动您的小手，分享给更多朋友！</p>
+
+<p>苹果去年推出了全新的编程语言Swift，试图让iOS开发更简单，也承诺开源Swift代码。</p>
+
+<p>昨天，苹果宣布：开源Swift，引起不少轰动，短短一天不到得时间，github上就有9000多star。对于广大开发者来说，真是一大福利！大家快取看看吧，一睹真容！</p>
+
+<p>swift开源地址：<a href="https://github.com/apple/swift">https://github.com/apple/swift</a></p>
+
+<p>官方Linux版本：<a href="https://swift.org/blog/swift-linux-port/">https://swift.org/blog/swift-linux-port/</a></p>
+
+<p>苹果官方github地址：<a href="https://github.com/apple">https://github.com/apple</a></p>
+
+<p><a href="https://swift.org">https://swift.org</a> 是苹果官方的开发者社区，这里有Swift开发教程和指南。是个学习的好地方！</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/12/03/vvdocumenter-xcode7-not-work/">升级Xcode7之后VVDocumenter-Xcode不能用的解决办法</a></h1>
     
     
@@ -548,63 +592,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/10/31/app-touch-3d-function/">为自己的应用配备上 3D Touch 功能</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-10-31T10:35:24+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>10:35 am</span></time>
-        
-        
-          | <a href="/blog/2015/10/31/app-touch-3d-function/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>随着 iPhone 6s 以及 iPhone 6s Plus 的发布，开发者们现在就可以为自己的应用配备上 3D Touch 功能了，从而给界面交互方式开启一个新的维度。</p>
-
-<p>正如苹果所言，开发者可以通过非常简单的 API 来使用 3D Touch ，从根本上来说，也就是 UITouch 的一个简单的新属性。</p>
-
-<pre><code>override func touchesBegan(touches: Set&lt;UITouch&gt;, withEvent event: UIEvent?) {
-     guard let touch = touches.first else { return }
-     if traitCollection.forceTouchCapability == .Available {
-        println("Touch pressure is \(touch.force), maximum possible force is \(touch.maximumPossibleForce)")
-     }
-}
-</code></pre>
-
-<p>这个新的 API 可以让应用发挥出巨大的潜力，比如说游戏中的额外控制选项、绘图应用中的细粒度(fine-grained)控制，甚至是用来替代我们在 iOS 设备中使用过的长按操作(tap-and-hold)的极佳选择。</p>
-
-<p>除了 UITouch 中新增的 API 外，苹果还为应用提供了两个用来增加3D Touch 功能的类集：UIPreviewAction 和 UIApplicationShortcutItem。</p>
-
-<p>UIPreviewAction允许开发者在用户使用 3D Touch 功能触控一个 UI 元素的时候，快速地在一个新的预览窗口中显示某些内容。这种快速浏览应用特定内容的方式真的非常棒，比如说我们可以快速预览邮件信息、照片，甚至是网页内容，而无需弹出一个完整的视图控制器。</p>
-
-<p>UIApplicationShortcutItem对象能够让 iOS 主屏幕激活一项令人惊叹的新特性。当用户使用 3D Touch 按下某个应用的图标时，一个选项列表就会被弹出，允许用户快速跳转至应用的特定部分，或者执行某项应用内的功能。</p>
-
-<p><img src="http://images.90159.com/10/touch.jpg" alt="touch" /></p>
-
-<p>总而言之，3D Touch 的引入给 iOS 设备解锁了一个全新的交互方式，并且将会给接下来的 iOS 应用带来新一代的创新。关于3D Touch 的实例代码和相关信息可以在苹果开发者网站的3D Touch网页上找到，祝你好运！</p>
-
-<p>作者：Tim Oliver
-@TimOliverAU — iComics创始人</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -632,6 +619,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/12/15/ios-dev-interview/">推荐：iOS开发面试题整理（一）</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/12/12/write-code-48-year/">我已经写了48年代码了，我感觉我还能写下去</a>
       </li>
     
@@ -645,10 +636,6 @@
     
       <li class="post">
         <a href="/blog/2015/12/10/ios-code-life-half-year/">半年的iOS代码生活</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/09/programmer-must-humor/">程序员的幽默你一定懂得</a>
       </li>
     
   </ul>

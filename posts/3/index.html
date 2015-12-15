@@ -81,6 +81,63 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/10/31/app-touch-3d-function/">为自己的应用配备上 3D Touch 功能</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-31T10:35:24+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>10:35 am</span></time>
+        
+        
+          | <a href="/blog/2015/10/31/app-touch-3d-function/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>随着 iPhone 6s 以及 iPhone 6s Plus 的发布，开发者们现在就可以为自己的应用配备上 3D Touch 功能了，从而给界面交互方式开启一个新的维度。</p>
+
+<p>正如苹果所言，开发者可以通过非常简单的 API 来使用 3D Touch ，从根本上来说，也就是 UITouch 的一个简单的新属性。</p>
+
+<pre><code>override func touchesBegan(touches: Set&lt;UITouch&gt;, withEvent event: UIEvent?) {
+     guard let touch = touches.first else { return }
+     if traitCollection.forceTouchCapability == .Available {
+        println("Touch pressure is \(touch.force), maximum possible force is \(touch.maximumPossibleForce)")
+     }
+}
+</code></pre>
+
+<p>这个新的 API 可以让应用发挥出巨大的潜力，比如说游戏中的额外控制选项、绘图应用中的细粒度(fine-grained)控制，甚至是用来替代我们在 iOS 设备中使用过的长按操作(tap-and-hold)的极佳选择。</p>
+
+<p>除了 UITouch 中新增的 API 外，苹果还为应用提供了两个用来增加3D Touch 功能的类集：UIPreviewAction 和 UIApplicationShortcutItem。</p>
+
+<p>UIPreviewAction允许开发者在用户使用 3D Touch 功能触控一个 UI 元素的时候，快速地在一个新的预览窗口中显示某些内容。这种快速浏览应用特定内容的方式真的非常棒，比如说我们可以快速预览邮件信息、照片，甚至是网页内容，而无需弹出一个完整的视图控制器。</p>
+
+<p>UIApplicationShortcutItem对象能够让 iOS 主屏幕激活一项令人惊叹的新特性。当用户使用 3D Touch 按下某个应用的图标时，一个选项列表就会被弹出，允许用户快速跳转至应用的特定部分，或者执行某项应用内的功能。</p>
+
+<p><img src="http://images.90159.com/10/touch.jpg" alt="touch" /></p>
+
+<p>总而言之，3D Touch 的引入给 iOS 设备解锁了一个全新的交互方式，并且将会给接下来的 iOS 应用带来新一代的创新。关于3D Touch 的实例代码和相关信息可以在苹果开发者网站的3D Touch网页上找到，祝你好运！</p>
+
+<p>作者：Tim Oliver
+@TimOliverAU — iComics创始人</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/10/30/two-nice-uialertview/">两个非常不错的自定义UIAlertView第三方类库</a></h1>
     
     
@@ -657,66 +714,6 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/09/24/apple-xcodeghost-answer/">有关 XcodeGhost 的问题和解答</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-09-24T00:09:03+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:09 am</span></time>
-        
-        
-          | <a href="/blog/2015/09/24/apple-xcodeghost-answer/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>我听说了由 XcodeGhost 开发的恶意 app — 这是怎么回事？</strong></p>
-
-<p>我们一直建议开发者使用由我们提供的免费、安全的工具，包括 Xcode，从而确保他们为 App Store 的用户创造出安全的 app。一些开发者下载了已被恶意软件感染的盗版 Xcode，由此开发的 app 也同样受到感染。</p>
-
-<p>Apple 特意使用诸如 Gatekeeper 等技术，以防止安装从非 App Store 渠道下载的应用程序，和 / 或安装包括 Xcode 在内的未签名的应用程序。当开发者为了能安装类似 XcodeGhost 等恶意程序时，这些保护措施会被刻意地禁用。</p>
-
-<p>作为 Apple 向开发者提供的业界先进工具之一，以下措施可以确保软件未被篡改：</p>
-
-<pre><code>Xcode app 有 Apple 的代码签名。
-从 Mac App Store 下载 Xcode 时，开发者的电脑系统自动对 Xcode 的代码签名会进行检查和验证。
-从 Apple Developer Program 网站下载 Xcode 时，只要 Gatekeeper 没有被禁用，默认开发者的电脑系统对 Xcode 代码签名自动进行检查和验证。
-</code></pre>
-
-<h3>为什么开发者会不顾用户的安全下载盗版软件？</h3>
-
-<p>为了更快下载我们的开发者工具，开发者有时会从其他非 Apple 站点搜寻。</p>
-
-<h3>这会对我有什么影响吗？如何得知我的设备是否受到了影响？</h3>
-
-<p>我们目前没有任何信息表明这些恶意软件与任何恶意事件相关，也没有信息表明这些软件被使用在传播任何个人身份信息的用途上。</p>
-
-<p>我们目前没有看到任何客户个人身份信息受到影响，而且代码无法通过用户身份请求来获取 iCloud 或其他服务的密码。</p>
-
-<p>只要一经发现这些 app 有可能通过恶意代码开发，我们就对其进行下架处理。开发者们正在快速更新他们的 app，以便用户使用。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/09/24/apple-xcodeghost-answer/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/4">&larr; Older</a>
@@ -744,6 +741,10 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/12/15/ios-dev-interview/">推荐：iOS开发面试题整理（一）</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/12/12/write-code-48-year/">我已经写了48年代码了，我感觉我还能写下去</a>
       </li>
     
@@ -757,10 +758,6 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
     
       <li class="post">
         <a href="/blog/2015/12/10/ios-code-life-half-year/">半年的iOS代码生活</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/09/programmer-must-humor/">程序员的幽默你一定懂得</a>
       </li>
     
   </ul>
