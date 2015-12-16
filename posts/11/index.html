@@ -81,6 +81,218 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/">iOS 设计模式系列：Observer – 观察者模式</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-18T10:14:51+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:14 am</span></time>
+        
+        
+          | <a href="/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在<strong>观察者模式</strong>中，当状态发生改变的时候，一个对象会通知另一个对象。这个对象不需要知道另一个对象发生了什么改变─因此非常鼓励这种分离式的设计。这种模式经常用于，当一个属性发生改变时通知跟它相关的对象。</p>
+
+<p>它通常需要一个观察者(observer)注册跟踪另外一个对象的状态。当状态发生改变的时候，所有的观察对象都会被通知改变。苹果的推送通知服务就是一个这样的例子。</p>
+
+<p>如果你想要一直使用 <a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">MVC 模式</a>（你确实需要），你如果想在模型和视图之间，不直接相互引用的情况下还要有通信。这时候就要用到观察者模式了。</p>
+
+<p>Cocoa 有两个常用的方法来执行观察者模式：Notifications 和 Key-Value Observing (KVO)。</p>
+
+<h3>通知 Notifications</h3>
+
+<p>不要把它和推送、本地通知弄混淆了，通知是基于一个对象（信息发布者）发信息给另一个对象（订阅/监听）的订阅-发布模式的。信息发布者不需要知道任何关于订阅者的信息。</p>
+
+<p>苹果大量的使用了通知。例子，当键盘打开/关闭的时候，系统会分别发送一个 UIKeyboardWillShowNotification/UIKeyboardWillHideNotification。当你的程序要退出的时候，系统会发送一个 UIApplicationDidEnterBackgroundNotification 通知。</p>
+
+<pre><code>提示：打开 UIApplication.h，在文件最后你会看见系统能发送的通知列表有 20 个之多。
+</code></pre>
+
+<h3>如何使用通知 Notifications</h3>
+
+<p>打开 AlbumView.m 文件，在 initWithFrame:albumCover: 里面的 [self addSubview:indicator] 后面插入下面代码：</p>
+
+<pre><code>[[NSNotificationCenter defaultCenter] postNotificationName:@“BLDownloadImageNotification” object:self userInfo:@{@“imageView”:coverImage, @“coverUrl”:albumCover}];
+</code></pre>
+
+<p>这行代码是通过 NSNotificationCenter 单例来发送一个通知。通知内容包括 coverImage 图片视图 和下载封面图片的 URL。这是执行下载专辑封面所需的所有信息。</p>
+
+<p>在 LibraryAPI.m 的 init 方法里，isOnline = NO; 后面添加下面代码：</p>
+
+<pre><code>[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downImage:) name:@“BLDownloadImageNotification” object:nil];
+</code></pre>
+
+<p>这是等式另一边的观察者对象。任何时候只要 AlbumView 类发送一个 BLDownloadImageNotification 通知，系统就会通知 LibraryAPI，因为 LibraryAPI 已经注册了一个相同的观察者通知。qLibraryAPI 执行 downloadImage:。</p>
+
+<p>不管任何时候，在你执行 downloadImage: 之前，一定要记住在你释放这个类的时候一定要取消这个通知的订阅。如果你不正确的取消一个通知的订阅，这个通知可能发送一个已经释放的实例。这会造成你的程序崩溃。</p>
+
+<p>在 LibraryAPI.m 里添加下面代码：</p>
+
+<pre><code>- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removerObserver:self];
+}
+</code></pre>
+
+<p>当这个类释放后，移除一个观察者自己已经注册的所有通知。</p>
+
+<p>这里还有一件事情要做。它可以把下载过的封面图片存在本地，这样 app 就不用一次又一次的下载同一个图片了。</p>
+
+<p>打开 PersistencyManger.h 添加下面两个方法：</p>
+
+<pre><code>- (void)saveImage:(UIImage*)image filename:(NSString*)filename;
+- (UIImage*)getImage:(NSString*)filename;
+</code></pre>
+
+<p>在 PersistencyManger.m 中实现：</p>
+
+<pre><code>- (void)saveImage:(UIImage*)image filename:(NSString*)filename
+{
+    filename = [NSHomeDirectory() stringByAppendingFormat:@“/Documents/%@”, filename];
+    NSData *data = UIImagePNGRepresentation(image);
+    [data writeToFile:filename atomically:YES];
+}
+
+- (UIImage*)getImage:(NSString*)filename 
+{
+    filename = [NSHomeDirectory() stringByAppendingFormat:@“/Documents/%@“, filename];
+    NSData *data = [NSData dataWithContentsOfFile:filename];
+    return [UIImage imageWithData:data];
+}
+</code></pre>
+
+<p>这里的代码很简单。下载完成的图片会被存储进 Documents 文件夹中，如果没有跟 filename 相匹配的文件，getImage: 会返回 nil。</p>
+
+<p>现在在 LibraryAPI.m 里面添加下面方法：</p>
+
+<pre><code>- (void)downImage:(NSNotification*)notification
+{
+    // 1 
+    UIImageView *imageView = notification.userInfo[@“imageView”];
+    NSString *coverUrl   = notification.userInfo[@“coverUrl”];
+
+    // 2
+    imageView.image = [persistencyManger getImage:[coverUrl lastPathComponent];
+
+    if (imageView.image == nil) {
+        // 3 
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            UIImage *image = [httpClient downloadImage:coverUrl];
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                imageView.image = image;
+                [persistencyManger saveImage:image filename:[coverUrl lastPathComponent];
+            });
+        });
+    }
+}
+</code></pre>
+
+<p>现在来分析上面的代码：</p>
+
+<ol>
+<li>通知执行 downloadImage 方法，方法接受这个这个通知对象，就像它是一个变量一样。通知里会传递 UIImageView 和图片的 URL。</li>
+<li>如果以前已经下载过，就从 PersistencyManger 里取出图片。</li>
+<li>如果图片没有下载过，使用 HTTPClient 开始下载图片。</li>
+<li>当下载完成的时候，在图片视图中显示图片，用 PersistencyManger 存储它到本地。</li>
+</ol>
+
+
+<p>此外，你用外观模式(Facade pattern)隐藏了另外一个下载图片的复杂类。通知发送者不关心图片的来源，不管是从网上下载的还是本地存储的。</p>
+
+<p>构建和运行你的 app，可以看到漂亮的封面已经出现在 HorizontalScroller 里面了：</p>
+
+<p><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2013/08/design-patterns-4-297x320.png" alt="1" /></p>
+
+<p>停止你的 app，然后再运行它。注意这里显示封面已经没有延时了，因为它们已经下载到本地了。你可断开网络试试，你的 app 同样可以完美的运行。虽然已经很完美了，但是仍然有一个小问题：就是下载提示的小菊花仍然一直在转动，从来没有停止过！哪里出问题了？</p>
+
+<p>当你开始下载图片的时候，你运行了下载提示符，但当图片下载完成的时候，你没有停止下载提示符的方法。你也可以当每个图片下载完成的时候再发送一个通知，当然另一个代替方案，你可以使用另一种观察者模式，KVO。</p>
+
+<h3>键 – 值 观察 (Key-Value Observing KVO)</h3>
+
+<p>在 <a href="http://www.superqq.com/blog/2015/06/05/ios-kvogai-shu-yu-shi-jian/">KVO</a>  里，一个对象的任何一个特别的属性改变后都可以请求一个通知；不管是它自己的还是其它的对象。如果你感兴趣，你可以在这里读到更多的信息：Apple’s KVO Programming Guide.</p>
+
+<h3>如何使用 KVO 模式</h3>
+
+<p>如上所述，<a href="http://www.superqq.com/blog/2015/06/05/ios-kvogai-shu-yu-shi-jian/">KVO</a> 的原理是允许一个对象观察一个属性的改变。你所要关心的是，使用 KVO 观察 UIImageView 的 image 属性是否已经改变，就是它是否已经存储了图片。</p>
+
+<p>打开 AlbumView.m，在 initWithFrame:albumCover: 里的 [self addSubview:indicator]; 后面添加下面代码：</p>
+
+<pre><code>[coverImage addObserver:self forKeyPath:@“image” options:0 context:nil];
+</code></pre>
+
+<p>不添加在自己上面(self)，在当前的类里，观察 coverImage 的 image 属性。</p>
+
+<p>当你使用过后，你同样需要注销这个观察(observer)。继续在当前文件里面添加下面代码：</p>
+
+<pre><code>- (void)dealloc
+{
+    [coverImage removerObserver:self forKeyPath:@“image”];
+}
+</code></pre>
+
+<p>最后，添加下面方法：</p>
+
+<pre><code>- (void)observerValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([KeyPath isEqualToString:@“image”])
+    {
+        [indicator stopAnimating];
+    }
+}
+</code></pre>
+
+<p>你必须在每个类里执行这个方法。如果观察的属性改变了，系统每次都会执行这个方法。上面的代码里，当 image 的属性发生改变时，你停止下载提示符的运行。这种方法，当图片下载完成，下载提示转动的小菊花将会停止转动。</p>
+
+<p>构建个运行你的项目。你会看到小菊花已经不在了：</p>
+
+<p><img src="http://cdn3.raywenderlich.com/wp-content/uploads/2013/08/design-pattern-stage3-287x320.png" alt="2" /></p>
+
+<pre><code>提示：永远记住，当你释放内存，你一定要移除这些观察(observers)，或者是当你的程序发送这些不存的观察对象时会造成程序崩溃。
+</code></pre>
+
+<p>如果你玩弄一会你的 app，然后关闭它，你程序的当前状态并没有被存储下来。当程序启动的时候你看到的视图并不是上次退出时的样子。</p>
+
+<p>为了更正这些，你需要使用下一项设计模式：备忘录 (Memento)。</p>
+
+<p><strong>设计模式系列文章</strong>：</p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/10/ios-she-ji-mo-shi-xi-lie-:kai-pian/">iOS 设计模式系列：开篇</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/11/ios-she-ji-mo-shi-xi-lie-:mvc-she-ji-mo-shi-zhong-de-guo-wang/">iOS 设计模式系列：MVC – 设计模式中的国王</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/13/ios-she-ji-mo-shi-xi-lie-:singleton-dan-li-mo-shi/">iOS 设计模式系列：Singleton – 单例模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/15/ios-she-ji-mo-shi-xi-lie-:facade-wai-guan-mo-shi/">iOS 设计模式系列：Facade – 外观模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/16/ios-she-ji-mo-shi-xi-lie-:decorator-zhuang-shi-qi-mo-shi/">iOS 设计模式系列：Decorator – 装饰器模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/17/ios-she-ji-mo-shi-xi-lie-:adapter-gua-pei-qi-mo-shi/">iOS 设计模式系列：Adapter – 适配器模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/18/ios-she-ji-mo-shi-xi-lie-:observer-guan-cha-zhe-mo-shi/">iOS 设计模式系列：Observer – 观察者模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/19/ios-she-ji-mo-shi-xi-lie-:memento-bei-wang-lu-mo-shi/">iOS 设计模式系列：Memento – 备忘录模式</a></p>
+
+<p><a href="http://www.superqq.com/blog/2015/06/20/ios-she-ji-mo-shi-xi-lie-:archiving-gui-dang-mo-shi/">iOS 设计模式系列：Archiving – 归档模式</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/06/17/shang-hai-ioskai-fa-gong-zi-dai-yu-ru-he-%3F/">上海iOS开发工资待遇如何？</a></h1>
     
     
@@ -1867,72 +2079,6 @@ community can help you solve it.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/05/ios-kvogai-shu-yu-shi-jian/">iOS KVO概述</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-05T11:06:59+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:06 am</span></time>
-        
-        
-          | <a href="/blog/2015/06/05/ios-kvogai-shu-yu-shi-jian/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>面试中经常会被问到：什么是KVO？这个问题既然出现概率这么大，那么我们就来详细讲一讲到底什么是KVO。下次再有面试官问你的时候，你就可以娓娓道来，以彰显高逼格</p></blockquote>
-
-<h2>概述</h2>
-
-<p>问：什么是KVO？</p>
-
-<p>答：KVO是Key-Value Observing的缩写。它提供一种机制，当指定的对象的属性被修改后，则对象就会接受到通知。简单的说就是每次指定的被观察的对象的属性被修改后，KVO就会自动通知相应的观察者了。</p>
-
-<p>如果你能这样回答，面试官一定不会说你错的，这就是KVO的原理。但是如果你能说出KVO的好处，那一定能赢得面试官的刮目相看。比如：</p>
-
-<ul>
-<li>使用KVO最直接的好处就是可以减少代码量。</li>
-<li>KVO是<strong>观察者</strong>设计模式中的一种，有利于业务逻辑于视图控制之间的解耦。</li>
-</ul>
-
-
-<p>更深刻的了解KVO，你可以动手写一个小demo思路如下：</p>
-
-<ul>
-<li>定义一个对象People，分别有name和age属性</li>
-<li>监听People的age属性</li>
-<li>定义一个UIButton，在button的点击方法里面，去改变People的age。</li>
-<li>你就可以收到age改变时发出来的通知</li>
-<li>在对象销毁的时候，移除通知。</li>
-</ul>
-
-
-<p>iOS面试汇总：</p>
-
-<p><a href="http://www.superqq.com/blog/2015/06/04/mian-shi-guan-wen-xian-zai-gong-zi-shi-duo-shao-gai-zen-yao-hui-da/">面试官问现在工资是多少该怎么回答?</a></p>
-
-<ul>
-<li>关注公众号iOS开发：<strong>iOSDevTip</strong> 获取更多面试技巧。</li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/12">&larr; Older</a>
@@ -1960,6 +2106,10 @@ community can help you solve it.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/12/16/ios-dev-interview-to/">Ios Dev Interview To</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/12/15/ios-dev-interview/">推荐：iOS开发面试题整理（一）</a>
       </li>
     
@@ -1973,10 +2123,6 @@ community can help you solve it.</p>
     
       <li class="post">
         <a href="/blog/2015/12/11/mbmotion-great-effect/">非常棒的特效-MBMotion</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/10/ios-code-life-half-year/">半年的iOS代码生活</a>
       </li>
     
   </ul>
