@@ -81,80 +81,6 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/12/realization-circular-gradient-progress/">环形渐变进度条实现</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-08-12T01:12:05+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:12 am</span></time>
-        
-        
-          | <a href="/blog/2015/08/12/realization-circular-gradient-progress/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>之前有人在找渐变进度条的效果，闲来无事就顺手写了一个，然后画了视图层级，方便讲解。</p>
-
-<p>环境信息：</p>
-
-<p>Mac OS X 10.10.3</p>
-
-<p>Xcode 6.3.1</p>
-
-<p>iOS 8.3</p>
-
-<p>效果图：</p>
-
-<p><img src="http://images.90159.com/08/result.gif" alt="1" /></p>
-
-<p>源码下载地址：<a href="https://github.com/saitjr/LoopProgressDemo.git">LoopProgressDemo</a></p>
-
-<p>正文</p>
-
-<h2>一、视图层级</h2>
-
-<p>首先需要搞定的就是视图层级关系。可以看到，</p>
-
-<pre><code>1. 背景是有透明度的蓝色(blueView)
-
-2. 需要一个从绿-&gt;黄-&gt;红的渐变色，那个这里我采用的是Layer(colorLayer)
-
-3. blueView和colorLayer他们的表现状态都是环形的，所以还需要环形的遮罩
-
-4. 蓝色的环并没有变，而渐变色的环却在时刻变化，所以需要两个遮罩，一个给蓝色(blueMaskLayer)，一个给渐变色(colorMaskLayer)
-</code></pre>
-
-<p>从上面的分析可以看出，现在需要几个变量以及他们的关系如下：</p>
-
-<pre><code>[viewController.view addSubView:blueView];
-[blueView.layer addSubLayer:colorLayer];
-colorLayer.mask = colorMaskLayer;
-blueView.layer.mask = blueMaskLayer;
-</code></pre>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/08/12/realization-circular-gradient-progress/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
       <h1 class="entry-title"><a href="/blog/2015/08/11/color-tabbar-switch-animation/">彩色TabBar切换动画实现</a></h1>
     
     
@@ -615,6 +541,45 @@ imageView.image = self.image;
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/02/custom-navigation-button-uibarbuttonitem/">自定义导航按钮UIBarButtonItem</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-02T00:13:14+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>12:13 am</span></time>
+        
+        
+          | <a href="/blog/2015/08/02/custom-navigation-button-uibarbuttonitem/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>基本上每个iOS APP里面都有导航，比如微信、QQ、支付宝。导航可以很方便地帮助我们管理视图控制器（UIViewController）。导航的重要性不言而喻，基本上是每一位iOS初学者都要接触到的问题。</p>
+
+<p>iOS系统导航栏中有<code>leftBarButtonItem</code>和<code>rightBarButtonItem</code>，我们可以根据自己的需求来自定义这两个<code>UIBarButtonItem</code>。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/08/02/custom-navigation-button-uibarbuttonitem/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/posts/6">&larr; Older</a>
@@ -642,10 +607,6 @@ imageView.image = self.image;
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/12/16/ios-dev-interview-to/">Ios Dev Interview To</a>
-      </li>
-    
-      <li class="post">
         <a href="/blog/2015/12/15/ios-dev-interview/">推荐：iOS开发面试题整理（一）</a>
       </li>
     
@@ -659,6 +620,10 @@ imageView.image = self.image;
     
       <li class="post">
         <a href="/blog/2015/12/11/mbmotion-great-effect/">非常棒的特效-MBMotion</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/10/ios-code-life-half-year/">半年的iOS代码生活</a>
       </li>
     
   </ul>
