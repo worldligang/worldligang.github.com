@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 推荐 | 刚刚在线]]></title>
   <link href="http://www.superqq.com/blog/categories/tui-jian/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-12-17T20:59:46+08:00</updated>
+  <updated>2015-12-22T23:39:21+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -19,9 +19,6 @@
     <updated>2015-12-10T21:16:24+08:00</updated>
     <id>http://www.superqq.com/blog/2015/12/10/ios-code-life-half-year</id>
     <content type="html"><![CDATA[<p>在高考大军中拼杀过，也在大学校园中荒芜过，曾经低迷消沉，也常满怀壮志…… 但是最多的还是被称为小伙子以及自称为iOS工程师！博主就是这种喜闻乐见的这类人，实习一年后在2015年的毕业季顺利拿到了自己向往的一家创业公司的offer，也许相比很多毕业季的同学职场上顺利许多，但当深夜来临，显示器熄灭后望着荧幕出神的时候，毕业季我错过了很多也许一辈子都不会再相见的同学们的合影。半年里真正领略到了企业项目的开发的艰辛，以及团队协作的魅力，有太多太多的要说，终将其汇成一句话：哥加班半年后终于回来了！</p>
-
-<!--more-->
-
 
 <p><img src="http://daiweilai.github.io/img/post/2015-11-11-pic1.png" alt="1" /></p>
 
@@ -140,9 +137,6 @@
     <content type="html"><![CDATA[<p><img src="http://images.90159.com/12/https.jpg" alt="https" /></p>
 
 <p>随着国内网络环境的持续恶化，各种篡改和劫持层出不穷，越来越多的网站选择了全站 HTTPS。HTTPS 通过 TLS 层和证书机制提供了内容加密、身份认证和数据完整性三大功能，可以有效防止数据被查看或篡改，以及防止中间人冒充。本文分享一些启用 HTTPS 过程中的经验，重点是如何与一些新出的安全规范配合使用。至于 HTTPS 的部署及优化，之前写过很多，本文不重复了。</p>
-
-<!--more-->
-
 
 <h2>理解 Mixed Content</h2>
 

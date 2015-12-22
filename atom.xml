@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2015-12-17T20:59:46+08:00</updated>
+  <updated>2015-12-22T23:39:21+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -21,9 +21,6 @@
     <content type="html"><![CDATA[<p>年底了估计有朋友已经坐不住了，前面有一篇文章介绍<a href="http://mp.weixin.qq.com/s?__biz=MzA3NzM0NzkxMQ==&amp;mid=402358456&amp;idx=1&amp;sn=0494a7313998527e7950f936a24e9ce7#rd">《 年底程序猿迁徙的5大理由，你占了几个？ 》</a>。你是不是也占几个呢？</p>
 
 <p>跳槽不可避免会遇到面试，有些公司会找一些奇葩的面试题来坑我们。所以我们不得不做好防备、提前备战，怎么感觉跟备考一样呢？</p>
-
-<!--more-->
-
 
 <p>我不得不遗憾的告诉你，这比备考重要多了。面试题做不好，很有可能错过一次大好机会。很早之前我收集了很多面试题，以后都分享出来。大家如果手里有不错的面试题目，可以直接发给我，我的邮箱：<strong>worldligang@163.com</strong>，我也会分享给大家！</p>
 
@@ -115,9 +112,6 @@
 
 <p>很多人会疑问是不是程序员最后只能转管理，是不是到了中年之后就应该放弃编程。看到这个回答后很受触动，尽力翻译出来，有不恰当的地方欢迎指出。</p>
 
-<!--more-->
-
-
 <p>下 个星期我就69岁了。我从1967年开始编程。到现在已经48年了，从COBOL一直写到jQuery。我已经忘掉的编程语言比很多程序员这辈子遇到的还 多。我现在自己接一些项目，因为作为一个员工我完全是个工作狂，即使在我已经三十多岁的时候。我永远不会再去做一份每天工作8小时的传统编程工作。</p>
 
 <p>我 已经写了两三百万行或者四百万行代码，我觉得我至少要写到&hellip;额，算了，无所谓。代码写的再多也没有什么意义，除非，这个代码对你关心的人们产生了好的 影响。（原文是： a positive impact on people I care about，和《硅谷》里的make world a better place 真是异曲同工）</p>
@@ -169,9 +163,6 @@
 
 <p>MBMotionActionSheet</p>
 
-<!--more-->
-
-
 <p>设计效果如下：</p>
 
 <p><img src="https://github.com/mmoaay/MBMotion/raw/master/20.gif" alt="master" /></p>
@@ -193,9 +184,6 @@
     <updated>2015-12-10T21:16:24+08:00</updated>
     <id>http://www.superqq.com/blog/2015/12/10/ios-code-life-half-year</id>
     <content type="html"><![CDATA[<p>在高考大军中拼杀过，也在大学校园中荒芜过，曾经低迷消沉，也常满怀壮志…… 但是最多的还是被称为小伙子以及自称为iOS工程师！博主就是这种喜闻乐见的这类人，实习一年后在2015年的毕业季顺利拿到了自己向往的一家创业公司的offer，也许相比很多毕业季的同学职场上顺利许多，但当深夜来临，显示器熄灭后望着荧幕出神的时候，毕业季我错过了很多也许一辈子都不会再相见的同学们的合影。半年里真正领略到了企业项目的开发的艰辛，以及团队协作的魅力，有太多太多的要说，终将其汇成一句话：哥加班半年后终于回来了！</p>
-
-<!--more-->
-
 
 <p><img src="http://daiweilai.github.io/img/post/2015-11-11-pic1.png" alt="1" /></p>
 
@@ -320,9 +308,6 @@
 </ol>
 
 
-<!--more-->
-
-
 <p><img src="http://images.90159.com/12/humor.jpg" alt="https" /></p>
 
 <ol>
@@ -388,9 +373,6 @@
     <content type="html"><![CDATA[<p><img src="http://images.90159.com/12/https.jpg" alt="https" /></p>
 
 <p>随着国内网络环境的持续恶化，各种篡改和劫持层出不穷，越来越多的网站选择了全站 HTTPS。HTTPS 通过 TLS 层和证书机制提供了内容加密、身份认证和数据完整性三大功能，可以有效防止数据被查看或篡改，以及防止中间人冒充。本文分享一些启用 HTTPS 过程中的经验，重点是如何与一些新出的安全规范配合使用。至于 HTTPS 的部署及优化，之前写过很多，本文不重复了。</p>
-
-<!--more-->
-
 
 <h2>理解 Mixed Content</h2>
 
