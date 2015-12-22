@@ -16,7 +16,6 @@ description: 随便实现的特效，正在不断丰富中…目前实现的效�
 
 MBMotionActionSheet
 
-<!--more-->
 
 设计效果如下：
 
