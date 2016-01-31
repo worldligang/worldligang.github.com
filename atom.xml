@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2016-01-26T20:07:41+08:00</updated>
+  <updated>2016-01-31T20:32:51+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,208 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[XMPP客户端登录开发详解]]></title>
+    <link href="http://www.superqq.com/blog/2016/01/31/xmpp-client-login-dev/"/>
+    <updated>2016-01-31T20:28:20+08:00</updated>
+    <id>http://www.superqq.com/blog/2016/01/31/xmpp-client-login-dev</id>
+    <content type="html"><![CDATA[<p>由上篇文章将了如何在MAC本地搭建一个Openfire服务器，今天我们就要着手使用 XMPPFramework来开发 基于XMPP 协议的即时通讯IOS 客户端系统。今天主要看登录功能开发，可能有人会质疑，我们都没有开发注册功能，怎么开发登录功能。注册账号我们有捷径，服务器都在本地，当然很好做了。另外就是通过MAC 自带的客户端 Messages 进行注册。</p>
+
+<p>首先，我们需要搭建起来IOS 的工程，并且将XMPPFramework 引入到我们的工程中来,当然我们可以使用源码 直接导入，也可以使用cocoapods来进行依赖。本文直接使用源码来进行开发。由于在Github上的源码有一些问题，所以大家可以来<a href="https://github.com/TerryLMay/TMXMPPClient/tree/master/TMXMPPClient/ThirdTools/XMPPFrameworkio">https://github.com/TerryLMay/TMXMPPClient/tree/master/TMXMPPClient/ThirdTools/XMPPFrameworkio</a>下载相关的XMPPFramework相关的代码。</p>
+
+<p>下载关于XMPPFramework的代码之后,我们需要做的是 创建一个工程，然后将源代码导入到我们的工程中去。当然直接导入并且编译会出现libxml找不到的问题。我们需要在工程中导入libxml2.tbd(ios 9之后的名称) 以及 libresolv.9.tbd(ios 9之后的后缀)。然后在Build Setting的Head search 中加上 头文件的链接地址</p>
+
+<pre><code>${SDKROOT}/usr/include/libxml2
+</code></pre>
+
+<p>这之后，重新编译工程即可编译成功。后面，我们需要做的就是开发登录功能了，在开始之前，我们还是先看一下怎么注册一个账号吧；登录Openfire后台，创建一个用户。</p>
+
+<p>通过在浏览器中输入 (前提 是 openfire服务器以及mysql服务器都已经启动了)</p>
+
+<pre><code>127.0.0.1:9090     
+</code></pre>
+
+<p>进入如下界面</p>
+
+<p><img src="http://www.terrylmay.com/blogImages/XMPPLogin/OpenFireServerHomePage.png" alt="1" /></p>
+
+<p>点击左上角用户/组 进入用户管理界面</p>
+
+<p><img src="http://www.terrylmay.com/blogImages/XMPPLogin/OpenfireUserHomePage.png" alt="2" /></p>
+
+<p>然后点击 左侧 导航栏中的新建用户 填写好用户信息就可以了。</p>
+
+<p><img src="http://www.terrylmay.com/blogImages/XMPPLogin/OpenfireCreateUserPage.png" alt="3" /></p>
+
+<p>到这边基本上用户注册环节 已经结束了。</p>
+
+<p>开发 登录功能，基本上包括 登录界面的开发、XMPP登录逻辑的开发。登录界面我们可以 随便搭建一个登录界面就可以了。我今天主要是说一下 XMPP登录部分。</p>
+
+<p>首先，创建关于XMPPLoginManager类，实现XMPPStreamDelegate，我定义了自己的一个宏，表示使用的Openfire服务器的地址 以及 端口号</p>
+
+<pre><code>#define LocalOpenfire 1
+
+#if LocalOpenfire
+
+#define HOST_NAME @"127.0.0.1"
+#define HOST_PORT 5222
+#define CONNECT_IDENTIFIER @"@"
+
+#endif
+
+#define TIME_OUT 20
+</code></pre>
+
+<p>然后 定义XMPPStream、XMPPReconnect实例，并且初始化</p>
+
+<pre><code>- (void)initXMPPStream {
+    self.loginXmppStream = [[XMPPStream alloc] init];
+    [self.loginXmppStream addDelegate:self delegateQueue:dispatch_get_main_queue()];
+}
+
+- (void)initXMPPReconnect {
+    self.loginReconnectManager = [[XMPPReconnect alloc] init];
+    [self.loginReconnectManager activate:self.loginXmppStream];
+    // You can also optionally add delegates to the module.
+    [self.loginReconnectManager addDelegate:self delegateQueue:dispatch_get_main_queue()];
+}
+</code></pre>
+
+<p>定义 Login按钮点击之后的点击事件调用 XMPPLoginManager中的如下方法进行连接：</p>
+
+<pre><code>#pragma mark -- connect xmpp method for login viewController
+- (void)connectXMPPServer:(NSString *)userName password:(NSString *)password {
+    self.userName = userName;
+    self.password = password;
+
+    NSString *myJid = [NSString stringWithFormat:@"%@%@%@", userName, CONNECT_IDENTIFIER, HOST_NAME];
+    self.loginXmppStream.myJID = [XMPPJID jidWithString:myJid];
+
+    self.loginXmppStream.hostName = HOST_NAME;
+    self.loginXmppStream.hostPort = HOST_PORT;
+
+    NSError *connectError = nil;
+    [self.loginXmppStream connectWithTimeout:TIME_OUT error:&amp;connectError];
+
+    if (connectError) {
+        NSLog(@"%@", connectError);
+        [self.loginDelegate loginXMPPConnectError:connectError];
+    }
+}
+</code></pre>
+
+<p>后面就是处理XMPPStream的各种回调就可以了</p>
+
+<pre><code>#pragma mark -- xmppstream delegate
+//连接xmpp成功之后,使用密码认证
+- (void)xmppStreamDidConnect:(XMPPStream *)sender {
+
+    NSError *authError = nil;
+    [self.loginXmppStream authenticateWithPassword:self.password error:&amp;authError];
+
+    if (authError) {
+        NSLog(@"%@", authError);
+        [self.loginDelegate loginXMPPDidNotAuthenticate];
+    }
+}
+
+//认证通过之后的处理
+- (void)xmppStreamDidAuthenticate:(XMPPStream *)sender {
+    NSLog(@"%@", @"认证通过");
+    [self.loginDelegate loginXMPPDidAuthenticate];
+}
+
+//连接服务器的超时处理
+- (void)xmppStreamConnectDidTimeout:(XMPPStream *)sender {
+    NSLog(@"连接超时");
+    [self.loginDelegate loginXMPPConnectDidTimeout];
+}
+
+//认证没有通过处理
+- (void)xmppStream:(XMPPStream *)sender didNotAuthenticate:(DDXMLElement *)error {
+    NSLog(@"认证失败");
+    [self.loginDelegate loginXMPPDidNotAuthenticate];
+}
+</code></pre>
+
+<p>基本上这样就可以登录了，登录成功之后，可以跳转到相应的界面。提一下我们 能看到的XMPP交互流程 包括：</p>
+
+<p>1、XMPP 使用用户名去连接服务器；</p>
+
+<p>2、XMPP 连接成功之后，通过密码去服务器认证</p>
+
+<p>3、认证成功之后，处理自己想处理的一下事情。</p>
+
+<p>但其实XMPP 报文交互包括好几步，我就从别人那边摘录一点交互细节过来，就不自己一个个的抓包看了。</p>
+
+<pre><code>C1: 客户端初始化流给服务器 
+
+&lt;stream:stream to="127.0.0.1" xmlns="jabber:client" 
+xmlns:stream="http://etherx.jabber.org/streams" version="1.0"&gt; S1: 服务器向客户端发送流标签作为应答: 
+&lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;stream:stream 
+xmlns:stream="http://etherx.jabber.org/streams" xmlns="jabber:client" from="192.168.1.185" id="fb0cfcad" xml:lang="en" version="1.0"&gt; 
+
+S2: 发送 STARTTLS范围 
+
+&lt;stream:features&gt; 
+&lt;starttls xmlns="urn:ietf:params:xml:ns: xmpp-tls"&gt;&lt;/starttls&gt; &lt;mechanisms xmlns="urn:ietf:params:xml:ns:xmpp-sasl"&gt; 
+&lt;mechanism&gt;PLAIN&lt;/mechanism&gt; &lt;mechanism&gt;CRAM-MD5&lt;/mechanism&gt; &lt;mechanism&gt;ANONYMOUS&lt;/mechanism&gt; &lt;mechanism&gt;DIGEST-MD5&lt;/mechanism&gt; &lt;mechanism&gt;JIVE-SHAREDSECRET&lt;/mechanism&gt; &lt;/mechanisms&gt; 
+&lt;compression xmlns="http://jabber.org/features/compress"&gt; 
+&lt;method&gt;zlib&lt;/method&gt; &lt;/compression&gt; 
+&lt;auth xmlns="http://jabber.org/features/iq-auth"/&gt; 
+&lt;register xmlns="http://jabber.org/features/iq-register"/&gt; &lt;/stream:features&gt;  
+
+C2:客户端发送 STARTTLS 命令给服务器: 
+
+&lt;starttls xmlns='urn:ietf:params:xml:ns:xmpp-tls'/&gt; 
+
+S3:服务器通知客户端可以继续进行: 
+
+&lt;proceed xmlns='urn:ietf:params:xml:ns:xmpp-tls'/&gt; 
+
+C3：TLS 握手成功, 客户端初始化一个新的流给服务器
+
+&lt;stream:stream to="192.168.1.185" xmlns="jabber:client" 
+xmlns:stream="http://etherx.jabber.org/streams" version="1.0"&gt;  
+
+S4：服务器通知客户端可用的验证机制: 
+
+&lt;?xml version='1.0' encoding='UTF-8'?&gt; 
+&lt;stream:stream xmlns:stream="http://etherx.jabber.org/streams" 
+xmlns="jabber:client" from="192.168.1.185" id="ad6f53e8" xml:lang="en" version="1.0"&gt; &lt;stream:features&gt; 
+&lt;mechanisms xmlns="urn:ietf:params:xml:ns:xmpp-sasl"&gt; &lt;mechanism&gt;DIGEST-MD5&lt;/mechanism&gt; &lt;mechanism&gt;PLAIN&lt;/mechanism&gt; 
+&lt;mechanism&gt;ANONYMOUS&lt;/mechanism&gt; &lt;mechanism&gt;CRAM-MD5&lt;/mechanism&gt; &lt;/mechanisms&gt; 
+&lt;compression xmlns="http://jabber.org/features/compress"&gt; &lt;method&gt;zlib&lt;/method&gt; &lt;/compression&gt; 
+&lt;auth xmlns="http://jabber.org/features/iq-auth"/&gt; 
+&lt;register xmlns="http://jabber.org/features/iq-register"/&gt; &lt;/stream:features&gt; 
+
+C4: 客户端选择一个验证机制: 
+
+&lt;auth mechanism="DIGEST-MD5" xmlns="urn:ietf:params:xml:ns:xmpp-sasl"&gt;&lt;/auth&gt; 
+
+S5:服务器发送一个 [BASE64] 编码的挑战给客户端: 
+
+&lt;challenge xmlns="urn:ietf:params:xml:ns:xmpp-sasl"&gt;cmVhbG09IjE5Mi4xNjguMS4xODUiLG5vbmNlPSJlcEJaZlBxU1p0WGlLYzBqdGpwT0I1a01HMHdiY0hsUmNhOE52ZE9SIixxb3A9ImF1dGgiLGNoYXJzZXQ9dXRmLTgsYWxnb3JpdGhtPW1kNS1zZXNz&lt;/challenge&gt;  C5:客户端发送一个[BASE64]编码的回应这个挑战: 
+&lt;response xmlns="urn:ietf:params:xml:ns:xmpp-sasl"&gt;Y2hhcnNldD11dGYtOCx1c2VybmFtZT0iYWRtaW4iLHJlYWxtPSIxOTIuMTY4LjEuMTg1Iixub25jZT0iZXBCWmZQcVNadFhpS2MwanRqcE9CNWtNRzB3YmNIbFJjYThOdmRPUiIsbmM9MDAwMDAwMDEsY25vbmNlPSJMNDJ1SE1XK2piemh6N1hzdWRndHN1V1VIT2hNZmFLVUJpcU5iR1p2IixkaWdlc3QtdXJpPSJ4bXBwLzE5Mi4xNjguMS4xODUiLG1heGJ1Zj02NTUzNixyZXNwb25zZT1hN2JhMWZlOThiMDc2ZjUzZWUzNTczM2Q5NDMwODJlYSxxb3A9YXV0aCxhdXRoemlkPSJhZG1pbiI=&lt;/response&gt; 
+
+S6:服务器通知客户端验证成功 
+
+&lt;success xmlns="urn:ietf:params:xml:ns:xmpp-sasl"&gt;cnNwYXV0aD0yNDZlZDcyOTQ3ZjVhYzFiNWQ2ZDc4ZTkxM2QzMmFjMQ==&lt;/success&gt; 
+
+C6客户端初始化一个新流给服务器： 
+
+&lt;stream:stream to="192.168.1.185" xmlns="jabber:client" 
+xmlns:stream="http://etherx.jabber.org/streams" version="1.0"&gt;
+</code></pre>
+
+<p>基本上XMPP的登录细节就已经清楚了。后面我们看一下 注册相关的模块 以及 联系人请求模块的开发。如果想获取源码的话，请转到<a href="https://github.com/TerryLMay/TMXMPPClient/tree/master/TMXMPPClient">https://github.com/TerryLMay/TMXMPPClient/tree/master/TMXMPPClient</a></p>
+
+<pre><code>本文作者：Terry 专注于技术开发；打滚于IOS 技术领域，偶尔也会迈出脚步探索其他领域
+地址：http://www.terrylmay.com/terrylmay.github.io/2016/01/31/XMPP%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%99%BB%E5%BD%95%E5%BC%80%E5%8F%91%E8%AF%A6%E8%A7%A3/
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[推荐：iOS开发面试题整理（一）]]></title>
@@ -1426,37 +1628,6 @@ if ([[UIApplication sharedApplication] canOpenURL:url])
 <p>做喜欢的事，能最大可能发挥一个人的潜能和热情，会最快速地通向成功成就自己。而做不喜欢的事，一开始就注定了事倍功半，最后也往往会是痛苦不堪或半途而废。</p>
 
 <blockquote><p>来自：foruok 地址：<a href="http://blog.csdn.net/foruok/article/details/49245349">http://blog.csdn.net/foruok/article/details/49245349</a></p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[程序猿的幽默趣图，你并不懂他们的真正世界]]></title>
-    <link href="http://www.superqq.com/blog/2015/11/01/humor-code-world/"/>
-    <updated>2015-11-01T13:22:00+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/11/01/humor-code-world</id>
-    <content type="html"><![CDATA[<blockquote><p>作为程序员 ，你不能错过的幽默！</p></blockquote>
-
-<h3>1、旁人眼中的程序猿和真实世界的程序猿。</h3>
-
-<p><img src="http://images.90159.com/11/humor1.gif" alt="humor1" /></p>
-
-<h3>2、多线程的理论和现实。</h3>
-
-<p><img src="http://images.90159.com/11/humor2.jpg" alt="humor2" /></p>
-
-<h3>3、你是这样的还是那样的BUG？</h3>
-
-<p><img src="http://images.90159.com/11/humor3.gif" alt="humor3" /></p>
-
-<h3>4、我想重构，但又怕重构后，从此程序就不能再正常&hellip;&hellip;..</h3>
-
-<p><img src="http://images.90159.com/11/humor4.jpg" alt="humor4" /></p>
-
-<h3>5、客户的期望VS最终产品</h3>
-
-<p><img src="http://images.90159.com/11/humor5.gif" alt="humor5" /></p>
-
-<p>来自：网络</p>
 ]]></content>
   </entry>
   

@@ -1,0 +1,536 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+      <meta name="baidu-site-verification" content="X93tJz3pCq" />
+  <title>XMPP客户端登录开发详解 - 刚刚在线</title>
+  <meta name="author" content="李刚">
+  <meta name="uyan_auth" content="d1112891bb" />
+  <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
+      
+  
+  <meta name="description" content="由上篇文章将了如何在MAC本地搭建一个Openfire服务器，今天我们就要着手使用 XMPPFramework来开发 基于XMPP 协议的即时通讯IOS 客户端系统。今天主要看登录功能开发，可能有人会质疑，我们都没有开发注册功能，怎么开发登录功能。注册账号我们有捷径，服务器都在本地，当然很好做了。 &hellip;">
+  <meta name="keywords" content="XMPP, 客户端登录, 程序员  , iOS开发, 刚刚在线">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.superqq.com/blog/2016/01/31/xmpp-client-login-dev">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="http://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">刚刚在线</a></h1>
+  
+    <h2>分享iOS开发技术经验的自媒体网站</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://zhannei.superqq.com" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.superqq.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">首页</a></li>
+  <li><a href="/blog/archives">全部文章</a></li>
+  <li><a href="/blog/categories/ioskai-fa/">iOS开发</a></li>
+  <li><a href="/blog/categories/swiftkai-fa">swift开发</a></li>
+  <li><a href="/blog/categories/cheng-xu-yuan/">程序员</a></li>
+  <li><a href="/blog/categories/yuan-dai-ma/">源代码</a></li>
+  <li><a href="/blog/categories/sdkfu-wu/">sdk服务</a></li>
+  <li><a href="/blog/categories/tui-jian/">推荐</a></li>
+  <li><a href="/about">赞助作者</a></li>
+  <li><a href="http://www.90159.com/" target="_blank" title=头条>头条</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">XMPP客户端登录开发详解</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-31T20:28:20+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>8:28 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>由上篇文章将了如何在MAC本地搭建一个Openfire服务器，今天我们就要着手使用 XMPPFramework来开发 基于XMPP 协议的即时通讯IOS 客户端系统。今天主要看登录功能开发，可能有人会质疑，我们都没有开发注册功能，怎么开发登录功能。注册账号我们有捷径，服务器都在本地，当然很好做了。另外就是通过MAC 自带的客户端 Messages 进行注册。</p>
+
+<p>首先，我们需要搭建起来IOS 的工程，并且将XMPPFramework 引入到我们的工程中来,当然我们可以使用源码 直接导入，也可以使用cocoapods来进行依赖。本文直接使用源码来进行开发。由于在Github上的源码有一些问题，所以大家可以来<a href="https://github.com/TerryLMay/TMXMPPClient/tree/master/TMXMPPClient/ThirdTools/XMPPFrameworkio">https://github.com/TerryLMay/TMXMPPClient/tree/master/TMXMPPClient/ThirdTools/XMPPFrameworkio</a>下载相关的XMPPFramework相关的代码。</p>
+
+<p>下载关于XMPPFramework的代码之后,我们需要做的是 创建一个工程，然后将源代码导入到我们的工程中去。当然直接导入并且编译会出现libxml找不到的问题。我们需要在工程中导入libxml2.tbd(ios 9之后的名称) 以及 libresolv.9.tbd(ios 9之后的后缀)。然后在Build Setting的Head search 中加上 头文件的链接地址</p>
+
+<pre><code>${SDKROOT}/usr/include/libxml2
+</code></pre>
+
+<p>这之后，重新编译工程即可编译成功。后面，我们需要做的就是开发登录功能了，在开始之前，我们还是先看一下怎么注册一个账号吧；登录Openfire后台，创建一个用户。</p>
+
+<p>通过在浏览器中输入 (前提 是 openfire服务器以及mysql服务器都已经启动了)</p>
+
+<pre><code>127.0.0.1:9090     
+</code></pre>
+
+<p>进入如下界面</p>
+
+<p><img src="http://www.terrylmay.com/blogImages/XMPPLogin/OpenFireServerHomePage.png" alt="1" /></p>
+
+<p>点击左上角用户/组 进入用户管理界面</p>
+
+<p><img src="http://www.terrylmay.com/blogImages/XMPPLogin/OpenfireUserHomePage.png" alt="2" /></p>
+
+<p>然后点击 左侧 导航栏中的新建用户 填写好用户信息就可以了。</p>
+
+<p><img src="http://www.terrylmay.com/blogImages/XMPPLogin/OpenfireCreateUserPage.png" alt="3" /></p>
+
+<p>到这边基本上用户注册环节 已经结束了。</p>
+
+<p>开发 登录功能，基本上包括 登录界面的开发、XMPP登录逻辑的开发。登录界面我们可以 随便搭建一个登录界面就可以了。我今天主要是说一下 XMPP登录部分。</p>
+
+<p>首先，创建关于XMPPLoginManager类，实现XMPPStreamDelegate，我定义了自己的一个宏，表示使用的Openfire服务器的地址 以及 端口号</p>
+
+<pre><code>#define LocalOpenfire 1
+
+#if LocalOpenfire
+
+#define HOST_NAME @"127.0.0.1"
+#define HOST_PORT 5222
+#define CONNECT_IDENTIFIER @"@"
+
+#endif
+
+#define TIME_OUT 20
+</code></pre>
+
+<p>然后 定义XMPPStream、XMPPReconnect实例，并且初始化</p>
+
+<pre><code>- (void)initXMPPStream {
+    self.loginXmppStream = [[XMPPStream alloc] init];
+    [self.loginXmppStream addDelegate:self delegateQueue:dispatch_get_main_queue()];
+}
+
+- (void)initXMPPReconnect {
+    self.loginReconnectManager = [[XMPPReconnect alloc] init];
+    [self.loginReconnectManager activate:self.loginXmppStream];
+    // You can also optionally add delegates to the module.
+    [self.loginReconnectManager addDelegate:self delegateQueue:dispatch_get_main_queue()];
+}
+</code></pre>
+
+<p>定义 Login按钮点击之后的点击事件调用 XMPPLoginManager中的如下方法进行连接：</p>
+
+<pre><code>#pragma mark -- connect xmpp method for login viewController
+- (void)connectXMPPServer:(NSString *)userName password:(NSString *)password {
+    self.userName = userName;
+    self.password = password;
+
+    NSString *myJid = [NSString stringWithFormat:@"%@%@%@", userName, CONNECT_IDENTIFIER, HOST_NAME];
+    self.loginXmppStream.myJID = [XMPPJID jidWithString:myJid];
+
+    self.loginXmppStream.hostName = HOST_NAME;
+    self.loginXmppStream.hostPort = HOST_PORT;
+
+    NSError *connectError = nil;
+    [self.loginXmppStream connectWithTimeout:TIME_OUT error:&amp;connectError];
+
+    if (connectError) {
+        NSLog(@"%@", connectError);
+        [self.loginDelegate loginXMPPConnectError:connectError];
+    }
+}
+</code></pre>
+
+<p>后面就是处理XMPPStream的各种回调就可以了</p>
+
+<pre><code>#pragma mark -- xmppstream delegate
+//连接xmpp成功之后,使用密码认证
+- (void)xmppStreamDidConnect:(XMPPStream *)sender {
+
+    NSError *authError = nil;
+    [self.loginXmppStream authenticateWithPassword:self.password error:&amp;authError];
+
+    if (authError) {
+        NSLog(@"%@", authError);
+        [self.loginDelegate loginXMPPDidNotAuthenticate];
+    }
+}
+
+//认证通过之后的处理
+- (void)xmppStreamDidAuthenticate:(XMPPStream *)sender {
+    NSLog(@"%@", @"认证通过");
+    [self.loginDelegate loginXMPPDidAuthenticate];
+}
+
+//连接服务器的超时处理
+- (void)xmppStreamConnectDidTimeout:(XMPPStream *)sender {
+    NSLog(@"连接超时");
+    [self.loginDelegate loginXMPPConnectDidTimeout];
+}
+
+//认证没有通过处理
+- (void)xmppStream:(XMPPStream *)sender didNotAuthenticate:(DDXMLElement *)error {
+    NSLog(@"认证失败");
+    [self.loginDelegate loginXMPPDidNotAuthenticate];
+}
+</code></pre>
+
+<p>基本上这样就可以登录了，登录成功之后，可以跳转到相应的界面。提一下我们 能看到的XMPP交互流程 包括：</p>
+
+<p>1、XMPP 使用用户名去连接服务器；</p>
+
+<p>2、XMPP 连接成功之后，通过密码去服务器认证</p>
+
+<p>3、认证成功之后，处理自己想处理的一下事情。</p>
+
+<p>但其实XMPP 报文交互包括好几步，我就从别人那边摘录一点交互细节过来，就不自己一个个的抓包看了。</p>
+
+<pre><code>C1: 客户端初始化流给服务器 
+
+&lt;stream:stream to="127.0.0.1" xmlns="jabber:client" 
+xmlns:stream="http://etherx.jabber.org/streams" version="1.0"&gt; S1: 服务器向客户端发送流标签作为应答: 
+&lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;stream:stream 
+xmlns:stream="http://etherx.jabber.org/streams" xmlns="jabber:client" from="192.168.1.185" id="fb0cfcad" xml:lang="en" version="1.0"&gt; 
+
+S2: 发送 STARTTLS范围 
+
+&lt;stream:features&gt; 
+&lt;starttls xmlns="urn:ietf:params:xml:ns: xmpp-tls"&gt;&lt;/starttls&gt; &lt;mechanisms xmlns="urn:ietf:params:xml:ns:xmpp-sasl"&gt; 
+&lt;mechanism&gt;PLAIN&lt;/mechanism&gt; &lt;mechanism&gt;CRAM-MD5&lt;/mechanism&gt; &lt;mechanism&gt;ANONYMOUS&lt;/mechanism&gt; &lt;mechanism&gt;DIGEST-MD5&lt;/mechanism&gt; &lt;mechanism&gt;JIVE-SHAREDSECRET&lt;/mechanism&gt; &lt;/mechanisms&gt; 
+&lt;compression xmlns="http://jabber.org/features/compress"&gt; 
+&lt;method&gt;zlib&lt;/method&gt; &lt;/compression&gt; 
+&lt;auth xmlns="http://jabber.org/features/iq-auth"/&gt; 
+&lt;register xmlns="http://jabber.org/features/iq-register"/&gt; &lt;/stream:features&gt;  
+
+C2:客户端发送 STARTTLS 命令给服务器: 
+
+&lt;starttls xmlns='urn:ietf:params:xml:ns:xmpp-tls'/&gt; 
+
+S3:服务器通知客户端可以继续进行: 
+
+&lt;proceed xmlns='urn:ietf:params:xml:ns:xmpp-tls'/&gt; 
+
+C3：TLS 握手成功, 客户端初始化一个新的流给服务器
+
+&lt;stream:stream to="192.168.1.185" xmlns="jabber:client" 
+xmlns:stream="http://etherx.jabber.org/streams" version="1.0"&gt;  
+
+S4：服务器通知客户端可用的验证机制: 
+
+&lt;?xml version='1.0' encoding='UTF-8'?&gt; 
+&lt;stream:stream xmlns:stream="http://etherx.jabber.org/streams" 
+xmlns="jabber:client" from="192.168.1.185" id="ad6f53e8" xml:lang="en" version="1.0"&gt; &lt;stream:features&gt; 
+&lt;mechanisms xmlns="urn:ietf:params:xml:ns:xmpp-sasl"&gt; &lt;mechanism&gt;DIGEST-MD5&lt;/mechanism&gt; &lt;mechanism&gt;PLAIN&lt;/mechanism&gt; 
+&lt;mechanism&gt;ANONYMOUS&lt;/mechanism&gt; &lt;mechanism&gt;CRAM-MD5&lt;/mechanism&gt; &lt;/mechanisms&gt; 
+&lt;compression xmlns="http://jabber.org/features/compress"&gt; &lt;method&gt;zlib&lt;/method&gt; &lt;/compression&gt; 
+&lt;auth xmlns="http://jabber.org/features/iq-auth"/&gt; 
+&lt;register xmlns="http://jabber.org/features/iq-register"/&gt; &lt;/stream:features&gt; 
+
+C4: 客户端选择一个验证机制: 
+
+&lt;auth mechanism="DIGEST-MD5" xmlns="urn:ietf:params:xml:ns:xmpp-sasl"&gt;&lt;/auth&gt; 
+
+S5:服务器发送一个 [BASE64] 编码的挑战给客户端: 
+
+&lt;challenge xmlns="urn:ietf:params:xml:ns:xmpp-sasl"&gt;cmVhbG09IjE5Mi4xNjguMS4xODUiLG5vbmNlPSJlcEJaZlBxU1p0WGlLYzBqdGpwT0I1a01HMHdiY0hsUmNhOE52ZE9SIixxb3A9ImF1dGgiLGNoYXJzZXQ9dXRmLTgsYWxnb3JpdGhtPW1kNS1zZXNz&lt;/challenge&gt;  C5:客户端发送一个[BASE64]编码的回应这个挑战: 
+&lt;response xmlns="urn:ietf:params:xml:ns:xmpp-sasl"&gt;Y2hhcnNldD11dGYtOCx1c2VybmFtZT0iYWRtaW4iLHJlYWxtPSIxOTIuMTY4LjEuMTg1Iixub25jZT0iZXBCWmZQcVNadFhpS2MwanRqcE9CNWtNRzB3YmNIbFJjYThOdmRPUiIsbmM9MDAwMDAwMDEsY25vbmNlPSJMNDJ1SE1XK2piemh6N1hzdWRndHN1V1VIT2hNZmFLVUJpcU5iR1p2IixkaWdlc3QtdXJpPSJ4bXBwLzE5Mi4xNjguMS4xODUiLG1heGJ1Zj02NTUzNixyZXNwb25zZT1hN2JhMWZlOThiMDc2ZjUzZWUzNTczM2Q5NDMwODJlYSxxb3A9YXV0aCxhdXRoemlkPSJhZG1pbiI=&lt;/response&gt; 
+
+S6:服务器通知客户端验证成功 
+
+&lt;success xmlns="urn:ietf:params:xml:ns:xmpp-sasl"&gt;cnNwYXV0aD0yNDZlZDcyOTQ3ZjVhYzFiNWQ2ZDc4ZTkxM2QzMmFjMQ==&lt;/success&gt; 
+
+C6客户端初始化一个新流给服务器： 
+
+&lt;stream:stream to="192.168.1.185" xmlns="jabber:client" 
+xmlns:stream="http://etherx.jabber.org/streams" version="1.0"&gt;
+</code></pre>
+
+<p>基本上XMPP的登录细节就已经清楚了。后面我们看一下 注册相关的模块 以及 联系人请求模块的开发。如果想获取源码的话，请转到<a href="https://github.com/TerryLMay/TMXMPPClient/tree/master/TMXMPPClient">https://github.com/TerryLMay/TMXMPPClient/tree/master/TMXMPPClient</a></p>
+
+<pre><code>本文作者：Terry 专注于技术开发；打滚于IOS 技术领域，偶尔也会迈出脚步探索其他领域
+地址：http://www.terrylmay.com/terrylmay.github.io/2016/01/31/XMPP%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%99%BB%E5%BD%95%E5%BC%80%E5%8F%91%E8%AF%A6%E8%A7%A3/
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">李刚</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-01-31T20:28:20+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>8:28 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/tui-jian/'>推荐</a>
+  
+</span>
+
+
+      </p>
+本文出处刚刚在线：<a href="http://www.superqq.com/blog/2016/01/31/xmpp-client-login-dev/">http://www.superqq.com/blog/2016/01/31/xmpp-client-login-dev/</a>
+</p>
+自由转载-请在开头注明本文出处。
+</p>
+<p><br>微信公众号iOS开发：<a href="http://www.superqq.com/" target="_blank" rel="external">iOSDevTip</a><br><a href="http://images.90159.com/icon/iOSDevTip.jpg" target="_blank" rel="external"><img src="http://images.90159.com/icon/iOSDevTip.jpg" alt=""></a></p> <!-- 添加这一行代码 -->
+    </p>
+    
+      <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+    <span class="jiathis_txt">分享到：</span>
+    <a class="jiathis_button_tools_1"></a>
+    <a class="jiathis_button_tools_2"></a>
+    <a class="jiathis_button_tools_3"></a>
+    <a class="jiathis_button_tools_4"></a>
+    <a href="http://www.jiathis.com/share?uid=1983651" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+    <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+    var jiathis_config = {data_track_clickback:'true'};
+    </script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1401863435807252" charset="utf-8"></script>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/12/15/ios-dev-interview/" title="Previous Post: 推荐：iOS开发面试题整理（一）">&laquo; 推荐：iOS开发面试题整理（一）</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>2016年值得关注的公众号</h1>
+        <br/>
+        <br/><strong>公众号iOS开发：iOSDevTip</strong> 
+        <br/>
+        <br/><img width="220px" src="http://images.90159.com/icon/iOSDevTip.jpg" />
+        <br/>
+        <br/><strong>公众号猿圈：CodePush</strong>
+        <br/>
+        <br/><img width="220px" src="http://images.90159.com/icon/codepush.jpg" />
+        <br/>
+        <br/><strong>Android开发精选：AndroidPush</strong> 
+        <br/>
+        <br/><img width="220px" src="http://images.90159.com/icon/AndroidPush.jpg" />
+        <br/>
+        <br/><strong>公众号Python开发：PythonPush</strong> 
+        <br/>
+        <br/><img width="220px" src="http://images.90159.com/icon/PythonPush.jpg" />
+        </p>
+  <h1>最新文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/01/31/xmpp-client-login-dev/">XMPP客户端登录开发详解</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/15/ios-dev-interview/">推荐：iOS开发面试题整理（一）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/12/write-code-48-year/">我已经写了48年代码了，我感觉我还能写下去</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/12/apple-commit-7-day/">苹果公司即将放假8天暂停APP提交审核</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/11/mbmotion-great-effect/">非常棒的特效-MBMotion</a>
+      </li>
+    
+  </ul>
+</section>
+</section>
+<section>
+    <h1>About Me</h1>
+    <br/>
+    <p> 李刚：百度百家专栏作者，刚刚在线站长，iOS工程师非著名自媒体人，微信公众号iOS开发：iOSDevTip运营者<br/>
+    <br/><strong>出师未捷名已落</strong>
+    <br/>
+    <br/>新浪微博: <a href='http://weibo.com/ligangnc' target='_blank'>李刚移动</a>
+    <br/>
+    <br/>个人微信: <strong>chinaligang</strong> 欢迎调戏
+    <br/>
+    <br/>iOS群: <strong>218822587</strong>
+  <br/>
+</section>
+
+   
+ <section>
+    <h1>友情链接</h1>
+    <ul>
+    
+       <li>
+           <a href="http://www.superqq.com" target="_blank" title=“刚刚在线”>刚刚在线</a>
+       </li>
+       <li>
+           <a href="http://www.90159.com" target="_blank" title=“程序员头条”>程序员头条</a>
+       </li>
+       <li>
+           <a href="http://www.iswifting.com" target="_blank" title=“swift开发”>swift开发</a>
+       </li>
+       <li>
+           <a href="http://www.aswifter.com/" target="_blank" title="APP开发者">APP开发者</a>
+       </li>
+        <li>
+           <a href="http://www.boxingjiaoyu.com/" target="_blank" title="程序员聚合平台">程序员聚合平台</a>
+       </li>
+        <li>
+           <a href="http://droidyue.com/" target="_blank" title="技术小黑屋">技术小黑屋</a>
+       </li>
+        <li>
+           <a href="http://www.olinone.com/" target="_blank" title="庞海礁的个人空间">庞海礁的个人空间</a>
+       </li>
+       <li>
+           <a href="http://www.5ibc.net" target="_blank" title="PHP教程">PHP教程</a>
+       </li>
+       <li>
+           <a href="http://gank.io/" target="_blank" title="干货集中营">干货集中营</a>
+       </li>
+      <li>
+           <a href="http://www.mobile-open.com/" target="_blank" title="阳和移动开发">阳和移动开发</a>
+       </li>
+       <li>
+           <a href="http://www.jq-school.com/" target="_blank" title="jquery教程">jquery教程</a>
+       </li>
+        <li>
+           <a href="http://www.admin10000.com/" target="_blank" title="WEB开发者">WEB开发者</a>
+       </li>
+       <li>
+           <a href="http://www.aichengxu.com/" target="_blank" title="爱程序网">爱程序网</a>
+       </li>
+       <li>
+           <a href="http://www.lai18.com" target="_blank" title="IT技术文章">IT技术文章</a>
+       </li>
+       <li>
+           <a href="http://www.cftea.com/" target="_blank" title="千一网络">千一网络</a>
+       </li>
+        <li>
+           <a href="http://www.bmob.cn/" target="_blank" title="Bmob">Bmob移动后端云</a>
+       </li>
+       <li>
+           <a href="http://www.leichunfeng.com" target="_blank" title="雷纯锋的技术博客">雷纯锋的技术博客</a>
+       </li>
+       <li>
+           <a href="http://cuiqingcai.com/" target="_blank" title="静觅">静觅</a>
+       </li>
+       <li>
+           <a href="http://www.zhangfei.tk/" target="_blank" title="张飞的技术博客">张飞的技术博客</a>
+       </li>
+       <li>
+           <a href="http://letsswift.com/" target="_blank" title="一起Swift">一起Swift</a>
+       </li>
+       <li>
+           <a href="http://www.swiftv.cn/" target="_blank" title="SwiftV课堂">SwiftV课堂</a>
+       </li>
+       <li>
+           <a href="http://www.aptusource.org/" target="_blank" title="AptuSource">AptuSource</a>
+       </li>
+        <li>
+            <a href="http://blog.csdn.net/iosdevtip" target="_blank" title="刚刚在线">CSDN</a>
+        </li>
+        <li>
+            <a href="http://user.qzone.qq.com/1606535851" target="_blank" title="刚刚在线">QQ空间</a>
+        </li>
+        <li>
+            <br/><strong>交换友链：</strong>欢迎各大程序员站点交换友情链接，如需交换，请添加好本站链接后发送邮件至下方邮箱。
+            <br/>
+            <br/><strong>格式：</strong>（ 友链文字：“ 刚刚在线 ”，链接：“ http://www.superqq.com/ ” ）
+            <br/>
+            <br/><strong>邮箱：</strong>worldligang@163.com
+            <br/>
+        </li>
+    </ul>
+<br/>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+Copyright &copy; 2016 - 李刚 
+<span class="credit">Powered by <a href="http://octopress.org" target="_blank">Octopress</a></span>
+ <span class="credit">, 感谢 <a href="http://gitcafe.com/signup?invited_by=tangqiaoboy" target="_blank">GitCafe</a> 为本站提供存储空间</span><a href="http://www.miitbeian.gov.cn" target="_blank" title=" 豫ICP备16000765号-3"> 豫ICP备16000765号-2</a> 
+
+</p>
+
+<script language="javascript" type="text/javascript" src="http://js.users.51.la/17443209.js"></script>
+<noscript><a href="http://www.51.la/?17443209" target="_blank"><img alt="&#x6211;&#x8981;&#x5566;&#x514D;&#x8D39;&#x7EDF;&#x8BA1;" src="http://img.users.51.la/17443209.asp" style="border:none" /></a></noscript>
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
