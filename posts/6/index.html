@@ -81,53 +81,6 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-(photo-album)/">iOS开发之保存照片到系统相册（Photo Album）</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-08-03T21:43:34+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:43 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>保存照片到系统相册这个功能很多社交类的APP都有的，今天我们简单讲解一下，如何将图片保存到系统相册（Photo Album）。</p>
-
-<h2>创建UIImageView</h2>
-
-<p>创建<code>UIImageView</code>是为了将照片展示出来，我们是要把<code>UIImage</code>保存到系统相册（Photo Album）:</p>
-
-<pre><code>#define SCREEN [UIScreen mainScreen].bounds.size
-
-self.image = [UIImage imageNamed:@"iOSDevTip"];
-UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake((SCREEN.width - 300) / 2, 70, 300, 150)];
-imageView.image = self.image;
-[self.view addSubview:imageView];
-</code></pre>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-(photo-album)/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
       <h1 class="entry-title"><a href="/blog/2015/08/02/custom-navigation-button-uibarbuttonitem/">自定义导航按钮UIBarButtonItem</a></h1>
     
     
@@ -489,6 +442,47 @@ imageView.image = self.image;
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/26/jie-qu-uiimagezhi-ding-da-xiao-qu-yu/">截取UIImage指定大小区域</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-26T10:07:58+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:07 am</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近遇到这样的需求：从服务器获取到一张照片，只需要显示他的左半部分，或者中间部分等等。也就是截取UIImage指定大小区域。</p>
+
+<h2>UIImage扩展</h2>
+
+<p>我的解决方案是对<code>UIImage</code>进行扩展。通过<code>CGImageRef</code>和<code>CGImage</code>完成截取，调用的方法是：<code>CGImageCreateWithImageInRect</code>。扩展类叫<code>UIImage+Crop</code>，具体代码如下：</p>
+
+<h3>UIImage+Crop.h</h3>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/07/26/jie-qu-uiimagezhi-ding-da-xiao-qu-yu/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/posts/7">&larr; Older</a>
@@ -524,10 +518,6 @@ imageView.image = self.image;
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2016/02/26/test/">Test</a>
-      </li>
-    
-      <li class="post">
         <a href="/blog/2016/01/31/xmpp-client-login-dev/">XMPP客户端登录开发详解</a>
       </li>
     
@@ -541,6 +531,10 @@ imageView.image = self.image;
     
       <li class="post">
         <a href="/blog/2015/12/12/apple-commit-7-day/">苹果公司即将放假8天暂停APP提交审核</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/11/mbmotion-great-effect/">非常棒的特效-MBMotion</a>
       </li>
     
   </ul>
