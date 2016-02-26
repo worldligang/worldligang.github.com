@@ -81,6 +81,68 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/08/18/ios-development-refresh-uitableview/">iOS开发小技巧：刷新UITableView</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-18T15:25:58+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:25 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>我创建了iOS开发博主联盟群：<strong>364679270</strong>，有博客的朋友欢迎加入。一起打造一个优质的iOS技术分享社群。</p></blockquote>
+
+<p>UITableView对于iOS开发者来说一定不会陌生，很有可能你的APP很多界面都用到它。关于UITableView的文章，想必已经不计其数，没事可以多看看。特别是UITableView优化的文章，非常值得仔细琢磨一番。</p>
+
+<p>今天我们来看看如何刷新UITableView的，一般情况下，刷新UITableView，我们会直接调用reloadData方法。</p>
+
+<h2>刷新UITableView</h2>
+
+<pre><code>[self.tableView reloadData];
+</code></pre>
+
+<p>reloadData是刷新整个UITableView，有时候，我们可能需要局部刷新。比如：只刷新一个cell、只刷新一个section等等。这个时候在调用reloadData方法，虽然用户看不出来，但是有些浪费资源。</p>
+
+<h2>刷新局部cell</h2>
+
+<pre><code> NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+ [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationFade];
+</code></pre>
+
+<p>这样就可以很方便的刷新第一个section的第一个cell。虽然看起来代码多了，但是确实比较节省资源。尽量少的刷新，也是UITableView的一种优化。</p>
+
+<h2>局部刷新section</h2>
+
+<pre><code>NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
+[self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
+</code></pre>
+
+<p>上面这段代码是刷新第0个section。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/08/18/ios-development-refresh-uitableview/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/08/12/realization-circular-gradient-progress/">环形渐变进度条实现</a></h1>
     
     
@@ -548,53 +610,6 @@ accelerometer.updateInterval = 0.1;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-(photo-album)/">iOS开发之保存照片到系统相册（Photo Album）</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-08-03T21:43:34+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:43 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>保存照片到系统相册这个功能很多社交类的APP都有的，今天我们简单讲解一下，如何将图片保存到系统相册（Photo Album）。</p>
-
-<h2>创建UIImageView</h2>
-
-<p>创建<code>UIImageView</code>是为了将照片展示出来，我们是要把<code>UIImage</code>保存到系统相册（Photo Album）:</p>
-
-<pre><code>#define SCREEN [UIScreen mainScreen].bounds.size
-
-self.image = [UIImage imageNamed:@"iOSDevTip"];
-UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake((SCREEN.width - 300) / 2, 70, 300, 150)];
-imageView.image = self.image;
-[self.view addSubview:imageView];
-</code></pre>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-(photo-album)/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/6">&larr; Older</a>
@@ -630,6 +645,10 @@ imageView.image = self.image;
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/02/26/test/">Test</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/01/31/xmpp-client-login-dev/">XMPP客户端登录开发详解</a>
       </li>
     
@@ -643,10 +662,6 @@ imageView.image = self.image;
     
       <li class="post">
         <a href="/blog/2015/12/12/apple-commit-7-day/">苹果公司即将放假8天暂停APP提交审核</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/11/mbmotion-great-effect/">非常棒的特效-MBMotion</a>
       </li>
     
   </ul>
@@ -670,12 +685,14 @@ imageView.image = self.image;
  <section>
     <h1>友情链接</h1>
     <ul>
-    
        <li>
-           <a href="http://www.superqq.com" target="_blank" title=“刚刚在线”>刚刚在线</a>
+           <a href="http://www.ggteach.com" target="_blank" title="刚刚在线教育">刚刚在线教育</a>
        </li>
        <li>
-           <a href="http://www.90159.com" target="_blank" title=“程序员头条”>程序员头条</a>
+           <a href="http://www.superqq.com" target="_blank" title="刚刚在线">刚刚在线</a>
+       </li>
+       <li>
+           <a href="http://www.90159.com" target="_blank" title="程序员头条">程序员头条</a>
        </li>
        <li>
            <a href="http://www.iswifting.com" target="_blank" title=“swift开发”>swift开发</a>

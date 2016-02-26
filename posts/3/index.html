@@ -81,6 +81,49 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/11/02/salary-programmer-avoid-pit/">月薪3万的程序员都避开了哪些坑</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-02T09:58:49+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:58 am</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>程序员薪水有高有低，有的人一个月可能拿30K、50K，有的人可能只有2K、3K。同样有五年工作经验的程序员，可能一个人每月拿20K，一个拿5K。是什么因素导致了这种差异？我特意总结了容易导致薪水低的九大行为表现，避开这些大坑，你就离高薪不远了。</p>
+
+<h3>习惯即刻回报</h3>
+
+<p>他不懂得只有春天播种，秋天才会有收获。刚刚付出一点点，甚至还没有付出，就想要得到回报。技术刚刚掌握，能一边百度一边干活了就觉得该拿到多少多少钱了。找工作先想着多少多少钱，入职了没干几个月就想着要加多少多少钱，干了没几个月，薪水要是没涨，就放弃了，准备通过跳槽加薪，不跳槽的话，往往也会因为没加薪而牢骚满腹，工作敷衍了事。</p>
+
+<p>一个程序员的价值，是通过他带给公司的价值体现的。先给公司带来了价值，然后才会反过来在薪水上体现出自己的价值。公司都很现实，很少会为你的潜力买单，在你还没有体现出价值时就给你很高的薪水。</p>
+
+<p>在生活和工作中，一定要懂得付出，不要那么急功近利，马上想得到回报。天下没有白吃的午餐，你想获得什么，就得先付出什么。唯有种下种子，然后浇水、施肥、除草、杀虫，然后才能等来收获。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/11/02/salary-programmer-avoid-pit/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/11/01/humor-code-world/">程序猿的幽默趣图，你并不懂他们的真正世界</a></h1>
     
     
@@ -623,77 +666,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/10/09/uiviewcontroller-rectedge/">UIViewController的edgesForExtendedLayout属性</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-10-09T16:36:41+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:36 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>想必大家都遇到一种情况，明明y坐标设置的是0，但是总是被讨厌的导航栏给遮住。比如下面这个情况：</p>
-
-<pre><code>UILabel *label = [[UILabel alloc] init];
-label.frame = CGRectMake(10, 0, SCREEN.width - 20, 88);
-label.backgroundColor = [UIColor redColor];
-label.text = @"关注公众号iOS开发：iOSDevTip";
-label.textColor = [UIColor whiteColor];
-label.textAlignment = NSTextAlignmentCenter;
-[self.view addSubview:label];
-</code></pre>
-
-<p>一起来看看效果：</p>
-
-<p><img src="http://images.90159.com/10/RectEdge2.png" alt="RectEdge2" /></p>
-
-<p>是不是很讨厌！其实，在iOS 7中，UIViewController引入了一个新的属性：edgesForExtendedLayout。 这个属性的默认值是UIRectEdgeAll。当你的容器是UINavigationController的shih，默认的布局就是从状态栏的顶部开始的。这就是为什么你设置的控件都往上漂移了66ot的原因。</p>
-
-<pre><code>@property(nonatomic,assign) UIRectEdge edgesForExtendedLayout NS_AVAILABLE_IOS(7_0); // Defaults to UIRectEdgeAll
-</code></pre>
-
-<p>那么如何解决这个问题呢？有两种方法。</p>
-
-<h2>方法一：改变edgesForExtendedLayout</h2>
-
-<pre><code>self.edgesForExtendedLayout = UIRectEdgeNone;
-</code></pre>
-
-<p>将edgesForExtendedLayout属性设置为UIRectEdgeNone，这样布局就是从导航栏下面开始了。设置之后，再来看看效果：</p>
-
-<p><img src="http://images.90159.com/10/RectEdge1.png" alt="RectEdge1" /></p>
-
-<h2>方法二：导航栏半透明属性设置为NO</h2>
-
-<pre><code>@property(nonatomic,assign,getter=isTranslucent) BOOL translucent NS_AVAILABLE_IOS(3_0) UI_APPEARANCE_SELECTOR; // Default is NO on iOS 6 and earlier. Always YES if barStyle is set to UIBarStyleBlackTranslucent
-</code></pre>
-
-<p>在iOS 6之前（包括iOS 6）translucent默认就是NO，在iOS 7就默认是YES了。</p>
-
-<pre><code>self.navigationController.navigationBar.translucent = NO;
-</code></pre>
-
-<p>将导航栏的半透明属性关闭掉，布局也是从导航栏下面开始了。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/4">&larr; Older</a>
@@ -729,6 +701,10 @@ label.textAlignment = NSTextAlignmentCenter;
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/02/26/test/">Test</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/01/31/xmpp-client-login-dev/">XMPP客户端登录开发详解</a>
       </li>
     
@@ -742,10 +718,6 @@ label.textAlignment = NSTextAlignmentCenter;
     
       <li class="post">
         <a href="/blog/2015/12/12/apple-commit-7-day/">苹果公司即将放假8天暂停APP提交审核</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/11/mbmotion-great-effect/">非常棒的特效-MBMotion</a>
       </li>
     
   </ul>
@@ -769,12 +741,14 @@ label.textAlignment = NSTextAlignmentCenter;
  <section>
     <h1>友情链接</h1>
     <ul>
-    
        <li>
-           <a href="http://www.superqq.com" target="_blank" title=“刚刚在线”>刚刚在线</a>
+           <a href="http://www.ggteach.com" target="_blank" title="刚刚在线教育">刚刚在线教育</a>
        </li>
        <li>
-           <a href="http://www.90159.com" target="_blank" title=“程序员头条”>程序员头条</a>
+           <a href="http://www.superqq.com" target="_blank" title="刚刚在线">刚刚在线</a>
+       </li>
+       <li>
+           <a href="http://www.90159.com" target="_blank" title="程序员头条">程序员头条</a>
        </li>
        <li>
            <a href="http://www.iswifting.com" target="_blank" title=“swift开发”>swift开发</a>
