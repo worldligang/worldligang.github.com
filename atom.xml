@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2016-03-01T23:25:01+08:00</updated>
+  <updated>2016-03-02T20:54:46+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -12,6 +12,68 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[刚刚在线-让学习iOS开发更简单]]></title>
+    <link href="http://www.superqq.com/blog/2016/03/02/ggteach-learn-ios-simply/"/>
+    <updated>2016-03-02T20:49:56+08:00</updated>
+    <id>http://www.superqq.com/blog/2016/03/02/ggteach-learn-ios-simply</id>
+    <content type="html"><![CDATA[<p>非常兴奋的告诉大家一个好消息：刚刚在线官网正式上线啦！欢迎大家访问！官网地址：</p>
+
+<pre><code>www.ggteach.com
+</code></pre>
+
+<p>刚刚在线的使命-让学习iOS开发更简单！我们的团队有30多位实战讲师，将为大家提供更多的技术分享、视频直播、实战项目等等。</p>
+
+<h2>本周六技术分享</h2>
+
+<p>好消息接连不断，技术分享说来就来！本周六晚上8点，注意时间噢！可以提前关注<strong>刚刚在线教育</strong>直播间，以免到时候找不到。</p>
+
+<h3>技术分享简介：</h3>
+
+<pre><code>斗鱼技术分享课程
+主题：《App Thinng》
+时间：2016-03-5（周六）晚8：00 至 9：00
+斗鱼房间：刚刚在线教育
+地址：http://www.douyutv.com/ggteach
+大家可以提前关注。 
+</code></pre>
+
+<p>&mdash;&mdash;美丽的分割线&mdash;&mdash;&ndash;</p>
+
+<h2>编程是一种生活方式</h2>
+
+<p>今天在回来的路上看到一个好朋友分享了一篇文章《美国监狱新趋势&ndash;学编程》</p>
+
+<p><img src="http://www.superqq.com/images/ggteach01.jpg" alt="1" /></p>
+
+<p>是的，不可思议。有网友表示：想去美国监狱，包吃住还免费学编程！令人震惊的是：“他们中没有人因再次犯罪而重返监狱，他们走了一条正确的路。”</p>
+
+<p>很多美国人已经意识到编程的重要性！编程不再是一项找工作的技能，而是一种生活方式，每个人都多少应该懂一点编程。</p>
+
+<p><img src="http://www.superqq.com/images/ggteach02.jpg" alt="2" /></p>
+
+<p>为了呼吁美国人民学习编程知识，奥巴马甚至还亲自挽起袖子写了一段javascript代码，这也让他成为美国历史上第一位会写代码的总统。（虽然写得不怎么样）</p>
+
+<h2>国内编程现状</h2>
+
+<p>在中国的大学里面，计算机课程只是讲一些理论知识。很多大学生（包括计算机系）毕业之后，很难靠自己掌握的编程知识找到一份工作。这是一件何其可悲的事情。</p>
+
+<p>很多同学无奈之下，会选择线下的培训班，但是培训班的费用高的让人望而却步。有的同学因为昂贵的费用，这一生可能就与编程无缘；</p>
+
+<p>有的同学可能会咬牙坚持贷款2万甚至更多，来学习一项编程的技能。还未入社会，就要背负着为银行打工的重担。</p>
+
+<h2>刚刚在线的诞生</h2>
+
+<p>刚刚在线的诞生就是为了帮助广大iOS开发爱好者，让学习iOS开发更简单！</p>
+
+<p>刚刚在线推出iOS开发技术直播课程，直播课程将免费开放，直播课程涉及iOS开发常用的控件、网络请求、第三方类库等。</p>
+
+<p>同时，刚刚在线推出iOS开发社群。为社群成员提供高级进阶、在线答疑、实战项目、面试技巧、独立博客、职位推荐等服务。</p>
+
+<p>刚刚在线团队成员来自北京、上海、广州、美国、日本等地方，每一位讲师都是实战派！</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[女程序员做了个梦，众网友的神回复]]></title>
@@ -1571,30 +1633,6 @@ if ([[UIApplication sharedApplication] canOpenURL:url])
 <li>移除SinaWeiboSDK/libWeiboSDK.a，分享还是可以成功的。</li>
 </ol>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[远程推送控制台提示Add “Remote-notification”...解决方案]]></title>
-    <link href="http://www.superqq.com/blog/2015/11/12/remote-notification-error/"/>
-    <updated>2015-11-12T18:21:17+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/11/12/remote-notification-error</id>
-    <content type="html"><![CDATA[<p>做推送的童鞋可能会遇到这样的问题，控制台会打印一句话：</p>
-
-<p>You&rsquo;ve implemented -[<UIApplicationDelegate> application:didReceiveRemoteNotification:fetchCompletionHandler:], but you still need to add &ldquo;remote-notification&rdquo; to the list of your supported UIBackgroundModes in your Info.plist.</p>
-
-<p>解决办法：</p>
-
-<p><img src="http://images.90159.com/11/error1.png" alt="error1" /></p>
-
-<!--more-->
-
-
-<p>这个时候再去看看Info.plist文件：</p>
-
-<p><img src="http://images.90159.com/11/error2.png" alt="error2" /></p>
-
-<p>再次运行，问题就解决啦！</p>
 ]]></content>
   </entry>
   

@@ -81,6 +81,45 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/08/04/save-photo-to-own-album/">iOS开发之保存照片到自己创建的相簿</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-04T22:41:08+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:41 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在<a href="http://www.superqq.com/">刚刚在线</a>上一篇文章<a href="http://www.superqq.com/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-%28photo-album%29/">iOS开发之保存照片到系统相册（Photo Album）</a>，我们讲到了如何保持照片系统相册。还有其他保存的方法吗？</p>
+
+<p>保存照片还可以用<code>ALAssetsLibrary</code>，<code>ALAssetsLibrary</code>提供了我们对iOS设备中的相片、视频的访问，是连接应用程序和相册之间访问的一个桥梁。</p>
+
+<p>接下来，我们来详细讲解一下关于系统相册权限获取、保存照片、创建自己的相簿等等功能。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/08/04/save-photo-to-own-album/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/08/03/ioskai-fa-zhi-bao-cun-zhao-pian-dao-xi-tong-xiang-ce-(photo-album)/">iOS开发之保存照片到系统相册（Photo Album）</a></h1>
     
     
@@ -447,48 +486,6 @@ imageView.image = self.image;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/27/ioskai-fa-zhi-layoutsubviewsde-zuo-yong-he-diao-yong-ji-zhi/">iOS开发之layoutSubviews的作用和调用机制</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-27T13:57:27+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:57 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在UIView里面有一个方法<code>layoutSubviews</code>，这个方法具体作用是什么呢？</p>
-
-<pre><code>- (void)layoutSubviews;    // override point. called by layoutIfNeeded automatically. As of iOS 6.0, when constraints-based layout is used the base implementation applies the constraints-based layout, otherwise it does nothing.
-</code></pre>
-
-<h2>官方文档解释</h2>
-
-<p>我们先来看看苹果官方文档的解释：</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/07/27/ioskai-fa-zhi-layoutsubviewsde-zuo-yong-he-diao-yong-ji-zhi/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/7">&larr; Older</a>
@@ -524,6 +521,10 @@ imageView.image = self.image;
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/03/02/ggteach-learn-ios-simply/">刚刚在线-让学习iOS开发更简单</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/03/01/female-coder-dream-reply/">女程序员做了个梦，众网友的神回复</a>
       </li>
     
@@ -537,10 +538,6 @@ imageView.image = self.image;
     
       <li class="post">
         <a href="/blog/2015/12/12/write-code-48-year/">我已经写了48年代码了，我感觉我还能写下去</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/12/apple-commit-7-day/">苹果公司即将放假8天暂停APP提交审核</a>
       </li>
     
   </ul>
