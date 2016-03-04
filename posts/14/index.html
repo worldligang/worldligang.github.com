@@ -81,6 +81,189 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/01/14/ioskai-fa-zhi-shou-shi-shi-bie-hui-zong/">iOS开发之手势识别汇总</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-14T10:40:02+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:40 am</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>iOS开发中手势识别有六种：</p>
+
+<p>轻击手势（TapGestureRecognizer）,</p>
+
+<p>轻扫手势 （SwipeGestureRecognizer）,</p>
+
+<p>长按手势（LongPressGestureRecognizer）,</p>
+
+<p>拖动手势（PanGestureRecognizer）,</p>
+
+<p>捏合手势（PinchGestureRecognizer）,</p>
+
+<p>旋转手势（RotationGestureRecognizer）,</p>
+
+<h3>1，轻击手势（TapGestureRecognizer）</h3>
+
+<pre><code>UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
+tapGesture.numberOfTapsRequired = 1; //点击次数
+tapGesture.numberOfTouchesRequired = 1; //点击手指数
+[self.view addGestureRecognizer:tapGesture];
+
+//轻击手势触发方法
+-(void)tapGesture:(UITapGestureRecognizer *)sender
+{
+    //your code
+}
+</code></pre>
+
+<h3>2，长按手势（LongPressGestureRecognizer）</h3>
+
+<pre><code>UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGesture:)];
+//设置长按时间
+longPressGesture.minimumPressDuration = 0.5;
+[self.view addGestureRecognizer:longPressGesture];
+
+//长按手势触发方法
+-(void)longPressGesture:(id)sender
+{
+    UILongPressGestureRecognizer *longPress = sender;
+    if (longPress.state == UIGestureRecognizerStateBegan)
+    {
+       //your code
+    }
+}
+
+说明：长按手势的常用状态如下
+
+开始：UIGestureRecognizerStateBegan
+
+改变：UIGestureRecognizerStateChanged
+
+结束：UIGestureRecognizerStateEnded
+
+取消：UIGestureRecognizerStateCancelled
+
+失败：UIGestureRecognizerStateFailed
+</code></pre>
+
+<h3>3，轻扫手势（SwipeGestureRecognizer）</h3>
+
+<pre><code>UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGesture:)];
+//设置轻扫的方向
+swipeGesture.direction = UISwipeGestureRecognizerDirectionRight; //向右
+[self.view addGestureRecognizer:swipeGesture];
+
+UISwipeGestureRecognizer *swipeGestureLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGesture:)];
+//设置轻扫的方向
+swipeGestureLeft.direction = UISwipeGestureRecognizerDirectionLeft; //向左
+[self.view addGestureRecognizer:swipeGestureLeft];
+
+//轻扫手势触发方法
+-(void)swipeGesture:(id)sender
+{
+
+    UISwipeGestureRecognizer *swipe = sender;
+
+    if (swipe.direction == UISwipeGestureRecognizerDirectionLeft)
+    {
+        //向左轻扫
+    }
+
+    if (swipe.direction == UISwipeGestureRecognizerDirectionRight)
+    {
+        //向右轻扫
+    }
+}
+</code></pre>
+
+<h3>4，捏合手势（PinchGestureRecognizer）</h3>
+
+<pre><code>UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchGesture:)];
+[self.view addGestureRecognizer:pinchGesture];
+
+    ////捏合手势触发方法
+-(void) pinchGesture:(id)sender
+{
+    UIPinchGestureRecognizer *gesture = sender;
+    //手势改变时
+    if (gesture.state == UIGestureRecognizerStateChanged)
+    {
+         //捏合手势中scale属性记录的缩放比例
+        _imageView.transform = CGAffineTransformMakeScale(gesture.scale, gesture.scale);
+    }
+
+    //结束后恢复
+    if(gesture.state==UIGestureRecognizerStateEnded)
+    {
+        [UIView animateWithDuration:0.5 animations:^{
+            _imageView.transform = CGAffineTransformIdentity;//取消一切形变
+        }];
+    }
+}
+</code></pre>
+
+<h3>5，拖动手势（PanGestureRecognizer）</h3>
+
+<pre><code>UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGesture:)];
+[self.view addGestureRecognizer:panGesture];
+
+//拖动手势触发方法
+-(void) panGesture:(id)sender
+{
+    UIPanGestureRecognizer *panGesture = sender;
+    CGPoint movePoint = [panGesture translationInView:self.view];
+    //your code
+}
+</code></pre>
+
+<h3>6，旋转手势（RotationGestureRecognizer）</h3>
+
+<pre><code>UIRotationGestureRecognizer *rotationGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotationGesture:)];
+[self.view addGestureRecognizer:rotationGesture];
+
+//旋转手势触发方法
+-(void)rotationGesture:(id)sender
+{
+    UIRotationGestureRecognizer *gesture = sender;
+    if (gesture.state==UIGestureRecognizerStateChanged)
+    {
+        _imageView.transform=CGAffineTransformMakeRotation(gesture.rotation);
+    }
+    if(gesture.state==UIGestureRecognizerStateEnded)
+    {
+        [UIView animateWithDuration:1 animations:^{
+            _imageView.transform=CGAffineTransformIdentity;//取消形变
+        }];
+    }
+}
+</code></pre>
+
+<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/01/07/paperfold-for-ios/">PaperFold-for-iOS</a></h1>
     
     
@@ -504,7 +687,7 @@ UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds]
 
 <p><a href="http://twitter.com/bradlarson">@bradlarson</a></p>
 
-<p><a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#111;&#58;&#99;&#111;&#x6e;&#x74;&#x61;&#x63;&#116;&#64;&#x73;&#117;&#x6e;&#x73;&#101;&#116;&#x6c;&#x61;&#107;&#x65;&#115;&#111;&#102;&#x74;&#x77;&#97;&#x72;&#x65;&#x2e;&#99;&#x6f;&#x6d;">&#99;&#111;&#x6e;&#x74;&#x61;&#99;&#x74;&#x40;&#115;&#117;&#110;&#x73;&#x65;&#116;&#108;&#97;&#107;&#101;&#x73;&#111;&#102;&#116;&#x77;&#x61;&#114;&#101;&#46;&#x63;&#111;&#109;</a></p>
+<p><a href="&#109;&#97;&#105;&#x6c;&#116;&#111;&#x3a;&#99;&#x6f;&#x6e;&#x74;&#x61;&#99;&#x74;&#64;&#115;&#x75;&#110;&#115;&#101;&#x74;&#x6c;&#x61;&#107;&#101;&#x73;&#111;&#x66;&#x74;&#x77;&#x61;&#x72;&#x65;&#x2e;&#x63;&#111;&#x6d;">&#99;&#111;&#110;&#116;&#x61;&#99;&#116;&#64;&#115;&#117;&#x6e;&#115;&#101;&#x74;&#x6c;&#97;&#107;&#x65;&#115;&#x6f;&#102;&#x74;&#119;&#x61;&#114;&#101;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
 
 <h2>Overview</h2>
 
@@ -1924,7 +2107,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 <p>本人是因为兴趣业余时间来开发推聊，考虑到 IM 占用的时间太多，所以请谅解，不提供任何 IM 的沟通方式。希望大家以如下的方式交流：</p>
 
 <ul>
-<li>Email:  <a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#111;&#x3a;&#x70;&#x75;&#x73;&#104;&#x74;&#97;&#x6c;&#107;&#x2e;&#111;&#x72;&#103;&#x40;&#x67;&#109;&#x61;&#105;&#x6c;&#x2e;&#99;&#111;&#109;">&#x70;&#117;&#115;&#104;&#x74;&#x61;&#x6c;&#x6b;&#46;&#111;&#x72;&#x67;&#64;&#103;&#x6d;&#x61;&#105;&#108;&#x2e;&#x63;&#111;&#109;</a></li>
+<li>Email:  <a href="&#109;&#97;&#x69;&#108;&#x74;&#x6f;&#58;&#x70;&#x75;&#115;&#x68;&#x74;&#97;&#x6c;&#x6b;&#x2e;&#111;&#x72;&#103;&#64;&#x67;&#109;&#97;&#x69;&#x6c;&#x2e;&#99;&#x6f;&#109;">&#x70;&#x75;&#115;&#x68;&#116;&#x61;&#108;&#x6b;&#x2e;&#111;&#114;&#x67;&#x40;&#x67;&#109;&#97;&#105;&#x6c;&#46;&#x63;&#x6f;&#x6d;</a></li>
 <li>项目Wiki: <a href="https://github.com/good-life/PushTalk/wiki">https://github.com/good-life/PushTalk/wiki</a></li>
 <li>项目Bug: <a href="https://github.com/good-life/PushTalk/issues">https://github.com/good-life/PushTalk/issues</a></li>
 <li>PushTalk频道：<code>pushtalk</code>, <code>报告bug</code>, <code>新功能讨论</code> 等</li>
@@ -2343,128 +2526,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/01/05/coding-ios/">Coding-iOS</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-01-05T13:09:26+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:09 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-
-<p> <a href="https://coding.net/u/coding"target="_blank"title="源代码">源代码</a></p>
-
-<h3>Coding_iOS客户端项目介绍</h3>
-
-<p><em>编译环境：Xcode-Version 6.1 (6A1052d)</em></p>
-
-<h4>下面介绍一下文件的大概目录先：</h4>
-
-<pre><code>.
-├── Coding_iOS
-│   ├── Models：数据类
-│   ├── Views：视图类
-│   │   ├── CCell：所有的CollectionViewCell都在这里
-│   │   ├── Cell：所有的TableViewCell都在这里
-│   │   └── XXX：ListView（项目、动态、任务、讨论、文档、代码）和InputView（用于聊天和评论的输入框）
-│   ├── Controllers：控制器，对应app中的各个页面
-│   │   ├── Login：登录页面
-│   │   ├── RootControllers：登录后的根页面
-│   │   ├── MeSetting：设置信息页面
-│   │   └── XXX：其它页面
-│   ├── Images：app中用到的所有的图片都在这里
-│   ├── Resources：资源文件
-│   ├── Util：一些常用控件和Category、Manager之类
-│   │   ├── Common
-│   │   ├── Manager
-│   │   ├── OC_Category
-│   │   └── ObjcRuntime
-│   └── Vendor：用到的一些第三方类库，一般都有改动
-│       ├── AFNetworking
-│       ├── AGEmojiKeyboard
-│       ├── ASProgressPopUpView
-│       ├── ActionSheetPicker
-│       ├── FontAwesome+iOS
-│       ├── MJPhotoBrowser
-│       ├── MLEmojiLabel
-│       ├── NSDate+Helper
-│       ├── NSStringEmojize
-│       ├── PPiAwesomeButton
-│       ├── QBImagePickerController
-│       ├── RDVTabBarController
-│       ├── SMPageControl
-│       ├── SVPullToRefresh
-│       ├── SWTableViewCell
-│       ├── UMENG
-│       ├── UMessage_Sdk_1.1.0
-│       ├── XGPush
-│       ├── XTSegmentControl
-│       └── iCarousel
-└── Pods：项目使用了[CocoaPods](http://code4app.com/article/cocoapods-install-usage)这个类库管理工具
-</code></pre>
-
-<h4>再说下项目的启动流程：</h4>
-
-<p>在AppDelegate的启动方法中，先设置了一下Appearance的样式，然后根据用户的登录状态选择是去加载登录页面LoginViewController，还是登录后的RootTabViewController页面。</p>
-
-<p>RootTabViewController继承自第三方库<a href="https://github.com/robbdimitrov/RDVTabBarController">RDVTabBarController</a>。在RootTabViewController里面依次加载了Project_RootViewController、MyTask_RootViewController、Tweet_RootViewController、Message_RootViewController、Me_RootViewController五个RootViewController，后续的页面跳转都是基于这几个RootViewController引过去的。</p>
-
-<h4>项目里面还有些需要注意的点</h4>
-
-<ul>
-<li><p>Coding_NetAPIManager：基本上app的所有请求接口都放在了这里。网络请求使用的是<a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a>库，与服务器之间的数据交互格式用的都是json（与<a href="https://coding.net">Coding</a>使用的api一致）。</p></li>
-<li><p>关于推送：刚开始是用的<a href="http://www.umeng.com/">友盟推送</a>，后来又改用了<a href="http://xg.qq.com/">腾讯信鸽</a>，因为要兼顾旧版本app的推送，所以服务器是同时保留了两套推送。但是为了确保新版本的app不同时收到双份相同的推送消息，所以当前代码里还存留了友盟的sdk，用于解除推送token与友盟Alias的绑定。</p></li>
-<li><p>关于ProjectViewController：这个就是进入到某个项目之后的页面，这里包含了项目的动态、任务、讨论、文档、代码、成员各类信息，而且每类信息里面还可能会有新的分类（如‘任务’里面还分有各个成员的任务）；这个页面相当的臃肿，我对它们做了拆分，都放在视图类Views目录下面。 首先是把数据列表独立成了对应的XXXListView（如ProjectTaskListView）；然后如果需要标签切换的话，会再新建一个XXXsView（如：ProjectTasksView），在这个视图中，上面会放一个切换栏<a href="https://github.com/xushao1990/XTNews">XTSegmentControl</a>显示各个标签，下面放一个<a href="https://github.com/nicklockwood/iCarousel">iCarousel</a>可以滑动显示各个标签的内容；最后这些视图都会存储在ProjectViewController的projectContentDict变量里面，根据顶部导航栏选择的类别，去显示或隐藏对应的视图。</p></li>
-<li><p>关于UIMessageInputView：这个是私信聊天的输入框。因为这个输入框好多地方都有用到（冒泡、任务、讨论的评论还有私信），所以这个输入框就写成了一个相对独立的控件，并且直接显示在了keyWindow里面而不是某个视图里。这里的表情键盘用的是<a href="https://github.com/ayushgoel/AGEmojiKeyboard">AGEmojiKeyboard</a>改写了一下。</p></li>
-<li><p>关于Emoji：这个，<a href="https://coding.net">Coding</a>站点的emoji都是用的图片，而且服务器是不接受大部分emoji字符的，所以刚开始的时候app一直不能处理emoji表情；又因为没有emoji图片名和emoji code码的对应关系表，所以拖了很久都没能做好转换。直到在github上面找到了<a href="https://github.com/diy/NSStringEmojize">NSStringEmojize</a>这个项目；试了一下，虽然也不能全部解析，但是大部分表情都能正确显示了，不能更感谢。</p></li>
-<li><p>关于如何正确显示冒泡的内容：api返回的数据里面，冒泡内容都是html格式，需要做一下预处理；其实私信、讨论里面的内容也是html。解析html的类名是HtmlMediaItem，它是先用<a href="https://github.com/topfunky/hpple">hpple</a>对html进行了解析，然后把对应的media元素和对应的位置做一个存储，显示的时候便可以根据需要来显示了。</p></li>
-</ul>
-
-
-<h4>最后说下<a href="http://code4app.com/article/cocoapods-install-usage">CocoaPods</a>里面用到的第三方类库</h4>
-
-<ul>
-<li><a href="https://github.com/rs/SDWebImage">SDWebImage</a>：图片加载</li>
-<li><a href="https://github.com/TTTAttributedLabel/TTTAttributedLabel">TTTAttributedLabel</a>：富文本的label，可点击链接</li>
-<li><a href="https://github.com/wezm/RegexKitLite">RegexKitLite</a>：正则表达式</li>
-<li><a href="https://github.com/topfunky/hpple">hpple</a>：html解析</li>
-<li><a href="https://github.com/jdg/MBProgressHUD">MBProgressHUD</a>：hud提示框</li>
-<li><a href="https://github.com/Sephiroth87/ODRefreshControl">ODRefreshControl</a>：下拉刷新</li>
-<li><a href="https://github.com/michaeltyson/TPKeyboardAvoiding">TPKeyboardAvoiding</a>：有文字输入时，能根据键盘是否弹出来调整自身显示内容的位置</li>
-<li><a href="https://github.com/jaydee3/JDStatusBarNotification">JDStatusBarNotification</a>：状态栏提示框</li>
-<li><a href="https://github.com/zwaldowski/BlocksKit">BlocksKit</a>：block工具包。将很多需要用delegate实现的方法整合成了block的形式</li>
-<li><a href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa</a>：基于响应式编程思想的oc实践（是个好东西呢）</li>
-</ul>
-
-
-<h4>License</h4>
-
-<p>Coding is available under the MIT license. See the LICENSE file for more info.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/15">&larr; Older</a>
@@ -2500,6 +2561,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/03/04/test/">Test</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/03/02/ggteach-learn-ios-simply/">刚刚在线-让学习iOS开发更简单</a>
       </li>
     
@@ -2513,10 +2578,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     
       <li class="post">
         <a href="/blog/2015/12/15/ios-dev-interview/">推荐：iOS开发面试题整理（一）</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/12/write-code-48-year/">我已经写了48年代码了，我感觉我还能写下去</a>
       </li>
     
   </ul>

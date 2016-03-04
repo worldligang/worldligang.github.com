@@ -6,14 +6,15 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>Xcode6.4注册URL Scheme步骤详解 - 刚刚在线</title>
+  <title>Test - 刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
       
   
-  <meta name="description" content="我们都知道苹果手机中的APP都有一个沙盒，APP就是一个信息孤岛，相互是不可以进行通信的。但是iOS的APP可以注册自己的URL Scheme，URL Scheme是为方便app之间互相调用而设计的。我们可以通过系统的OpenURL来打开该app，并可以传递一些参数。">
-  <meta name="keywords" content="URL Scheme, URL Identifier, Xcode6.4, Scheme, 刚刚在线">
+  <meta name="description" content="11111
+">
+  
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +22,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.superqq.com/blog/2015/07/14/xcode6-dot-4zhu-ce-url-schemebu-zou-xiang-jie">
+  <link rel="canonical" href="http://www.superqq.com/blog/2016/03/04/test">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
@@ -78,7 +79,7 @@
   
   <header>
     
-      <h1 class="entry-title">Xcode6.4注册URL Scheme步骤详解</h1>
+      <h1 class="entry-title">Test</h1>
     
     
       <p class="meta">
@@ -87,7 +88,7 @@
 
 
 
-<time class='entry-date' datetime='2015-07-14T23:34:16+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:34 pm</span></time>
+<time class='entry-date' datetime='2016-03-04T22:04:01+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:04 pm</span></time>
         
         
       </p>
@@ -95,104 +96,7 @@
   </header>
 
 
-<div class="entry-content"><p>好消息：微信团队邀请我的iOS开发（id：<strong>iOSDevTip</strong>）微信公众号开通赞赏功能，以后我就可以光明正大的通过文章要饭啦。你的赞赏就是我最大的动力。</p>
-
-<p>这是今天下午15：30收到的邀请：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/zanshang.png" alt="zanshang1" /></p>
-
-<h2>微信赞赏功能</h2>
-
-<p>为什么推出赞赏功能？微信公众号自2012年推出以来，一直成爆发式的增长。微信推出赞赏功能最重要的目的就是为了鼓励原创，鼓励创新。</p>
-
-<p>之前，原创功能、赞赏功能和评论功能是一起邀请开通的。现在微信团队分三次邀请。现在我的iOS开发公众号，已经被邀请开通了原创和赞赏功能，下一步争取开通评论功能。</p>
-
-<p>如果开通评论功能，我就可以更方便的和大家交流。一经邀请，我会第一时间告诉大家的。好消息，大家也知道啦。接下来继续回到正题，我们来谈谈iOS中的URL Scheme。</p>
-
-<h2>URL Scheme的作用</h2>
-
-<p>我们都知道苹果手机中的APP都有一个沙盒，APP就是一个信息孤岛，相互是不可以进行通信的。但是iOS的APP可以注册自己的URL Scheme，URL Scheme是为方便app之间互相调用而设计的。我们可以通过系统的OpenURL来打开该app，并可以传递一些参数。</p>
-
-<p>例如：你在Safari里输入www.alipay.com，就可以直接打开你的支付宝app，前提是你的手机装了<a href="http://www.superqq.com/blog/2015/07/10/zhi-fu-bao-he-wei-xin-zai-chao-xi-shang-shui-geng-sheng-%5B%3F%5D-chou/">支付宝</a>。如果你没有装支付宝，应该显示的是支付宝下载界面，点击会跳到AppStore的支付宝下载界面。</p>
-
-<p>URL Scheme必须能唯一标识一个APP，如果你设置的URL Scheme与别的APP的URL Scheme冲突时，你的APP不一定会被启动起来。因为当你的APP在安装的时候，系统里面已经注册了你的URL Scheme。</p>
-
-<p>一般情况下，是会调用先安装的app。但是iOS的系统app的URL Scheme肯定是最高的。所以我们定义URL Scheme的时候，尽量避开系统app已经定义过的URL Scheme。</p>
-
-<h2>注册URL Scheme</h2>
-
-<h3>1.在info.plist里添加URL types</h3>
-
-<p>每一个项目里面都会有一个info.plist配置文件。找到info.plist，右键选择Add Row，然后选择URL types。如图所示：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url1.jpg" alt="url1" /></p>
-
-<h3>2.添加URL Schemes</h3>
-
-<p>添加完URL types，点击展开。右键选择Add Row，添加URL Schemes：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url2.jpg" alt="url2" /></p>
-
-<h3>3.设置URL Schemes</h3>
-
-<p>设置URL Schemes为iOSDevTip</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url3.jpg" alt="url3" /></p>
-
-<h3>4.设置URL Identifier</h3>
-
-<p>URL Identifier是自定义的 URL scheme 的名字，一般采用反转域名的方法保证该名字的唯一性，比如 com.iOSStrongDemo.www</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url4.jpg" alt="url4" /></p>
-
-<h2>添加成功启动提示</h2>
-
-<p>为了方便测试，我们在AppDelegate里面添加一个UIAlertView，当app被成功打开时，会提出提示：</p>
-
-<pre><code>- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL*)url
-{
-    // 接受传过来的参数
-    NSString *text = [[url host] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"打开啦"
-                                           message:text
-                                          delegate:nil
-                                 cancelButtonTitle:@"OK"
-                                 otherButtonTitles:nil];
-    [alertView show];
-    return YES;
-}
-</code></pre>
-
-<h2>Safari启动自定义的URL Schemes APP</h2>
-
-<p>既然已经配置好URL Schemes，那么我们可以来款速测试一下，我们设置的URL Schemes是否有效。打开Safari，在地址栏里输入：iOSDevTip://</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url6.png" alt="url6" /></p>
-
-<p>果然成功打开：</p>
-
-<p><img src="http://7xjrlb.com1.z0.glb.clouddn.com/url5.png" alt="url5" /></p>
-
-<p>也可以在地址栏中输入：iOSDevTip://com.iOSStrongDemo.www。也是可以打开注册了URL Schemes的APP的。</p>
-
-<h2>通过另一个APP启动注册了URL Schemes的APP</h2>
-
-<pre><code> NSString *url = @"iOSDevTip://";
-//    NSString *url = @"iOSDevTip://com.iOSStrongDemo.www";
-if ([[UIApplication sharedApplication]
-     canOpenURL:[NSURL URLWithString:url]])
-{
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
-}
-else
-{
-    NSLog(@"can not open URL scheme iOSDevTip");
-}
-</code></pre>
-
-<p>打开注册iOSDevTip的APP格式为: URL Scheme://URL identifier，直接调用URL Scheme也可打开程序, URL identifier是可选的。</p>
-
-<p>注册URL Scheme就是这么简单。下一篇会分享如何通过URL Scheme传递参数。demo下载地址：<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
+<div class="entry-content"><p>11111</p>
 </div>
 
 
@@ -208,18 +112,12 @@ else
 
 
 
-<time class='entry-date' datetime='2015-07-14T23:34:16+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:34 pm</span></time>
+<time class='entry-date' datetime='2016-03-04T22:04:01+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:04 pm</span></time>
       
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/ioskai-fa/'>ios开发</a>
-  
-</span>
 
 
       </p>
-本文出处刚刚在线：<a href="http://www.superqq.com/blog/2015/07/14/xcode6-dot-4zhu-ce-url-schemebu-zou-xiang-jie/">http://www.superqq.com/blog/2015/07/14/xcode6-dot-4zhu-ce-url-schemebu-zou-xiang-jie/</a>
+本文出处刚刚在线：<a href="http://www.superqq.com/blog/2016/03/04/test/">http://www.superqq.com/blog/2016/03/04/test/</a>
 </p>
 自由转载-请在开头注明本文出处。
 </p>
@@ -244,10 +142,8 @@ else
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/07/13/cong-apptiao-dao-she-zhi-jie-mian/" title="Previous Post: 从app跳到设置界面">&laquo; 从app跳到设置界面</a>
+        <a class="basic-alignment left" href="/blog/2016/03/02/ggteach-learn-ios-simply/" title="Previous Post: 刚刚在线-让学习iOS开发更简单">&laquo; 刚刚在线-让学习iOS开发更简单</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/07/15/tong-guo-url-schemechuan-di-can-shu/" title="Next Post: 通过URL Scheme传递参数">通过URL Scheme传递参数 &ra/categories.htmlquo;</a>
       
     </p>
   </footer>
