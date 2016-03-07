@@ -81,6 +81,422 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/03/07/objective-c-swift-study/">Objective-C和Swift混编的一些经验</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-03-07T22:38:41+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:38 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>阿里云iOS客户端2.1.0版本中开始尝试使用Swift来写新的业务，磕磕绊绊总算是发布了新版，总结一下开发过程中得到的经验和踩过的坑吧。</p></blockquote>
+
+<h2>CocoaPods</h2>
+
+<p>使用Swift作为主要的开发语言，很难避免引入Swift编写的库。2.1.0版本引入了SwiftyJSON和Charts这两个Swift写的库，分别用于处理JSON数据和画监控图。</p>
+
+<p>苹果要求使用Swift写的库，必须通过动态链接库引入，其实这一点我也是不太理解的，因为静态库也是可以依赖动态库的符号的，不存在导入多个Swift动态库的问题。允许App使用自带的动态库从iOS8才开始支持，因此必须将App支持的iOS版本升到iOS8。阿里云iOS客户端iOS7的用户不到4%，所以放弃了对iOS7的支持。</p>
+
+<p>Cocoapods支持将依赖的组件编译成动态库，只需要在Podfile顶部加上&#8221;use_frameworks!&ldquo;。开启这个选项之后，所有以源码引入的pod都会编译成动态链接库，而以fake framework引入的pod仍然会编译到主App里面。动态库都放在App里面的Frameworks目录，可以看到Swift相关的动态库也都拷贝进来了，所以支持Swift会导致包变大。我没有记下2.0.0版本的大小，导致没法对比2.1.0放大了多少，这是一个失误。</p>
+
+<pre><code>[~/Library/Developer/Xcode/Archives/2015-12-17/CloudConsoleApp 15-12-17 下午9.24.xcarchive/Products/Applications/CloudConsoleApp.app/Frameworks]$ tree
+.
+├── Charts.framework
+│   ├── Charts
+│   ├── Info.plist
+│   └── _CodeSignature
+│       └── CodeResources
+├── EAIntroView.framework
+│   ├── EAIntroView
+│   ├── Info.plist
+│   └── _CodeSignature
+│       └── CodeResources
+├── FMDB.framework
+│   ├── FMDB
+│   ├── Info.plist
+│   └── _CodeSignature
+│       └── CodeResources
+├── FTCoreText.framework
+│   ├── FTCoreText
+│   ├── Info.plist
+│   └── _CodeSignature
+│       └── CodeResources
+├── JSBadgeView.framework
+│   ├── Info.plist
+│   ├── JSBadgeView
+│   ├── JSBadgeView.bundle
+│   └── _CodeSignature
+│       └── CodeResources
+├── MBProgressHUD.framework
+│   ├── Info.plist
+│   ├── MBProgressHUD
+│   └── _CodeSignature
+│       └── CodeResources
+├── MFSideMenu.framework
+│   ├── Info.plist
+│   ├── MFSideMenu
+│   └── _CodeSignature
+│       └── CodeResources
+├── PFormanceKit.framework
+│   ├── Info.plist
+│   ├── PFormanceKit
+│   └── _CodeSignature
+│       └── CodeResources
+├── Reachability.framework
+│   ├── Info.plist
+│   ├── Reachability
+│   └── _CodeSignature
+│       └── CodeResources
+├── RegexKitLite.framework
+│   ├── Info.plist
+│   ├── RegexKitLite
+│   └── _CodeSignature
+│       └── CodeResources
+├── SSZipArchive.framework
+│   ├── Info.plist
+│   ├── SSZipArchive
+│   └── _CodeSignature
+│       └── CodeResources
+├── SnapKit.framework
+│   ├── Info.plist
+│   ├── SnapKit
+│   └── _CodeSignature
+│       └── CodeResources
+├── SwiftyJSON.framework
+│   ├── Info.plist
+│   ├── SwiftyJSON
+│   └── _CodeSignature
+│       └── CodeResources
+├── libswiftContacts.dylib
+├── libswiftCore.dylib
+├── libswiftCoreData.dylib
+├── libswiftCoreGraphics.dylib
+├── libswiftCoreImage.dylib
+├── libswiftDarwin.dylib
+├── libswiftDispatch.dylib
+├── libswiftFoundation.dylib
+├── libswiftObjectiveC.dylib
+└── libswiftUIKit.dylib
+
+27 directories, 49 files
+
+$ file Charts 
+Charts: Mach-O universal binary with 2 architectures
+Charts (for architecture armv7):    Mach-O dynamically linked shared library arm
+Charts (for architecture arm64):    Mach-O 64-bit dynamically linked shared library
+</code></pre>
+
+<p>因为fake framework和源代码pod分别会编译成静态库和动态库，这样会导致一个问题，就是如果源码pod又依赖fake framework，那就没办法了。CocoaPods发现这种情况会提示下面这个错误。</p>
+
+<pre><code>target has transitive dependencies that include static binaries: (xxx.framework, xxx.framework)
+</code></pre>
+
+<p>pod install时会把静态库编译到App里面，源码编译成的动态库没法依赖它。最终的解决方案只能是CocoaPods对fake framework和源码pod一视同仁，都编译成动态库，这样彼此才能依赖。不知道CocoaPods什么时候会支持这样。</p>
+
+<h2>混编</h2>
+
+<ul>
+<li>Swift使用Objective-C</li>
+</ul>
+
+
+<p>这种情况占绝大多数。只需要在CloudConsoleApp-Bridging-Header.h这个头文件中包含相关的头文件就行。pod组件另外一种引入的方式是通过@import引入。比如SDWebImage可以通过下面两种方式引入。</p>
+
+<pre><code>//在Bridging头文件包含下面这个头文件
+#import &lt;SDWebImage/UIImageView+WebCache.h&gt;
+
+//另外一种办法，在Swift文件中引入。
+import SDWebImage
+</code></pre>
+
+<p>Objective-C写的类和方法都会被改成Swift的使用方式，下面是两个很典型的例子。使用的时候需要尝试一下才能找到翻译的Swift方法。</p>
+
+<pre><code>//Objective-C
+titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+titleLabel.numberOfLines = 0;
+
+//Swift
+cell.nameLabel?.lineBreakMode = .ByWordWrapping //全写是 NSLineBreakMode.ByWordWrapping
+cell.nameLabel?.numberOfLines = 0
+
+//Objective-C
+UIImage *image = [UIImage imageNamed:@"abc"];
+
+//Swift
+let image = UIImage(named: "abc")
+</code></pre>
+
+<ul>
+<li>Objective-C使用Swift</li>
+</ul>
+
+
+<p>Xcode会生成一个虚拟的头文件CloudConsoleApp-Swift.h，在工程里面是找不到这个头文件的，但是可以包含，并且跳转进去。这个文件里面包含了所有从Swift导出来的符号，比如下面这个view controller就是用Swift写的。可以看出来Objectivew-C看到的名称跟Swift源码里面的名称是一样的，但是Swift会对类做demangling，变成了_TtC15CloudConsoleApp31YWSResourceDetailViewController这样的，跟C++有点类似。</p>
+
+<pre><code>SWIFT_CLASS("_TtC15CloudConsoleApp31YWSResourceDetailViewController")
+@interface YWSResourceDetailViewController : UIPageViewController
+@property (nonatomic, strong) NSArray * __nonnull vcs;
+@property (nonatomic, copy) NSString * __null_unspecified pluginId;
+@property (nonatomic, strong) YWSSegmentedControl * __nonnull segmentedControl;
+@property (nonatomic, strong) YWSInstanceListViewController * __nonnull instanceListViewController;
+@property (nonatomic, strong) YWSMetricConcernedViewController * __nonnull metricConcernedViewController;
+@property (nonatomic, weak) IBOutlet UIBarButtonItem * __null_unspecified addMetricBarButton;
+- (void)viewDidLoad;
+- (void)initSegmentedControl;
+- (void)indexChanged:(id __nonnull)sender;
+- (void)onNavigationBack:(id __nonnull)sender;
+- (void)prepareForSegue:(UIStoryboardSegue * __nonnull)segue sender:(id __nullable)sender;
+- (nonnull instancetype)initWithTransitionStyle:(UIPageViewControllerTransitionStyle)style navigationOrientation:(UIPageViewControllerNavigationOrientation)navigationOrientation options:(NSDictionary&lt;NSString *, id&gt; * __nullable)options OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * __nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+@end
+</code></pre>
+
+<h2>Swift的优缺点</h2>
+
+<p>这个项目刚起步，用Swift的经验尚浅，所以都是一些比较浅薄的理解，后面有更深刻的理解再补上。</p>
+
+<h3>优点</h3>
+
+<ul>
+<li>代码简洁。类的声明和实现在一个文件中。</li>
+<li>统一对属性和方法的调用，都用.。</li>
+<li>如果不加额外的访问控制，所有的符号都是整个项目可见，无需考虑头文件的问题。</li>
+<li><p>字符串处理太方便了。</p>
+
+<p>  //字符串比较和拼接实在是太方便了
+  let foo = &ldquo;abc&rdquo;
+  let bar = &ldquo;abc&rdquo;</p>
+
+<p>  if foo == bar {
+      //blablabla
+  }</p>
+
+<p>  print(&ldquo;====(foo)+(bar)&rdquo;)</p></li>
+<li><p>语言上支持延迟加载。</p>
+
+<p>  lazy var imageView : UIImageView = {
+      var imageView = UIImageView(image: UIImage(named: &ldquo;empty_hint&rdquo;))
+      imageView.contentMode = .ScaleAspectFit</p>
+
+<pre><code>  return imageView
+</code></pre>
+
+<p>  }()</p>
+
+<p>  lazy var infoLabel : UILabel = {
+      var infoLabel = UILabel()
+      infoLabel.lineBreakMode = .ByWordWrapping //支持换行
+      infoLabel.numberOfLines = 0</p>
+
+<pre><code>  return infoLabel
+</code></pre>
+
+<p>  }()</p>
+
+<p>  lazy var button : UIButton = {
+      var button = UIButton()
+      button.titleLabel?.font = UIFont.systemFontOfSize(15)
+      button.setTitleColor(UIColor.darkGrayColor(), forState: .Normal)
+      button.setBackgroundImage(UIImage(named: &ldquo;buy_instance_hint_button&rdquo;), forState: .Normal)
+      button.hidden = true</p>
+
+<pre><code>  return button
+</code></pre>
+
+<p>  }()</p></li>
+<li><p>多返回值。比如下面这个函数，如果使用Objective-C写还是比较麻烦的。</p>
+
+<p>  //将 &ldquo;创建中&amp;#FA8C35&rdquo; 翻译成对应的 &ldquo;(字符串对象, 颜色对象)&rdquo;
+  func YWSTranslateRichText (str : String) -> (text : String, color : UIColor) {
+      let statusArray = str.componentsSeparatedByString(&ldquo;&amp;&rdquo;)</p>
+
+<pre><code>  if statusArray.count == 0 {
+      return ("", UIColor.lightGrayColor())
+  }
+
+  if statusArray.count == 1 {
+      return (statusArray[0], UIColor.lightGrayColor())
+  }
+
+  return (statusArray[0], UIColor.fromHexString(statusArray[1]))
+</code></pre>
+
+<p>  }</p>
+
+<p>  //使用方式如下
+  let (text, color) = YWSTranslateRichText(instanceStatusConf)</p></li>
+<li><p>支持字符串作为枚举值。</p>
+
+<p>  enum YWSECSInstanceStatus : String {
+      case Starting = &ldquo;Starting&rdquo;
+      case Running = &ldquo;Running&rdquo;
+      case Stopping = &ldquo;Stopping&rdquo;
+      case Stopped = &ldquo;Stopped&rdquo;
+  }</p>
+
+<p>  //使用方法
+  cell.ECSInstanceStatus = YWSECSInstanceStatus(rawValue: instanceStatus!)</p>
+
+<p>  //转换成字符串
+  textDetailLabel.text = YWSECSInstanceStatus.Starting.rawValue</p></li>
+<li><p>selector类型实现了 StringLiteralConvertible，使用起来更加简单。</p>
+
+<p>  self.button.addTarget(self, action: &ldquo;introduceResources:&rdquo;, forControlEvents: .TouchUpInside)</p></li>
+<li><p>不再需要引入libextobjc这个Pod，因为Swift支持更方便的用法。在block开始的时候，在数组里面weak所有要用到的对象。</p>
+
+<p>  inputViewController.finishBlock = { [weak inputViewController, weak cell, weak self] () -> Void in
+  }</p></li>
+<li><p>函数支持默认参数。比如下面这个函数，有五个参数，其中三个有默认参数，用户需要设置的参数只有两个。</p>
+
+<p>  convenience init(text: String, textColor: UIColor = UIColor.whiteColor(), bgColor: UIColor, font: UIFont = UIFont.systemFontOfSize(10), inset: UIEdgeInsets = UIEdgeInsetsMake(0, 3, 0, 3)) {
+      //blabla
+  }</p>
+
+<p>  lazy var vipLabel : YWSInsetsTextLabel! = YWSInsetsTextLabel(text: &ldquo;vip&rdquo;, bgColor: UIColor.orangeColor())</p></li>
+<li><p>通过减少动态性，使用vtable替换原有的objc_msgSend，获取更高的性能。新增了final、private等关键字，编译器可以对代码做更多优化，提升性能并减少内存的使用。比如final方法不用放入虚表中，节省内存；跳转时不用查表，性能更佳；private的类如果发现有方法只在本文件中使用，可以直接内联，提高性能。</p></li>
+<li><p>在Playground工程里面练习Swift编程非常之方便，尤其是测试VFL语句的时候。</p></li>
+</ul>
+
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1376176-76d2627719e67fa6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1" /></p>
+
+<h2>缺点</h2>
+
+<ul>
+<li>Optional让人头疼，大量的?和!，没处理好很容易导致崩溃。</li>
+<li>强类型和Optional，给JSON解释带来了灾难。</li>
+<li><p>目前Xcode不支持对Swift写的代码做重构。</p></li>
+<li><p>Build Settings里面设置Treat Warnings as Errors对Swift代码无效。</p></li>
+</ul>
+
+
+<h2>坑</h2>
+
+<p>用private修饰的类，如果使用KVC来给属性设置值，编译不会报错，运行时也不会报错，但就是设置不上。去掉private就好了。</p>
+
+<h2>crash分析</h2>
+
+<p>手解crash可以看到具体崩溃代码的行号。</p>
+
+<pre><code>$ symbolicatecrash ~/Downloads/034dc058c5d4ff1f717ec7a05d4d55b8 CloudConsoleApp.app.dSYM
+
+Exception Type:  SIGTRAP
+Exception Codes: #0 at 0x1001c09b4
+Crashed Thread:  0
+
+Thread 0 Crashed:
+0   CloudConsoleApp                     0x00000001001c09b4 YWSInstanceListViewController.goToBuyPage() -&gt; () (YWSInstanceListViewController.swift:701)
+1   CloudConsoleApp                     0x00000001001c92cc specialized YWSInstanceListViewController.introduceResources(AnyObject) -&gt; () (YWSInstanceListViewController.swift:689)
+2   CloudConsoleApp                     0x00000001001c029c @objc YWSInstanceListViewController.introduceResources(AnyObject) -&gt; () (YWSInstanceListViewController.swift:0)
+3   UIKit                               0x000000018601be50 0x185fd0000 + 310864
+4   UIKit                               0x000000018601bdcc 0x185fd0000 + 310732
+5   UIKit                               0x0000000186003a88 0x185fd0000 + 211592
+6   UIKit                               0x000000018601b6e4 0x185fd0000 + 308964
+7   UIKit                               0x000000018601b314 0x185fd0000 + 307988
+8   UIKit                               0x0000000186013e30 0x185fd0000 + 278064
+9   UIKit                               0x0000000185fe44cc 0x185fd0000 + 83148
+10  UIKit                               0x0000000185fe2794 0x185fd0000 + 75668
+11  CoreFoundation                      0x00000001812a8efc 0x1811cc000 + 904956
+12  CoreFoundation                      0x00000001812a8990 0x1811cc000 + 903568
+13  CoreFoundation                      0x00000001812a6690 0x1811cc000 + 894608
+14  CoreFoundation                      0x00000001811d5680 0x1811cc000 + 38528
+15  GraphicsServices                    0x00000001826e4088 0x1826d8000 + 49288
+16  UIKit                               0x000000018604cd90 0x185fd0000 + 511376
+17  CloudConsoleApp                     0x000000010014b4e0 main (main.m:16)
+18  libdyld.dylib                       0x0000000180d768b8 0x180d74000 + 10424
+
+//不过我对着这行代码分析了好久，实在想不出来崩溃的原因。没有任何crash提示信息。
+//这个版本Swift代码只有这样一个crash
+//后面再看看新crash会不会也是这样
+self.resourceType = YWSXXX.shareInstance().getXXXByXXX(self.XXX.pluginId)
+</code></pre>
+
+<p>实际证明Swift的crash信息非常不准确，能知道崩溃的文件和函数，行号不准确，也不会输出Application Specific Information。比如下面这个crash。</p>
+
+<pre><code>Incident Identifier: 54087A46-D37D-454B-9305-22ED5420B58B
+CrashReporter Key:   TODO
+Hardware Model:      iPhone6,2
+Process:             CloudConsoleApp [696]
+Path:                /var/mobile/Containers/Bundle/Application/E8E24C8B-A47B-425E-863F-A871F273FCA2/CloudConsoleApp.app/CloudConsoleApp
+Identifier:          com.aliyun.wstudio.amc.AliyunMobileApp
+Version:             2.2.0 (2169)
+Code Type:           ARM-64
+Parent Process:      ??? [1]
+
+Date/Time:           2016-01-25 10:44:56 +0000
+OS Version:          iPhone OS 9.2.1 (13D15)
+Report Version:      104
+
+Exception Type:  SIGTRAP
+Exception Codes: #0 at 0x100139e80
+Triggered by Thread:  0
+
+Thread 0 Crashed:
+0   CloudConsoleApp                 0x0000000100139e80 __TFC15CloudConsoleApp24YWSTouchIDViewController14viewWillAppearfS0_FSbT_ (in CloudConsoleApp) + 1304
+1   CloudConsoleApp                 0x0000000100139eb0 __TToFC15CloudConsoleApp24YWSTouchIDViewController14viewWillAppearfS0_FSbT_ (in CloudConsoleApp) + 44
+2   UIKit                           0x000000018722c74c 0x0000000187200000 + 182092
+3   UIKit                           0x000000018722c4c0 0x0000000187200000 + 181440
+4   UIKit                           0x00000001872d3130 0x0000000187200000 + 864560
+5   UIKit                           0x00000001872d2a6c 0x0000000187200000 + 862828
+6   UIKit                           0x00000001872d2694 0x0000000187200000 + 861844
+7   UIKit                           0x00000001872d25fc 0x0000000187200000 + 861692
+8   UIKit                           0x000000018720f778 0x0000000187200000 + 63352
+9   QuartzCore                      0x0000000184c1eb2c 0x0000000184c10000 + 60204
+10  QuartzCore                      0x0000000184c19738 0x0000000184c10000 + 38712
+11  QuartzCore                      0x0000000184c195f8 0x0000000184c10000 + 38392
+12  QuartzCore                      0x0000000184c18c94 0x0000000184c10000 + 35988
+13  QuartzCore                      0x0000000184c189dc 0x0000000184c10000 + 35292
+14  QuartzCore                      0x0000000184c120cc 0x0000000184c10000 + 8396
+15  CoreFoundation                  0x00000001824d8588 0x00000001823fc000 + 902536
+16  CoreFoundation                  0x00000001824d632c 0x00000001823fc000 + 893740
+17  CoreFoundation                  0x00000001824d675c 0x00000001823fc000 + 894812
+18  CoreFoundation                  0x0000000182405680 0x00000001823fc000 + 38528
+19  GraphicsServices                0x0000000183914088 0x0000000183908000 + 49288
+20  UIKit                           0x000000018727cd90 0x0000000187200000 + 511376
+21  CloudConsoleApp                 0x000000010007f988 main (in CloudConsoleApp) (main.m:16)
+22  libdyld.dylib                   0x0000000181fa68b8 0x0000000181fa4000 + 10424
+
+//确实崩溃在viewWillAppear函数中，但是是97行的 as! 导致的，在crash信息里面这两个重要的信息没有暴露出来。
+override func viewWillAppear(animated: Bool) {
+    super.viewWillAppear(animated)
+
+    //let urlString = YWSXXX.sharedInstance().get("userIcon") as! String
+
+    //因为2.1.0重构过登录模块，新的登录模块才会保存 userIcon 这个值
+    //所以2.2.0覆盖2.1.0之前的版本用 as! 会崩溃，这里改成 as? 了
+    if let urlString = YWSXXX.sharedInstance().get("userIcon") as? String {
+    }
+}
+</code></pre>
+
+<h2>总结</h2>
+
+<p>Swift 2.1版本已经非常稳定，苹果将其开源，也表明对Swift的质量和可靠性有足够的信心。开源社区开始涌现一批优秀的Swift库，比如Charts，这个画图的组件很不错。StackOverflow的答案中很多人会同时提供Objective-C和Swift两个版本。目前来看唯一美中不足的问题就是解出来的crash没有Objective-C那么直观了，很多时候都得靠猜。</p>
+
+<pre><code>文／阿呆少爷（简书作者）
+原文链接：http://www.jianshu.com/p/a5e6e574145b
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/03/02/ggteach-learn-ios-simply/">刚刚在线-让学习iOS开发更简单</a></h1>
     
     
@@ -926,178 +1342,6 @@ xmlns:stream="http://etherx.jabber.org/streams" version="1.0"&gt;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/12/08/some-experiences-https/">关于启用 HTTPS 的一些经验分享</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-12-08T21:54:20+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:54 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="http://images.90159.com/12/https.jpg" alt="https" /></p>
-
-<p>随着国内网络环境的持续恶化，各种篡改和劫持层出不穷，越来越多的网站选择了全站 HTTPS。HTTPS 通过 TLS 层和证书机制提供了内容加密、身份认证和数据完整性三大功能，可以有效防止数据被查看或篡改，以及防止中间人冒充。本文分享一些启用 HTTPS 过程中的经验，重点是如何与一些新出的安全规范配合使用。至于 HTTPS 的部署及优化，之前写过很多，本文不重复了。</p>
-
-<h2>理解 Mixed Content</h2>
-
-<p>HTTPS 网页中加载的 HTTP 资源被称之为 Mixed Content(混合内容)，不同浏览器对 Mixed Content 有不一样的处理规则。</p>
-
-<h2>早期的 IE</h2>
-
-<p>早期的 IE 在发现 Mixed Content 请求时，会弹出「是否只查看安全传送的网页内容?」这样一个模态对话框，一旦用户选择「是」，所有 Mixed Content 资源都不会加载;选择「否」，所有资源都加载。</p>
-
-<h2>比较新的 IE</h2>
-
-<p>比较新的 IE 将模态对话框改为页面底部的提示条，没有之前那么干扰用户。而且默认会加载图片类 Mixed Content，其它如 JavaScript、CSS 等资源还是会根据用户选择来决定是否加载。</p>
-
-<h2>现代浏览器</h2>
-
-<p>现代浏览器(Chrome、Firefox、Safari、Microsoft Edge)，基本上都遵守了 W3C 的 Mixed Content 规范，将 Mixed Content 分为Optionally-blockable 和 Blockable 两类：</p>
-
-<p>Optionally-blockable 类 Mixed Content 包含那些危险较小，即使被中间人篡改也无大碍的资源。现代浏览器默认会加载这类资源，同时会在控制台打印警告信息。这类资源包括：</p>
-
-<pre><code>通过  标签加载的图片(包括 SVG 图片);
-
-通过 &lt;img&gt; 标签加载的图片（包括 SVG 图片）；
-
-通过 &lt;video&gt; / &lt;audio&gt; 和 &lt;source&gt; 标签加载的视频或音频；
-
-预读的（Prefetched）资源；
-</code></pre>
-
-<h2>预读的(Prefetched)资源;</h2>
-
-<p>除此之外所有的 Mixed Content 都是 Blockable，浏览器必须禁止加载这类资源。所以现代浏览器中，对于 HTTPS 页面中的 JavaScript、CSS 等 HTTP 资源，一律不加载，直接在控制台打印错误信息。</p>
-
-<h2>移动浏览器</h2>
-
-<p>前面所说都是桌面浏览器的行为，移动端情况比较复杂，当前大部分移动浏览器默认都允许加载 Mixed Content。也就是说，对于移动浏览器来说，HTTPS 中的 HTTP 资源，无论是图片还是 JavaScript、CSS，默认都会加载。</p>
-
-<p>一般选择了全站 HTTPS，就要避免出现 Mixed Content，页面所有资源请求都走 HTTPS 协议才能保证所有平台所有浏览器下都没有问题。</p>
-
-<h2>合理使用 CSP</h2>
-
-<p>CSP，全称是 Content Security Policy，它有非常多的指令，用来实现各种各样与页面内容安全相关的功能。</p>
-
-<pre><code>block-all-mixed-content
-</code></pre>
-
-<p>前面说过，对于 HTTPS 中的图片等 Optionally-blockable 类 HTTP 资源，现代浏览器默认会加载。图片类资源被劫持，通常不会有太大的问题，但也有一些风险，例如很多网页按钮是用图片实现的，中间人把这些图片改掉，也会干扰用户使用。</p>
-
-<p>通过 CSP 的 block-all-mixed-content 指令，可以让页面进入对混合内容的严格检测(Strict Mixed Content Checking)模式。在这种模式下，所有非 HTTPS 资源都不允许加载。跟其它所有 CSP 规则一样，可以通过以下两种方式启用这个指令：</p>
-
-<h2>HTTP 响应头方式：</h2>
-
-<pre><code>Content-Security-Policy: block-all-mixed-content 
-</code></pre>
-
-<p><meta>标签方式：</p>
-
-<pre><code>&lt;meta http-equiv="Content-Security-Policy" content="block-all-mixed-content"&gt; 
-
-
-upgrade-insecure-requests
-</code></pre>
-
-<p>历史悠久的大站在往 HTTPS 迁移的过程中，工作量往往非常巨大，尤其是将所有资源都替换为 HTTPS 这一步，很容易产生疏漏。即使所有代码都确认没有问题，很可能某些从数据库读取的字段中还存在 HTTP 链接。</p>
-
-<p>而通过 upgrade-insecure-requests 这个 CSP 指令，可以让浏览器帮忙做这个转换。启用这个策略后，有两个变化：</p>
-
-<pre><code>页面所有 HTTP 资源，会被替换为 HTTPS 地址再发起请求;
-
-页面所有站内链接，点击后会被替换为 HTTPS 地址再跳转;
-</code></pre>
-
-<p>跟其它所有 CSP 规则一样，这个指令也有两种方式来启用，具体格式请参考上一节。需要注意的是 upgrade-insecure-requests 只替换协议部分，所以只适用于 HTTP/HTTPS 域名和路径完全一致的场景。</p>
-
-<h2>合理使用 HSTS</h2>
-
-<p>在网站全站 HTTPS 后，如果用户手动敲入网站的 HTTP 地址，或者从其它地方点击了网站的 HTTP 链接，依赖于服务端 301/302 跳转才能使用 HTTPS 服务。而第一次的 HTTP 请求就有可能被劫持，导致请求无法到达服务器，从而构成 HTTPS 降级劫持。</p>
-
-<h2>HSTS 基本使用</h2>
-
-<p>这个问题可以通过 HSTS(HTTP Strict Transport Security，RFC6797)来解决。HSTS 是一个响应头，格式如下：</p>
-
-<pre><code>Strict-Transport-Security: max-age=expireTime [; includeSubDomains] [; preload] 
-</code></pre>
-
-<p>max-age，单位是秒，用来告诉浏览器在指定时间内，这个网站必须通过 HTTPS 协议来访问。也就是对于这个网站的 HTTP 地址，浏览器需要先在本地替换为 HTTPS 之后再发送请求。</p>
-
-<p>includeSubDomains，可选参数，如果指定这个参数，表明这个网站所有子域名也必须通过 HTTPS 协议来访问。</p>
-
-<p>preload，可选参数，后面再介绍它的作用。</p>
-
-<p>HSTS 这个响应头只能用于 HTTPS 响应;网站必须使用默认的 443 端口;必须使用域名，不能是 IP。而且启用 HSTS 之后，一旦网站证书错误，用户无法选择忽略。</p>
-
-<p>HSTS Preload List</p>
-
-<p>可以看到 HSTS 可以很好的解决 HTTPS 降级攻击，但是对于 HSTS 生效前的首次 HTTP 请求，依然无法避免被劫持。浏览器厂商们为了解决这个问题，提出了 HSTS Preload List 方案：内置一份列表，对于列表中的域名，即使用户之前没有访问过，也会使用 HTTPS 协议;列表可以定期更新。</p>
-
-<p>目前这个 Preload List 由 Google Chrome 维护，Chrome、Firefox、Safari、IE 11 和 Microsoft Edge 都在使用。如果要想把自己的域名加进这个列表，首先需要满足以下条件：</p>
-
-<pre><code>拥有合法的证书(如果使用 SHA-1 证书，过期时间必须早于 2016 年);
-
-将所有 HTTP 流量重定向到 HTTPS;
-
-确保所有子域名都启用了 HTTPS;
-
-输出 HSTS 响应头：
-
-max-age 不能低于 18 周(10886400 秒);
-
-必须指定 includeSubdomains 参数;
-
-必须指定 preload 参数;
-</code></pre>
-
-<p>即便满足了上述所有条件，也不一定能进入 HSTS Preload Lis。通过 Chrome 的 chrome://net-internals/#hsts 工具，可以查询某个网站是否在 Preload List 之中，还可以手动把某个域名加到本机 Preload List。</p>
-
-<p>对于 HSTS 以及 HSTS Preload List，我的建议是只要你不能确保永远提供 HTTPS 服务，就不要启用。因为一旦 HSTS 生效，你再想把网站重定向为 HTTP，之前的老用户会被无限重定向，唯一的办法是换新域名。</p>
-
-<h2>CDN 安全</h2>
-
-<p>对于大站来说，全站迁移到 HTTPS 后还是得用 CDN，只是必须选择支持 HTTPS 的 CDN 了。如果使用第三方 CDN，安全方面有一些需要考虑的地方。</p>
-
-<h2>合理使用 SRI</h2>
-
-<p>HTTPS 可以防止数据在传输中被篡改，合法的证书也可以起到验证服务器身份的作用，但是如果 CDN 服务器被入侵，导致静态文件在服务器上被篡改，HTTPS 也无能为力。</p>
-
-<p>W3C 的 SRI(Subresource Integrity)规范可以用来解决这个问题。SRI 通过在页面引用资源时指定资源的摘要签名，来实现让浏览器验证资源是否被篡改的目的。只要页面不被篡改，SRI 策略就是可靠的。</p>
-
-<p>SRI 并不是 HTTPS 专用，但如果主页面被劫持，攻击者可以轻松去掉资源摘要，从而失去浏览器的 SRI 校验机制。</p>
-
-<h2>了解 Keyless SSL</h2>
-
-<p>另外一个问题是，在使用第三方 CDN 的 HTTPS 服务时，如果要使用自己的域名，需要把对应的证书私钥给第三方，这也是一件风险很高的事情。</p>
-
-<p>CloudFlare 公司针对这种场景研发了 Keyless SSL 技术。你可以不把证书私钥给第三方，改为提供一台实时计算的 Key Server 即可。CDN 要用到私钥时，通过加密通道将必要的参数传给 Key Server，由 Key Server 算出结果并返回即可。整个过程中，私钥都保管在自己的 Key Server 之中，不会暴露给第三方。</p>
-
-<p>CloudFlare 的这套机制已经开源，如需了解详情，可以查看他们官方博客的这篇文章：Keyless SSL: The Nitty Gritty Technical Details。</p>
-
-<p>好了，本文先就写到这里，需要注意的是本文提到的 CSP、HSTS 以及 SRI 等策略都只有最新的浏览器才支持，详细的支持度可以去 CanIUse 查。切换到 HTTPS 之后，在性能优化上有很多新工作要做，这部分内容我在之前的博客中写过很多，这里不再重复，只说最重要的一点：既然都 HTTPS 了，赶紧上 HTTP/2 才是正道。</p>
-
-<p>内容来源：Jerry Qu的小站</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -1131,6 +1375,10 @@ max-age 不能低于 18 周(10886400 秒);
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/03/07/objective-c-swift-study/">Objective-C和Swift混编的一些经验</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/03/02/ggteach-learn-ios-simply/">刚刚在线-让学习iOS开发更简单</a>
       </li>
     
@@ -1144,10 +1392,6 @@ max-age 不能低于 18 周(10886400 秒);
     
       <li class="post">
         <a href="/blog/2015/12/15/ios-dev-interview/">推荐：iOS开发面试题整理（一）</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/12/write-code-48-year/">我已经写了48年代码了，我感觉我还能写下去</a>
       </li>
     
   </ul>

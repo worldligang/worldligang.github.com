@@ -1,0 +1,758 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+      <meta name="baidu-site-verification" content="X93tJz3pCq" />
+  <title>Objective-C和Swift混编的一些经验 - 刚刚在线</title>
+  <meta name="author" content="李刚">
+  <meta name="uyan_auth" content="d1112891bb" />
+  <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
+      
+  
+  <meta name="description" content="使用Swift作为主要的开发语言，很难避免引入Swift编写的库。2.1.0版本引入了SwiftyJSON和Charts这两个Swift写的库，分别用于处理JSON数据和画监控图。">
+  <meta name="keywords" content="Objective, Swift, 程序员  , iOS开发, 刚刚在线">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.superqq.com/blog/2016/03/07/objective-c-swift-study">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="http://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">刚刚在线</a></h1>
+  
+    <h2>分享iOS开发技术经验的自媒体网站</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://zhannei.superqq.com" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.superqq.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">首页</a></li>
+  <li><a href="/blog/archives">全部文章</a></li>
+  <li><a href="/blog/categories/ioskai-fa/">iOS开发</a></li>
+  <li><a href="/blog/categories/swiftkai-fa">swift开发</a></li>
+  <li><a href="/blog/categories/cheng-xu-yuan/">程序员</a></li>
+  <li><a href="/blog/categories/yuan-dai-ma/">源代码</a></li>
+  <li><a href="/blog/categories/sdkfu-wu/">sdk服务</a></li>
+  <li><a href="/blog/categories/tui-jian/">推荐</a></li>
+  <li><a href="/about">赞助作者</a></li>
+  <li><a href="http://www.90159.com/" target="_blank" title=头条>头条</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Objective-C和Swift混编的一些经验</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-03-07T22:38:41+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:38 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><blockquote><p>阿里云iOS客户端2.1.0版本中开始尝试使用Swift来写新的业务，磕磕绊绊总算是发布了新版，总结一下开发过程中得到的经验和踩过的坑吧。</p></blockquote>
+
+<h2>CocoaPods</h2>
+
+<p>使用Swift作为主要的开发语言，很难避免引入Swift编写的库。2.1.0版本引入了SwiftyJSON和Charts这两个Swift写的库，分别用于处理JSON数据和画监控图。</p>
+
+<p>苹果要求使用Swift写的库，必须通过动态链接库引入，其实这一点我也是不太理解的，因为静态库也是可以依赖动态库的符号的，不存在导入多个Swift动态库的问题。允许App使用自带的动态库从iOS8才开始支持，因此必须将App支持的iOS版本升到iOS8。阿里云iOS客户端iOS7的用户不到4%，所以放弃了对iOS7的支持。</p>
+
+<p>Cocoapods支持将依赖的组件编译成动态库，只需要在Podfile顶部加上&#8221;use_frameworks!&ldquo;。开启这个选项之后，所有以源码引入的pod都会编译成动态链接库，而以fake framework引入的pod仍然会编译到主App里面。动态库都放在App里面的Frameworks目录，可以看到Swift相关的动态库也都拷贝进来了，所以支持Swift会导致包变大。我没有记下2.0.0版本的大小，导致没法对比2.1.0放大了多少，这是一个失误。</p>
+
+<pre><code>[~/Library/Developer/Xcode/Archives/2015-12-17/CloudConsoleApp 15-12-17 下午9.24.xcarchive/Products/Applications/CloudConsoleApp.app/Frameworks]$ tree
+.
+├── Charts.framework
+│   ├── Charts
+│   ├── Info.plist
+│   └── _CodeSignature
+│       └── CodeResources
+├── EAIntroView.framework
+│   ├── EAIntroView
+│   ├── Info.plist
+│   └── _CodeSignature
+│       └── CodeResources
+├── FMDB.framework
+│   ├── FMDB
+│   ├── Info.plist
+│   └── _CodeSignature
+│       └── CodeResources
+├── FTCoreText.framework
+│   ├── FTCoreText
+│   ├── Info.plist
+│   └── _CodeSignature
+│       └── CodeResources
+├── JSBadgeView.framework
+│   ├── Info.plist
+│   ├── JSBadgeView
+│   ├── JSBadgeView.bundle
+│   └── _CodeSignature
+│       └── CodeResources
+├── MBProgressHUD.framework
+│   ├── Info.plist
+│   ├── MBProgressHUD
+│   └── _CodeSignature
+│       └── CodeResources
+├── MFSideMenu.framework
+│   ├── Info.plist
+│   ├── MFSideMenu
+│   └── _CodeSignature
+│       └── CodeResources
+├── PFormanceKit.framework
+│   ├── Info.plist
+│   ├── PFormanceKit
+│   └── _CodeSignature
+│       └── CodeResources
+├── Reachability.framework
+│   ├── Info.plist
+│   ├── Reachability
+│   └── _CodeSignature
+│       └── CodeResources
+├── RegexKitLite.framework
+│   ├── Info.plist
+│   ├── RegexKitLite
+│   └── _CodeSignature
+│       └── CodeResources
+├── SSZipArchive.framework
+│   ├── Info.plist
+│   ├── SSZipArchive
+│   └── _CodeSignature
+│       └── CodeResources
+├── SnapKit.framework
+│   ├── Info.plist
+│   ├── SnapKit
+│   └── _CodeSignature
+│       └── CodeResources
+├── SwiftyJSON.framework
+│   ├── Info.plist
+│   ├── SwiftyJSON
+│   └── _CodeSignature
+│       └── CodeResources
+├── libswiftContacts.dylib
+├── libswiftCore.dylib
+├── libswiftCoreData.dylib
+├── libswiftCoreGraphics.dylib
+├── libswiftCoreImage.dylib
+├── libswiftDarwin.dylib
+├── libswiftDispatch.dylib
+├── libswiftFoundation.dylib
+├── libswiftObjectiveC.dylib
+└── libswiftUIKit.dylib
+
+27 directories, 49 files
+
+$ file Charts 
+Charts: Mach-O universal binary with 2 architectures
+Charts (for architecture armv7):    Mach-O dynamically linked shared library arm
+Charts (for architecture arm64):    Mach-O 64-bit dynamically linked shared library
+</code></pre>
+
+<p>因为fake framework和源代码pod分别会编译成静态库和动态库，这样会导致一个问题，就是如果源码pod又依赖fake framework，那就没办法了。CocoaPods发现这种情况会提示下面这个错误。</p>
+
+<pre><code>target has transitive dependencies that include static binaries: (xxx.framework, xxx.framework)
+</code></pre>
+
+<p>pod install时会把静态库编译到App里面，源码编译成的动态库没法依赖它。最终的解决方案只能是CocoaPods对fake framework和源码pod一视同仁，都编译成动态库，这样彼此才能依赖。不知道CocoaPods什么时候会支持这样。</p>
+
+<h2>混编</h2>
+
+<ul>
+<li>Swift使用Objective-C</li>
+</ul>
+
+
+<p>这种情况占绝大多数。只需要在CloudConsoleApp-Bridging-Header.h这个头文件中包含相关的头文件就行。pod组件另外一种引入的方式是通过@import引入。比如SDWebImage可以通过下面两种方式引入。</p>
+
+<pre><code>//在Bridging头文件包含下面这个头文件
+#import &lt;SDWebImage/UIImageView+WebCache.h&gt;
+
+//另外一种办法，在Swift文件中引入。
+import SDWebImage
+</code></pre>
+
+<p>Objective-C写的类和方法都会被改成Swift的使用方式，下面是两个很典型的例子。使用的时候需要尝试一下才能找到翻译的Swift方法。</p>
+
+<pre><code>//Objective-C
+titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+titleLabel.numberOfLines = 0;
+
+//Swift
+cell.nameLabel?.lineBreakMode = .ByWordWrapping //全写是 NSLineBreakMode.ByWordWrapping
+cell.nameLabel?.numberOfLines = 0
+
+//Objective-C
+UIImage *image = [UIImage imageNamed:@"abc"];
+
+//Swift
+let image = UIImage(named: "abc")
+</code></pre>
+
+<ul>
+<li>Objective-C使用Swift</li>
+</ul>
+
+
+<p>Xcode会生成一个虚拟的头文件CloudConsoleApp-Swift.h，在工程里面是找不到这个头文件的，但是可以包含，并且跳转进去。这个文件里面包含了所有从Swift导出来的符号，比如下面这个view controller就是用Swift写的。可以看出来Objectivew-C看到的名称跟Swift源码里面的名称是一样的，但是Swift会对类做demangling，变成了_TtC15CloudConsoleApp31YWSResourceDetailViewController这样的，跟C++有点类似。</p>
+
+<pre><code>SWIFT_CLASS("_TtC15CloudConsoleApp31YWSResourceDetailViewController")
+@interface YWSResourceDetailViewController : UIPageViewController
+@property (nonatomic, strong) NSArray * __nonnull vcs;
+@property (nonatomic, copy) NSString * __null_unspecified pluginId;
+@property (nonatomic, strong) YWSSegmentedControl * __nonnull segmentedControl;
+@property (nonatomic, strong) YWSInstanceListViewController * __nonnull instanceListViewController;
+@property (nonatomic, strong) YWSMetricConcernedViewController * __nonnull metricConcernedViewController;
+@property (nonatomic, weak) IBOutlet UIBarButtonItem * __null_unspecified addMetricBarButton;
+- (void)viewDidLoad;
+- (void)initSegmentedControl;
+- (void)indexChanged:(id __nonnull)sender;
+- (void)onNavigationBack:(id __nonnull)sender;
+- (void)prepareForSegue:(UIStoryboardSegue * __nonnull)segue sender:(id __nullable)sender;
+- (nonnull instancetype)initWithTransitionStyle:(UIPageViewControllerTransitionStyle)style navigationOrientation:(UIPageViewControllerNavigationOrientation)navigationOrientation options:(NSDictionary&lt;NSString *, id&gt; * __nullable)options OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * __nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+@end
+</code></pre>
+
+<h2>Swift的优缺点</h2>
+
+<p>这个项目刚起步，用Swift的经验尚浅，所以都是一些比较浅薄的理解，后面有更深刻的理解再补上。</p>
+
+<h3>优点</h3>
+
+<ul>
+<li>代码简洁。类的声明和实现在一个文件中。</li>
+<li>统一对属性和方法的调用，都用.。</li>
+<li>如果不加额外的访问控制，所有的符号都是整个项目可见，无需考虑头文件的问题。</li>
+<li><p>字符串处理太方便了。</p>
+
+<p>  //字符串比较和拼接实在是太方便了
+  let foo = &ldquo;abc&rdquo;
+  let bar = &ldquo;abc&rdquo;</p>
+
+<p>  if foo == bar {
+      //blablabla
+  }</p>
+
+<p>  print(&ldquo;====(foo)+(bar)&rdquo;)</p></li>
+<li><p>语言上支持延迟加载。</p>
+
+<p>  lazy var imageView : UIImageView = {
+      var imageView = UIImageView(image: UIImage(named: &ldquo;empty_hint&rdquo;))
+      imageView.contentMode = .ScaleAspectFit</p>
+
+<pre><code>  return imageView
+</code></pre>
+
+<p>  }()</p>
+
+<p>  lazy var infoLabel : UILabel = {
+      var infoLabel = UILabel()
+      infoLabel.lineBreakMode = .ByWordWrapping //支持换行
+      infoLabel.numberOfLines = 0</p>
+
+<pre><code>  return infoLabel
+</code></pre>
+
+<p>  }()</p>
+
+<p>  lazy var button : UIButton = {
+      var button = UIButton()
+      button.titleLabel?.font = UIFont.systemFontOfSize(15)
+      button.setTitleColor(UIColor.darkGrayColor(), forState: .Normal)
+      button.setBackgroundImage(UIImage(named: &ldquo;buy_instance_hint_button&rdquo;), forState: .Normal)
+      button.hidden = true</p>
+
+<pre><code>  return button
+</code></pre>
+
+<p>  }()</p></li>
+<li><p>多返回值。比如下面这个函数，如果使用Objective-C写还是比较麻烦的。</p>
+
+<p>  //将 &ldquo;创建中&amp;#FA8C35&rdquo; 翻译成对应的 &ldquo;(字符串对象, 颜色对象)&rdquo;
+  func YWSTranslateRichText (str : String) -> (text : String, color : UIColor) {
+      let statusArray = str.componentsSeparatedByString(&ldquo;&amp;&rdquo;)</p>
+
+<pre><code>  if statusArray.count == 0 {
+      return ("", UIColor.lightGrayColor())
+  }
+
+  if statusArray.count == 1 {
+      return (statusArray[0], UIColor.lightGrayColor())
+  }
+
+  return (statusArray[0], UIColor.fromHexString(statusArray[1]))
+</code></pre>
+
+<p>  }</p>
+
+<p>  //使用方式如下
+  let (text, color) = YWSTranslateRichText(instanceStatusConf)</p></li>
+<li><p>支持字符串作为枚举值。</p>
+
+<p>  enum YWSECSInstanceStatus : String {
+      case Starting = &ldquo;Starting&rdquo;
+      case Running = &ldquo;Running&rdquo;
+      case Stopping = &ldquo;Stopping&rdquo;
+      case Stopped = &ldquo;Stopped&rdquo;
+  }</p>
+
+<p>  //使用方法
+  cell.ECSInstanceStatus = YWSECSInstanceStatus(rawValue: instanceStatus!)</p>
+
+<p>  //转换成字符串
+  textDetailLabel.text = YWSECSInstanceStatus.Starting.rawValue</p></li>
+<li><p>selector类型实现了 StringLiteralConvertible，使用起来更加简单。</p>
+
+<p>  self.button.addTarget(self, action: &ldquo;introduceResources:&rdquo;, forControlEvents: .TouchUpInside)</p></li>
+<li><p>不再需要引入libextobjc这个Pod，因为Swift支持更方便的用法。在block开始的时候，在数组里面weak所有要用到的对象。</p>
+
+<p>  inputViewController.finishBlock = { [weak inputViewController, weak cell, weak self] () -> Void in
+  }</p></li>
+<li><p>函数支持默认参数。比如下面这个函数，有五个参数，其中三个有默认参数，用户需要设置的参数只有两个。</p>
+
+<p>  convenience init(text: String, textColor: UIColor = UIColor.whiteColor(), bgColor: UIColor, font: UIFont = UIFont.systemFontOfSize(10), inset: UIEdgeInsets = UIEdgeInsetsMake(0, 3, 0, 3)) {
+      //blabla
+  }</p>
+
+<p>  lazy var vipLabel : YWSInsetsTextLabel! = YWSInsetsTextLabel(text: &ldquo;vip&rdquo;, bgColor: UIColor.orangeColor())</p></li>
+<li><p>通过减少动态性，使用vtable替换原有的objc_msgSend，获取更高的性能。新增了final、private等关键字，编译器可以对代码做更多优化，提升性能并减少内存的使用。比如final方法不用放入虚表中，节省内存；跳转时不用查表，性能更佳；private的类如果发现有方法只在本文件中使用，可以直接内联，提高性能。</p></li>
+<li><p>在Playground工程里面练习Swift编程非常之方便，尤其是测试VFL语句的时候。</p></li>
+</ul>
+
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1376176-76d2627719e67fa6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1" /></p>
+
+<h2>缺点</h2>
+
+<ul>
+<li>Optional让人头疼，大量的?和!，没处理好很容易导致崩溃。</li>
+<li>强类型和Optional，给JSON解释带来了灾难。</li>
+<li><p>目前Xcode不支持对Swift写的代码做重构。</p></li>
+<li><p>Build Settings里面设置Treat Warnings as Errors对Swift代码无效。</p></li>
+</ul>
+
+
+<h2>坑</h2>
+
+<p>用private修饰的类，如果使用KVC来给属性设置值，编译不会报错，运行时也不会报错，但就是设置不上。去掉private就好了。</p>
+
+<h2>crash分析</h2>
+
+<p>手解crash可以看到具体崩溃代码的行号。</p>
+
+<pre><code>$ symbolicatecrash ~/Downloads/034dc058c5d4ff1f717ec7a05d4d55b8 CloudConsoleApp.app.dSYM
+
+Exception Type:  SIGTRAP
+Exception Codes: #0 at 0x1001c09b4
+Crashed Thread:  0
+
+Thread 0 Crashed:
+0   CloudConsoleApp                     0x00000001001c09b4 YWSInstanceListViewController.goToBuyPage() -&gt; () (YWSInstanceListViewController.swift:701)
+1   CloudConsoleApp                     0x00000001001c92cc specialized YWSInstanceListViewController.introduceResources(AnyObject) -&gt; () (YWSInstanceListViewController.swift:689)
+2   CloudConsoleApp                     0x00000001001c029c @objc YWSInstanceListViewController.introduceResources(AnyObject) -&gt; () (YWSInstanceListViewController.swift:0)
+3   UIKit                               0x000000018601be50 0x185fd0000 + 310864
+4   UIKit                               0x000000018601bdcc 0x185fd0000 + 310732
+5   UIKit                               0x0000000186003a88 0x185fd0000 + 211592
+6   UIKit                               0x000000018601b6e4 0x185fd0000 + 308964
+7   UIKit                               0x000000018601b314 0x185fd0000 + 307988
+8   UIKit                               0x0000000186013e30 0x185fd0000 + 278064
+9   UIKit                               0x0000000185fe44cc 0x185fd0000 + 83148
+10  UIKit                               0x0000000185fe2794 0x185fd0000 + 75668
+11  CoreFoundation                      0x00000001812a8efc 0x1811cc000 + 904956
+12  CoreFoundation                      0x00000001812a8990 0x1811cc000 + 903568
+13  CoreFoundation                      0x00000001812a6690 0x1811cc000 + 894608
+14  CoreFoundation                      0x00000001811d5680 0x1811cc000 + 38528
+15  GraphicsServices                    0x00000001826e4088 0x1826d8000 + 49288
+16  UIKit                               0x000000018604cd90 0x185fd0000 + 511376
+17  CloudConsoleApp                     0x000000010014b4e0 main (main.m:16)
+18  libdyld.dylib                       0x0000000180d768b8 0x180d74000 + 10424
+
+//不过我对着这行代码分析了好久，实在想不出来崩溃的原因。没有任何crash提示信息。
+//这个版本Swift代码只有这样一个crash
+//后面再看看新crash会不会也是这样
+self.resourceType = YWSXXX.shareInstance().getXXXByXXX(self.XXX.pluginId)
+</code></pre>
+
+<p>实际证明Swift的crash信息非常不准确，能知道崩溃的文件和函数，行号不准确，也不会输出Application Specific Information。比如下面这个crash。</p>
+
+<pre><code>Incident Identifier: 54087A46-D37D-454B-9305-22ED5420B58B
+CrashReporter Key:   TODO
+Hardware Model:      iPhone6,2
+Process:             CloudConsoleApp [696]
+Path:                /var/mobile/Containers/Bundle/Application/E8E24C8B-A47B-425E-863F-A871F273FCA2/CloudConsoleApp.app/CloudConsoleApp
+Identifier:          com.aliyun.wstudio.amc.AliyunMobileApp
+Version:             2.2.0 (2169)
+Code Type:           ARM-64
+Parent Process:      ??? [1]
+
+Date/Time:           2016-01-25 10:44:56 +0000
+OS Version:          iPhone OS 9.2.1 (13D15)
+Report Version:      104
+
+Exception Type:  SIGTRAP
+Exception Codes: #0 at 0x100139e80
+Triggered by Thread:  0
+
+Thread 0 Crashed:
+0   CloudConsoleApp                 0x0000000100139e80 __TFC15CloudConsoleApp24YWSTouchIDViewController14viewWillAppearfS0_FSbT_ (in CloudConsoleApp) + 1304
+1   CloudConsoleApp                 0x0000000100139eb0 __TToFC15CloudConsoleApp24YWSTouchIDViewController14viewWillAppearfS0_FSbT_ (in CloudConsoleApp) + 44
+2   UIKit                           0x000000018722c74c 0x0000000187200000 + 182092
+3   UIKit                           0x000000018722c4c0 0x0000000187200000 + 181440
+4   UIKit                           0x00000001872d3130 0x0000000187200000 + 864560
+5   UIKit                           0x00000001872d2a6c 0x0000000187200000 + 862828
+6   UIKit                           0x00000001872d2694 0x0000000187200000 + 861844
+7   UIKit                           0x00000001872d25fc 0x0000000187200000 + 861692
+8   UIKit                           0x000000018720f778 0x0000000187200000 + 63352
+9   QuartzCore                      0x0000000184c1eb2c 0x0000000184c10000 + 60204
+10  QuartzCore                      0x0000000184c19738 0x0000000184c10000 + 38712
+11  QuartzCore                      0x0000000184c195f8 0x0000000184c10000 + 38392
+12  QuartzCore                      0x0000000184c18c94 0x0000000184c10000 + 35988
+13  QuartzCore                      0x0000000184c189dc 0x0000000184c10000 + 35292
+14  QuartzCore                      0x0000000184c120cc 0x0000000184c10000 + 8396
+15  CoreFoundation                  0x00000001824d8588 0x00000001823fc000 + 902536
+16  CoreFoundation                  0x00000001824d632c 0x00000001823fc000 + 893740
+17  CoreFoundation                  0x00000001824d675c 0x00000001823fc000 + 894812
+18  CoreFoundation                  0x0000000182405680 0x00000001823fc000 + 38528
+19  GraphicsServices                0x0000000183914088 0x0000000183908000 + 49288
+20  UIKit                           0x000000018727cd90 0x0000000187200000 + 511376
+21  CloudConsoleApp                 0x000000010007f988 main (in CloudConsoleApp) (main.m:16)
+22  libdyld.dylib                   0x0000000181fa68b8 0x0000000181fa4000 + 10424
+
+//确实崩溃在viewWillAppear函数中，但是是97行的 as! 导致的，在crash信息里面这两个重要的信息没有暴露出来。
+override func viewWillAppear(animated: Bool) {
+    super.viewWillAppear(animated)
+
+    //let urlString = YWSXXX.sharedInstance().get("userIcon") as! String
+
+    //因为2.1.0重构过登录模块，新的登录模块才会保存 userIcon 这个值
+    //所以2.2.0覆盖2.1.0之前的版本用 as! 会崩溃，这里改成 as? 了
+    if let urlString = YWSXXX.sharedInstance().get("userIcon") as? String {
+    }
+}
+</code></pre>
+
+<h2>总结</h2>
+
+<p>Swift 2.1版本已经非常稳定，苹果将其开源，也表明对Swift的质量和可靠性有足够的信心。开源社区开始涌现一批优秀的Swift库，比如Charts，这个画图的组件很不错。StackOverflow的答案中很多人会同时提供Objective-C和Swift两个版本。目前来看唯一美中不足的问题就是解出来的crash没有Objective-C那么直观了，很多时候都得靠猜。</p>
+
+<pre><code>文／阿呆少爷（简书作者）
+原文链接：http://www.jianshu.com/p/a5e6e574145b
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">李刚</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-03-07T22:38:41+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:38 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/tui-jian/'>推荐</a>
+  
+</span>
+
+
+      </p>
+本文出处刚刚在线：<a href="http://www.superqq.com/blog/2016/03/07/objective-c-swift-study/">http://www.superqq.com/blog/2016/03/07/objective-c-swift-study/</a>
+</p>
+自由转载-请在开头注明本文出处。
+</p>
+<p><br>微信公众号iOS开发：<a href="http://www.superqq.com/" target="_blank" rel="external">iOSDevTip</a><br><a href="http://images.90159.com/icon/iOSDevTip.jpg" target="_blank" rel="external"><img src="http://images.90159.com/icon/iOSDevTip.jpg" alt=""></a></p> <!-- 添加这一行代码 -->
+    </p>
+    
+      <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+    <span class="jiathis_txt">分享到：</span>
+    <a class="jiathis_button_tools_1"></a>
+    <a class="jiathis_button_tools_2"></a>
+    <a class="jiathis_button_tools_3"></a>
+    <a class="jiathis_button_tools_4"></a>
+    <a href="http://www.jiathis.com/share?uid=1983651" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+    <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+    var jiathis_config = {data_track_clickback:'true'};
+    </script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1401863435807252" charset="utf-8"></script>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/03/02/ggteach-learn-ios-simply/" title="Previous Post: 刚刚在线-让学习iOS开发更简单">&laquo; 刚刚在线-让学习iOS开发更简单</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>2016年值得关注的公众号</h1>
+        <br/>
+        <br/><strong>公众号iOS开发：iOSDevTip</strong> 
+        <br/>
+        <br/><img width="220px" src="http://images.90159.com/icon/iOSDevTip.jpg" />
+        <br/>
+        <br/><strong>公众号猿圈：CodePush</strong>
+        <br/>
+        <br/><img width="220px" src="http://images.90159.com/icon/codepush.jpg" />
+        <br/>
+        <br/><strong>Android开发精选：AndroidPush</strong> 
+        <br/>
+        <br/><img width="220px" src="http://images.90159.com/icon/AndroidPush.jpg" />
+        <br/>
+        <br/><strong>公众号Python开发：PythonPush</strong> 
+        <br/>
+        <br/><img width="220px" src="http://images.90159.com/icon/PythonPush.jpg" />
+        </p>
+  <h1>最新文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/03/07/objective-c-swift-study/">Objective-C和Swift混编的一些经验</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/03/02/ggteach-learn-ios-simply/">刚刚在线-让学习iOS开发更简单</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/03/01/female-coder-dream-reply/">女程序员做了个梦，众网友的神回复</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/31/xmpp-client-login-dev/">XMPP客户端登录开发详解</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/15/ios-dev-interview/">推荐：iOS开发面试题整理（一）</a>
+      </li>
+    
+  </ul>
+</section>
+</section>
+<section>
+    <h1>About Me</h1>
+    <br/>
+    <p> 李刚：百度百家专栏作者，刚刚在线站长，iOS工程师非著名自媒体人，微信公众号iOS开发：iOSDevTip运营者<br/>
+    <br/><strong>出师未捷名已落</strong>
+    <br/>
+    <br/>新浪微博: <a href='http://weibo.com/ligangnc' target='_blank'>李刚移动</a>
+    <br/>
+    <br/>个人微信: <strong>chinaligang</strong> 欢迎调戏
+    <br/>
+    <br/>iOS群: <strong>218822587</strong>
+  <br/>
+</section>
+
+   
+ <section>
+    <h1>友情链接</h1>
+    <ul>
+       <li>
+           <a href="http://www.ggteach.com" target="_blank" title="刚刚在线教育">刚刚在线教育</a>
+       </li>
+       <li>
+           <a href="http://www.superqq.com" target="_blank" title="刚刚在线">刚刚在线</a>
+       </li>
+       <li>
+           <a href="http://www.90159.com" target="_blank" title="程序员头条">程序员头条</a>
+       </li>
+       <li>
+           <a href="http://www.iswifting.com" target="_blank" title=“swift开发”>swift开发</a>
+       </li>
+       <li>
+           <a href="http://www.aswifter.com/" target="_blank" title="APP开发者">APP开发者</a>
+       </li>
+       <li>
+        <a href="http://www.codefunny.com" target="_blank" title="程序员的那些事">程序员的那些事</a>
+      </li>
+      <li>
+        <a href="http://www.androidwonder.com" target="_blank" title="Android开发精选">Android开发精选</a>
+      </li>
+      <li>
+        <a href="http://www.pythonpush.com" target="_blank" title="Python开发中文网">Python开发中文网</a>
+      </li>
+      <li>
+        <a href="http://www.linuxpush.com" target="_blank" title="Linux开发中文网">Linux开发中文网</a>
+      </li>
+      <li>
+        <a href="http://www.phpush.com" target="_blank" title="PHP开发中文网">PHP开发中文网</a>
+      </li>
+      <li>
+        <a href="http://www.javawonder.com" target="_blank" title="Java开发中文网">Java开发中文网</a>
+      </li>
+      <li>
+        <a href="http://www.websofun.com" target="_blank" title="WEB开发中文网">WEB开发中文网</a>
+      </li>
+      <li>
+        <a href="http://www.htmlpush.com" target="_blank" title="HTML开发中文网">HTML开发中文网</a>
+      </li>
+        <li>
+           <a href="http://www.boxingjiaoyu.com/" target="_blank" title="程序员聚合平台">程序员聚合平台</a>
+       </li>
+        <li>
+           <a href="http://droidyue.com/" target="_blank" title="技术小黑屋">技术小黑屋</a>
+       </li>
+        <li>
+           <a href="http://www.olinone.com/" target="_blank" title="庞海礁的个人空间">庞海礁的个人空间</a>
+       </li>
+       <li>
+           <a href="http://www.5ibc.net" target="_blank" title="PHP教程">PHP教程</a>
+       </li>
+       <li>
+           <a href="http://gank.io/" target="_blank" title="干货集中营">干货集中营</a>
+       </li>
+      <li>
+           <a href="http://www.mobile-open.com/" target="_blank" title="阳和移动开发">阳和移动开发</a>
+       </li>
+       <li>
+           <a href="http://www.jq-school.com/" target="_blank" title="jquery教程">jquery教程</a>
+       </li>
+        <li>
+           <a href="http://www.admin10000.com/" target="_blank" title="WEB开发者">WEB开发者</a>
+       </li>
+       <li>
+           <a href="http://www.aichengxu.com/" target="_blank" title="爱程序网">爱程序网</a>
+       </li>
+       <li>
+           <a href="http://www.lai18.com" target="_blank" title="IT技术文章">IT技术文章</a>
+       </li>
+       <li>
+           <a href="http://www.cftea.com/" target="_blank" title="千一网络">千一网络</a>
+       </li>
+        <li>
+           <a href="http://www.bmob.cn/" target="_blank" title="Bmob">Bmob移动后端云</a>
+       </li>
+       <li>
+           <a href="http://www.leichunfeng.com" target="_blank" title="雷纯锋的技术博客">雷纯锋的技术博客</a>
+       </li>
+       <li>
+           <a href="http://cuiqingcai.com/" target="_blank" title="静觅">静觅</a>
+       </li>
+       <li>
+           <a href="http://www.zhangfei.tk/" target="_blank" title="张飞的技术博客">张飞的技术博客</a>
+       </li>
+       <li>
+           <a href="http://letsswift.com/" target="_blank" title="一起Swift">一起Swift</a>
+       </li>
+       <li>
+           <a href="http://www.swiftv.cn/" target="_blank" title="SwiftV课堂">SwiftV课堂</a>
+       </li>
+        <li>
+           <a href="http://q.maiziedu.com/" target="_blank" title="iOS开发">iOS开发</a>
+       </li>
+       <li>
+           <a href="http://www.aptusource.org/" target="_blank" title="AptuSource">AptuSource</a>
+       </li>
+        <li>
+            <a href="http://blog.csdn.net/iosdevtip" target="_blank" title="刚刚在线">CSDN</a>
+        </li>
+        <li>
+            <a href="http://user.qzone.qq.com/1606535851" target="_blank" title="刚刚在线">QQ空间</a>
+        </li>
+        <li>
+            <br/><strong>交换友链：</strong>欢迎各大程序员站点交换友情链接，如需交换，请添加好本站链接后发送邮件至下方邮箱。
+            <br/>
+            <br/><strong>格式：</strong>（ 友链文字：“ 刚刚在线 ”，链接：“ http://www.superqq.com/ ” ）
+            <br/>
+            <br/><strong>邮箱：</strong>worldligang@163.com
+            <br/>
+        </li>
+    </ul>
+<br/>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+Copyright &copy; 2016 - 李刚 
+<span class="credit">Powered by <a href="http://octopress.org" target="_blank">Octopress</a></span>
+ <span class="credit">, 感谢 <a href="https://coding.net" target="_blank">Coding</a> 为本站提供存储空间</span><a href="http://www.miitbeian.gov.cn" target="_blank" title=" 豫ICP备16000765号-3"> 豫ICP备16000765号-2</a> 
+
+</p>
+
+<script language="javascript" type="text/javascript" src="http://js.users.51.la/17443209.js"></script>
+<noscript><a href="http://www.51.la/?17443209" target="_blank"><img alt="&#x6211;&#x8981;&#x5566;&#x514D;&#x8D39;&#x7EDF;&#x8BA1;" src="http://img.users.51.la/17443209.asp" style="border:none" /></a></noscript>
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
