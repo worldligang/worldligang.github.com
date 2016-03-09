@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2016-03-09T21:29:06+08:00</updated>
+  <updated>2016-03-09T21:39:32+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -14,25 +14,11 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Ios 9 App Thinning]]></title>
+    <title type="html"><![CDATA[iOS 9 App Thinning]]></title>
     <link href="http://www.superqq.com/blog/2016/03/09/ios-9-app-thinning/"/>
-    <updated>2016-03-09T00:00:00+08:00</updated>
+    <updated>2016-03-09T21:38:29+08:00</updated>
     <id>http://www.superqq.com/blog/2016/03/09/ios-9-app-thinning</id>
-    <content type="html"><![CDATA[<p>title: iOS 9 App Thinning
-keywords:
-- App
-  - 刚刚在线
-  - iOS开发
-  - 开发者头条
-  - 程序员头条
-date: 2016-03-09 21:14:40
-tags:
-- App
-categories: 推荐</p>
-
-<hr />
-
-<p>App Thinning 是苹果在去年 WWDC, 也就是 iOS 9 中推出的为 App 瘦身的一个新的技术。 App Thinning 主要分为 3 个部分:</p>
+    <content type="html"><![CDATA[<p>App Thinning 是苹果在去年 WWDC, 也就是 iOS 9 中推出的为 App 瘦身的一个新的技术。 App Thinning 主要分为 3 个部分:</p>
 
 <ul>
 <li>App Slicing</li>
