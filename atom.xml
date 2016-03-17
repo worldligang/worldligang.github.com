@@ -4,7 +4,7 @@
   <title><![CDATA[刚刚在线]]></title>
   <link href="http://www.superqq.com/atom.xml" rel="self"/>
   <link href="http://www.superqq.com/"/>
-  <updated>2016-03-09T21:43:22+08:00</updated>
+  <updated>2016-03-18T05:45:20+08:00</updated>
   <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -1020,37 +1020,6 @@ xmlns:stream="http://etherx.jabber.org/streams" version="1.0"&gt;
 
 <pre><code>本文作者：Terry 专注于技术开发；打滚于IOS 技术领域，偶尔也会迈出脚步探索其他领域
 地址：http://www.terrylmay.com/terrylmay.github.io/2016/01/31/XMPP%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%99%BB%E5%BD%95%E5%BC%80%E5%8F%91%E8%AF%A6%E8%A7%A3/
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[海外工作机会高薪招聘iOS开发工程师]]></title>
-    <link href="http://www.superqq.com/blog/2016/01/01/ad-ad/"/>
-    <updated>2016-01-01T22:00:36+08:00</updated>
-    <id>http://www.superqq.com/blog/2016/01/01/ad-ad</id>
-    <content type="html"><![CDATA[<h2>英雄帖</h2>
-
-<p>海外华人娱乐游戏工作室因移动互联网时代之大势所趋，诚邀以下英雄组团鏖战。</p>
-
-<h4>iOS开发工程师：</h4>
-
-<p>具有独立开发APP能力，有1年以上IOS开发经验，并有开发案例（月薪15000至20000人民币）</p>
-
-<h4>产品经理：</h4>
-
-<p>1年以上项目管理和产品规划经验，敏锐的商业意识，具备客户需求分析、挖掘能力，独立负责过一款以上互联网产品，知名产品更优，策划能力、沟通能力优秀，时间观念强，善用各类产品制作软件(软件只是体现思维的工具)，有较强的创新以及逻辑能力，善于分析和发现问题，性格开朗外向，充满激情，乐于接受挑战（月薪10000至15000）
-    ####地点：菲律宾马尼拉</p>
-
-<h4>其它待遇：</h4>
-
-<p>有业绩奖金。开发产品利润占成，包吃住，食有中国菜，住在富人区，治安良好，环境优雅，配有健身房，游泳池，马尼拉常年温度28度以上，空气质量极佳，诗云：“面朝大海，春暖花开”，是广大程序猿、攻城狮极佳的栖息之地。</p>
-
-<h4>要求：</h4>
-
-<p>专科及以上学历，有IT相关教育及从业经验，有过1年以上IOS开发经验，具有独立开发和解决问题的能力，需要APP开发案例及有相关经验或案例，公司在菲律宾及中国大陆均有团队，目前所招岗位需在菲律宾工作，并能接受随时调遣中国大陆-菲律宾两地工作。</p>
-
-<pre><code>请发送简历至：hellomlxsj@gmail.com
 </code></pre>
 ]]></content>
   </entry>
@@ -2091,6 +2060,51 @@ Wi-Fi — prefs:root=WIFI
 <p>大家可以根据自己的需求，跳到不同的设置界面。如果你喜欢这篇文章的话，欢迎分享给更多的朋友，也可以收藏起来，以备不时之需！</p>
 
 <p><a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发之如何跳到系统设置里的WiFi界面]]></title>
+    <link href="http://www.superqq.com/blog/2015/11/30/jump-to-setting-wifi/"/>
+    <updated>2015-11-30T22:14:58+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/11/30/jump-to-setting-wifi</id>
+    <content type="html"><![CDATA[<p>之前以为，苹果不支持直接从应用跳到系统设置里的WiFi界面。后来发现，这个小功能是可以实现的，而且实现起来并不麻烦。让我们一起来看看吧！</p>
+
+<h2>需求</h2>
+
+<p>从应用跳到系统设置里的WiFi界面有这个需求存在吗？答案是肯定的。比如以下两个例子：</p>
+
+<p>在没有网的状态下，你可能想提醒用户去设置界面连接WiFi。如果不能跳到WiFi界面，只能在APP里面做出文字提示。这样很多小白用户可能不会看提示，只会觉得APP没有做好。</p>
+
+<p>还有一种情况，做智能家居的APP，智能硬件设备自带WiFi（局域网）。如果用户没有连接设备的WiFi进入APP时，需要提示用户去设置界面连接WiFi。</p>
+
+<p>以上这两种情况只是举个例子，这个小功能的用处还是很多的，大家可以自行探索。</p>
+
+<!--more-->
+
+
+<h2>实现</h2>
+
+<h3>info里面设置</h3>
+
+<p>在项目中的info.plist中添加 URL types 并设置一项URL Schemes为prefs，如下图：</p>
+
+<p><img src="http://images.90159.com/12/wifi1.png" alt="wifi1" /></p>
+
+<h3>实现代码</h3>
+
+<pre><code>NSURL *url = [NSURL URLWithString:@"prefs:root=WIFI"];
+if ([[UIApplication sharedApplication] canOpenURL:url])
+{
+    [[UIApplication sharedApplication] openURL:url];
+}
+</code></pre>
+
+<h2>代码已上传iOSStrongDemo</h2>
+
+<p>代码已经push到<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a>，大家可以clone下来测试一下。</p>
+
+<p>我在这里抛砖迎玉，大家还想跳到系统设置的什么界面，可以评论留言告诉我，或者大家动手来实现更多的跳转功能！</p>
 ]]></content>
   </entry>
   
