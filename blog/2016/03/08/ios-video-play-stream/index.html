@@ -95,6 +95,7 @@
   </header>
 
 
+<!--广告位-->
 <div class="entry-content"><p>google搜索“iOS视频变下边播”，有好几篇博客写到了实现方法，其实只有一篇，其他都是copy的，不过他们都是使用的本地代理服务器的方式，原理很简单，但是缺点也很明显，需要自己写一个本地代理服务器或者使用第三方库httpSever。如果使用httpSever作为本地代理服务器，如果只缓存一个视频是没有问题的，如果缓存多个视频互相切换，本地代理服务器提供的数据很不稳定，crash概率非常大。</p>
 
 <p>这里我采用ios7以后系统自带的方法实现视频边下边播，这里的边下边播不是单独开一个子线程去下载，而是把视频播放的数据给保存到本地。简而言之，就是使用一遍的流量，既播放了视频，也保存了视频。</p>
@@ -322,6 +323,13 @@
 来自：http://www.jianshu.com/p/990ee3db0563
 </code></pre></blockquote>
 </div>
+<script type="text/javascript">
+var sogou_ad_id=566213;
+var sogou_ad_height=350;
+var sogou_ad_width=700;
+</script>
+<script type='text/javascript' src='http://images.sohu.com/cs/jsfile/js/c.js'></script>
+<!--广告链接结束-->
 
 
   <footer>
