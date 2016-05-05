@@ -81,6 +81,64 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/05/05/ios-nsrunllop-nstimer/">关于NSRunLoop和NSTimer的深入理解</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-05-05T22:02:14+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:02 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>一、什么是NSRunLoop</h2>
+
+<p>NSRunLoop是消息机制的处理模式</p>
+
+<p>NSRunLoop的作用在于有事情做的时候使的当前NSRunLoop的线程工作，没有事情做让当前NSRunLoop的线程休眠</p>
+
+<p>NSTimer默认添加到当前NSRunLoop中，也可以手动制定添加到自己新建的NSRunLoop</p>
+
+<p>NSRunLoop就是一直在循环检测，从线程start到线程end，检测inputsource(如点击，双击等操作)同步事件，检测timesource同步事件，检测到输入源会执行处理函数，首先会产生通知，corefunction向线程添加runloop observers来监听事件，意在监听事件发生时来做处理。</p>
+
+<p>在单线程的app中，不需要注意Run Loop，但不代表没有。程序启动时，系统已经在主线程中加入了Run Loop。它保证了我们的主线程在运行起来后，就处于一种“等待”的状态（而不像一些命令行程序一样运行一次就结束了），这个时候如果有接收到的事件（Timer的定时到了或是其他线程的消息），就会执行任务，否则就处于休眠状态。</p>
+
+<p>runloopmode是一个集合，包括监听：事件源，定时器，以及需通知的runloop observers</p>
+
+<p>模式包括：</p>
+
+<ul>
+<li>default模式：几乎包括所有输入源(除NSConnection) NSDefaultRunLoopMode模式</li>
+<li>mode模式：处理modal panels</li>
+<li>connection模式：处理NSConnection事件，属于系统内部，用户基本不用</li>
+<li>event tracking模式：如组件拖动输入源 UITrackingRunLoopModes 不处理定时事件</li>
+<li>common modes模式：NSRunLoopCommonModes 这是一组可配置的通用模式。将input sources与该模式关联则同时也将input sources与该组中的其它模式进行了关联。</li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/05/05/ios-nsrunllop-nstimer/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/03/09/ios-9-app-thinning/">iOS 9 App Thinning</a></h1>
     
     
@@ -1375,53 +1433,6 @@ xmlns:stream="http://etherx.jabber.org/streams" version="1.0"&gt;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/12/11/mbmotion-great-effect/">非常棒的特效-MBMotion</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-12-11T23:21:50+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:21 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>随便实现的特效，正在不断丰富中…</p>
-
-<p>目前实现的效果列表</p>
-
-<p>MBMotionActionSheet</p>
-
-<p>设计效果如下：</p>
-
-<p><img src="https://github.com/mmoaay/MBMotion/raw/master/20.gif" alt="master" /></p>
-
-<p>实现效果如下：</p>
-
-<p><img src="https://github.com/mmoaay/MBMotion/raw/master/MBMotion.gif" alt="MBMotion" /></p>
-
-<p>地址：</p>
-
-<pre><code>https://github.com/mmoaay/MBMotion
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -1455,6 +1466,10 @@ xmlns:stream="http://etherx.jabber.org/streams" version="1.0"&gt;
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/05/05/ios-nsrunllop-nstimer/">关于NSRunLoop和NSTimer的深入理解</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/03/09/ios-9-app-thinning/">iOS 9 App Thinning</a>
       </li>
     
@@ -1468,10 +1483,6 @@ xmlns:stream="http://etherx.jabber.org/streams" version="1.0"&gt;
     
       <li class="post">
         <a href="/blog/2016/03/02/ggteach-learn-ios-simply/">刚刚在线-让学习iOS开发更简单</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/03/01/female-coder-dream-reply/">女程序员做了个梦，众网友的神回复</a>
       </li>
     
   </ul>
