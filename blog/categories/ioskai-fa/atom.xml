@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
-  <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
-  <link href="http://www.superqq.com/"/>
-  <updated>2016-05-14T11:49:58+08:00</updated>
-  <id>http://www.superqq.com/</id>
+  <title><![CDATA[Category: Ios开发 | 李刚的小天地]]></title>
+  <link href="http://www.cocoa.mom/blog/categories/ioskai-fa/atom.xml" rel="self"/>
+  <link href="http://www.cocoa.mom/"/>
+  <updated>2016-05-14T11:52:45+08:00</updated>
+  <id>http://www.cocoa.mom/</id>
   <author>
     <name><![CDATA[李刚]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[刚刚在线-让学习iOS开发更简单]]></title>
-    <link href="http://www.superqq.com/blog/2016/03/02/ggteach-learn-ios-simply/"/>
+    <link href="http://www.cocoa.mom/blog/2016/03/02/ggteach-learn-ios-simply/"/>
     <updated>2016-03-02T20:49:56+08:00</updated>
-    <id>http://www.superqq.com/blog/2016/03/02/ggteach-learn-ios-simply</id>
+    <id>http://www.cocoa.mom/blog/2016/03/02/ggteach-learn-ios-simply</id>
     <content type="html"><![CDATA[<p>非常兴奋的告诉大家一个好消息：刚刚在线官网正式上线啦！欢迎大家访问！官网地址：</p>
 
 <pre><code>www.ggteach.com
@@ -77,9 +77,9 @@
   
   <entry>
     <title type="html"><![CDATA[推荐：iOS开发面试题整理（一）]]></title>
-    <link href="http://www.superqq.com/blog/2015/12/15/ios-dev-interview/"/>
+    <link href="http://www.cocoa.mom/blog/2015/12/15/ios-dev-interview/"/>
     <updated>2015-12-15T23:09:50+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/12/15/ios-dev-interview</id>
+    <id>http://www.cocoa.mom/blog/2015/12/15/ios-dev-interview</id>
     <content type="html"><![CDATA[<p>年底了估计有朋友已经坐不住了，前面有一篇文章介绍<a href="http://mp.weixin.qq.com/s?__biz=MzA3NzM0NzkxMQ==&amp;mid=402358456&amp;idx=1&amp;sn=0494a7313998527e7950f936a24e9ce7#rd">《 年底程序猿迁徙的5大理由，你占了几个？ 》</a>。你是不是也占几个呢？</p>
 
 <p>跳槽不可避免会遇到面试，有些公司会找一些奇葩的面试题来坑我们。所以我们不得不做好防备、提前备战，怎么感觉跟备考一样呢？</p>
@@ -167,9 +167,9 @@
   
   <entry>
     <title type="html"><![CDATA[苹果公司即将放假8天暂停APP提交审核]]></title>
-    <link href="http://www.superqq.com/blog/2015/12/12/apple-commit-7-day/"/>
+    <link href="http://www.cocoa.mom/blog/2015/12/12/apple-commit-7-day/"/>
     <updated>2015-12-12T19:52:50+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/12/12/apple-commit-7-day</id>
+    <id>http://www.cocoa.mom/blog/2015/12/12/apple-commit-7-day</id>
     <content type="html"><![CDATA[<p>圣诞节对于美国人来说是一个重要的节日。每年的圣诞节苹果公司都会全员放假8天时间，时间2015年12月22日之2015年12月29日。今年也不例外。</p>
 
 <p>昨天登录苹果开发者平台: <a href="http://developer.apple.com">http://developer.apple.com</a> 就有提示：</p>
@@ -189,9 +189,9 @@
   
   <entry>
     <title type="html"><![CDATA[iOS9横竖屏设置的处理方法和实例讲解]]></title>
-    <link href="http://www.superqq.com/blog/2015/12/07/ios9-interface-orientation/"/>
+    <link href="http://www.cocoa.mom/blog/2015/12/07/ios9-interface-orientation/"/>
     <updated>2015-12-07T23:30:03+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/12/07/ios9-interface-orientation</id>
+    <id>http://www.cocoa.mom/blog/2015/12/07/ios9-interface-orientation</id>
     <content type="html"><![CDATA[<p>原文：<a href="http://www.superqq.com/blog/2015/12/07/ios9-interface-orientation/">http://www.superqq.com/blog/2015/12/07/ios9-interface-orientation/</a></p>
 
 <p>在一般的视频类APP播放的时候都会支持横屏，这样做的好处就是便于观看。你的项目中支持横屏吗？我们一起了解一下，在iOS9中横竖屏设置的处理方法吧！</p>
@@ -307,9 +307,9 @@
   
   <entry>
     <title type="html"><![CDATA[VIP群福利：Git使用教程（视频+PPT）]]></title>
-    <link href="http://www.superqq.com/blog/2015/12/05/git-use-video-ppt/"/>
+    <link href="http://www.cocoa.mom/blog/2015/12/05/git-use-video-ppt/"/>
     <updated>2015-12-05T20:07:12+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/12/05/git-use-video-ppt</id>
+    <id>http://www.cocoa.mom/blog/2015/12/05/git-use-video-ppt</id>
     <content type="html"><![CDATA[<p>天才帝一步应用源代码分享到<a href="http://www.superqq.com/blog/2015/11/19/create-high-efficiency-ios-group/">iOS开发实战交流VIP群</a>，已经有不少朋友下载。这个APP也是一个小小的想法，希望能激发大家的灵感，做出更多有意义的属于自己的APP。</p>
 
 <p>iOS开发实战交流VIP群已经有几百位朋友加入，这里是一个非常不错的交流平台，欢迎更多朋友加入！详情点击这里。</p>
