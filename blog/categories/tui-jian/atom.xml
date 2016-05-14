@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: 推荐 | 李刚的小天地]]></title>
-  <link href="http://www.cocoa.mom/blog/categories/tui-jian/atom.xml" rel="self"/>
-  <link href="http://www.cocoa.mom/"/>
-  <updated>2016-05-14T11:52:45+08:00</updated>
-  <id>http://www.cocoa.mom/</id>
+  <title><![CDATA[Category: 推荐 | 刚刚在线]]></title>
+  <link href="http://www.superqq.com/blog/categories/tui-jian/atom.xml" rel="self"/>
+  <link href="http://www.superqq.com/"/>
+  <updated>2016-05-14T11:54:47+08:00</updated>
+  <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[关于NSRunLoop和NSTimer的深入理解]]></title>
-    <link href="http://www.cocoa.mom/blog/2016/05/05/ios-nsrunllop-nstimer/"/>
+    <link href="http://www.superqq.com/blog/2016/05/05/ios-nsrunllop-nstimer/"/>
     <updated>2016-05-05T22:02:14+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2016/05/05/ios-nsrunllop-nstimer</id>
+    <id>http://www.superqq.com/blog/2016/05/05/ios-nsrunllop-nstimer</id>
     <content type="html"><![CDATA[<h2>一、什么是NSRunLoop</h2>
 
 <p>NSRunLoop是消息机制的处理模式</p>
@@ -271,9 +271,9 @@
   
   <entry>
     <title type="html"><![CDATA[iOS 9 App Thinning]]></title>
-    <link href="http://www.cocoa.mom/blog/2016/03/09/ios-9-app-thinning/"/>
+    <link href="http://www.superqq.com/blog/2016/03/09/ios-9-app-thinning/"/>
     <updated>2016-03-09T21:38:29+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2016/03/09/ios-9-app-thinning</id>
+    <id>http://www.superqq.com/blog/2016/03/09/ios-9-app-thinning</id>
     <content type="html"><![CDATA[<p>App Thinning 是苹果在去年 WWDC, 也就是 iOS 9 中推出的为 App 瘦身的一个新的技术。 App Thinning 主要分为 3 个部分:</p>
 
 <ul>
@@ -344,9 +344,9 @@
   
   <entry>
     <title type="html"><![CDATA[iOS视频边下边播--缓存播放数据流]]></title>
-    <link href="http://www.cocoa.mom/blog/2016/03/08/ios-video-play-stream/"/>
+    <link href="http://www.superqq.com/blog/2016/03/08/ios-video-play-stream/"/>
     <updated>2016-03-08T23:13:36+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2016/03/08/ios-video-play-stream</id>
+    <id>http://www.superqq.com/blog/2016/03/08/ios-video-play-stream</id>
     <content type="html"><![CDATA[<p>google搜索“iOS视频变下边播”，有好几篇博客写到了实现方法，其实只有一篇，其他都是copy的，不过他们都是使用的本地代理服务器的方式，原理很简单，但是缺点也很明显，需要自己写一个本地代理服务器或者使用第三方库httpSever。如果使用httpSever作为本地代理服务器，如果只缓存一个视频是没有问题的，如果缓存多个视频互相切换，本地代理服务器提供的数据很不稳定，crash概率非常大。</p>
 
 <p>这里我采用ios7以后系统自带的方法实现视频边下边播，这里的边下边播不是单独开一个子线程去下载，而是把视频播放的数据给保存到本地。简而言之，就是使用一遍的流量，既播放了视频，也保存了视频。</p>
@@ -578,9 +578,9 @@
   
   <entry>
     <title type="html"><![CDATA[Objective-C和Swift混编的一些经验]]></title>
-    <link href="http://www.cocoa.mom/blog/2016/03/07/objective-c-swift-study/"/>
+    <link href="http://www.superqq.com/blog/2016/03/07/objective-c-swift-study/"/>
     <updated>2016-03-07T22:38:41+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2016/03/07/objective-c-swift-study</id>
+    <id>http://www.superqq.com/blog/2016/03/07/objective-c-swift-study</id>
     <content type="html"><![CDATA[<blockquote><p>阿里云iOS客户端2.1.0版本中开始尝试使用Swift来写新的业务，磕磕绊绊总算是发布了新版，总结一下开发过程中得到的经验和踩过的坑吧。</p></blockquote>
 
 <h2>CocoaPods</h2>
@@ -973,9 +973,9 @@ override func viewWillAppear(animated: Bool) {
   
   <entry>
     <title type="html"><![CDATA[女程序员做了个梦，众网友的神回复]]></title>
-    <link href="http://www.cocoa.mom/blog/2016/03/01/female-coder-dream-reply/"/>
+    <link href="http://www.superqq.com/blog/2016/03/01/female-coder-dream-reply/"/>
     <updated>2016-03-01T23:16:18+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2016/03/01/female-coder-dream-reply</id>
+    <id>http://www.superqq.com/blog/2016/03/01/female-coder-dream-reply</id>
     <content type="html"><![CDATA[<p>女程序员发的一条微博：</p>
 
 <p>“昨晚梦见男朋友和别的女人在逛街，梦里我的第一反应就是查源代码，结果调试半天查不出来为什么显示的那个女人不是我，最后含泪把那个女人注释掉了，再一运行就是我男朋友自己逛街了。”
