@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Swift开发 | 刚刚在线]]></title>
-  <link href="http://www.superqq.com/blog/categories/swiftkai-fa/atom.xml" rel="self"/>
-  <link href="http://www.superqq.com/"/>
-  <updated>2016-05-07T00:21:01+08:00</updated>
-  <id>http://www.superqq.com/</id>
+  <title><![CDATA[Category: Swift开发 | 李刚的技术博客]]></title>
+  <link href="http://www.cocoa.mom/blog/categories/swiftkai-fa/atom.xml" rel="self"/>
+  <link href="http://www.cocoa.mom/"/>
+  <updated>2016-05-14T10:38:46+08:00</updated>
+  <id>http://www.cocoa.mom/</id>
   <author>
     <name><![CDATA[李刚]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Swift开源一天Github收获15000多star]]></title>
-    <link href="http://www.superqq.com/blog/2015/12/04/swift-source-code/"/>
+    <link href="http://www.cocoa.mom/blog/2015/12/04/swift-source-code/"/>
     <updated>2015-12-04T22:10:48+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/12/04/swift-source-code</id>
+    <id>http://www.cocoa.mom/blog/2015/12/04/swift-source-code</id>
     <content type="html"><![CDATA[<p>快，快，快！动动您的小手，分享给更多朋友！</p>
 
 <p>苹果去年推出了全新的编程语言Swift，试图让iOS开发更简单，也承诺开源Swift代码。</p>
@@ -36,9 +36,9 @@
   
   <entry>
     <title type="html"><![CDATA[著名的AFNetworking网络基础库Swift版Alamofire]]></title>
-    <link href="http://www.superqq.com/blog/2015/07/28/swift-alamofire/"/>
+    <link href="http://www.cocoa.mom/blog/2015/07/28/swift-alamofire/"/>
     <updated>2015-07-28T20:42:52+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/07/28/swift-alamofire</id>
+    <id>http://www.cocoa.mom/blog/2015/07/28/swift-alamofire</id>
     <content type="html"><![CDATA[<p><a href="https://github.com/Alamofire/Alamofire" target="_blank" title=“源代码”>源代码</a></p>
 
 <p><img src="http://swiftmi.qiniudn.com/codeimage/201409/13_1410874399080_89.gif" alt="swift-gif" /></p>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: 程序员 | 刚刚在线]]></title>
-  <link href="http://www.superqq.com/blog/categories/cheng-xu-yuan/atom.xml" rel="self"/>
-  <link href="http://www.superqq.com/"/>
-  <updated>2016-05-07T00:21:01+08:00</updated>
-  <id>http://www.superqq.com/</id>
+  <title><![CDATA[Category: 程序员 | 李刚的技术博客]]></title>
+  <link href="http://www.cocoa.mom/blog/categories/cheng-xu-yuan/atom.xml" rel="self"/>
+  <link href="http://www.cocoa.mom/"/>
+  <updated>2016-05-14T10:38:46+08:00</updated>
+  <id>http://www.cocoa.mom/</id>
   <author>
     <name><![CDATA[李刚]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[我已经写了48年代码了，我感觉我还能写下去]]></title>
-    <link href="http://www.superqq.com/blog/2015/12/12/write-code-48-year/"/>
+    <link href="http://www.cocoa.mom/blog/2015/12/12/write-code-48-year/"/>
     <updated>2015-12-12T19:52:50+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/12/12/write-code-48-year</id>
+    <id>http://www.cocoa.mom/blog/2015/12/12/write-code-48-year</id>
     <content type="html"><![CDATA[<p>这是来自quroa的问题：Why-aren&rsquo;t-there-a-lot-of-old-programmers-at-software-companies下的一个回答。</p>
 
 <p>很多人会疑问是不是程序员最后只能转管理，是不是到了中年之后就应该放弃编程。看到这个回答后很受触动，尽力翻译出来，有不恰当的地方欢迎指出。</p>
@@ -42,9 +42,9 @@
   
   <entry>
     <title type="html"><![CDATA[程序员的幽默你一定懂得]]></title>
-    <link href="http://www.superqq.com/blog/2015/12/09/programmer-must-humor/"/>
+    <link href="http://www.cocoa.mom/blog/2015/12/09/programmer-must-humor/"/>
     <updated>2015-12-09T21:54:20+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/12/09/programmer-must-humor</id>
+    <id>http://www.cocoa.mom/blog/2015/12/09/programmer-must-humor</id>
     <content type="html"><![CDATA[<p>以下是关于程序员的一些笑话，据说看懂的人都还在加班中。</p>
 
 <ol>
@@ -113,9 +113,9 @@
   
   <entry>
     <title type="html"><![CDATA[月薪3万的程序员都避开了哪些坑]]></title>
-    <link href="http://www.superqq.com/blog/2015/11/02/salary-programmer-avoid-pit/"/>
+    <link href="http://www.cocoa.mom/blog/2015/11/02/salary-programmer-avoid-pit/"/>
     <updated>2015-11-02T09:58:49+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/11/02/salary-programmer-avoid-pit</id>
+    <id>http://www.cocoa.mom/blog/2015/11/02/salary-programmer-avoid-pit</id>
     <content type="html"><![CDATA[<p>程序员薪水有高有低，有的人一个月可能拿30K、50K，有的人可能只有2K、3K。同样有五年工作经验的程序员，可能一个人每月拿20K，一个拿5K。是什么因素导致了这种差异？我特意总结了容易导致薪水低的九大行为表现，避开这些大坑，你就离高薪不远了。</p>
 
 <h3>习惯即刻回报</h3>
@@ -191,9 +191,9 @@
   
   <entry>
     <title type="html"><![CDATA[程序猿的幽默趣图，你并不懂他们的真正世界]]></title>
-    <link href="http://www.superqq.com/blog/2015/11/01/humor-code-world/"/>
+    <link href="http://www.cocoa.mom/blog/2015/11/01/humor-code-world/"/>
     <updated>2015-11-01T13:22:00+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/11/01/humor-code-world</id>
+    <id>http://www.cocoa.mom/blog/2015/11/01/humor-code-world</id>
     <content type="html"><![CDATA[<blockquote><p>作为程序员 ，你不能错过的幽默！</p></blockquote>
 
 <h3>1、旁人眼中的程序猿和真实世界的程序猿。</h3>
@@ -222,9 +222,9 @@
   
   <entry>
     <title type="html"><![CDATA[一次皆大欢喜的程序员跳槽加薪]]></title>
-    <link href="http://www.superqq.com/blog/2015/10/29/programmer-job-raise/"/>
+    <link href="http://www.cocoa.mom/blog/2015/10/29/programmer-job-raise/"/>
     <updated>2015-10-29T10:49:15+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/10/29/programmer-job-raise</id>
+    <id>http://www.cocoa.mom/blog/2015/10/29/programmer-job-raise</id>
     <content type="html"><![CDATA[<p>我的朋友A君是个典型的.NET开发人员，技术不错，人品也不错，在一家小公司（姑且称为甲公司）做项目开发，是技术骨干。</p>
 
 <p>3个月前，他找到我说想跳槽，让我帮忙介绍工作。我说为什么想跳了？</p>

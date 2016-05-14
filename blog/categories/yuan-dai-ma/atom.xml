@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: 源代码 | 刚刚在线]]></title>
-  <link href="http://www.superqq.com/blog/categories/yuan-dai-ma/atom.xml" rel="self"/>
-  <link href="http://www.superqq.com/"/>
-  <updated>2016-05-07T00:21:01+08:00</updated>
-  <id>http://www.superqq.com/</id>
+  <title><![CDATA[Category: 源代码 | 李刚的技术博客]]></title>
+  <link href="http://www.cocoa.mom/blog/categories/yuan-dai-ma/atom.xml" rel="self"/>
+  <link href="http://www.cocoa.mom/"/>
+  <updated>2016-05-14T10:38:46+08:00</updated>
+  <id>http://www.cocoa.mom/</id>
   <author>
     <name><![CDATA[李刚]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[非常棒的特效-MBMotion]]></title>
-    <link href="http://www.superqq.com/blog/2015/12/11/mbmotion-great-effect/"/>
+    <link href="http://www.cocoa.mom/blog/2015/12/11/mbmotion-great-effect/"/>
     <updated>2015-12-11T23:21:50+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/12/11/mbmotion-great-effect</id>
+    <id>http://www.cocoa.mom/blog/2015/12/11/mbmotion-great-effect</id>
     <content type="html"><![CDATA[<p>随便实现的特效，正在不断丰富中…</p>
 
 <p>目前实现的效果列表</p>
@@ -41,9 +41,9 @@
   
   <entry>
     <title type="html"><![CDATA[一个弹性侧滑菜单]]></title>
-    <link href="http://www.superqq.com/blog/2015/12/06/an-elastic-sliding-menu/"/>
+    <link href="http://www.cocoa.mom/blog/2015/12/06/an-elastic-sliding-menu/"/>
     <updated>2015-12-06T20:19:51+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/12/06/an-elastic-sliding-menu</id>
+    <id>http://www.cocoa.mom/blog/2015/12/06/an-elastic-sliding-menu</id>
     <content type="html"><![CDATA[<pre><code>地址：https://github.com/lilei644/LLSlideMenu
 
 作者lilei644
@@ -157,9 +157,9 @@ LLSlideMune *slideMenu = [[LLSlideMune alloc] init];
   
   <entry>
     <title type="html"><![CDATA[一组功能丰富的iOS组件:YYKit]]></title>
-    <link href="http://www.superqq.com/blog/2015/11/27/ios-rich-components-yykit/"/>
+    <link href="http://www.cocoa.mom/blog/2015/11/27/ios-rich-components-yykit/"/>
     <updated>2015-11-27T23:27:37+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/11/27/ios-rich-components-yykit</id>
+    <id>http://www.cocoa.mom/blog/2015/11/27/ios-rich-components-yykit</id>
     <content type="html"><![CDATA[<p>项目地址：<a href="https://github.com/ibireme/YYKit">https://github.com/ibireme/YYKit</a></p>
 
 <h1>中文介绍</h1>
@@ -262,9 +262,9 @@ LLSlideMune *slideMenu = [[LLSlideMune alloc] init];
   
   <entry>
     <title type="html"><![CDATA[SDWebImage加载图片缓存图片]]></title>
-    <link href="http://www.superqq.com/blog/2015/06/09/sdwebimagejia-zai-tu-pian-huan-cun-tu-pian/"/>
+    <link href="http://www.cocoa.mom/blog/2015/06/09/sdwebimagejia-zai-tu-pian-huan-cun-tu-pian/"/>
     <updated>2015-06-09T17:47:31+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/06/09/sdwebimagejia-zai-tu-pian-huan-cun-tu-pian</id>
+    <id>http://www.cocoa.mom/blog/2015/06/09/sdwebimagejia-zai-tu-pian-huan-cun-tu-pian</id>
     <content type="html"><![CDATA[<ul>
 <li>关注公众号iOS开发：<strong>iOSDevTip</strong> 获取更多源代码。</li>
 </ul>
@@ -598,9 +598,9 @@ community can help you solve it.</p>
   
   <entry>
     <title type="html"><![CDATA[Objective-C相关Category的收集]]></title>
-    <link href="http://www.superqq.com/blog/2015/01/15/objective-cxiang-guan-categoryde-shou-ji/"/>
+    <link href="http://www.cocoa.mom/blog/2015/01/15/objective-cxiang-guan-categoryde-shou-ji/"/>
     <updated>2015-01-15T10:38:25+08:00</updated>
-    <id>http://www.superqq.com/blog/2015/01/15/objective-cxiang-guan-categoryde-shou-ji</id>
+    <id>http://www.cocoa.mom/blog/2015/01/15/objective-cxiang-guan-categoryde-shou-ji</id>
     <content type="html"><![CDATA[<p>更多iOS开发相关技术请关注iOS开发微信公众号 iOS开发 ：</p>
 
 <pre><code>iOSDevTip

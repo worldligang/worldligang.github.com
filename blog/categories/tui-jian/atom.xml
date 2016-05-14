@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: 推荐 | 刚刚在线]]></title>
-  <link href="http://www.superqq.com/blog/categories/tui-jian/atom.xml" rel="self"/>
-  <link href="http://www.superqq.com/"/>
-  <updated>2016-05-07T00:21:01+08:00</updated>
-  <id>http://www.superqq.com/</id>
+  <title><![CDATA[Category: 推荐 | 李刚的技术博客]]></title>
+  <link href="http://www.cocoa.mom/blog/categories/tui-jian/atom.xml" rel="self"/>
+  <link href="http://www.cocoa.mom/"/>
+  <updated>2016-05-14T10:38:46+08:00</updated>
+  <id>http://www.cocoa.mom/</id>
   <author>
     <name><![CDATA[李刚]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[关于NSRunLoop和NSTimer的深入理解]]></title>
-    <link href="http://www.superqq.com/blog/2016/05/05/ios-nsrunllop-nstimer/"/>
+    <link href="http://www.cocoa.mom/blog/2016/05/05/ios-nsrunllop-nstimer/"/>
     <updated>2016-05-05T22:02:14+08:00</updated>
-    <id>http://www.superqq.com/blog/2016/05/05/ios-nsrunllop-nstimer</id>
+    <id>http://www.cocoa.mom/blog/2016/05/05/ios-nsrunllop-nstimer</id>
     <content type="html"><![CDATA[<h2>一、什么是NSRunLoop</h2>
 
 <p>NSRunLoop是消息机制的处理模式</p>
@@ -270,83 +270,10 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[iOS 9 App Thinning]]></title>
-    <link href="http://www.superqq.com/blog/2016/03/09/ios-9-app-thinning/"/>
-    <updated>2016-03-09T21:38:29+08:00</updated>
-    <id>http://www.superqq.com/blog/2016/03/09/ios-9-app-thinning</id>
-    <content type="html"><![CDATA[<p>App Thinning 是苹果在去年 WWDC, 也就是 iOS 9 中推出的为 App 瘦身的一个新的技术。 App Thinning 主要分为 3 个部分:</p>
-
-<ul>
-<li>App Slicing</li>
-<li>Bitcode</li>
-<li>On Demand Resources</li>
-</ul>
-
-
-<h2>App Slicing</h2>
-
-<p>我们正常的应用中都会用到图片资源，为了适配 iPhone 6 Plus 以及 iPhone 6, 图片资源需要包含 @2x 的图片 和 @3x 的图片，而 Slicing 就是在这一步进行优化，Slicing 会根据用户在 App Store 下载的不同设备选择对应的资源。例如：当用户使用 iPhone 6 在 App Store 上下载 App 的时候，App Store 只会给予他 @2x 的图片，而不会像以前一样，不管三七二十一我把所有的资源都给你，根据苹果的描述，这大约能节约你 30% 到 50% 的大小。而你要做的事情，仅仅是使用 Xcode 7 IDE, 并且使用其中的 Assert Catalog 管理你的资源文件。</p>
-
-<p>不过 Slicing 因为 iCloud 备份的问题, 知道 iOS 9.0.2 以及 Xcode 7.0.1 才可以被使用</p>
-
-<h2>Bitcode</h2>
-
-<p>Bitcode 是苹果在你 App 被下载之前做的另外一件优化。Bitcode 是你的代码编译为最终可执行文件的中间的一层，当你的 App 以 Bitcode 的形式提交到 iTunes Connect 的时候，iTunes Connect 会自动为合适的机器编译出对应的代码，例如：对于 64 位机器的 iPhone 6 或者 iPad Air 2，Bitcode 会为其编译出适合 64 位机器可执行文件。</p>
-
-<p>对于 iOS app 来说, Bitcode 不是必须的，但 Bitcode 编译选项为 Yes（这里应该只是一个过渡期，有些第三方库如果不在继续维护了需要尽快换掉）, 对于 tvOS 和 watchOS 的 app，Bitcode 的的选项必须为 Yes。</p>
-
-<!--more-->
-
-
-<h2>On Demand Resources</h2>
-
-<p>最后一个 App Thinnig 步骤是 On Demand Resources, On Demand Resources 在游戏的制作中比较常见，主要为了一些没用的资源在用到了才会去下载，比如，当我们设计一个游戏有 3 个关卡的时候，第一关的资源在 App 被下载的时候就已经下载好了，但是，出于对 App 大小的考虑，此时，第二关的资源是不需要下载的, 可以等到第一关结束以后，或者第一关进行到一半的时候后台进行下载。</p>
-
-<p>On Demand Resources 中的资源包括了 图片，音效等等， 下面是一个 On Demand Resources 的 Demo, 语言的话，我们选用 Swift.</p>
-
-<p>Demo 是这样的： 首页只有一个 Button，默认情况下 Assets 里面的图片 Group 没有被下载, 当点击 Button 以后，会先去看 Group 时候已经存储下载完毕, 如果没有下载，则会去触发一个下载请求，下载完成后，把图片显示到居中的位置。</p>
-
-<pre><code>@IBAction func downloadBarButtonItemTouchUpInside(sender: UIButton) {
-    let tags = NSSet(array: ["Group"])
-    self.resourceRequest = NSBundleResourceRequest(tags: tags as! Set&lt;String&gt;)
-    self.resourceRequest?.conditionallyBeginAccessingResourcesWithCompletionHandler() {
-        resourceAvailable in
-
-        if resourceAvailable {
-            dispatch_async(dispatch_get_main_queue()) {
-                self.imageView.image = UIImage(named: "Group")
-            }
-        } else {
-
-            self.resourceRequest?.beginAccessingResourcesWithCompletionHandler() {
-                error in
-                if error == nil {
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.imageView.image = UIImage(named: "Group")
-                    }
-                } else {
-                    print(error)
-                }
-            }
-        }
-    }
-
-}
-</code></pre>
-
-<p>另外，我们可以通过 Xcode 中的 Disk 来查看 On Demand Resources 的情况</p>
-
-<p><img src="http://blog.ggteach.com/img/app_thinning.jpg" alt="1" /></p>
-
-<p>完整的 Demo 见 <a href="https://github.com/VioletHill/AppThinningDemo">这里</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[iOS视频边下边播--缓存播放数据流]]></title>
-    <link href="http://www.superqq.com/blog/2016/03/08/ios-video-play-stream/"/>
+    <link href="http://www.cocoa.mom/blog/2016/03/08/ios-video-play-stream/"/>
     <updated>2016-03-08T23:13:36+08:00</updated>
-    <id>http://www.superqq.com/blog/2016/03/08/ios-video-play-stream</id>
+    <id>http://www.cocoa.mom/blog/2016/03/08/ios-video-play-stream</id>
     <content type="html"><![CDATA[<p>google搜索“iOS视频变下边播”，有好几篇博客写到了实现方法，其实只有一篇，其他都是copy的，不过他们都是使用的本地代理服务器的方式，原理很简单，但是缺点也很明显，需要自己写一个本地代理服务器或者使用第三方库httpSever。如果使用httpSever作为本地代理服务器，如果只缓存一个视频是没有问题的，如果缓存多个视频互相切换，本地代理服务器提供的数据很不稳定，crash概率非常大。</p>
 
 <p>这里我采用ios7以后系统自带的方法实现视频边下边播，这里的边下边播不是单独开一个子线程去下载，而是把视频播放的数据给保存到本地。简而言之，就是使用一遍的流量，既播放了视频，也保存了视频。</p>
@@ -578,9 +505,9 @@
   
   <entry>
     <title type="html"><![CDATA[Objective-C和Swift混编的一些经验]]></title>
-    <link href="http://www.superqq.com/blog/2016/03/07/objective-c-swift-study/"/>
+    <link href="http://www.cocoa.mom/blog/2016/03/07/objective-c-swift-study/"/>
     <updated>2016-03-07T22:38:41+08:00</updated>
-    <id>http://www.superqq.com/blog/2016/03/07/objective-c-swift-study</id>
+    <id>http://www.cocoa.mom/blog/2016/03/07/objective-c-swift-study</id>
     <content type="html"><![CDATA[<blockquote><p>阿里云iOS客户端2.1.0版本中开始尝试使用Swift来写新的业务，磕磕绊绊总算是发布了新版，总结一下开发过程中得到的经验和踩过的坑吧。</p></blockquote>
 
 <h2>CocoaPods</h2>
@@ -973,9 +900,9 @@ override func viewWillAppear(animated: Bool) {
   
   <entry>
     <title type="html"><![CDATA[女程序员做了个梦，众网友的神回复]]></title>
-    <link href="http://www.superqq.com/blog/2016/03/01/female-coder-dream-reply/"/>
+    <link href="http://www.cocoa.mom/blog/2016/03/01/female-coder-dream-reply/"/>
     <updated>2016-03-01T23:16:18+08:00</updated>
-    <id>http://www.superqq.com/blog/2016/03/01/female-coder-dream-reply</id>
+    <id>http://www.cocoa.mom/blog/2016/03/01/female-coder-dream-reply</id>
     <content type="html"><![CDATA[<p>女程序员发的一条微博：</p>
 
 <p>“昨晚梦见男朋友和别的女人在逛街，梦里我的第一反应就是查源代码，结果调试半天查不出来为什么显示的那个女人不是我，最后含泪把那个女人注释掉了，再一运行就是我男朋友自己逛街了。”
@@ -1012,6 +939,208 @@ override func viewWillAppear(animated: Bool) {
 <p>15、查一下Log，仅仅只有逛街吗？ԅ(¯ㅂ¯ԅ)</p>
 
 <pre><code>来自：http://www.wtoutiao.com/p/Xa51bf.html
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[XMPP客户端登录开发详解]]></title>
+    <link href="http://www.cocoa.mom/blog/2016/01/31/xmpp-client-login-dev/"/>
+    <updated>2016-01-31T20:28:20+08:00</updated>
+    <id>http://www.cocoa.mom/blog/2016/01/31/xmpp-client-login-dev</id>
+    <content type="html"><![CDATA[<p>由上篇文章将了如何在MAC本地搭建一个Openfire服务器，今天我们就要着手使用 XMPPFramework来开发 基于XMPP 协议的即时通讯IOS 客户端系统。今天主要看登录功能开发，可能有人会质疑，我们都没有开发注册功能，怎么开发登录功能。注册账号我们有捷径，服务器都在本地，当然很好做了。另外就是通过MAC 自带的客户端 Messages 进行注册。</p>
+
+<p>首先，我们需要搭建起来IOS 的工程，并且将XMPPFramework 引入到我们的工程中来,当然我们可以使用源码 直接导入，也可以使用cocoapods来进行依赖。本文直接使用源码来进行开发。由于在Github上的源码有一些问题，所以大家可以来<a href="https://github.com/TerryLMay/TMXMPPClient/tree/master/TMXMPPClient/ThirdTools/XMPPFrameworkio">https://github.com/TerryLMay/TMXMPPClient/tree/master/TMXMPPClient/ThirdTools/XMPPFrameworkio</a>下载相关的XMPPFramework相关的代码。</p>
+
+<p>下载关于XMPPFramework的代码之后,我们需要做的是 创建一个工程，然后将源代码导入到我们的工程中去。当然直接导入并且编译会出现libxml找不到的问题。我们需要在工程中导入libxml2.tbd(ios 9之后的名称) 以及 libresolv.9.tbd(ios 9之后的后缀)。然后在Build Setting的Head search 中加上 头文件的链接地址</p>
+
+<pre><code>${SDKROOT}/usr/include/libxml2
+</code></pre>
+
+<p>这之后，重新编译工程即可编译成功。后面，我们需要做的就是开发登录功能了，在开始之前，我们还是先看一下怎么注册一个账号吧；登录Openfire后台，创建一个用户。</p>
+
+<p>通过在浏览器中输入 (前提 是 openfire服务器以及mysql服务器都已经启动了)</p>
+
+<pre><code>127.0.0.1:9090     
+</code></pre>
+
+<p>进入如下界面</p>
+
+<p><img src="http://images.90159.com/1601/1.png" alt="1" /></p>
+
+<p>点击左上角用户/组 进入用户管理界面</p>
+
+<p><img src="http://images.90159.com/1601/2.png" alt="2" /></p>
+
+<p>然后点击 左侧 导航栏中的新建用户 填写好用户信息就可以了。</p>
+
+<p><img src="http://images.90159.com/1601/3.png" alt="3" /></p>
+
+<p>到这边基本上用户注册环节 已经结束了。</p>
+
+<p>开发 登录功能，基本上包括 登录界面的开发、XMPP登录逻辑的开发。登录界面我们可以 随便搭建一个登录界面就可以了。我今天主要是说一下 XMPP登录部分。</p>
+
+<p>首先，创建关于XMPPLoginManager类，实现XMPPStreamDelegate，我定义了自己的一个宏，表示使用的Openfire服务器的地址 以及 端口号</p>
+
+<pre><code>#define LocalOpenfire 1
+
+#if LocalOpenfire
+
+#define HOST_NAME @"127.0.0.1"
+#define HOST_PORT 5222
+#define CONNECT_IDENTIFIER @"@"
+
+#endif
+
+#define TIME_OUT 20
+</code></pre>
+
+<p>然后 定义XMPPStream、XMPPReconnect实例，并且初始化</p>
+
+<pre><code>- (void)initXMPPStream {
+    self.loginXmppStream = [[XMPPStream alloc] init];
+    [self.loginXmppStream addDelegate:self delegateQueue:dispatch_get_main_queue()];
+}
+
+- (void)initXMPPReconnect {
+    self.loginReconnectManager = [[XMPPReconnect alloc] init];
+    [self.loginReconnectManager activate:self.loginXmppStream];
+    // You can also optionally add delegates to the module.
+    [self.loginReconnectManager addDelegate:self delegateQueue:dispatch_get_main_queue()];
+}
+</code></pre>
+
+<p>定义 Login按钮点击之后的点击事件调用 XMPPLoginManager中的如下方法进行连接：</p>
+
+<pre><code>#pragma mark -- connect xmpp method for login viewController
+- (void)connectXMPPServer:(NSString *)userName password:(NSString *)password {
+    self.userName = userName;
+    self.password = password;
+
+    NSString *myJid = [NSString stringWithFormat:@"%@%@%@", userName, CONNECT_IDENTIFIER, HOST_NAME];
+    self.loginXmppStream.myJID = [XMPPJID jidWithString:myJid];
+
+    self.loginXmppStream.hostName = HOST_NAME;
+    self.loginXmppStream.hostPort = HOST_PORT;
+
+    NSError *connectError = nil;
+    [self.loginXmppStream connectWithTimeout:TIME_OUT error:&amp;connectError];
+
+    if (connectError) {
+        NSLog(@"%@", connectError);
+        [self.loginDelegate loginXMPPConnectError:connectError];
+    }
+}
+</code></pre>
+
+<p>后面就是处理XMPPStream的各种回调就可以了</p>
+
+<pre><code>#pragma mark -- xmppstream delegate
+//连接xmpp成功之后,使用密码认证
+- (void)xmppStreamDidConnect:(XMPPStream *)sender {
+
+    NSError *authError = nil;
+    [self.loginXmppStream authenticateWithPassword:self.password error:&amp;authError];
+
+    if (authError) {
+        NSLog(@"%@", authError);
+        [self.loginDelegate loginXMPPDidNotAuthenticate];
+    }
+}
+
+//认证通过之后的处理
+- (void)xmppStreamDidAuthenticate:(XMPPStream *)sender {
+    NSLog(@"%@", @"认证通过");
+    [self.loginDelegate loginXMPPDidAuthenticate];
+}
+
+//连接服务器的超时处理
+- (void)xmppStreamConnectDidTimeout:(XMPPStream *)sender {
+    NSLog(@"连接超时");
+    [self.loginDelegate loginXMPPConnectDidTimeout];
+}
+
+//认证没有通过处理
+- (void)xmppStream:(XMPPStream *)sender didNotAuthenticate:(DDXMLElement *)error {
+    NSLog(@"认证失败");
+    [self.loginDelegate loginXMPPDidNotAuthenticate];
+}
+</code></pre>
+
+<p>基本上这样就可以登录了，登录成功之后，可以跳转到相应的界面。提一下我们 能看到的XMPP交互流程 包括：</p>
+
+<p>1、XMPP 使用用户名去连接服务器；</p>
+
+<p>2、XMPP 连接成功之后，通过密码去服务器认证</p>
+
+<p>3、认证成功之后，处理自己想处理的一下事情。</p>
+
+<p>但其实XMPP 报文交互包括好几步，我就从别人那边摘录一点交互细节过来，就不自己一个个的抓包看了。</p>
+
+<pre><code>C1: 客户端初始化流给服务器 
+
+&lt;stream:stream to="127.0.0.1" xmlns="jabber:client" 
+xmlns:stream="http://etherx.jabber.org/streams" version="1.0"&gt; S1: 服务器向客户端发送流标签作为应答: 
+&lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;stream:stream 
+xmlns:stream="http://etherx.jabber.org/streams" xmlns="jabber:client" from="192.168.1.185" id="fb0cfcad" xml:lang="en" version="1.0"&gt; 
+
+S2: 发送 STARTTLS范围 
+
+&lt;stream:features&gt; 
+&lt;starttls xmlns="urn:ietf:params:xml:ns: xmpp-tls"&gt;&lt;/starttls&gt; &lt;mechanisms xmlns="urn:ietf:params:xml:ns:xmpp-sasl"&gt; 
+&lt;mechanism&gt;PLAIN&lt;/mechanism&gt; &lt;mechanism&gt;CRAM-MD5&lt;/mechanism&gt; &lt;mechanism&gt;ANONYMOUS&lt;/mechanism&gt; &lt;mechanism&gt;DIGEST-MD5&lt;/mechanism&gt; &lt;mechanism&gt;JIVE-SHAREDSECRET&lt;/mechanism&gt; &lt;/mechanisms&gt; 
+&lt;compression xmlns="http://jabber.org/features/compress"&gt; 
+&lt;method&gt;zlib&lt;/method&gt; &lt;/compression&gt; 
+&lt;auth xmlns="http://jabber.org/features/iq-auth"/&gt; 
+&lt;register xmlns="http://jabber.org/features/iq-register"/&gt; &lt;/stream:features&gt;  
+
+C2:客户端发送 STARTTLS 命令给服务器: 
+
+&lt;starttls xmlns='urn:ietf:params:xml:ns:xmpp-tls'/&gt; 
+
+S3:服务器通知客户端可以继续进行: 
+
+&lt;proceed xmlns='urn:ietf:params:xml:ns:xmpp-tls'/&gt; 
+
+C3：TLS 握手成功, 客户端初始化一个新的流给服务器
+
+&lt;stream:stream to="192.168.1.185" xmlns="jabber:client" 
+xmlns:stream="http://etherx.jabber.org/streams" version="1.0"&gt;  
+
+S4：服务器通知客户端可用的验证机制: 
+
+&lt;?xml version='1.0' encoding='UTF-8'?&gt; 
+&lt;stream:stream xmlns:stream="http://etherx.jabber.org/streams" 
+xmlns="jabber:client" from="192.168.1.185" id="ad6f53e8" xml:lang="en" version="1.0"&gt; &lt;stream:features&gt; 
+&lt;mechanisms xmlns="urn:ietf:params:xml:ns:xmpp-sasl"&gt; &lt;mechanism&gt;DIGEST-MD5&lt;/mechanism&gt; &lt;mechanism&gt;PLAIN&lt;/mechanism&gt; 
+&lt;mechanism&gt;ANONYMOUS&lt;/mechanism&gt; &lt;mechanism&gt;CRAM-MD5&lt;/mechanism&gt; &lt;/mechanisms&gt; 
+&lt;compression xmlns="http://jabber.org/features/compress"&gt; &lt;method&gt;zlib&lt;/method&gt; &lt;/compression&gt; 
+&lt;auth xmlns="http://jabber.org/features/iq-auth"/&gt; 
+&lt;register xmlns="http://jabber.org/features/iq-register"/&gt; &lt;/stream:features&gt; 
+
+C4: 客户端选择一个验证机制: 
+
+&lt;auth mechanism="DIGEST-MD5" xmlns="urn:ietf:params:xml:ns:xmpp-sasl"&gt;&lt;/auth&gt; 
+
+S5:服务器发送一个 [BASE64] 编码的挑战给客户端: 
+
+&lt;challenge xmlns="urn:ietf:params:xml:ns:xmpp-sasl"&gt;cmVhbG09IjE5Mi4xNjguMS4xODUiLG5vbmNlPSJlcEJaZlBxU1p0WGlLYzBqdGpwT0I1a01HMHdiY0hsUmNhOE52ZE9SIixxb3A9ImF1dGgiLGNoYXJzZXQ9dXRmLTgsYWxnb3JpdGhtPW1kNS1zZXNz&lt;/challenge&gt;  C5:客户端发送一个[BASE64]编码的回应这个挑战: 
+&lt;response xmlns="urn:ietf:params:xml:ns:xmpp-sasl"&gt;Y2hhcnNldD11dGYtOCx1c2VybmFtZT0iYWRtaW4iLHJlYWxtPSIxOTIuMTY4LjEuMTg1Iixub25jZT0iZXBCWmZQcVNadFhpS2MwanRqcE9CNWtNRzB3YmNIbFJjYThOdmRPUiIsbmM9MDAwMDAwMDEsY25vbmNlPSJMNDJ1SE1XK2piemh6N1hzdWRndHN1V1VIT2hNZmFLVUJpcU5iR1p2IixkaWdlc3QtdXJpPSJ4bXBwLzE5Mi4xNjguMS4xODUiLG1heGJ1Zj02NTUzNixyZXNwb25zZT1hN2JhMWZlOThiMDc2ZjUzZWUzNTczM2Q5NDMwODJlYSxxb3A9YXV0aCxhdXRoemlkPSJhZG1pbiI=&lt;/response&gt; 
+
+S6:服务器通知客户端验证成功 
+
+&lt;success xmlns="urn:ietf:params:xml:ns:xmpp-sasl"&gt;cnNwYXV0aD0yNDZlZDcyOTQ3ZjVhYzFiNWQ2ZDc4ZTkxM2QzMmFjMQ==&lt;/success&gt; 
+
+C6客户端初始化一个新流给服务器： 
+
+&lt;stream:stream to="192.168.1.185" xmlns="jabber:client" 
+xmlns:stream="http://etherx.jabber.org/streams" version="1.0"&gt;
+</code></pre>
+
+<p>基本上XMPP的登录细节就已经清楚了。后面我们看一下 注册相关的模块 以及 联系人请求模块的开发。如果想获取源码的话，请转到<a href="https://github.com/TerryLMay/TMXMPPClient/tree/master/TMXMPPClient">https://github.com/TerryLMay/TMXMPPClient/tree/master/TMXMPPClient</a></p>
+
+<pre><code>本文作者：Terry 专注于技术开发；打滚于IOS 技术领域，偶尔也会迈出脚步探索其他领域
+地址：http://www.terrylmay.com/terrylmay.github.io/2016/01/31/XMPP%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%99%BB%E5%BD%95%E5%BC%80%E5%8F%91%E8%AF%A6%E8%A7%A3/
 </code></pre>
 ]]></content>
   </entry>
