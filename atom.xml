@@ -4,7 +4,7 @@
   <title><![CDATA[李刚的小天地]]></title>
   <link href="http://www.cocoa.mom/atom.xml" rel="self"/>
   <link href="http://www.cocoa.mom/"/>
-  <updated>2016-05-14T10:42:49+08:00</updated>
+  <updated>2016-05-14T10:45:17+08:00</updated>
   <id>http://www.cocoa.mom/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -1894,81 +1894,6 @@ max-age 不能低于 18 周(10886400 秒);
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[VIP群福利：Git使用教程（视频+PPT）]]></title>
-    <link href="http://www.cocoa.mom/blog/2015/12/05/git-use-video-ppt/"/>
-    <updated>2015-12-05T20:07:12+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2015/12/05/git-use-video-ppt</id>
-    <content type="html"><![CDATA[<p>天才帝一步应用源代码分享到<a href="http://www.superqq.com/blog/2015/11/19/create-high-efficiency-ios-group/">iOS开发实战交流VIP群</a>，已经有不少朋友下载。这个APP也是一个小小的想法，希望能激发大家的灵感，做出更多有意义的属于自己的APP。</p>
-
-<p>iOS开发实战交流VIP群已经有几百位朋友加入，这里是一个非常不错的交流平台，欢迎更多朋友加入！详情点击这里。</p>
-
-<p>愿大家除了思维上、技术上有所提高，更能成为网络上无话不谈的知心朋友！</p>
-
-<p>今天给大家分享Git使用教程：</p>
-
-<h2>Git是什么？</h2>
-
-<!--more-->
-
-
-<p>Git是一款免费、开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。作为一名iOS开发者，应该掌握！当然，也有朋友用SVN来管理，SVN也是有相应的命令。</p>
-
-<p>在使用Git之前，我还用过最笨的办法通过手动来管理代码。管理起来相当不便，尤其是团队多人开发时，根本无法用手动来管理代码。</p>
-
-<p>直到接触的Git，才感受到它的强大。Git其实没有大家想象的那么难，刚开始接触的时候，可能不知道如何下手。当你真正的用一段时间之后，你会掌握一些常用的命令，比如：git status、git commit -m “message”、也会理解里面的一些术语，比如仓库、分支等等。</p>
-
-<h2>Git视频教程</h2>
-
-<p>为了帮助大家快速上手Git，上周录制了一期视频教程《Git使用教程》已经上传到iOS开发实战交流VIP群。欢迎大家到群文件里面下载。</p>
-
-<p>视频里面有讲到用Homebrew来安装Git，大家电脑上如果没有装Homebrew，可以通过下面的命令来安装：</p>
-
-<pre><code>ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-</code></pre>
-
-<p>Homebrew的官方：</p>
-
-<pre><code>http://brew.sh/
-</code></pre>
-
-<p>如果在看视频教程中，遇到问题，可以到VIP群里讨论。来吧，一起征服Git！</p>
-
-<h2>PPT截图</h2>
-
-<p>PPT里面整理了Git的常用命令、别名设置、一些资料网站等等，我把PPT里面的内容整理出来，大家一起学习：</p>
-
-<p><img src="http://images.90159.com/git/1.png" alt="1" />
-<img src="http://images.90159.com/git/2.png" alt="1" />
-<img src="http://images.90159.com/git/3.png" alt="1" />
-<img src="http://images.90159.com/git/4.png" alt="1" />
-<img src="http://images.90159.com/git/5.png" alt="1" />
-<img src="http://images.90159.com/git/6.png" alt="1" />
-<img src="http://images.90159.com/git/7.png" alt="1" />
-<img src="http://images.90159.com/git/8.png" alt="1" />
-<img src="http://images.90159.com/git/9.png" alt="1" />
-<img src="http://images.90159.com/git/10.png" alt="1" />
-<img src="http://images.90159.com/git/11.png" alt="1" />
-<img src="http://images.90159.com/git/12.png" alt="1" />
-<img src="http://images.90159.com/git/13.png" alt="1" />
-<img src="http://images.90159.com/git/14.png" alt="1" />
-<img src="http://images.90159.com/git/15.png" alt="1" />
-<img src="http://images.90159.com/git/16.png" alt="1" />
-<img src="http://images.90159.com/git/17.png" alt="1" />
-<img src="http://images.90159.com/git/18.png" alt="1" />
-<img src="http://images.90159.com/git/19.png" alt="1" />
-<img src="http://images.90159.com/git/20.png" alt="1" />
-<img src="http://images.90159.com/git/21.png" alt="1" />
-<img src="http://images.90159.com/git/22.png" alt="1" />
-<img src="http://images.90159.com/git/23.png" alt="1" />
-<img src="http://images.90159.com/git/24.png" alt="1" />
-<img src="http://images.90159.com/git/25.png" alt="1" />
-<img src="http://images.90159.com/git/26.png" alt="1" />
-<img src="http://images.90159.com/git/27.png" alt="1" />
-<img src="http://images.90159.com/git/28.png" alt="1" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[Swift开源一天Github收获15000多star]]></title>
     <link href="http://www.cocoa.mom/blog/2015/12/04/swift-source-code/"/>
     <updated>2015-12-04T22:10:48+08:00</updated>
@@ -2325,6 +2250,61 @@ if ([[UIApplication sharedApplication] canOpenURL:url])
 <h1>许可证</h1>
 
 <p>YYKit 使用 MIT 许可证，详情见 LICENSE 文件。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[给你的iOS APP名称找到合适的长度&关键词]]></title>
+    <link href="http://www.cocoa.mom/blog/2015/11/16/find-ios-app-key-words/"/>
+    <updated>2015-11-16T09:37:20+08:00</updated>
+    <id>http://www.cocoa.mom/blog/2015/11/16/find-ios-app-key-words</id>
+    <content type="html"><![CDATA[<p>今天这篇是关于iOS APP的名称长度，顺便简要说说关键词。一谈到应用程序上线就避免不了App Store Optimization (ASO)，APP的名称又是一个不可不谈的话题。</p>
+
+<h2>一、APP名称的选择</h2>
+
+<h3>1、仅包含应用的名称</h3>
+
+<p>一般建议使用这个，因为看起来美观一点，在应用标题的里面没有包含关键词的话，有时候看起来好像很牛逼一样，因为好像不需要ASO了，不需要去堆关键词，但是这个好像对大多数来说不适用。</p>
+
+<h3>2、名称中添加很多关键词</h3>
+
+<p>将很多相关关键词添加到名称来争取ASO的优势，但是粗略看起来好像是不专业的，尽管这样看起来不是很美观，但是有用，所以即便是一些逼格相当高的应用依然会加关键词进去，长度和关键词的重复次数就看运营人员的心情了。</p>
+
+<p>那么一种是干净美观，一种是包含众多关键词的名称，我们总要给他找个平衡点。这篇文章将告诉你如何为你的iOS APP找出理想的名称长度，跟之前那篇Google Play 描述的关键词密度类似。</p>
+
+<h2>二、两种类型的名称</h2>
+
+<p>其实每个APP都有两个名称，一个主，一个副，合起来就是一个title，你打开一个网页，在浏览器标签上看到的这个标题就是这个网页的title，一般是网站名字+文章名字，大多数是文章名在前，网站名在后。但都是有字符限制的，在iOS APP里面，iTunes Connect里，你要填进去，苹果也会给个255来限制，因为过长也没意思，所以我就在255以内寻找一个合适的点。</p>
+
+<p>我们需要ASO的是现实在iTunes里面的那个，其实相当于总共有2个，开发者一般比较熟悉iTunes Connect，因为经常需要填写那些字段上线APP。不熟悉的自己登录进去看看，想看的自己没有APP的，那就先收藏这篇文章，备用到时候参考。</p>
+
+<h2>三、如何找到理想的名称长度</h2>
+
+<p>关于最理想的长度，并不是一个固定的标准，因为对于每个APP来说要展现的关键词是不一样的，即便都通过语言描述展示一个词，也会有不一样的，比如 “查违章”，“违章查询”这两个词对一个做违章查询的APP与 “天气预报”“查天气”对应一个做天气预报的APP，都是不一样的，我不能说150个字符是最好的，因为这样说的话就是傻逼了。</p>
+
+<p>其实顺便说一下，有些开发者不知道开发什么，跟着去做一堆烂游戏，还不如去找几个这种普普通通大众的功能性APP需求好好做一个。我经常遇到开发者问做什么APP赚钱？现在做APP还能赚到钱么？做APP怎么赚钱？</p>
+
+<p>这种类型的问题，我这里统一作答，做APP是赚钱的，也是不赚钱的，关键看你选什么做，怎么做，做出来的APP怎么样？如果想在AppStore里面混到钱，可以多看看别人，坚持每天下载几款APP，慢慢研究，不要急，不要觉得好像自己现在不做都被别人做了，这种想法也许不一定成熟。认真的准备，勤快的实践。下面是确定名称的时候，可以考虑到的一些因素：</p>
+
+<h3>1、保持短一点</h3>
+
+<p>由于较短一点的名称看起来更品牌性，包含5个以内的关键词，最好3个就行啦，三个不一样的</p>
+
+<p>但是这也不是一个绝对的规则，比如你觉得几个关键词都比较类似，可以都加进去，不必要的就不用加了，不一定每个APP都要加上QQ，微信这种关键词进去。</p>
+
+<h3>2、注意关键词的竞争</h3>
+
+<p>像做网页，我们搜汽车，新做一个网站是很难排上去的，因为大家都知道这类的网站已经比较成熟，已经在搜索引擎的算法上攻坚多年，已经坚挺的占领了前面的位置。在淘宝里面，商品排名，搜T恤，销量很大的已经排在前面，新宝贝排上去，短时间很困难，除非你自己有一些特殊的资源。在应用商店里面也有一些类似的算法，别人已经坚挺，我们就不一定首先从最难的词去优化，你可以通过一些工具和查询来看看竞争度，这个不能一味依靠一个工具，有些是动态的。</p>
+
+<p>之所以是动态的，这里传达给一些投机取巧的人，一些热点的东西，有些人也喜欢到AppStore里面去搜。</p>
+
+<h3>3、看起来有意思一点</h3>
+
+<p>这个和名称的长度是没有关系的因素，但是你在优化名称的时候，可以参考，比如你要全部的标题里面的词语最终组成一个完整的句子作为一个标题，那为什么不给自己减轻难度把截断之前的弄的舒服一点呢（手机上显示的部分）。</p>
+
+<p>我们不能太侥幸的去和某些APP比，比如堆词语，我看到有些运营高手是这样做的，把整个当成ABC，A是主名，B是一句有吸引力的话并包含关键词，C就是一些关键词的组合了。有个东西叫组合，真的有个东西叫组合，你懂什么叫分词和组合么？不要看到别人当前的下载量评分量来判断你用此方法就可以胜出。</p>
+
+<blockquote><p>来自：<a href="http://www.appying.com/app-store-tuiguang/aso/fdsgs/">http://www.appying.com/app-store-tuiguang/aso/fdsgs/</a></p></blockquote>
 ]]></content>
   </entry>
   

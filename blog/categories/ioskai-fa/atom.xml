@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | 李刚的小天地]]></title>
   <link href="http://www.cocoa.mom/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.cocoa.mom/"/>
-  <updated>2016-05-14T10:42:49+08:00</updated>
+  <updated>2016-05-14T10:45:17+08:00</updated>
   <id>http://www.cocoa.mom/</id>
   <author>
     <name><![CDATA[李刚]]></name>
@@ -238,81 +238,6 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[VIP群福利：Git使用教程（视频+PPT）]]></title>
-    <link href="http://www.cocoa.mom/blog/2015/12/05/git-use-video-ppt/"/>
-    <updated>2015-12-05T20:07:12+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2015/12/05/git-use-video-ppt</id>
-    <content type="html"><![CDATA[<p>天才帝一步应用源代码分享到<a href="http://www.superqq.com/blog/2015/11/19/create-high-efficiency-ios-group/">iOS开发实战交流VIP群</a>，已经有不少朋友下载。这个APP也是一个小小的想法，希望能激发大家的灵感，做出更多有意义的属于自己的APP。</p>
-
-<p>iOS开发实战交流VIP群已经有几百位朋友加入，这里是一个非常不错的交流平台，欢迎更多朋友加入！详情点击这里。</p>
-
-<p>愿大家除了思维上、技术上有所提高，更能成为网络上无话不谈的知心朋友！</p>
-
-<p>今天给大家分享Git使用教程：</p>
-
-<h2>Git是什么？</h2>
-
-<!--more-->
-
-
-<p>Git是一款免费、开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。作为一名iOS开发者，应该掌握！当然，也有朋友用SVN来管理，SVN也是有相应的命令。</p>
-
-<p>在使用Git之前，我还用过最笨的办法通过手动来管理代码。管理起来相当不便，尤其是团队多人开发时，根本无法用手动来管理代码。</p>
-
-<p>直到接触的Git，才感受到它的强大。Git其实没有大家想象的那么难，刚开始接触的时候，可能不知道如何下手。当你真正的用一段时间之后，你会掌握一些常用的命令，比如：git status、git commit -m “message”、也会理解里面的一些术语，比如仓库、分支等等。</p>
-
-<h2>Git视频教程</h2>
-
-<p>为了帮助大家快速上手Git，上周录制了一期视频教程《Git使用教程》已经上传到iOS开发实战交流VIP群。欢迎大家到群文件里面下载。</p>
-
-<p>视频里面有讲到用Homebrew来安装Git，大家电脑上如果没有装Homebrew，可以通过下面的命令来安装：</p>
-
-<pre><code>ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-</code></pre>
-
-<p>Homebrew的官方：</p>
-
-<pre><code>http://brew.sh/
-</code></pre>
-
-<p>如果在看视频教程中，遇到问题，可以到VIP群里讨论。来吧，一起征服Git！</p>
-
-<h2>PPT截图</h2>
-
-<p>PPT里面整理了Git的常用命令、别名设置、一些资料网站等等，我把PPT里面的内容整理出来，大家一起学习：</p>
-
-<p><img src="http://images.90159.com/git/1.png" alt="1" />
-<img src="http://images.90159.com/git/2.png" alt="1" />
-<img src="http://images.90159.com/git/3.png" alt="1" />
-<img src="http://images.90159.com/git/4.png" alt="1" />
-<img src="http://images.90159.com/git/5.png" alt="1" />
-<img src="http://images.90159.com/git/6.png" alt="1" />
-<img src="http://images.90159.com/git/7.png" alt="1" />
-<img src="http://images.90159.com/git/8.png" alt="1" />
-<img src="http://images.90159.com/git/9.png" alt="1" />
-<img src="http://images.90159.com/git/10.png" alt="1" />
-<img src="http://images.90159.com/git/11.png" alt="1" />
-<img src="http://images.90159.com/git/12.png" alt="1" />
-<img src="http://images.90159.com/git/13.png" alt="1" />
-<img src="http://images.90159.com/git/14.png" alt="1" />
-<img src="http://images.90159.com/git/15.png" alt="1" />
-<img src="http://images.90159.com/git/16.png" alt="1" />
-<img src="http://images.90159.com/git/17.png" alt="1" />
-<img src="http://images.90159.com/git/18.png" alt="1" />
-<img src="http://images.90159.com/git/19.png" alt="1" />
-<img src="http://images.90159.com/git/20.png" alt="1" />
-<img src="http://images.90159.com/git/21.png" alt="1" />
-<img src="http://images.90159.com/git/22.png" alt="1" />
-<img src="http://images.90159.com/git/23.png" alt="1" />
-<img src="http://images.90159.com/git/24.png" alt="1" />
-<img src="http://images.90159.com/git/25.png" alt="1" />
-<img src="http://images.90159.com/git/26.png" alt="1" />
-<img src="http://images.90159.com/git/27.png" alt="1" />
-<img src="http://images.90159.com/git/28.png" alt="1" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[升级Xcode7之后VVDocumenter-Xcode不能用的解决办法]]></title>
     <link href="http://www.cocoa.mom/blog/2015/12/03/vvdocumenter-xcode7-not-work/"/>
     <updated>2015-12-03T22:24:57+08:00</updated>
@@ -371,6 +296,133 @@
 <h3>三、重启Xcode</h3>
 
 <p>Xcode 6之后，重启Xcode时会提示“Load bundle”、 “Skip Bundle”，这里必须选择“Load bundle”，不然插件无法使用。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发之如何跳到系统设置里的各种设置界面]]></title>
+    <link href="http://www.cocoa.mom/blog/2015/12/01/jump-setting-per-page/"/>
+    <updated>2015-12-01T22:12:54+08:00</updated>
+    <id>http://www.cocoa.mom/blog/2015/12/01/jump-setting-per-page</id>
+    <content type="html"><![CDATA[<p>昨天的文章<a href="http://www.superqq.com/blog/2015/11/30/jump-to-setting-wifi/">《iOS开发之如何跳到系统设置里的WiFi界面》</a>介绍了如何从APP里跳到WiFi设置界面，很多朋友非常喜欢这样的小功能，还有朋友正想做这个功能刚好看见啦！</p>
+
+<h2>跳到更多设置界面</h2>
+
+<p>除了跳到WiFi设置界面，能不能跳到其他的设置界面呢？比如：定位服务、FaceTime、音乐等等。都是可以的，一起来看看如何实现的！</p>
+
+<!--more-->
+
+
+<h2>定位服务</h2>
+
+<p>定位服务有很多APP都有，如果用户关闭了定位，那么，我们在APP里面可以提示用户打开定位服务。点击到设置界面设置，直接跳到定位服务设置界面。代码如下：</p>
+
+<pre><code>//定位服务设置界面
+NSURL *url = [NSURL URLWithString:@"prefs:root=LOCATION_SERVICES"];
+if ([[UIApplication sharedApplication] canOpenURL:url])
+{
+    [[UIApplication sharedApplication] openURL:url];
+}
+</code></pre>
+
+<p>这样就可以跳到系统设置的定位服务界面啦！我们继续看几个列子。</p>
+
+<h2>FaceTime</h2>
+
+<pre><code>//FaceTime设置界面
+NSURL *url = [NSURL URLWithString:@"prefs:root=FACETIME"];
+if ([[UIApplication sharedApplication] canOpenURL:url])
+{
+    [[UIApplication sharedApplication] openURL:url];
+}
+</code></pre>
+
+<h2>音乐</h2>
+
+<pre><code>//音乐设置界面
+NSURL *url = [NSURL URLWithString:@"prefs:root=MUSIC"];
+if ([[UIApplication sharedApplication] canOpenURL:url])
+{
+    [[UIApplication sharedApplication] openURL:url];
+}
+</code></pre>
+
+<h2>墙纸设置界面</h2>
+
+<pre><code>//墙纸设置界面
+NSURL *url = [NSURL URLWithString:@"prefs:root=Wallpaper"];
+if ([[UIApplication sharedApplication] canOpenURL:url])
+{
+    [[UIApplication sharedApplication] openURL:url];
+}
+</code></pre>
+
+<h2>蓝牙设置界面</h2>
+
+<pre><code>//蓝牙设置界面
+NSURL *url = [NSURL URLWithString:@"prefs:root=Bluetooth"];
+if ([[UIApplication sharedApplication] canOpenURL:url])
+{
+   [[UIApplication sharedApplication] openURL:url];
+}
+</code></pre>
+
+<h2>iCloud设置界面</h2>
+
+<pre><code>//iCloud设置界面
+NSURL *url = [NSURL URLWithString:@"prefs:root=CASTLE"];
+if ([[UIApplication sharedApplication] canOpenURL:url]
+{
+   [[UIApplication sharedApplication] openURL:url];
+}
+</code></pre>
+
+<h2>参数配置</h2>
+
+<p>看到这几个例子，大家有没有发现，想跳到哪个设置界面只需要prefs:root=后面的值即可！是的，就是这样的。</p>
+
+<p>我在网上找到一个列表，可以跳到这些界面的参数配置：</p>
+
+<pre><code>About — prefs:root=General&amp;path=About
+Accessibility — prefs:root=General&amp;path=ACCESSIBILITY
+Airplane Mode On — prefs:root=AIRPLANE_MODE
+Auto-Lock — prefs:root=General&amp;path=AUTOLOCK
+Brightness — prefs:root=Brightness
+Bluetooth — prefs:root=General&amp;path=Bluetooth
+Date &amp; Time — prefs:root=General&amp;path=DATE_AND_TIME
+FaceTime — prefs:root=FACETIME
+General — prefs:root=General
+Keyboard — prefs:root=General&amp;path=Keyboard
+iCloud — prefs:root=CASTLE
+iCloud Storage &amp; Backup — prefs:root=CASTLE&amp;path=STORAGE_AND_BACKUP
+International — prefs:root=General&amp;path=INTERNATIONAL
+Location Services — prefs:root=LOCATION_SERVICES
+Music — prefs:root=MUSIC
+Music Equalizer — prefs:root=MUSIC&amp;path=EQ
+Music Volume Limit — prefs:root=MUSIC&amp;path=VolumeLimit
+Network — prefs:root=General&amp;path=Network
+Nike + iPod — prefs:root=NIKE_PLUS_IPOD
+Notes — prefs:root=NOTES
+Notification — prefs:root=NOTIFICATIONS_ID
+Phone — prefs:root=Phone
+Photos — prefs:root=Photos
+Profile — prefs:root=General&amp;path=ManagedConfigurationList
+Reset — prefs:root=General&amp;path=Reset
+Safari — prefs:root=Safari
+Siri — prefs:root=General&amp;path=Assistant
+Sounds — prefs:root=Sounds
+Software Update — prefs:root=General&amp;path=SOFTWARE_UPDATE_LINK
+Store — prefs:root=STORE
+Twitter — prefs:root=TWITTER
+Usage — prefs:root=General&amp;path=USAGE
+VPN — prefs:root=General&amp;path=Network/VPN
+Wallpaper — prefs:root=Wallpaper
+Wi-Fi — prefs:root=WIFI
+</code></pre>
+
+<p>大家可以根据自己的需求，跳到不同的设置界面。如果你喜欢这篇文章的话，欢迎分享给更多的朋友，也可以收藏起来，以备不时之需！</p>
+
+<p><a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
 ]]></content>
   </entry>
   
