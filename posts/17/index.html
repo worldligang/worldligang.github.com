@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>李刚的技术博客</title>
+  <title>刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
@@ -21,10 +21,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.cocoa.mom/posts/17">
+  <link rel="canonical" href="http://www.superqq.com/posts/17">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="李刚的技术博客" type="application/atom+xml">
+  <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="http://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
@@ -38,9 +38,9 @@
 
 <body   >
   <header role="banner"><hgroup>
-  <h1><a href="/">李刚的技术博客</a></h1>
+  <h1><a href="/">刚刚在线</a></h1>
   
-    <h2>有理想的程序员</h2>
+    <h2>分享iOS开发技术经验的自媒体网站</h2>
   
 </hgroup>
 
@@ -50,14 +50,24 @@
   
 </ul>
   
+<form action="http://zhannei.superqq.com" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.superqq.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
 <ul class="main-navigation">
   <li><a href="/">首页</a></li>
   <li><a href="/blog/archives">全部文章</a></li>
   <li><a href="/blog/categories/ioskai-fa/">iOS开发</a></li>
+  <li><a href="http://course.ggteach.com/course/1">实战</a></li>
   <li><a href="/blog/categories/cheng-xu-yuan/">程序员</a></li>
   <li><a href="/blog/categories/yuan-dai-ma/">源代码</a></li>
   <li><a href="/blog/categories/sdkfu-wu/">sdk服务</a></li>
   <li><a href="/blog/categories/tui-jian/">推荐</a></li>
+  <li><a href="/about">赞助作者</a></li>
+  <li><a href="http://www.iswifting.com/" target="_blank" title=头条>头条</a></li>
 </ul>
 
 </nav>
@@ -65,6 +75,485 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/17/cocoapodsxiang-jie-zhi-jin-jie-pian/">CocoaPods详解之&#8212;-进阶篇</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-11-17T09:28:14+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:28 am</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><div class="entry-content"><h3>一、Podfile.lock文件</h3></p>
+
+<p>上文讲过，在开始使用<a href="http://www.superqq.com/">CocoaPods</a>，执行完pod install之后，会生成一个Podfile.lock文件。这个文件看起来跟我们关系不大，实际上绝对不应该忽略它。
+该文件用于保存已经安装的Pods依赖库的版本，通过<a href="http://www.superqq.com/">CocoaPods</a>安装了SBJson、AFNetworking、Reachability三个POds依赖库以后对应的Podfile.lock文件内容为：
+[objc] view plaincopy在CODE上查看代码片派生到我的代码片</p>
+
+<pre><code>PODS:  
+  - AFNetworking (2.1.0):  
+    - AFNetworking/NSURLConnection  
+    - AFNetworking/NSURLSession  
+    - AFNetworking/Reachability  
+    - AFNetworking/Security  
+    - AFNetworking/Serialization  
+    - AFNetworking/UIKit  
+  - AFNetworking/NSURLConnection (2.1.0):  
+    - AFNetworking/Reachability  
+    - AFNetworking/Security  
+    - AFNetworking/Serialization  
+  - AFNetworking/NSURLSession (2.1.0):  
+    - AFNetworking/NSURLConnection  
+  - AFNetworking/Reachability (2.1.0)  
+  - AFNetworking/Security (2.1.0)  
+  - AFNetworking/Serialization (2.1.0)  
+  - AFNetworking/UIKit (2.1.0):  
+    - AFNetworking/NSURLConnection  
+  - Reachability (3.0.0)  
+  - SBJson (4.0.0)  
+
+DEPENDENCIES:  
+  - AFNetworking (~&gt; 2.0)  
+  - Reachability (~&gt; 3.0.0)  
+  - SBJson (~&gt; 4.0.0)  
+
+SPEC CHECKSUMS:  
+  AFNetworking: c7d7901a83f631414c7eda1737261f696101a5cd  
+  Reachability: 500bd76bf6cd8ff2c6fb715fc5f44ef6e4c024f2  
+  SBJson: f3c686806e8e36ab89e020189ac582ba26ec4220  
+
+COCOAPODS: 0.29.0  
+</code></pre>
+
+<p>Podfile.lock文件最大得用处在于多人开发。对于没有在Podfile中指定Pods依赖库版本的写法，如下：
+[objc] view plaincopy在CODE上查看代码片派生到我的代码片</p>
+
+<pre><code>pod 'SBJson'  
+</code></pre>
+
+<p>该句话用于获取当前SBJson这个Pods依赖库的最新版本。
+当团队中的某个人执行完pod install命令后，生成的Podfile.lock文件就记录下了当时最新Pods依赖库的版本，这时团队中的其它人check下来这份包含Podfile.lock文件的工程以后，再去执行pod install命令时，获取下来的Pods依赖库的版本就和最开始用户获取到的版本一致。如果没有Podfile.lock文件，后续所有用户执行pod install命令都会获取最新版本的SBJson，这就有可能造成同一个团队使用的依赖库版本不一致，这对团队协作来说绝对是个灾难！
+在这种情况下，如果团队想使用当前最新版本的SBJson依赖库，有两种方案：</p>
+
+<pre><code>更改Podfile，使其指向最新版本的SBJson依赖库；
+执行pod update命令；
+</code></pre>
+
+<p>鉴于Podfile.lock文件对团队协作如此重要，我们需要将它添加到版本管理中。</p>
+
+<p><div class="entry-content"><h3>二、Podfile文件</h3></p>
+
+<p>对于普通用户来说，使用CocoaPods我们打交道最多的就是Podfile文件。CocoaPods是用ruby实现的，因此Podfile文件的语法就是ruby的语法。接着从以下几个方面来介绍Podfile:
+1、Podfile文件存放位置</p>
+
+<p>这是在上篇文章中，遗留的一个问题。通常情况下我们都推荐Podfile文件都放在工程根目录，如下图所示：
+事实上Podfile文件可以放在任意一个目录下，需要做的是在Podfile中指定工程的路径，和原来相比，Podfile文件就在最开始的位置增加了一行，具体内容如下：
+[objc] view plaincopy在CODE上查看代码片派生到我的代码片</p>
+
+<pre><code>xcodeproj "/Users/wangzz/Desktop/CocoaPodsTest/CocoaPodsTest.xcodeproj"  
+
+platform :ios    
+pod 'Reachability',  '~&gt; 3.0.0'    
+pod 'SBJson', '~&gt; 4.0.0'    
+
+platform :ios, '7.0'    
+pod 'AFNetworking', '~&gt; 2.0'   
+</code></pre>
+
+<p>指定路径使用的是xcodeproj关键字。
+此后，进入Podfile文件所在路径，执行pod install命令就会和之前一样下载这些Pods依赖库，而且生成的相关文件都放在了Podfile所在目录下面，如下图：
+和之前一样，我们仍然需要使用这里生成的workspace文件打开工程。</p>
+
+<p>2、Podfile和target
+Podfile本质上是用来描述Xcode工程中的targets用的。如果我们不显式指定Podfile对应的target，CocoaPods会创建一个名称为default的隐式target，会和我们工程中的第一个target相对应。换句话说，如果在Podfile中没有指定target，那么只有工程里的第一个target能够使用Podfile中描述的Pods依赖库。
+如果想在一个Podfile中同时描述project中的多个target，根据需求的不同，可以有不同的实现方式。为了说明问题，在原来的工程中再创建一个名称为Second的target，现在的project中包含的target有：
+①多个target中使用相同的Pods依赖库
+比如，名称为CocoaPodsTest的target和Second的target都需要使用Reachability、SBJson、AFNetworking三个Pods依赖库，可以使用link_with关键字来实现，将Podfile写成如下方式：
+[objc] view plaincopy在CODE上查看代码片派生到我的代码片</p>
+
+<pre><code>link_with 'CocoaPodsTest', 'Second'  
+platform :ios    
+pod 'Reachability',  '~&gt; 3.0.0'    
+pod 'SBJson', '~&gt; 4.0.0'    
+
+platform :ios, '7.0'    
+pod 'AFNetworking', '~&gt; 2.0'   
+</code></pre>
+
+<p>这种写法就实现了CocoaPodsTest和Second两个target共用相同的Pods依赖库。
+②不同的target使用完全不同的Pods依赖库
+CocoaPodsTest这个target使用的是Reachability、SBJson、AFNetworking三个依赖库，但Second这个target只需要使用OpenUDID这一个依赖库，这时可以使用target关键字，Podfile的描述方式如下：
+[objc] view plaincopy在CODE上查看代码片派生到我的代码片</p>
+
+<pre><code>target :'CocoaPodsTest' do  
+platform :ios    
+pod 'Reachability',  '~&gt; 3.0.0'    
+pod 'SBJson', '~&gt; 4.0.0'    
+
+platform :ios, '7.0'    
+pod 'AFNetworking', '~&gt; 2.0'  
+end  
+
+target :'Second' do  
+pod 'OpenUDID', '~&gt; 1.0.0'  
+end  
+</code></pre>
+
+<p>其中，do/end作为开始和结束标识符。
+3、使用Podfile管理Pods依赖库版本
+再引入依赖库时，需要显示或隐式注明引用的依赖库版本，具体写法和表示含义如下：
+[objc] view plaincopy在CODE上查看代码片派生到我的代码片</p>
+
+<pre><code>pod 'AFNetworking'      //不显式指定依赖库版本，表示每次都获取最新版本  
+pod 'AFNetworking', '2.0'     //只使用2.0版本  
+pod 'AFNetworking', '&gt; 2.0'     //使用高于2.0的版本  
+pod 'AFNetworking', '&gt;= 2.0'     //使用大于或等于2.0的版本  
+pod 'AFNetworking', '&lt; 2.0'     //使用小于2.0的版本  
+pod 'AFNetworking', '&lt;= 2.0'     //使用小于或等于2.0的版本  
+pod 'AFNetworking', '~&gt; 0.1.2'     //使用大于等于0.1.2但小于0.2的版本  
+pod 'AFNetworking', '~&gt;0.1'     //使用大于等于0.1但小于1.0的版本  
+pod 'AFNetworking', '~&gt;0'     //高于0的版本，写这个限制和什么都不写是一个效果，都表示使用最新版本  
+</code></pre>
+
+<p><div class="entry-content"><h3>三、CocoaPods常用命令</h3></p>
+
+<p>1、pod install</p>
+
+<p>根据Podfile文件指定的内容，安装依赖库，如果有Podfile.lock文件而且对应的Podfile文件未被修改，则会根据Podfile.lock文件指定的版本安装。
+每次更新了Podfile文件时，都需要重新执行该命令，以便重新安装Pods依赖库。</p>
+
+<p>2、pod update</p>
+
+<p>若果Podfile中指定的依赖库版本不是写死的，当对应的依赖库有了更新，无论有没有Podfile.lock文件都会去获取Podfile文件描述的允许获取到的最新依赖库版本。</p>
+
+<p>3、pod search</p>
+
+<p>命令格式为：
+[objc] view plaincopy在CODE上查看代码片派生到我的代码片</p>
+
+<pre><code>$ pod search OpenUDID  
+</code></pre>
+
+<p>后面的OpenUDID为参数。
+从命令的名称不难看出，该命令是用来按名称搜索可用的Pods依赖库，执行结果如下：
+[objc] view plaincopy在CODE上查看代码片派生到我的代码片</p>
+
+<pre><code>-&gt; OpenUDID (1.0.0)  
+   Open source initiative for a universal and persistent UDID solution for iOS.  
+   pod 'OpenUDID', '~&gt; 1.0.0'  
+   - Homepage: http://OpenUDID.org  
+   - Source:   https://github.com/ylechelle/OpenUDID.git  
+   - Versions: 1.0.0 [master repo]  
+</code></pre>
+
+<p>这里我们搜到了一条可用数据，里面描述了OpenUDID库的简要信息。其实我们真正需要的是上述结果中的第三行：
+[objc] view plaincopy在CODE上查看代码片派生到我的代码片</p>
+
+<pre><code>pod 'OpenUDID', '~&gt; 1.0.0'  
+</code></pre>
+
+<p>不难看出，这是我们需要添加到Podfile文件中的。
+有了这条命令，就可以方便、迅速地找到需要的Pods依赖库。</p>
+
+<p>4、pod setup</p>
+
+<p>命令格式为：
+[ruby] view plaincopy在CODE上查看代码片派生到我的代码片</p>
+
+<pre><code>$ pod setup  
+</code></pre>
+
+<p>执行完了以后会打印：
+[ruby] view plaincopy在CODE上查看代码片派生到我的代码片</p>
+
+<pre><code>Setting up CocoaPods master repo  
+Updating 7cd4668..f3d3ced  
+
+Fast-forward  
+</code></pre>
+
+<p>接下来还会打印很多更新信息。
+这条命令用于跟新本地电脑上的保存的Pods依赖库tree。由于每天有很多人会创建或者更新Pods依赖库，这条命令执行的时候会相当慢，还请耐心等待。我们需要经常执行这条命令，否则有新的Pods依赖库的时候执行pod search命令是搜不出来的。</p>
+
+<p><div class="entry-content"><h3>四、参考文档</h3></p>
+
+<p><a href="http://guides.cocoapods.org/using/index.html"target="_blank"title="刚刚在线"><a href="http://guides.cocoapods.org/using/index.html">http://guides.cocoapods.org/using/index.html</a></a></p>
+
+<p></br></p>
+
+<p>iOS开发微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p></br></p>
+
+<p>文章来自： <a href="http://blog.csdn.net/wzzvictory/article/details/19178709"target="_blank"title="CocoaPods详解之----进阶篇">CocoaPods详解之&mdash;-进阶篇</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/15/cocoapodsxiang-jie-zhi-shi-yong-pian/">CocoaPods详解之&#8212;-使用篇</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-11-15T13:40:53+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>1:40 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p></br></p>
+
+<p><div class="entry-content"><h3>一、什么是CocoaPods</h3></p>
+
+<p><div class="entry-content"><h5>1、为什么需要CocoaPods</h5></p>
+
+<p>在进行iOS开发的时候，总免不了使用第三方的开源库，比如SBJson、AFNetworking、Reachability等等。使用这些库的时候通常需要：</p>
+
+<p>下载开源库的源代码并引入工程</p>
+
+<p>向工程中添加开源库使用到的framework</p>
+
+<p>解决开源库和开源库以及开源库和工程之间的依赖关系、检查重复添加的framework等问题</p>
+
+<p>如果开源库有更新的时候，还需要将工程中使用的开源库删除，重新执行前面的三个步骤，顿时头都大了。。。</p>
+
+<p>自从有了<a href="http://www.superqq.com/">CocoaPods</a>以后，这些繁杂的工作就不再需要我们亲力亲为了，只需要我们做好少量的配置工作，CocoaPods会为我们做好一切！</p>
+
+<p><div class="entry-content"><h5>2、什么是CocoaPods</h5></p>
+
+<p>CocoaPods是一个用来帮助我们管理第三方依赖库的工具。它可以解决库与库之间的依赖关系，下载库的源代码，同时通过创建一个Xcode的workspace来将这些第三方库和我们的工程连接起来，供我们开发使用。</p>
+
+<p>使用CocoaPods的目的是让我们能自动化的、集中的、直观的管理第三方开源库。</p>
+
+<p><div class="entry-content"><h3>二、安装CocoaPods</h3></p>
+
+<p><div class="entry-content"><h5>1、安装CocoaPods</h5></p>
+
+<p>CocoaPods是用Ruby实现的，要想使用它首先需要有Ruby的环境。幸运的是OS X系统默认的已经可以运行Ruby了，因此我们只需要执行以下命令：
+[objc] view plaincopy在CODE上查看代码片派生到我的代码片</p>
+
+<pre><code>$ sudo gem install cocoapods  
+</code></pre>
+
+<p>CocoaPods是以Ruby gem包的形式被安装的。在安装执行的过程中，可能会问我们是不是更新rake，输入y即可。这是因为rake gem包会在安装的过程中检查更细，如果有可用的新版本就会出现刚才的选项。</p>
+
+<p>在安装进程结束的时候，执行命令：
+[objc] view plaincopy在CODE上查看代码片派生到我的代码片</p>
+
+<pre><code>$ pod setup  
+</code></pre>
+
+<p>如果没有报错，就说明一切安装就成功了！</p>
+
+<p><div class="entry-content"><h5>2、安装过程中可能遇到的问题</h5></p>
+
+<p>①执行完install命令半天没反应</p>
+
+<p>这有可能是因为Ruby的默认源使用的是cocoapods.org，国内访问这个网址有时候会有问题，网上的一种解决方案是将远替换成淘宝的，替换方式如下：
+[objc] view plaincopy在CODE上查看代码片派生到我的代码片</p>
+
+<pre><code>$ gem sources --remove https://rubygems.org/  
+//等有反应之后再敲入以下命令  
+$ gem sources -a http://ruby.taobao.org/  
+</code></pre>
+
+<p>要想验证是否替换成功了，可以执行：
+[objc] view plaincopy在CODE上查看代码片派生到我的代码片</p>
+
+<pre><code>$ gem sources -l  
+</code></pre>
+
+<p>正常的输出是：
+[objc] view plaincopy在CODE上查看代码片派生到我的代码片</p>
+
+<pre><code>*** CURRENT SOURCES ***  
+
+http://ruby.taobao.org/  
+</code></pre>
+
+<p>②gem版本过老</p>
+
+<p>gem是管理Ruby库和程序的标准包，如果它的版本过低也可能导致安装失败，解决方案自然是升级gem，执行下述命令即可：
+[objc] view plaincopy在CODE上查看代码片派生到我的代码片</p>
+
+<pre><code>$ sudo gem update --system  
+</code></pre>
+
+<p>③安装完成后，执行pod setup命令时报错：
+[objc] view plaincopy在CODE上查看代码片派生到我的代码片</p>
+
+<pre><code>/Users/wangzz/.rvm/rubies/ruby-1.9.3-p448/lib/ruby/site_ruby/1.9.1/rubygems/dependency.rb:298:in `to_specs': Could not find 'cocoapods' (&gt;= 0) among 6 total gem(s) (Gem::LoadError)  
+    from /Users/wangzz/.rvm/rubies/ruby-1.9.3-p448/lib/ruby/site_ruby/1.9.1/rubygems/dependency.rb:309:in `to_spec'  
+    from /Users/wangzz/.rvm/rubies/ruby-1.9.3-p448/lib/ruby/site_ruby/1.9.1/rubygems/core_ext/kernel_gem.rb:53:in `gem'  
+    from /Users/wangzz/.rvm/rubies/ruby-1.9.3-p448/bin/pod:22:in `&lt;main&gt;'  
+</code></pre>
+
+<p>这就是路径设置的问题，可以通过执行：
+[objc] view plaincopy在CODE上查看代码片派生到我的代码片</p>
+
+<pre><code>$ rvm use ruby-1.9.3-p448  
+</code></pre>
+
+<p>解决该问题。</p>
+
+<p><div class="entry-content"><h5>3、升级CocoaPods</h5></p>
+
+<p>升级很简单，再次执行安装命令即可：
+[objc] view plaincopy在CODE上查看代码片派生到我的代码片</p>
+
+<pre><code>$ sudo gem install cocoapods  
+</code></pre>
+
+<p>需要注意的是，如果安装的时候使用了sudo，升级的时候一样需要使用该关键字，不然升级完了以后又会出现路径不匹配问题。</p>
+
+<p><div class="entry-content"><h3>三、使用CocoaPods</h3></p>
+
+<p>如果之前做的一切顺利，接下来就可以体验体验<a href="http://www.superqq.com/">CocoaPods</a>的神奇之处了，需要经过以下几步：</p>
+
+<p>为了演示这个过程，我创建了一个名为CocoaPodsTest的工程。
+<div class="entry-content"><h5>1、创建Podfile</h5></p>
+
+<p>CocoaPods的一切都是从一个名为Podfile的文件开始的，我们需要先创建这个文件。个人习惯使用命令行，我会这样做：
+[objc] view plaincopy在CODE上查看代码片派生到我的代码片</p>
+
+<pre><code>$ cd /Users/wangzz/Desktop/CocoaPodsTest  
+$ touch Podfile  
+</code></pre>
+
+<p>首先进入到工程的根目录下，创建空白的Podfile文件，创建完毕的目录结构如下图：</p>
+
+<p><img src="http://img.blog.csdn.net/20140126162345078?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd3p6dmljdG9yeQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"></p>
+
+<p>（PS：Podfile文件也可以不放在工程的根目录下，只是会稍微麻烦点，在下一篇文章中会有介绍，敬请关注。）
+<div class="entry-content"><h5>2、编辑Podfile</h5></p>
+
+<p>根据需要，我们可以在Podfile文件中写入需要用到的第三方库，以SBJson、AFNetworking、Reachability三个库为例，我的Podfile内容如下：
+[objc] view plaincopy在CODE上查看代码片派生到我的代码片</p>
+
+<pre><code>platform :ios  
+pod 'Reachability',  '~&gt; 3.0.0'  
+pod 'SBJson', '~&gt; 4.0.0'  
+
+platform :ios, '7.0'  
+pod 'AFNetworking', '~&gt; 2.0'  
+</code></pre>
+
+<p><div class="entry-content"><h5>3、执行导入命令</h5></p>
+
+<p>准备工作都完成后，开始导入第三方库：
+[objc] view plaincopy在CODE上查看代码片派生到我的代码片</p>
+
+<pre><code>$ cd /Users/wangzz/Desktop/CocoaPodsTest  
+$ pod install  
+</code></pre>
+
+<p>首先进入工程根目录，然后执行pod install命令，CocoaPods就开始为我们做下载源码、配置依赖关系、引入需要的framework等一些列工作，命令的执行结果打印出来如下：
+[objc] view plaincopy在CODE上查看代码片派生到我的代码片</p>
+
+<pre><code>Analyzing dependencies  
+Downloading dependencies  
+Installing AFNetworking (2.1.0)  
+Installing JSONKit (1.5pre)  
+Installing Reachability (3.0.0)  
+Generating Pods project  
+Integrating client project  
+
+[!] From now on use `CocoaPodsTest.xcworkspace`.  
+</code></pre>
+
+<p>这就说明pod install命令执行成功了。再来看看工程根目录发生的变化，如下图：</p>
+
+<p><img src="http://img.blog.csdn.net/20140126163651109?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd3p6dmljdG9yeQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"></p>
+
+<p>可以看到，工程的根目录下多了三个东西：CocoaPodsTest.xcworkspace、Podfile.lock文件和Pods目录。</p>
+
+<p><div class="entry-content"><h5>（PS：篇幅有限，Podfile.lock文件会放到系列文章的下一篇介绍，敬请关注。）</h5></p>
+
+<p>再看看刚才执行完pod install命令打印出来的内容的最后一行：
+[objc] view plaincopy在CODE上查看代码片派生到我的代码片</p>
+
+<pre><code>[!] From now on use `CocoaPodsTest.xcworkspace`.  
+</code></pre>
+
+<p>提示我们从现在起，我们需要使用CocoaPodsTest.xcworkspace文件来开发。</p>
+
+<p>对于工程发生的变化，有几点需要说明：</p>
+
+<pre><code>第三方库会被编译成静态库供我们正真的工程使用
+</code></pre>
+
+<p>CocoaPods会将所有的第三方库以target的方式组成一个名为Pods的工程，该工程就放在刚才新生成的Pods目录下。整个第三方库工程会生成一个名称为libPods.a的静态库提供给我们自己的CocoaPodsTest工程使用。</p>
+
+<pre><code>我们的工程和第三方库所在的工程会由一个新生成的workspace管理
+</code></pre>
+
+<p>为了方便我们直观的管理工程和第三方库，CocoaPodsTest工程和Pods工程会被以workspace的形式组织和管理，也就是我们刚才看到的CocoaPodsTest.xcworkspace文件。</p>
+
+<p>原来的工程设置已经被更改了，这时候我们直接打开原来的工程文件去编译就会报错，只能使用新生成的workspace来进行项目管理。</p>
+
+<p>打开CocoaPodsTest.xcworkspace，界面如下：</p>
+
+<p><img src="http://img.blog.csdn.net/20140126171045546?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd3p6dmljdG9yeQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"></p>
+
+<p>工程的目录结构还是非常明显的。</p>
+
+<p>在项目中引用刚才添加的第三方库的头文件，执行编译操作，果断成功！</p>
+
+<p>至此，CocoaPods使用篇告一段落，接下来打算再用一个篇幅介绍CocoaPods稍微深层次的东西，敬请关注。</p>
+
+<p><div class="entry-content"><h3>四、参考资料</h3></p>
+
+<p><a href="http://code4app.com/article/cocoapods-install-usage"target="_blank"title="刚刚在线">1、<a href="http://code4app.com/article/cocoapods-install-usage">http://code4app.com/article/cocoapods-install-usage</a></a></p>
+
+<p><a href="http://cocoapods.org/"target="_blank"title="刚刚在线">2、<a href="http://cocoapods.org/">http://cocoapods.org/</a></a></p>
+
+<p></br></p>
+
+<p>我的微信公众号 iOS开发 ：</p>
+
+<pre><code>iOSDevTip
+</code></pre>
+
+<p></br></p>
+
+<p>文章来自： <a href="http://blog.csdn.net/wzzvictory/article/details/18737437"target="_blank"title="CocoaPods详解之----使用篇">CocoaPods详解之&mdash;-使用篇</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -866,280 +1355,6 @@ Content-Type: application/json
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/10/16/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/">CocoaPods安装和使用教程</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-10-16T13:43:44+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>1:43 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.superqq.com/blog/2014/10/16/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/">CocoaPods安装和使用教程</a></p>
-
-<p><a href="http://www.superqq.com/blog/2014/10/16/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/">CocoaPods</a> 是什么？</p>
-
-<p>当你开发iOS应用时，会经常使用到很多第三方开源类库，比如JSONKit，AFNetWorking等等。可能某个类库又用到其他类库，所以要使用它，必须得另外下载其他类库，而其他类库又用到其他类库，“子子孙孙无穷尽也”，这也许是比较特殊的情况。总之小编的意思就是，手动一个个去下载所需类库十分麻烦。另外一种常见情况是，你项目中用到的类库有更新，你必须得重新下载新版本，重新加入到项目中，十分麻烦。如果能有什么工具能解决这些恼人的问题，那将“善莫大焉”。所以，你需要 CocoaPods。</p>
-
-<p>CocoaPods应该是iOS最常用最有名的类库管理工具了，上述两个烦人的问题，通过cocoaPods，只需要一行命令就可以完全解决，当然前提是你必须正确设置它。重要的是，绝大部分有名的开源类库，都支持CocoaPods。所以，作为iOS程序员的我们，掌握CocoaPods的使用是必不可少的基本技能了。
-如何下载和安装CocoaPods？</p>
-
-<p>在安装CocoaPods之前，首先要在本地安装好Ruby环境。至于如何在Mac中安装好Ruby环境，请google一下，本文不再涉及。</p>
-
-<p>假如你在本地已经安装好Ruby环境，那么下载和安装CocoaPods将十分简单，只需要一行命令。在Terminator（也就是终端）中输入以下命令（注意，本文所有命令都是在终端中输入并运行的。什么，你不知道什么是终端？那请小编吃饭，小编告诉你）：</p>
-
-<pre><code>sudo gem install cocoapods
-</code></pre>
-
-<p>但是，且慢。如果你在天朝，在终端中敲入这个命令之后，会发现半天没有任何反应。原因无他，因为那堵墙阻挡了cocoapods.org。（你会问，我靠，这都要墙！是的，小编也纳闷。）</p>
-
-<p>但是，是的，又但是（不过是个可喜的“但是”）。我们可以用淘宝的Ruby镜像来访问cocoapods。按照下面的顺序在终端中敲入依次敲入命令：</p>
-
-<pre><code>$ gem sources --remove https://rubygems.org/
-//等有反应之后再敲入以下命令
-$ gem sources -a http://ruby.taobao.org/
-</code></pre>
-
-<p>为了验证你的Ruby镜像是并且仅是taobao，可以用以下命令查看：</p>
-
-<pre><code>$ gem sources -l
-</code></pre>
-
-<p>只有在终端中出现下面文字才表明你上面的命令是成功的：</p>
-
-<pre><code>*** CURRENT SOURCES ***
-
-http://ruby.taobao.org/
-</code></pre>
-
-<p>上面所有的命令完成之时，在小编的终端上是这个的样子：</p>
-
-<p><img src="http://code4app.com/photo/5273c20b6803fac658000000_1.png" ></p>
-
-<p>这时候，你再次在终端中运行：</p>
-
-<pre><code>$ sudo gem install cocoapods
-</code></pre>
-
-<p>等上十几秒钟，CocoaPods就可以在你本地下载并且安装好了，不再需要其他设置。</p>
-
-<p>敲入以上命令时，小编终端上是这个样子的（由于太长，仅截取前面一部分）：</p>
-
-<p><img src="http://code4app.com/photo/5273c20b6803fac658000000_11.png" ></p>
-
-<p>看到这里，你心里会不会说，我靠！太爽了，这么容易就可以下载并且安装好了！是的，小编也是这么想的。CocoPods就是这么简单，使用也十分简单。继续往下看吧。
-如何使用CocoaPods？</p>
-
-<p>好了，安装好CocoPods之后，接下来就是使用它。所幸，使用CocoPods和安装它一样简单，也是通过一两行命令就可以搞定。</p>
-
-<p>小编在这里用两种使用场景来具体说明如何使用CocoaPods。
-场景1：利用CocoaPods，在项目中导入AFNetworking类库</p>
-
-<p>AFNetworking类库在GitHub地址是：<a href="https://github.com/AFNetworking/AFNetworking">https://github.com/AFNetworking/AFNetworking</a></p>
-
-<p>为了确定AFNetworking是否支持CocoaPods，可以用CocoaPods的搜索功能验证一下。在终端中输入：</p>
-
-<pre><code>$ pod search AFNetworking
-</code></pre>
-
-<p><img src="http://code4app.com/photo/5273c20b6803fac658000000_12.png" ></p>
-
-<p>这说明，AFNetworking是支持CocoaPods，所以我们可以利用CocoaPods将AFNetworking导入你的项目中。</p>
-
-<p>首先，我们需要在我们的项目中加入CocoaPods的支持。你可以跟随小编的步骤，先利用Xcode创建一个名字CocoaPodsDemo的项目，用于以下的教程。创建好之</p>
-
-<p><img src="http://code4app.com/photo/5273c20b6803fac658000000_13.png" ></p>
-
-<p>上图等一下要跟项目支持CocoaPods之后的项目Xcode目录结构做对比。</p>
-
-<p>你看到这里也许会问，CocoaPods为什么能下载AFNetworking呢，而不是下载其他类库呢？这个问题的答案是，有个文件来控制CocoaPods该下载什么。这个文件就叫做“Podfile”（注意，一定得是这个文件名，而且没有后缀）。你创建一个Podfile文件，然后在里面添加你需要下载的类库，也就是告诉CocoaPods，“某某和某某和某某某，快到碗里来！”。每个项目只需要一个Podfile文件。</p>
-
-<p>好吧，废话少说，我们先创建这个神奇的PodFile。在终端中进入（cd命令）你项目所在目录，然后在当前目录下，利用vim创建Podfile，运行：</p>
-
-<pre><code>$ vim Podfile
-</code></pre>
-
-<p>然后在Podfile文件中输入以下文字：</p>
-
-<pre><code>platform :ios, '7.0'
-pod "AFNetworking", "~&gt; 2.0"
-</code></pre>
-
-<p>注意，这段文字不是小编凭空生成的，可以在AFNetworking的github页面找到。这两句文字的意思是，当前AFNetworking支持的iOS最高版本是iOS 7.0, 要下载的AFNetworking版本是2.0。</p>
-
-<p>然后保存退出。vim环境下，保存退出命令是：</p>
-
-<p>:wq</p>
-
-<p>这时候，你会发现你的项目目录中，出现一个名字为Podfile的文件，而且文件内容就是你刚刚输入的内容。注意，Podfile文件应该和你的工程文件.xcodeproj在同一个目录下。</p>
-
-<p>这时候，你就可以利用CocoPods下载AFNetworking类库了。还是在终端中的当前项目目录下，运行以下命令：</p>
-
-<pre><code>$ pod install 
-</code></pre>
-
-<p>因为是在你的项目中导入AFNetworking，这就是为什么这个命令需要你进入你的项目所在目录中运行。</p>
-
-<p>运行上述命令之后，小编的终端出现以下信息：</p>
-
-<p>EricmatoMacBook-Pro:CocoaPodsDemo ericwang$ pod install
-Analyzing dependencies
-Downloading dependencies
-Installing AFNetworking (2.0.2)
-Generating Pods project
-Integrating client project</p>
-
-<p>[!] From now on use <code>CocoaPodsDemo.xcworkspace</code>.</p>
-
-<p>注意最后一句话，意思是：以后打开项目就用 CocoaPodsDemo.xcworkspace 打开，而不是之前的.xcodeproj文件。</p>
-
-<p>你也许会郁闷，为什么会出现.xcodeproj文件呢。这正是你刚刚运行$ pod install命令产生的新文件。除了这个文件，你会发现还多了另外一个文件“Podfile.lock”和一个文件夹“Pods”。 点击 CocoaPodsDemo.xcworkspace 打开之后工程之后，项目Xcode目录结构如下图：</p>
-
-<p><img src="http://code4app.com/photo/5273c20b6803fac658000000_14.png" ></p>
-
-<p>你会惊喜地发现，AFNetwoking已经成功导入项目了（红框部分）！</p>
-
-<p>现在，你就可以开始使用AFNetworking.h啦。可以稍微测试一下，在你的项目任意代码文件中输入：</p>
-
-<pre><code>#import &lt;AFNetworking.h&gt;
-或者
-#import "AFNetworking.h"
-</code></pre>
-
-<p>然后编译，看看是否出错。如果你严格按照小编上述的步骤来，是不可能出错的啦。</p>
-
-<p>至此，CocoPods的第一个应用场景讲述完毕。别看小编写了这么多，其实过程是十分简单的。总结一下就是：</p>
-
-<p>1,先在项目中创建Podfile，Podfile的内容是你想导入的类库。一般类库的原作者会告诉你导入该类库应该如何写Podfile；
-2,运行命令：`$ pod install.</p>
-
-<p>下面，小编继续讲述第二种使用场景。
-场景2：如何正确编译运行一个包含CocoPods类库的项目</p>
-
-<p>你也许曾经遇到过（特别是新手iOS开发者）这种情况，好不容易在GitHub上找到一份代码符合自己想需求，兴冲冲下载下来，一编译，傻眼了，发现有各种各样错误。一看，原来是缺失了各种其他第三方类库。这时候莫慌，你再仔细一看，会发现你下载的代码包含了Podfile。没错，这意味着你可以用CocoaPods很方便下载所需要的类库。</p>
-
-<p>下面，小编以代码 UAAppReviewManager 为例来说明如何正确编译运行一个包含CocoPods类库的项目。</p>
-
-<p>UAAppReviewManager是一个能够让你方便地将提醒用户评分的功能加入你的应用中。当你去UAAppReviewManager的GitHub地址下载这份代码之后，打开Example工程（UAAppReviewManagerExample），编译，你会发现Xcode报告一大堆错误，基本都是说你编译的这份代码找不到某某头文件，这就意味着你要成功编译UAAppReviewManager的Example代码，必须先导入一些第三方类库。同时你会发现在UAAppReviewManagerExample文件夹下面有三个跟CocosPods相关的文件（文件夹）：Podfile，Podfile.lock和Pods，如下图：</p>
-
-<p><img src="http://code4app.com/photo/5273c20b6803fac658000000_15.png" ></p>
-
-<p>用</p>
-
-<p>这时候，打开终端，进入UAAppReviewManagerExample所在的目录，也就是和Podfile在同一目录下，和场景1一样，输入以下命令（由于已经有Podfile，所以不需要再创建Podfile）：</p>
-
-<pre><code>$ pod update
-</code></pre>
-
-<p>过几秒（也许需要十几秒，取决于你的网络状况）之后，终端出现：</p>
-
-<pre><code>Analyzing dependencies
-Fetching podspec for `UAAppReviewManager` from `../`
-Downloading dependencies
-Installing UAAppReviewManager (0.1.6)
-Generating Pods project
-Integrating client project
-
-[!] From now on use `UAAppReviewManagerExample.xcworkspace`.
-</code></pre>
-
-<p>这时候，再回到UAAppReviewManagerExample文件夹看一看，会看到多了一个文件UAAppReviewManagerExample.xcworkspace：</p>
-
-<p><img src="http://code4app.com/photo/5273c20b6803fac658000000_16.png" ></p>
-
-<p>根据终端的信息提示，你以后就需用新产生的UAAppReviewManagerExample.xcworkspace来运行这个Example代码了。</p>
-
-<p>打开UAAppReviewManagerExample.xcworkspace，编译运行，成功！如下图：</p>
-
-<p><img src="http://code4app.com/photo/5273c20b6803fac658000000_17.png" ></p>
-
-<p>注意，这里有个小问题，如果刚刚你不是输入$ pod update，而是输入$ pod install，会发现类库导入不成功，并且终端出现下面提示：</p>
-
-<pre><code>[!] Required version (UAAppReviewManager (from `../`)) not found for `UAAppReviewManager`.
-</code></pre>
-
-<p>Available versions: 0.1.6</p>
-
-<p>这里的意思大概是Podfile文件过期，类库有升级，但是Podfile没有更改。$ pod install只会按照Podfile的要求来请求类库，如果类库版本号有变化，那么将获取失败。但是 $ pod update会更新所有的类库，获取最新版本的类库。而且你会发现，如果用了 $ pod update，再用 $ pod install 就成功了。</p>
-
-<p>那你也许会问，什么时候用 $ pod install，什么时候用 $ pod update 呢，我又不知道类库有没有新版本。好吧，那你每次直接用 $ pod update 算了。或者先用 $ pod install，如果不行，再用 $ pod update。</p>
-
-<p>好了，小编就啰嗦到这里吧。上述都只是<a href="http://www.superqq.com/blog/2014/10/16/cocoapodsan-zhuang-he-shi-yong-jiao-cheng/">CocoaPods</a> 是什么？
-的最基本用法。要继续研究CocoaPods其他高级用法.</p>
-
-<p>Code4App 原创文章。转载请注明出处：<a href="http://code4app.com/article/cocoapods-install-usage">http://code4app.com/article/cocoapods-install-usage</a></p>
-
-<p>微信公众账号：iOS开发</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/09/30/xie-bo-ke-de-fang-fa/">Octopress写博客的方法</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-09-30T11:34:57+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:34 am</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.superqq.com/blog/2014/09/30/xie-bo-ke-de-fang-fa/">写博客的方法</a></p>
-
-<p>写博客的方法:</p>
-
-<pre><code>rake new_post[‘article name’] 生成博文框架，填写文章标题
-open -a Mou source/_posts/2014-10-30-xie-bo-ke-de-fang-fa.markdown  打开markdown编辑工具（比较好用，下载地址：http://25.io/mou/）
-rake generate 生成静态文件
-rake watch 检测文件变化，实时生成新内容
-rake preview 本地预览“http://localhost:4000”
-rake deploy 发布文章
-</code></pre>
-
-<p>微信公众账号：iOS开发</p>
-
-<pre><code>iOSDevTip
-</code></pre>
-
-<p>原文链接：<a href="http://blog.leichunfeng.com/blog/2014/11/11/use-octopress-plus-github-pages-to-setup-a-personal-blog/">使用 Octopress+GitHub Pages 搭建个人博客</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/18">&larr; Older</a>
@@ -1153,15 +1368,36 @@ rake deploy 发布文章
 <aside class="sidebar">
   
     <section>
+   <h1>招募</h1>
+        <br/>
+        <a href="http://mp.weixin.qq.com/s?__biz=MzA3NzM0NzkxMQ==&mid=507874094&idx=1&sn=7432c6379848b58f6a19cc873fa9378d#rd"><img width="220px" src="http://www.superqq.com/images/ggteach.png"/></a>
+  <h1>2016年值得关注的公众号</h1>
+        <br/>
+        <br/><strong>公众号iOS开发：iOSDevTip</strong> 
+        <br/>
+        <br/><img width="220px" src="http://images.90159.com/icon/iOSDevTip.jpg" />
+        <br/>
+        <br/><strong>公众号猿圈：CodePush</strong>
+        <br/>
+        <br/><img width="220px" src="http://images.90159.com/icon/codepush.jpg" />
+        <br/>
+        <br/><strong>Android开发精选：AndroidPush</strong> 
+        <br/>
+        <br/><img width="220px" src="http://images.90159.com/icon/AndroidPush.jpg" />
+        <br/>
+        <br/><strong>公众号Python开发：PythonPush</strong> 
+        <br/>
+        <br/><img width="220px" src="http://images.90159.com/icon/PythonPush.jpg" />
+        </p>
   <h1>最新文章</h1>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2016/05/09/ios9-interface-orientation/">iOS9横竖屏设置的处理方法和实例讲解</a>
+        <a href="/blog/2016/05/05/ios-nsrunllop-nstimer/">关于NSRunLoop和NSTimer的深入理解</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2016/05/05/ios-nsrunllop-nstimer/">关于NSRunLoop和NSTimer的深入理解</a>
+        <a href="/blog/2016/03/09/ios-9-app-thinning/">iOS 9 App Thinning</a>
       </li>
     
       <li class="post">
@@ -1173,7 +1409,7 @@ rake deploy 发布文章
       </li>
     
       <li class="post">
-        <a href="/blog/2016/03/01/female-coder-dream-reply/">女程序员做了个梦，众网友的神回复</a>
+        <a href="/blog/2016/03/02/ggteach-learn-ios-simply/">刚刚在线-让学习iOS开发更简单</a>
       </li>
     
   </ul>
@@ -1182,16 +1418,135 @@ rake deploy 发布文章
 <section>
     <h1>About Me</h1>
     <br/>
-    <p> 李刚：有理想的程序员<br/>
+    <p> 李刚：百度百家专栏作者，刚刚在线站长，iOS工程师非著名自媒体人，微信公众号iOS开发：iOSDevTip运营者<br/>
     <br/><strong>出师未捷名已落</strong>
     <br/>
+    <br/>新浪微博: <a href='http://weibo.com/ligangnc' target='_blank'>李刚移动</a>
     <br/>
+    <br/>个人微信: <strong>chinaligang</strong> 欢迎调戏
     <br/>
+    <br/>iOS群: <strong>218822587</strong>
   <br/>
 </section>
 
    
- 
+ <section>
+    <h1>友情链接</h1>
+    <ul>
+       <li>
+           <a href="http://www.ggteach.com" target="_blank" title="刚刚在线教育">刚刚在线教育</a>
+       </li>
+       <li>
+           <a href="http://www.superqq.com" target="_blank" title="刚刚在线">刚刚在线</a>
+       </li>
+       <li>
+           <a href="http://www.90159.com" target="_blank" title="程序员头条">程序员头条</a>
+       </li>
+       <li>
+           <a href="http://www.iswifting.com" target="_blank" title=“swift开发”>swift开发</a>
+       </li>
+       <li>
+           <a href="http://www.aswifter.com/" target="_blank" title="APP开发者">APP开发者</a>
+       </li>
+       <li>
+        <a href="http://www.codefunny.com" target="_blank" title="程序员的那些事">程序员的那些事</a>
+      </li>
+      <li>
+        <a href="http://www.androidwonder.com" target="_blank" title="Android开发精选">Android开发精选</a>
+      </li>
+      <li>
+        <a href="http://www.pythonpush.com" target="_blank" title="Python开发中文网">Python开发中文网</a>
+      </li>
+      <li>
+        <a href="http://www.linuxpush.com" target="_blank" title="Linux开发中文网">Linux开发中文网</a>
+      </li>
+      <li>
+        <a href="http://www.phpush.com" target="_blank" title="PHP开发中文网">PHP开发中文网</a>
+      </li>
+      <li>
+        <a href="http://www.javawonder.com" target="_blank" title="Java开发中文网">Java开发中文网</a>
+      </li>
+      <li>
+        <a href="http://www.websofun.com" target="_blank" title="WEB开发中文网">WEB开发中文网</a>
+      </li>
+      <li>
+        <a href="http://www.htmlpush.com" target="_blank" title="HTML开发中文网">HTML开发中文网</a>
+      </li>
+        <li>
+           <a href="http://www.boxingjiaoyu.com/" target="_blank" title="程序员聚合平台">程序员聚合平台</a>
+       </li>
+        <li>
+           <a href="http://droidyue.com/" target="_blank" title="技术小黑屋">技术小黑屋</a>
+       </li>
+        <li>
+           <a href="http://www.olinone.com/" target="_blank" title="庞海礁的个人空间">庞海礁的个人空间</a>
+       </li>
+       <li>
+           <a href="http://www.5ibc.net" target="_blank" title="PHP教程">PHP教程</a>
+       </li>
+       <li>
+           <a href="http://gank.io/" target="_blank" title="干货集中营">干货集中营</a>
+       </li>
+      <li>
+           <a href="http://www.mobile-open.com/" target="_blank" title="阳和移动开发">阳和移动开发</a>
+       </li>
+       <li>
+           <a href="http://www.jq-school.com/" target="_blank" title="jquery教程">jquery教程</a>
+       </li>
+        <li>
+           <a href="http://www.admin10000.com/" target="_blank" title="WEB开发者">WEB开发者</a>
+       </li>
+       <li>
+           <a href="http://www.aichengxu.com/" target="_blank" title="爱程序网">爱程序网</a>
+       </li>
+       <li>
+           <a href="http://www.lai18.com" target="_blank" title="IT技术文章">IT技术文章</a>
+       </li>
+       <li>
+           <a href="http://www.cftea.com/" target="_blank" title="千一网络">千一网络</a>
+       </li>
+        <li>
+           <a href="http://www.bmob.cn/" target="_blank" title="Bmob">Bmob移动后端云</a>
+       </li>
+       <li>
+           <a href="http://www.leichunfeng.com" target="_blank" title="雷纯锋的技术博客">雷纯锋的技术博客</a>
+       </li>
+       <li>
+           <a href="http://cuiqingcai.com/" target="_blank" title="静觅">静觅</a>
+       </li>
+       <li>
+           <a href="http://www.zhangfei.tk/" target="_blank" title="张飞的技术博客">张飞的技术博客</a>
+       </li>
+       <li>
+           <a href="http://letsswift.com/" target="_blank" title="一起Swift">一起Swift</a>
+       </li>
+       <li>
+           <a href="http://www.swiftv.cn/" target="_blank" title="SwiftV课堂">SwiftV课堂</a>
+       </li>
+        <li>
+           <a href="http://q.maiziedu.com/" target="_blank" title="iOS开发">iOS开发</a>
+       </li>
+       <li>
+           <a href="http://www.aptusource.org/" target="_blank" title="AptuSource">AptuSource</a>
+       </li>
+        <li>
+            <a href="http://blog.csdn.net/iosdevtip" target="_blank" title="刚刚在线">CSDN</a>
+        </li>
+        <li>
+            <a href="http://user.qzone.qq.com/1606535851" target="_blank" title="刚刚在线">QQ空间</a>
+        </li>
+        <li>
+            <br/><strong>交换友链：</strong>欢迎各大程序员站点交换友情链接，如需交换，请添加好本站链接后发送邮件至下方邮箱。
+            <br/>
+            <br/><strong>格式：</strong>（ 友链文字：“ 刚刚在线 ”，链接：“ http://www.superqq.com/ ” ）
+            <br/>
+            <br/><strong>邮箱：</strong>worldligang@163.com
+            <br/>
+        </li>
+    </ul>
+<br/>
+</section>
+
 
 
 
