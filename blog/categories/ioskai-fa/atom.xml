@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Ios开发 | 李刚的小天地]]></title>
-  <link href="http://www.cocoa.mom/blog/categories/ioskai-fa/atom.xml" rel="self"/>
-  <link href="http://www.cocoa.mom/"/>
-  <updated>2016-05-14T10:45:17+08:00</updated>
-  <id>http://www.cocoa.mom/</id>
+  <title><![CDATA[Category: Ios开发 | 刚刚在线]]></title>
+  <link href="http://www.superqq.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
+  <link href="http://www.superqq.com/"/>
+  <updated>2016-05-14T10:47:29+08:00</updated>
+  <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
     
@@ -14,11 +14,187 @@
 
   
   <entry>
+    <title type="html"><![CDATA[刚刚在线-让学习iOS开发更简单]]></title>
+    <link href="http://www.superqq.com/blog/2016/03/02/ggteach-learn-ios-simply/"/>
+    <updated>2016-03-02T20:49:56+08:00</updated>
+    <id>http://www.superqq.com/blog/2016/03/02/ggteach-learn-ios-simply</id>
+    <content type="html"><![CDATA[<p>非常兴奋的告诉大家一个好消息：刚刚在线官网正式上线啦！欢迎大家访问！官网地址：</p>
+
+<pre><code>www.ggteach.com
+</code></pre>
+
+<p>刚刚在线的使命-让学习iOS开发更简单！我们的团队有30多位实战讲师，将为大家提供更多的技术分享、视频直播、实战项目等等。</p>
+
+<h2>本周六技术分享</h2>
+
+<p>好消息接连不断，技术分享说来就来！本周六晚上8点，注意时间噢！可以提前关注<strong>刚刚在线教育</strong>直播间，以免到时候找不到。</p>
+
+<h3>技术分享简介：</h3>
+
+<pre><code>斗鱼技术分享课程
+主题：《App Thinng》
+时间：2016-03-5（周六）晚8：00 至 9：00
+斗鱼房间：刚刚在线教育
+地址：http://www.douyutv.com/ggteach
+大家可以提前关注。 
+</code></pre>
+
+<p>&mdash;&mdash;美丽的分割线&mdash;&mdash;&ndash;</p>
+
+<h2>编程是一种生活方式</h2>
+
+<p>今天在回来的路上看到一个好朋友分享了一篇文章《美国监狱新趋势&ndash;学编程》</p>
+
+<p><img src="http://www.superqq.com/images/ggteach01.jpg" alt="1" /></p>
+
+<p>是的，不可思议。有网友表示：想去美国监狱，包吃住还免费学编程！令人震惊的是：“他们中没有人因再次犯罪而重返监狱，他们走了一条正确的路。”</p>
+
+<p>很多美国人已经意识到编程的重要性！编程不再是一项找工作的技能，而是一种生活方式，每个人都多少应该懂一点编程。</p>
+
+<p><img src="http://www.superqq.com/images/ggteach02.jpg" alt="2" /></p>
+
+<p>为了呼吁美国人民学习编程知识，奥巴马甚至还亲自挽起袖子写了一段javascript代码，这也让他成为美国历史上第一位会写代码的总统。（虽然写得不怎么样）</p>
+
+<h2>国内编程现状</h2>
+
+<p>在中国的大学里面，计算机课程只是讲一些理论知识。很多大学生（包括计算机系）毕业之后，很难靠自己掌握的编程知识找到一份工作。这是一件何其可悲的事情。</p>
+
+<p>很多同学无奈之下，会选择线下的培训班，但是培训班的费用高的让人望而却步。有的同学因为昂贵的费用，这一生可能就与编程无缘；</p>
+
+<p>有的同学可能会咬牙坚持贷款2万甚至更多，来学习一项编程的技能。还未入社会，就要背负着为银行打工的重担。</p>
+
+<h2>刚刚在线的诞生</h2>
+
+<p>刚刚在线的诞生就是为了帮助广大iOS开发爱好者，让学习iOS开发更简单！</p>
+
+<p>刚刚在线推出iOS开发技术直播课程，直播课程将免费开放，直播课程涉及iOS开发常用的控件、网络请求、第三方类库等。</p>
+
+<p>同时，刚刚在线推出iOS开发社群。为社群成员提供高级进阶、在线答疑、实战项目、面试技巧、独立博客、职位推荐等服务。</p>
+
+<p>刚刚在线团队成员来自北京、上海、广州、美国、日本等地方，每一位讲师都是实战派！</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[推荐：iOS开发面试题整理（一）]]></title>
+    <link href="http://www.superqq.com/blog/2015/12/15/ios-dev-interview/"/>
+    <updated>2015-12-15T23:09:50+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/12/15/ios-dev-interview</id>
+    <content type="html"><![CDATA[<p>年底了估计有朋友已经坐不住了，前面有一篇文章介绍<a href="http://mp.weixin.qq.com/s?__biz=MzA3NzM0NzkxMQ==&amp;mid=402358456&amp;idx=1&amp;sn=0494a7313998527e7950f936a24e9ce7#rd">《 年底程序猿迁徙的5大理由，你占了几个？ 》</a>。你是不是也占几个呢？</p>
+
+<p>跳槽不可避免会遇到面试，有些公司会找一些奇葩的面试题来坑我们。所以我们不得不做好防备、提前备战，怎么感觉跟备考一样呢？</p>
+
+<p>我不得不遗憾的告诉你，这比备考重要多了。面试题做不好，很有可能错过一次大好机会。很早之前我收集了很多面试题，以后都分享出来。大家如果手里有不错的面试题目，可以直接发给我，我的邮箱：<strong>worldligang@163.com</strong>，我也会分享给大家！</p>
+
+<p>本文挡会持续更新，欢迎关注公众号iOS开发：iOSDevTip 关注之后回复：面试</p>
+
+<p><img src="http://images.90159.com/icon/newteiba.png" alt="newteiba.png" /></p>
+
+<h2>1. Object-C有多继承吗？没有的话用什么代替？</h2>
+
+<p>cocoa 中所有的类都是NSObject 的子类</p>
+
+<p>多继承在这里是用protocol 委托代理 来实现的 你不用去考虑繁琐的多继承 ,虚基类的概念. ood的多态特性 在 obj-c 中通过委托来实现.</p>
+
+<h2>2. Object-C有私有方法吗？私有变量呢？</h2>
+
+<p>objective-c – 类里面的方法只有两种, 静态方法和实例方法. 这似乎就不是完整的面向对象了,按照OO的原则就是一个对象只暴露有用的东西. 如果没有了私有方法的话, 对于一些小范围的代码重用就不那么顺手了.</p>
+
+<p>在类里面声名一个私有方法</p>
+
+<pre><code>@interface Controller : NSObject { NSString *something; } 
++ (void)thisIsAStaticMethod; – (void)thisIsAnInstanceMethod;
+ @end
+
+@interface Controller (private) 
+- (void)thisIsAPrivateMethod; 
+- @end
+</code></pre>
+
+<p>@private可以用来修饰私有变量</p>
+
+<p>在Objective‐C中，所有实例变量默认都是私有的，所有实例方法默认都是公有的</p>
+
+<h2>3. #import和#include的区别，@class代表什么？</h2>
+
+<p>@class一般用于头文件中需要声明该类的某个实例变量的时候用到，在m文件中还是需要使用#import‘</p>
+
+<p>而#import比起#include的好处就是不会引起重复包含</p>
+
+<h2>4. 线程和进程的区别？</h2>
+
+<p>进程和线程都是由操作系统所体会的程序运行的基本单元，系统利用该基本单元实现系统对应用的并发性。</p>
+
+<p>进程和线程的主要差别在于它们是不同的操作系统资源管理方式。进程有独立的地址空间，一个进程崩溃后，在保护模式下不会对其它进程产生影响，而线程只是一个进程中的不同执行路径。线程有自己的堆栈和局部变量，但线程之间没有单独的地址空间，一个线程死掉就等于整个进程死掉，所以多进程的程序要比多线程的程序健壮，但在进程切换时，耗费资源较大，效率要差一些。但对于一些要求同时进行并且又要共享某些变量的并发操作，只能用线程，不能用进程。</p>
+
+<h2>5. 堆和栈的区别？</h2>
+
+<p>管理方式：对于栈来讲，是由编译器自动管理，无需我们手工控制；对于堆来说，释放工作由程序员控制，容易产生memory leak。 申请大小：</p>
+
+<p>栈：在Windows下,栈是向低地址扩展的数据结构，是一块连续的内存的区域。这句话的意思是栈顶的地址和栈的最大容量是系统预先规定好的，在WINDOWS下，栈的大小是2M（也有的说是1M，总之是一个编译时就确定的常数），如果申请的空间超过栈的剩余空间时，将提示overflow。因此，能从栈获得的空间较小。</p>
+
+<p>堆：堆是向高地址扩展的数据结构，是不连续的内存区域。这是由于系统是用链表来存储的空闲内存地址的，自然是不连续的，而链表的遍历方向是由低地址向高地址。堆的大小受限于计算机系统中有效的虚拟内存。由此可见，堆获得的空间比较灵活，也比较大。</p>
+
+<p>碎片问题：对于堆来讲，频繁的new/delete势必会造成内存空间的不连续，从而造成大量的碎片，使程序效率降低。对于栈来讲，则不会存在这个问题，因为栈是先进后出的队列，他们是如此的一一对应，以至于永远都不可能有一个内存块从栈中间弹出</p>
+
+<p>分配方式：堆都是动态分配的，没有静态分配的堆。栈有2种分配方式：静态分配和动态分配。静态分配是编译器完成的，比如局部变量的分配。动态分配由alloca函数进行分配，但是栈的动态分配和堆是不同的，他的动态分配是由编译器进行释放，无需我们手工实现。 分配效率：栈是机器系统提供的数据结构，计算机会在底层对栈提供支持：分配专门的寄存器存放栈的地址，压栈出栈都有专门的指令执行，这就决定了栈的效率比较高。堆则是C/C++函数库提供的，它的机制是很复杂的。</p>
+
+<h2>6. Object-C的内存管理？</h2>
+
+<p>1.当你使用new,alloc和copy方法创建一个对象时,该对象的保留计数器值为1.当你不再使用该对象时,你要负责向该对象发送一条release或autorelease消息.这样,该对象将在使用寿命结束时被销毁.</p>
+
+<p>2.当你通过任何其他方法获得一个对象时,则假设该对象的保留计数器值为1,而且已经被设置为自动释放,你不需要执行任何操作来确保该对象被清理.如果你打算在一段时间内拥有该对象,则需要保留它并确保在操作完成时释放它.</p>
+
+<p>3.如果你保留了某个对象,你需要(最终)释放或自动释放该对象.必须保持retain方法和release方法的使用次数相等.</p>
+
+<h2>7 浅复制和深复制的区别？</h2>
+
+<p>答案：浅层复制：只复制指向对象的指针，而不复制引用对象本身。</p>
+
+<p>深层复制：复制引用对象本身。</p>
+
+<p>意思就是说我有个A对象，复制一份后得到A_copy对象后，对于浅复制来说，A和A_copy指向的是同一个内存资源，复制的只不过是是一个指针，对象本身资源
+还是只有一份，那如果我们对A_copy执行了修改操作,那么发现A引用的对象同样被修改，这其实违背了我们复制拷贝的一个思想。深复制就好理解了,内存中存在了
+两份独立对象本身。</p>
+
+<p>用网上一哥们通俗的话将就是：</p>
+
+<p>浅复制好比你和你的影子，你完蛋，你的影子也完蛋</p>
+
+<p>深复制好比你和你的克隆人，你完蛋，你的克隆人还活着。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[苹果公司即将放假8天暂停APP提交审核]]></title>
+    <link href="http://www.superqq.com/blog/2015/12/12/apple-commit-7-day/"/>
+    <updated>2015-12-12T19:52:50+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/12/12/apple-commit-7-day</id>
+    <content type="html"><![CDATA[<p>圣诞节对于美国人来说是一个重要的节日。每年的圣诞节苹果公司都会全员放假8天时间，时间2015年12月22日之2015年12月29日。今年也不例外。</p>
+
+<p>昨天登录苹果开发者平台: <a href="http://developer.apple.com">http://developer.apple.com</a> 就有提示：</p>
+
+<p><img src="http://images.90159.com/12/AppStore.png" alt="dev" /></p>
+
+<p>提示的很清楚：</p>
+
+<pre><code>我们将于这段时间休假。在此期间，我们会停用一些功能，如 APP 提交等...
+</code></pre>
+
+<p>在放假这段时间里，苹果将会暂停AppStore推荐、审核、提交、更新等工作。所以这段时间内更新、上架都会受到影响。</p>
+
+<p>元旦之前，想要上架的朋友，必须得抓紧时间啦！</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[iOS9横竖屏设置的处理方法和实例讲解]]></title>
-    <link href="http://www.cocoa.mom/blog/2016/05/09/ios9-interface-orientation/"/>
-    <updated>2016-05-09T23:30:03+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2016/05/09/ios9-interface-orientation</id>
-    <content type="html"><![CDATA[<p>在一般的视频类APP播放的时候都会支持横屏，这样做的好处就是便于观看。你的项目中支持横屏吗？我们一起了解一下，在iOS9中横竖屏设置的处理方法吧！</p>
+    <link href="http://www.superqq.com/blog/2015/12/07/ios9-interface-orientation/"/>
+    <updated>2015-12-07T23:30:03+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/12/07/ios9-interface-orientation</id>
+    <content type="html"><![CDATA[<p>原文：<a href="http://www.superqq.com/blog/2015/12/07/ios9-interface-orientation/">http://www.superqq.com/blog/2015/12/07/ios9-interface-orientation/</a></p>
+
+<p>在一般的视频类APP播放的时候都会支持横屏，这样做的好处就是便于观看。你的项目中支持横屏吗？我们一起了解一下，在iOS9中横竖屏设置的处理方法吧！</p>
 
 <h2>支持横竖屏配置</h2>
 
@@ -130,299 +306,77 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[推荐：iOS开发面试题整理（一）]]></title>
-    <link href="http://www.cocoa.mom/blog/2015/12/15/ios-dev-interview/"/>
-    <updated>2015-12-15T23:09:50+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2015/12/15/ios-dev-interview</id>
-    <content type="html"><![CDATA[<p>年底了估计有朋友已经坐不住了，前面有一篇文章介绍<a href="http://mp.weixin.qq.com/s?__biz=MzA3NzM0NzkxMQ==&amp;mid=402358456&amp;idx=1&amp;sn=0494a7313998527e7950f936a24e9ce7#rd">《 年底程序猿迁徙的5大理由，你占了几个？ 》</a>。你是不是也占几个呢？</p>
+    <title type="html"><![CDATA[VIP群福利：Git使用教程（视频+PPT）]]></title>
+    <link href="http://www.superqq.com/blog/2015/12/05/git-use-video-ppt/"/>
+    <updated>2015-12-05T20:07:12+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/12/05/git-use-video-ppt</id>
+    <content type="html"><![CDATA[<p>天才帝一步应用源代码分享到<a href="http://www.superqq.com/blog/2015/11/19/create-high-efficiency-ios-group/">iOS开发实战交流VIP群</a>，已经有不少朋友下载。这个APP也是一个小小的想法，希望能激发大家的灵感，做出更多有意义的属于自己的APP。</p>
 
-<p>跳槽不可避免会遇到面试，有些公司会找一些奇葩的面试题来坑我们。所以我们不得不做好防备、提前备战，怎么感觉跟备考一样呢？</p>
+<p>iOS开发实战交流VIP群已经有几百位朋友加入，这里是一个非常不错的交流平台，欢迎更多朋友加入！详情点击这里。</p>
 
-<p>我不得不遗憾的告诉你，这比备考重要多了。面试题做不好，很有可能错过一次大好机会。很早之前我收集了很多面试题，以后都分享出来。大家如果手里有不错的面试题目，可以直接发给我，我的邮箱：<strong>worldligang@163.com</strong>，我也会分享给大家！</p>
+<p>愿大家除了思维上、技术上有所提高，更能成为网络上无话不谈的知心朋友！</p>
 
-<h2>1. Object-C有多继承吗？没有的话用什么代替？</h2>
+<p>今天给大家分享Git使用教程：</p>
 
-<p>cocoa 中所有的类都是NSObject 的子类</p>
-
-<p>多继承在这里是用protocol 委托代理 来实现的 你不用去考虑繁琐的多继承 ,虚基类的概念. ood的多态特性 在 obj-c 中通过委托来实现.</p>
-
-<h2>2. Object-C有私有方法吗？私有变量呢？</h2>
-
-<p>objective-c – 类里面的方法只有两种, 静态方法和实例方法. 这似乎就不是完整的面向对象了,按照OO的原则就是一个对象只暴露有用的东西. 如果没有了私有方法的话, 对于一些小范围的代码重用就不那么顺手了.</p>
-
-<p>在类里面声名一个私有方法</p>
-
-<pre><code>@interface Controller : NSObject { NSString *something; } 
-+ (void)thisIsAStaticMethod; – (void)thisIsAnInstanceMethod;
- @end
-
-@interface Controller (private) 
-- (void)thisIsAPrivateMethod; 
-- @end
-</code></pre>
-
-<p>@private可以用来修饰私有变量</p>
-
-<p>在Objective‐C中，所有实例变量默认都是私有的，所有实例方法默认都是公有的</p>
-
-<h2>3. #import和#include的区别，@class代表什么？</h2>
-
-<p>@class一般用于头文件中需要声明该类的某个实例变量的时候用到，在m文件中还是需要使用#import‘</p>
-
-<p>而#import比起#include的好处就是不会引起重复包含</p>
-
-<h2>4. 线程和进程的区别？</h2>
-
-<p>进程和线程都是由操作系统所体会的程序运行的基本单元，系统利用该基本单元实现系统对应用的并发性。</p>
-
-<p>进程和线程的主要差别在于它们是不同的操作系统资源管理方式。进程有独立的地址空间，一个进程崩溃后，在保护模式下不会对其它进程产生影响，而线程只是一个进程中的不同执行路径。线程有自己的堆栈和局部变量，但线程之间没有单独的地址空间，一个线程死掉就等于整个进程死掉，所以多进程的程序要比多线程的程序健壮，但在进程切换时，耗费资源较大，效率要差一些。但对于一些要求同时进行并且又要共享某些变量的并发操作，只能用线程，不能用进程。</p>
-
-<h2>5. 堆和栈的区别？</h2>
-
-<p>管理方式：对于栈来讲，是由编译器自动管理，无需我们手工控制；对于堆来说，释放工作由程序员控制，容易产生memory leak。 申请大小：</p>
-
-<p>栈：在Windows下,栈是向低地址扩展的数据结构，是一块连续的内存的区域。这句话的意思是栈顶的地址和栈的最大容量是系统预先规定好的，在WINDOWS下，栈的大小是2M（也有的说是1M，总之是一个编译时就确定的常数），如果申请的空间超过栈的剩余空间时，将提示overflow。因此，能从栈获得的空间较小。</p>
-
-<p>堆：堆是向高地址扩展的数据结构，是不连续的内存区域。这是由于系统是用链表来存储的空闲内存地址的，自然是不连续的，而链表的遍历方向是由低地址向高地址。堆的大小受限于计算机系统中有效的虚拟内存。由此可见，堆获得的空间比较灵活，也比较大。</p>
-
-<p>碎片问题：对于堆来讲，频繁的new/delete势必会造成内存空间的不连续，从而造成大量的碎片，使程序效率降低。对于栈来讲，则不会存在这个问题，因为栈是先进后出的队列，他们是如此的一一对应，以至于永远都不可能有一个内存块从栈中间弹出</p>
-
-<p>分配方式：堆都是动态分配的，没有静态分配的堆。栈有2种分配方式：静态分配和动态分配。静态分配是编译器完成的，比如局部变量的分配。动态分配由alloca函数进行分配，但是栈的动态分配和堆是不同的，他的动态分配是由编译器进行释放，无需我们手工实现。 分配效率：栈是机器系统提供的数据结构，计算机会在底层对栈提供支持：分配专门的寄存器存放栈的地址，压栈出栈都有专门的指令执行，这就决定了栈的效率比较高。堆则是C/C++函数库提供的，它的机制是很复杂的。</p>
-
-<h2>6. Object-C的内存管理？</h2>
-
-<p>1.当你使用new,alloc和copy方法创建一个对象时,该对象的保留计数器值为1.当你不再使用该对象时,你要负责向该对象发送一条release或autorelease消息.这样,该对象将在使用寿命结束时被销毁.</p>
-
-<p>2.当你通过任何其他方法获得一个对象时,则假设该对象的保留计数器值为1,而且已经被设置为自动释放,你不需要执行任何操作来确保该对象被清理.如果你打算在一段时间内拥有该对象,则需要保留它并确保在操作完成时释放它.</p>
-
-<p>3.如果你保留了某个对象,你需要(最终)释放或自动释放该对象.必须保持retain方法和release方法的使用次数相等.</p>
-
-<h2>7 浅复制和深复制的区别？</h2>
-
-<p>答案：浅层复制：只复制指向对象的指针，而不复制引用对象本身。</p>
-
-<p>深层复制：复制引用对象本身。</p>
-
-<p>意思就是说我有个A对象，复制一份后得到A_copy对象后，对于浅复制来说，A和A_copy指向的是同一个内存资源，复制的只不过是是一个指针，对象本身资源
-还是只有一份，那如果我们对A_copy执行了修改操作,那么发现A引用的对象同样被修改，这其实违背了我们复制拷贝的一个思想。深复制就好理解了,内存中存在了
-两份独立对象本身。</p>
-
-<p>用网上一哥们通俗的话将就是：</p>
-
-<p>浅复制好比你和你的影子，你完蛋，你的影子也完蛋</p>
-
-<p>深复制好比你和你的克隆人，你完蛋，你的克隆人还活着。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[苹果公司即将放假8天暂停APP提交审核]]></title>
-    <link href="http://www.cocoa.mom/blog/2015/12/12/apple-commit-7-day/"/>
-    <updated>2015-12-12T19:52:50+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2015/12/12/apple-commit-7-day</id>
-    <content type="html"><![CDATA[<p>圣诞节对于美国人来说是一个重要的节日。每年的圣诞节苹果公司都会全员放假8天时间，时间2015年12月22日之2015年12月29日。今年也不例外。</p>
-
-<p>昨天登录苹果开发者平台: <a href="http://developer.apple.com">http://developer.apple.com</a> 就有提示：</p>
-
-<p><img src="http://images.90159.com/12/AppStore.png" alt="dev" /></p>
-
-<p>提示的很清楚：</p>
-
-<pre><code>我们将于这段时间休假。在此期间，我们会停用一些功能，如 APP 提交等...
-</code></pre>
-
-<p>在放假这段时间里，苹果将会暂停AppStore推荐、审核、提交、更新等工作。所以这段时间内更新、上架都会受到影响。</p>
-
-<p>元旦之前，想要上架的朋友，必须得抓紧时间啦！</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[升级Xcode7之后VVDocumenter-Xcode不能用的解决办法]]></title>
-    <link href="http://www.cocoa.mom/blog/2015/12/03/vvdocumenter-xcode7-not-work/"/>
-    <updated>2015-12-03T22:24:57+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2015/12/03/vvdocumenter-xcode7-not-work</id>
-    <content type="html"><![CDATA[<p>VVDocumenter-Xcode是Xcode上一款快速添加标准注释，并可以自动生成文档的插件。有了VVDocumenter-Xcode，规范化的注释，只需要输入三个斜线“///”就可以搞定，非常方面实用，目前已经支持Swift。</p>
-
-<p>Objective-C效果图：</p>
-
-<p><img src="http://images.90159.com/11/vvdocumenter1.gif" alt="VVDocumenter1" /></p>
-
-<p>Swift效果图：</p>
-
-<p><img src="http://images.90159.com/11/vvdocumenter2.gif" alt="VVDocumenter1" /></p>
-
-<p>从Xcode 5开始，苹果要求加入UUID证书从而保证插件的稳定性。因此Xcode版本更新之后需要在VVDocumenter-Xcode的Info.plist文件中添加Xcode的UUID。</p>
-
-<h2>步骤如下：</h2>
-
-<h3>一、查看Xcode的UUID</h3>
-
-<h4>方式1</h4>
-
-<p>在终端执行</p>
-
-<pre><code>defaults read /Applications/Xcode.app/Contents/Info DVTPlugInCompatibilityUUID
-</code></pre>
-
-<p><img src="http://images.90159.com/11/vvdocumenter3.jpg" alt="VVDocumenter1" /></p>
-
-<p>拷贝选中的字符串。</p>
-
-<h4>方式2</h4>
-
-<p>在/Applications目录中找到Xcode.app，右键”显示包内容”，进入Contents文件夹，双击Info.plist打开，找到DVTPlugInCompatibilityUUID，拷贝后面的字符串。</p>
-
-<h3>二、添加Xcode的UUID到VVDocumenter-Xcode的Info.plist文件</h3>
-
-<h4>方式1&ndash;插件已经安装完成</h4>
-
-<p>1、打开xcode插件所在的目录：~/Library/Application Support/Developer/Shared/Xcode/Plug-ins；</p>
-
-<p>2、选择已经安装的插件例如VVDocumenter-Xcode，右键”显示包内容”；</p>
-
-<p>3、找到info.plist 文件，找到DVTPlugInCompatibilityUUIDs的项目，添加一个Item，Value的值为之前Xcode的UUID，保存。</p>
-
-<p><img src="http://images.90159.com/11/vvdocumenter4.jpg" alt="VVDocumenter1" /></p>
-
-<h4>方式2&ndash;插件还未安装/重新安装</h4>
-
-<p>1、从GitHub克隆仓库到本地，在Xcode中打开项目，选择项目名称，在TAGETS下选中VVDocumenter-Xcode；</p>
-
-<p>2、选择Info，找到DVTPlugInCompatibilityUUIDs的项目，添加一个Item，Value的值为之前Xcode的UUID；</p>
-
-<p>3、Build项目，VVDocumenter-Xcode会自动安装。</p>
-
-<h3>三、重启Xcode</h3>
-
-<p>Xcode 6之后，重启Xcode时会提示“Load bundle”、 “Skip Bundle”，这里必须选择“Load bundle”，不然插件无法使用。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS开发之如何跳到系统设置里的各种设置界面]]></title>
-    <link href="http://www.cocoa.mom/blog/2015/12/01/jump-setting-per-page/"/>
-    <updated>2015-12-01T22:12:54+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2015/12/01/jump-setting-per-page</id>
-    <content type="html"><![CDATA[<p>昨天的文章<a href="http://www.superqq.com/blog/2015/11/30/jump-to-setting-wifi/">《iOS开发之如何跳到系统设置里的WiFi界面》</a>介绍了如何从APP里跳到WiFi设置界面，很多朋友非常喜欢这样的小功能，还有朋友正想做这个功能刚好看见啦！</p>
-
-<h2>跳到更多设置界面</h2>
-
-<p>除了跳到WiFi设置界面，能不能跳到其他的设置界面呢？比如：定位服务、FaceTime、音乐等等。都是可以的，一起来看看如何实现的！</p>
+<h2>Git是什么？</h2>
 
 <!--more-->
 
 
-<h2>定位服务</h2>
+<p>Git是一款免费、开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。作为一名iOS开发者，应该掌握！当然，也有朋友用SVN来管理，SVN也是有相应的命令。</p>
 
-<p>定位服务有很多APP都有，如果用户关闭了定位，那么，我们在APP里面可以提示用户打开定位服务。点击到设置界面设置，直接跳到定位服务设置界面。代码如下：</p>
+<p>在使用Git之前，我还用过最笨的办法通过手动来管理代码。管理起来相当不便，尤其是团队多人开发时，根本无法用手动来管理代码。</p>
 
-<pre><code>//定位服务设置界面
-NSURL *url = [NSURL URLWithString:@"prefs:root=LOCATION_SERVICES"];
-if ([[UIApplication sharedApplication] canOpenURL:url])
-{
-    [[UIApplication sharedApplication] openURL:url];
-}
+<p>直到接触的Git，才感受到它的强大。Git其实没有大家想象的那么难，刚开始接触的时候，可能不知道如何下手。当你真正的用一段时间之后，你会掌握一些常用的命令，比如：git status、git commit -m “message”、也会理解里面的一些术语，比如仓库、分支等等。</p>
+
+<h2>Git视频教程</h2>
+
+<p>为了帮助大家快速上手Git，上周录制了一期视频教程《Git使用教程》已经上传到iOS开发实战交流VIP群。欢迎大家到群文件里面下载。</p>
+
+<p>视频里面有讲到用Homebrew来安装Git，大家电脑上如果没有装Homebrew，可以通过下面的命令来安装：</p>
+
+<pre><code>ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 </code></pre>
 
-<p>这样就可以跳到系统设置的定位服务界面啦！我们继续看几个列子。</p>
+<p>Homebrew的官方：</p>
 
-<h2>FaceTime</h2>
-
-<pre><code>//FaceTime设置界面
-NSURL *url = [NSURL URLWithString:@"prefs:root=FACETIME"];
-if ([[UIApplication sharedApplication] canOpenURL:url])
-{
-    [[UIApplication sharedApplication] openURL:url];
-}
+<pre><code>http://brew.sh/
 </code></pre>
 
-<h2>音乐</h2>
+<p>如果在看视频教程中，遇到问题，可以到VIP群里讨论。来吧，一起征服Git！</p>
 
-<pre><code>//音乐设置界面
-NSURL *url = [NSURL URLWithString:@"prefs:root=MUSIC"];
-if ([[UIApplication sharedApplication] canOpenURL:url])
-{
-    [[UIApplication sharedApplication] openURL:url];
-}
-</code></pre>
+<h2>PPT截图</h2>
 
-<h2>墙纸设置界面</h2>
+<p>PPT里面整理了Git的常用命令、别名设置、一些资料网站等等，我把PPT里面的内容整理出来，大家一起学习：</p>
 
-<pre><code>//墙纸设置界面
-NSURL *url = [NSURL URLWithString:@"prefs:root=Wallpaper"];
-if ([[UIApplication sharedApplication] canOpenURL:url])
-{
-    [[UIApplication sharedApplication] openURL:url];
-}
-</code></pre>
-
-<h2>蓝牙设置界面</h2>
-
-<pre><code>//蓝牙设置界面
-NSURL *url = [NSURL URLWithString:@"prefs:root=Bluetooth"];
-if ([[UIApplication sharedApplication] canOpenURL:url])
-{
-   [[UIApplication sharedApplication] openURL:url];
-}
-</code></pre>
-
-<h2>iCloud设置界面</h2>
-
-<pre><code>//iCloud设置界面
-NSURL *url = [NSURL URLWithString:@"prefs:root=CASTLE"];
-if ([[UIApplication sharedApplication] canOpenURL:url]
-{
-   [[UIApplication sharedApplication] openURL:url];
-}
-</code></pre>
-
-<h2>参数配置</h2>
-
-<p>看到这几个例子，大家有没有发现，想跳到哪个设置界面只需要prefs:root=后面的值即可！是的，就是这样的。</p>
-
-<p>我在网上找到一个列表，可以跳到这些界面的参数配置：</p>
-
-<pre><code>About — prefs:root=General&amp;path=About
-Accessibility — prefs:root=General&amp;path=ACCESSIBILITY
-Airplane Mode On — prefs:root=AIRPLANE_MODE
-Auto-Lock — prefs:root=General&amp;path=AUTOLOCK
-Brightness — prefs:root=Brightness
-Bluetooth — prefs:root=General&amp;path=Bluetooth
-Date &amp; Time — prefs:root=General&amp;path=DATE_AND_TIME
-FaceTime — prefs:root=FACETIME
-General — prefs:root=General
-Keyboard — prefs:root=General&amp;path=Keyboard
-iCloud — prefs:root=CASTLE
-iCloud Storage &amp; Backup — prefs:root=CASTLE&amp;path=STORAGE_AND_BACKUP
-International — prefs:root=General&amp;path=INTERNATIONAL
-Location Services — prefs:root=LOCATION_SERVICES
-Music — prefs:root=MUSIC
-Music Equalizer — prefs:root=MUSIC&amp;path=EQ
-Music Volume Limit — prefs:root=MUSIC&amp;path=VolumeLimit
-Network — prefs:root=General&amp;path=Network
-Nike + iPod — prefs:root=NIKE_PLUS_IPOD
-Notes — prefs:root=NOTES
-Notification — prefs:root=NOTIFICATIONS_ID
-Phone — prefs:root=Phone
-Photos — prefs:root=Photos
-Profile — prefs:root=General&amp;path=ManagedConfigurationList
-Reset — prefs:root=General&amp;path=Reset
-Safari — prefs:root=Safari
-Siri — prefs:root=General&amp;path=Assistant
-Sounds — prefs:root=Sounds
-Software Update — prefs:root=General&amp;path=SOFTWARE_UPDATE_LINK
-Store — prefs:root=STORE
-Twitter — prefs:root=TWITTER
-Usage — prefs:root=General&amp;path=USAGE
-VPN — prefs:root=General&amp;path=Network/VPN
-Wallpaper — prefs:root=Wallpaper
-Wi-Fi — prefs:root=WIFI
-</code></pre>
-
-<p>大家可以根据自己的需求，跳到不同的设置界面。如果你喜欢这篇文章的话，欢迎分享给更多的朋友，也可以收藏起来，以备不时之需！</p>
-
-<p><a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
+<p><img src="http://images.90159.com/git/1.png" alt="1" />
+<img src="http://images.90159.com/git/2.png" alt="1" />
+<img src="http://images.90159.com/git/3.png" alt="1" />
+<img src="http://images.90159.com/git/4.png" alt="1" />
+<img src="http://images.90159.com/git/5.png" alt="1" />
+<img src="http://images.90159.com/git/6.png" alt="1" />
+<img src="http://images.90159.com/git/7.png" alt="1" />
+<img src="http://images.90159.com/git/8.png" alt="1" />
+<img src="http://images.90159.com/git/9.png" alt="1" />
+<img src="http://images.90159.com/git/10.png" alt="1" />
+<img src="http://images.90159.com/git/11.png" alt="1" />
+<img src="http://images.90159.com/git/12.png" alt="1" />
+<img src="http://images.90159.com/git/13.png" alt="1" />
+<img src="http://images.90159.com/git/14.png" alt="1" />
+<img src="http://images.90159.com/git/15.png" alt="1" />
+<img src="http://images.90159.com/git/16.png" alt="1" />
+<img src="http://images.90159.com/git/17.png" alt="1" />
+<img src="http://images.90159.com/git/18.png" alt="1" />
+<img src="http://images.90159.com/git/19.png" alt="1" />
+<img src="http://images.90159.com/git/20.png" alt="1" />
+<img src="http://images.90159.com/git/21.png" alt="1" />
+<img src="http://images.90159.com/git/22.png" alt="1" />
+<img src="http://images.90159.com/git/23.png" alt="1" />
+<img src="http://images.90159.com/git/24.png" alt="1" />
+<img src="http://images.90159.com/git/25.png" alt="1" />
+<img src="http://images.90159.com/git/26.png" alt="1" />
+<img src="http://images.90159.com/git/27.png" alt="1" />
+<img src="http://images.90159.com/git/28.png" alt="1" /></p>
 ]]></content>
   </entry>
   

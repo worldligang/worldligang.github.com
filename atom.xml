@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[李刚的小天地]]></title>
-  <link href="http://www.cocoa.mom/atom.xml" rel="self"/>
-  <link href="http://www.cocoa.mom/"/>
-  <updated>2016-05-14T10:45:17+08:00</updated>
-  <id>http://www.cocoa.mom/</id>
+  <title><![CDATA[刚刚在线]]></title>
+  <link href="http://www.superqq.com/atom.xml" rel="self"/>
+  <link href="http://www.superqq.com/"/>
+  <updated>2016-05-14T10:47:29+08:00</updated>
+  <id>http://www.superqq.com/</id>
   <author>
     <name><![CDATA[李刚]]></name>
     
@@ -14,126 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[iOS9横竖屏设置的处理方法和实例讲解]]></title>
-    <link href="http://www.cocoa.mom/blog/2016/05/09/ios9-interface-orientation/"/>
-    <updated>2016-05-09T23:30:03+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2016/05/09/ios9-interface-orientation</id>
-    <content type="html"><![CDATA[<p>在一般的视频类APP播放的时候都会支持横屏，这样做的好处就是便于观看。你的项目中支持横屏吗？我们一起了解一下，在iOS9中横竖屏设置的处理方法吧！</p>
-
-<h2>支持横竖屏配置</h2>
-
-<p>在iOS6以后，如果APP需要支持横屏，需要在xcode设置中General里面进行勾选配置：</p>
-
-<!--more-->
-
-
-<p><img src="http://images.90159.com/12/orientation1.png" alt="orientation1" /></p>
-
-<p>配置完成之后，我们可以看一下Info.plist里面的Supported interface orientations选项也相应的改变了。如下图：</p>
-
-<p><img src="http://images.90159.com/12/orientation2.png" alt="orientation2" /></p>
-
-<p>当然，我们也可以直接在Info.plist进行配置。</p>
-
-<h2>支持横竖屏方法</h2>
-
-<p>在iOS6之前我们可以直接用这个方法进行配置：</p>
-
-<pre><code>- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation NS_DEPRECATED_IOS(2_0, 6_0) __TVOS_PROHIBITED;
-</code></pre>
-
-<p>在iOS6之后，这个方法被NS_DEPRECATED_IOS，也就是废弃掉了。废弃了这个方法，苹果相应的也给出了新的方法来代替：</p>
-
-<pre><code>// New Autorotation support.
-- (BOOL)shouldAutorotate NS_AVAILABLE_IOS(6_0) __TVOS_PROHIBITED;
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations NS_AVAILABLE_IOS(6_0) __TVOS_PROHIBITED;
-</code></pre>
-
-<p>我们可以看到iOS6之前是一个方法，在iOS6之后变成两个方法了，一个是是否旋转的方法，一个是支持的方向的方法。</p>
-
-<h2>实例一：</h2>
-
-<p>假设：我们ViewController是直接加载window的self.window.rootViewController上面的。代码如下：</p>
-
-<pre><code>- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    ViewController *vc = [[ViewController alloc] init];
-    self.window.rootViewController = vc;
-    [self.window makeKeyAndVisible];
-    return YES;
-}
-</code></pre>
-
-<p>如果我们要是想支持上面General里勾选的方向（竖屏、横屏向左已经横屏向右）该如何实现呢？首先，我们应该设置让他支持旋转，然后在设置支持的方向。代码如下：</p>
-
-<pre><code>//支持旋转
--(BOOL)shouldAutorotate{
-   return YES;
-}
-//支持的方向
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskAllButUpsideDown;
-}
-</code></pre>
-
-<p>其中UIInterfaceOrientationMask是一个枚举：</p>
-
-<pre><code>typedef NS_OPTIONS(NSUInteger, UIInterfaceOrientationMask) {
-    UIInterfaceOrientationMaskPortrait = (1 &lt;&lt; UIInterfaceOrientationPortrait),
-    UIInterfaceOrientationMaskLandscapeLeft = (1 &lt;&lt; UIInterfaceOrientationLandscapeLeft),
-    UIInterfaceOrientationMaskLandscapeRight = (1 &lt;&lt; UIInterfaceOrientationLandscapeRight),
-    UIInterfaceOrientationMaskPortraitUpsideDown = (1 &lt;&lt; UIInterfaceOrientationPortraitUpsideDown),
-    UIInterfaceOrientationMaskLandscape = (UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight),
-    UIInterfaceOrientationMaskAll = (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight | UIInterfaceOrientationMaskPortraitUpsideDown),
-    UIInterfaceOrientationMaskAllButUpsideDown = (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight),
-} __TVOS_PROHIBITED;    
-</code></pre>
-
-<p>可以根据自己的需求来选择。上面我们说了假设这个条件，如果rootViewController上导航，我们直接在ViewController里面设置，这个方法就不灵了。（大家可以自己测试一下）</p>
-
-<h2>实例二：</h2>
-
-<p>为什么是导航上面的方法就不灵了呢？原因很简单，我们没有设置导航支持的方向。别忘了UINavigationController也是UIViewController的子类。需要受到同样的待遇的。</p>
-
-<p>如何设置呢？我们可以创建一个UINavigationController的子类，假设叫GGPublicNavigationViewController。然后，我们在GGPublicNavigationViewController.m文件里面也实现着两个方法：</p>
-
-<pre><code>//支持旋转
--(BOOL)shouldAutorotate{
-   return YES;
-}
-//支持的方向
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskAllButUpsideDown;
-}
-</code></pre>
-
-<p>这样设置之后，即使我们push进去的UIViewController没有实现上面的连个方法，也是可以支持横屏的。也就是说，我们push的所有都支持横屏。这个做法是不是很暴力！</p>
-
-<h2>实例三：</h2>
-
-<p>有些童鞋会问了，如何控制每个界面支持的方向呢？这也是可以办到的，在GGPublicNavigationViewController不能写死支持哪个。我们可以这么写：</p>
-
-<pre><code>-(BOOL)shouldAutorotate{
-    return [self.topViewController shouldAutorotate];
-}
-//支持的方向
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return [self.topViewController supportedInterfaceOrientations];;
-}
-</code></pre>
-
-<p>self.topViewController是当前导航显示的UIViewController，这样就可以控制每个UIViewController所支持的方向啦！</p>
-
-<p>好啦，关于iOS9中横竖屏的处理就说这么多吧！（其实iOS7、iOS8也是这么设置的）如果你觉得文章还不错，分享一下吧！</p>
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[关于NSRunLoop和NSTimer的深入理解]]></title>
-    <link href="http://www.cocoa.mom/blog/2016/05/05/ios-nsrunllop-nstimer/"/>
+    <link href="http://www.superqq.com/blog/2016/05/05/ios-nsrunllop-nstimer/"/>
     <updated>2016-05-05T22:02:14+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2016/05/05/ios-nsrunllop-nstimer</id>
+    <id>http://www.superqq.com/blog/2016/05/05/ios-nsrunllop-nstimer</id>
     <content type="html"><![CDATA[<h2>一、什么是NSRunLoop</h2>
 
 <p>NSRunLoop是消息机制的处理模式</p>
@@ -386,10 +270,83 @@
   </entry>
   
   <entry>
+    <title type="html"><![CDATA[iOS 9 App Thinning]]></title>
+    <link href="http://www.superqq.com/blog/2016/03/09/ios-9-app-thinning/"/>
+    <updated>2016-03-09T21:38:29+08:00</updated>
+    <id>http://www.superqq.com/blog/2016/03/09/ios-9-app-thinning</id>
+    <content type="html"><![CDATA[<p>App Thinning 是苹果在去年 WWDC, 也就是 iOS 9 中推出的为 App 瘦身的一个新的技术。 App Thinning 主要分为 3 个部分:</p>
+
+<ul>
+<li>App Slicing</li>
+<li>Bitcode</li>
+<li>On Demand Resources</li>
+</ul>
+
+
+<h2>App Slicing</h2>
+
+<p>我们正常的应用中都会用到图片资源，为了适配 iPhone 6 Plus 以及 iPhone 6, 图片资源需要包含 @2x 的图片 和 @3x 的图片，而 Slicing 就是在这一步进行优化，Slicing 会根据用户在 App Store 下载的不同设备选择对应的资源。例如：当用户使用 iPhone 6 在 App Store 上下载 App 的时候，App Store 只会给予他 @2x 的图片，而不会像以前一样，不管三七二十一我把所有的资源都给你，根据苹果的描述，这大约能节约你 30% 到 50% 的大小。而你要做的事情，仅仅是使用 Xcode 7 IDE, 并且使用其中的 Assert Catalog 管理你的资源文件。</p>
+
+<p>不过 Slicing 因为 iCloud 备份的问题, 知道 iOS 9.0.2 以及 Xcode 7.0.1 才可以被使用</p>
+
+<h2>Bitcode</h2>
+
+<p>Bitcode 是苹果在你 App 被下载之前做的另外一件优化。Bitcode 是你的代码编译为最终可执行文件的中间的一层，当你的 App 以 Bitcode 的形式提交到 iTunes Connect 的时候，iTunes Connect 会自动为合适的机器编译出对应的代码，例如：对于 64 位机器的 iPhone 6 或者 iPad Air 2，Bitcode 会为其编译出适合 64 位机器可执行文件。</p>
+
+<p>对于 iOS app 来说, Bitcode 不是必须的，但 Bitcode 编译选项为 Yes（这里应该只是一个过渡期，有些第三方库如果不在继续维护了需要尽快换掉）, 对于 tvOS 和 watchOS 的 app，Bitcode 的的选项必须为 Yes。</p>
+
+<!--more-->
+
+
+<h2>On Demand Resources</h2>
+
+<p>最后一个 App Thinnig 步骤是 On Demand Resources, On Demand Resources 在游戏的制作中比较常见，主要为了一些没用的资源在用到了才会去下载，比如，当我们设计一个游戏有 3 个关卡的时候，第一关的资源在 App 被下载的时候就已经下载好了，但是，出于对 App 大小的考虑，此时，第二关的资源是不需要下载的, 可以等到第一关结束以后，或者第一关进行到一半的时候后台进行下载。</p>
+
+<p>On Demand Resources 中的资源包括了 图片，音效等等， 下面是一个 On Demand Resources 的 Demo, 语言的话，我们选用 Swift.</p>
+
+<p>Demo 是这样的： 首页只有一个 Button，默认情况下 Assets 里面的图片 Group 没有被下载, 当点击 Button 以后，会先去看 Group 时候已经存储下载完毕, 如果没有下载，则会去触发一个下载请求，下载完成后，把图片显示到居中的位置。</p>
+
+<pre><code>@IBAction func downloadBarButtonItemTouchUpInside(sender: UIButton) {
+    let tags = NSSet(array: ["Group"])
+    self.resourceRequest = NSBundleResourceRequest(tags: tags as! Set&lt;String&gt;)
+    self.resourceRequest?.conditionallyBeginAccessingResourcesWithCompletionHandler() {
+        resourceAvailable in
+
+        if resourceAvailable {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.imageView.image = UIImage(named: "Group")
+            }
+        } else {
+
+            self.resourceRequest?.beginAccessingResourcesWithCompletionHandler() {
+                error in
+                if error == nil {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.imageView.image = UIImage(named: "Group")
+                    }
+                } else {
+                    print(error)
+                }
+            }
+        }
+    }
+
+}
+</code></pre>
+
+<p>另外，我们可以通过 Xcode 中的 Disk 来查看 On Demand Resources 的情况</p>
+
+<p><img src="http://blog.ggteach.com/img/app_thinning.jpg" alt="1" /></p>
+
+<p>完整的 Demo 见 <a href="https://github.com/VioletHill/AppThinningDemo">这里</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[iOS视频边下边播--缓存播放数据流]]></title>
-    <link href="http://www.cocoa.mom/blog/2016/03/08/ios-video-play-stream/"/>
+    <link href="http://www.superqq.com/blog/2016/03/08/ios-video-play-stream/"/>
     <updated>2016-03-08T23:13:36+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2016/03/08/ios-video-play-stream</id>
+    <id>http://www.superqq.com/blog/2016/03/08/ios-video-play-stream</id>
     <content type="html"><![CDATA[<p>google搜索“iOS视频变下边播”，有好几篇博客写到了实现方法，其实只有一篇，其他都是copy的，不过他们都是使用的本地代理服务器的方式，原理很简单，但是缺点也很明显，需要自己写一个本地代理服务器或者使用第三方库httpSever。如果使用httpSever作为本地代理服务器，如果只缓存一个视频是没有问题的，如果缓存多个视频互相切换，本地代理服务器提供的数据很不稳定，crash概率非常大。</p>
 
 <p>这里我采用ios7以后系统自带的方法实现视频边下边播，这里的边下边播不是单独开一个子线程去下载，而是把视频播放的数据给保存到本地。简而言之，就是使用一遍的流量，既播放了视频，也保存了视频。</p>
@@ -621,9 +578,9 @@
   
   <entry>
     <title type="html"><![CDATA[Objective-C和Swift混编的一些经验]]></title>
-    <link href="http://www.cocoa.mom/blog/2016/03/07/objective-c-swift-study/"/>
+    <link href="http://www.superqq.com/blog/2016/03/07/objective-c-swift-study/"/>
     <updated>2016-03-07T22:38:41+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2016/03/07/objective-c-swift-study</id>
+    <id>http://www.superqq.com/blog/2016/03/07/objective-c-swift-study</id>
     <content type="html"><![CDATA[<blockquote><p>阿里云iOS客户端2.1.0版本中开始尝试使用Swift来写新的业务，磕磕绊绊总算是发布了新版，总结一下开发过程中得到的经验和踩过的坑吧。</p></blockquote>
 
 <h2>CocoaPods</h2>
@@ -1015,10 +972,72 @@ override func viewWillAppear(animated: Bool) {
   </entry>
   
   <entry>
+    <title type="html"><![CDATA[刚刚在线-让学习iOS开发更简单]]></title>
+    <link href="http://www.superqq.com/blog/2016/03/02/ggteach-learn-ios-simply/"/>
+    <updated>2016-03-02T20:49:56+08:00</updated>
+    <id>http://www.superqq.com/blog/2016/03/02/ggteach-learn-ios-simply</id>
+    <content type="html"><![CDATA[<p>非常兴奋的告诉大家一个好消息：刚刚在线官网正式上线啦！欢迎大家访问！官网地址：</p>
+
+<pre><code>www.ggteach.com
+</code></pre>
+
+<p>刚刚在线的使命-让学习iOS开发更简单！我们的团队有30多位实战讲师，将为大家提供更多的技术分享、视频直播、实战项目等等。</p>
+
+<h2>本周六技术分享</h2>
+
+<p>好消息接连不断，技术分享说来就来！本周六晚上8点，注意时间噢！可以提前关注<strong>刚刚在线教育</strong>直播间，以免到时候找不到。</p>
+
+<h3>技术分享简介：</h3>
+
+<pre><code>斗鱼技术分享课程
+主题：《App Thinng》
+时间：2016-03-5（周六）晚8：00 至 9：00
+斗鱼房间：刚刚在线教育
+地址：http://www.douyutv.com/ggteach
+大家可以提前关注。 
+</code></pre>
+
+<p>&mdash;&mdash;美丽的分割线&mdash;&mdash;&ndash;</p>
+
+<h2>编程是一种生活方式</h2>
+
+<p>今天在回来的路上看到一个好朋友分享了一篇文章《美国监狱新趋势&ndash;学编程》</p>
+
+<p><img src="http://www.superqq.com/images/ggteach01.jpg" alt="1" /></p>
+
+<p>是的，不可思议。有网友表示：想去美国监狱，包吃住还免费学编程！令人震惊的是：“他们中没有人因再次犯罪而重返监狱，他们走了一条正确的路。”</p>
+
+<p>很多美国人已经意识到编程的重要性！编程不再是一项找工作的技能，而是一种生活方式，每个人都多少应该懂一点编程。</p>
+
+<p><img src="http://www.superqq.com/images/ggteach02.jpg" alt="2" /></p>
+
+<p>为了呼吁美国人民学习编程知识，奥巴马甚至还亲自挽起袖子写了一段javascript代码，这也让他成为美国历史上第一位会写代码的总统。（虽然写得不怎么样）</p>
+
+<h2>国内编程现状</h2>
+
+<p>在中国的大学里面，计算机课程只是讲一些理论知识。很多大学生（包括计算机系）毕业之后，很难靠自己掌握的编程知识找到一份工作。这是一件何其可悲的事情。</p>
+
+<p>很多同学无奈之下，会选择线下的培训班，但是培训班的费用高的让人望而却步。有的同学因为昂贵的费用，这一生可能就与编程无缘；</p>
+
+<p>有的同学可能会咬牙坚持贷款2万甚至更多，来学习一项编程的技能。还未入社会，就要背负着为银行打工的重担。</p>
+
+<h2>刚刚在线的诞生</h2>
+
+<p>刚刚在线的诞生就是为了帮助广大iOS开发爱好者，让学习iOS开发更简单！</p>
+
+<p>刚刚在线推出iOS开发技术直播课程，直播课程将免费开放，直播课程涉及iOS开发常用的控件、网络请求、第三方类库等。</p>
+
+<p>同时，刚刚在线推出iOS开发社群。为社群成员提供高级进阶、在线答疑、实战项目、面试技巧、独立博客、职位推荐等服务。</p>
+
+<p>刚刚在线团队成员来自北京、上海、广州、美国、日本等地方，每一位讲师都是实战派！</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[女程序员做了个梦，众网友的神回复]]></title>
-    <link href="http://www.cocoa.mom/blog/2016/03/01/female-coder-dream-reply/"/>
+    <link href="http://www.superqq.com/blog/2016/03/01/female-coder-dream-reply/"/>
     <updated>2016-03-01T23:16:18+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2016/03/01/female-coder-dream-reply</id>
+    <id>http://www.superqq.com/blog/2016/03/01/female-coder-dream-reply</id>
     <content type="html"><![CDATA[<p>女程序员发的一条微博：</p>
 
 <p>“昨晚梦见男朋友和别的女人在逛街，梦里我的第一反应就是查源代码，结果调试半天查不出来为什么显示的那个女人不是我，最后含泪把那个女人注释掉了，再一运行就是我男朋友自己逛街了。”
@@ -1061,9 +1080,9 @@ override func viewWillAppear(animated: Bool) {
   
   <entry>
     <title type="html"><![CDATA[XMPP客户端登录开发详解]]></title>
-    <link href="http://www.cocoa.mom/blog/2016/01/31/xmpp-client-login-dev/"/>
+    <link href="http://www.superqq.com/blog/2016/01/31/xmpp-client-login-dev/"/>
     <updated>2016-01-31T20:28:20+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2016/01/31/xmpp-client-login-dev</id>
+    <id>http://www.superqq.com/blog/2016/01/31/xmpp-client-login-dev</id>
     <content type="html"><![CDATA[<p>由上篇文章将了如何在MAC本地搭建一个Openfire服务器，今天我们就要着手使用 XMPPFramework来开发 基于XMPP 协议的即时通讯IOS 客户端系统。今天主要看登录功能开发，可能有人会质疑，我们都没有开发注册功能，怎么开发登录功能。注册账号我们有捷径，服务器都在本地，当然很好做了。另外就是通过MAC 自带的客户端 Messages 进行注册。</p>
 
 <p>首先，我们需要搭建起来IOS 的工程，并且将XMPPFramework 引入到我们的工程中来,当然我们可以使用源码 直接导入，也可以使用cocoapods来进行依赖。本文直接使用源码来进行开发。由于在Github上的源码有一些问题，所以大家可以来<a href="https://github.com/TerryLMay/TMXMPPClient/tree/master/TMXMPPClient/ThirdTools/XMPPFrameworkio">https://github.com/TerryLMay/TMXMPPClient/tree/master/TMXMPPClient/ThirdTools/XMPPFrameworkio</a>下载相关的XMPPFramework相关的代码。</p>
@@ -1263,14 +1282,18 @@ xmlns:stream="http://etherx.jabber.org/streams" version="1.0"&gt;
   
   <entry>
     <title type="html"><![CDATA[推荐：iOS开发面试题整理（一）]]></title>
-    <link href="http://www.cocoa.mom/blog/2015/12/15/ios-dev-interview/"/>
+    <link href="http://www.superqq.com/blog/2015/12/15/ios-dev-interview/"/>
     <updated>2015-12-15T23:09:50+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2015/12/15/ios-dev-interview</id>
+    <id>http://www.superqq.com/blog/2015/12/15/ios-dev-interview</id>
     <content type="html"><![CDATA[<p>年底了估计有朋友已经坐不住了，前面有一篇文章介绍<a href="http://mp.weixin.qq.com/s?__biz=MzA3NzM0NzkxMQ==&amp;mid=402358456&amp;idx=1&amp;sn=0494a7313998527e7950f936a24e9ce7#rd">《 年底程序猿迁徙的5大理由，你占了几个？ 》</a>。你是不是也占几个呢？</p>
 
 <p>跳槽不可避免会遇到面试，有些公司会找一些奇葩的面试题来坑我们。所以我们不得不做好防备、提前备战，怎么感觉跟备考一样呢？</p>
 
 <p>我不得不遗憾的告诉你，这比备考重要多了。面试题做不好，很有可能错过一次大好机会。很早之前我收集了很多面试题，以后都分享出来。大家如果手里有不错的面试题目，可以直接发给我，我的邮箱：<strong>worldligang@163.com</strong>，我也会分享给大家！</p>
+
+<p>本文挡会持续更新，欢迎关注公众号iOS开发：iOSDevTip 关注之后回复：面试</p>
+
+<p><img src="http://images.90159.com/icon/newteiba.png" alt="newteiba.png" /></p>
 
 <h2>1. Object-C有多继承吗？没有的话用什么代替？</h2>
 
@@ -1349,9 +1372,9 @@ xmlns:stream="http://etherx.jabber.org/streams" version="1.0"&gt;
   
   <entry>
     <title type="html"><![CDATA[我已经写了48年代码了，我感觉我还能写下去]]></title>
-    <link href="http://www.cocoa.mom/blog/2015/12/12/write-code-48-year/"/>
+    <link href="http://www.superqq.com/blog/2015/12/12/write-code-48-year/"/>
     <updated>2015-12-12T19:52:50+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2015/12/12/write-code-48-year</id>
+    <id>http://www.superqq.com/blog/2015/12/12/write-code-48-year</id>
     <content type="html"><![CDATA[<p>这是来自quroa的问题：Why-aren&rsquo;t-there-a-lot-of-old-programmers-at-software-companies下的一个回答。</p>
 
 <p>很多人会疑问是不是程序员最后只能转管理，是不是到了中年之后就应该放弃编程。看到这个回答后很受触动，尽力翻译出来，有不恰当的地方欢迎指出。</p>
@@ -1376,9 +1399,9 @@ xmlns:stream="http://etherx.jabber.org/streams" version="1.0"&gt;
   
   <entry>
     <title type="html"><![CDATA[苹果公司即将放假8天暂停APP提交审核]]></title>
-    <link href="http://www.cocoa.mom/blog/2015/12/12/apple-commit-7-day/"/>
+    <link href="http://www.superqq.com/blog/2015/12/12/apple-commit-7-day/"/>
     <updated>2015-12-12T19:52:50+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2015/12/12/apple-commit-7-day</id>
+    <id>http://www.superqq.com/blog/2015/12/12/apple-commit-7-day</id>
     <content type="html"><![CDATA[<p>圣诞节对于美国人来说是一个重要的节日。每年的圣诞节苹果公司都会全员放假8天时间，时间2015年12月22日之2015年12月29日。今年也不例外。</p>
 
 <p>昨天登录苹果开发者平台: <a href="http://developer.apple.com">http://developer.apple.com</a> 就有提示：</p>
@@ -1398,9 +1421,9 @@ xmlns:stream="http://etherx.jabber.org/streams" version="1.0"&gt;
   
   <entry>
     <title type="html"><![CDATA[非常棒的特效-MBMotion]]></title>
-    <link href="http://www.cocoa.mom/blog/2015/12/11/mbmotion-great-effect/"/>
+    <link href="http://www.superqq.com/blog/2015/12/11/mbmotion-great-effect/"/>
     <updated>2015-12-11T23:21:50+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2015/12/11/mbmotion-great-effect</id>
+    <id>http://www.superqq.com/blog/2015/12/11/mbmotion-great-effect</id>
     <content type="html"><![CDATA[<p>随便实现的特效，正在不断丰富中…</p>
 
 <p>目前实现的效果列表</p>
@@ -1424,9 +1447,9 @@ xmlns:stream="http://etherx.jabber.org/streams" version="1.0"&gt;
   
   <entry>
     <title type="html"><![CDATA[半年的iOS代码生活]]></title>
-    <link href="http://www.cocoa.mom/blog/2015/12/10/ios-code-life-half-year/"/>
+    <link href="http://www.superqq.com/blog/2015/12/10/ios-code-life-half-year/"/>
     <updated>2015-12-10T21:16:24+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2015/12/10/ios-code-life-half-year</id>
+    <id>http://www.superqq.com/blog/2015/12/10/ios-code-life-half-year</id>
     <content type="html"><![CDATA[<p>在高考大军中拼杀过，也在大学校园中荒芜过，曾经低迷消沉，也常满怀壮志…… 但是最多的还是被称为小伙子以及自称为iOS工程师！博主就是这种喜闻乐见的这类人，实习一年后在2015年的毕业季顺利拿到了自己向往的一家创业公司的offer，也许相比很多毕业季的同学职场上顺利许多，但当深夜来临，显示器熄灭后望着荧幕出神的时候，毕业季我错过了很多也许一辈子都不会再相见的同学们的合影。半年里真正领略到了企业项目的开发的艰辛，以及团队协作的魅力，有太多太多的要说，终将其汇成一句话：哥加班半年后终于回来了！</p>
 
 <p><img src="http://daiweilai.github.io/img/post/2015-11-11-pic1.png" alt="1" /></p>
@@ -1540,9 +1563,9 @@ xmlns:stream="http://etherx.jabber.org/streams" version="1.0"&gt;
   
   <entry>
     <title type="html"><![CDATA[程序员的幽默你一定懂得]]></title>
-    <link href="http://www.cocoa.mom/blog/2015/12/09/programmer-must-humor/"/>
+    <link href="http://www.superqq.com/blog/2015/12/09/programmer-must-humor/"/>
     <updated>2015-12-09T21:54:20+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2015/12/09/programmer-must-humor</id>
+    <id>http://www.superqq.com/blog/2015/12/09/programmer-must-humor</id>
     <content type="html"><![CDATA[<p>以下是关于程序员的一些笑话，据说看懂的人都还在加班中。</p>
 
 <ol>
@@ -1611,9 +1634,9 @@ xmlns:stream="http://etherx.jabber.org/streams" version="1.0"&gt;
   
   <entry>
     <title type="html"><![CDATA[关于启用 HTTPS 的一些经验分享]]></title>
-    <link href="http://www.cocoa.mom/blog/2015/12/08/some-experiences-https/"/>
+    <link href="http://www.superqq.com/blog/2015/12/08/some-experiences-https/"/>
     <updated>2015-12-08T21:54:20+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2015/12/08/some-experiences-https</id>
+    <id>http://www.superqq.com/blog/2015/12/08/some-experiences-https</id>
     <content type="html"><![CDATA[<p><img src="http://images.90159.com/12/https.jpg" alt="https" /></p>
 
 <p>随着国内网络环境的持续恶化，各种篡改和劫持层出不穷，越来越多的网站选择了全站 HTTPS。HTTPS 通过 TLS 层和证书机制提供了内容加密、身份认证和数据完整性三大功能，可以有效防止数据被查看或篡改，以及防止中间人冒充。本文分享一些启用 HTTPS 过程中的经验，重点是如何与一些新出的安全规范配合使用。至于 HTTPS 的部署及优化，之前写过很多，本文不重复了。</p>
@@ -1761,10 +1784,128 @@ max-age 不能低于 18 周(10886400 秒);
   </entry>
   
   <entry>
+    <title type="html"><![CDATA[iOS9横竖屏设置的处理方法和实例讲解]]></title>
+    <link href="http://www.superqq.com/blog/2015/12/07/ios9-interface-orientation/"/>
+    <updated>2015-12-07T23:30:03+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/12/07/ios9-interface-orientation</id>
+    <content type="html"><![CDATA[<p>原文：<a href="http://www.superqq.com/blog/2015/12/07/ios9-interface-orientation/">http://www.superqq.com/blog/2015/12/07/ios9-interface-orientation/</a></p>
+
+<p>在一般的视频类APP播放的时候都会支持横屏，这样做的好处就是便于观看。你的项目中支持横屏吗？我们一起了解一下，在iOS9中横竖屏设置的处理方法吧！</p>
+
+<h2>支持横竖屏配置</h2>
+
+<p>在iOS6以后，如果APP需要支持横屏，需要在xcode设置中General里面进行勾选配置：</p>
+
+<!--more-->
+
+
+<p><img src="http://images.90159.com/12/orientation1.png" alt="orientation1" /></p>
+
+<p>配置完成之后，我们可以看一下Info.plist里面的Supported interface orientations选项也相应的改变了。如下图：</p>
+
+<p><img src="http://images.90159.com/12/orientation2.png" alt="orientation2" /></p>
+
+<p>当然，我们也可以直接在Info.plist进行配置。</p>
+
+<h2>支持横竖屏方法</h2>
+
+<p>在iOS6之前我们可以直接用这个方法进行配置：</p>
+
+<pre><code>- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation NS_DEPRECATED_IOS(2_0, 6_0) __TVOS_PROHIBITED;
+</code></pre>
+
+<p>在iOS6之后，这个方法被NS_DEPRECATED_IOS，也就是废弃掉了。废弃了这个方法，苹果相应的也给出了新的方法来代替：</p>
+
+<pre><code>// New Autorotation support.
+- (BOOL)shouldAutorotate NS_AVAILABLE_IOS(6_0) __TVOS_PROHIBITED;
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations NS_AVAILABLE_IOS(6_0) __TVOS_PROHIBITED;
+</code></pre>
+
+<p>我们可以看到iOS6之前是一个方法，在iOS6之后变成两个方法了，一个是是否旋转的方法，一个是支持的方向的方法。</p>
+
+<h2>实例一：</h2>
+
+<p>假设：我们ViewController是直接加载window的self.window.rootViewController上面的。代码如下：</p>
+
+<pre><code>- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // Override point for customization after application launch.
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    ViewController *vc = [[ViewController alloc] init];
+    self.window.rootViewController = vc;
+    [self.window makeKeyAndVisible];
+    return YES;
+}
+</code></pre>
+
+<p>如果我们要是想支持上面General里勾选的方向（竖屏、横屏向左已经横屏向右）该如何实现呢？首先，我们应该设置让他支持旋转，然后在设置支持的方向。代码如下：</p>
+
+<pre><code>//支持旋转
+-(BOOL)shouldAutorotate{
+   return YES;
+}
+//支持的方向
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+</code></pre>
+
+<p>其中UIInterfaceOrientationMask是一个枚举：</p>
+
+<pre><code>typedef NS_OPTIONS(NSUInteger, UIInterfaceOrientationMask) {
+    UIInterfaceOrientationMaskPortrait = (1 &lt;&lt; UIInterfaceOrientationPortrait),
+    UIInterfaceOrientationMaskLandscapeLeft = (1 &lt;&lt; UIInterfaceOrientationLandscapeLeft),
+    UIInterfaceOrientationMaskLandscapeRight = (1 &lt;&lt; UIInterfaceOrientationLandscapeRight),
+    UIInterfaceOrientationMaskPortraitUpsideDown = (1 &lt;&lt; UIInterfaceOrientationPortraitUpsideDown),
+    UIInterfaceOrientationMaskLandscape = (UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight),
+    UIInterfaceOrientationMaskAll = (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight | UIInterfaceOrientationMaskPortraitUpsideDown),
+    UIInterfaceOrientationMaskAllButUpsideDown = (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight),
+} __TVOS_PROHIBITED;    
+</code></pre>
+
+<p>可以根据自己的需求来选择。上面我们说了假设这个条件，如果rootViewController上导航，我们直接在ViewController里面设置，这个方法就不灵了。（大家可以自己测试一下）</p>
+
+<h2>实例二：</h2>
+
+<p>为什么是导航上面的方法就不灵了呢？原因很简单，我们没有设置导航支持的方向。别忘了UINavigationController也是UIViewController的子类。需要受到同样的待遇的。</p>
+
+<p>如何设置呢？我们可以创建一个UINavigationController的子类，假设叫GGPublicNavigationViewController。然后，我们在GGPublicNavigationViewController.m文件里面也实现着两个方法：</p>
+
+<pre><code>//支持旋转
+-(BOOL)shouldAutorotate{
+   return YES;
+}
+//支持的方向
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+</code></pre>
+
+<p>这样设置之后，即使我们push进去的UIViewController没有实现上面的连个方法，也是可以支持横屏的。也就是说，我们push的所有都支持横屏。这个做法是不是很暴力！</p>
+
+<h2>实例三：</h2>
+
+<p>有些童鞋会问了，如何控制每个界面支持的方向呢？这也是可以办到的，在GGPublicNavigationViewController不能写死支持哪个。我们可以这么写：</p>
+
+<pre><code>-(BOOL)shouldAutorotate{
+    return [self.topViewController shouldAutorotate];
+}
+//支持的方向
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return [self.topViewController supportedInterfaceOrientations];;
+}
+</code></pre>
+
+<p>self.topViewController是当前导航显示的UIViewController，这样就可以控制每个UIViewController所支持的方向啦！</p>
+
+<p>好啦，关于iOS9中横竖屏的处理就说这么多吧！（其实iOS7、iOS8也是这么设置的）如果你觉得文章还不错，分享一下吧！</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[一个弹性侧滑菜单]]></title>
-    <link href="http://www.cocoa.mom/blog/2015/12/06/an-elastic-sliding-menu/"/>
+    <link href="http://www.superqq.com/blog/2015/12/06/an-elastic-sliding-menu/"/>
     <updated>2015-12-06T20:19:51+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2015/12/06/an-elastic-sliding-menu</id>
+    <id>http://www.superqq.com/blog/2015/12/06/an-elastic-sliding-menu</id>
     <content type="html"><![CDATA[<pre><code>地址：https://github.com/lilei644/LLSlideMenu
 
 作者lilei644
@@ -1894,10 +2035,85 @@ max-age 不能低于 18 周(10886400 秒);
   </entry>
   
   <entry>
+    <title type="html"><![CDATA[VIP群福利：Git使用教程（视频+PPT）]]></title>
+    <link href="http://www.superqq.com/blog/2015/12/05/git-use-video-ppt/"/>
+    <updated>2015-12-05T20:07:12+08:00</updated>
+    <id>http://www.superqq.com/blog/2015/12/05/git-use-video-ppt</id>
+    <content type="html"><![CDATA[<p>天才帝一步应用源代码分享到<a href="http://www.superqq.com/blog/2015/11/19/create-high-efficiency-ios-group/">iOS开发实战交流VIP群</a>，已经有不少朋友下载。这个APP也是一个小小的想法，希望能激发大家的灵感，做出更多有意义的属于自己的APP。</p>
+
+<p>iOS开发实战交流VIP群已经有几百位朋友加入，这里是一个非常不错的交流平台，欢迎更多朋友加入！详情点击这里。</p>
+
+<p>愿大家除了思维上、技术上有所提高，更能成为网络上无话不谈的知心朋友！</p>
+
+<p>今天给大家分享Git使用教程：</p>
+
+<h2>Git是什么？</h2>
+
+<!--more-->
+
+
+<p>Git是一款免费、开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。作为一名iOS开发者，应该掌握！当然，也有朋友用SVN来管理，SVN也是有相应的命令。</p>
+
+<p>在使用Git之前，我还用过最笨的办法通过手动来管理代码。管理起来相当不便，尤其是团队多人开发时，根本无法用手动来管理代码。</p>
+
+<p>直到接触的Git，才感受到它的强大。Git其实没有大家想象的那么难，刚开始接触的时候，可能不知道如何下手。当你真正的用一段时间之后，你会掌握一些常用的命令，比如：git status、git commit -m “message”、也会理解里面的一些术语，比如仓库、分支等等。</p>
+
+<h2>Git视频教程</h2>
+
+<p>为了帮助大家快速上手Git，上周录制了一期视频教程《Git使用教程》已经上传到iOS开发实战交流VIP群。欢迎大家到群文件里面下载。</p>
+
+<p>视频里面有讲到用Homebrew来安装Git，大家电脑上如果没有装Homebrew，可以通过下面的命令来安装：</p>
+
+<pre><code>ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+</code></pre>
+
+<p>Homebrew的官方：</p>
+
+<pre><code>http://brew.sh/
+</code></pre>
+
+<p>如果在看视频教程中，遇到问题，可以到VIP群里讨论。来吧，一起征服Git！</p>
+
+<h2>PPT截图</h2>
+
+<p>PPT里面整理了Git的常用命令、别名设置、一些资料网站等等，我把PPT里面的内容整理出来，大家一起学习：</p>
+
+<p><img src="http://images.90159.com/git/1.png" alt="1" />
+<img src="http://images.90159.com/git/2.png" alt="1" />
+<img src="http://images.90159.com/git/3.png" alt="1" />
+<img src="http://images.90159.com/git/4.png" alt="1" />
+<img src="http://images.90159.com/git/5.png" alt="1" />
+<img src="http://images.90159.com/git/6.png" alt="1" />
+<img src="http://images.90159.com/git/7.png" alt="1" />
+<img src="http://images.90159.com/git/8.png" alt="1" />
+<img src="http://images.90159.com/git/9.png" alt="1" />
+<img src="http://images.90159.com/git/10.png" alt="1" />
+<img src="http://images.90159.com/git/11.png" alt="1" />
+<img src="http://images.90159.com/git/12.png" alt="1" />
+<img src="http://images.90159.com/git/13.png" alt="1" />
+<img src="http://images.90159.com/git/14.png" alt="1" />
+<img src="http://images.90159.com/git/15.png" alt="1" />
+<img src="http://images.90159.com/git/16.png" alt="1" />
+<img src="http://images.90159.com/git/17.png" alt="1" />
+<img src="http://images.90159.com/git/18.png" alt="1" />
+<img src="http://images.90159.com/git/19.png" alt="1" />
+<img src="http://images.90159.com/git/20.png" alt="1" />
+<img src="http://images.90159.com/git/21.png" alt="1" />
+<img src="http://images.90159.com/git/22.png" alt="1" />
+<img src="http://images.90159.com/git/23.png" alt="1" />
+<img src="http://images.90159.com/git/24.png" alt="1" />
+<img src="http://images.90159.com/git/25.png" alt="1" />
+<img src="http://images.90159.com/git/26.png" alt="1" />
+<img src="http://images.90159.com/git/27.png" alt="1" />
+<img src="http://images.90159.com/git/28.png" alt="1" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Swift开源一天Github收获15000多star]]></title>
-    <link href="http://www.cocoa.mom/blog/2015/12/04/swift-source-code/"/>
+    <link href="http://www.superqq.com/blog/2015/12/04/swift-source-code/"/>
     <updated>2015-12-04T22:10:48+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2015/12/04/swift-source-code</id>
+    <id>http://www.superqq.com/blog/2015/12/04/swift-source-code</id>
     <content type="html"><![CDATA[<p>快，快，快！动动您的小手，分享给更多朋友！</p>
 
 <p>苹果去年推出了全新的编程语言Swift，试图让iOS开发更简单，也承诺开源Swift代码。</p>
@@ -1916,9 +2132,9 @@ max-age 不能低于 18 周(10886400 秒);
   
   <entry>
     <title type="html"><![CDATA[升级Xcode7之后VVDocumenter-Xcode不能用的解决办法]]></title>
-    <link href="http://www.cocoa.mom/blog/2015/12/03/vvdocumenter-xcode7-not-work/"/>
+    <link href="http://www.superqq.com/blog/2015/12/03/vvdocumenter-xcode7-not-work/"/>
     <updated>2015-12-03T22:24:57+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2015/12/03/vvdocumenter-xcode7-not-work</id>
+    <id>http://www.superqq.com/blog/2015/12/03/vvdocumenter-xcode7-not-work</id>
     <content type="html"><![CDATA[<p>VVDocumenter-Xcode是Xcode上一款快速添加标准注释，并可以自动生成文档的插件。有了VVDocumenter-Xcode，规范化的注释，只需要输入三个斜线“///”就可以搞定，非常方面实用，目前已经支持Swift。</p>
 
 <p>Objective-C效果图：</p>
@@ -1978,9 +2194,9 @@ max-age 不能低于 18 周(10886400 秒);
   
   <entry>
     <title type="html"><![CDATA[iOS开发之如何跳到系统设置里的各种设置界面]]></title>
-    <link href="http://www.cocoa.mom/blog/2015/12/01/jump-setting-per-page/"/>
+    <link href="http://www.superqq.com/blog/2015/12/01/jump-setting-per-page/"/>
     <updated>2015-12-01T22:12:54+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2015/12/01/jump-setting-per-page</id>
+    <id>http://www.superqq.com/blog/2015/12/01/jump-setting-per-page</id>
     <content type="html"><![CDATA[<p>昨天的文章<a href="http://www.superqq.com/blog/2015/11/30/jump-to-setting-wifi/">《iOS开发之如何跳到系统设置里的WiFi界面》</a>介绍了如何从APP里跳到WiFi设置界面，很多朋友非常喜欢这样的小功能，还有朋友正想做这个功能刚好看见啦！</p>
 
 <h2>跳到更多设置界面</h2>
@@ -2100,211 +2316,6 @@ Wi-Fi — prefs:root=WIFI
 <p>大家可以根据自己的需求，跳到不同的设置界面。如果你喜欢这篇文章的话，欢迎分享给更多的朋友，也可以收藏起来，以备不时之需！</p>
 
 <p><a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS开发之如何跳到系统设置里的WiFi界面]]></title>
-    <link href="http://www.cocoa.mom/blog/2015/11/30/jump-to-setting-wifi/"/>
-    <updated>2015-11-30T22:14:58+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2015/11/30/jump-to-setting-wifi</id>
-    <content type="html"><![CDATA[<p>之前以为，苹果不支持直接从应用跳到系统设置里的WiFi界面。后来发现，这个小功能是可以实现的，而且实现起来并不麻烦。让我们一起来看看吧！</p>
-
-<h2>需求</h2>
-
-<p>从应用跳到系统设置里的WiFi界面有这个需求存在吗？答案是肯定的。比如以下两个例子：</p>
-
-<p>在没有网的状态下，你可能想提醒用户去设置界面连接WiFi。如果不能跳到WiFi界面，只能在APP里面做出文字提示。这样很多小白用户可能不会看提示，只会觉得APP没有做好。</p>
-
-<p>还有一种情况，做智能家居的APP，智能硬件设备自带WiFi（局域网）。如果用户没有连接设备的WiFi进入APP时，需要提示用户去设置界面连接WiFi。</p>
-
-<p>以上这两种情况只是举个例子，这个小功能的用处还是很多的，大家可以自行探索。</p>
-
-<!--more-->
-
-
-<h2>实现</h2>
-
-<h3>info里面设置</h3>
-
-<p>在项目中的info.plist中添加 URL types 并设置一项URL Schemes为prefs，如下图：</p>
-
-<p><img src="http://images.90159.com/12/wifi1.png" alt="wifi1" /></p>
-
-<h3>实现代码</h3>
-
-<pre><code>NSURL *url = [NSURL URLWithString:@"prefs:root=WIFI"];
-if ([[UIApplication sharedApplication] canOpenURL:url])
-{
-    [[UIApplication sharedApplication] openURL:url];
-}
-</code></pre>
-
-<h2>代码已上传iOSStrongDemo</h2>
-
-<p>代码已经push到<a href="https://github.com/worldligang/iOSStrongDemo">iOSStrongDemo</a>，大家可以clone下来测试一下。</p>
-
-<p>我在这里抛砖迎玉，大家还想跳到系统设置的什么界面，可以评论留言告诉我，或者大家动手来实现更多的跳转功能！</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[一组功能丰富的iOS组件:YYKit]]></title>
-    <link href="http://www.cocoa.mom/blog/2015/11/27/ios-rich-components-yykit/"/>
-    <updated>2015-11-27T23:27:37+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2015/11/27/ios-rich-components-yykit</id>
-    <content type="html"><![CDATA[<p>项目地址：<a href="https://github.com/ibireme/YYKit">https://github.com/ibireme/YYKit</a></p>
-
-<h1>中文介绍</h1>
-
-<p>YYKit 是一组庞大、功能丰富的 iOS 组件。</p>
-
-<p>为了尽量复用代码，这个项目中的某些组件之间有比较强的依赖关系。为了方便其他开发者使用，我从中拆分出以下独立组件：</p>
-
-<ul>
-<li><a href="https://github.com/ibireme/YYModel">YYModel</a> — 高性能的 iOS JSON 模型框架。</li>
-<li><a href="https://github.com/ibireme/YYCache">YYCache</a> — 高性能的 iOS 缓存框架。</li>
-<li><a href="https://github.com/ibireme/YYImage">YYImage</a> — 功能强大的 iOS 图像框架。</li>
-<li><a href="https://github.com/ibireme/YYWebImage">YYWebImage</a> — 高性能的 iOS 异步图像加载框架。</li>
-<li><a href="https://github.com/ibireme/YYText">YYText</a> — 功能强大的 iOS 富文本框架。</li>
-<li></li>
-<li><a href="https://github.com/ibireme/YYKeyboardManager">YYKeyboardManager</a> — iOS 键盘监听管理工具。</li>
-<li><a href="https://github.com/ibireme/YYDispatchQueuePool">YYDispatchQueuePool</a> — iOS 全局并发队列管理工具。</li>
-<li><a href="https://github.com/ibireme/YYAsyncLayer">YYAsyncLayer</a> — iOS 异步绘制与显示的工具。</li>
-<li><a href="https://github.com/ibireme/YYCategories">YYCategories</a> — 功能丰富的 Category 类型工具库。</li>
-</ul>
-
-
-<!--more-->
-
-
-<h1>演示项目</h1>
-
-<p>查看并运行 <code>Demo/YYKitDemo.xcodeproj</code></p>
-
-<p><img src="https://raw.github.com/ibireme/YYKit/master/Demo/Snapshots/twitter.png" width="320"><br/>
-<img src="https://raw.github.com/ibireme/YYKit/master/Demo/Snapshots/weibo.png" width="320"> <img src="https://raw.github.com/ibireme/YYKit/master/Demo/Snapshots/weibo_compose.png" width="320"></p>
-
-<h1>安装</h1>
-
-<h3>CocoaPods</h3>
-
-<ol>
-<li>在 Podfile 中添加  <code>pod "YYKit"</code>。</li>
-<li>执行 <code>pod install</code> 或 <code>pod update</code>。</li>
-<li>导入 \&lt;YYKit/YYKit.h>。</li>
-</ol>
-
-
-<h3>Carthage</h3>
-
-<ol>
-<li>在 Cartfile 中添加 <code>github "ibireme/YYKit"</code>。</li>
-<li>执行 <code>carthage update --platform ios</code> 并将生成的 framework 添加到你的工程。</li>
-<li>导入 \&lt;YYKit/YYKit.h>。</li>
-<li>注意: carthage framework 并没有包含 webp 组件。如果你需要支持 webp，可以用 CocoaPods 安装，或者手动安装。</li>
-</ol>
-
-
-<h3>手动安装</h3>
-
-<ol>
-<li>下载 YYKit 文件夹内的所有内容。</li>
-<li>将 YYKit 内的源文件添加(拖放)到你的工程。</li>
-<li>为 <code>NSObject+YYAddForARC.m</code> 和 <code>NSThread+YYAdd.m</code> 添加编译参数 <code>-fno-objc-arc</code>。</li>
-<li>链接以下 frameworks:
-
-<ul>
-<li>UIKit</li>
-<li>CoreFoundation</li>
-<li>CoreText</li>
-<li>CoreGraphics</li>
-<li>CoreImage</li>
-<li>QuartzCore</li>
-<li>ImageIO</li>
-<li>AssetsLibrary</li>
-<li>Accelerate</li>
-<li>MobileCoreServices</li>
-<li>SystemConfiguration</li>
-<li>sqlite3</li>
-<li>libz</li>
-</ul>
-</li>
-<li>如果你需要支持 WebP，可以将 <code>Vendor/WebP.framework</code>(静态库) 加入你的工程。</li>
-<li>导入 <code>YYKit.h</code>。</li>
-</ol>
-
-
-<h1>文档</h1>
-
-<p>你可以在 <a href="http://cocoadocs.org/docsets/YYKit/">CocoaDocs</a> 查看在线 API 文档，也可以用 <a href="https://github.com/tomaz/appledoc">appledoc</a> 本地生成文档。</p>
-
-<h1>系统要求</h1>
-
-<p>该项目最低支持 iOS 6.0。</p>
-
-<h1>关于</h1>
-
-<p>我希望调用 API 时，有着和调用系统自带 API 一样的体验，所以我并没有为 Category 方法添加前缀。我已经用工具扫描过这个项目中的 API，确保没有对系统 API 产生影响。我知道没有前缀的 Category 可能会带来麻烦，所以如果你只需要其中部分功能，请先查看上面那些拆分出来的子项目。</p>
-
-<h1>许可证</h1>
-
-<p>YYKit 使用 MIT 许可证，详情见 LICENSE 文件。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[给你的iOS APP名称找到合适的长度&关键词]]></title>
-    <link href="http://www.cocoa.mom/blog/2015/11/16/find-ios-app-key-words/"/>
-    <updated>2015-11-16T09:37:20+08:00</updated>
-    <id>http://www.cocoa.mom/blog/2015/11/16/find-ios-app-key-words</id>
-    <content type="html"><![CDATA[<p>今天这篇是关于iOS APP的名称长度，顺便简要说说关键词。一谈到应用程序上线就避免不了App Store Optimization (ASO)，APP的名称又是一个不可不谈的话题。</p>
-
-<h2>一、APP名称的选择</h2>
-
-<h3>1、仅包含应用的名称</h3>
-
-<p>一般建议使用这个，因为看起来美观一点，在应用标题的里面没有包含关键词的话，有时候看起来好像很牛逼一样，因为好像不需要ASO了，不需要去堆关键词，但是这个好像对大多数来说不适用。</p>
-
-<h3>2、名称中添加很多关键词</h3>
-
-<p>将很多相关关键词添加到名称来争取ASO的优势，但是粗略看起来好像是不专业的，尽管这样看起来不是很美观，但是有用，所以即便是一些逼格相当高的应用依然会加关键词进去，长度和关键词的重复次数就看运营人员的心情了。</p>
-
-<p>那么一种是干净美观，一种是包含众多关键词的名称，我们总要给他找个平衡点。这篇文章将告诉你如何为你的iOS APP找出理想的名称长度，跟之前那篇Google Play 描述的关键词密度类似。</p>
-
-<h2>二、两种类型的名称</h2>
-
-<p>其实每个APP都有两个名称，一个主，一个副，合起来就是一个title，你打开一个网页，在浏览器标签上看到的这个标题就是这个网页的title，一般是网站名字+文章名字，大多数是文章名在前，网站名在后。但都是有字符限制的，在iOS APP里面，iTunes Connect里，你要填进去，苹果也会给个255来限制，因为过长也没意思，所以我就在255以内寻找一个合适的点。</p>
-
-<p>我们需要ASO的是现实在iTunes里面的那个，其实相当于总共有2个，开发者一般比较熟悉iTunes Connect，因为经常需要填写那些字段上线APP。不熟悉的自己登录进去看看，想看的自己没有APP的，那就先收藏这篇文章，备用到时候参考。</p>
-
-<h2>三、如何找到理想的名称长度</h2>
-
-<p>关于最理想的长度，并不是一个固定的标准，因为对于每个APP来说要展现的关键词是不一样的，即便都通过语言描述展示一个词，也会有不一样的，比如 “查违章”，“违章查询”这两个词对一个做违章查询的APP与 “天气预报”“查天气”对应一个做天气预报的APP，都是不一样的，我不能说150个字符是最好的，因为这样说的话就是傻逼了。</p>
-
-<p>其实顺便说一下，有些开发者不知道开发什么，跟着去做一堆烂游戏，还不如去找几个这种普普通通大众的功能性APP需求好好做一个。我经常遇到开发者问做什么APP赚钱？现在做APP还能赚到钱么？做APP怎么赚钱？</p>
-
-<p>这种类型的问题，我这里统一作答，做APP是赚钱的，也是不赚钱的，关键看你选什么做，怎么做，做出来的APP怎么样？如果想在AppStore里面混到钱，可以多看看别人，坚持每天下载几款APP，慢慢研究，不要急，不要觉得好像自己现在不做都被别人做了，这种想法也许不一定成熟。认真的准备，勤快的实践。下面是确定名称的时候，可以考虑到的一些因素：</p>
-
-<h3>1、保持短一点</h3>
-
-<p>由于较短一点的名称看起来更品牌性，包含5个以内的关键词，最好3个就行啦，三个不一样的</p>
-
-<p>但是这也不是一个绝对的规则，比如你觉得几个关键词都比较类似，可以都加进去，不必要的就不用加了，不一定每个APP都要加上QQ，微信这种关键词进去。</p>
-
-<h3>2、注意关键词的竞争</h3>
-
-<p>像做网页，我们搜汽车，新做一个网站是很难排上去的，因为大家都知道这类的网站已经比较成熟，已经在搜索引擎的算法上攻坚多年，已经坚挺的占领了前面的位置。在淘宝里面，商品排名，搜T恤，销量很大的已经排在前面，新宝贝排上去，短时间很困难，除非你自己有一些特殊的资源。在应用商店里面也有一些类似的算法，别人已经坚挺，我们就不一定首先从最难的词去优化，你可以通过一些工具和查询来看看竞争度，这个不能一味依靠一个工具，有些是动态的。</p>
-
-<p>之所以是动态的，这里传达给一些投机取巧的人，一些热点的东西，有些人也喜欢到AppStore里面去搜。</p>
-
-<h3>3、看起来有意思一点</h3>
-
-<p>这个和名称的长度是没有关系的因素，但是你在优化名称的时候，可以参考，比如你要全部的标题里面的词语最终组成一个完整的句子作为一个标题，那为什么不给自己减轻难度把截断之前的弄的舒服一点呢（手机上显示的部分）。</p>
-
-<p>我们不能太侥幸的去和某些APP比，比如堆词语，我看到有些运营高手是这样做的，把整个当成ABC，A是主名，B是一句有吸引力的话并包含关键词，C就是一些关键词的组合了。有个东西叫组合，真的有个东西叫组合，你懂什么叫分词和组合么？不要看到别人当前的下载量评分量来判断你用此方法就可以胜出。</p>
-
-<blockquote><p>来自：<a href="http://www.appying.com/app-store-tuiguang/aso/fdsgs/">http://www.appying.com/app-store-tuiguang/aso/fdsgs/</a></p></blockquote>
 ]]></content>
   </entry>
   

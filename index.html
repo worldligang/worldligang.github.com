@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
       <meta name="baidu-site-verification" content="X93tJz3pCq" />
-  <title>李刚的小天地</title>
+  <title>刚刚在线</title>
   <meta name="author" content="李刚">
   <meta name="uyan_auth" content="d1112891bb" />
   <meta name="baidu-tc-verification" content="7acda2305fabbf1ddd9f83e385ddd899" />
@@ -21,10 +21,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.cocoa.mom">
+  <link rel="canonical" href="http://www.superqq.com">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="李刚的小天地" type="application/atom+xml">
+  <link href="/atom.xml" rel="alternate" title="刚刚在线" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="http://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
@@ -38,9 +38,9 @@
 
 <body   >
   <header role="banner"><hgroup>
-  <h1><a href="/">李刚的小天地</a></h1>
+  <h1><a href="/">刚刚在线</a></h1>
   
-    <h2>要有最朴素的生活，与最遥远的梦想</h2>
+    <h2>分享iOS开发技术经验的自媒体网站</h2>
   
 </hgroup>
 
@@ -50,14 +50,24 @@
   
 </ul>
   
+<form action="http://zhannei.superqq.com" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.superqq.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
 <ul class="main-navigation">
   <li><a href="/">首页</a></li>
   <li><a href="/blog/archives">全部文章</a></li>
   <li><a href="/blog/categories/ioskai-fa/">iOS开发</a></li>
+  <li><a href="http://course.ggteach.com/course/1">实战</a></li>
   <li><a href="/blog/categories/cheng-xu-yuan/">程序员</a></li>
   <li><a href="/blog/categories/yuan-dai-ma/">源代码</a></li>
   <li><a href="/blog/categories/sdkfu-wu/">sdk服务</a></li>
   <li><a href="/blog/categories/tui-jian/">推荐</a></li>
+  <li><a href="/about">赞助作者</a></li>
+  <li><a href="http://www.iswifting.com/" target="_blank" title=头条>头条</a></li>
 </ul>
 
 </nav>
@@ -65,45 +75,6 @@
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/05/09/ios9-interface-orientation/">iOS9横竖屏设置的处理方法和实例讲解</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-05-09T23:30:03+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:30 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在一般的视频类APP播放的时候都会支持横屏，这样做的好处就是便于观看。你的项目中支持横屏吗？我们一起了解一下，在iOS9中横竖屏设置的处理方法吧！</p>
-
-<h2>支持横竖屏配置</h2>
-
-<p>在iOS6以后，如果APP需要支持横屏，需要在xcode设置中General里面进行勾选配置：</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/05/09/ios9-interface-orientation/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
   
   
     <article>
@@ -157,6 +128,60 @@
   
     <footer>
       <a rel="full-article" href="/blog/2016/05/05/ios-nsrunllop-nstimer/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/03/09/ios-9-app-thinning/">iOS 9 App Thinning</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-03-09T21:38:29+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>9:38 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>App Thinning 是苹果在去年 WWDC, 也就是 iOS 9 中推出的为 App 瘦身的一个新的技术。 App Thinning 主要分为 3 个部分:</p>
+
+<ul>
+<li>App Slicing</li>
+<li>Bitcode</li>
+<li>On Demand Resources</li>
+</ul>
+
+
+<h2>App Slicing</h2>
+
+<p>我们正常的应用中都会用到图片资源，为了适配 iPhone 6 Plus 以及 iPhone 6, 图片资源需要包含 @2x 的图片 和 @3x 的图片，而 Slicing 就是在这一步进行优化，Slicing 会根据用户在 App Store 下载的不同设备选择对应的资源。例如：当用户使用 iPhone 6 在 App Store 上下载 App 的时候，App Store 只会给予他 @2x 的图片，而不会像以前一样，不管三七二十一我把所有的资源都给你，根据苹果的描述，这大约能节约你 30% 到 50% 的大小。而你要做的事情，仅仅是使用 Xcode 7 IDE, 并且使用其中的 Assert Catalog 管理你的资源文件。</p>
+
+<p>不过 Slicing 因为 iCloud 备份的问题, 知道 iOS 9.0.2 以及 Xcode 7.0.1 才可以被使用</p>
+
+<h2>Bitcode</h2>
+
+<p>Bitcode 是苹果在你 App 被下载之前做的另外一件优化。Bitcode 是你的代码编译为最终可执行文件的中间的一层，当你的 App 以 Bitcode 的形式提交到 iTunes Connect 的时候，iTunes Connect 会自动为合适的机器编译出对应的代码，例如：对于 64 位机器的 iPhone 6 或者 iPad Air 2，Bitcode 会为其编译出适合 64 位机器可执行文件。</p>
+
+<p>对于 iOS app 来说, Bitcode 不是必须的，但 Bitcode 编译选项为 Yes（这里应该只是一个过渡期，有些第三方库如果不在继续维护了需要尽快换掉）, 对于 tvOS 和 watchOS 的 app，Bitcode 的的选项必须为 Yes。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/03/09/ios-9-app-thinning/">Read on &rarr;</a>
     </footer>
   
 
@@ -839,6 +864,89 @@ override func viewWillAppear(animated: Bool) {
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/03/02/ggteach-learn-ios-simply/">刚刚在线-让学习iOS开发更简单</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-03-02T20:49:56+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2016</span></span> <span class='time'>8:49 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>非常兴奋的告诉大家一个好消息：刚刚在线官网正式上线啦！欢迎大家访问！官网地址：</p>
+
+<pre><code>www.ggteach.com
+</code></pre>
+
+<p>刚刚在线的使命-让学习iOS开发更简单！我们的团队有30多位实战讲师，将为大家提供更多的技术分享、视频直播、实战项目等等。</p>
+
+<h2>本周六技术分享</h2>
+
+<p>好消息接连不断，技术分享说来就来！本周六晚上8点，注意时间噢！可以提前关注<strong>刚刚在线教育</strong>直播间，以免到时候找不到。</p>
+
+<h3>技术分享简介：</h3>
+
+<pre><code>斗鱼技术分享课程
+主题：《App Thinng》
+时间：2016-03-5（周六）晚8：00 至 9：00
+斗鱼房间：刚刚在线教育
+地址：http://www.douyutv.com/ggteach
+大家可以提前关注。 
+</code></pre>
+
+<p>&mdash;&mdash;美丽的分割线&mdash;&mdash;&ndash;</p>
+
+<h2>编程是一种生活方式</h2>
+
+<p>今天在回来的路上看到一个好朋友分享了一篇文章《美国监狱新趋势&ndash;学编程》</p>
+
+<p><img src="http://www.superqq.com/images/ggteach01.jpg" alt="1" /></p>
+
+<p>是的，不可思议。有网友表示：想去美国监狱，包吃住还免费学编程！令人震惊的是：“他们中没有人因再次犯罪而重返监狱，他们走了一条正确的路。”</p>
+
+<p>很多美国人已经意识到编程的重要性！编程不再是一项找工作的技能，而是一种生活方式，每个人都多少应该懂一点编程。</p>
+
+<p><img src="http://www.superqq.com/images/ggteach02.jpg" alt="2" /></p>
+
+<p>为了呼吁美国人民学习编程知识，奥巴马甚至还亲自挽起袖子写了一段javascript代码，这也让他成为美国历史上第一位会写代码的总统。（虽然写得不怎么样）</p>
+
+<h2>国内编程现状</h2>
+
+<p>在中国的大学里面，计算机课程只是讲一些理论知识。很多大学生（包括计算机系）毕业之后，很难靠自己掌握的编程知识找到一份工作。这是一件何其可悲的事情。</p>
+
+<p>很多同学无奈之下，会选择线下的培训班，但是培训班的费用高的让人望而却步。有的同学因为昂贵的费用，这一生可能就与编程无缘；</p>
+
+<p>有的同学可能会咬牙坚持贷款2万甚至更多，来学习一项编程的技能。还未入社会，就要背负着为银行打工的重担。</p>
+
+<h2>刚刚在线的诞生</h2>
+
+<p>刚刚在线的诞生就是为了帮助广大iOS开发爱好者，让学习iOS开发更简单！</p>
+
+<p>刚刚在线推出iOS开发技术直播课程，直播课程将免费开放，直播课程涉及iOS开发常用的控件、网络请求、第三方类库等。</p>
+
+<p>同时，刚刚在线推出iOS开发社群。为社群成员提供高级进阶、在线答疑、实战项目、面试技巧、独立博客、职位推荐等服务。</p>
+
+<p>刚刚在线团队成员来自北京、上海、广州、美国、日本等地方，每一位讲师都是实战派！</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/03/01/female-coder-dream-reply/">女程序员做了个梦，众网友的神回复</a></h1>
     
     
@@ -1151,6 +1259,10 @@ xmlns:stream="http://etherx.jabber.org/streams" version="1.0"&gt;
 
 <p>我不得不遗憾的告诉你，这比备考重要多了。面试题做不好，很有可能错过一次大好机会。很早之前我收集了很多面试题，以后都分享出来。大家如果手里有不错的面试题目，可以直接发给我，我的邮箱：<strong>worldligang@163.com</strong>，我也会分享给大家！</p>
 
+<p>本文挡会持续更新，欢迎关注公众号iOS开发：iOSDevTip 关注之后回复：面试</p>
+
+<p><img src="http://images.90159.com/icon/newteiba.png" alt="newteiba.png" /></p>
+
 <h2>1. Object-C有多继承吗？没有的话用什么代替？</h2>
 
 <p>cocoa 中所有的类都是NSObject 的子类</p>
@@ -1321,53 +1433,6 @@ xmlns:stream="http://etherx.jabber.org/streams" version="1.0"&gt;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/12/11/mbmotion-great-effect/">非常棒的特效-MBMotion</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-12-11T23:21:50+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:21 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>随便实现的特效，正在不断丰富中…</p>
-
-<p>目前实现的效果列表</p>
-
-<p>MBMotionActionSheet</p>
-
-<p>设计效果如下：</p>
-
-<p><img src="https://github.com/mmoaay/MBMotion/raw/master/20.gif" alt="master" /></p>
-
-<p>实现效果如下：</p>
-
-<p><img src="https://github.com/mmoaay/MBMotion/raw/master/MBMotion.gif" alt="MBMotion" /></p>
-
-<p>地址：</p>
-
-<pre><code>https://github.com/mmoaay/MBMotion
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -1379,15 +1444,36 @@ xmlns:stream="http://etherx.jabber.org/streams" version="1.0"&gt;
 <aside class="sidebar">
   
     <section>
+   <h1>招募</h1>
+        <br/>
+        <a href="http://mp.weixin.qq.com/s?__biz=MzA3NzM0NzkxMQ==&mid=507874094&idx=1&sn=7432c6379848b58f6a19cc873fa9378d#rd"><img width="220px" src="http://www.superqq.com/images/ggteach.png"/></a>
+  <h1>2016年值得关注的公众号</h1>
+        <br/>
+        <br/><strong>公众号iOS开发：iOSDevTip</strong> 
+        <br/>
+        <br/><img width="220px" src="http://images.90159.com/icon/iOSDevTip.jpg" />
+        <br/>
+        <br/><strong>公众号猿圈：CodePush</strong>
+        <br/>
+        <br/><img width="220px" src="http://images.90159.com/icon/codepush.jpg" />
+        <br/>
+        <br/><strong>Android开发精选：AndroidPush</strong> 
+        <br/>
+        <br/><img width="220px" src="http://images.90159.com/icon/AndroidPush.jpg" />
+        <br/>
+        <br/><strong>公众号Python开发：PythonPush</strong> 
+        <br/>
+        <br/><img width="220px" src="http://images.90159.com/icon/PythonPush.jpg" />
+        </p>
   <h1>最新文章</h1>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2016/05/09/ios9-interface-orientation/">iOS9横竖屏设置的处理方法和实例讲解</a>
+        <a href="/blog/2016/05/05/ios-nsrunllop-nstimer/">关于NSRunLoop和NSTimer的深入理解</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2016/05/05/ios-nsrunllop-nstimer/">关于NSRunLoop和NSTimer的深入理解</a>
+        <a href="/blog/2016/03/09/ios-9-app-thinning/">iOS 9 App Thinning</a>
       </li>
     
       <li class="post">
@@ -1399,7 +1485,7 @@ xmlns:stream="http://etherx.jabber.org/streams" version="1.0"&gt;
       </li>
     
       <li class="post">
-        <a href="/blog/2016/03/01/female-coder-dream-reply/">女程序员做了个梦，众网友的神回复</a>
+        <a href="/blog/2016/03/02/ggteach-learn-ios-simply/">刚刚在线-让学习iOS开发更简单</a>
       </li>
     
   </ul>
@@ -1408,16 +1494,135 @@ xmlns:stream="http://etherx.jabber.org/streams" version="1.0"&gt;
 <section>
     <h1>About Me</h1>
     <br/>
-    <p> 要有最朴素的生活，与最遥远的梦想<br/>
+    <p> 李刚：百度百家专栏作者，刚刚在线站长，iOS工程师非著名自媒体人，微信公众号iOS开发：iOSDevTip运营者<br/>
     <br/><strong>出师未捷名已落</strong>
     <br/>
+    <br/>新浪微博: <a href='http://weibo.com/ligangnc' target='_blank'>李刚移动</a>
     <br/>
+    <br/>个人微信: <strong>chinaligang</strong> 欢迎调戏
     <br/>
+    <br/>iOS群: <strong>218822587</strong>
   <br/>
 </section>
 
    
- 
+ <section>
+    <h1>友情链接</h1>
+    <ul>
+       <li>
+           <a href="http://www.ggteach.com" target="_blank" title="刚刚在线教育">刚刚在线教育</a>
+       </li>
+       <li>
+           <a href="http://www.superqq.com" target="_blank" title="刚刚在线">刚刚在线</a>
+       </li>
+       <li>
+           <a href="http://www.90159.com" target="_blank" title="程序员头条">程序员头条</a>
+       </li>
+       <li>
+           <a href="http://www.iswifting.com" target="_blank" title=“swift开发”>swift开发</a>
+       </li>
+       <li>
+           <a href="http://www.aswifter.com/" target="_blank" title="APP开发者">APP开发者</a>
+       </li>
+       <li>
+        <a href="http://www.codefunny.com" target="_blank" title="程序员的那些事">程序员的那些事</a>
+      </li>
+      <li>
+        <a href="http://www.androidwonder.com" target="_blank" title="Android开发精选">Android开发精选</a>
+      </li>
+      <li>
+        <a href="http://www.pythonpush.com" target="_blank" title="Python开发中文网">Python开发中文网</a>
+      </li>
+      <li>
+        <a href="http://www.linuxpush.com" target="_blank" title="Linux开发中文网">Linux开发中文网</a>
+      </li>
+      <li>
+        <a href="http://www.phpush.com" target="_blank" title="PHP开发中文网">PHP开发中文网</a>
+      </li>
+      <li>
+        <a href="http://www.javawonder.com" target="_blank" title="Java开发中文网">Java开发中文网</a>
+      </li>
+      <li>
+        <a href="http://www.websofun.com" target="_blank" title="WEB开发中文网">WEB开发中文网</a>
+      </li>
+      <li>
+        <a href="http://www.htmlpush.com" target="_blank" title="HTML开发中文网">HTML开发中文网</a>
+      </li>
+        <li>
+           <a href="http://www.boxingjiaoyu.com/" target="_blank" title="程序员聚合平台">程序员聚合平台</a>
+       </li>
+        <li>
+           <a href="http://droidyue.com/" target="_blank" title="技术小黑屋">技术小黑屋</a>
+       </li>
+        <li>
+           <a href="http://www.olinone.com/" target="_blank" title="庞海礁的个人空间">庞海礁的个人空间</a>
+       </li>
+       <li>
+           <a href="http://www.5ibc.net" target="_blank" title="PHP教程">PHP教程</a>
+       </li>
+       <li>
+           <a href="http://gank.io/" target="_blank" title="干货集中营">干货集中营</a>
+       </li>
+      <li>
+           <a href="http://www.mobile-open.com/" target="_blank" title="阳和移动开发">阳和移动开发</a>
+       </li>
+       <li>
+           <a href="http://www.jq-school.com/" target="_blank" title="jquery教程">jquery教程</a>
+       </li>
+        <li>
+           <a href="http://www.admin10000.com/" target="_blank" title="WEB开发者">WEB开发者</a>
+       </li>
+       <li>
+           <a href="http://www.aichengxu.com/" target="_blank" title="爱程序网">爱程序网</a>
+       </li>
+       <li>
+           <a href="http://www.lai18.com" target="_blank" title="IT技术文章">IT技术文章</a>
+       </li>
+       <li>
+           <a href="http://www.cftea.com/" target="_blank" title="千一网络">千一网络</a>
+       </li>
+        <li>
+           <a href="http://www.bmob.cn/" target="_blank" title="Bmob">Bmob移动后端云</a>
+       </li>
+       <li>
+           <a href="http://www.leichunfeng.com" target="_blank" title="雷纯锋的技术博客">雷纯锋的技术博客</a>
+       </li>
+       <li>
+           <a href="http://cuiqingcai.com/" target="_blank" title="静觅">静觅</a>
+       </li>
+       <li>
+           <a href="http://www.zhangfei.tk/" target="_blank" title="张飞的技术博客">张飞的技术博客</a>
+       </li>
+       <li>
+           <a href="http://letsswift.com/" target="_blank" title="一起Swift">一起Swift</a>
+       </li>
+       <li>
+           <a href="http://www.swiftv.cn/" target="_blank" title="SwiftV课堂">SwiftV课堂</a>
+       </li>
+        <li>
+           <a href="http://q.maiziedu.com/" target="_blank" title="iOS开发">iOS开发</a>
+       </li>
+       <li>
+           <a href="http://www.aptusource.org/" target="_blank" title="AptuSource">AptuSource</a>
+       </li>
+        <li>
+            <a href="http://blog.csdn.net/iosdevtip" target="_blank" title="刚刚在线">CSDN</a>
+        </li>
+        <li>
+            <a href="http://user.qzone.qq.com/1606535851" target="_blank" title="刚刚在线">QQ空间</a>
+        </li>
+        <li>
+            <br/><strong>交换友链：</strong>欢迎各大程序员站点交换友情链接，如需交换，请添加好本站链接后发送邮件至下方邮箱。
+            <br/>
+            <br/><strong>格式：</strong>（ 友链文字：“ 刚刚在线 ”，链接：“ http://www.superqq.com/ ” ）
+            <br/>
+            <br/><strong>邮箱：</strong>worldligang@163.com
+            <br/>
+        </li>
+    </ul>
+<br/>
+</section>
+
 
 
 
